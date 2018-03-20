@@ -8,6 +8,9 @@
     "jest-expo": "23.0.0",
     "react-native-scripts": "1.8.1",
     "react-test-renderer": "16.0.0",
+    "prop-types": "^15.6.0",
+    "react": "16.0.0",
+    "react-native": "0.50.3",
     "xo": "^0.18.2"
   },
   "_main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
@@ -24,7 +27,8 @@
   },
   "peerDependencies": {
     "react": "> 16.0.0",
-    "react-native": ">= 0.50.0"
+    "react-native": ">= 0.50.0",
+    "prop-types": "> 15.6.0"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
@@ -33,9 +37,6 @@
     "lodash": "^4.17.4",
     "paths-js": "^0.4.5",
     "point-in-polygon": "^1.0.1",
-    "prop-types": "^15.6.0",
-    "react": "16.0.0",
-    "react-native": "0.50.3",
     "react-native-scrollable-tab-view": "^0.8.0",
     "react-native-svg": "5.5.1"
   },
