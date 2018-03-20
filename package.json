@@ -22,6 +22,10 @@
   "jest": {
     "preset": "jest-expo"
   },
+  "peerDependencies": {
+    "react": "> 16.0.0",
+    "react-native": ">= 0.50.0"
+  },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "expo": "^23.0.4",
