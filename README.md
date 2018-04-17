@@ -1,3 +1,5 @@
+If you're looking to **build a website or a cross-platform mobile app** – we will be happy to help you! Send a note to clients@ui1.io and we will be in touch with you shortly.
+
 ![Chart Kit](https://i.imgur.com/Idp4WIX.jpg)
 
 # React Native Chart Kit Documentation
