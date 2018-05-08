@@ -257,7 +257,7 @@ class ContributionGraph extends AbstractChart {
             height: this.props.height,
             ...this.props.chartConfig
           })}
-          <Rect width="100%" height={this.props.height} rx={this.props.style.borderRadius} ry={this.props.style.borderRadius} fill="url(#backgroundGradient)"/>
+          <Rect width="100%" height={this.props.height} rx={this.props.chartConfig.style.borderRadius} ry={this.props.chartConfig.style.borderRadius} fill="url(#backgroundGradient)"/>
           <G>
             {this.renderMonthLabels()}
           </G>
