@@ -11,6 +11,8 @@ import {
 import AbstractChart from './abstract-chart'
 
 class LineChart extends AbstractChart {
+  calcScaler = (data) => Math.max(...data) == Math.min(...data) ? data[0] : Math.max(...data) - Math.min(...data)
+
   renderDots = config => {
     const { data, width, height, paddingTop, paddingRight } = config
     return data.map((x, i) => {
@@ -18,7 +20,7 @@ class LineChart extends AbstractChart {
         <Circle
           key={Math.random()}
           cx={(i + 1) * (width - paddingRight) / data.length}
-          cy={((height / 4 * 3 * (1 - ((x - Math.min(...data)) / (Math.max(...data) - Math.min(...data))))) + paddingTop)}
+          cy={((height / 4 * 3 * (1 - ((x - Math.min(...data)) / calcScaler(data)))) + paddingTop)}
           r="4"
           fill={this.props.chartConfig.color(0.7)}
         />)
@@ -35,7 +37,7 @@ class LineChart extends AbstractChart {
         points={data.map((x, i) =>
         ((i + 1) * (width - paddingRight) / data.length) +
         ',' +
-         (((height / 4 * 3 * (1 - ((x - Math.min(...data)) / (Math.max(...data) - Math.min(...data))))) + paddingTop))
+         (((height / 4 * 3 * (1 - ((x - Math.min(...data)) / calcScaler(data)))) + paddingTop))
       ).join(' ') + ` ${width - paddingRight},${(height / 4 * 3) + paddingTop} ${width / labels.length},${(height / 4 * 3) + paddingTop}`}
         fill="url(#fillShadowGradient)"
         strokeWidth={0}
@@ -50,8 +52,8 @@ class LineChart extends AbstractChart {
     const points = data.map((x, i) =>
       ((i + 1) * (width - paddingRight) / data.length) +
       ',' +
-       (((height / 4 * 3 * (1 - ((x - Math.min(...data)) / (Math.max(...data) - Math.min(...data))))) + paddingTop))
-    )
+       (((height / 4 * 3 * (1 - ((x - Math.min(...data)) / calcScaler(data))))) + paddingTop))
+
     return (
       <Polyline
         points={points.join(' ')}
@@ -65,7 +67,7 @@ class LineChart extends AbstractChart {
   getBezierLinePoints = config => {
     const { width, height, paddingRight, paddingTop, data } = config
     const x = i => Math.floor((i + 1) * (width - paddingRight) / data.length)
-    const y = i => Math.floor(((height / 4 * 3 * (1 - ((data[i] - Math.min(...data)) / (Math.max(...data) - Math.min(...data))))) + paddingTop))
+    const y = i => Math.floor(((height / 4 * 3 * (1 - ((data[i] - Math.min(...data)) / calcScaler(data)))) + paddingTop))
     return [`M${x(0)},${y(0)}`].concat(data.slice(0, -1).map((_, i) => {
       const x_mid = (x(i) + x(i + 1)) / 2
       const y_mid = (y(i) + y(i + 1)) / 2
