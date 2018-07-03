@@ -39,16 +39,14 @@ class PieChart extends AbstractChart {
             fill={this.props.chartConfig.color(0.2 * (i + 1))}
             rx={8}
             ry={8}
-            transform={{
-              translate: [(this.props.width / 2.5) - 24, -(this.props.height / 2.5) + ((this.props.height * 0.8) / this.props.data.length * i) + 12].join(',')
-            }}
+            x={(this.props.width / 2.5) - 24}
+            y={-(this.props.height / 2.5) + ((this.props.height * 0.8) / this.props.data.length * i) + 12}
           />
           <Text
             fill={this.props.chartConfig.color(0.5)}
             fontSize="11"
-            transform={{
-              translate: [this.props.width / 2.5, -(this.props.height / 2.5) + ((this.props.height * 0.8) / this.props.data.length * i) + 12].join(',')
-            }}
+            x={this.props.width / 2.5}
+            y={-(this.props.height / 2.5) + ((this.props.height * 0.8) / this.props.data.length * i) + 12}
           >{Math.round(100 / total * c.item[this.props.accessor])}% { c.item.name }
           </Text>
         </G>
@@ -74,9 +72,8 @@ class PieChart extends AbstractChart {
           })}
           <Rect width="100%" height={this.props.height} rx={this.props.style.borderRadius} ry={this.props.style.borderRadius} fill="url(#backgroundGradient)"/>
           <G
-            transform={{
-              translate: `${this.props.width / 2.5}, ${this.props.height / 2}`
-            }}
+            x={this.props.width / 2.5}
+            y={this.props.height / 2}
           >
             {slices}
           </G>

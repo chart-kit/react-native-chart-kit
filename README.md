@@ -315,3 +315,6 @@ This library is built on top of the following open-source projects:
 * react-native-svg (https://github.com/react-native-community/react-native-svg)
 * paths-js  (https://github.com/andreaferretti/paths-js)
 * react-native-calendar-heatmap (https://github.com/ayooby/react-native-calendar-heatmap)
+
+## Contribute
+See the [contribution guide](contributing.md) and join [the contributors](https://github.com/indiespirit/react-native-chart-kit/graphs/contributors)!
