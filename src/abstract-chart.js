@@ -53,7 +53,7 @@ class AbstractChart extends Component {
         <Text
           key={Math.random()}
           x={((width - paddingRight) / labels.length * (i + 1)) + horizontalOffset}
-          y={(height * 3 / 4) + paddingTop + (fontSize / 2)}
+          y={(height * 3 / 4) + paddingTop + (fontSize*2)}
           fontSize={fontSize}
           fill={this.props.chartConfig.color(0.5)}
           textAnchor="middle"

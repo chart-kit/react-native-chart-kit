@@ -105,7 +105,7 @@ class ProgressChart extends AbstractChart {
                   fill={this.props.chartConfig.color(0.5)}
                   fontSize="11"
                   x={this.props.width / 2.5}
-                  y={-(this.props.height / 2.5) + ((this.props.height * 0.8) / this.props.data.length * i) + 12}
+                  y={-(this.props.height / 2.5) + ((this.props.height * 0.8) / this.props.data.length * i) + 12*2}
                 >
                   {Math.round(100 * this.props.data[i]) + '%'}
                 </Text>)
