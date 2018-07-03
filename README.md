@@ -2,6 +2,8 @@ If you're looking to **build a website or a cross-platform mobile app** – we w
 
 ![Chart Kit](https://i.imgur.com/Idp4WIX.jpg)
 
+[📲See example app](https://github.com/indiespirit/react-native-chart-kit-example)
+
 # React Native Chart Kit Documentation
 
 ## Import components
