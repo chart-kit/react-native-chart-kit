@@ -11,7 +11,7 @@ import {
 import AbstractChart from './abstract-chart'
 
 class LineChart extends AbstractChart {
-  calcScaler = (data) => Math.max(...data) == Math.min(...data) ? data[0] : Math.max(...data) - Math.min(...data)
+  calcScaler = (data) => (Math.max(...data) - Math.min(...data)) || 1
 
   renderDots = config => {
     const { data, width, height, paddingTop, paddingRight } = config
@@ -128,7 +128,8 @@ class LineChart extends AbstractChart {
           })}
           {this.renderHorizontalLabels({
             ...config,
-            count: 4,
+            count: (Math.min(...data.datasets[0].data) === Math.max(...data.datasets[0].data))?
+              1 : 4,
             data: data.datasets[0].data,
             labelsCount: data.labels.length,
             paddingTop,
