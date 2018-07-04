@@ -275,8 +275,6 @@ Renders background horizontal lines like in the Line Chart and Bar Chart. Takes 
   height: Number,
   // how many lines to render
   count: Number,
-  // how many labels there will be on X axes - used to calculate offsets between the lines
-  labelCount: Number,
   // top padding from the chart top edge
   paddingTop: Number
 }

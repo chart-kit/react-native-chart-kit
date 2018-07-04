@@ -57,7 +57,9 @@
       "react/forbid-component-props": "off",
       "react/prop-types": [
         0
-      ]
+      ],
+      "react/no-this-in-sfc": 0,
+      "unicorn/filename-case": 0
     },
     "envs": [
       "node",

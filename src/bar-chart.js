@@ -70,14 +70,12 @@ class BarChart extends AbstractChart {
           {this.renderHorizontalLines({
             ...config,
             count: 4,
-            labelCount: data.labels.length,
             paddingTop
           })}
           {this.renderHorizontalLabels({
             ...config,
             count: 4,
             data: data.datasets[0].data,
-            labelsCount: data.labels.length,
             paddingTop
           })}
           {this.renderVerticalLabels({

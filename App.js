@@ -85,8 +85,9 @@ export default class App extends React.Component {
   renderTabBar() {
     return <StatusBar hidden/>
   }
+
   render() {
-    const width = Dimensions.get('window').width
+    const { width } = Dimensions.get('window')
     const height = 220
     return (
       <ScrollableTabView renderTabBar={this.renderTabBar}>

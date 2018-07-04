@@ -9,10 +9,9 @@ import {
 } from 'react-native-svg'
 
 class AbstractChart extends Component {
-
   renderHorizontalLines = config => {
-    const { count, width, height, labelCount, paddingTop, paddingRight } = config
-    return [...Array(count)].map((_, i) => {
+    const { count, width, height, paddingTop, paddingRight } = config
+    return [...new Array(count)].map((_, i) => {
       return (
         <Line
           key={Math.random()}
@@ -29,31 +28,31 @@ class AbstractChart extends Component {
   }
 
   renderHorizontalLabels = config => {
-    const { count, data, width, height, labelsCount, paddingTop, paddingRight, yLabelsOffset = 12 } = config
-    return [...Array(count)].map((_, i) => {
+    const { count, data, height, paddingTop, paddingRight, yLabelsOffset = 12 } = config
+    return [...new Array(count)].map((_, i) => {
       return (
         <Text
           key={Math.random()}
           x={paddingRight - yLabelsOffset}
           textAnchor="end"
-          y={(height * 3 / 4) - ((height-paddingTop) / count * i) + 12}
+          y={(height * 3 / 4) - ((height - paddingTop) / count * i) + 12}
           fontSize={12}
           fill={this.props.chartConfig.color(0.5)}
-        >{(((Math.max(...data) - Math.min(...data)) / (count-1) * i) + Math.min(...data)).toFixed(2)}
+        >{(((Math.max(...data) - Math.min(...data)) / (count - 1) * i) + Math.min(...data)).toFixed(2)}
         </Text>
       )
     })
   }
 
   renderVerticalLabels = config => {
-    const { labels, width, height, paddingRight, paddingTop, horizontalOffset = 0 } = config
+    const { labels = [], width, height, paddingRight, paddingTop, horizontalOffset = 0 } = config
     const fontSize = 12
     return labels.map((label, i) => {
       return (
         <Text
           key={Math.random()}
           x={((width - paddingRight) / labels.length * (i)) + paddingRight + horizontalOffset}
-          y={(height * 3 / 4) + paddingTop + (fontSize*2)}
+          y={(height * 3 / 4) + paddingTop + (fontSize * 2)}
           fontSize={fontSize}
           fill={this.props.chartConfig.color(0.5)}
           textAnchor="middle"
@@ -65,7 +64,7 @@ class AbstractChart extends Component {
 
   renderVerticalLines = config => {
     const { data, width, height, paddingTop, paddingRight } = config
-    return [...Array(data.length)].map((_, i) => {
+    return [...new Array(data.length)].map((_, i) => {
       return (
         <Line
           key={Math.random()}
