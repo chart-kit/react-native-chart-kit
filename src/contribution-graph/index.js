@@ -30,16 +30,17 @@ class ContributionGraph extends AbstractChart {
   }
 
   getSquareSizeWithGutter() {
-    return SQUARE_SIZE + this.props.gutterSize
+    return (this.props.squareSize || SQUARE_SIZE) + this.props.gutterSize
   }
 
   getMonthLabelSize() {
+    let {squareSize = SQUARE_SIZE} = this.props
     if (!this.props.showMonthLabels) {
       return 0
     } else if (this.props.horizontal) {
-      return SQUARE_SIZE + MONTH_LABEL_GUTTER_SIZE
+      return squareSize + MONTH_LABEL_GUTTER_SIZE
     }
-    return 2 * (SQUARE_SIZE + MONTH_LABEL_GUTTER_SIZE)
+    return 2 * (squareSize + MONTH_LABEL_GUTTER_SIZE)
   }
 
   getStartDate() {
@@ -196,11 +197,12 @@ class ContributionGraph extends AbstractChart {
       return null
     }
     const [x, y] = this.getSquareCoordinates(dayIndex)
+    let {squareSize = SQUARE_SIZE} = this.props
     return (
       <Rect
         key={index}
-        width={SQUARE_SIZE}
-        height={SQUARE_SIZE}
+        width={squareSize}
+        height={squareSize}
         x={x + paddingLeft}
         y={y}
         title={this.getTitleForIndex(index)}
@@ -286,6 +288,7 @@ ContributionGraph.ViewPropTypes = {
   numDays: PropTypes.number,             // number of days back from endDate to show
   endDate: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.instanceOf(Date)]),  // end of date range
   gutterSize: PropTypes.number,          // size of space between squares
+  squareSize: PropTypes.number,          // size of squares
   horizontal: PropTypes.bool,            // whether to orient horizontally or vertically
   showMonthLabels: PropTypes.bool,       // whether to show month labels
   showOutOfRangeDays: PropTypes.bool,    // whether to render squares for extra days in week after endDate, and before start date
@@ -299,6 +302,7 @@ ContributionGraph.defaultProps = {
   numDays: 200,
   endDate: new Date(),
   gutterSize: 1,
+  squareSize: SQUARE_SIZE,
   horizontal: true,
   showMonthLabels: true,
   showOutOfRangeDays: false,
