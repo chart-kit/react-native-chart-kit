@@ -15,6 +15,7 @@ class ProgressChart extends AbstractChart {
 
   render() {
     const { width, height, style = {} } = this.props
+    const { borderRadius = 0 } = style
 
     const pies = this.props.data.map((pieData, i) => {
       const r = (((height / 2) - 32) / this.props.data.length * i) + 32
@@ -57,7 +58,12 @@ class ProgressChart extends AbstractChart {
             height: this.props.height,
             ...this.props.chartConfig
           })}
-          <Rect width="100%" height={this.props.height} rx={this.props.style.borderRadius} ry={this.props.style.borderRadius} fill="url(#backgroundGradient)"/>
+          <Rect
+            width="100%"
+            height={this.props.height}
+            rx={borderRadius}
+            ry={borderRadius}
+            fill="url(#backgroundGradient)"/>
           <G
             x={this.props.width / 2.5}
             y={this.props.height / 2}

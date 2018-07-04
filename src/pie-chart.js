@@ -14,6 +14,7 @@ const Pie = require('paths-js/pie')
 class PieChart extends AbstractChart {
   render() {
     const { style = {} } = this.props
+    const { borderRadius = 0 } = style
     const chart = Pie({
       center: this.props.center || [0, 0],
       r: 0,
@@ -70,7 +71,7 @@ class PieChart extends AbstractChart {
             height: this.props.height,
             ...this.props.chartConfig
           })}
-          <Rect width="100%" height={this.props.height} rx={this.props.style.borderRadius} ry={this.props.style.borderRadius} fill="url(#backgroundGradient)"/>
+          <Rect width="100%" height={this.props.height} rx={borderRadius} ry={borderRadius} fill="url(#backgroundGradient)"/>
           <G
             x={this.props.width / 2.5}
             y={this.props.height / 2}

@@ -246,8 +246,10 @@ class ContributionGraph extends AbstractChart {
   }
 
   render() {
+    const {style = {}} = this.props
+    const { borderRadius = 0 } = style
     return (
-      <View style={this.props.style || {}}>
+      <View style={style}>
         <Svg
           height={this.props.height}
           width={this.props.width}
@@ -257,7 +259,12 @@ class ContributionGraph extends AbstractChart {
             height: this.props.height,
             ...this.props.chartConfig
           })}
-          <Rect width="100%" height={this.props.height} rx={this.props.chartConfig.style.borderRadius} ry={this.props.chartConfig.style.borderRadius} fill="url(#backgroundGradient)"/>
+          <Rect
+          width="100%"
+          height={this.props.height}
+          rx={this.props.chartConfig.style.borderRadius || borderRadius}
+          ry={this.props.chartConfig.style.borderRadius || borderRadius}
+          fill="url(#backgroundGradient)"/>
           <G>
             {this.renderMonthLabels()}
           </G>

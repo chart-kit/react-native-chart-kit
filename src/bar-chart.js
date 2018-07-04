@@ -46,6 +46,7 @@ class BarChart extends AbstractChart {
     const paddingTop = 16
     const paddingRight = 32
     const { width, height, data, style = {} } = this.props
+    const { borderRadius = 0 } = style
     const config = {
       width,
       height
@@ -60,7 +61,12 @@ class BarChart extends AbstractChart {
             ...config,
             ...this.props.chartConfig
           })}
-          <Rect width="100%" height={height} rx={this.props.style.borderRadius} ry={this.props.style.borderRadius} fill="url(#backgroundGradient)"/>
+          <Rect
+            width="100%"
+            height={height}
+            rx={borderRadius}
+            ry={borderRadius}
+            fill="url(#backgroundGradient)"/>
           {this.renderHorizontalLines({
             ...config,
             count: 4,
