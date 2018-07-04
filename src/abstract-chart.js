@@ -11,12 +11,12 @@ import {
 class AbstractChart extends Component {
 
   renderHorizontalLines = config => {
-    const { count, width, height, labelCount, paddingTop } = config
+    const { count, width, height, labelCount, paddingTop, paddingRight } = config
     return [...Array(count)].map((_, i) => {
       return (
         <Line
           key={Math.random()}
-          x1={width / labelCount}
+          x1={paddingRight}
           y1={(height / 4 * i) + paddingTop}
           x2={width}
           y2={(height / 4 * i) + paddingTop}
@@ -29,17 +29,17 @@ class AbstractChart extends Component {
   }
 
   renderHorizontalLabels = config => {
-    const { count, data, width, height, labelsCount, paddingTop, yLabelsOffset = 12 } = config
+    const { count, data, width, height, labelsCount, paddingTop, paddingRight, yLabelsOffset = 12 } = config
     return [...Array(count)].map((_, i) => {
       return (
         <Text
           key={Math.random()}
-          x={(width / labelsCount) - yLabelsOffset}
+          x={paddingRight - yLabelsOffset}
           textAnchor="end"
-          y={(height * 3 / 4) - (height / 4 * i) + (paddingTop / 2)}
+          y={(height * 3 / 4) - ((height-paddingTop) / count * i) + 12}
           fontSize={12}
           fill={this.props.chartConfig.color(0.5)}
-        >{(((Math.max(...data) - Math.min(...data)) / 4 * i) + Math.min(...data)).toFixed(2)}
+        >{(((Math.max(...data) - Math.min(...data)) / (count-1) * i) + Math.min(...data)).toFixed(2)}
         </Text>
       )
     })
@@ -52,7 +52,7 @@ class AbstractChart extends Component {
       return (
         <Text
           key={Math.random()}
-          x={((width - paddingRight) / labels.length * (i + 1)) + horizontalOffset}
+          x={((width - paddingRight) / labels.length * (i)) + paddingRight + horizontalOffset}
           y={(height * 3 / 4) + paddingTop + (fontSize*2)}
           fontSize={fontSize}
           fill={this.props.chartConfig.color(0.5)}
@@ -69,9 +69,9 @@ class AbstractChart extends Component {
       return (
         <Line
           key={Math.random()}
-          x1={Math.floor((width - paddingRight) / data.length * (i + 1))}
+          x1={Math.floor((width - paddingRight) / data.length * (i) + paddingRight)}
           y1={0}
-          x2={Math.floor((width - paddingRight) / data.length * (i + 1))}
+          x2={Math.floor((width - paddingRight) / data.length * (i) + paddingRight)}
           y2={height - (height / 4) + paddingTop}
           stroke={this.props.chartConfig.color(0.2)}
           strokeDasharray="5, 10"

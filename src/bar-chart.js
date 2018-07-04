@@ -17,7 +17,7 @@ class BarChart extends AbstractChart {
       return (
         <Rect
           key={Math.random()}
-          x={((i + 1) * (width - paddingRight) / data.length)}
+          x={(paddingRight + i * (width - paddingRight) / data.length)}
           y={(((height / 4 * 3) - barHeight) + paddingTop)}
           width={barWidth}
           height={barHeight}
@@ -33,7 +33,7 @@ class BarChart extends AbstractChart {
       return (
         <Rect
           key={Math.random()}
-          x={((i + 1) * (width - paddingRight) / data.length)}
+          x={(paddingRight + i * (width - paddingRight) / data.length)}
           y={(((height / 4 * 3) - barHeight) + paddingTop)}
           width={barWidth}
           height={2}

@@ -1,15 +1,16 @@
 // Mock data object used for LineChart and BarChart
 
 const data = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+  labels: ['January', 'February', 'March', 'April', 'May', 'June'
+],
   datasets: [{
     data: [
-      Math.random() * 100,
-      Math.random() * 100,
-      Math.random() * 100,
-      Math.random() * 100,
-      Math.random() * 100,
-      Math.random() * 100
+      50,
+      20,
+      2,
+      86,
+      71,
+      100
     ]
   }]
 }
