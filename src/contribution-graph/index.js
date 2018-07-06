@@ -8,7 +8,7 @@ import {
   Rect
 } from 'react-native-svg'
 import _ from 'lodash'
-import AbstractChart from '../../src/abstract-chart'
+import AbstractChart from "../abstract-chart"
 import { DAYS_IN_WEEK, MILLISECONDS_IN_ONE_DAY, MONTH_LABELS } from './constants'
 import { shiftDate, getBeginningTimeForDate, convertToDate } from './dateHelpers'
 
@@ -37,7 +37,7 @@ class ContributionGraph extends AbstractChart {
     let {squareSize = SQUARE_SIZE} = this.props
     if (!this.props.showMonthLabels) {
       return 0
-    } else if (this.props.horizontal) {
+    } if (this.props.horizontal) {
       return squareSize + MONTH_LABEL_GUTTER_SIZE
     }
     return 2 * (squareSize + MONTH_LABEL_GUTTER_SIZE)
@@ -197,7 +197,7 @@ class ContributionGraph extends AbstractChart {
       return null
     }
     const [x, y] = this.getSquareCoordinates(dayIndex)
-    let {squareSize = SQUARE_SIZE} = this.props
+    const { squareSize = SQUARE_SIZE } = this.props
     return (
       <Rect
         key={index}
@@ -229,7 +229,7 @@ class ContributionGraph extends AbstractChart {
     if (!this.props.showMonthLabels) {
       return null
     }
-    const weekRange = _.range(this.getWeekCount() - 1)  // don't render for last week, because label will be cut off
+    const weekRange = _.range(this.getWeekCount() - 1) // don't render for last week, because label will be cut off
     return weekRange.map(weekIndex => {
       const endOfWeek = shiftDate(this.getStartDateWithEmptyDays(), (weekIndex + 1) * DAYS_IN_WEEK)
       const [x, y] = this.getMonthLabelCoordinates(weekIndex)
@@ -248,8 +248,12 @@ class ContributionGraph extends AbstractChart {
   }
 
   render() {
-    const {style = {}} = this.props
-    const { borderRadius = 0 } = style
+    const { style = {} } = this.props
+    let { borderRadius = 0 } = style
+    if (!borderRadius && this.props.chartConfig.style) {
+      const stupidXo = this.props.chartConfig.style.borderRadius
+      borderRadius = stupidXo
+    }
     return (
       <View style={style}>
         <Svg
@@ -262,15 +266,15 @@ class ContributionGraph extends AbstractChart {
             ...this.props.chartConfig
           })}
           <Rect
-          width="100%"
-          height={this.props.height}
-          rx={this.props.chartConfig.style.borderRadius || borderRadius}
-          ry={this.props.chartConfig.style.borderRadius || borderRadius}
-          fill="url(#backgroundGradient)"/>
+            width="100%"
+            height={this.props.height}
+            rx={borderRadius}
+            ry={borderRadius}
+            fill="url(#backgroundGradient)"/>
           <G>
             {this.renderMonthLabels()}
           </G>
-          <G >
+          <G>
             {this.renderAllWeeks()}
           </G>
         </Svg>
@@ -280,22 +284,22 @@ class ContributionGraph extends AbstractChart {
 }
 
 ContributionGraph.ViewPropTypes = {
-  values: PropTypes.arrayOf(             // array of objects with date and arbitrary metadata
+  values: PropTypes.arrayOf( // array of objects with date and arbitrary metadata
     PropTypes.shape({
       date: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.instanceOf(Date)]).isRequired
     }).isRequired
   ).isRequired,
-  numDays: PropTypes.number,             // number of days back from endDate to show
-  endDate: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.instanceOf(Date)]),  // end of date range
-  gutterSize: PropTypes.number,          // size of space between squares
-  squareSize: PropTypes.number,          // size of squares
-  horizontal: PropTypes.bool,            // whether to orient horizontally or vertically
-  showMonthLabels: PropTypes.bool,       // whether to show month labels
-  showOutOfRangeDays: PropTypes.bool,    // whether to render squares for extra days in week after endDate, and before start date
-  tooltipDataAttrs: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),    // data attributes to add to square for setting 3rd party tooltips, e.g. { 'data-toggle': 'tooltip' } for bootstrap tooltips
-  titleForValue: PropTypes.func,         // function which returns title text for value
-  classForValue: PropTypes.func,         // function which returns html class for value
-  onClick: PropTypes.func               // callback function when a square is clicked
+  numDays: PropTypes.number, // number of days back from endDate to show
+  endDate: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.instanceOf(Date)]), // end of date range
+  gutterSize: PropTypes.number, // size of space between squares
+  squareSize: PropTypes.number, // size of squares
+  horizontal: PropTypes.bool, // whether to orient horizontally or vertically
+  showMonthLabels: PropTypes.bool, // whether to show month labels
+  showOutOfRangeDays: PropTypes.bool, // whether to render squares for extra days in week after endDate, and before start date
+  tooltipDataAttrs: PropTypes.oneOfType([PropTypes.object, PropTypes.func]), // data attributes to add to square for setting 3rd party tooltips, e.g. { 'data-toggle': 'tooltip' } for bootstrap tooltips
+  titleForValue: PropTypes.func, // function which returns title text for value
+  classForValue: PropTypes.func, // function which returns html class for value
+  onClick: PropTypes.func // callback function when a square is clicked
 }
 
 ContributionGraph.defaultProps = {

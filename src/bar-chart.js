@@ -17,7 +17,7 @@ class BarChart extends AbstractChart {
       return (
         <Rect
           key={Math.random()}
-          x={(paddingRight + i * (width - paddingRight) / data.length)}
+          x={(paddingRight + (i * (width - paddingRight) / data.length) + (barWidth / 2))}
           y={(((height / 4 * 3) - barHeight) + paddingTop)}
           width={barWidth}
           height={barHeight}
@@ -33,7 +33,7 @@ class BarChart extends AbstractChart {
       return (
         <Rect
           key={Math.random()}
-          x={(paddingRight + i * (width - paddingRight) / data.length)}
+          x={(paddingRight + (i * (width - paddingRight) / data.length)) + (barWidth / 2)}
           y={(((height / 4 * 3) - barHeight) + paddingTop)}
           width={barWidth}
           height={2}
@@ -44,7 +44,7 @@ class BarChart extends AbstractChart {
 
   render() {
     const paddingTop = 16
-    const paddingRight = 32
+    const paddingRight = 64
     const { width, height, data, style = {} } = this.props
     const { borderRadius = 0 } = style
     const config = {
@@ -76,14 +76,15 @@ class BarChart extends AbstractChart {
             ...config,
             count: 4,
             data: data.datasets[0].data,
-            paddingTop
+            paddingTop,
+            paddingRight
           })}
           {this.renderVerticalLabels({
             ...config,
             labels: data.labels,
             paddingRight,
             paddingTop,
-            horizontalOffset: barWidth / 2
+            horizontalOffset: barWidth
           })}
           {this.renderBars({
             ...config,
@@ -101,7 +102,6 @@ class BarChart extends AbstractChart {
       </View>
     )
   }
-
 }
 
 export default BarChart
