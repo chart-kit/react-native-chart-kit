@@ -15,16 +15,24 @@ class LineChart extends AbstractChart {
 
   renderDots = config => {
     const { data, width, height, paddingTop, paddingRight } = config
-    return data.map((x, i) => {
-      return (
-        <Circle
-          key={Math.random()}
-          cx={paddingRight + (i * (width - paddingRight) / data.length)}
-          cy={((height / 4 * 3 * (1 - ((x - Math.min(...data)) / this.calcScaler(data)))) + paddingTop)}
-          r="4"
-          fill={this.props.chartConfig.color(0.7)}
-        />)
+    let output = [];
+    data.map((dataset,index)=>{
+      dataset.data.map((x, i) => {
+        output.push (
+          <Circle
+            key={Math.random()}
+            cx={paddingRight + (i * (width - paddingRight) / dataset.data.length)}
+            cy={((height / 4 * 3 * (1 - ((x - Math.min(...dataset.data)) / this.calcScaler(dataset.data)))) + paddingTop)}
+            r="4"
+            fill={this.props.chartConfig.color(0.7)}
+          />)
+      })
     })
+    return (
+      output
+    )
+
+    
   }
 
   renderShadow = config => {
@@ -32,16 +40,25 @@ class LineChart extends AbstractChart {
       return this.renderBezierShadow(config)
     }
     const { data, width, height, paddingRight, paddingTop } = config
+    let output = [];
+    config.data.map((dataset,index)=>{
+      output.push (
+        <Polygon
+          key={index}
+          points={dataset.data.map((x, i) =>
+            (paddingRight + (i * (width - paddingRight) / dataset.data.length)) +
+          ',' +
+           (((height / 4 * 3 * (1 - ((x - Math.min(...dataset.data)) / this.calcScaler(dataset.data)))) + paddingTop))
+          ).join(' ') + ` ${paddingRight + ((width - paddingRight) / dataset.data.length * (dataset.data.length - 1))},${(height / 4 * 3) + paddingTop} ${paddingRight},${(height / 4 * 3) + paddingTop}`}
+          fill="url(#fillShadowGradient)"
+          strokeWidth={0}
+        />)
+    })
     return (
-      <Polygon
-        points={data.map((x, i) =>
-          (paddingRight + (i * (width - paddingRight) / data.length)) +
-        ',' +
-         (((height / 4 * 3 * (1 - ((x - Math.min(...data)) / this.calcScaler(data)))) + paddingTop))
-        ).join(' ') + ` ${paddingRight + ((width - paddingRight) / data.length * (data.length - 1))},${(height / 4 * 3) + paddingTop} ${paddingRight},${(height / 4 * 3) + paddingTop}`}
-        fill="url(#fillShadowGradient)"
-        strokeWidth={0}
-      />)
+      output
+    )
+    
+    
   }
 
   renderLine = config => {
@@ -49,29 +66,44 @@ class LineChart extends AbstractChart {
       return this.renderBezierLine(config)
     }
     const { width, height, paddingRight, paddingTop, data } = config
-    const points = data.map((x, i) =>
-      (paddingRight + (i * (width - paddingRight) / data.length)) +
+    let output = [];
+    data.map((dataset,index) => {
+
+      const points = dataset.data.map((x, i) =>
+      (paddingRight + (i * (width - paddingRight) / dataset.data.length)) +
       ',' +
-       (((height / 4 * 3 * (1 - ((x - Math.min(...data)) / this.calcScaler(data))))) + paddingTop))
+       (((height / 4 * 3 * (1 - ((x - Math.min(...dataset.data)) / this.calcScaler(dataset.data))))) + paddingTop))
+
+      output.push (
+        <Polyline
+          key = {index}
+          points={points.join(' ')}
+          fill="none"
+          stroke={this.props.chartConfig.color(0.2)}
+          strokeWidth={3}
+        />
+      )
+
+    })
 
     return (
-      <Polyline
-        points={points.join(' ')}
-        fill="none"
-        stroke={this.props.chartConfig.color(0.2)}
-        strokeWidth={3}
-      />
+      output
     )
+
+    
   }
 
-  getBezierLinePoints = config => {
+  getBezierLinePoints = (dataset, config) => {
+
     const { width, height, paddingRight, paddingTop, data } = config
-    if (data.length === 0) {
+    let output = []; 
+    if (dataset.data.length === 0) {
       return 'M0,0'
     }
-    const x = i => Math.floor(paddingRight + i * (width - paddingRight) / data.length)
-    const y = i => Math.floor(((height / 4 * 3 * (1 - ((data[i] - Math.min(...data)) / this.calcScaler(data)))) + paddingTop))
-    return [`M${x(0)},${y(0)}`].concat(data.slice(0, -1).map((_, i) => {
+    const x = i => Math.floor(paddingRight + i * (width - paddingRight) / dataset.data.length)
+    const y = i => Math.floor(((height / 4 * 3 * (1 - ((dataset.data[i] - Math.min(...dataset.data)) / this.calcScaler(dataset.data)))) + paddingTop))
+    
+    return [`M${x(0)},${y(0)}`].concat(dataset.data.slice(0, -1).map((_, i) => {
       const x_mid = (x(i) + x(i + 1)) / 2
       const y_mid = (y(i) + y(i + 1)) / 2
       const cp_x1 = (x_mid + x(i)) / 2
@@ -79,28 +111,49 @@ class LineChart extends AbstractChart {
       return `Q ${cp_x1}, ${y(i)}, ${x_mid}, ${y_mid}` +
       ` Q ${cp_x2}, ${y(i + 1)}, ${x(i + 1)}, ${y(i + 1)}`
     })).join(' ')
+
+    
   }
 
   renderBezierLine = config => {
+    let output = [];
+    config.data.map((dataset,index)=>{
+      let result = this.getBezierLinePoints(dataset,config);
+      output.push (
+          <Path
+            key = {index}
+            d={result}
+            fill="none"
+            stroke={this.props.chartConfig.color(0.2)}
+            strokeWidth={3}
+          />
+        )
+      });
     return (
-      <Path
-        d={this.getBezierLinePoints(config)}
-        fill="none"
-        stroke={this.props.chartConfig.color(0.2)}
-        strokeWidth={3}
-      />
+      output
     )
+
+    
   }
 
   renderBezierShadow = config => {
     const { width, height, paddingRight, paddingTop, data } = config
+    let output = [];
+    data.map((dataset,index)=>{
+      let d = this.getBezierLinePoints(dataset,config) +
+      ` L${paddingRight + ((width - paddingRight) / dataset.data.length * (dataset.data.length - 1))},${(height / 4 * 3) + paddingTop} L${paddingRight},${(height / 4 * 3) + paddingTop} Z`
+      output.push (
+        <Path
+          key={index}
+          d={d}
+          fill="url(#fillShadowGradient)"
+          strokeWidth={0}
+        />)
+    })
     return (
-      <Path
-        d={this.getBezierLinePoints(config) +
-          ` L${paddingRight + ((width - paddingRight) / data.length * (data.length - 1))},${(height / 4 * 3) + paddingTop} L${paddingRight},${(height / 4 * 3) + paddingTop} Z`}
-        fill="url(#fillShadowGradient)"
-        strokeWidth={0}
-      />)
+      output
+    )
+    
   }
 
   render() {
@@ -159,17 +212,19 @@ class LineChart extends AbstractChart {
             ...config,
             paddingRight,
             paddingTop,
-            data: data.datasets[0].data
+            // data: data.datasets[0].data
+            data: data.datasets
+
           })}
           {withShadow && this.renderShadow({
             ...config,
-            data: data.datasets[0].data,
+            data: data.datasets,
             paddingRight,
             paddingTop
           })}
           {withDots && this.renderDots({
             ...config,
-            data: data.datasets[0].data,
+            data: data.datasets,
             paddingTop,
             paddingRight
           })}
