@@ -188,13 +188,16 @@ const data = {
 
 ![Pie Chart](https://i.imgur.com/JMz3obk.jpg)
 
+### Modified Pie Chart Screenshot
+![Pie Chart_modified](/src/piechart_modified.png)
+
 ```js
 const data = [
-  { name: 'Toronto', population: 2800000  },
-  { name: 'Dublin', population: 527612 },
-  { name: 'New York', population: 8538000 },
-  { name: 'Beijing', population: 21500000 },
-  { name: 'Moscow', population: 11920000 }
+  { name: 'Seoul', population: 21500000, color: 'rgba(131, 167, 234, 1)', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+  { name: 'Toronto', population: 2800000, color: '#F00', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+  { name: 'Beijing', population: 527612, color: 'red', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+  { name: 'New York', population: 8538000, color: '#ffffff', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+  { name: 'Moscow', population: 11920000, color: 'rgb(0, 0, 255)', legendFontColor: '#7F7F7F, legendFontSize: 15' }
 ]
 ```
 ```html
@@ -204,6 +207,8 @@ const data = [
   height={220}
   chartConfig={chartConfig}
   accessor="population"
+  bgColor="transparent"
+  paddingLeft="15"
 />
 ```
 
@@ -214,6 +219,8 @@ const data = [
 | height | Number | Height of the chart |
 | chartConfig | Object | Configuration object for the chart, see example config in the beginning of this file |
 | accessor | string | Property in the `data` object from which the number values are taken |
+| bgColor | string | background color - if you want to set transparent, input `transparent` or `none`. |
+| paddingLeft | string | left padding of the pie chart |
 
 ## Contribution graph (heatmap)
 

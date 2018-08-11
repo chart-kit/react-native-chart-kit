@@ -13,7 +13,7 @@ const Pie = require('paths-js/pie')
 
 class PieChart extends AbstractChart {
   render() {
-    const { style = {} } = this.props
+    const { style = {}, backgroundColor } = this.props
     const { borderRadius = 0 } = style
     const chart = Pie({
       center: this.props.center || [0, 0],
@@ -32,20 +32,20 @@ class PieChart extends AbstractChart {
         <G key={Math.random()}>
           <Path
             d={c.sector.path.print()}
-            fill={this.props.chartConfig.color(0.2 * (i + 1))}
+            fill={c.item.color}
           />
           <Rect
             width="16"
             height="16"
-            fill={this.props.chartConfig.color(0.2 * (i + 1))}
+            fill={c.item.color}
             rx={8}
             ry={8}
             x={(this.props.width / 2.5) - 24}
             y={-(this.props.height / 2.5) + ((this.props.height * 0.8) / this.props.data.length * i) + 12}
           />
           <Text
-            fill={this.props.chartConfig.color(0.5)}
-            fontSize="11"
+            fill={c.item.legendFontColor}
+            fontSize={c.item.legendFontSize}
             x={this.props.width / 2.5}
             y={-(this.props.height / 2.5) + ((this.props.height * 0.8) / this.props.data.length * i) + 12*2}
           >{Math.round(100 / total * c.item[this.props.accessor])}% { c.item.name }
@@ -71,9 +71,9 @@ class PieChart extends AbstractChart {
             height: this.props.height,
             ...this.props.chartConfig
           })}
-          <Rect width="100%" height={this.props.height} rx={borderRadius} ry={borderRadius} fill="url(#backgroundGradient)"/>
+          <Rect width="100%" height={this.props.height} rx={borderRadius} ry={borderRadius} fill={backgroundColor}/>
           <G
-            x={this.props.width / 2.5}
+            x={((this.props.width / 2) / 2) + Number((this.props.paddingLeft)?this.props.paddingLeft:0)}
             y={this.props.height / 2}
           >
             {slices}
