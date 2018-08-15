@@ -28,7 +28,8 @@
   "peerDependencies": {
     "react": "> 16.0.0",
     "react-native": ">= 0.50.0",
-    "prop-types": "> 15.6.0"
+    "prop-types": "> 15.6.0",
+    "react-native-svg": "^6.4.1"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
@@ -37,8 +38,7 @@
     "lodash": "^4.17.10",
     "paths-js": "^0.4.7",
     "point-in-polygon": "^1.0.1",
-    "react-native-scrollable-tab-view": "^0.8.0",
-    "react-native-svg": "^6.4.1"
+    "react-native-scrollable-tab-view": "^0.8.0"
   },
   "xo": {
     "extends": "xo-react",
