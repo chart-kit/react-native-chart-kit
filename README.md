@@ -208,7 +208,7 @@ const data = [
   height={220}
   chartConfig={chartConfig}
   accessor="population"
-  bgColor="transparent"
+  backgroundColor="transparent"
   paddingLeft="15"
 />
 ```
