@@ -47,6 +47,7 @@ import {
       backgroundColor: '#e26a00',
       backgroundGradientFrom: '#fb8c00',
       backgroundGradientTo: '#ffa726',
+      decimalPlaces: 2, // optional, defaults to 2dp
       color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
       style: {
         borderRadius: 16
@@ -207,7 +208,7 @@ const data = [
   height={220}
   chartConfig={chartConfig}
   accessor="population"
-  bgColor="transparent"
+  backgroundColor="transparent"
   paddingLeft="15"
 />
 ```

@@ -142,7 +142,7 @@ export default class App extends React.Component {
                 chartConfig={chartConfig}
                 accessor="population"
                 style={graphStyle}
-                bgColor="transparent"
+                backgroundColor="transparent"
                 paddingLeft="15"
               />
               <Text style={labelStyle}>Line Chart</Text>
