@@ -6,7 +6,8 @@ import {
   Polygon,
   Polyline,
   Path,
-  Rect
+  Rect,
+  G
 } from 'react-native-svg'
 import AbstractChart from './abstract-chart'
 
@@ -172,62 +173,64 @@ class LineChart extends AbstractChart {
           height={height}
           width={width}
         >
-          {this.renderDefs({
-            ...config,
-            ...this.props.chartConfig
-          })}
-          <Rect
-            width="100%"
-            height={height}
-            rx={borderRadius}
-            ry={borderRadius}
-            fill="url(#backgroundGradient)"/>
-          {this.renderHorizontalLines({
-            ...config,
-            count: 4,
-            paddingTop,
-            paddingRight
-          })}
-          {this.renderHorizontalLabels({
-            ...config,
-            count: (Math.min(...data.datasets[0].data) === Math.max(...data.datasets[0].data)) ?
-              1 : 4,
-            data: data.datasets[0].data,
-            paddingTop,
-            paddingRight
-          })}
-          {this.renderVerticalLines({
-            ...config,
-            data: data.datasets[0].data,
-            paddingTop,
-            paddingRight
-          })}
-          {this.renderVerticalLabels({
-            ...config,
-            labels,
-            paddingRight,
-            paddingTop
-          })}
-          {this.renderLine({
-            ...config,
-            paddingRight,
-            paddingTop,
-            // data: data.datasets[0].data
-            data: data.datasets
+          <G>
+            {this.renderDefs({
+              ...config,
+              ...this.props.chartConfig
+            })}
+            <Rect
+              width="100%"
+              height={height}
+              rx={borderRadius}
+              ry={borderRadius}
+              fill="url(#backgroundGradient)"/>
+            {this.renderHorizontalLines({
+              ...config,
+              count: 4,
+              paddingTop,
+              paddingRight
+            })}
+            {this.renderHorizontalLabels({
+              ...config,
+              count: (Math.min(...data.datasets[0].data) === Math.max(...data.datasets[0].data)) ?
+                1 : 4,
+              data: data.datasets[0].data,
+              paddingTop,
+              paddingRight
+            })}
+            {this.renderVerticalLines({
+              ...config,
+              data: data.datasets[0].data,
+              paddingTop,
+              paddingRight
+            })}
+            {this.renderVerticalLabels({
+              ...config,
+              labels,
+              paddingRight,
+              paddingTop
+            })}
+            {this.renderLine({
+              ...config,
+              paddingRight,
+              paddingTop,
+              // data: data.datasets[0].data
+              data: data.datasets
 
-          })}
-          {withShadow && this.renderShadow({
-            ...config,
-            data: data.datasets,
-            paddingRight,
-            paddingTop
-          })}
-          {withDots && this.renderDots({
-            ...config,
-            data: data.datasets,
-            paddingTop,
-            paddingRight
-          })}
+            })}
+            {withShadow && this.renderShadow({
+              ...config,
+              data: data.datasets,
+              paddingRight,
+              paddingTop
+            })}
+            {withDots && this.renderDots({
+              ...config,
+              data: data.datasets,
+              paddingTop,
+              paddingRight
+            })}
+          </G>
         </Svg>
       </View>
     )
