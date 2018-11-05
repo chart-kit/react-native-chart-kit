@@ -9,6 +9,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-native": "0.55.4",
+    "react-native-svg": "^6.4.1",
     "react-native-scripts": "1.14.0",
     "react-test-renderer": "16.4.1",
     "xo": "^0.21.1"
