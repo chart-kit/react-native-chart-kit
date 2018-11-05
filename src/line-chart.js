@@ -12,7 +12,6 @@ import {
 import AbstractChart from './abstract-chart'
 
 class LineChart extends AbstractChart {
-  calcScaler = data => (Math.max(...data) - Math.min(...data)) || 1
 
   renderDots = config => {
     const { data, width, height, paddingTop, paddingRight } = config
