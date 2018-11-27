@@ -94,8 +94,8 @@ class ProgressChart extends AbstractChart {
               return (
                 <Rect
                   key={Math.random()}
-                  width="16"
-                  height="16"
+                  width="5%"
+                  height="13%"
                   fill={this.props.chartConfig.color(0.2 * (i + 1))}
                   rx={8}
                   ry={8}

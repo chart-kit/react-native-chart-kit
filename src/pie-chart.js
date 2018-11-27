@@ -35,8 +35,8 @@ class PieChart extends AbstractChart {
             fill={c.item.color}
           />
           <Rect
-            width="16"
-            height="16"
+            width="5%"
+            height="13%"
             fill={c.item.color}
             rx={8}
             ry={8}
