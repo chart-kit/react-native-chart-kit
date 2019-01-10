@@ -39,7 +39,8 @@
     "lodash": "^4.17.10",
     "paths-js": "^0.4.7",
     "point-in-polygon": "^1.0.1",
-    "react-native-scrollable-tab-view": "^0.8.0"
+    "react-native-scrollable-tab-view": "^0.8.0",
+    "babel-plugin-module-resolver": "^3.1.1"
   },
   "xo": {
     "extends": "xo-react",
