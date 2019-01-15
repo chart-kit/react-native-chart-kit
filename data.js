@@ -10,7 +10,8 @@ const data = {
       86,
       71,
       100
-    ]
+    ],
+    color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})` // optional
   },{
     data: [
       20,

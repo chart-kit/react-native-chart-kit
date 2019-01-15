@@ -13,6 +13,10 @@ import AbstractChart from './abstract-chart'
 
 class LineChart extends AbstractChart {
 
+  getColor = (dataset, opacity) => {
+    return (dataset.color || this.props.chartConfig.color)(opacity)
+  }
+
   renderDots = config => {
     const { data, width, height, paddingTop, paddingRight } = config
     let output = [];
@@ -24,15 +28,13 @@ class LineChart extends AbstractChart {
             cx={paddingRight + (i * (width - paddingRight) / dataset.data.length)}
             cy={((height / 4 * 3 * (1 - ((x - Math.min(...dataset.data)) / this.calcScaler(dataset.data)))) + paddingTop)}
             r="4"
-            fill={this.props.chartConfig.color(0.7)}
+            fill={this.getColor(dataset, 0.7)}
           />)
       })
     })
     return (
       output
     )
-
-    
   }
 
   renderShadow = config => {
@@ -57,8 +59,6 @@ class LineChart extends AbstractChart {
     return (
       output
     )
-    
-    
   }
 
   renderLine = config => {
@@ -79,7 +79,7 @@ class LineChart extends AbstractChart {
           key = {index}
           points={points.join(' ')}
           fill="none"
-          stroke={this.props.chartConfig.color(0.2)}
+          stroke={this.getColor(dataset, 0.2)}
           strokeWidth={3}
         />
       )
@@ -89,20 +89,18 @@ class LineChart extends AbstractChart {
     return (
       output
     )
-
-    
   }
 
   getBezierLinePoints = (dataset, config) => {
 
     const { width, height, paddingRight, paddingTop, data } = config
-    let output = []; 
+    let output = [];
     if (dataset.data.length === 0) {
       return 'M0,0'
     }
     const x = i => Math.floor(paddingRight + i * (width - paddingRight) / dataset.data.length)
     const y = i => Math.floor(((height / 4 * 3 * (1 - ((dataset.data[i] - Math.min(...dataset.data)) / this.calcScaler(dataset.data)))) + paddingTop))
-    
+
     return [`M${x(0)},${y(0)}`].concat(dataset.data.slice(0, -1).map((_, i) => {
       const x_mid = (x(i) + x(i + 1)) / 2
       const y_mid = (y(i) + y(i + 1)) / 2
@@ -111,8 +109,6 @@ class LineChart extends AbstractChart {
       return `Q ${cp_x1}, ${y(i)}, ${x_mid}, ${y_mid}` +
       ` Q ${cp_x2}, ${y(i + 1)}, ${x(i + 1)}, ${y(i + 1)}`
     })).join(' ')
-
-    
   }
 
   renderBezierLine = config => {
@@ -124,7 +120,7 @@ class LineChart extends AbstractChart {
             key = {index}
             d={result}
             fill="none"
-            stroke={this.props.chartConfig.color(0.2)}
+            stroke={this.getColor(dataset, 0.2)}
             strokeWidth={3}
           />
         )
@@ -132,8 +128,6 @@ class LineChart extends AbstractChart {
     return (
       output
     )
-
-    
   }
 
   renderBezierShadow = config => {
@@ -153,7 +147,6 @@ class LineChart extends AbstractChart {
     return (
       output
     )
-    
   }
 
   render() {
