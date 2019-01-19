@@ -5,42 +5,39 @@
     "babel-eslint": "^8.2.5",
     "eslint-config-xo-react": "^0.17.0",
     "eslint-plugin-react": "^7.10.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "expo": "32.0.1",
+    "react": "16.5.0",
     "jest-expo": "28.0.0",
     "prop-types": "^15.6.2",
-    "react": "^16.4.1",
-    "react-native": "0.55.4",
-    "react-native-svg": "^6.4.1",
-    "react-native-scripts": "1.14.0",
-    "react-test-renderer": "16.4.1",
+    "react-native-scrollable-tab-view": "^0.10.0",
+    "react-test-renderer": "16.7.0",
     "xo": "^0.21.1"
   },
-  "_main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
+  "_main": "./node_modules/expo/AppEntry.js",
   "main": "./index.js",
   "scripts": {
-    "start": "react-native-scripts start",
-    "eject": "react-native-scripts eject",
-    "android": "react-native-scripts android",
-    "ios": "react-native-scripts ios",
-    "test": "node node_modules/jest/bin/jest.js --watch"
+    "start": "expo start",
+    "eject": "expo eject",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "test": "jest"
   },
   "jest": {
     "preset": "jest-expo"
   },
   "peerDependencies": {
-    "react": "> 16.0.0",
-    "react-native": ">= 0.50.0",
     "prop-types": "> 15.6.0",
-    "react-native-svg": "^6.4.1"
+    "react": "> 16.7.0",
+    "react-native": ">= 0.50.0",
+    "react-native-svg": "> 6.4.1"
   },
   "dependencies": {
+    "babel-plugin-module-resolver": "^3.1.1",
     "babel-polyfill": "^6.26.0",
-    "expo": "^28.0.0",
-    "google-palette": "^1.1.0",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.11",
     "paths-js": "^0.4.7",
-    "point-in-polygon": "^1.0.1",
-    "react-native-scrollable-tab-view": "^0.8.0",
-    "babel-plugin-module-resolver": "^3.1.1"
+    "point-in-polygon": "^1.0.1"
   },
   "xo": {
     "extends": "xo-react",
