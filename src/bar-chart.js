@@ -2,7 +2,8 @@ import React from 'react'
 import { View } from 'react-native'
 import {
   Svg,
-  Rect
+  Rect,
+  G
 } from 'react-native-svg'
 import AbstractChart from './abstract-chart'
 
@@ -67,11 +68,13 @@ class BarChart extends AbstractChart {
             rx={borderRadius}
             ry={borderRadius}
             fill="url(#backgroundGradient)"/>
+            <G>
           {this.renderHorizontalLines({
             ...config,
             count: 4,
             paddingTop
-          })}
+          })}</G>
+          <G>
           {this.renderHorizontalLabels({
             ...config,
             count: 4,
@@ -79,6 +82,8 @@ class BarChart extends AbstractChart {
             paddingTop,
             paddingRight
           })}
+          </G>
+          <G>
           {this.renderVerticalLabels({
             ...config,
             labels: data.labels,
@@ -86,18 +91,23 @@ class BarChart extends AbstractChart {
             paddingTop,
             horizontalOffset: barWidth
           })}
+          </G>
+          <G>
           {this.renderBars({
             ...config,
             data: data.datasets[0].data,
             paddingTop,
             paddingRight
           })}
+          </G>
+          <G>
           {this.renderBarTops({
             ...config,
             data: data.datasets[0].data,
             paddingTop,
             paddingRight
           })}
+          </G>
         </Svg>
       </View>
     )

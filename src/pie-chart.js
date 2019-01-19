@@ -35,8 +35,8 @@ class PieChart extends AbstractChart {
             fill={c.item.color}
           />
           <Rect
-            width="5%"
-            height="13%"
+            width="16px"
+            height="16px"
             fill={c.item.color}
             rx={8}
             ry={8}
@@ -66,11 +66,13 @@ class PieChart extends AbstractChart {
           width={this.props.width}
           height={this.props.height}
         >
+          <G>
           {this.renderDefs({
             width: this.props.height,
             height: this.props.height,
             ...this.props.chartConfig
           })}
+          </G>
           <Rect width="100%" height={this.props.height} rx={borderRadius} ry={borderRadius} fill={backgroundColor}/>
           <G
             x={((this.props.width / 2) / 2) + Number((this.props.paddingLeft)?this.props.paddingLeft:0)}

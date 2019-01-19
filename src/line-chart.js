@@ -176,12 +176,15 @@ class LineChart extends AbstractChart {
               rx={borderRadius}
               ry={borderRadius}
               fill="url(#backgroundGradient)"/>
+            <G>
             {this.renderHorizontalLines({
               ...config,
               count: 4,
               paddingTop,
               paddingRight
             })}
+            </G>
+            <G>
             {this.renderHorizontalLabels({
               ...config,
               count: (Math.min(...data.datasets[0].data) === Math.max(...data.datasets[0].data)) ?
@@ -190,18 +193,24 @@ class LineChart extends AbstractChart {
               paddingTop,
               paddingRight
             })}
+            </G>
+            <G>
             {this.renderVerticalLines({
               ...config,
               data: data.datasets[0].data,
               paddingTop,
               paddingRight
             })}
+            </G>
+            <G>
             {this.renderVerticalLabels({
               ...config,
               labels,
               paddingRight,
               paddingTop
             })}
+            </G>
+            <G>
             {this.renderLine({
               ...config,
               paddingRight,
@@ -210,18 +219,23 @@ class LineChart extends AbstractChart {
               data: data.datasets
 
             })}
+            </G>
+            <G>
             {withShadow && this.renderShadow({
               ...config,
               data: data.datasets,
               paddingRight,
               paddingTop
             })}
+            </G>
+            <G>
             {withDots && this.renderDots({
               ...config,
               data: data.datasets,
               paddingTop,
               paddingRight
             })}
+            </G>
           </G>
         </Svg>
       </View>

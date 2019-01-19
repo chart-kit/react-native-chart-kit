@@ -68,6 +68,7 @@ class ProgressChart extends AbstractChart {
             x={this.props.width / 2.5}
             y={this.props.height / 2}
           >
+            <G>
             {pieBackgrounds.map(pie => {
               return (
                 <Path
@@ -78,6 +79,8 @@ class ProgressChart extends AbstractChart {
                 />
               )
             })}
+            </G>
+            <G>
             {pies.map((pie, i) => {
               return (
                 <Path
@@ -90,12 +93,14 @@ class ProgressChart extends AbstractChart {
 
                 />)
             })}
+            </G>
+            <G>
             {pies.map((_, i) => {
               return (
                 <Rect
                   key={Math.random()}
-                  width="5%"
-                  height="13%"
+                  width="16px"
+                  height="16px"
                   fill={this.props.chartConfig.color(0.2 * (i + 1))}
                   rx={8}
                   ry={8}
@@ -104,6 +109,8 @@ class ProgressChart extends AbstractChart {
                 />
               )
             })}
+            </G>
+            <G>
             {pies.map((_, i) => {
               return (
                 <Text
@@ -116,6 +123,7 @@ class ProgressChart extends AbstractChart {
                   {Math.round(100 * this.props.data[i]) + '%'}
                 </Text>)
             })}
+            </G>
           </G>
         </Svg>
       </View>
