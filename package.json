@@ -12,7 +12,8 @@
     "prop-types": "^15.6.2",
     "react-native-scrollable-tab-view": "^0.10.0",
     "react-test-renderer": "16.7.0",
-    "xo": "^0.21.1"
+    "xo": "^0.21.1",
+    "babel-polyfill": "^6.26.0"
   },
   "_main": "./node_modules/expo/AppEntry.js",
   "main": "./index.js",
@@ -34,7 +35,6 @@
   },
   "dependencies": {
     "babel-plugin-module-resolver": "^3.1.1",
-    "babel-polyfill": "^6.26.0",
     "lodash": "^4.17.11",
     "paths-js": "^0.4.7",
     "point-in-polygon": "^1.0.1"

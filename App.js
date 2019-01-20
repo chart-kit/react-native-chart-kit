@@ -1,3 +1,4 @@
+import 'babel-polyfill'
 import React from 'react'
 import { ScrollView, StatusBar, Dimensions, Text } from 'react-native'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
@@ -7,7 +8,6 @@ import ProgressChart from './src/progress-chart'
 import BarChart from './src/bar-chart'
 import ContributionGraph from './src/contribution-graph'
 import { data, contributionData, pieChartData, progressChartData } from './data'
-import 'babel-polyfill'
 
 // in Expo - swipe left to see the following styling, or create your own
 const chartConfigs = [
