@@ -29,6 +29,22 @@ class AbstractChart extends Component {
     })
   }
 
+  renderHorizontalLine = config => {
+    const { width, height, paddingTop, paddingRight } = config
+      return (
+          <Line
+              key={Math.random()}
+              x1={paddingRight}
+              y1={height - (height / 4) + paddingTop}
+              x2={width}
+              y2={height - (height / 4) + paddingTop}
+              stroke={this.props.chartConfig.color(0.2)}
+              strokeDasharray="5, 10"
+              strokeWidth={1}
+          />
+      )
+  };
+
   renderHorizontalLabels = config => {
     const { count, data, height, paddingTop, paddingRight, yLabelsOffset = 12 } = config
 	var decimalPlaces = (this.props.chartConfig.decimalPlaces !== undefined) ? this.props.chartConfig.decimalPlaces : 2;
@@ -81,6 +97,22 @@ class AbstractChart extends Component {
         />
       )
     })
+  }
+
+  renderVerticalLine = config => {
+    const { height, paddingTop, paddingRight } = config
+      return (
+          <Line
+              key={Math.random()}
+              x1={Math.floor(paddingRight)}
+              y1={0}
+              x2={Math.floor(paddingRight)}
+              y2={height - (height / 4) + paddingTop}
+              stroke={this.props.chartConfig.color(0.2)}
+              strokeDasharray="5, 10"
+              strokeWidth={1}
+          />
+      )
   }
 
   renderDefs = config => {

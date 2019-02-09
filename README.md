@@ -113,6 +113,9 @@ const data = {
 | data | Object | Data for the chart - see example above |
 | width | Number | Width of the chart, use 'Dimensions' library to get the width of your screen for responsive |
 | height | Number | Height of the chart |
+| withDots | boolean | Show dots on the line - default: True |
+| withShadow | boolean | Show shadow for line - default: True |
+| withoutInnerLines | boolean | Hide inner dashed lines - default: False |
 | chartConfig | Object | Configuration object for the chart, see example config object above |
 
 ## Bezier Line Chart

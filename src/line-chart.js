@@ -150,15 +150,16 @@ class LineChart extends AbstractChart {
   }
 
   render() {
-    const paddingTop = 16
+    let paddingTop = 16
     const paddingRight = 64
-    const { width, height, data, withShadow = true, withDots = true, style = {} } = this.props
+    const { width, height, data, withShadow = true, withDots = true, withoutInnerLines = false, style = {} } = this.props
     const { labels = [] } = data
     const { borderRadius = 0 } = style
     const config = {
       width,
       height
     }
+
     return (
       <View style={style}>
         <Svg
@@ -177,12 +178,19 @@ class LineChart extends AbstractChart {
               ry={borderRadius}
               fill="url(#backgroundGradient)"/>
             <G>
-            {this.renderHorizontalLines({
-              ...config,
-              count: 4,
-              paddingTop,
-              paddingRight
-            })}
+                {!withoutInnerLines
+                    ? this.renderHorizontalLines({
+                        ...config,
+                        count: 4,
+                        paddingTop,
+                        paddingRight
+                    })
+                    : this.renderHorizontalLine({
+                        ...config,
+                        paddingTop,
+                        paddingRight
+                    })
+                }
             </G>
             <G>
             {this.renderHorizontalLabels({
@@ -195,12 +203,19 @@ class LineChart extends AbstractChart {
             })}
             </G>
             <G>
-            {this.renderVerticalLines({
-              ...config,
-              data: data.datasets[0].data,
-              paddingTop,
-              paddingRight
-            })}
+                {!withoutInnerLines
+                    ? this.renderVerticalLines({
+                        ...config,
+                        data: data.datasets[0].data,
+                        paddingTop,
+                        paddingRight
+                    })
+                    : this.renderVerticalLine({
+                        ...config,
+                        paddingTop,
+                        paddingRight
+                    })
+                }
             </G>
             <G>
             {this.renderVerticalLabels({
