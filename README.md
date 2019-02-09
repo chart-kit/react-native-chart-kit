@@ -115,7 +115,7 @@ const data = {
 | height | Number | Height of the chart |
 | withDots | boolean | Show dots on the line - default: True |
 | withShadow | boolean | Show shadow for line - default: True |
-| withoutInnerLines | boolean | Hide inner dashed lines - default: False |
+| withInnerLines | boolean | Show inner dashed lines - default: True |
 | chartConfig | Object | Configuration object for the chart, see example config object above |
 
 ## Bezier Line Chart
