@@ -68,7 +68,8 @@ Define a chart style object with following properies as such:
 const chartConfig = {
   backgroundGradientFrom: '#1E2923',
   backgroundGradientTo: '#08130D',
-  color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`
+  color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+  strokeWidth: 2 // optional, default 3
 }
 ```
 
@@ -77,6 +78,7 @@ const chartConfig = {
 | backgroundGradientFrom | string | Defines the first color in the linear gradient of a chart's background  |
 | backgroundGradientTo | string | Defines the second color in the linear gradient of a chart's background |
 | color | function => string | Defines the base color function that is used to calculate colors of labels and sectors used in a chart |
+| strokeWidth | Number | Defines the base stroke width in a chart |
 
 ## Responsive charts
 To render a responsive chart, use `Dimensions` react-native library to get the width of the screen of your device like such
@@ -95,6 +97,7 @@ const data = {
   datasets: [{
     data: [ 20, 45, 28, 80, 99, 43 ],
     color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})` // optional
+    strokeWidth: 2 // optional
   }]
 }
 ```

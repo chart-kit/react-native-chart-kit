@@ -17,6 +17,10 @@ class LineChart extends AbstractChart {
     return (dataset.color || this.props.chartConfig.color)(opacity)
   }
 
+  getStrokeWidth = (dataset) => {
+    return (dataset.strokeWidth || this.props.chartConfig.strokeWidth || 3)
+  }
+
   getDatas = data => data.reduce((acc, item) => item.data ? [...acc, ...item.data] : acc,[])
 
   renderDots = config => {
@@ -85,7 +89,7 @@ class LineChart extends AbstractChart {
           points={points.join(' ')}
           fill="none"
           stroke={this.getColor(dataset, 0.2)}
-          strokeWidth={3}
+          strokeWidth={this.getStrokeWidth(dataset)}
         />
       )
 
@@ -128,7 +132,7 @@ class LineChart extends AbstractChart {
             d={result}
             fill="none"
             stroke={this.getColor(dataset, 0.2)}
-            strokeWidth={3}
+            strokeWidth={this.getStrokeWidth(dataset)}
           />
         )
       });
@@ -157,7 +161,7 @@ class LineChart extends AbstractChart {
   }
 
   render() {
-    let paddingTop = 16
+    const paddingTop = 16
     const paddingRight = 64
     const { width, height, data, withShadow = true, withDots = true, withInnerLines = true, style = {} } = this.props
     const { labels = [] } = data
