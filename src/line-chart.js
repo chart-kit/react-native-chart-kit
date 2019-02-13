@@ -17,16 +17,19 @@ class LineChart extends AbstractChart {
     return (dataset.color || this.props.chartConfig.color)(opacity)
   }
 
+  getDatas = data => data.reduce((acc, item) => item.data ? [...acc, ...item.data] : acc,[])
+
   renderDots = config => {
     const { data, width, height, paddingTop, paddingRight } = config
     let output = [];
+    const datas = this.getDatas(data)
     data.map((dataset,index)=>{
       dataset.data.map((x, i) => {
         output.push (
           <Circle
             key={Math.random()}
             cx={paddingRight + (i * (width - paddingRight) / dataset.data.length)}
-            cy={((height / 4 * 3 * (1 - ((x - Math.min(...dataset.data)) / this.calcScaler(dataset.data)))) + paddingTop)}
+            cy={((height / 4 * 3 * (1 - ((x - Math.min(...datas)) / this.calcScaler(datas)))) + paddingTop)}
             r="4"
             fill={this.getColor(dataset, 0.7)}
           />)
@@ -43,6 +46,7 @@ class LineChart extends AbstractChart {
     }
     const { data, width, height, paddingRight, paddingTop } = config
     let output = [];
+    const datas = this.getDatas(data)
     config.data.map((dataset,index)=>{
       output.push (
         <Polygon
@@ -50,7 +54,7 @@ class LineChart extends AbstractChart {
           points={dataset.data.map((x, i) =>
             (paddingRight + (i * (width - paddingRight) / dataset.data.length)) +
           ',' +
-           (((height / 4 * 3 * (1 - ((x - Math.min(...dataset.data)) / this.calcScaler(dataset.data)))) + paddingTop))
+           (((height / 4 * 3 * (1 - ((x - Math.min(...datas)) / this.calcScaler(datas)))) + paddingTop))
           ).join(' ') + ` ${paddingRight + ((width - paddingRight) / dataset.data.length * (dataset.data.length - 1))},${(height / 4 * 3) + paddingTop} ${paddingRight},${(height / 4 * 3) + paddingTop}`}
           fill="url(#fillShadowGradient)"
           strokeWidth={0}
@@ -67,12 +71,13 @@ class LineChart extends AbstractChart {
     }
     const { width, height, paddingRight, paddingTop, data } = config
     let output = [];
+    const datas = this.getDatas(data)
     data.map((dataset,index) => {
 
       const points = dataset.data.map((x, i) =>
       (paddingRight + (i * (width - paddingRight) / dataset.data.length)) +
       ',' +
-       (((height / 4 * 3 * (1 - ((x - Math.min(...dataset.data)) / this.calcScaler(dataset.data))))) + paddingTop))
+       (((height / 4 * 3 * (1 - ((x - Math.min(...datas)) / this.calcScaler(datas))))) + paddingTop))
 
       output.push (
         <Polyline
@@ -98,8 +103,10 @@ class LineChart extends AbstractChart {
     if (dataset.data.length === 0) {
       return 'M0,0'
     }
+    
+    const datas = this.getDatas(data)
     const x = i => Math.floor(paddingRight + i * (width - paddingRight) / dataset.data.length)
-    const y = i => Math.floor(((height / 4 * 3 * (1 - ((dataset.data[i] - Math.min(...dataset.data)) / this.calcScaler(dataset.data)))) + paddingTop))
+    const y = i => Math.floor(((height / 4 * 3 * (1 - ((dataset.data[i] - Math.min(...datas)) / this.calcScaler(datas)))) + paddingTop))
 
     return [`M${x(0)},${y(0)}`].concat(dataset.data.slice(0, -1).map((_, i) => {
       const x_mid = (x(i) + x(i + 1)) / 2
@@ -159,7 +166,7 @@ class LineChart extends AbstractChart {
       width,
       height
     }
-
+    const datas = this.getDatas(data.datasets)
     return (
       <View style={style}>
         <Svg
@@ -197,7 +204,7 @@ class LineChart extends AbstractChart {
               ...config,
               count: (Math.min(...data.datasets[0].data) === Math.max(...data.datasets[0].data)) ?
                 1 : 4,
-              data: data.datasets[0].data,
+              data: datas,
               paddingTop,
               paddingRight
             })}
