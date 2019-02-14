@@ -107,7 +107,7 @@ class LineChart extends AbstractChart {
     if (dataset.data.length === 0) {
       return 'M0,0'
     }
-    
+
     const datas = this.getDatas(data)
     const x = i => Math.floor(paddingRight + i * (width - paddingRight) / dataset.data.length)
     const y = i => Math.floor(((height / 4 * 3 * (1 - ((dataset.data[i] - Math.min(...datas)) / this.calcScaler(datas)))) + paddingTop))
@@ -163,7 +163,7 @@ class LineChart extends AbstractChart {
   render() {
     const paddingTop = 16
     const paddingRight = 64
-    const { width, height, data, withShadow = true, withDots = true, withInnerLines = true, style = {}, decorator = false } = this.props
+    const { width, height, data, withShadow = true, withDots = true, withInnerLines = true, style = {}, decorator } = this.props
     const { labels = [] } = data
     const { borderRadius = 0 } = style
     const config = {
