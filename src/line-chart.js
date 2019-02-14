@@ -206,7 +206,7 @@ class LineChart extends AbstractChart {
             <G>
             {this.renderHorizontalLabels({
               ...config,
-              count: (Math.min(...data.datasets[0].data) === Math.max(...data.datasets[0].data)) ?
+              count: (Math.min(...datas) === Math.max(...datas)) ?
                 1 : 4,
               data: datas,
               paddingTop,
