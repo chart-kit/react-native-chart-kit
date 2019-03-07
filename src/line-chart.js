@@ -227,6 +227,7 @@ class LineChart extends AbstractChart {
       withShadow = true,
       withDots = true,
       withInnerLines = true,
+      withOuterLines = true,
       style = {},
       decorator,
       onDataPointClick
@@ -254,18 +255,21 @@ class LineChart extends AbstractChart {
               fill="url(#backgroundGradient)"
             />
             <G>
-              {withInnerLines
-                ? this.renderHorizontalLines({
-                    ...config,
-                    count: 4,
-                    paddingTop,
-                    paddingRight
-                  })
-                : this.renderHorizontalLine({
-                    ...config,
-                    paddingTop,
-                    paddingRight
-                  })}
+                {withInnerLines
+                    ? this.renderHorizontalLines({
+                        ...config,
+                        count: 4,
+                        paddingTop,
+                        paddingRight
+                    })
+                    : withOuterLines
+                    ? this.renderHorizontalLine({
+                        ...config,
+                        paddingTop,
+                        paddingRight
+                    })
+                    : null
+                }
             </G>
             <G>
               {this.renderHorizontalLabels({
@@ -277,18 +281,21 @@ class LineChart extends AbstractChart {
               })}
             </G>
             <G>
-              {withInnerLines
-                ? this.renderVerticalLines({
-                    ...config,
-                    data: data.datasets[0].data,
-                    paddingTop,
-                    paddingRight
-                  })
-                : this.renderVerticalLine({
-                    ...config,
-                    paddingTop,
-                    paddingRight
-                  })}
+                {withInnerLines
+                    ? this.renderVerticalLines({
+                        ...config,
+                        data: data.datasets[0].data,
+                        paddingTop,
+                        paddingRight
+                    })
+                    : withOuterLines
+                    ? this.renderVerticalLine({
+                        ...config,
+                        paddingTop,
+                        paddingRight
+                    })
+                    : null
+                }
             </G>
             <G>
               {this.renderVerticalLabels({
