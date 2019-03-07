@@ -121,6 +121,7 @@ const data = {
 | withInnerLines | boolean | Show inner dashed lines - default: True |
 | chartConfig | Object | Configuration object for the chart, see example config object above |
 |decorator | Function | This function takes a [whole bunch](https://github.com/indiespirit/react-native-chart-kit/blob/master/src/line-chart.js#L266) of stuff and can render extra elements, such as data point info or additional markup. |
+|onDataPointClick| Function| Callback that takes `{value, dataset, getColor}`|
 
 ## Bezier Line Chart
 

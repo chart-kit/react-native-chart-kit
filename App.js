@@ -1,13 +1,14 @@
 import 'babel-polyfill'
 import React from 'react'
-import { ScrollView, StatusBar, Dimensions, Text } from 'react-native'
+import {ScrollView, StatusBar, Dimensions, Text, View} from 'react-native'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
+import FlashMessage, {showMessage} from 'react-native-flash-message'
 import LineChart from './src/line-chart'
 import PieChart from './src/pie-chart'
 import ProgressChart from './src/progress-chart'
 import BarChart from './src/bar-chart'
 import ContributionGraph from './src/contribution-graph'
-import { data, contributionData, pieChartData, progressChartData } from './data'
+import {data, contributionData, pieChartData, progressChartData} from './data'
 
 // in Expo - swipe left to see the following styling, or create your own
 const chartConfigs = [
@@ -49,7 +50,8 @@ const chartConfigs = [
     backgroundGradientFrom: '#000000',
     backgroundGradientTo: '#000000',
     color: (opacity = 1) => `rgba(${255}, ${255}, ${255}, ${opacity})`
-  }, {
+  },
+  {
     backgroundColor: '#0091EA',
     backgroundGradientFrom: '#0091EA',
     backgroundGradientTo: '#0091EA',
@@ -83,11 +85,11 @@ const chartConfigs = [
 
 export default class App extends React.Component {
   renderTabBar() {
-    return <StatusBar hidden/>
+    return <StatusBar hidden />
   }
 
   render() {
-    const { width } = Dimensions.get('window')
+    const {width} = Dimensions.get('window')
     const height = 220
     return (
       <ScrollableTabView renderTabBar={this.renderTabBar}>
@@ -111,13 +113,21 @@ export default class App extends React.Component {
             >
               <Text style={labelStyle}>Bezier Line Chart</Text>
               <LineChart
+                bezier
                 data={data}
                 width={width}
                 height={height}
                 chartConfig={chartConfig}
-                bezier
                 style={graphStyle}
+                onDataPointClick={({value, getColor}) =>
+                  showMessage({
+                    message: `${value}`,
+                    description: 'You selected this value',
+                    backgroundColor: getColor(0.9)
+                  })
+                }
               />
+              <FlashMessage duration={1000} />
               <Text style={labelStyle}>Progress Chart</Text>
               <ProgressChart
                 data={progressChartData}
