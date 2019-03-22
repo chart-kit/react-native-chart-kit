@@ -28,6 +28,11 @@ class PieChart extends AbstractChart {
       return sum + item[this.props.accessor]
     }, 0)
     const slices = chart.curves.map((c, i) => {
+      if(absolute == true){
+        num = c.item[this.props.accessor];
+      }else{
+        num = Math.round(100 / total * c.item[this.props.accessor]) + '%'
+      }
       return (
         <G key={Math.random()}>
           <Path
@@ -48,7 +53,7 @@ class PieChart extends AbstractChart {
             fontSize={c.item.legendFontSize}
             x={this.props.width / 2.5}
             y={-(this.props.height / 2.5) + ((this.props.height * 0.8) / this.props.data.length * i) + 12*2}
-          >{Math.round(100 / total * c.item[this.props.accessor])}% { c.item.name }
+          >{num} { c.item.name }
           </Text>
         </G>
       )

@@ -220,6 +220,7 @@ const data = [
   accessor="population"
   backgroundColor="transparent"
   paddingLeft="15"
+  absolute
 />
 ```
 
@@ -232,6 +233,7 @@ const data = [
 | accessor | string | Property in the `data` object from which the number values are taken |
 | bgColor | string | background color - if you want to set transparent, input `transparent` or `none`. |
 | paddingLeft | string | left padding of the pie chart |
+| absolute | boolean | shows the values as absolute numbers |
 
 ## Contribution graph (heatmap)
 
