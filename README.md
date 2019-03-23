@@ -43,6 +43,7 @@ import {
     }}
     width={Dimensions.get('window').width} // from react-native
     height={220}
+    yAxisLabel={'$'}
     chartConfig={{
       backgroundColor: '#e26a00',
       backgroundGradientFrom: '#fb8c00',
@@ -120,6 +121,7 @@ const data = {
 | withShadow | boolean | Show shadow for line - default: True |
 | withInnerLines | boolean | Show inner dashed lines - default: True |
 | withOuterLines | boolean | Show outer dashed lines - default: True |
+| yAxisLabel | string | Prepend text to horizontal labels -- default: '' |
 | chartConfig | Object | Configuration object for the chart, see example config object above |
 |decorator | Function | This function takes a [whole bunch](https://github.com/indiespirit/react-native-chart-kit/blob/master/src/line-chart.js#L266) of stuff and can render extra elements, such as data point info or additional markup. |
 |onDataPointClick| Function| Callback that takes `{value, dataset, getColor}`|
@@ -184,6 +186,7 @@ const data = {
   data={data}
   width={screenWidth}
   height={220}
+  yAxisLabel={'$'}
   chartConfig={chartConfig}
 />
 ```
@@ -193,6 +196,7 @@ const data = {
 | data | Object | Data for the chart - see example above |
 | width | Number | Width of the chart, use 'Dimensions' library to get the width of your screen for responsive |
 | height | Number | Height of the chart |
+| yAxisLabel | string | Prepend text to horizontal labels -- default: '' |
 | chartConfig | Object | Configuration object for the chart, see example config in the beginning of this file |
 
 ## Pie chart

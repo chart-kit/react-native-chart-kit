@@ -47,8 +47,19 @@ class AbstractChart extends Component {
 
   renderHorizontalLabels = config => {
     const { count, data, height, paddingTop, paddingRight, yLabelsOffset = 12 } = config
-	var decimalPlaces = (this.props.chartConfig.decimalPlaces !== undefined) ? this.props.chartConfig.decimalPlaces : 2;
+    const decimalPlaces = this.props.chartConfig.decimalPlaces || 2;
+    const yAxisLabel = this.props.yAxisLabel || ''
+
     return [...new Array(count)].map((_, i) => {
+      let yLabel;
+
+      if(count === 1){ 
+        yLabel = `${yAxisLabel}${data[0].toFixed(decimalPlaces)}`
+      }else {
+       const label = (this.calcScaler(data) / (count - 1)) * i + Math.min(...data)
+       yLabel = `${yAxisLabel}${label.toFixed(decimalPlaces)}`
+      }
+
       return (
         <Text
           key={Math.random()}
@@ -57,7 +68,7 @@ class AbstractChart extends Component {
           y={(height * 3 / 4) - ((height - paddingTop) / count * i) + 12}
           fontSize={12}
           fill={this.props.chartConfig.color(0.5)}
-        >{count === 1 ? data[0].toFixed(decimalPlaces) : ((this.calcScaler(data) / (count - 1)) * i + Math.min(...data)).toFixed(decimalPlaces)}
+        >{yLabel}
         </Text>
       )
     })
