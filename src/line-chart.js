@@ -116,7 +116,7 @@ class LineChart extends AbstractChart {
     const {width, height, paddingRight, paddingTop, data} = config
     const output = []
     const datas = this.getDatas(data)
-    data.map((dataset, index) => {
+    data.forEach((dataset, index) => {
       const points = dataset.data.map(
         (x, i) =>
           paddingRight +
@@ -255,21 +255,20 @@ class LineChart extends AbstractChart {
               fill="url(#backgroundGradient)"
             />
             <G>
-                {withInnerLines
-                    ? this.renderHorizontalLines({
-                        ...config,
-                        count: 4,
-                        paddingTop,
-                        paddingRight
-                    })
-                    : withOuterLines
-                    ? this.renderHorizontalLine({
-                        ...config,
-                        paddingTop,
-                        paddingRight
-                    })
-                    : null
-                }
+              {withInnerLines
+                ? this.renderHorizontalLines({
+                    ...config,
+                    count: 4,
+                    paddingTop,
+                    paddingRight
+                  })
+                : withOuterLines
+                ? this.renderHorizontalLine({
+                    ...config,
+                    paddingTop,
+                    paddingRight
+                  })
+                : null}
             </G>
             <G>
               {this.renderHorizontalLabels({
@@ -281,21 +280,20 @@ class LineChart extends AbstractChart {
               })}
             </G>
             <G>
-                {withInnerLines
-                    ? this.renderVerticalLines({
-                        ...config,
-                        data: data.datasets[0].data,
-                        paddingTop,
-                        paddingRight
-                    })
-                    : withOuterLines
-                    ? this.renderVerticalLine({
-                        ...config,
-                        paddingTop,
-                        paddingRight
-                    })
-                    : null
-                }
+              {withInnerLines
+                ? this.renderVerticalLines({
+                    ...config,
+                    data: data.datasets[0].data,
+                    paddingTop,
+                    paddingRight
+                  })
+                : withOuterLines
+                ? this.renderVerticalLine({
+                    ...config,
+                    paddingTop,
+                    paddingRight
+                  })
+                : null}
             </G>
             <G>
               {this.renderVerticalLabels({

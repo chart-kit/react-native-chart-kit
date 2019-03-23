@@ -1,20 +1,14 @@
 import React from 'react'
-import { View } from 'react-native'
-import {
-  Svg,
-  Rect,
-  Text,
-  G,
-  Path
-} from 'react-native-svg'
+import {View} from 'react-native'
+import {Svg, Rect, Text, G, Path} from 'react-native-svg'
 import AbstractChart from './abstract-chart'
 
 const Pie = require('paths-js/pie')
 
 class PieChart extends AbstractChart {
   render() {
-    const { style = {}, backgroundColor } = this.props
-    const { borderRadius = 0 } = style
+    const {style = {}, backgroundColor, absolute = false} = this.props
+    const {borderRadius = 0} = style
     const chart = Pie({
       center: this.props.center || [0, 0],
       r: 0,
@@ -28,32 +22,40 @@ class PieChart extends AbstractChart {
       return sum + item[this.props.accessor]
     }, 0)
     const slices = chart.curves.map((c, i) => {
-      if(absolute == true){
-        num = c.item[this.props.accessor];
-      }else{
-        num = Math.round(100 / total * c.item[this.props.accessor]) + '%'
+      let value
+      if (absolute) {
+        value = c.item[this.props.accessor]
+      } else {
+        value = Math.round((100 / total) * c.item[this.props.accessor]) + '%'
       }
+
       return (
         <G key={Math.random()}>
-          <Path
-            d={c.sector.path.print()}
-            fill={c.item.color}
-          />
+          <Path d={c.sector.path.print()} fill={c.item.color} />
           <Rect
             width="16px"
             height="16px"
             fill={c.item.color}
             rx={8}
             ry={8}
-            x={(this.props.width / 2.5) - 24}
-            y={-(this.props.height / 2.5) + ((this.props.height * 0.8) / this.props.data.length * i) + 12}
+            x={this.props.width / 2.5 - 24}
+            y={
+              -(this.props.height / 2.5) +
+              ((this.props.height * 0.8) / this.props.data.length) * i +
+              12
+            }
           />
           <Text
             fill={c.item.legendFontColor}
             fontSize={c.item.legendFontSize}
             x={this.props.width / 2.5}
-            y={-(this.props.height / 2.5) + ((this.props.height * 0.8) / this.props.data.length * i) + 12*2}
-          >{num} { c.item.name }
+            y={
+              -(this.props.height / 2.5) +
+              ((this.props.height * 0.8) / this.props.data.length) * i +
+              12 * 2
+            }
+          >
+            {value} {c.item.name}
           </Text>
         </G>
       )
@@ -67,20 +69,26 @@ class PieChart extends AbstractChart {
           ...style
         }}
       >
-        <Svg
-          width={this.props.width}
-          height={this.props.height}
-        >
+        <Svg width={this.props.width} height={this.props.height}>
           <G>
-          {this.renderDefs({
-            width: this.props.height,
-            height: this.props.height,
-            ...this.props.chartConfig
-          })}
+            {this.renderDefs({
+              width: this.props.height,
+              height: this.props.height,
+              ...this.props.chartConfig
+            })}
           </G>
-          <Rect width="100%" height={this.props.height} rx={borderRadius} ry={borderRadius} fill={backgroundColor}/>
+          <Rect
+            width="100%"
+            height={this.props.height}
+            rx={borderRadius}
+            ry={borderRadius}
+            fill={backgroundColor}
+          />
           <G
-            x={((this.props.width / 2) / 2) + Number((this.props.paddingLeft)?this.props.paddingLeft:0)}
+            x={
+              this.props.width / 2 / 2 +
+              Number(this.props.paddingLeft ? this.props.paddingLeft : 0)
+            }
             y={this.props.height / 2}
           >
             {slices}
