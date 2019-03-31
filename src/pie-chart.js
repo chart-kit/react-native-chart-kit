@@ -55,7 +55,7 @@ class PieChart extends AbstractChart {
               12 * 2
             }
           >
-            {value} {c.item.name}
+            {`${value} ${c.item.name}`}
           </Text>
         </G>
       )
