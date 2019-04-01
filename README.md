@@ -16,7 +16,8 @@ import {
   BarChart,
   PieChart,
   ProgressChart,
-  ContributionGraph
+  ContributionGraph,
+  StackedBarChart
 } from 'react-native-chart-kit'
 
 ```
@@ -197,6 +198,38 @@ const data = {
 | width | Number | Width of the chart, use 'Dimensions' library to get the width of your screen for responsive |
 | height | Number | Height of the chart |
 | yAxisLabel | string | Prepend text to horizontal labels -- default: '' |
+| chartConfig | Object | Configuration object for the chart, see example config in the beginning of this file |
+
+## StackedBar chart
+
+![StackedBar_Chart](https://imgur.com/JkBtxt8.jpg)
+
+```js
+const data ={
+  labels: ['Test1', 'Test2'],
+  legend: ['L1', 'L2', 'L3'],
+  data: [
+    [60, 60, 60],
+    [30,30,60], 
+  ],
+  barColors: ['#dfe4ea', '#ced6e0', '#a4b0be'],
+ }
+```
+```html
+<StackedBarChart
+  style={graphStyle}
+  data={data}
+  width={screenWidth}
+  height={220}
+  chartConfig={chartConfig}
+/>
+```
+
+| Property        | Type           | Description  |
+| ------------- |-------------| -----|
+| data | Object | Data for the chart - see example above |
+| width | Number | Width of the chart, use 'Dimensions' library to get the width of your screen for responsive |
+| height | Number | Height of the chart |
 | chartConfig | Object | Configuration object for the chart, see example config in the beginning of this file |
 
 ## Pie chart

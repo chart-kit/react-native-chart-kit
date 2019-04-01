@@ -1,14 +1,21 @@
 import 'babel-polyfill'
 import React from 'react'
-import {ScrollView, StatusBar, Dimensions, Text, View} from 'react-native'
+import {ScrollView, StatusBar, Dimensions, Text} from 'react-native'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
 import FlashMessage, {showMessage} from 'react-native-flash-message'
 import LineChart from './src/line-chart'
 import PieChart from './src/pie-chart'
 import ProgressChart from './src/progress-chart'
 import BarChart from './src/bar-chart'
+import StackedBarChart from './src/stackedbar-chart'
 import ContributionGraph from './src/contribution-graph'
-import {data, contributionData, pieChartData, progressChartData} from './data'
+import {
+  data,
+  contributionData,
+  pieChartData,
+  progressChartData,
+  stackedBarGraphData
+} from './data'
 
 // in Expo - swipe left to see the following styling, or create your own
 const chartConfigs = [
@@ -117,7 +124,7 @@ export default class App extends React.Component {
                 data={data}
                 width={width}
                 height={height}
-                yAxisLabel={'$'}
+                yAxisLabel="$"
                 chartConfig={chartConfig}
                 style={graphStyle}
                 onDataPointClick={({value, getColor}) =>
@@ -142,9 +149,17 @@ export default class App extends React.Component {
                 width={width}
                 height={height}
                 data={data}
-                yAxisLabel={'$'}
+                yAxisLabel="$"
                 chartConfig={chartConfig}
                 style={graphStyle}
+              />
+              <Text style={labelStyle}>Stacked Bar Graph</Text>
+              <StackedBarChart
+                style={graphStyle}
+                data={stackedBarGraphData}
+                width={width}
+                height={220}
+                chartConfig={chartConfig}
               />
               <Text style={labelStyle}>Pie Chart</Text>
               <PieChart
@@ -162,7 +177,7 @@ export default class App extends React.Component {
                 data={data}
                 width={width}
                 height={height}
-                yAxisLabel={'$'}
+                yAxisLabel="$"
                 chartConfig={chartConfig}
                 style={graphStyle}
               />
