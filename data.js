@@ -4,7 +4,7 @@ const data = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June'],
   datasets: [
     {
-      data: [50, 20, 2, 86, 71, 100],
+      data: [-50, -20, -2, 86, 71, 100],
       color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})` // optional
     },
     {

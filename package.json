@@ -18,8 +18,8 @@
     "react-test-renderer": "16.7.0",
     "xo": "^0.24.0"
   },
-  "main": "./node_modules/expo/AppEntry.js",
-  "_main": "./index.js",
+  "_main": "./node_modules/expo/AppEntry.js",
+  "main": "./index.js",
   "scripts": {
     "start": "expo start",
     "eject": "expo eject",
