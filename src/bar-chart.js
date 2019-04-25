@@ -20,9 +20,12 @@ class BarChart extends AbstractChart {
             (i * (width - paddingRight)) / data.length +
             barWidth / 2
           }
-          y={(baseHeight - barHeight) / 4 * 3 + paddingTop}
+          y={
+            ((barHeight > 0 ? baseHeight - barHeight : baseHeight) / 4) * 3 +
+            paddingTop
+          }
           width={barWidth}
-          height={barHeight / 4 * 3}
+          height={(Math.abs(barHeight) / 4) * 3}
           fill="url(#fillShadowGradient)"
         />
       )
@@ -42,7 +45,7 @@ class BarChart extends AbstractChart {
             (i * (width - paddingRight)) / data.length +
             barWidth / 2
           }
-          y={(baseHeight - barHeight) / 4 * 3 + paddingTop}
+          y={((baseHeight - barHeight) / 4) * 3 + paddingTop}
           width={barWidth}
           height={2}
           fill={this.props.chartConfig.color(0.6)}
