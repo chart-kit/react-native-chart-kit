@@ -8,9 +8,9 @@ const barWidth = 32
 class BarChart extends AbstractChart {
   renderBars = config => {
     const {data, width, height, paddingTop, paddingRight} = config
-    const baseHeight = (height / 4 * 3) * (Math.max(...data) / this.calcScaler(data)) + paddingTop
+    const baseHeight = this.calcBaseHeight(data, height)
     return data.map((x, i) => {
-      const barHeight = height / 4 * 3 * (x / this.calcScaler(data))
+      const barHeight = this.calcHeight(x, data, height)
       const barWidth = 32
       return (
         <Rect
@@ -20,9 +20,9 @@ class BarChart extends AbstractChart {
             (i * (width - paddingRight)) / data.length +
             barWidth / 2
           }
-          y={baseHeight - barHeight}
+          y={(baseHeight - barHeight) / 4 * 3 + paddingTop}
           width={barWidth}
-          height={barHeight}
+          height={barHeight / 4 * 3}
           fill="url(#fillShadowGradient)"
         />
       )
@@ -31,9 +31,9 @@ class BarChart extends AbstractChart {
 
   renderBarTops = config => {
     const {data, width, height, paddingTop, paddingRight} = config
-    const baseHeight = (height / 4 * 3) * (Math.max(...data) / this.calcScaler(data)) + paddingTop
+    const baseHeight = this.calcBaseHeight(data, height)
     return data.map((x, i) => {
-      const barHeight = height / 4 * 3 * (x / this.calcScaler(data))
+      const barHeight = this.calcHeight(x, data, height)
       return (
         <Rect
           key={Math.random()}
@@ -42,7 +42,7 @@ class BarChart extends AbstractChart {
             (i * (width - paddingRight)) / data.length +
             barWidth / 2
           }
-          y={baseHeight - barHeight}
+          y={(baseHeight - barHeight) / 4 * 3 + paddingTop}
           width={barWidth}
           height={2}
           fill={this.props.chartConfig.color(0.6)}

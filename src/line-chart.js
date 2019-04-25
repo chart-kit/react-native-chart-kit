@@ -78,6 +78,7 @@ class LineChart extends AbstractChart {
     const {data, width, height, paddingRight, paddingTop} = config
     const output = []
     const datas = this.getDatas(data)
+    const baseHeight = this.calcBaseHeight(datas, height)
     config.data.map((dataset, index) => {
       output.push(
         <Polygon
@@ -85,14 +86,11 @@ class LineChart extends AbstractChart {
           points={
             dataset.data
               .map(
-                (x, i) =>
-                  paddingRight +
-                  (i * (width - paddingRight)) / dataset.data.length +
-                  ',' +
-                  ((height / 4) *
-                    3 *
-                    (1 - (x - Math.min(...datas)) / this.calcScaler(datas)) +
-                    paddingTop)
+                (d, i) => {
+                  const x = paddingRight + (i * (width - paddingRight)) / dataset.data.length
+                  const y = (baseHeight -  this.calcHeight(d, datas, height)) / 4 * 3 + paddingTop
+                  return `${x},${y}`
+                }
               )
               .join(' ') +
             ` ${paddingRight +
@@ -116,16 +114,14 @@ class LineChart extends AbstractChart {
     const {width, height, paddingRight, paddingTop, data} = config
     const output = []
     const datas = this.getDatas(data)
+    const baseHeight = this.calcBaseHeight(datas, height)
     data.forEach((dataset, index) => {
       const points = dataset.data.map(
-        (x, i) =>
-          paddingRight +
-          (i * (width - paddingRight)) / dataset.data.length +
-          ',' +
-          ((height / 4) *
-            3 *
-            (1 - (x - Math.min(...datas)) / this.calcScaler(datas)) +
-            paddingTop)
+        (d, i) => {
+          const x  = (i * (width - paddingRight)) / dataset.data.length + paddingRight
+          const y = (baseHeight -  this.calcHeight(d, datas, height)) / 4 * 3 + paddingTop
+          return `${x},${y}`
+        }
       )
 
       output.push(
@@ -153,14 +149,11 @@ class LineChart extends AbstractChart {
       Math.floor(
         paddingRight + (i * (width - paddingRight)) / dataset.data.length
       )
-    const y = i =>
-      Math.floor(
-        (height / 4) *
-          3 *
-          (1 -
-            (dataset.data[i] - Math.min(...datas)) / this.calcScaler(datas)) +
-          paddingTop
-      )
+    const baseHeight = this.calcBaseHeight(datas, height)
+    const y = i => {
+      const yHeight = this.calcHeight(dataset.data[i], datas, height)
+      return Math.floor((baseHeight - yHeight) / 4 * 3 + paddingTop)
+    }
 
     return [`M${x(0)},${y(0)}`]
       .concat(

@@ -122,6 +122,7 @@ const data = {
 | withShadow | boolean | Show shadow for line - default: True |
 | withInnerLines | boolean | Show inner dashed lines - default: True |
 | withOuterLines | boolean | Show outer dashed lines - default: True |
+| fromZero | boolean | Render charts from 0 not from the minimum value. - default: False |
 | yAxisLabel | string | Prepend text to horizontal labels -- default: '' |
 | chartConfig | Object | Configuration object for the chart, see example config object above |
 |decorator | Function | This function takes a [whole bunch](https://github.com/indiespirit/react-native-chart-kit/blob/master/src/line-chart.js#L266) of stuff and can render extra elements, such as data point info or additional markup. |
@@ -197,6 +198,7 @@ const data = {
 | data | Object | Data for the chart - see example above |
 | width | Number | Width of the chart, use 'Dimensions' library to get the width of your screen for responsive |
 | height | Number | Height of the chart |
+| fromZero | boolean | Render charts from 0 not from the minimum value. - default: False |
 | yAxisLabel | string | Prepend text to horizontal labels -- default: '' |
 | chartConfig | Object | Configuration object for the chart, see example config in the beginning of this file |
 
@@ -210,7 +212,7 @@ const data ={
   legend: ['L1', 'L2', 'L3'],
   data: [
     [60, 60, 60],
-    [30,30,60], 
+    [30,30,60],
   ],
   barColors: ['#dfe4ea', '#ced6e0', '#a4b0be'],
  }
