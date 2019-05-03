@@ -82,7 +82,7 @@ class AbstractChart extends Component {
       paddingRight,
       yLabelsOffset = 12
     } = config
-    const decimalPlaces = this.props.chartConfig.decimalPlaces || 2
+    const decimalPlaces = this.props.chartConfig.decimalPlaces === undefined ? 2 : this.props.chartConfig.decimalPlaces
     const yAxisLabel = this.props.yAxisLabel || ''
 
     return [...new Array(count)].map((_, i) => {
