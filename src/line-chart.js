@@ -48,22 +48,23 @@ class LineChart extends AbstractChart {
         }
 
         output.push(
-          <View key={Math.random()}>
-            <Circle
-              cx={cx}
-              cy={cy}
-              r="4"
-              fill={this.getColor(dataset, 0.9)}
-              onPress={onPress}
-            />
-            <Circle
-              cx={cx}
-              cy={cy}
-              r="12"
-              fill={this.getColor(dataset, 0)}
-              onPress={onPress}
-            />
-          </View>
+          <Circle
+            key={Math.random()}
+            cx={cx}
+            cy={cy}
+            r="4"
+            fill={this.getColor(dataset, 0.9)}
+            onPress={onPress}
+          />,
+          <Circle
+            key={Math.random()}
+            cx={cx}
+            cy={cy}
+            r="12"
+            fill="#fff"
+            fillOpacity={0}
+            onPress={onPress}
+          />
         )
       })
     })
