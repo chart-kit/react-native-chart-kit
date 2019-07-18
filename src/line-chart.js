@@ -222,6 +222,8 @@ class LineChart extends AbstractChart {
       withDots = true,
       withInnerLines = true,
       withOuterLines = true,
+      withHorizontalLabels = true,
+      withVerticalLabels = true,
       style = {},
       decorator,
       onDataPointClick
@@ -265,13 +267,15 @@ class LineChart extends AbstractChart {
                 : null}
             </G>
             <G>
-              {this.renderHorizontalLabels({
+              {withHorizontalLabels
+                ? this.renderHorizontalLabels({
                 ...config,
                 count: Math.min(...datas) === Math.max(...datas) ? 1 : 4,
                 data: datas,
                 paddingTop,
                 paddingRight
-              })}
+              })
+              : null}
             </G>
             <G>
               {withInnerLines
@@ -290,12 +294,14 @@ class LineChart extends AbstractChart {
                 : null}
             </G>
             <G>
-              {this.renderVerticalLabels({
+              {withVerticalLabels
+                ? this.renderVerticalLabels({
                 ...config,
                 labels,
                 paddingRight,
                 paddingTop
-              })}
+              })
+              : null}
             </G>
             <G>
               {this.renderLine({

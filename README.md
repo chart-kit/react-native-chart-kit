@@ -122,6 +122,8 @@ const data = {
 | withShadow | boolean | Show shadow for line - default: True |
 | withInnerLines | boolean | Show inner dashed lines - default: True |
 | withOuterLines | boolean | Show outer dashed lines - default: True |
+| withVerticalLabels | boolean | Show vertical labels - default: True |
+| withHorizontalLabels | boolean | Show horizontal labels - default: True |
 | fromZero | boolean | Render charts from 0 not from the minimum value. - default: False |
 | yAxisLabel | string | Prepend text to horizontal labels -- default: '' |
 | chartConfig | Object | Configuration object for the chart, see example config object above |
@@ -198,6 +200,8 @@ const data = {
 | data | Object | Data for the chart - see example above |
 | width | Number | Width of the chart, use 'Dimensions' library to get the width of your screen for responsive |
 | height | Number | Height of the chart |
+| withVerticalLabels | boolean | Show vertical labels - default: True |
+| withHorizontalLabels | boolean | Show horizontal labels - default: True |
 | fromZero | boolean | Render charts from 0 not from the minimum value. - default: False |
 | yAxisLabel | string | Prepend text to horizontal labels -- default: '' |
 | chartConfig | Object | Configuration object for the chart, see example config in the beginning of this file |
@@ -232,6 +236,8 @@ const data ={
 | data | Object | Data for the chart - see example above |
 | width | Number | Width of the chart, use 'Dimensions' library to get the width of your screen for responsive |
 | height | Number | Height of the chart |
+| withVerticalLabels | boolean | Show vertical labels - default: True |
+| withHorizontalLabels | boolean | Show horizontal labels - default: True |
 | chartConfig | Object | Configuration object for the chart, see example config in the beginning of this file |
 
 ## Pie chart

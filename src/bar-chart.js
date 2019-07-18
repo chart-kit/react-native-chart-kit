@@ -57,7 +57,14 @@ class BarChart extends AbstractChart {
   render() {
     const paddingTop = 16
     const paddingRight = 64
-    const {width, height, data, style = {}} = this.props
+    const { 
+      width,
+      height,
+      data,
+      style = {},
+      withHorizontalLabels = true,
+      withVerticalLabels = true,
+    } = this.props
     const {borderRadius = 0} = style
     const config = {
       width,
@@ -85,22 +92,26 @@ class BarChart extends AbstractChart {
             })}
           </G>
           <G>
-            {this.renderHorizontalLabels({
+            {withHorizontalLabels
+              ? this.renderHorizontalLabels({
               ...config,
               count: 4,
               data: data.datasets[0].data,
               paddingTop,
               paddingRight
-            })}
+            })
+            : null}
           </G>
           <G>
-            {this.renderVerticalLabels({
+            {withVerticalLabels
+              ? this.renderVerticalLabels({
               ...config,
               labels: data.labels,
               paddingRight,
               paddingTop,
               horizontalOffset: barWidth
-            })}
+            })
+            : null}
           </G>
           <G>
             {this.renderBars({
