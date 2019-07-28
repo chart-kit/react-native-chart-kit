@@ -7,11 +7,17 @@ const Pie = require('paths-js/pie')
 
 class ProgressChart extends AbstractChart {
   render() {
-    const {width, height, style = {}} = this.props
+    let {width, height, style = {}, data} = this.props
     const {borderRadius = 0} = style
 
-    const pies = this.props.data.map((pieData, i) => {
-      const r = ((height / 2 - 32) / this.props.data.length) * i + 32
+    if (Array.isArray(data)) {
+      data = {
+        data
+      }
+    }
+
+    const pies = data.data.map((pieData, i) => {
+      const r = ((height / 2 - 32) / data.data.length) * i + 32
       return Pie({
         r,
         R: r,
@@ -23,8 +29,8 @@ class ProgressChart extends AbstractChart {
       })
     })
 
-    const pieBackgrounds = this.props.data.map((pieData, i) => {
-      const r = ((height / 2 - 32) / this.props.data.length) * i + 32
+    const pieBackgrounds = data.data.map((pieData, i) => {
+      const r = ((height / 2 - 32) / data.data.length) * i + 32
       return Pie({
         r,
         R: r,
@@ -35,6 +41,8 @@ class ProgressChart extends AbstractChart {
         }
       })
     })
+
+    const withLabel = i => data.labels && data.labels[i]
 
     return (
       <View
@@ -100,7 +108,7 @@ class ProgressChart extends AbstractChart {
                     x={this.props.width / 2.5 - 24}
                     y={
                       -(this.props.height / 2.5) +
-                      ((this.props.height * 0.8) / this.props.data.length) * i +
+                      ((this.props.height * 0.8) / data.data.length) * i +
                       12
                     }
                   />
@@ -117,11 +125,13 @@ class ProgressChart extends AbstractChart {
                     x={this.props.width / 2.5}
                     y={
                       -(this.props.height / 2.5) +
-                      ((this.props.height * 0.8) / this.props.data.length) * i +
+                      ((this.props.height * 0.8) / data.data.length) * i +
                       12 * 2
                     }
                   >
-                    {Math.round(100 * this.props.data[i]) + '%'}
+                    {withLabel(i)
+                      ? `${data.labels[i]} ${Math.round(100 * data.data[i])}%`
+                      : `${Math.round(100 * data.data[i])}%`}
                   </Text>
                 )
               })}

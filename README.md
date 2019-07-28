@@ -154,7 +154,10 @@ const data = {
 
 ```js
 // each value represents a goal ring in Progress chart
-const data = [0.4, 0.6, 0.8]
+const data = {
+    labels: ['Swim', 'Bike', 'Run'], // optional
+    data: [0.4, 0.6, 0.8]
+}
 ```
 
 ```html
