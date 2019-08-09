@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "lodash": "^4.17.11",
-    "paths-js": "^0.4.7",
+    "paths-js": "^0.4.10",
     "point-in-polygon": "^1.0.1"
   },
   "xo": {
