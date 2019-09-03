@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.3.0
+- added `index` to `onDataPointClick`
+
 ## 3.2.0
 - added optional labels for ProgressChart
 
