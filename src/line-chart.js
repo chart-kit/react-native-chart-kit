@@ -43,7 +43,7 @@ class LineChart extends AbstractChart {
           onDataPointClick({
             index: i,
             value: x,
-            dataset,            
+            dataset,
             getColor: opacity => this.getColor(dataset, opacity)
           })
         }
