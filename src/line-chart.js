@@ -26,15 +26,13 @@ class LineChart extends AbstractChart {
     } = config
     const output = []
     const datas = this.getDatas(data)
+    const baseHeight = this.calcBaseHeight(datas, height)
     data.map((dataset, index) => {
       dataset.data.map((x, i) => {
         const cx =
           paddingRight + (i * (width - paddingRight)) / dataset.data.length
         const cy =
-          (height / 4) *
-            3 *
-            (1 - (x - Math.min(...datas)) / this.calcScaler(datas)) +
-          paddingTop
+          (baseHeight - this.calcHeight(x, datas, height)) / 4 * 3 + paddingTop
         const onPress = () => {
           if (!onDataPointClick) {
             return
