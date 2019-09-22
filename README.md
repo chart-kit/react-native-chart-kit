@@ -69,7 +69,9 @@ Define a chart style object with following properies as such:
 ```js
 const chartConfig = {
   backgroundGradientFrom: '#1E2923',
+  backgroundGradientFromOpacity: 0,
   backgroundGradientTo: '#08130D',
+  backgroundGradientToOpacity: 0.5,
   color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
   strokeWidth: 2 // optional, default 3
 }
@@ -78,7 +80,9 @@ const chartConfig = {
 | Property        | Type           | Description  |
 | ------------- |-------------| -----|
 | backgroundGradientFrom | string | Defines the first color in the linear gradient of a chart's background  |
+| backgroundGradientFromOpacity | Number | Defines the first color opacity in the linear gradient of a chart's background  |
 | backgroundGradientTo | string | Defines the second color in the linear gradient of a chart's background |
+| backgroundGradientToOpacity | Number | Defines the second color opacity in the linear gradient of a chart's background  |
 | color | function => string | Defines the base color function that is used to calculate colors of labels and sectors used in a chart |
 | strokeWidth | Number | Defines the base stroke width in a chart |
 
@@ -373,8 +377,12 @@ Render definitions of background and shadow gradients
   height: Number,
   // first color of background gradient
   backgroundGradientFrom: String,
+  // first color opacity of background gradient (0 - 1.0)
+  backgroundGradientFromOpacity: Number,
   // second color of background gradient
-  backgroundGradientTo: String
+  backgroundGradientTo: String,
+  // second color opacity of background gradient (0 - 1.0)
+  backgroundGradientToOpacity: Number,
 }
 ```
 

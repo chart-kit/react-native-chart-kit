@@ -189,6 +189,9 @@ class AbstractChart extends Component {
 
   renderDefs = config => {
     const {width, height, backgroundGradientFrom, backgroundGradientTo} = config
+    const fromOpacity = config.hasOwnProperty('backgroundGradientFromOpacity') ? config.backgroundGradientFromOpacity : 1.0;
+    const toOpacity = config.hasOwnProperty('backgroundGradientToOpacity') ? config.backgroundGradientToOpacity : 1.0;
+
     return (
       <Defs>
         <LinearGradient
@@ -198,8 +201,8 @@ class AbstractChart extends Component {
           x2={width}
           y2={0}
         >
-          <Stop offset="0" stopColor={backgroundGradientFrom} />
-          <Stop offset="1" stopColor={backgroundGradientTo} />
+          <Stop offset="0" stopColor={backgroundGradientFrom} stopOpacity={fromOpacity} />
+          <Stop offset="1" stopColor={backgroundGradientTo} stopOpacity={toOpacity} />
         </LinearGradient>
         <LinearGradient
           id="fillShadowGradient"
