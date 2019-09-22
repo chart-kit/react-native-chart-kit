@@ -1,5 +1,8 @@
 # Changelog
 
+## v3.4.0
+- added `chartConfig` `backgroundGradientFromOpacity` and `backgroundGradientToOpacity`
+
 ## 3.3.0
 - added `index` to `onDataPointClick`
 
