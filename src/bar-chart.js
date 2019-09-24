@@ -64,11 +64,15 @@ class BarChart extends AbstractChart {
       style = {},
       withHorizontalLabels = true,
       withVerticalLabels = true,
+      verticalLabelRotation = 0,
+      horizontalLabelRotation = 0
     } = this.props
     const {borderRadius = 0} = style
     const config = {
       width,
-      height
+      height,
+      verticalLabelRotation,
+      horizontalLabelRotation
     }
     return (
       <View style={style}>

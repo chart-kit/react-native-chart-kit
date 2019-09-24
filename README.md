@@ -202,6 +202,7 @@ const data = {
   height={220}
   yAxisLabel={'$'}
   chartConfig={chartConfig}
+  verticalLabelRotation={30}
 />
 ```
 
@@ -215,6 +216,9 @@ const data = {
 | fromZero | boolean | Render charts from 0 not from the minimum value. - default: False |
 | yAxisLabel | string | Prepend text to horizontal labels -- default: '' |
 | chartConfig | Object | Configuration object for the chart, see example config in the beginning of this file |
+|horizontalLabelRotation| number (degree) | Rotation angle of the horizontal labels - default 0|
+|verticalLabelRotation| number (degree) | Rotation angle of the vertical labels - default 0|
+
 
 ## StackedBar chart
 
