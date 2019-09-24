@@ -1,5 +1,8 @@
 # Changelog
 
+## v3.5.0
+- added `horizontalLabelRotation` and `verticalLabelRotation` props to `LineChart`
+
 ## v3.4.0
 - added `chartConfig` `backgroundGradientFromOpacity` and `backgroundGradientToOpacity`
 

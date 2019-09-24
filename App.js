@@ -97,7 +97,7 @@ export default class App extends React.Component {
 
   render() {
     const {width} = Dimensions.get('window')
-    const height = 220
+    const height = 256
     return (
       <ScrollableTabView renderTabBar={this.renderTabBar}>
         {chartConfigs.map(chartConfig => {
@@ -127,6 +127,7 @@ export default class App extends React.Component {
                 yAxisLabel="$"
                 chartConfig={chartConfig}
                 style={graphStyle}
+                verticalLabelRotation={30}
                 onDataPointClick={({value, getColor}) =>
                   showMessage({
                     message: `${value}`,

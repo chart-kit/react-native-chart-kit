@@ -225,13 +225,17 @@ class LineChart extends AbstractChart {
       withVerticalLabels = true,
       style = {},
       decorator,
-      onDataPointClick
+      onDataPointClick,
+      verticalLabelRotation = 0,
+      horizontalLabelRotation = 0
     } = this.props
     const {labels = []} = data
     const {borderRadius = 0} = style
     const config = {
       width,
-      height
+      height,
+      verticalLabelRotation,
+      horizontalLabelRotation
     }
     const datas = this.getDatas(data.datasets)
     return (
