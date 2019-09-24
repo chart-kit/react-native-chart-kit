@@ -20,6 +20,7 @@ export interface LineChartProps {
   onDataPointClick?: Function
   style?: object
   bezier?: boolean
+  dotColor?: (dataPoint: any, index: number) => string
 }
 
 export class LineChart extends React.Component<LineChartProps> {}

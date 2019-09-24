@@ -135,6 +135,7 @@ const data = {
 |onDataPointClick| Function | Callback that takes `{value, dataset, getColor}`|
 |horizontalLabelRotation| number (degree) | Rotation angle of the horizontal labels - default 0|
 |verticalLabelRotation| number (degree) | Rotation angle of the vertical labels - default 0|
+|dotColor| function => string | Defines the dot color function that is used to calculate colors of dots in a line chart and takes `(dataPoint, dataPointIndex)`
 
 ## Bezier Line Chart
 
