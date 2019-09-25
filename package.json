@@ -1,6 +1,6 @@
 {
   "name": "react-native-chart-kit",
-  "version": "3.6.0",
+  "version": "3.6.1",
   "devDependencies": {
     "babel-eslint": "^10.0.1",
     "babel-plugin-module-resolver": "^3.1.1",
