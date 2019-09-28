@@ -7,7 +7,12 @@ const Pie = require("paths-js/pie");
 
 class PieChart extends AbstractChart {
   render() {
-    const { style = {}, backgroundColor, absolute = false } = this.props;
+    const {
+      style = {},
+      backgroundColor,
+      absolute = false,
+      hasLegend = true
+    } = this.props;
     const { borderRadius = 0 } = style;
     const chart = Pie({
       center: this.props.center || [0, 0],
@@ -36,31 +41,35 @@ class PieChart extends AbstractChart {
       return (
         <G key={Math.random()}>
           <Path d={c.sector.path.print()} fill={c.item.color} />
-          <Rect
-            width="16px"
-            height="16px"
-            fill={c.item.color}
-            rx={8}
-            ry={8}
-            x={this.props.width / 2.5 - 24}
-            y={
-              -(this.props.height / 2.5) +
-              ((this.props.height * 0.8) / this.props.data.length) * i +
-              12
-            }
-          />
-          <Text
-            fill={c.item.legendFontColor}
-            fontSize={c.item.legendFontSize}
-            x={this.props.width / 2.5}
-            y={
-              -(this.props.height / 2.5) +
-              ((this.props.height * 0.8) / this.props.data.length) * i +
-              12 * 2
-            }
-          >
-            {`${value} ${c.item.name}`}
-          </Text>
+          {hasLegend ? (
+            <Rect
+              width="16px"
+              height="16px"
+              fill={c.item.color}
+              rx={8}
+              ry={8}
+              x={this.props.width / 2.5 - 24}
+              y={
+                -(this.props.height / 2.5) +
+                ((this.props.height * 0.8) / this.props.data.length) * i +
+                12
+              }
+            />
+          ) : null}
+          {hasLegend ? (
+            <Text
+              fill={c.item.legendFontColor}
+              fontSize={c.item.legendFontSize}
+              x={this.props.width / 2.5}
+              y={
+                -(this.props.height / 2.5) +
+                ((this.props.height * 0.8) / this.props.data.length) * i +
+                12 * 2
+              }
+            >
+              {`${value} ${c.item.name}`}
+            </Text>
+          ) : null}
         </G>
       );
     });
