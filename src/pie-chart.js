@@ -1,35 +1,35 @@
-import React from 'react'
-import {View} from 'react-native'
-import {Svg, Rect, Text, G, Path} from 'react-native-svg'
-import AbstractChart from './abstract-chart'
+import React from "react";
+import { View } from "react-native";
+import { Svg, Rect, Text, G, Path } from "react-native-svg";
+import AbstractChart from "./abstract-chart";
 
-const Pie = require('paths-js/pie')
+const Pie = require("paths-js/pie");
 
 class PieChart extends AbstractChart {
   render() {
-    const {style = {}, backgroundColor, absolute = false} = this.props
-    const {borderRadius = 0} = style
+    const { style = {}, backgroundColor, absolute = false } = this.props;
+    const { borderRadius = 0 } = style;
     const chart = Pie({
       center: this.props.center || [0, 0],
       r: 0,
       R: this.props.height / 2.5,
       data: this.props.data,
       accessor: x => {
-        return x[this.props.accessor]
+        return x[this.props.accessor];
       }
-    })
+    });
     const total = this.props.data.reduce((sum, item) => {
-      return sum + item[this.props.accessor]
-    }, 0)
+      return sum + item[this.props.accessor];
+    }, 0);
     const slices = chart.curves.map((c, i) => {
-      let value
+      let value;
       if (absolute) {
-        value = c.item[this.props.accessor]
+        value = c.item[this.props.accessor];
       } else {
-        if (total === 0){
-          value = 0 + '%';
-        }else{
-          value = Math.round((100 / total) * c.item[this.props.accessor]) + '%';
+        if (total === 0) {
+          value = 0 + "%";
+        } else {
+          value = Math.round((100 / total) * c.item[this.props.accessor]) + "%";
         }
       }
 
@@ -62,8 +62,8 @@ class PieChart extends AbstractChart {
             {`${value} ${c.item.name}`}
           </Text>
         </G>
-      )
-    })
+      );
+    });
     return (
       <View
         style={{
@@ -99,8 +99,8 @@ class PieChart extends AbstractChart {
           </G>
         </Svg>
       </View>
-    )
+    );
   }
 }
 
-export default PieChart
+export default PieChart;

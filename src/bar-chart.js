@@ -1,22 +1,22 @@
-import React from 'react'
-import {View} from 'react-native'
-import {Svg, Rect, G} from 'react-native-svg'
-import AbstractChart from './abstract-chart'
+import React from "react";
+import { View } from "react-native";
+import { Svg, Rect, G } from "react-native-svg";
+import AbstractChart from "./abstract-chart";
 
-const barWidth = 32
+const barWidth = 32;
 
 class BarChart extends AbstractChart {
   getBarPercentage = () => {
-    const {barPercentage = 1} = this.props.chartConfig
-    return barPercentage
-  }
+    const { barPercentage = 1 } = this.props.chartConfig;
+    return barPercentage;
+  };
 
   renderBars = config => {
-    const {data, width, height, paddingTop, paddingRight} = config
-    const baseHeight = this.calcBaseHeight(data, height)
+    const { data, width, height, paddingTop, paddingRight } = config;
+    const baseHeight = this.calcBaseHeight(data, height);
     return data.map((x, i) => {
-      const barHeight = this.calcHeight(x, data, height)
-      const barWidth = 32 * this.getBarPercentage()
+      const barHeight = this.calcHeight(x, data, height);
+      const barWidth = 32 * this.getBarPercentage();
       return (
         <Rect
           key={Math.random()}
@@ -33,16 +33,16 @@ class BarChart extends AbstractChart {
           height={(Math.abs(barHeight) / 4) * 3}
           fill="url(#fillShadowGradient)"
         />
-      )
-    })
-  }
+      );
+    });
+  };
 
   renderBarTops = config => {
-    const {data, width, height, paddingTop, paddingRight} = config
-    const baseHeight = this.calcBaseHeight(data, height)
+    const { data, width, height, paddingTop, paddingRight } = config;
+    const baseHeight = this.calcBaseHeight(data, height);
     return data.map((x, i) => {
-      const barHeight = this.calcHeight(x, data, height)
-      const barWidth = 32 * this.getBarPercentage()
+      const barHeight = this.calcHeight(x, data, height);
+      const barWidth = 32 * this.getBarPercentage();
       return (
         <Rect
           key={Math.random()}
@@ -56,14 +56,14 @@ class BarChart extends AbstractChart {
           height={2}
           fill={this.props.chartConfig.color(0.6)}
         />
-      )
-    })
-  }
+      );
+    });
+  };
 
   render() {
-    const paddingTop = 16
-    const paddingRight = 64
-    const { 
+    const paddingTop = 16;
+    const paddingRight = 64;
+    const {
       width,
       height,
       data,
@@ -72,14 +72,14 @@ class BarChart extends AbstractChart {
       withVerticalLabels = true,
       verticalLabelRotation = 0,
       horizontalLabelRotation = 0
-    } = this.props
-    const {borderRadius = 0} = style
+    } = this.props;
+    const { borderRadius = 0 } = style;
     const config = {
       width,
       height,
       verticalLabelRotation,
       horizontalLabelRotation
-    }
+    };
     return (
       <View style={style}>
         <Svg height={height} width={width}>
@@ -104,24 +104,24 @@ class BarChart extends AbstractChart {
           <G>
             {withHorizontalLabels
               ? this.renderHorizontalLabels({
-              ...config,
-              count: 4,
-              data: data.datasets[0].data,
-              paddingTop,
-              paddingRight
-            })
-            : null}
+                  ...config,
+                  count: 4,
+                  data: data.datasets[0].data,
+                  paddingTop,
+                  paddingRight
+                })
+              : null}
           </G>
           <G>
             {withVerticalLabels
               ? this.renderVerticalLabels({
-              ...config,
-              labels: data.labels,
-              paddingRight,
-              paddingTop,
-              horizontalOffset: barWidth * this.getBarPercentage()
-            })
-            : null}
+                  ...config,
+                  labels: data.labels,
+                  paddingRight,
+                  paddingTop,
+                  horizontalOffset: barWidth * this.getBarPercentage()
+                })
+              : null}
           </G>
           <G>
             {this.renderBars({
@@ -141,8 +141,8 @@ class BarChart extends AbstractChart {
           </G>
         </Svg>
       </View>
-    )
+    );
   }
 }
 
-export default BarChart
+export default BarChart;

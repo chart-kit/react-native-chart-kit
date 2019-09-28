@@ -1,48 +1,48 @@
-import React from 'react'
-import {View} from 'react-native'
-import {Svg, Text, G, Rect, Path} from 'react-native-svg'
-import AbstractChart from './abstract-chart'
+import React from "react";
+import { View } from "react-native";
+import { Svg, Text, G, Rect, Path } from "react-native-svg";
+import AbstractChart from "./abstract-chart";
 
-const Pie = require('paths-js/pie')
+const Pie = require("paths-js/pie");
 
 class ProgressChart extends AbstractChart {
   render() {
-    let {width, height, style = {}, data} = this.props
-    const {borderRadius = 0} = style
+    let { width, height, style = {}, data } = this.props;
+    const { borderRadius = 0 } = style;
 
     if (Array.isArray(data)) {
       data = {
         data
-      }
+      };
     }
 
     const pies = data.data.map((pieData, i) => {
-      const r = ((height / 2 - 32) / data.data.length) * i + 32
+      const r = ((height / 2 - 32) / data.data.length) * i + 32;
       return Pie({
         r,
         R: r,
         center: [0, 0],
         data: [pieData, 1 - pieData],
         accessor(x) {
-          return x
+          return x;
         }
-      })
-    })
+      });
+    });
 
     const pieBackgrounds = data.data.map((pieData, i) => {
-      const r = ((height / 2 - 32) / data.data.length) * i + 32
+      const r = ((height / 2 - 32) / data.data.length) * i + 32;
       return Pie({
         r,
         R: r,
         center: [0, 0],
         data: [0.999, 0.001],
         accessor(x) {
-          return x
+          return x;
         }
-      })
-    })
+      });
+    });
 
-    const withLabel = i => data.labels && data.labels[i]
+    const withLabel = i => data.labels && data.labels[i];
 
     return (
       <View
@@ -76,7 +76,7 @@ class ProgressChart extends AbstractChart {
                     strokeWidth={16}
                     stroke={this.props.chartConfig.color(0.2)}
                   />
-                )
+                );
               })}
             </G>
             <G>
@@ -92,7 +92,7 @@ class ProgressChart extends AbstractChart {
                       (i / pies.length) * 0.5 + 0.5
                     )}
                   />
-                )
+                );
               })}
             </G>
             <G>
@@ -112,7 +112,7 @@ class ProgressChart extends AbstractChart {
                       12
                     }
                   />
-                )
+                );
               })}
             </G>
             <G>
@@ -133,14 +133,14 @@ class ProgressChart extends AbstractChart {
                       ? `${data.labels[i]} ${Math.round(100 * data.data[i])}%`
                       : `${Math.round(100 * data.data[i])}%`}
                   </Text>
-                )
+                );
               })}
             </G>
           </G>
         </Svg>
       </View>
-    )
+    );
   }
 }
 
-export default ProgressChart
+export default ProgressChart;
