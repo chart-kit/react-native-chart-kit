@@ -296,6 +296,7 @@ const data = [
 | bgColor | string | background color - if you want to set transparent, input `transparent` or `none`. |
 | paddingLeft | string | left padding of the pie chart |
 | absolute | boolean | shows the values as absolute numbers |
+| hasLegend | boolean | Defaults to `true`, set it to `false` to remove the legend|
 
 ## Contribution graph (heatmap)
 
