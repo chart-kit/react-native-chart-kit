@@ -36,8 +36,8 @@ class LineChart extends AbstractChart {
     const datas = this.getDatas(data);
     const baseHeight = this.calcBaseHeight(datas, height);
     const getDotColor = this.props.getDotColor || null;
-    data.map((dataset, index) => {
-      dataset.data.map((x, i) => {
+    data.forEach(dataset => {
+      dataset.data.forEach((x, i) => {
         const cx =
           paddingRight + (i * (width - paddingRight)) / dataset.data.length;
         const cy =
@@ -90,11 +90,10 @@ class LineChart extends AbstractChart {
     }
 
     const { data, width, height, paddingRight, paddingTop } = config;
-    const output = [];
     const datas = this.getDatas(data);
     const baseHeight = this.calcBaseHeight(datas, height);
-    config.data.map((dataset, index) => {
-      output.push(
+    return config.data.map((dataset, index) => {
+      return (
         <Polygon
           key={index}
           points={
@@ -119,7 +118,6 @@ class LineChart extends AbstractChart {
         />
       );
     });
-    return output;
   };
 
   renderLine = config => {
@@ -189,10 +187,9 @@ class LineChart extends AbstractChart {
   };
 
   renderBezierLine = config => {
-    const output = [];
-    config.data.map((dataset, index) => {
+    return config.data.map((dataset, index) => {
       const result = this.getBezierLinePoints(dataset, config);
-      output.push(
+      return (
         <Path
           key={index}
           d={result}
@@ -202,20 +199,18 @@ class LineChart extends AbstractChart {
         />
       );
     });
-    return output;
   };
 
   renderBezierShadow = config => {
     const { width, height, paddingRight, paddingTop, data } = config;
-    const output = [];
-    data.map((dataset, index) => {
+    return data.map((dataset, index) => {
       const d =
         this.getBezierLinePoints(dataset, config) +
         ` L${paddingRight +
           ((width - paddingRight) / dataset.data.length) *
             (dataset.data.length - 1)},${(height / 4) * 3 +
           paddingTop} L${paddingRight},${(height / 4) * 3 + paddingTop} Z`;
-      output.push(
+      return (
         <Path
           key={index}
           d={d}
@@ -224,7 +219,6 @@ class LineChart extends AbstractChart {
         />
       );
     });
-    return output;
   };
 
   render() {
