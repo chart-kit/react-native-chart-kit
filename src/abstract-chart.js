@@ -39,6 +39,16 @@ class AbstractChart extends Component {
     }
   };
 
+  getPropsForBackgroundLines() {
+    const { propsForBackgroundLines = {} } = this.props.chartConfig;
+    return {
+      stroke: this.props.chartConfig.color(0.2),
+      strokeDasharray: "5, 10",
+      strokeWidth: 1,
+      ...propsForBackgroundLines
+    };
+  }
+
   renderHorizontalLines = config => {
     const { count, width, height, paddingTop, paddingRight } = config;
     return [...new Array(count)].map((_, i) => {
@@ -49,9 +59,7 @@ class AbstractChart extends Component {
           y1={(height / 4) * i + paddingTop}
           x2={width}
           y2={(height / 4) * i + paddingTop}
-          stroke={this.props.chartConfig.color(0.2)}
-          strokeDasharray="5, 10"
-          strokeWidth={1}
+          {...this.getPropsForBackgroundLines()}
         />
       );
     });
@@ -66,9 +74,7 @@ class AbstractChart extends Component {
         y1={height - height / 4 + paddingTop}
         x2={width}
         y2={height - height / 4 + paddingTop}
-        stroke={this.props.chartConfig.color(0.2)}
-        strokeDasharray="5, 10"
-        strokeWidth={1}
+        {...this.getPropsForBackgroundLines()}
       />
     );
   };
@@ -175,9 +181,7 @@ class AbstractChart extends Component {
             ((width - paddingRight) / data.length) * i + paddingRight
           )}
           y2={height - height / 4 + paddingTop}
-          stroke={this.props.chartConfig.color(0.2)}
-          strokeDasharray="5, 10"
-          strokeWidth={1}
+          {...this.getPropsForBackgroundLines()}
         />
       );
     });
@@ -192,9 +196,7 @@ class AbstractChart extends Component {
         y1={0}
         x2={Math.floor(paddingRight)}
         y2={height - height / 4 + paddingTop}
-        stroke={this.props.chartConfig.color(0.2)}
-        strokeDasharray="5, 10"
-        strokeWidth={1}
+        {...this.getPropsForBackgroundLines()}
       />
     );
   };

@@ -35,6 +35,9 @@ const chartConfigs = [
     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
     style: {
       borderRadius: 16
+    },
+    propsForBackgroundLines: {
+      strokeDasharray: "" // solid background lines with no dashes
     }
   },
   {
