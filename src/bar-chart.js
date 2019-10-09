@@ -61,8 +61,6 @@ class BarChart extends AbstractChart {
   };
 
   render() {
-    const paddingTop = 16;
-    const paddingRight = 64;
     const {
       width,
       height,
@@ -73,7 +71,7 @@ class BarChart extends AbstractChart {
       verticalLabelRotation = 0,
       horizontalLabelRotation = 0
     } = this.props;
-    const { borderRadius = 0 } = style;
+    const { borderRadius = 0, paddingTop = 16, paddingRight = 64 } = style;
     const config = {
       width,
       height,
