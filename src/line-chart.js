@@ -52,6 +52,8 @@ class LineChart extends AbstractChart {
             index: i,
             value: x,
             dataset,
+            x: cx,
+            y: cy,
             getColor: opacity => this.getColor(dataset, opacity)
           });
         };
