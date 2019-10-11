@@ -1,5 +1,10 @@
 # Changelog
 
+## v3.8.0
+
+- added dot cx, cy in the onDataPointClick functions arguments
+- fixed for horizontal label position when there is only one data point and fromZero prop is true
+
 ## v3.7.0
 
 - expose paddingTop and paddingRight via the style prop
