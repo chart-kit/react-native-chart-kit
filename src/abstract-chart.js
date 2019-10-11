@@ -108,7 +108,10 @@ class AbstractChart extends Component {
       }
 
       const x = paddingRight - yLabelsOffset;
-      const y = (height * 3) / 4 - ((height - paddingTop) / count) * i + 12;
+      const y =
+        count === 1 && this.props.fromZero
+          ? paddingTop + 4
+          : (height * 3) / 4 - ((height - paddingTop) / count) * i + 12;
       return (
         <Text
           rotation={horizontalLabelRotation}
