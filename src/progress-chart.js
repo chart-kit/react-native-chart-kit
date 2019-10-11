@@ -120,14 +120,13 @@ class ProgressChart extends AbstractChart {
                 return (
                   <Text
                     key={Math.random()}
-                    fill={this.props.chartConfig.color(0.5)}
-                    fontSize="11"
                     x={this.props.width / 2.5}
                     y={
                       -(this.props.height / 2.5) +
                       ((this.props.height * 0.8) / data.data.length) * i +
                       12 * 2
                     }
+                    {...this.getPropsForLabels()}
                   >
                     {withLabel(i)
                       ? `${data.labels[i]} ${Math.round(100 * data.data[i])}%`

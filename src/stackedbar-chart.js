@@ -45,8 +45,7 @@ class StackedBarChart extends AbstractChart {
             x={xC + 7 + barWidth / 2}
             textAnchor="end"
             y={h > 15 ? y + 15 : y + 7}
-            fontSize={12}
-            fill="#fff"
+            {...this.getPropsForLabels()}
           >
             {x[z]}
           </Text>
@@ -74,10 +73,9 @@ class StackedBarChart extends AbstractChart {
             y={height * 0.7 - i * 50}
           />
           <Text
-            fill="#fff"
-            fontSize={16}
             x={width * 0.78}
             y={height * 0.76 - i * 50}
+            {...this.getPropsForLabels()}
           >
             {x}
           </Text>

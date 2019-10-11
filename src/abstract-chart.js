@@ -49,6 +49,19 @@ class AbstractChart extends Component {
     };
   }
 
+  getPropsForLabels() {
+    const {
+      propsForLabels = {},
+      color,
+      labelColor = color
+    } = this.props.chartConfig;
+    return {
+      fontSize: 12,
+      fill: labelColor(0.8),
+      ...propsForLabels
+    };
+  }
+
   renderHorizontalLines = config => {
     const { count, width, height, paddingTop, paddingRight } = config;
     return [...new Array(count)].map((_, i) => {
@@ -120,8 +133,7 @@ class AbstractChart extends Component {
           x={x}
           textAnchor="end"
           y={y}
-          fontSize={12}
-          fill={this.props.chartConfig.color(0.5)}
+          {...this.getPropsForLabels()}
         >
           {yLabel}
         </Text>
@@ -160,9 +172,8 @@ class AbstractChart extends Component {
           key={Math.random()}
           x={x}
           y={y}
-          fontSize={fontSize}
-          fill={this.props.chartConfig.color(0.5)}
           textAnchor={verticalLabelRotation === 0 ? "middle" : "start"}
+          {...this.getPropsForLabels()}
         >
           {label}
         </Text>
