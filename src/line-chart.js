@@ -23,6 +23,10 @@ class LineChart extends AbstractChart {
   getDatas = data =>
     data.reduce((acc, item) => (item.data ? [...acc, ...item.data] : acc), []);
 
+  getPropsForDots = () => {
+    const { propsForDots = {} } = this.props.chartConfig;
+    return { r: "4", ...propsForDots };
+  };
   renderDots = config => {
     const {
       data,
@@ -63,13 +67,13 @@ class LineChart extends AbstractChart {
             key={Math.random()}
             cx={cx}
             cy={cy}
-            r="4"
             fill={
               typeof getDotColor === "function"
                 ? getDotColor(x, i)
                 : this.getColor(dataset, 0.9)
             }
             onPress={onPress}
+            {...this.getPropsForDots()}
           />,
           <Circle
             key={Math.random()}
