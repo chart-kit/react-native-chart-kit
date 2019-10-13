@@ -15,7 +15,7 @@ export interface LineChartProps {
   withOuterLines?: boolean;
   fromZero?: boolean;
   yAxisLabel?: string;
-  chartConfig: object;
+  chartConfig: ChartConfig;
   decorator?: Function;
   onDataPointClick?: Function;
   style?: object;
@@ -32,7 +32,7 @@ export interface ProgressChartProps {
   data: Array<number>;
   width: number;
   height: number;
-  chartConfig: object;
+  chartConfig: ChartConfig;
 }
 
 export class ProgressChart extends React.Component<ProgressChartProps> {}
@@ -44,7 +44,7 @@ export interface BarChartProps {
   height: number;
   fromZero?: boolean;
   yAxisLabel: string;
-  chartConfig: object;
+  chartConfig: ChartConfig;
   style?: object;
   horizontalLabelRotation?: number;
   verticalLabelRotation?: number;
@@ -57,7 +57,7 @@ export interface StackedBarChartProps {
   data: object;
   width: number;
   height: number;
-  chartConfig: object;
+  chartConfig: ChartConfig;
   style?: object;
 }
 
@@ -68,7 +68,7 @@ export interface PieChartProps {
   data: Array<any>;
   width: number;
   height: number;
-  chartConfig: object;
+  chartConfig: ChartConfig;
   accessor: string;
   backgroundColor: string;
   paddingLeft: string;
@@ -86,7 +86,7 @@ export interface ContributionGraphProps {
   numDays: number;
   width: number;
   height: number;
-  chartConfig: object;
+  chartConfig: ChartConfig;
   accessor?: string;
 }
 
@@ -96,3 +96,46 @@ export class ContributionGraph extends React.Component<
 
 // AbstractChart
 export class AbstractChart extends React.Component {}
+
+// ChartConfig
+export interface ChartConfig {
+  backgroundColor?: string;
+  /**
+   * Defines the first color in the linear gradient of a chart's background
+   */
+  backgroundGradientFrom?: string;
+  /**
+   * Defines the first color opacity in the linear gradient of a chart's background
+   */
+  backgroundGradientFromOpacity?: number;
+  /**
+   * Defines the second color in the linear gradient of a chart's background
+   */
+  backgroundGradientTo?: string;
+  /**
+   * Defines the second color opacity in the linear gradient of a chart's background
+   */
+  backgroundGradientToOpacity?: number;
+  /**
+   * Defines the base color function that is used to calculate colors of labels and sectors used in a chart
+   */
+  color: (opacity: number) => string;
+  /**
+   * Defines the base stroke width in a chart
+   */
+  strokeWidth?: number;
+  /**
+   * Defines the percent (0-1) of the available width each bar width in a chart
+   */
+  barPercentage?: number;
+  /**
+   * Override styles of the background lines, refer to react-native-svg's Line documentation
+   */
+  propsForBackgroundLines?: object;
+  /**
+   * Override styles of the labels, refer to react-native-svg's Text documentation
+   */
+  propsForLabels?: object;
+  decimalPlaces?: number;
+  style?: object;
+}
