@@ -1,5 +1,10 @@
 # Changelog
 
+## v3.10.0
+
+- added type for chart config
+- added props config for Dots in the line chart
+
 ## v3.9.0
 
 - added propsForLabels to chartConfig
