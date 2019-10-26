@@ -2,7 +2,8 @@
 
 ## v3.11.0
 
-- added optional props: `xAxisLabel`, `yLabelsOffset`, `xLabelsOffset`, and `hidePointsAtIndex` to `LineChart`
+- added optional props: `xAxisLabel`, `yAxisSuffix`, `yLabelsOffset`, `xLabelsOffset`, and `hidePointsAtIndex` to `LineChart`
+- added optional prop `withInnerLines` to `BarChart`
 
 ## v3.10.0
 
