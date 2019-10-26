@@ -47,6 +47,7 @@ export interface BarChartProps {
   width: number;
   height: number;
   fromZero?: boolean;
+  withInnerLines?: boolean;
   yAxisLabel: string;
   chartConfig: ChartConfig;
   style?: object;

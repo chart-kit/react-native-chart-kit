@@ -231,6 +231,7 @@ yAxisLabel={'$'} chartConfig={chartConfig} verticalLabelRotation={30} />
 | withVerticalLabels      | boolean         | Show vertical labels - default: True                                                        |
 | withHorizontalLabels    | boolean         | Show horizontal labels - default: True                                                      |
 | fromZero                | boolean         | Render charts from 0 not from the minimum value. - default: False                           |
+| withInnerLines          | boolean         | Show inner dashed lines - default: True                                                     |
 | yAxisLabel              | string          | Prepend text to horizontal labels -- default: ''                                            |
 | chartConfig             | Object          | Configuration object for the chart, see example config in the beginning of this file        |
 | horizontalLabelRotation | number (degree) | Rotation angle of the horizontal labels - default 0                                         |

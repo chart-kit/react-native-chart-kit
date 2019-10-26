@@ -69,7 +69,8 @@ class BarChart extends AbstractChart {
       withHorizontalLabels = true,
       withVerticalLabels = true,
       verticalLabelRotation = 0,
-      horizontalLabelRotation = 0
+      horizontalLabelRotation = 0,
+      withInnerLines = true
     } = this.props;
     const { borderRadius = 0, paddingTop = 16, paddingRight = 64 } = style;
     const config = {
@@ -93,11 +94,13 @@ class BarChart extends AbstractChart {
             fill="url(#backgroundGradient)"
           />
           <G>
-            {this.renderHorizontalLines({
-              ...config,
-              count: 4,
-              paddingTop
-            })}
+            {withInnerLines
+              ?  this.renderHorizontalLines({
+                  ...config,
+                  count: 4,
+                  paddingTop
+                })
+              : null}
           </G>
           <G>
             {withHorizontalLabels
