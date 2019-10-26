@@ -128,6 +128,7 @@ export default class App extends React.Component {
                 width={width}
                 height={height}
                 yAxisLabel="$"
+                yAxisSuffix="k"
                 chartConfig={chartConfig}
                 style={graphStyle}
                 verticalLabelRotation={30}
