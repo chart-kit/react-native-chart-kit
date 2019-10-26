@@ -231,6 +231,16 @@ class AbstractChart extends Component {
       ? config.backgroundGradientToOpacity
       : 1.0;
 
+    const fillShadowGradient = config.hasOwnProperty("fillShadowGradient")
+      ? config.fillShadowGradient
+      : this.props.chartConfig.color();
+
+    const fillShadowGradientOpacity = config.hasOwnProperty(
+      "fillShadowGradientOpacity"
+    )
+      ? config.fillShadowGradientOpacity
+      : 0.1;
+
     return (
       <Defs>
         <LinearGradient
@@ -260,14 +270,10 @@ class AbstractChart extends Component {
         >
           <Stop
             offset="0"
-            stopColor={this.props.chartConfig.color()}
-            stopOpacity="0.1"
+            stopColor={fillShadowGradient}
+            stopOpacity={fillShadowGradientOpacity}
           />
-          <Stop
-            offset="1"
-            stopColor={this.props.chartConfig.color()}
-            stopOpacity="0"
-          />
+          <Stop offset="1" stopColor={fillShadowGradient} stopOpacity="0" />
         </LinearGradient>
       </Defs>
     );

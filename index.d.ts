@@ -123,6 +123,8 @@ export interface ChartConfig {
    * Defines the second color opacity in the linear gradient of a chart's background
    */
   backgroundGradientToOpacity?: number;
+  fillShadowGradient?: string;
+  fillShadowGradientOpacity?: number;
   /**
    * Defines the base color function that is used to calculate colors of labels and sectors used in a chart
    */
