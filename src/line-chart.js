@@ -39,16 +39,19 @@ class LineChart extends AbstractChart {
     const output = [];
     const datas = this.getDatas(data);
     const baseHeight = this.calcBaseHeight(datas, height);
-    const getDotColor = this.props.getDotColor || null;
+    const { getDotColor, hidePointsAtIndex = [] } = this.props;
     data.forEach(dataset => {
       dataset.data.forEach((x, i) => {
+        if (hidePointsAtIndex.includes(i)) {
+          return;
+        }
         const cx =
           paddingRight + (i * (width - paddingRight)) / dataset.data.length;
         const cy =
           ((baseHeight - this.calcHeight(x, datas, height)) / 4) * 3 +
           paddingTop;
         const onPress = () => {
-          if (!onDataPointClick) {
+          if (!onDataPointClick || hidePointsAtIndex.includes(i)) {
             return;
           }
 
@@ -255,7 +258,10 @@ class LineChart extends AbstractChart {
     const datas = this.getDatas(data.datasets);
     return (
       <View style={style}>
-        <Svg height={height} width={width}>
+        <Svg
+          height={height}
+          width={width - width / data.datasets[0].data.length + paddingRight}
+        >
           <G>
             {this.renderDefs({
               ...config,

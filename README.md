@@ -77,14 +77,14 @@ Define a chart style object with following properies as such:
 
 ```js
 const chartConfig = {
-  backgroundGradientFrom: '#1E2923',
+  backgroundGradientFrom: "#1E2923",
   backgroundGradientFromOpacity: 0,
-  backgroundGradientTo: '#08130D',
+  backgroundGradientTo: "#08130D",
   backgroundGradientToOpacity: 0.5,
   color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
   strokeWidth: 2, // optional, default 3
-  barPercentage:0.5
-}
+  barPercentage: 0.5
+};
 ```
 
 | Property                      | Type               | Description                                                                                            |
@@ -145,12 +145,16 @@ const data = {
 | withHorizontalLabels    | boolean            | Show horizontal labels - default: True                                                                                                                                                                              |
 | fromZero                | boolean            | Render charts from 0 not from the minimum value. - default: False                                                                                                                                                   |
 | yAxisLabel              | string             | Prepend text to horizontal labels -- default: ''                                                                                                                                                                    |
+| xAxisLabel              | string             | Prepend text to vertical labels -- default: ''                                                                                                                                                                      |
 | chartConfig             | Object             | Configuration object for the chart, see example config object above                                                                                                                                                 |
 | decorator               | Function           | This function takes a [whole bunch](https://github.com/indiespirit/react-native-chart-kit/blob/master/src/line-chart.js#L266) of stuff and can render extra elements, such as data point info or additional markup. |
 | onDataPointClick        | Function           | Callback that takes `{value, dataset, getColor}`                                                                                                                                                                    |
 | horizontalLabelRotation | number (degree)    | Rotation angle of the horizontal labels - default 0                                                                                                                                                                 |
 | verticalLabelRotation   | number (degree)    | Rotation angle of the vertical labels - default 0                                                                                                                                                                   |
 | getDotColor             | function => string | Defines the dot color function that is used to calculate colors of dots in a line chart and takes `(dataPoint, dataPointIndex)`                                                                                     |
+| yLabelsOffset           | number             | Offset for Y axis labels                                                                                                                                                                                            |
+| xLabelsOffset           | number             | Offset for X axis labels                                                                                                                                                                                            |
+| hidePointsAtIndex       | number[]           | Indices of the data points you don't want to display                                                                                                                                                                |
 
 ## Bezier Line Chart
 

@@ -195,6 +195,16 @@ export default class App extends React.Component {
                 chartConfig={chartConfig}
                 style={graphStyle}
               />
+              <Text style={labelStyle}>Line Chart</Text>
+              <LineChart
+                data={data}
+                width={width}
+                height={height}
+                yAxisLabel="$"
+                chartConfig={chartConfig}
+                style={graphStyle}
+                hidePointsAtIndex={[0, data.datasets[0].data.length - 1]}
+              />
             </ScrollView>
           );
         })}

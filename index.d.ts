@@ -15,6 +15,7 @@ export interface LineChartProps {
   withOuterLines?: boolean;
   fromZero?: boolean;
   yAxisLabel?: string;
+  xAxisLabel?: string;
   chartConfig: ChartConfig;
   decorator?: Function;
   onDataPointClick?: Function;
@@ -23,6 +24,9 @@ export interface LineChartProps {
   getDotColor?: (dataPoint: any, index: number) => string;
   horizontalLabelRotation?: number;
   verticalLabelRotation?: number;
+  yLabelsOffset?: number;
+  xLabelsOffset?: number;
+  hidePointsAtIndex?: number[];
 }
 
 export class LineChart extends React.Component<LineChartProps> {}

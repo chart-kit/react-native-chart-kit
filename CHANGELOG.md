@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.11.0
+
+- added optional props: `xAxisLabel`, `yLabelsOffset`, `xLabelsOffset`, and `hidePointsAtIndex` to `LineChart`
+
 ## v3.10.0
 
 - added type for chart config
