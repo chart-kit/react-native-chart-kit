@@ -9,7 +9,8 @@ If you're looking to **build a website or a cross-platform mobile app** – we w
 ## Import components
 
 1. `yarn add react-native-chart-kit`
-2. Use with ES6 syntax to import components
+2. `yarn add react-native-svg prop-types` install peer dependencies
+3. Use with ES6 syntax to import components
 
 ```js
 import {
