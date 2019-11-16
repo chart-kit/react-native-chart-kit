@@ -2,7 +2,7 @@
 
 ## v3.12.0
 
-- added `formatXLabel` and `formatYLabel` to `LineChart`
+- added `formatXLabel`, `formatYLabel`, and `getDotProps` to `LineChart`
 
 ## v3.11.0
 

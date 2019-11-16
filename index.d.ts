@@ -142,6 +142,10 @@ export interface LineChartProps {
    * Takes the X value as argument and should return the desirable string.
    */
   formatXLabel?: (xValue: string) => string;
+  /**
+   * Provide props for a data point dot.
+   */
+  getDotProps?: (dataPoint: any, index: number) => object;
 }
 
 export class LineChart extends React.Component<LineChartProps> {}
