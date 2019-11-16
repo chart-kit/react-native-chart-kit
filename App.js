@@ -131,7 +131,7 @@ export default class App extends React.Component {
                 yAxisSuffix="k"
                 chartConfig={chartConfig}
                 style={graphStyle}
-                verticalLabelRotation={30}
+                verticalLabelRotation={20}
                 onDataPointClick={({ value, getColor }) =>
                   showMessage({
                     message: `${value}`,
@@ -139,6 +139,7 @@ export default class App extends React.Component {
                     backgroundColor: getColor(0.9)
                   })
                 }
+                formatXLabel={label => label.toUpperCase()}
               />
               <FlashMessage duration={1000} />
               <Text style={labelStyle}>Progress Chart</Text>

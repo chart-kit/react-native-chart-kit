@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.12.0
+
+- added `formatXLabel` and `formatYLabel` to `LineChart`
+
 ## v3.11.0
 
 - added optional props: `xAxisLabel`, `yAxisSuffix`, `yLabelsOffset`, `xLabelsOffset`, and `hidePointsAtIndex` to `LineChart`
