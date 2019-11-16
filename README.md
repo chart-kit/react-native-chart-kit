@@ -118,13 +118,15 @@ const screenWidth = Dimensions.get("window").width;
 
 ```js
 const data = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-  datasets: [{
-    data: [ 20, 45, 28, 80, 99, 43 ],
-    color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
-    strokeWidth: 2 // optional
-  }]
-}
+  labels: ["January", "February", "March", "April", "May", "June"],
+  datasets: [
+    {
+      data: [20, 45, 28, 80, 99, 43],
+      color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
+      strokeWidth: 2 // optional
+    }
+  ]
+};
 ```
 
 ```html
@@ -160,6 +162,8 @@ const data = {
 | yLabelsOffset           | number             | Offset for Y axis labels                                                                                                                                                                                            |
 | xLabelsOffset           | number             | Offset for X axis labels                                                                                                                                                                                            |
 | hidePointsAtIndex       | number[]           | Indices of the data points you don't want to display                                                                                                                                                                |
+| formatYLabel            | Function           | This function change the format of the display value of the Y label. Takes the Y value as argument and should return the desirable string.                                                                          |
+| formatXLabel            | Function           | This function change the format of the display value of the X label. Takes the X value as argument and should return the desirable string.                                                                          |
 
 ## Bezier Line Chart
 
