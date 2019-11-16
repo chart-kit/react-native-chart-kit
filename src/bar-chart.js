@@ -95,7 +95,7 @@ class BarChart extends AbstractChart {
           />
           <G>
             {withInnerLines
-              ?  this.renderHorizontalLines({
+              ? this.renderHorizontalLines({
                   ...config,
                   count: 4,
                   paddingTop
