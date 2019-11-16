@@ -23,8 +23,12 @@ class LineChart extends AbstractChart {
   getDatas = data =>
     data.reduce((acc, item) => (item.data ? [...acc, ...item.data] : acc), []);
 
-  getPropsForDots = () => {
-    const { propsForDots = {} } = this.props.chartConfig;
+  getPropsForDots = (x, i) => {
+    const { getDotProps, chartConfig = {} } = this.props;
+    if (typeof getDotProps === "function") {
+      return getDotProps(x, i);
+    }
+    const { propsForDots = {} } = chartConfig;
     return { r: "4", ...propsForDots };
   };
   renderDots = config => {
@@ -76,7 +80,7 @@ class LineChart extends AbstractChart {
                 : this.getColor(dataset, 0.9)
             }
             onPress={onPress}
-            {...this.getPropsForDots()}
+            {...this.getPropsForDots(x, i)}
           />,
           <Circle
             key={Math.random()}
