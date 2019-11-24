@@ -258,6 +258,8 @@ class LineChart extends AbstractChart {
       borderRadius = 0,
       paddingTop = 16,
       paddingRight = 64,
+      margin = 0,
+      marginRight = 0,
       paddingBottom = 0
     } = style;
     const config = {
@@ -271,7 +273,7 @@ class LineChart extends AbstractChart {
       <View style={style}>
         <Svg
           height={height + paddingBottom}
-          width={width - width / data.datasets[0].data.length + paddingRight}
+          width={width - margin * 2 - marginRight}
         >
           <G>
             {this.renderDefs({

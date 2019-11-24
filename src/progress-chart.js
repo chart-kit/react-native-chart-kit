@@ -7,8 +7,8 @@ const Pie = require("paths-js/pie");
 
 class ProgressChart extends AbstractChart {
   render() {
-    let { width, height, style = {}, data } = this.props;
-    const { borderRadius = 0 } = style;
+    const { width, height, style = {}, data } = this.props;
+    const { borderRadius = 0, margin = 0, marginRight = 0 } = style;
 
     if (Array.isArray(data)) {
       data = {
@@ -53,7 +53,7 @@ class ProgressChart extends AbstractChart {
           ...style
         }}
       >
-        <Svg width={width} height={height}>
+        <Svg width={width - margin * 2 - marginRight} height={height}>
           {this.renderDefs({
             width: this.props.height,
             height: this.props.height,
