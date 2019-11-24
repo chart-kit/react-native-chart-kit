@@ -151,8 +151,12 @@ export interface LineChartProps {
 export class LineChart extends React.Component<LineChartProps> {}
 
 // ProgressChart
+
+export type ProgressChartData =
+  | Array<number>
+  | { labels: Array<string>; data: Array<number> };
 export interface ProgressChartProps {
-  data: Array<number>;
+  data: ProgressChartData;
   width: number;
   height: number;
   chartConfig: ChartConfig;
