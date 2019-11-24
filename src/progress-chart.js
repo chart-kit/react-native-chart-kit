@@ -68,13 +68,13 @@ class ProgressChart extends AbstractChart {
           />
           <G x={this.props.width / 2.5} y={this.props.height / 2}>
             <G>
-              {pieBackgrounds.map(pie => {
+              {pieBackgrounds.map((pie, i) => {
                 return (
                   <Path
                     key={Math.random()}
                     d={pie.curves[0].sector.path.print()}
                     strokeWidth={16}
-                    stroke={this.props.chartConfig.color(0.2)}
+                    stroke={this.props.chartConfig.color(0.2, i)}
                   />
                 );
               })}
@@ -89,7 +89,8 @@ class ProgressChart extends AbstractChart {
                     d={pie.curves[0].sector.path.print()}
                     strokeWidth={16}
                     stroke={this.props.chartConfig.color(
-                      (i / pies.length) * 0.5 + 0.5
+                      (i / pies.length) * 0.5 + 0.5,
+                      i
                     )}
                   />
                 );
@@ -102,7 +103,7 @@ class ProgressChart extends AbstractChart {
                     key={Math.random()}
                     width="16px"
                     height="16px"
-                    fill={this.props.chartConfig.color(0.2 * (i + 1))}
+                    fill={this.props.chartConfig.color(0.2 * (i + 1), i)}
                     rx={8}
                     ry={8}
                     x={this.props.width / 2.5 - 24}
