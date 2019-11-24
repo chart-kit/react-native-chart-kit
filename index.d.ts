@@ -250,7 +250,7 @@ export interface ChartConfig {
   /**
    * Defines the base color function that is used to calculate colors of labels and sectors used in a chart
    */
-  color: (opacity: number) => string;
+  color: (opacity: number, index?: number) => string;
   /**
    * Defines the base stroke width in a chart
    */
