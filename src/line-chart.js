@@ -254,7 +254,12 @@ class LineChart extends AbstractChart {
       formatXLabel = xLabel => xLabel
     } = this.props;
     const { labels = [] } = data;
-    const { borderRadius = 0, paddingTop = 16, paddingRight = 64 } = style;
+    const {
+      borderRadius = 0,
+      paddingTop = 16,
+      paddingRight = 64,
+      paddingBottom = 0
+    } = style;
     const config = {
       width,
       height,
@@ -265,7 +270,7 @@ class LineChart extends AbstractChart {
     return (
       <View style={style}>
         <Svg
-          height={height}
+          height={height + paddingBottom}
           width={width - width / data.datasets[0].data.length + paddingRight}
         >
           <G>
