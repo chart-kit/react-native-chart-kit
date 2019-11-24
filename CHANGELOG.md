@@ -1,5 +1,10 @@
 # Changelog
 
+## v3.13.0
+
+- patch dependencies
+- improve ProgressChartProps types
+
 ## v3.12.0
 
 - added `formatXLabel`, `formatYLabel`, and `getDotProps` to `LineChart`
