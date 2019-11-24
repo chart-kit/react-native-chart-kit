@@ -1,11 +1,12 @@
 # Changelog
 
-## v3.13.0
+## v4.0.0
 
-- patched dependencies
+- patched a lot of indirect dependencies
 - improved ProgressChartProps types
-- added item index to color call
+- added item index to some color calls
 - added an optional bottom padding to LineChart
+- POTENTIALLY BREAKING for typescript: added some typedefs to "LineChart", "BarChart", and "StackedBarChart". Also added some typedefs for styles.
 
 ## v3.12.0
 
