@@ -2,8 +2,10 @@
 
 ## v3.13.0
 
-- patch dependencies
-- improve ProgressChartProps types
+- patched dependencies
+- improved ProgressChartProps types
+- added item index to color call
+- added an optional bottom padding to LineChart
 
 ## v3.12.0
 
