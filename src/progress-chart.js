@@ -7,7 +7,7 @@ const Pie = require("paths-js/pie");
 
 class ProgressChart extends AbstractChart {
   render() {
-    const { width, height, style = {}, data } = this.props;
+    const { width, height, style = {}, data, hideLegend } = this.props;
     const { borderRadius = 0, margin = 0, marginRight = 0 } = style;
 
     if (Array.isArray(data)) {
@@ -43,6 +43,51 @@ class ProgressChart extends AbstractChart {
     });
 
     const withLabel = i => data.labels && data.labels[i];
+
+    const legend = !hideLegend && (
+      <>
+        <G>
+          {pies.map((_, i) => {
+            return (
+              <Rect
+                key={Math.random()}
+                width="16px"
+                height="16px"
+                fill={this.props.chartConfig.color(0.2 * (i + 1), i)}
+                rx={8}
+                ry={8}
+                x={this.props.width / 2.5 - 24}
+                y={
+                  -(this.props.height / 2.5) +
+                  ((this.props.height * 0.8) / data.data.length) * i +
+                  12
+                }
+              />
+            );
+          })}
+        </G>
+        <G>
+          {pies.map((_, i) => {
+            return (
+              <Text
+                key={Math.random()}
+                x={this.props.width / 2.5}
+                y={
+                  -(this.props.height / 2.5) +
+                  ((this.props.height * 0.8) / data.data.length) * i +
+                  12 * 2
+                }
+                {...this.getPropsForLabels()}
+              >
+                {withLabel(i)
+                  ? `${data.labels[i]} ${Math.round(100 * data.data[i])}%`
+                  : `${Math.round(100 * data.data[i])}%`}
+              </Text>
+            );
+          })}
+        </G>
+      </>
+    );
 
     return (
       <View
@@ -96,46 +141,7 @@ class ProgressChart extends AbstractChart {
                 );
               })}
             </G>
-            <G>
-              {pies.map((_, i) => {
-                return (
-                  <Rect
-                    key={Math.random()}
-                    width="16px"
-                    height="16px"
-                    fill={this.props.chartConfig.color(0.2 * (i + 1), i)}
-                    rx={8}
-                    ry={8}
-                    x={this.props.width / 2.5 - 24}
-                    y={
-                      -(this.props.height / 2.5) +
-                      ((this.props.height * 0.8) / data.data.length) * i +
-                      12
-                    }
-                  />
-                );
-              })}
-            </G>
-            <G>
-              {pies.map((_, i) => {
-                return (
-                  <Text
-                    key={Math.random()}
-                    x={this.props.width / 2.5}
-                    y={
-                      -(this.props.height / 2.5) +
-                      ((this.props.height * 0.8) / data.data.length) * i +
-                      12 * 2
-                    }
-                    {...this.getPropsForLabels()}
-                  >
-                    {withLabel(i)
-                      ? `${data.labels[i]} ${Math.round(100 * data.data[i])}%`
-                      : `${Math.round(100 * data.data[i])}%`}
-                  </Text>
-                );
-              })}
-            </G>
+            {legend}
           </G>
         </Svg>
       </View>

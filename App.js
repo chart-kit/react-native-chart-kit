@@ -149,6 +149,7 @@ export default class App extends React.Component {
                 height={height}
                 chartConfig={chartConfig}
                 style={graphStyle}
+                hideLegend={false}
               />
               <Text style={labelStyle}>Bar Graph</Text>
               <BarChart

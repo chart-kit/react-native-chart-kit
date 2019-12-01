@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.1.0
+
+- add `hideLegend` to ProgressChart
+
 ## v4.0.0
 
 - patched a lot of indirect dependencies

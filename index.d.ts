@@ -185,6 +185,7 @@ export interface ProgressChartProps {
   width: number;
   height: number;
   chartConfig: ChartConfig;
+  hideLegend: boolean;
 }
 
 export class ProgressChart extends React.Component<ProgressChartProps> {}
