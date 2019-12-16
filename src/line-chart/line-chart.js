@@ -9,7 +9,8 @@ import {
   Rect,
   G
 } from "react-native-svg";
-import AbstractChart from "./abstract-chart";
+import AbstractChart from "../abstract-chart";
+import { LegendItem } from "./legend-item";
 
 class LineChart extends AbstractChart {
   getColor = (dataset, opacity) => {
@@ -234,6 +235,24 @@ class LineChart extends AbstractChart {
     });
   };
 
+  renderLegend = (width, legendOffset) => {
+    const { legend, datasets } = this.props.data;
+    const baseLegendItemX = width / (legend.length + 1);
+
+    return legend.map((legendItem, i) => (
+      <G key={Math.random()}>
+        <LegendItem
+          index={i}
+          iconColor={this.getColor(datasets[i], 0.9)}
+          baseLegendItemX={baseLegendItemX}
+          legendText={legendItem}
+          labelProps={{ ...this.getPropsForLabels() }}
+          legendOffset={legendOffset}
+        />
+      </G>
+    ));
+  };
+
   render() {
     const {
       width,
@@ -262,31 +281,36 @@ class LineChart extends AbstractChart {
       marginRight = 0,
       paddingBottom = 0
     } = style;
+
     const config = {
       width,
       height,
       verticalLabelRotation,
       horizontalLabelRotation
     };
+
     const datas = this.getDatas(data.datasets);
+    const legendOffset = this.props.data.legend ? height * 0.15 : 0;
     return (
       <View style={style}>
         <Svg
-          height={height + paddingBottom}
+          height={height + paddingBottom + legendOffset}
           width={width - margin * 2 - marginRight}
         >
-          <G>
+          <Rect
+            width="100%"
+            height={height + legendOffset}
+            rx={borderRadius}
+            ry={borderRadius}
+            fill="url(#backgroundGradient)"
+          />
+          {this.props.data.legend &&
+            this.renderLegend(config.width, legendOffset)}
+          <G x="0" y={legendOffset}>
             {this.renderDefs({
               ...config,
               ...this.props.chartConfig
             })}
-            <Rect
-              width="100%"
-              height={height}
-              rx={borderRadius}
-              ry={borderRadius}
-              fill="url(#backgroundGradient)"
-            />
             <G>
               {withInnerLines
                 ? this.renderHorizontalLines({

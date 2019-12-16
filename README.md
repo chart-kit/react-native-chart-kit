@@ -125,7 +125,8 @@ const data = {
       color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
       strokeWidth: 2 // optional
     }
-  ]
+  ],
+  legend: ["Rainy Days", "Sunny Days", "Snowy Days"] // optional
 };
 ```
 
@@ -258,7 +259,10 @@ yAxisLabel={'$'} chartConfig={chartConfig} verticalLabelRotation={30} />
 const data = {
   labels: ["Test1", "Test2"],
   legend: ["L1", "L2", "L3"],
-  data: [[60, 60, 60], [30, 30, 60]],
+  data: [
+    [60, 60, 60],
+    [30, 30, 60]
+  ],
   barColors: ["#dfe4ea", "#ced6e0", "#a4b0be"]
 };
 ```

@@ -10,15 +10,19 @@ export interface Dataset {
   /** The data corresponding to the x-axis label. */
   data: number[];
   /** A function returning the color of the stroke given an input opacity value. */
-  color: (opacity: number) => string;
+  color?: (opacity: number) => string;
   /** The width of the stroke. Defaults to 2. */
-  strokeWidth: number;
+  strokeWidth?: number;
 }
 
 export interface ChartData {
   /** The x-axis labels */
   labels: string[];
   datasets: Dataset[];
+}
+
+export interface LineChartData extends ChartData {
+  legend?: string[];
 }
 
 // LineChart
@@ -35,11 +39,12 @@ export interface LineChartProps {
    *     data: [ 20, 45, 28, 80, 99, 43 ],
    *     color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
    *     strokeWidth: 2 // optional
-   *   }]
+   *   }],
+   *   legend: ["Rainy Days", "Sunny Days", "Snowy Days"] // optional
    * }
    * ```
    */
-  data: ChartData;
+  data: LineChartData;
   /**
    * Width of the chart, use 'Dimensions' library to get the width of your screen for responsive.
    */
