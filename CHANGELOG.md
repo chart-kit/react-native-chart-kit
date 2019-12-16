@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.2.0
+
+- line chart supports legend
+
 ## 4.1.0
 
 - add `hideLegend` to ProgressChart
