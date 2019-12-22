@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.3.0
+
+- added `barPercentage?: number; hideLegend: boolean;` props to StackedBarChart
+- added `barRadius` to chart config
+- added `renderDotContent` to LineChart
+
 ## 4.2.0
 
 - line chart supports legend
