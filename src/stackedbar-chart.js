@@ -6,6 +6,17 @@ import AbstractChart from "./abstract-chart";
 const barWidth = 32;
 
 class StackedBarChart extends AbstractChart {
+  getBarPercentage = () => {
+    const { barPercentage = 1 } = this.props.chartConfig;
+    return barPercentage;
+  };
+
+  getBarRadius = (ret, x) => {
+    return this.props.chartConfig.barRadius && ret.length === x.length - 1
+      ? this.props.chartConfig.barRadius
+      : 0;
+  };
+
   renderBars = config => {
     const {
       data,
@@ -17,7 +28,7 @@ class StackedBarChart extends AbstractChart {
       colors
     } = config;
     return data.map((x, i) => {
-      const barWidth = 32;
+      const barWidth = 32 * this.getBarPercentage();
       const ret = [];
       let h = 0;
       let st = paddingTop;
@@ -34,22 +45,26 @@ class StackedBarChart extends AbstractChart {
             key={Math.random()}
             x={xC}
             y={y}
+            rx={this.getBarRadius(ret, x)}
+            ry={this.getBarRadius(ret, x)}
             width={barWidth}
             height={h}
             fill={colors[z]}
           />
         );
-        ret.push(
-          <Text
-            key={Math.random()}
-            x={xC + 7 + barWidth / 2}
-            textAnchor="end"
-            y={h > 15 ? y + 15 : y + 7}
-            {...this.getPropsForLabels()}
-          >
-            {x[z]}
-          </Text>
-        );
+        if (!this.props.hideLegend) {
+          ret.push(
+            <Text
+              key={Math.random()}
+              x={xC + 7 + barWidth / 2}
+              textAnchor="end"
+              y={h > 15 ? y + 15 : y + 7}
+              {...this.getPropsForLabels()}
+            >
+              {x[z]}
+            </Text>
+          );
+        }
 
         st -= h;
       }

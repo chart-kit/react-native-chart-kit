@@ -100,6 +100,7 @@ const chartConfig = {
 | color                         | function => string | Defines the base color function that is used to calculate colors of labels and sectors used in a chart |
 | strokeWidth                   | Number             | Defines the base stroke width in a chart                                                               |
 | barPercentage                 | Number             | Defines the percent (0-1) of the available width each bar width in a chart                             |
+| barRadius                     | Number             | Defince the radius of each bar                                                                         |
 | propsForBackgroundLines       | props              | Override styles of the background lines, refer to react-native-svg's Line documentation                |
 | propsForLabels                | props              | Override styles of the labels, refer to react-native-svg's Text documentation                          |
 
@@ -283,6 +284,8 @@ const data = {
 | withVerticalLabels   | boolean | Show vertical labels - default: True                                                        |
 | withHorizontalLabels | boolean | Show horizontal labels - default: True                                                      |
 | chartConfig          | Object  | Configuration object for the chart, see example config in the beginning of this file        |
+| barPercentage        | Number  | Defines the percent (0-1) of the available width each bar width in a chart                  |
+| showLegend           | boolean | Show legend - default: True                                                                 |
 
 ## Pie chart
 

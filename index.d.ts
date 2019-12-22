@@ -246,6 +246,8 @@ export interface StackedBarChartProps {
   height: number;
   chartConfig: ChartConfig;
   style?: ViewStyle;
+  barPercentage?: number;
+  hideLegend: boolean;
 }
 
 export class StackedBarChart extends React.Component<StackedBarChartProps> {}
@@ -321,6 +323,7 @@ export interface ChartConfig {
    * Defines the percent (0-1) of the available width each bar width in a chart
    */
   barPercentage?: number;
+  barRadius?: number;
   /**
    * Override styles of the background lines, refer to react-native-svg's Line documentation
    */
