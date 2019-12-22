@@ -143,6 +143,15 @@ export interface LineChartProps {
    */
   getDotColor?: (dataPoint: any, index: number) => string;
   /**
+   * Renders additional content for dots in a line chart.
+   * Takes `({x, y, index})` as arguments.
+   */
+  renderDotContent?: (params: {
+    x: number;
+    y: number;
+    index: number;
+  }) => React.ReactNode;
+  /**
    * Rotation angle of the horizontal labels - default 0 (degrees).
    */
   horizontalLabelRotation?: number;

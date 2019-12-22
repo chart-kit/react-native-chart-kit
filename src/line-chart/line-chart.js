@@ -44,7 +44,13 @@ class LineChart extends AbstractChart {
     const output = [];
     const datas = this.getDatas(data);
     const baseHeight = this.calcBaseHeight(datas, height);
-    const { getDotColor, hidePointsAtIndex = [] } = this.props;
+    const {
+      getDotColor,
+      hidePointsAtIndex = [],
+      renderDotContent = () => {
+        return null;
+      }
+    } = this.props;
     data.forEach(dataset => {
       dataset.data.forEach((x, i) => {
         if (hidePointsAtIndex.includes(i)) {
@@ -69,7 +75,6 @@ class LineChart extends AbstractChart {
             getColor: opacity => this.getColor(dataset, opacity)
           });
         };
-
         output.push(
           <Circle
             key={Math.random()}
@@ -87,11 +92,12 @@ class LineChart extends AbstractChart {
             key={Math.random()}
             cx={cx}
             cy={cy}
-            r="12"
+            r="14"
             fill="#fff"
             fillOpacity={0}
             onPress={onPress}
-          />
+          />,
+          renderDotContent({ x: cx, y: cy, index: i })
         );
       });
     });

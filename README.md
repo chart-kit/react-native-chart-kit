@@ -160,6 +160,7 @@ const data = {
 | horizontalLabelRotation | number (degree)         | Rotation angle of the horizontal labels - default 0                                                                                                                                                                 |
 | verticalLabelRotation   | number (degree)         | Rotation angle of the vertical labels - default 0                                                                                                                                                                   |
 | getDotColor             | function => string      | Defines the dot color function that is used to calculate colors of dots in a line chart and takes `(dataPoint, dataPointIndex)`                                                                                     |
+| renderDotContent        | Function                | Render additional content for the dot. Takes `({x, y, index})` as arguments.                                                                                                                                        |
 | yLabelsOffset           | number                  | Offset for Y axis labels                                                                                                                                                                                            |
 | xLabelsOffset           | number                  | Offset for X axis labels                                                                                                                                                                                            |
 | hidePointsAtIndex       | number[]                | Indices of the data points you don't want to display                                                                                                                                                                |
@@ -259,10 +260,7 @@ yAxisLabel={'$'} chartConfig={chartConfig} verticalLabelRotation={30} />
 const data = {
   labels: ["Test1", "Test2"],
   legend: ["L1", "L2", "L3"],
-  data: [
-    [60, 60, 60],
-    [30, 30, 60]
-  ],
+  data: [[60, 60, 60], [30, 30, 60]],
   barColors: ["#dfe4ea", "#ced6e0", "#a4b0be"]
 };
 ```
