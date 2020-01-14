@@ -276,7 +276,8 @@ class LineChart extends AbstractChart {
       verticalLabelRotation = 0,
       horizontalLabelRotation = 0,
       formatYLabel = yLabel => yLabel,
-      formatXLabel = xLabel => xLabel
+      formatXLabel = xLabel => xLabel,
+      segments
     } = this.props;
     const { labels = [] } = data;
     const {
@@ -296,6 +297,12 @@ class LineChart extends AbstractChart {
     };
 
     const datas = this.getDatas(data.datasets);
+
+    let count = Math.min(...datas) === Math.max(...datas) ? 1 : 4;
+    if (segments) {
+      count = segments;
+    }
+
     const legendOffset = this.props.data.legend ? height * 0.15 : 0;
     return (
       <View style={style}>
@@ -321,7 +328,7 @@ class LineChart extends AbstractChart {
               {withInnerLines
                 ? this.renderHorizontalLines({
                     ...config,
-                    count: 4,
+                    count: count,
                     paddingTop,
                     paddingRight
                   })
@@ -337,7 +344,7 @@ class LineChart extends AbstractChart {
               {withHorizontalLabels
                 ? this.renderHorizontalLabels({
                     ...config,
-                    count: Math.min(...datas) === Math.max(...datas) ? 1 : 4,
+                    count: count,
                     data: datas,
                     paddingTop,
                     paddingRight,

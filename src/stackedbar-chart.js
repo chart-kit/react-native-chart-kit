@@ -108,7 +108,8 @@ class StackedBarChart extends AbstractChart {
       style = {},
       data,
       withHorizontalLabels = true,
-      withVerticalLabels = true
+      withVerticalLabels = true,
+      segments = 4
     } = this.props;
     const { borderRadius = 0 } = style;
     const config = {
@@ -122,7 +123,6 @@ class StackedBarChart extends AbstractChart {
         border = actual;
       }
     }
-
     return (
       <View style={style}>
         <Svg height={height} width={width}>
@@ -140,7 +140,7 @@ class StackedBarChart extends AbstractChart {
           <G>
             {this.renderHorizontalLines({
               ...config,
-              count: 4,
+              count: segments,
               paddingTop
             })}
           </G>
@@ -148,7 +148,7 @@ class StackedBarChart extends AbstractChart {
             {withHorizontalLabels
               ? this.renderHorizontalLabels({
                   ...config,
-                  count: 4,
+                  count: segments,
                   data: [0, border],
                   paddingTop,
                   paddingRight

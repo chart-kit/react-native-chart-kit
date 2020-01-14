@@ -168,6 +168,7 @@ const data = {
 | formatYLabel            | Function                | This function change the format of the display value of the Y label. Takes the Y value as argument and should return the desirable string.                                                                                     |
 | formatXLabel            | Function                | This function change the format of the display value of the X label. Takes the X value as argument and should return the desirable string.                                                                                     |
 | getDotProps             | (value, index) => props | This is an alternative to chartConfig's propsForDots                                                                                                                                                                           |
+| segments                | number                  | The amount of horizontal lines - default 4                                                                                                                                                                                     |
 
 ## Bezier Line Chart
 

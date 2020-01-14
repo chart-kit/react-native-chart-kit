@@ -204,6 +204,7 @@ export default class App extends React.Component {
                 width={width}
                 height={height}
                 yAxisLabel="$"
+                segments={5}
                 chartConfig={chartConfig}
                 style={graphStyle}
                 hidePointsAtIndex={[0, data.datasets[0].data.length - 1]}

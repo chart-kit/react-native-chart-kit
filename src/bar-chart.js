@@ -70,7 +70,8 @@ class BarChart extends AbstractChart {
       withVerticalLabels = true,
       verticalLabelRotation = 0,
       horizontalLabelRotation = 0,
-      withInnerLines = true
+      withInnerLines = true,
+      segments = 4
     } = this.props;
     const { borderRadius = 0, paddingTop = 16, paddingRight = 64 } = style;
     const config = {
@@ -97,7 +98,7 @@ class BarChart extends AbstractChart {
             {withInnerLines
               ? this.renderHorizontalLines({
                   ...config,
-                  count: 4,
+                  count: segments,
                   paddingTop
                 })
               : null}
@@ -106,7 +107,7 @@ class BarChart extends AbstractChart {
             {withHorizontalLabels
               ? this.renderHorizontalLabels({
                   ...config,
-                  count: 4,
+                  count: segments,
                   data: data.datasets[0].data,
                   paddingTop,
                   paddingRight

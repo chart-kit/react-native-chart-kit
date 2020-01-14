@@ -185,6 +185,10 @@ export interface LineChartProps {
    * Provide props for a data point dot.
    */
   getDotProps?: (dataPoint: any, index: number) => object;
+  /**
+   * The number of horizontal lines
+   */
+  segments?: number;
 }
 
 export class LineChart extends React.Component<LineChartProps> {}
@@ -217,6 +221,10 @@ export interface BarChartProps {
   style?: ViewStyle;
   horizontalLabelRotation?: number;
   verticalLabelRotation?: number;
+  /**
+   * The number of horizontal lines
+   */
+  segments?: number;
 }
 
 export class BarChart extends React.Component<BarChartProps> {}
@@ -248,6 +256,10 @@ export interface StackedBarChartProps {
   style?: ViewStyle;
   barPercentage?: number;
   hideLegend: boolean;
+  /**
+   * The number of horizontal lines
+   */
+  segments?: number;
 }
 
 export class StackedBarChart extends React.Component<StackedBarChartProps> {}
