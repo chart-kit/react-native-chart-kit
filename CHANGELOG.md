@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.4.0
+
+- added ability to add custom segments on the Y-Axis
+- implemented barRadius config in BarChart
+- added showBarTops prop to BarChart
+
 ## 4.3.0
 
 - added `barPercentage?: number; hideLegend: boolean;` props to StackedBarChart
