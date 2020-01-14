@@ -260,6 +260,7 @@ const data = {
 | chartConfig             | Object          | Configuration object for the chart, see example config in the beginning of this file        |
 | horizontalLabelRotation | number (degree) | Rotation angle of the horizontal labels - default 0                                         |
 | verticalLabelRotation   | number (degree) | Rotation angle of the vertical labels - default 0                                           |
+| showBarTops             | boolean         | Show bar tops                                                                               |
 
 ## StackedBar chart
 
@@ -393,7 +394,7 @@ const commitsData = [
 ```jsx
 <ContributionGraph
   values={commitsData}
-  endDate={new Date('2017-04-01')}
+  endDate={new Date("2017-04-01")}
   numDays={105}
   width={screenWidth}
   height={220}

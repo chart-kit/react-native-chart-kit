@@ -225,6 +225,7 @@ export interface BarChartProps {
    * The number of horizontal lines
    */
   segments?: number;
+  showBarTops?: boolean;
 }
 
 export class BarChart extends React.Component<BarChartProps> {}

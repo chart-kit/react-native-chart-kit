@@ -12,7 +12,7 @@ class BarChart extends AbstractChart {
   };
 
   renderBars = config => {
-    const { data, width, height, paddingTop, paddingRight } = config;
+    const { data, width, height, paddingTop, paddingRight, barRadius } = config;
     const baseHeight = this.calcBaseHeight(data, height);
     return data.map((x, i) => {
       const barHeight = this.calcHeight(x, data, height);
@@ -29,6 +29,7 @@ class BarChart extends AbstractChart {
             ((barHeight > 0 ? baseHeight - barHeight : baseHeight) / 4) * 3 +
             paddingTop
           }
+          rx={barRadius}
           width={barWidth}
           height={(Math.abs(barHeight) / 4) * 3}
           fill="url(#fillShadowGradient)"
@@ -71,6 +72,7 @@ class BarChart extends AbstractChart {
       verticalLabelRotation = 0,
       horizontalLabelRotation = 0,
       withInnerLines = true,
+      showBarTops = true,
       segments = 4
     } = this.props;
     const { borderRadius = 0, paddingTop = 16, paddingRight = 64 } = style;
@@ -78,7 +80,8 @@ class BarChart extends AbstractChart {
       width,
       height,
       verticalLabelRotation,
-      horizontalLabelRotation
+      horizontalLabelRotation,
+      barRadius: this.props.chartConfig.barRadius || 0
     };
     return (
       <View style={style}>
@@ -134,7 +137,7 @@ class BarChart extends AbstractChart {
             })}
           </G>
           <G>
-            {this.renderBarTops({
+            {showBarTops && this.renderBarTops({
               ...config,
               data: data.datasets[0].data,
               paddingTop,
