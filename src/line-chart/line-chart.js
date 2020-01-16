@@ -348,7 +348,8 @@ class LineChart extends AbstractChart {
                     data: datas,
                     paddingTop,
                     paddingRight,
-                    formatYLabel
+                    formatYLabel,
+                    decimalPlaces: this.props.chartConfig.decimalPlaces
                   })
                 : null}
             </G>
