@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.5.0
+
+- removed `.babelrc` from distribution
+- made decimalPlaces work for StackedBar Chart
+
 ## 4.4.0
 
 - added ability to add custom segments on the Y-Axis
