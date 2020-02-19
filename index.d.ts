@@ -109,6 +109,10 @@ export interface LineChartProps {
    * };
    * ```
    */
+  yAxisInterval?: number;
+  /**
+   * Divide axis quantity by the input number -- default: 1.
+   */
   chartConfig: ChartConfig;
   /**
    * This function takes a [whole bunch](https://github.com/indiespirit/react-native-chart-kit/blob/master/src/line-chart.js#L266)
