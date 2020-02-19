@@ -18,17 +18,33 @@ import {
 const SQUARE_SIZE = 20;
 const MONTH_LABEL_GUTTER_SIZE = 8;
 const paddingLeft = 32;
+
+function mapValue(x, in_min, in_max, out_min, out_max) {
+  return ((x - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
+}
+
 class ContributionGraph extends AbstractChart {
   constructor(props) {
     super(props);
+
+    let { maxValue, minValue, valueCache } = this.getValueCache(props.values);
+
     this.state = {
-      valueCache: this.getValueCache(props.values)
+      maxValue,
+      minValue,
+      valueCache
     };
   }
 
   componentWillReceiveProps(nextProps) {
+    let { maxValue, minValue, valueCache } = this.getValueCache(
+      nextProps.values
+    );
+
     this.setState({
-      valueCache: this.getValueCache(nextProps.values)
+      maxValue,
+      minValue,
+      valueCache
     });
   }
 
@@ -93,20 +109,31 @@ class ContributionGraph extends AbstractChart {
   }
 
   getValueCache(values) {
-    return values.reduce((memo, value) => {
-      const date = convertToDate(value.date);
-      const index = Math.floor(
-        (date - this.getStartDateWithEmptyDays()) / MILLISECONDS_IN_ONE_DAY
-      );
-      memo[index] = {
-        value,
-        title: this.props.titleForValue
-          ? this.props.titleForValue(value)
-          : null,
-        tooltipDataAttrs: this.getTooltipDataAttrsForValue(value)
-      };
-      return memo;
-    }, {});
+    let minValue = Infinity,
+      maxValue = -Infinity;
+
+    return {
+      valueCache: values.reduce((memo, value) => {
+        const date = convertToDate(value.date);
+        const index = Math.floor(
+          (date - this.getStartDateWithEmptyDays()) / MILLISECONDS_IN_ONE_DAY
+        );
+
+        minValue = Math.min(value.count, minValue);
+        maxValue = Math.max(value.count, maxValue);
+
+        memo[index] = {
+          value,
+          title: this.props.titleForValue
+            ? this.props.titleForValue(value)
+            : null,
+          tooltipDataAttrs: this.getTooltipDataAttrsForValue(value)
+        };
+        return memo;
+      }, {}),
+      minValue,
+      maxValue
+    };
   }
 
   getValueForIndex(index) {
@@ -120,12 +147,21 @@ class ContributionGraph extends AbstractChart {
     if (this.state.valueCache[index]) {
       if (this.state.valueCache[index].value) {
         const count = this.state.valueCache[index].value.count;
+
         if (count) {
-          const opacity = (count * 0.15 > 1 ? 1 : count * 0.15) + 0.15;
+          const opacity = mapValue(
+            count,
+            this.state.minValue,
+            this.state.maxValue,
+            0.15 + 0.05, // + 0.05 to make smaller values a bit more visible
+            1
+          );
+
           return this.props.chartConfig.color(opacity);
         }
       }
     }
+
     return this.props.chartConfig.color(0.15);
   }
 
