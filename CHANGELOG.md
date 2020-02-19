@@ -3,7 +3,8 @@
 ## 5.0.0
 
 - made ContributionGraph opacity distribution even through range between the min and max values
-- added getMonthLabel to ContributionGraph
+- added `getMonthLabel` to ContributionGraph
+- added `yAxisInterval` to LineChart, it allows you to skip vertical lines in the background
 
 ## 4.5.0
 
