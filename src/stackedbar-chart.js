@@ -6,6 +6,7 @@ import AbstractChart from "./abstract-chart";
 const barWidth = 32;
 
 class StackedBarChart extends AbstractChart {
+
   getBarPercentage = () => {
     const { barPercentage = 1 } = this.props.chartConfig;
     return barPercentage;
@@ -25,13 +26,18 @@ class StackedBarChart extends AbstractChart {
       paddingTop,
       paddingRight,
       border,
-      colors
+      colors,
+      stackedBar = false
     } = config;
     return data.map((x, i) => {
       const barWidth = 32 * this.getBarPercentage();
       const ret = [];
       let h = 0;
       let st = paddingTop;
+      let fac = 1;
+      if(stackedBar) {
+        fac = .7;
+      }
       for (let z = 0; z < x.length; z++) {
         h = (height - 55) * (x[z] / border);
         const y = (height / 4) * 3 - h + st;
@@ -39,7 +45,7 @@ class StackedBarChart extends AbstractChart {
           (paddingRight +
             (i * (width - paddingRight)) / data.length +
             barWidth / 2) *
-          0.7;
+            fac;
         ret.push(
           <Rect
             key={Math.random()}
@@ -124,6 +130,7 @@ class StackedBarChart extends AbstractChart {
         border = actual;
       }
     }
+    var stackedBar = data.legend && data.legend.length == 0 ? false : true;
     return (
       <View style={style}>
         <Svg height={height} width={width}>
@@ -163,7 +170,7 @@ class StackedBarChart extends AbstractChart {
                   ...config,
                   labels: data.labels,
                   paddingRight: paddingRight + 28,
-                  stackedBar: true,
+                  stackedBar,
                   paddingTop,
                   horizontalOffset: barWidth
                 })
@@ -176,10 +183,11 @@ class StackedBarChart extends AbstractChart {
               border,
               colors: this.props.data.barColors,
               paddingTop,
-              paddingRight: paddingRight + 20
+              paddingRight: paddingRight + 20,
+              stackedBar,
             })}
           </G>
-          {this.renderLegend({
+          {data.legend && data.legend.length != 0 && this.renderLegend({
             ...config,
             legend: data.legend,
             colors: this.props.data.barColors
