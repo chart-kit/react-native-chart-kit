@@ -270,7 +270,10 @@ const data = {
 const data = {
   labels: ["Test1", "Test2"],
   legend: ["L1", "L2", "L3"],
-  data: [[60, 60, 60], [30, 30, 60]],
+  data: [
+    [60, 60, 60],
+    [30, 30, 60]
+  ],
   barColors: ["#dfe4ea", "#ced6e0", "#a4b0be"]
 };
 ```
@@ -402,13 +405,14 @@ const commitsData = [
 />
 ```
 
-| Property    | Type   | Description                                                                                 |
-| ----------- | ------ | ------------------------------------------------------------------------------------------- |
-| data        | Object | Data for the chart - see example above                                                      |
-| width       | Number | Width of the chart, use 'Dimensions' library to get the width of your screen for responsive |
-| height      | Number | Height of the chart                                                                         |
-| chartConfig | Object | Configuration object for the chart, see example config in the beginning of this file        |
-| accessor    | string | Property in the `data` object from which the number values are taken                        |
+| Property      | Type     | Description                                                                                 |
+| ------------- | -------- | ------------------------------------------------------------------------------------------- |
+| data          | Object   | Data for the chart - see example above                                                      |
+| width         | Number   | Width of the chart, use 'Dimensions' library to get the width of your screen for responsive |
+| height        | Number   | Height of the chart                                                                         |
+| chartConfig   | Object   | Configuration object for the chart, see example config in the beginning of this file        |
+| accessor      | string   | Property in the `data` object from which the number values are taken                        |
+| getMonthLabel | function | Function which returns the label for each month, taking month index (0 - 11) as argument    |
 
 ## More styling
 

@@ -301,7 +301,9 @@ class ContributionGraph extends AbstractChart {
           y={y + 8}
           {...this.getPropsForLabels()}
         >
-          {MONTH_LABELS[endOfWeek.getMonth()]}
+          {this.props.getMonthLabel
+            ? this.props.getMonthLabel(endOfWeek.getMonth())
+            : MONTH_LABELS[endOfWeek.getMonth()]}
         </Text>
       ) : null;
     });
@@ -362,7 +364,8 @@ ContributionGraph.ViewPropTypes = {
   tooltipDataAttrs: PropTypes.oneOfType([PropTypes.object, PropTypes.func]), // data attributes to add to square for setting 3rd party tooltips, e.g. { 'data-toggle': 'tooltip' } for bootstrap tooltips
   titleForValue: PropTypes.func, // function which returns title text for value
   classForValue: PropTypes.func, // function which returns html class for value
-  onClick: PropTypes.func // callback function when a square is clicked
+  onClick: PropTypes.func, // callback function when a square is clicked
+  getMonthLabel: PropTypes.func // function which returns label text for month
 };
 
 ContributionGraph.defaultProps = {

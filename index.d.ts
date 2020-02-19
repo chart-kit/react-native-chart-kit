@@ -290,6 +290,7 @@ export interface ContributionGraphProps {
   height: number;
   chartConfig: ChartConfig;
   accessor?: string;
+  getMonthLabel?: (monthIndex: number) => string;
 }
 
 export class ContributionGraph extends React.Component<
