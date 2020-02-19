@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.0.0
+
+- made ContributionGraph opacity distribution even through range between the min and max values
+- added getMonthLabel to ContributionGraph
+
 ## 4.5.0
 
 - removed `.babelrc` from distribution
