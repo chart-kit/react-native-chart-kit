@@ -17,7 +17,6 @@
     "jest-expo": "28.0.0",
     "prettier": "^1.18.2",
     "pretty-quick": "^1.11.1",
-    "prop-types": "^15.6.2",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
     "react-native-flash-message": "^0.1.10",
@@ -38,7 +37,6 @@
     "preset": "jest-expo"
   },
   "peerDependencies": {
-    "prop-types": "> 15.6.0",
     "react": "> 16.7.0",
     "react-native": ">= 0.50.0",
     "react-native-svg": "> 6.4.1"

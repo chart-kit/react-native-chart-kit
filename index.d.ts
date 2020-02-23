@@ -298,6 +298,7 @@ export interface ContributionGraphProps {
   chartConfig: ChartConfig;
   accessor?: string;
   getMonthLabel?: (monthIndex: number) => string;
+  onDayPress?: ({ count: number, date: Date }) => void;
 }
 
 export class ContributionGraph extends React.Component<

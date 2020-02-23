@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.1.0
+
+- added a withDots property to each dataset in LineChart to disable dots on these lines
+- removed PropTypes
+
 ## 5.0.0
 
 - made ContributionGraph opacity distribution even through range between the min and max values

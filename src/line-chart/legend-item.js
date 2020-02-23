@@ -1,6 +1,5 @@
 import React from "react";
 import { Rect, Text } from "react-native-svg";
-import PropTypes from "prop-types";
 
 const CIRCLE_WIDTH = 16;
 const PADDING_LEFT = 4;
@@ -41,12 +40,4 @@ export const LegendItem = props => {
       </Text>
     </>
   );
-};
-
-LegendItem.propTypes = {
-  index: PropTypes.number,
-  iconColor: PropTypes.string,
-  baseLegendItemX: PropTypes.number,
-  legendText: PropTypes.string,
-  legendOffset: PropTypes.number
 };
