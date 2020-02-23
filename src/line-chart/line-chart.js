@@ -51,7 +51,10 @@ class LineChart extends AbstractChart {
         return null;
       }
     } = this.props;
+
     data.forEach(dataset => {
+      if (dataset.withDots == false) return;
+
       dataset.data.forEach((x, i) => {
         if (hidePointsAtIndex.includes(i)) {
           return;

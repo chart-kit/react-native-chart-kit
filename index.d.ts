@@ -13,6 +13,9 @@ export interface Dataset {
   color?: (opacity: number) => string;
   /** The width of the stroke. Defaults to 2. */
   strokeWidth?: number;
+
+  /** A boolean indicating whether to render dots for this line */
+  withDots?: boolean;
 }
 
 export interface ChartData {
