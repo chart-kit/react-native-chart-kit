@@ -3,7 +3,8 @@
 ## 5.1.0
 
 - added a withDots property to each dataset in LineChart to disable dots on these lines
-- removed PropTypes
+- removed `prop-types`
+- added `onDayPress` to ContributionGraph
 
 ## 5.0.0
 
