@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.1.1
+
+- add some safe default values in BarChart's `chartConfig` to avoid potential null pointers
+
 ## 5.1.0
 
 - added a withDots property to each dataset in LineChart to disable dots on these lines
