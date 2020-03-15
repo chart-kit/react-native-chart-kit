@@ -1,5 +1,9 @@
 # Changelog
 
+## v5.2.0
+
+- `propsForDots` added to `ChartConfig` interface
+
 ## 5.1.1
 
 - add some safe default values in BarChart's `chartConfig` to avoid potential null pointers
