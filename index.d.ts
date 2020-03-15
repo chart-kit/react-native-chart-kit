@@ -4,7 +4,7 @@
 
 import * as React from "react";
 import { ViewStyle } from "react-native";
-import { TextProps } from "react-native-svg";
+import { TextProps, CircleProps } from "react-native-svg";
 
 export interface Dataset {
   /** The data corresponding to the x-axis label. */
@@ -354,6 +354,10 @@ export interface ChartConfig {
    * Override styles of the labels, refer to react-native-svg's Text documentation
    */
   propsForLabels?: TextProps;
+  /**
+   * Override styles of the dots, refer to react-native-svg's Text documentation
+   */
+  propsForDots?: CircleProps;
   decimalPlaces?: number;
   style?: ViewStyle;
 }
