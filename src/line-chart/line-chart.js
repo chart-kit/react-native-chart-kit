@@ -1,5 +1,11 @@
 import React from "react";
-import { View } from "react-native";
+import {
+  View,
+  ScrollView,
+  StyleSheet,
+  Animated,
+  TextInput
+} from "react-native";
 import {
   Svg,
   Circle,
@@ -12,7 +18,15 @@ import {
 import AbstractChart from "../abstract-chart";
 import { LegendItem } from "./legend-item";
 
+let AnimatedCircle = Animated.createAnimatedComponent(Circle);
+
 class LineChart extends AbstractChart {
+  label = React.createRef();
+
+  state = {
+    scrollableDotHorizontalOffset: new Animated.Value(0)
+  };
+
   getColor = (dataset, opacity) => {
     return (dataset.color || this.props.chartConfig.color)(opacity);
   };
@@ -107,6 +121,188 @@ class LineChart extends AbstractChart {
     return output;
   };
 
+  renderScrollableDot = config => {
+    const {
+      data,
+      width,
+      height,
+      paddingTop,
+      paddingRight,
+      scrollableDotHorizontalOffset,
+      scrollableDotFill,
+      scrollableDotStrokeColor,
+      scrollableDotStrokeWidth,
+      scrollableDotRadius,
+      scrollableInfoViewStyle,
+      scrollableInfoTextStyle,
+      scrollableInfoSize,
+      scrollableInfoOffset
+    } = config;
+    const output = [];
+    const datas = this.getDatas(data);
+    const baseHeight = this.calcBaseHeight(datas, height);
+
+    let vl = [];
+
+    const perData = width / data[0].data.length;
+    for (let index = 0; index < data[0].data.length; index++) {
+      vl.push(index * perData);
+    }
+    let lastIndex;
+
+    scrollableDotHorizontalOffset.addListener(value => {
+      const index = value.value / perData;
+      if (!lastIndex) {
+        lastIndex = index;
+      }
+
+      let abs = Math.floor(index);
+      let percent = index - abs;
+      abs = data[0].data.length - abs - 1;
+
+      if (index >= data[0].data.length - 1) {
+        this.label.current.setNativeProps({
+          text: `${Math.floor(data[0].data[0])}`
+        });
+      } else {
+        if (index > lastIndex) {
+          // to right
+
+          const base = data[0].data[abs];
+          const prev = data[0].data[abs - 1];
+          if (prev > base) {
+            let rest = prev - base;
+            this.label.current.setNativeProps({
+              text: `${Math.floor(base + percent * rest)}`
+            });
+          } else {
+            let rest = base - prev;
+            this.label.current.setNativeProps({
+              text: `${Math.floor(base - percent * rest)}`
+            });
+          }
+        } else {
+          // to left
+
+          const base = data[0].data[abs - 1];
+          const next = data[0].data[abs];
+          percent = 1 - percent;
+          if (next > base) {
+            let rest = next - base;
+            this.label.current.setNativeProps({
+              text: `${Math.floor(base + percent * rest)}`
+            });
+          } else {
+            let rest = base - next;
+            this.label.current.setNativeProps({
+              text: `${Math.floor(base - percent * rest)}`
+            });
+          }
+        }
+      }
+      lastIndex = index;
+    });
+
+    data.forEach(dataset => {
+      if (dataset.withScrollableDot == false) return;
+
+      const perData = width / dataset.data.length;
+      let values = [];
+      let yValues = [];
+      let xValues = [];
+
+      let yValuesLabel = [];
+      let xValuesLabel = [];
+
+      for (let index = 0; index < dataset.data.length; index++) {
+        values.push(index * perData);
+        const yval =
+          ((baseHeight -
+            this.calcHeight(
+              dataset.data[dataset.data.length - index - 1],
+              datas,
+              height
+            )) /
+            4) *
+            3 +
+          paddingTop;
+        yValues.push(yval);
+        const xval =
+          paddingRight +
+          ((dataset.data.length - index - 1) * (width - paddingRight)) /
+            dataset.data.length;
+        xValues.push(xval);
+
+        yValuesLabel.push(
+          yval - (scrollableInfoSize.height + scrollableInfoOffset)
+        );
+        xValuesLabel.push(xval - scrollableInfoSize.width / 2);
+      }
+
+      const translateX = scrollableDotHorizontalOffset.interpolate({
+        inputRange: values,
+        outputRange: xValues,
+        extrapolate: "clamp"
+      });
+
+      const translateY = scrollableDotHorizontalOffset.interpolate({
+        inputRange: values,
+        outputRange: yValues,
+        extrapolate: "clamp"
+      });
+
+      const labelTranslateX = scrollableDotHorizontalOffset.interpolate({
+        inputRange: values,
+        outputRange: xValuesLabel,
+        extrapolate: "clamp"
+      });
+
+      const labelTranslateY = scrollableDotHorizontalOffset.interpolate({
+        inputRange: values,
+        outputRange: yValuesLabel,
+        extrapolate: "clamp"
+      });
+
+      output.push([
+        <Animated.View
+          key={Math.random()}
+          style={[
+            scrollableInfoViewStyle,
+            {
+              transform: [
+                { translateX: labelTranslateX },
+                { translateY: labelTranslateY }
+              ],
+              width: scrollableInfoSize.width,
+              height: scrollableInfoSize.height
+            }
+          ]}
+        >
+          <TextInput
+            onLayout={() => {
+              this.label.current.setNativeProps({
+                text: `${Math.floor(data[0].data[data[0].data.length - 1])}`
+              });
+            }}
+            style={scrollableInfoTextStyle}
+            ref={this.label}
+          />
+        </Animated.View>,
+        <AnimatedCircle
+          key={Math.random()}
+          cx={translateX}
+          cy={translateY}
+          r={scrollableDotRadius}
+          stroke={scrollableDotStrokeColor}
+          strokeWidth={scrollableDotStrokeWidth}
+          fill={scrollableDotFill}
+        />
+      ]);
+    });
+
+    return output;
+  };
+
   renderShadow = config => {
     if (this.props.bezier) {
       return this.renderBezierShadow(config);
@@ -148,7 +344,14 @@ class LineChart extends AbstractChart {
       return this.renderBezierLine(config);
     }
 
-    const { width, height, paddingRight, paddingTop, data } = config;
+    const {
+      width,
+      height,
+      paddingRight,
+      paddingTop,
+      data,
+      linejoinType
+    } = config;
     const output = [];
     const datas = this.getDatas(data);
     const baseHeight = this.calcBaseHeight(datas, height);
@@ -161,10 +364,10 @@ class LineChart extends AbstractChart {
           paddingTop;
         return `${x},${y}`;
       });
-
       output.push(
         <Polyline
           key={index}
+          strokeLinejoin={linejoinType}
           points={points.join(" ")}
           fill="none"
           stroke={this.getColor(dataset, 0.2)}
@@ -267,6 +470,7 @@ class LineChart extends AbstractChart {
       width,
       height,
       data,
+      withScrollableDot = false,
       withShadow = true,
       withDots = true,
       withInnerLines = true,
@@ -280,8 +484,10 @@ class LineChart extends AbstractChart {
       horizontalLabelRotation = 0,
       formatYLabel = yLabel => yLabel,
       formatXLabel = xLabel => xLabel,
-      segments
+      segments,
+      transparent = false
     } = this.props;
+    const { scrollableDotHorizontalOffset } = this.state;
     const { labels = [] } = data;
     const {
       borderRadius = 0,
@@ -307,6 +513,7 @@ class LineChart extends AbstractChart {
     }
 
     const legendOffset = this.props.data.legend ? height * 0.15 : 0;
+
     return (
       <View style={style}>
         <Svg
@@ -319,6 +526,7 @@ class LineChart extends AbstractChart {
             rx={borderRadius}
             ry={borderRadius}
             fill="url(#backgroundGradient)"
+            fillOpacity={transparent ? 0 : 1}
           />
           {this.props.data.legend &&
             this.renderLegend(config.width, legendOffset)}
@@ -386,6 +594,7 @@ class LineChart extends AbstractChart {
             <G>
               {this.renderLine({
                 ...config,
+                ...this.props.chartConfig,
                 paddingRight,
                 paddingTop,
                 data: data.datasets
@@ -411,6 +620,18 @@ class LineChart extends AbstractChart {
                 })}
             </G>
             <G>
+              {withScrollableDot &&
+                this.renderScrollableDot({
+                  ...config,
+                  ...this.props.chartConfig,
+                  data: data.datasets,
+                  paddingTop,
+                  paddingRight,
+                  onDataPointClick,
+                  scrollableDotHorizontalOffset
+                })}
+            </G>
+            <G>
               {decorator &&
                 decorator({
                   ...config,
@@ -421,6 +642,23 @@ class LineChart extends AbstractChart {
             </G>
           </G>
         </Svg>
+        {withScrollableDot && (
+          <ScrollView
+            style={StyleSheet.absoluteFill}
+            contentContainerStyle={{ width: width * 2 }}
+            showsHorizontalScrollIndicator={false}
+            scrollEventThrottle={16}
+            onScroll={Animated.event([
+              {
+                nativeEvent: {
+                  contentOffset: { x: scrollableDotHorizontalOffset }
+                }
+              }
+            ])}
+            horizontal
+            bounces={false}
+          />
+        )}
       </View>
     );
   }

@@ -1,5 +1,9 @@
 # Changelog
 
+## v5.3.0
+
+- add `withScrollableDot` to LineChart and a whole bunch of props to `chartConfig`
+
 ## v5.2.0
 
 - `propsForDots` added to `ChartConfig` interface
