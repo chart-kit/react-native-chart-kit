@@ -35,7 +35,7 @@ class ContributionGraph extends AbstractChart {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     let { maxValue, minValue, valueCache } = this.getValueCache(
       nextProps.values
     );
@@ -118,8 +118,8 @@ class ContributionGraph extends AbstractChart {
           (date - this.getStartDateWithEmptyDays()) / MILLISECONDS_IN_ONE_DAY
         );
 
-        minValue = Math.min(value.count, minValue);
-        maxValue = Math.max(value.count, maxValue);
+        minValue = Math.min(value[this.props.accessor], minValue);
+        maxValue = Math.max(value[this.props.accessor], maxValue);
 
         memo[index] = {
           value,
@@ -145,7 +145,7 @@ class ContributionGraph extends AbstractChart {
   getClassNameForIndex(index) {
     if (this.state.valueCache[index]) {
       if (this.state.valueCache[index].value) {
-        const count = this.state.valueCache[index].value.count;
+        const count = this.state.valueCache[index].value[this.props.accessor];
 
         if (count) {
           const opacity = mapValue(
@@ -175,7 +175,7 @@ class ContributionGraph extends AbstractChart {
     if (this.state.valueCache[index]) {
       return this.state.valueCache[index].tooltipDataAttrs;
     }
-    return this.getTooltipDataAttrsForValue({ date: null, count: null });
+    return this.getTooltipDataAttrsForValue({ date: null, [this.props.accessor]: null });
   }
 
   getTooltipDataAttrsForValue(value) {
@@ -273,7 +273,7 @@ class ContributionGraph extends AbstractChart {
       this.state.valueCache[index] && this.state.valueCache[index].value
         ? this.state.valueCache[index].value
         : {
-            count: 0,
+            [this.props.accessor]: 0,
             date: new Date(
               this.getStartDate().valueOf() + index * MILLISECONDS_IN_ONE_DAY
             )
@@ -362,6 +362,7 @@ ContributionGraph.defaultProps = {
   horizontal: true,
   showMonthLabels: true,
   showOutOfRangeDays: false,
+  accessor: "count",
   classForValue: value => (value ? "black" : "#8cc665")
 };
 

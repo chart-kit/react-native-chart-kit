@@ -308,6 +308,11 @@ export interface ContributionGraphProps {
   numDays: number;
   width: number;
   height: number;
+  gutterSize?: number;
+  squareSize?: number;
+  horizontal?: boolean;
+  showMonthLabels?: boolean;
+  showOutOfRangeDays?: boolean;
   chartConfig: ChartConfig;
   accessor?: string;
   getMonthLabel?: (monthIndex: number) => string;

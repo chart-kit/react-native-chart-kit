@@ -404,15 +404,20 @@ const commitsData = [
 />
 ```
 
-| Property      | Type     | Description                                                                                 |
-| ------------- | -------- | ------------------------------------------------------------------------------------------- |
-| data          | Object   | Data for the chart - see example above                                                      |
-| width         | Number   | Width of the chart, use 'Dimensions' library to get the width of your screen for responsive |
-| height        | Number   | Height of the chart                                                                         |
-| chartConfig   | Object   | Configuration object for the chart, see example config in the beginning of this file        |
-| accessor      | string   | Property in the `data` object from which the number values are taken                        |
-| getMonthLabel | function | Function which returns the label for each month, taking month index (0 - 11) as argument    |
-| onDayPress    | function | Callback invoked when the user clicks a day square on the chart; takes a value-item object  |
+| Property           | Type     | Description                                                                                 |
+| ------------------ | -------- | ------------------------------------------------------------------------------------------- |
+| data               | Object   | Data for the chart - see example above                                                      |
+| width              | Number   | Width of the chart, use 'Dimensions' library to get the width of your screen for responsive |
+| height             | Number   | Height of the chart                                                                         |
+| gutterSize         | Number   | Size of the gutters between the squares in the chart                                        |
+| squareSize         | Number   | Size of the squares in the chart                                                            |
+| horizontal         | boolean  | Should graph be laid out horizontally? Defaults to `true`                                   |
+| showMonthLabels    | boolean  | Should graph include labels for the months? Defaults to `true`                              |
+| showOutOfRangeDays | boolean  | Should graph be filled with squares, including days outside the range? Defaults to `false`  |
+| chartConfig        | Object   | Configuration object for the chart, see example config in the beginning of this file        |
+| accessor           | string   | Property in the `data` object from which the number values are taken; defaults to `count`   |
+| getMonthLabel      | function | Function which returns the label for each month, taking month index (0 - 11) as argument    |
+| onDayPress         | function | Callback invoked when the user clicks a day square on the chart; takes a value-item object  |
 
 ## More styling
 
