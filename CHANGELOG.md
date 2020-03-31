@@ -2,7 +2,8 @@
 
 ## v5.3.0
 
-- add `withScrollableDot` to LineChart and a whole bunch of props to `chartConfig`
+- added missing ContributionGraph props
+- added `withScrollableDot` to LineChart and a whole bunch of props to `chartConfig`. New feature for Line Chart - scrollable dot. It allows to navigate through chart using gesture and see value at dot's current position.
 
 ## v5.2.0
 
