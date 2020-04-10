@@ -212,13 +212,13 @@ export class LineChart extends React.Component<LineChartProps> {}
 
 export type ProgressChartData =
   | Array<number>
-  | { labels: Array<string>; data: Array<number> };
+  | { labels?: Array<string>; data: Array<number> };
 export interface ProgressChartProps {
   data: ProgressChartData;
   width: number;
   height: number;
-  chartConfig: ChartConfig;
-  hideLegend: boolean;
+  chartConfig?: ChartConfig;
+  hideLegend?: boolean;
 }
 
 export class ProgressChart extends React.Component<ProgressChartProps> {}
@@ -350,11 +350,11 @@ export interface ChartConfig {
   /**
    * Defines the base color function that is used to calculate colors of labels and sectors used in a chart
    */
-  color: (opacity: number, index?: number) => string;
+  color?: (opacity: number, index?: number) => string;
   /**
    * Defines the function that is used to calculate the color of the labels used in a chart.
    */
-  labelColor: (opacity: number) => string;
+  labelColor?: (opacity: number) => string;
   /**
    * Defines the base stroke width in a chart
    */
