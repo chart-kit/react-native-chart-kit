@@ -1,5 +1,9 @@
 # Changelog
 
+## v5.3.1
+
+- TS type fixes
+
 ## v5.3.0
 
 - added missing ContributionGraph props
