@@ -1,5 +1,9 @@
 # Changelog
 
+## v5.4.0
+
+- added strokeWidth & radius as props for ProgressChart
+
 ## v5.3.1
 
 - TS type fixes
