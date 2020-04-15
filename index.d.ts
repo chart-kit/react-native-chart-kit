@@ -219,6 +219,8 @@ export interface ProgressChartProps {
   height: number;
   chartConfig?: ChartConfig;
   hideLegend?: boolean;
+  strokeWidth?: number;
+  radius?:number;
 }
 
 export class ProgressChart extends React.Component<ProgressChartProps> {}

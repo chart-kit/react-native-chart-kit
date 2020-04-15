@@ -208,6 +208,8 @@ const data = {
   data={data}
   width={screenWidth}
   height={220}
+  strokeWidth={16}
+  radius={32}
   chartConfig={chartConfig}
   hideLegend={false}
 />
@@ -218,6 +220,8 @@ const data = {
 | data        | Object  | Data for the chart - see example above                                                      |
 | width       | Number  | Width of the chart, use 'Dimensions' library to get the width of your screen for responsive |
 | height      | Number  | Height of the chart                                                                         |
+| strokeWidth | Number  | Width of the stroke of the chart - default: 16                                              |
+| radius      | Number  | Inner radius of the chart - default: 32                                                     |
 | chartConfig | Object  | Configuration object for the chart, see example config in the beginning of this file        |
 | hideLegend  | Boolean | Switch to hide chart legend (defaults to false)                                             |
 

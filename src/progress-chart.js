@@ -7,7 +7,7 @@ const Pie = require("paths-js/pie");
 
 class ProgressChart extends AbstractChart {
   render() {
-    const { width, height, style = {}, data, hideLegend } = this.props;
+    const { width, height, style, data, hideLegend, strokeWidth, radius } = this.props;
     const { borderRadius = 0, margin = 0, marginRight = 0 } = style;
 
     if (Array.isArray(data)) {
@@ -17,7 +17,7 @@ class ProgressChart extends AbstractChart {
     }
 
     const pies = data.data.map((pieData, i) => {
-      const r = ((height / 2 - 32) / data.data.length) * i + 32;
+      const r = ((height / 2 - 32) / data.data.length) * i + radius;
       return Pie({
         r,
         R: r,
@@ -30,7 +30,7 @@ class ProgressChart extends AbstractChart {
     });
 
     const pieBackgrounds = data.data.map((pieData, i) => {
-      const r = ((height / 2 - 32) / data.data.length) * i + 32;
+      const r = ((height / 2 - 32) / data.data.length) * i + radius;
       return Pie({
         r,
         R: r,
@@ -118,7 +118,7 @@ class ProgressChart extends AbstractChart {
                   <Path
                     key={Math.random()}
                     d={pie.curves[0].sector.path.print()}
-                    strokeWidth={16}
+                    strokeWidth={strokeWidth}
                     stroke={this.props.chartConfig.color(0.2, i)}
                   />
                 );
@@ -132,7 +132,7 @@ class ProgressChart extends AbstractChart {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     d={pie.curves[0].sector.path.print()}
-                    strokeWidth={16}
+                    strokeWidth={strokeWidth}
                     stroke={this.props.chartConfig.color(
                       (i / pies.length) * 0.5 + 0.5,
                       i
@@ -148,5 +148,11 @@ class ProgressChart extends AbstractChart {
     );
   }
 }
+
+ProgressChart.defaultProps = {
+  style: {},
+  strokeWidth: 16,
+  radius: 32
+};
 
 export default ProgressChart;
