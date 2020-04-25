@@ -1,5 +1,13 @@
 # Changelog
 
+## v5.5.0
+
+- added `useShadowColorFromDataset` to `chartConfig` to make `LineChart` shadow same as line color
+
+## v5.4.2
+
+- fixed decimalPlaces not being sent with barChart
+
 ## v5.4.0
 
 - added strokeWidth & radius as props for ProgressChart
