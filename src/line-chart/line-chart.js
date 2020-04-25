@@ -308,7 +308,7 @@ class LineChart extends AbstractChart {
       return this.renderBezierShadow(config);
     }
 
-    const { data, width, height, paddingRight, paddingTop } = config;
+    const { data, width, height, paddingRight, paddingTop, useColorFromDataset } = config;
     const datas = this.getDatas(data);
     const baseHeight = this.calcBaseHeight(datas, height);
     return config.data.map((dataset, index) => {
@@ -332,7 +332,7 @@ class LineChart extends AbstractChart {
                 (dataset.data.length - 1)},${(height / 4) * 3 +
               paddingTop} ${paddingRight},${(height / 4) * 3 + paddingTop}`
           }
-          fill="url(#fillShadowGradient)"
+          fill={`url(#fillShadowGradient${useColorFromDataset ? `_${index}` : ''})`}
           strokeWidth={0}
         />
       );
@@ -428,7 +428,7 @@ class LineChart extends AbstractChart {
   };
 
   renderBezierShadow = config => {
-    const { width, height, paddingRight, paddingTop, data } = config;
+    const { width, height, paddingRight, paddingTop, data, useColorFromDataset } = config;
     return data.map((dataset, index) => {
       const d =
         this.getBezierLinePoints(dataset, config) +
@@ -440,7 +440,7 @@ class LineChart extends AbstractChart {
         <Path
           key={index}
           d={d}
-          fill="url(#fillShadowGradient)"
+          fill={`url(#fillShadowGradient${useColorFromDataset ? `_${index}` : ''})`}
           strokeWidth={0}
         />
       );
@@ -485,7 +485,8 @@ class LineChart extends AbstractChart {
       formatYLabel = yLabel => yLabel,
       formatXLabel = xLabel => xLabel,
       segments,
-      transparent = false
+      transparent = false,
+      chartConfig = {},
     } = this.props;
     const { scrollableDotHorizontalOffset } = this.state;
     const { labels = [] } = data;
@@ -533,7 +534,8 @@ class LineChart extends AbstractChart {
           <G x="0" y={legendOffset}>
             {this.renderDefs({
               ...config,
-              ...this.props.chartConfig
+              ...chartConfig,
+              data: data.datasets
             })}
             <G>
               {withInnerLines
@@ -560,7 +562,7 @@ class LineChart extends AbstractChart {
                     paddingTop,
                     paddingRight,
                     formatYLabel,
-                    decimalPlaces: this.props.chartConfig.decimalPlaces
+                    decimalPlaces: chartConfig.decimalPlaces
                   })
                 : null}
             </G>
@@ -594,7 +596,7 @@ class LineChart extends AbstractChart {
             <G>
               {this.renderLine({
                 ...config,
-                ...this.props.chartConfig,
+                ...chartConfig,
                 paddingRight,
                 paddingTop,
                 data: data.datasets
@@ -606,7 +608,8 @@ class LineChart extends AbstractChart {
                   ...config,
                   data: data.datasets,
                   paddingRight,
-                  paddingTop
+                  paddingTop,
+                  useColorFromDataset: chartConfig.useShadowColorFromDataset,
                 })}
             </G>
             <G>
@@ -623,7 +626,7 @@ class LineChart extends AbstractChart {
               {withScrollableDot &&
                 this.renderScrollableDot({
                   ...config,
-                  ...this.props.chartConfig,
+                  ...chartConfig,
                   data: data.datasets,
                   paddingTop,
                   paddingRight,

@@ -242,7 +242,9 @@ class AbstractChart extends Component {
       width,
       height,
       backgroundGradientFrom,
-      backgroundGradientTo
+      backgroundGradientTo,
+      useShadowColorFromDataset,
+      data
     } = config;
     const fromOpacity = config.hasOwnProperty("backgroundGradientFromOpacity")
       ? config.backgroundGradientFromOpacity
@@ -281,20 +283,42 @@ class AbstractChart extends Component {
             stopOpacity={toOpacity}
           />
         </LinearGradient>
-        <LinearGradient
-          id="fillShadowGradient"
-          x1={0}
-          y1={0}
-          x2={0}
-          y2={height}
-        >
-          <Stop
-            offset="0"
-            stopColor={fillShadowGradient}
-            stopOpacity={fillShadowGradientOpacity}
-          />
-          <Stop offset="1" stopColor={fillShadowGradient} stopOpacity="0" />
-        </LinearGradient>
+        {
+          useShadowColorFromDataset ? (
+            data.map((dataset, index) => (
+              <LinearGradient
+                id={`fillShadowGradient_${index}`}
+                key={`${index}`}
+                x1={0}
+                y1={0}
+                x2={0}
+                y2={height}
+              >
+                <Stop
+                  offset="0"
+                  stopColor={dataset.color ? dataset.color() : fillShadowGradient}
+                  stopOpacity={fillShadowGradientOpacity}
+                />
+                <Stop offset="1" stopColor={dataset.color ? dataset.color(fillShadowGradientOpacity) : fillShadowGradient} stopOpacity="0" />
+              </LinearGradient>
+            ))
+          ) : (
+            <LinearGradient
+              id="fillShadowGradient"
+              x1={0}
+              y1={0}
+              x2={0}
+              y2={height}
+            >
+              <Stop
+                offset="0"
+                stopColor={fillShadowGradient}
+                stopOpacity={fillShadowGradientOpacity}
+              />
+              <Stop offset="1" stopColor={fillShadowGradient} stopOpacity="0" />
+            </LinearGradient>
+          )
+        }
       </Defs>
     );
   };

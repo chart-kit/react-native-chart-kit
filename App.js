@@ -209,6 +209,21 @@ export default class App extends React.Component {
                 style={graphStyle}
                 hidePointsAtIndex={[0, data.datasets[0].data.length - 1]}
               />
+              <Text style={labelStyle}>Line Chart with shadow background as line color</Text>
+              <LineChart
+                bezier
+                data={data}
+                width={width}
+                height={height}
+                yAxisLabel="$"
+                segments={5}
+                chartConfig={{
+                  ...chartConfig,
+                  useShadowColorFromDataset: true
+                }}
+                style={graphStyle}
+                hidePointsAtIndex={[0, data.datasets[0].data.length - 1]}
+              />
 
               <Text style={labelStyle}>Scrollable Line Chart</Text>
               <LineChart
