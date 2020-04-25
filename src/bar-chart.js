@@ -82,7 +82,7 @@ class BarChart extends AbstractChart {
       verticalLabelRotation,
       horizontalLabelRotation,
       barRadius: (this.props.chartConfig && this.props.chartConfig.barRadius) || 0,
-      decimalPlaces: (this.props.chartConfig && this.props.chartConfig.decimalPlaces) || 2
+      decimalPlaces: (this.props.chartConfig && this.props.chartConfig.decimalPlaces) || 2,
       formatYLabel: (this.props.chartConfig && this.props.chartConfig.formatYLabel) || function(label){return label},
       formatXLabel: (this.props.chartConfig && this.props.chartConfig.formatXLabel) || function(label){return label},
     };
