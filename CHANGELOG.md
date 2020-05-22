@@ -1,5 +1,10 @@
 # Changelog
 
+## v5.6.0
+
+- added `showValuesOnTopOfBars` prop to `BarChart`
+- fixed decimalPlaces being 0 and not applied in `BarChart`
+
 ## v5.5.0
 
 - added `useShadowColorFromDataset` to `chartConfig` to make `LineChart` shadow same as line color
