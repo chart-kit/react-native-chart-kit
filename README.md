@@ -253,7 +253,6 @@ const data = {
   verticalLabelRotation={30}
 />
 ```
-
 | Property                | Type            | Description                                                                                 |
 | ----------------------- | --------------- | ------------------------------------------------------------------------------------------- |
 | data                    | Object          | Data for the chart - see example above                                                      |
@@ -269,6 +268,8 @@ const data = {
 | horizontalLabelRotation | number (degree) | Rotation angle of the horizontal labels - default 0                                         |
 | verticalLabelRotation   | number (degree) | Rotation angle of the vertical labels - default 0                                           |
 | showBarTops             | boolean         | Show bar tops                                                                               |
+| showValuesOnTopOfBars   | boolean         | Show value above bars                                                                       |
+
 
 ## StackedBar chart
 

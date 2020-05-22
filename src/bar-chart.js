@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { Svg, Rect, G } from "react-native-svg";
+import { Svg, Rect, G, Text } from "react-native-svg";
 import AbstractChart from "./abstract-chart";
 
 const barWidth = 32;
@@ -61,6 +61,31 @@ class BarChart extends AbstractChart {
     });
   };
 
+  renderValuesOnTopOfBars = config => {
+    const { data, width, height, paddingTop, paddingRight } = config;
+    const baseHeight = this.calcBaseHeight(data, height);
+    return data.map((x, i) => {
+      const barHeight = this.calcHeight(x, data, height);
+      const barWidth = 32 * this.getBarPercentage();
+      return (
+        <Text
+          key={Math.random()}
+          x={
+            paddingRight +
+            (i * (width - paddingRight)) / data.length +
+            barWidth / 1
+          }
+          y={((baseHeight - barHeight) / 4) * 3 + paddingTop - 1}
+          fill={this.props.chartConfig.color(0.6)}
+          fontSize="12"
+          textAnchor="middle"
+        >
+          {data[i]}
+        </Text>
+      );
+    });
+  };
+
   render() {
     const {
       width,
@@ -73,6 +98,7 @@ class BarChart extends AbstractChart {
       horizontalLabelRotation = 0,
       withInnerLines = true,
       showBarTops = true,
+      showValuesOnTopOfBars = false,
       segments = 4
     } = this.props;
     const { borderRadius = 0, paddingTop = 16, paddingRight = 64 } = style;
@@ -148,6 +174,15 @@ class BarChart extends AbstractChart {
               paddingTop,
               paddingRight
             })}
+          </G>
+          <G>
+            {showValuesOnTopOfBars &&
+              this.renderValuesOnTopOfBars({
+                ...config,
+                data: data.datasets[0].data,
+                paddingTop,
+                paddingRight
+              })}
           </G>
           <G>
             {showBarTops &&
