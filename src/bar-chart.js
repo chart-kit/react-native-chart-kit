@@ -81,10 +81,20 @@ class BarChart extends AbstractChart {
       height,
       verticalLabelRotation,
       horizontalLabelRotation,
-      barRadius: (this.props.chartConfig && this.props.chartConfig.barRadius) || 0,
-      decimalPlaces: (this.props.chartConfig && this.props.chartConfig.decimalPlaces) || 2,
-      formatYLabel: (this.props.chartConfig && this.props.chartConfig.formatYLabel) || function(label){return label},
-      formatXLabel: (this.props.chartConfig && this.props.chartConfig.formatXLabel) || function(label){return label},
+      barRadius:
+        (this.props.chartConfig && this.props.chartConfig.barRadius) || 0,
+      decimalPlaces:
+        (this.props.chartConfig && this.props.chartConfig.decimalPlaces) ?? 2,
+      formatYLabel:
+        (this.props.chartConfig && this.props.chartConfig.formatYLabel) ||
+        function(label) {
+          return label;
+        },
+      formatXLabel:
+        (this.props.chartConfig && this.props.chartConfig.formatXLabel) ||
+        function(label) {
+          return label;
+        }
     };
     return (
       <View style={style}>
@@ -140,12 +150,13 @@ class BarChart extends AbstractChart {
             })}
           </G>
           <G>
-            {showBarTops && this.renderBarTops({
-              ...config,
-              data: data.datasets[0].data,
-              paddingTop,
-              paddingRight
-            })}
+            {showBarTops &&
+              this.renderBarTops({
+                ...config,
+                data: data.datasets[0].data,
+                paddingTop,
+                paddingRight
+              })}
           </G>
         </Svg>
       </View>
