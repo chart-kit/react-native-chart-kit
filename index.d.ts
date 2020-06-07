@@ -220,7 +220,7 @@ export interface ProgressChartProps {
   chartConfig?: ChartConfig;
   hideLegend?: boolean;
   strokeWidth?: number;
-  radius?:number;
+  radius?: number;
 }
 
 export class ProgressChart extends React.Component<ProgressChartProps> {}
@@ -243,6 +243,7 @@ export interface BarChartProps {
    */
   segments?: number;
   showBarTops?: boolean;
+  showValuesOnTopOfBars?: boolean;
 }
 
 export class BarChart extends React.Component<BarChartProps> {}
