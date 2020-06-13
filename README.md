@@ -4,6 +4,8 @@ If you're looking to **build a website or a cross-platform mobile app** – we w
 
 [📲See example app](https://github.com/indiespirit/react-native-chart-kit-example)
 
+To try the examples in Expo, please change `main` to `./node_modules/expo/AppEntry.js` in `package.json` before starting things with `expo run`. You'll need to have `expo-cli` installed via `npm install -g expo-cli`.
+
 # React Native Chart Kit Documentation
 
 ## Import components
@@ -99,7 +101,7 @@ const chartConfig = {
 | backgroundGradientToOpacity   | Number             | Defines the second color opacity in the linear gradient of a chart's background                        |
 | fillShadowGradient            | string             | Defines the color of the area under data                                                               |
 | fillShadowGradientOpacity     | Number             | Defines the initial opacity of the area under data                                                     |
-| useShadowColorFromDataset     | Boolean            | Defines the option to use color from dataset to each chart data. Default is false                               |
+| useShadowColorFromDataset     | Boolean            | Defines the option to use color from dataset to each chart data. Default is false                      |
 | color                         | function => string | Defines the base color function that is used to calculate colors of labels and sectors used in a chart |
 | strokeWidth                   | Number             | Defines the base stroke width in a chart                                                               |
 | barPercentage                 | Number             | Defines the percent (0-1) of the available width each bar width in a chart                             |
@@ -253,6 +255,7 @@ const data = {
   verticalLabelRotation={30}
 />
 ```
+
 | Property                | Type            | Description                                                                                 |
 | ----------------------- | --------------- | ------------------------------------------------------------------------------------------- |
 | data                    | Object          | Data for the chart - see example above                                                      |
@@ -270,7 +273,6 @@ const data = {
 | showBarTops             | boolean         | Show bar tops                                                                               |
 | showValuesOnTopOfBars   | boolean         | Show value above bars                                                                       |
 
-
 ## StackedBar chart
 
 ![StackedBar_Chart](https://imgur.com/JkBtxt8.jpg)
@@ -279,7 +281,10 @@ const data = {
 const data = {
   labels: ["Test1", "Test2"],
   legend: ["L1", "L2", "L3"],
-  data: [[60, 60, 60], [30, 30, 60]],
+  data: [
+    [60, 60, 60],
+    [30, 30, 60]
+  ],
   barColors: ["#dfe4ea", "#ced6e0", "#a4b0be"]
 };
 ```

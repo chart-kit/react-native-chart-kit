@@ -267,10 +267,11 @@ class AbstractChart extends Component {
       <Defs>
         <LinearGradient
           id="backgroundGradient"
-          x1="0"
+          x1={0}
           y1={height}
           x2={width}
           y2={0}
+          gradientUnits="userSpaceOnUse"
         >
           <Stop
             offset="0"
@@ -293,6 +294,7 @@ class AbstractChart extends Component {
                 y1={0}
                 x2={0}
                 y2={height}
+                gradientUnits="userSpaceOnUse"
               >
                 <Stop
                   offset="0"
@@ -309,6 +311,7 @@ class AbstractChart extends Component {
               y1={0}
               x2={0}
               y2={height}
+              gradientUnits="userSpaceOnUse"
             >
               <Stop
                 offset="0"
