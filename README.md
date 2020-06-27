@@ -132,7 +132,7 @@ const data = {
       strokeWidth: 2 // optional
     }
   ],
-  legend: ["Rainy Days", "Sunny Days", "Snowy Days"] // optional
+  legend: ["Rainy Days"] // optional
 };
 ```
 
