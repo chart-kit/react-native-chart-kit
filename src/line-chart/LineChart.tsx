@@ -343,6 +343,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
     scrollableDotRadius,
     scrollableInfoViewStyle,
     scrollableInfoTextStyle,
+    scrollableInfoTextDecorator = x => `${x}`,
     scrollableInfoSize,
     scrollableInfoOffset
   }: AbstractChartConfig & {
@@ -373,7 +374,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
 
       if (index >= data[0].data.length - 1) {
         this.label.current.setNativeProps({
-          text: `${Math.floor(data[0].data[0])}`
+          text: scrollableInfoTextDecorator(Math.floor(data[0].data[0]))
         });
       } else {
         if (index > lastIndex) {
@@ -384,12 +385,16 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
           if (prev > base) {
             let rest = prev - base;
             this.label.current.setNativeProps({
-              text: `${Math.floor(base + percent * rest)}`
+              text: scrollableInfoTextDecorator(
+                Math.floor(base + percent * rest)
+              )
             });
           } else {
             let rest = base - prev;
             this.label.current.setNativeProps({
-              text: `${Math.floor(base - percent * rest)}`
+              text: scrollableInfoTextDecorator(
+                Math.floor(base - percent * rest)
+              )
             });
           }
         } else {
@@ -401,12 +406,16 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
           if (next > base) {
             let rest = next - base;
             this.label.current.setNativeProps({
-              text: `${Math.floor(base + percent * rest)}`
+              text: scrollableInfoTextDecorator(
+                Math.floor(base + percent * rest)
+              )
             });
           } else {
             let rest = base - next;
             this.label.current.setNativeProps({
-              text: `${Math.floor(base - percent * rest)}`
+              text: scrollableInfoTextDecorator(
+                Math.floor(base - percent * rest)
+              )
             });
           }
         }
@@ -492,7 +501,9 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
           <TextInput
             onLayout={() => {
               this.label.current.setNativeProps({
-                text: `${Math.floor(data[0].data[data[0].data.length - 1])}`
+                text: scrollableInfoTextDecorator(
+                  Math.floor(data[0].data[data[0].data.length - 1])
+                )
               });
             }}
             style={scrollableInfoTextStyle}

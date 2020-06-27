@@ -1,5 +1,9 @@
 # Changelog
 
+## v6.1.0
+
+- added `scrollableInfoTextDecorator`
+
 ## v6.0.0
 
 - Typescript rewrite
