@@ -29,6 +29,10 @@
   },
   "_main": "./node_modules/expo/AppEntry.js",
   "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "start": "expo start",
     "eject": "expo eject",

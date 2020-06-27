@@ -1,5 +1,9 @@
 # Changelog
 
+## v6.0.0
+
+- Typescript rewrite
+
 ## v5.6.1
 
 - fixed linear gradient issue due to `react-native-svg` lib update
