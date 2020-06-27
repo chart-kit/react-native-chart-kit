@@ -496,6 +496,12 @@ Render definitions of background and shadow gradients
 }
 ```
 
+## Compilation
+
+For production use, the package is automatically compiled after installation, so that you can just install it with `npm` and use it out-of-the-box.
+
+To transpile TypeScript into JavaScript for development purposes, you can use either run `npm run build` to compile once, or `npm run dev` to start compilation in watch mode, which will recompile the files on change.
+
 ## More information
 
 This library is built on top of the following open-source projects:

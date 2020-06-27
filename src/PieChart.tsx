@@ -1,11 +1,26 @@
+import Pie from "paths-js/pie";
 import React from "react";
-import { View } from "react-native";
-import { Svg, Rect, Text, G, Path } from "react-native-svg";
-import AbstractChart from "./abstract-chart";
+import { View, ViewStyle } from "react-native";
+import { G, Path, Rect, Svg, Text } from "react-native-svg";
 
-const Pie = require("paths-js/pie");
+import AbstractChart, { AbstractChartProps } from "./AbstractChart";
 
-class PieChart extends AbstractChart {
+export interface PieChartProps extends AbstractChartProps {
+  data: Array<any>;
+  width: number;
+  height: number;
+  accessor: string;
+  backgroundColor: string;
+  paddingLeft: string;
+  center?: Array<number>;
+  absolute?: boolean;
+  hasLegend?: boolean;
+  style?: Partial<ViewStyle>;
+}
+
+type PieChartState = {};
+
+class PieChart extends AbstractChart<PieChartProps, PieChartState> {
   render() {
     const {
       style = {},
@@ -13,7 +28,9 @@ class PieChart extends AbstractChart {
       absolute = false,
       hasLegend = true
     } = this.props;
+
     const { borderRadius = 0 } = style;
+
     const chart = Pie({
       center: this.props.center || [0, 0],
       r: 0,
@@ -23,11 +40,14 @@ class PieChart extends AbstractChart {
         return x[this.props.accessor];
       }
     });
+
     const total = this.props.data.reduce((sum, item) => {
       return sum + item[this.props.accessor];
     }, 0);
+
     const slices = chart.curves.map((c, i) => {
-      let value;
+      let value: string;
+
       if (absolute) {
         value = c.item[this.props.accessor];
       } else {
@@ -73,6 +93,7 @@ class PieChart extends AbstractChart {
         </G>
       );
     });
+
     return (
       <View
         style={{

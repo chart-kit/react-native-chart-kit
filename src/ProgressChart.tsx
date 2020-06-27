@@ -1,13 +1,53 @@
+import Pie from "paths-js/pie";
 import React from "react";
-import { View } from "react-native";
-import { Svg, Text, G, Rect, Path } from "react-native-svg";
-import AbstractChart from "./abstract-chart";
+import { View, ViewStyle } from "react-native";
+import { G, Path, Rect, Svg, Text } from "react-native-svg";
 
-const Pie = require("paths-js/pie");
+import AbstractChart, {
+  AbstractChartConfig,
+  AbstractChartProps
+} from "./AbstractChart";
 
-class ProgressChart extends AbstractChart {
+export type ProgressChartData =
+  | Array<number>
+  | { labels?: Array<string>; data: Array<number> };
+
+export interface ProgressChartProps extends AbstractChartProps {
+  data: ProgressChartData;
+  width: number;
+  height: number;
+  accessor: string;
+  backgroundColor: string;
+  paddingLeft: string;
+  center?: Array<number>;
+  absolute?: boolean;
+  hasLegend?: boolean;
+  style?: Partial<ViewStyle>;
+  chartConfig?: AbstractChartConfig;
+  hideLegend?: boolean;
+  strokeWidth?: number;
+  radius?: number;
+}
+
+type ProgressChartState = {};
+
+class ProgressChart extends AbstractChart<
+  ProgressChartProps,
+  ProgressChartState
+> {
+  public static defaultProps = { style: {}, strokeWidth: 16, radius: 32 };
+
   render() {
-    const { width, height, style, data, hideLegend, strokeWidth, radius } = this.props;
+    let {
+      width,
+      height,
+      style,
+      data,
+      hideLegend,
+      strokeWidth,
+      radius
+    } = this.props;
+
     const { borderRadius = 0, margin = 0, marginRight = 0 } = style;
 
     if (Array.isArray(data)) {
@@ -17,32 +57,42 @@ class ProgressChart extends AbstractChart {
     }
 
     const pies = data.data.map((pieData, i) => {
-      const r = ((height / 2 - 32) / data.data.length) * i + radius;
+      const r =
+        ((height / 2 - 32) /
+          (Array.isArray(data) ? data.length : data.data.length)) *
+          i +
+        radius;
+
       return Pie({
         r,
         R: r,
         center: [0, 0],
         data: [pieData, 1 - pieData],
-        accessor(x) {
+        accessor(x: string) {
           return x;
         }
       });
     });
 
     const pieBackgrounds = data.data.map((pieData, i) => {
-      const r = ((height / 2 - 32) / data.data.length) * i + radius;
+      const r =
+        ((height / 2 - 32) /
+          (Array.isArray(data) ? data.length : data.data.length)) *
+          i +
+        radius;
       return Pie({
         r,
         R: r,
         center: [0, 0],
         data: [0.999, 0.001],
-        accessor(x) {
+        accessor(x: string) {
           return x;
         }
       });
     });
 
-    const withLabel = i => data.labels && data.labels[i];
+    const withLabel = (i: number) =>
+      (data as any).labels && (data as any).labels[i];
 
     const legend = !hideLegend && (
       <>
@@ -59,7 +109,9 @@ class ProgressChart extends AbstractChart {
                 x={this.props.width / 2.5 - 24}
                 y={
                   -(this.props.height / 2.5) +
-                  ((this.props.height * 0.8) / data.data.length) * i +
+                  ((this.props.height * 0.8) /
+                    (Array.isArray(data) ? data.length : data.data.length)) *
+                    i +
                   12
                 }
               />
@@ -74,14 +126,18 @@ class ProgressChart extends AbstractChart {
                 x={this.props.width / 2.5}
                 y={
                   -(this.props.height / 2.5) +
-                  ((this.props.height * 0.8) / data.data.length) * i +
+                  ((this.props.height * 0.8) /
+                    (Array.isArray(data) ? data.length : data.data.length)) *
+                    i +
                   12 * 2
                 }
                 {...this.getPropsForLabels()}
               >
                 {withLabel(i)
-                  ? `${data.labels[i]} ${Math.round(100 * data.data[i])}%`
-                  : `${Math.round(100 * data.data[i])}%`}
+                  ? `${(data as any).labels[i]} ${Math.round(
+                      100 * (data as any).data[i]
+                    )}%`
+                  : `${Math.round(100 * (data as any).data[i])}%`}
               </Text>
             );
           })}
@@ -98,7 +154,10 @@ class ProgressChart extends AbstractChart {
           ...style
         }}
       >
-        <Svg width={width - margin * 2 - marginRight} height={height}>
+        <Svg
+          width={width - (margin as number) * 2 - (marginRight as number)}
+          height={height}
+        >
           {this.renderDefs({
             width: this.props.height,
             height: this.props.height,
@@ -148,11 +207,5 @@ class ProgressChart extends AbstractChart {
     );
   }
 }
-
-ProgressChart.defaultProps = {
-  style: {},
-  strokeWidth: 16,
-  radius: 32
-};
 
 export default ProgressChart;

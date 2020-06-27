@@ -1,11 +1,20 @@
 import React from "react";
-import { Rect, Text } from "react-native-svg";
+import { Color, Rect, Text, TextProps } from "react-native-svg";
 
 const CIRCLE_WIDTH = 16;
 const PADDING_LEFT = 4;
 const CHARACTER_WIDTH = 6;
 
-export const LegendItem = props => {
+export type LegendItemProps = {
+  baseLegendItemX: number;
+  index: number;
+  legendOffset: number;
+  legendText: string;
+  iconColor: Color;
+  labelProps: TextProps;
+};
+
+export const LegendItem = (props: LegendItemProps) => {
   const { baseLegendItemX, index } = props;
   /* half the height of the legend Rect, minus half the height of the circle to align the
      circle from its center, rather than its top. */

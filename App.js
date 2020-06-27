@@ -1,21 +1,25 @@
 import "babel-polyfill";
+
 import React from "react";
-import { ScrollView, StatusBar, Dimensions, Text } from "react-native";
-import ScrollableTabView from "react-native-scrollable-tab-view";
+import { Dimensions, ScrollView, StatusBar, Text } from "react-native";
 import FlashMessage, { showMessage } from "react-native-flash-message";
-import LineChart from "./src/line-chart";
-import PieChart from "./src/pie-chart";
-import ProgressChart from "./src/progress-chart";
-import BarChart from "./src/bar-chart";
-import StackedBarChart from "./src/stackedbar-chart";
-import ContributionGraph from "./src/contribution-graph";
+import ScrollableTabView from "react-native-scrollable-tab-view";
+
 import {
-  data,
   contributionData,
+  data,
   pieChartData,
   progressChartData,
   stackedBarGraphData
 } from "./data";
+import {
+  BarChart,
+  ContributionGraph,
+  LineChart,
+  PieChart,
+  ProgressChart,
+  StackedBarChart
+} from "./dist/";
 
 // in Expo - swipe left to see the following styling, or create your own
 const chartConfigs = [
@@ -209,7 +213,9 @@ export default class App extends React.Component {
                 style={graphStyle}
                 hidePointsAtIndex={[0, data.datasets[0].data.length - 1]}
               />
-              <Text style={labelStyle}>Line Chart with shadow background as line color</Text>
+              <Text style={labelStyle}>
+                Line Chart with shadow background as line color
+              </Text>
               <LineChart
                 bezier
                 data={data}

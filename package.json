@@ -2,6 +2,8 @@
   "name": "react-native-chart-kit",
   "version": "5.6.1",
   "devDependencies": {
+    "@types/react": "^16.9.38",
+    "@types/react-native": "^0.62.13",
     "babel-eslint": "10.x",
     "babel-plugin-module-resolver": "^3.1.1",
     "babel-polyfill": "^6.26.0",
@@ -22,16 +24,20 @@
     "react-native-flash-message": "^0.1.10",
     "react-native-scrollable-tab-view": "^1.0.0",
     "react-native-svg": "11.0.1",
-    "react-test-renderer": "16.7.0"
+    "react-test-renderer": "16.7.0",
+    "typescript": "^3.9.5"
   },
   "_main": "./node_modules/expo/AppEntry.js",
-  "main": "./index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "start": "expo start",
     "eject": "expo eject",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "postinstall": "npm run build"
   },
   "jest": {
     "preset": "jest-expo"
