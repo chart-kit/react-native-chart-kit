@@ -114,7 +114,7 @@ export interface ChartConfig {
    * Override text style for additional info view upper scrollable dot
    */
   scrollableInfoTextStyle?: Partial<TextStyle>;
-  scrollableInfoTextDecorator?: (value: number) => text;
+  scrollableInfoTextDecorator?: (value: number) => string;
 
   /**
    * Set Info View offset
