@@ -40,7 +40,8 @@
     "ios": "expo start --ios",
     "test": "jest",
     "build": "tsc",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "prepublish": "yarn build"
   },
   "jest": {
     "preset": "jest-expo"
