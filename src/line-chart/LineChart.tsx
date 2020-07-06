@@ -595,7 +595,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
     AbstractChartConfig,
     "data" | "width" | "height" | "paddingRight" | "paddingTop" | "linejoinType"
   >) => {
-    if (!this.props.bezier) {
+    if (this.props.bezier) {
       return this.renderBezierLine({
         data,
         width,
