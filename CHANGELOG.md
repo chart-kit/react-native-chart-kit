@@ -1,5 +1,9 @@
 # Changelog
 
+## v6.2.0
+
+- added `withVerticalLines` and `withHorizontalLines` to `LineChart`
+
 ## v6.1.0
 
 - added `scrollableInfoTextDecorator`
