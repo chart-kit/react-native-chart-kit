@@ -76,6 +76,14 @@ export interface LineChartProps extends AbstractChartProps {
    */
   withOuterLines?: boolean;
   /**
+   * Show vertical lines - default: True.
+   */
+  withVerticalLines?: boolean;
+  /**
+   * Show horizontal lines - default: True.
+   */
+  withHorizontalLines?: boolean;
+  /**
    * Show vertical labels - default: True.
    */
   withVerticalLabels?: boolean;
@@ -784,6 +792,8 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
       withDots = true,
       withInnerLines = true,
       withOuterLines = true,
+      withHorizontalLines = true,
+      withVerticalLines = true,
       withHorizontalLabels = true,
       withVerticalLabels = true,
       style = {},
@@ -848,60 +858,60 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
               data: data.datasets
             })}
             <G>
-              {withInnerLines
-                ? this.renderHorizontalLines({
-                    ...config,
-                    count: count,
-                    paddingTop,
-                    paddingRight
-                  })
-                : withOuterLines
-                ? this.renderHorizontalLine({
-                    ...config,
-                    paddingTop,
-                    paddingRight
-                  })
-                : null}
+              {withHorizontalLines &&
+                (withInnerLines
+                  ? this.renderHorizontalLines({
+                      ...config,
+                      count: count,
+                      paddingTop,
+                      paddingRight
+                    })
+                  : withOuterLines
+                  ? this.renderHorizontalLine({
+                      ...config,
+                      paddingTop,
+                      paddingRight
+                    })
+                  : null)}
             </G>
             <G>
-              {withHorizontalLabels
-                ? this.renderHorizontalLabels({
-                    ...config,
-                    count: count,
-                    data: datas,
-                    paddingTop: paddingTop as number,
-                    paddingRight: paddingRight as number,
-                    formatYLabel,
-                    decimalPlaces: chartConfig.decimalPlaces
-                  })
-                : null}
+              {withHorizontalLabels &&
+                this.renderHorizontalLabels({
+                  ...config,
+                  count: count,
+                  data: datas,
+                  paddingTop: paddingTop as number,
+                  paddingRight: paddingRight as number,
+                  formatYLabel,
+                  decimalPlaces: chartConfig.decimalPlaces
+                })}
             </G>
             <G>
-              {withInnerLines
-                ? this.renderVerticalLines({
-                    ...config,
-                    data: data.datasets[0].data,
-                    paddingTop: paddingTop as number,
-                    paddingRight: paddingRight as number
-                  })
-                : withOuterLines
-                ? this.renderVerticalLine({
-                    ...config,
-                    paddingTop: paddingTop as number,
-                    paddingRight: paddingRight as number
-                  })
-                : null}
+              {withVerticalLines &&
+                (withInnerLines
+                  ? this.renderVerticalLines({
+                      ...config,
+                      data: data.datasets[0].data,
+                      paddingTop: paddingTop as number,
+                      paddingRight: paddingRight as number
+                    })
+                  : withOuterLines
+                  ? this.renderVerticalLine({
+                      ...config,
+                      paddingTop: paddingTop as number,
+                      paddingRight: paddingRight as number
+                    })
+                  : null)}
             </G>
             <G>
-              {withVerticalLabels
-                ? this.renderVerticalLabels({
-                    ...config,
-                    labels,
-                    paddingTop: paddingTop as number,
-                    paddingRight: paddingRight as number,
-                    formatXLabel
-                  })
-                : null}
+              {withVerticalLabels &&
+                this.renderVerticalLabels({
+                  ...config,
+                  labels,
+                  paddingTop: paddingTop as number,
+                  paddingRight: paddingRight as number,
+                  formatXLabel
+                })}
             </G>
             <G>
               {this.renderLine({
