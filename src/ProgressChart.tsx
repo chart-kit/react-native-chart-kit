@@ -170,7 +170,7 @@ class ProgressChart extends AbstractChart<
             ry={borderRadius}
             fill="url(#backgroundGradient)"
           />
-          <G x={this.props.width / 2.5} y={this.props.height / 2}>
+          <G x={this.props.width / (hideLegend ? 2 : 2.5)} y={this.props.height / 2}>
             <G>
               {pieBackgrounds.map((pie, i) => {
                 return (
