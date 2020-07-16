@@ -1,5 +1,9 @@
 # Changelog
 
+## v6.4.0
+
+- `ProgressChart` updated to include a condition to divide width by 2 for x value
+
 ## v6.2.0
 
 - added `withVerticalLines` and `withHorizontalLines` to `LineChart`
