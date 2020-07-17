@@ -16,12 +16,12 @@ export interface AbstractChartProps {
 }
 
 export interface AbstractChartConfig extends ChartConfig {
-  count: number;
-  data: Dataset[];
-  width: number;
-  height: number;
-  paddingTop: number;
-  paddingRight: number;
+  count?: number;
+  data?: Dataset[];
+  width?: number;
+  height?: number;
+  paddingTop?: number;
+  paddingRight?: number;
   horizontalLabelRotation?: number;
   formatYLabel?: (yLabel: string) => string;
   labels?: string[];
