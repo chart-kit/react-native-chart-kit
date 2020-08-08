@@ -16,6 +16,7 @@ export interface PieChartProps extends AbstractChartProps {
   absolute?: boolean;
   hasLegend?: boolean;
   style?: Partial<ViewStyle>;
+  avoidFalseZero?: boolean;
 }
 
 type PieChartState = {};
@@ -26,7 +27,8 @@ class PieChart extends AbstractChart<PieChartProps, PieChartState> {
       style = {},
       backgroundColor,
       absolute = false,
-      hasLegend = true
+      hasLegend = true,
+      avoidFalseZero = false
     } = this.props;
 
     const { borderRadius = 0 } = style;
@@ -54,7 +56,15 @@ class PieChart extends AbstractChart<PieChartProps, PieChartState> {
         if (total === 0) {
           value = 0 + "%";
         } else {
+          const percentage = Math.round(
+            (100 / total) * c.item[this.props.accessor]
+          );
           value = Math.round((100 / total) * c.item[this.props.accessor]) + "%";
+          if (avoidFalseZero && percentage === 0) {
+            value = "<1%";
+          } else {
+            value = percentage + "%";
+          }
         }
       }
 

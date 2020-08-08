@@ -373,17 +373,18 @@ const data = [
 />
 ```
 
-| Property    | Type    | Description                                                                                 |
-| ----------- | ------- | ------------------------------------------------------------------------------------------- |
-| data        | Object  | Data for the chart - see example above                                                      |
-| width       | Number  | Width of the chart, use 'Dimensions' library to get the width of your screen for responsive |
-| height      | Number  | Height of the chart                                                                         |
-| chartConfig | Object  | Configuration object for the chart, see example config in the beginning of this file        |
-| accessor    | string  | Property in the `data` object from which the number values are taken                        |
-| bgColor     | string  | background color - if you want to set transparent, input `transparent` or `none`.           |
-| paddingLeft | string  | left padding of the pie chart                                                               |
-| absolute    | boolean | shows the values as absolute numbers                                                        |
-| hasLegend   | boolean | Defaults to `true`, set it to `false` to remove the legend                                  |
+| Property       | Type    | Description                                                                                       |
+| -------------- | ------- | ------------------------------------------------------------------------------------------------- |
+| data           | Object  | Data for the chart - see example above                                                            |
+| width          | Number  | Width of the chart, use 'Dimensions' library to get the width of your screen for responsive       |
+| height         | Number  | Height of the chart                                                                               |
+| chartConfig    | Object  | Configuration object for the chart, see example config in the beginning of this file              |
+| accessor       | string  | Property in the `data` object from which the number values are taken                              |
+| bgColor        | string  | background color - if you want to set transparent, input `transparent` or `none`.                 |
+| paddingLeft    | string  | left padding of the pie chart                                                                     |
+| absolute       | boolean | shows the values as absolute numbers                                                              |
+| hasLegend      | boolean | Defaults to `true`, set it to `false` to remove the legend                                        |
+| avoidFalseZero | boolean | Defaults to `false`, set it to `true` to display a "<1%" instead of a rounded value equal to "0%" |
 
 ## Contribution graph (heatmap)
 
