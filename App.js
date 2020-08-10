@@ -172,6 +172,15 @@ export default class App extends React.Component {
                 height={220}
                 chartConfig={chartConfig}
               />
+              <Text style={labelStyle}>Stacked Bar Graph Percentile</Text>
+              <StackedBarChart
+                style={graphStyle}
+                data={stackedBarGraphData}
+                width={width}
+                height={220}
+                chartConfig={chartConfig}
+                percentile
+              />
               <Text style={labelStyle}>Pie Chart</Text>
               <PieChart
                 data={pieChartData}

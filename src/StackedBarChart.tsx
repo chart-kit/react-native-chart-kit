@@ -48,6 +48,8 @@ export interface StackedBarChartProps extends AbstractChartProps {
    * The number of horizontal lines
    */
   segments?: number;
+
+  percentile?: boolean;
 }
 
 type StackedBarChartState = {};
@@ -94,10 +96,9 @@ class StackedBarChart extends AbstractChart<
       if (stackedBar) {
         fac = 0.7;
       }
-
+      const sum = this.props.percentile ? x.reduce((a, b) => a + b, 0) : border;
       for (let z = 0; z < x.length; z++) {
-        h = (height - 55) * (x[z] / border);
-
+        h = (height - 55) * (x[z] / sum);
         const y = (height / 4) * 3 - h + st;
         const xC =
           (paddingRight +
@@ -182,7 +183,8 @@ class StackedBarChart extends AbstractChart<
       withHorizontalLabels = true,
       withVerticalLabels = true,
       segments = 4,
-      decimalPlaces
+      decimalPlaces,
+      percentile = false
     } = this.props;
 
     const { borderRadius = 0 } = style;
@@ -192,11 +194,19 @@ class StackedBarChart extends AbstractChart<
     };
 
     let border = 0;
+
+    let max = 0;
     for (let i = 0; i < data.data.length; i++) {
       const actual = data.data[i].reduce((pv, cv) => pv + cv, 0);
-      if (actual > border) {
-        border = actual;
+      if (actual > max) {
+        max = actual;
       }
+    }
+
+    if (percentile) {
+      border = 100;
+    } else {
+      border = max;
     }
 
     var stackedBar = data.legend && data.legend.length == 0 ? false : true;
