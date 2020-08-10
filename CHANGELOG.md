@@ -1,5 +1,13 @@
 # Changelog
 
+## v6.5.0
+
+- added `StackedBarChart` `percentile` stacking
+
+## v6.4.1
+
+- added `PieChart` props `avoidFalseZero`
+
 ## v6.4.0
 
 - `ProgressChart` updated to include a condition to divide width by 2 for x value
