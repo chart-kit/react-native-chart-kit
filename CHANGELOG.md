@@ -1,5 +1,9 @@
 # Changelog
 
+## v6.6.0
+
+- added `propsForVerticalLabels` and `propsForHorizontalLabels`
+
 ## v6.5.0
 
 - added `StackedBarChart` `percentile` stacking
