@@ -97,6 +97,30 @@ class AbstractChart<
     };
   }
 
+  getPropsForVerticalLabels() {
+    const {
+      propsForVerticalLabels = {},
+      color,
+      labelColor = color
+    } = this.props.chartConfig;
+    return {
+      fill: labelColor(0.8),
+      ...propsForVerticalLabels
+    };
+  }
+
+  getPropsForHorizontalLabels() {
+    const {
+      propsForHorizontalLabels = {},
+      color,
+      labelColor = color
+    } = this.props.chartConfig;
+    return {
+      fill: labelColor(0.8),
+      ...propsForHorizontalLabels
+    };
+  }
+
   renderHorizontalLines = config => {
     const { count, width, height, paddingTop, paddingRight } = config;
     const basePosition = height - height / 4;
@@ -180,6 +204,7 @@ class AbstractChart<
           textAnchor="end"
           y={y}
           {...this.getPropsForLabels()}
+          {...this.getPropsForHorizontalLabels()}
         >
           {yLabel}
         </Text>
@@ -244,6 +269,7 @@ class AbstractChart<
           y={y}
           textAnchor={verticalLabelRotation === 0 ? "middle" : "start"}
           {...this.getPropsForLabels()}
+          {...this.getPropsForVerticalLabels()}
         >
           {`${formatXLabel(label)}${xAxisLabel}`}
         </Text>
