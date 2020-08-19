@@ -108,6 +108,8 @@ const chartConfig = {
 | barRadius                     | Number             | Defines the radius of each bar                                                                         |
 | propsForBackgroundLines       | props              | Override styles of the background lines, refer to react-native-svg's Line documentation                |
 | propsForLabels                | props              | Override styles of the labels, refer to react-native-svg's Text documentation                          |
+| propsForVerticalLabels        | props              | Override styles of vertical labels, refer to react-native-svg's Text documentation                     |
+| propsForHorizontalLabels      | props              | Override styles of horizontal labels, refer to react-native-svg's Text documentation                   |
 
 ## Responsive charts
 
