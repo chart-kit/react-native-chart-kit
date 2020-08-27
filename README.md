@@ -265,7 +265,7 @@ const data = {
 | data                    | Object          | Data for the chart - see example above                                                      |
 | width                   | Number          | Width of the chart, use 'Dimensions' library to get the width of your screen for responsive |
 | height                  | Number          | Height of the chart                                                                         |
-| withVerticalLables      | boolean         | Show vertical labels - default: True                                                        |
+| withVerticalLabels      | boolean         | Show vertical labels - default: True                                                        |
 | withHorizontalLabels    | boolean         | Show horizontal labels - default: True                                                      |
 | fromZero                | boolean         | Render charts from 0 not from the minimum value. - default: False                           |
 | withInnerLines          | boolean         | Show inner dashed lines - default: True                                                     |
