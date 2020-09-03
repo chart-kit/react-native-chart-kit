@@ -7,8 +7,6 @@ import AbstractChart, {
   AbstractChartProps
 } from "./AbstractChart";
 
-const barWidth = 32;
-
 export interface StackedBarChartData {
   labels: string[];
   legend: string[];
@@ -174,6 +172,7 @@ class StackedBarChart extends AbstractChart<
   render() {
     const paddingTop = 15;
     const paddingRight = 50;
+    const barWidth = 32 * this.getBarPercentage();
 
     const {
       width,
