@@ -1,6 +1,14 @@
 import React from "react";
 import { View, ViewStyle } from "react-native";
-import { G, Rect, Svg, Text } from "react-native-svg";
+import {
+  Defs,
+  G,
+  LinearGradient,
+  Rect,
+  Stop,
+  Svg,
+  Text
+} from "react-native-svg";
 
 import AbstractChart, {
   AbstractChartConfig,
@@ -36,6 +44,8 @@ export interface BarChartProps extends AbstractChartProps {
   segments?: number;
   showBarTops?: boolean;
   showValuesOnTopOfBars?: boolean;
+  withCustomBarColorFromData?: boolean;
+  flatColor?: boolean;
 }
 
 type BarChartState = {};
@@ -52,12 +62,14 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
     height,
     paddingTop,
     paddingRight,
-    barRadius
+    barRadius,
+    withCustomBarColorFromData
   }: Pick<
     Omit<AbstractChartConfig, "data">,
     "width" | "height" | "paddingRight" | "paddingTop" | "barRadius"
   > & {
     data: number[];
+    withCustomBarColorFromData: boolean;
   }) => {
     const baseHeight = this.calcBaseHeight(data, height);
 
@@ -79,7 +91,11 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
           rx={barRadius}
           width={barWidth}
           height={(Math.abs(barHeight) / 4) * 3}
-          fill="url(#fillShadowGradient)"
+          fill={
+            withCustomBarColorFromData
+              ? `url(#customColor_0_${i})`
+              : "url(#fillShadowGradient)"
+          }
         />
       );
     });
@@ -117,6 +133,40 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
         />
       );
     });
+  };
+
+  renderColors = ({
+    data,
+    flatColor
+  }: Pick<AbstractChartConfig, "data"> & {
+    flatColor: boolean;
+  }) => {
+    return data.map((dataset, index) => (
+      <Defs>
+        {dataset.colors?.map((color, colorIndex) => {
+          const highOpacityColor = color(1.0);
+          const lowOpacityColor = color(0.1);
+
+          return (
+            <LinearGradient
+              id={`customColor_${index}_${colorIndex}`}
+              key={`${index}_${colorIndex}`}
+              x1={0}
+              y1={0}
+              x2={0}
+              y2={1}
+            >
+              <Stop offset="0" stopColor={highOpacityColor} stopOpacity="1" />
+              {flatColor ? (
+                <Stop offset="1" stopColor={highOpacityColor} stopOpacity="1" />
+              ) : (
+                <Stop offset="1" stopColor={lowOpacityColor} stopOpacity="0" />
+              )}
+            </LinearGradient>
+          );
+        })}
+      </Defs>
+    ));
   };
 
   renderValuesOnTopOfBars = ({
@@ -167,7 +217,9 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
       horizontalLabelRotation = 0,
       withInnerLines = true,
       showBarTops = true,
+      withCustomBarColorFromData = false,
       showValuesOnTopOfBars = false,
+      flatColor = false,
       segments = 4
     } = this.props;
 
@@ -200,6 +252,10 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
           {this.renderDefs({
             ...config,
             ...this.props.chartConfig
+          })}
+          {this.renderColors({
+            ...this.props.chartConfig,
+            flatColor: flatColor
           })}
           <Rect
             width="100%"
@@ -244,7 +300,8 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
               ...config,
               data: data.datasets[0].data,
               paddingTop: paddingTop as number,
-              paddingRight: paddingRight as number
+              paddingRight: paddingRight as number,
+              withCustomBarColorFromData: withCustomBarColorFromData
             })}
           </G>
           <G>
