@@ -95,9 +95,10 @@ class StackedBarChart extends AbstractChart<
         fac = 0.7;
       }
       const sum = this.props.percentile ? x.reduce((a, b) => a + b, 0) : border;
+      const barsAreaHeight = (height / 4) * 3;
       for (let z = 0; z < x.length; z++) {
-        h = (height - 55) * (x[z] / sum);
-        const y = (height / 4) * 3 - h + st;
+        h = barsAreaHeight * (x[z] / sum);
+        const y = barsAreaHeight - h + st;
         const xC =
           (paddingRight +
             (i * (width - paddingRight)) / data.length +
