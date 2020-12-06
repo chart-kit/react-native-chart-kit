@@ -142,7 +142,7 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
     flatColor: boolean;
   }) => {
     return data.map((dataset, index) => (
-      <Defs>
+      <Defs key={Math.random()}>
         {dataset.colors?.map((color, colorIndex) => {
           const highOpacityColor = color(1.0);
           const lowOpacityColor = color(0.1);
@@ -160,8 +160,8 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
               {flatColor ? (
                 <Stop offset="1" stopColor={highOpacityColor} stopOpacity="1" />
               ) : (
-                <Stop offset="1" stopColor={lowOpacityColor} stopOpacity="0" />
-              )}
+                  <Stop offset="1" stopColor={lowOpacityColor} stopOpacity="0" />
+                )}
             </LinearGradient>
           );
         })}
@@ -236,12 +236,12 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
         (this.props.chartConfig && this.props.chartConfig.decimalPlaces) ?? 2,
       formatYLabel:
         (this.props.chartConfig && this.props.chartConfig.formatYLabel) ||
-        function(label) {
+        function (label) {
           return label;
         },
       formatXLabel:
         (this.props.chartConfig && this.props.chartConfig.formatXLabel) ||
-        function(label) {
+        function (label) {
           return label;
         }
     };
@@ -267,32 +267,32 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
           <G>
             {withInnerLines
               ? this.renderHorizontalLines({
-                  ...config,
-                  count: segments,
-                  paddingTop
-                })
+                ...config,
+                count: segments,
+                paddingTop
+              })
               : null}
           </G>
           <G>
             {withHorizontalLabels
               ? this.renderHorizontalLabels({
-                  ...config,
-                  count: segments,
-                  data: data.datasets[0].data,
-                  paddingTop: paddingTop as number,
-                  paddingRight: paddingRight as number
-                })
+                ...config,
+                count: segments,
+                data: data.datasets[0].data,
+                paddingTop: paddingTop as number,
+                paddingRight: paddingRight as number
+              })
               : null}
           </G>
           <G>
             {withVerticalLabels
               ? this.renderVerticalLabels({
-                  ...config,
-                  labels: data.labels,
-                  paddingRight: paddingRight as number,
-                  paddingTop: paddingTop as number,
-                  horizontalOffset: barWidth * this.getBarPercentage()
-                })
+                ...config,
+                labels: data.labels,
+                paddingRight: paddingRight as number,
+                paddingTop: paddingTop as number,
+                horizontalOffset: barWidth * this.getBarPercentage()
+              })
               : null}
           </G>
           <G>
