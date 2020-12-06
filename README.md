@@ -171,7 +171,7 @@ const data = {
 | horizontalLabelRotation | number (degree)         | Rotation angle of the horizontal labels - default 0                                                                                                                                                                            |
 | verticalLabelRotation   | number (degree)         | Rotation angle of the vertical labels - default 0                                                                                                                                                                              |
 | getDotColor             | function => string      | Defines the dot color function that is used to calculate colors of dots in a line chart and takes `(dataPoint, dataPointIndex)`                                                                                                |
-| renderDotContent        | Function                | Render additional content for the dot. Takes `({x, y, index, indexData})` as arguments.                                                                                                                                                   |
+| renderDotContent        | Function                | Render additional content for the dot. Takes `({x, y, index, indexData})` as arguments.                                                                                                                                        |
 | yLabelsOffset           | number                  | Offset for Y axis labels                                                                                                                                                                                                       |
 | xLabelsOffset           | number                  | Offset for X axis labels                                                                                                                                                                                                       |
 | hidePointsAtIndex       | number[]                | Indices of the data points you don't want to display                                                                                                                                                                           |
@@ -368,9 +368,10 @@ const data = [
   width={screenWidth}
   height={220}
   chartConfig={chartConfig}
-  accessor="population"
-  backgroundColor="transparent"
-  paddingLeft="15"
+  accessor={"population"}
+  backgroundColor={"transparent"}
+  paddingLeft={"15"}
+  center={[10, 50]}
   absolute
 />
 ```
@@ -384,6 +385,7 @@ const data = [
 | accessor       | string  | Property in the `data` object from which the number values are taken                              |
 | bgColor        | string  | background color - if you want to set transparent, input `transparent` or `none`.                 |
 | paddingLeft    | string  | left padding of the pie chart                                                                     |
+| center         | array   | offset x and y coordinates to position the chart                                                  |
 | absolute       | boolean | shows the values as absolute numbers                                                              |
 | hasLegend      | boolean | Defaults to `true`, set it to `false` to remove the legend                                        |
 | avoidFalseZero | boolean | Defaults to `false`, set it to `true` to display a "<1%" instead of a rounded value equal to "0%" |
