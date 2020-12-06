@@ -5,6 +5,7 @@ import { ChartConfig, Dataset, PartialBy } from "./HelperTypes";
 
 export interface AbstractChartProps {
   fromZero?: boolean;
+  fromNumber?: number;
   chartConfig?: AbstractChartConfig;
   yAxisLabel?: string;
   yAxisSuffix?: string;
@@ -40,6 +41,11 @@ class AbstractChart<
   calcScaler = (data: number[]) => {
     if (this.props.fromZero) {
       return Math.max(...data, 0) - Math.min(...data, 0) || 1;
+    } else if (this.props.fromNumber) {
+      return (
+        Math.max(...data, this.props.fromNumber) -
+          Math.min(...data, this.props.fromNumber) || 1
+      );
     } else {
       return Math.max(...data) - Math.min(...data) || 1;
     }
