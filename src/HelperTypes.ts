@@ -19,6 +19,9 @@ export interface Dataset {
 
   /** Override of LineChart's withScrollableDot property just for this dataset */
   withScrollableDot?: boolean;
+
+  /** Unique key **/
+  key?: string | number;
 }
 
 export interface ChartData {

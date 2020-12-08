@@ -142,7 +142,7 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
     flatColor: boolean;
   }) => {
     return data.map((dataset, index) => (
-      <Defs key={Math.random()}>
+      <Defs key={dataset.key ?? index}>
         {dataset.colors?.map((color, colorIndex) => {
           const highOpacityColor = color(1.0);
           const lowOpacityColor = color(0.1);
