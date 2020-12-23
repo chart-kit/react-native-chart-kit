@@ -255,7 +255,8 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
           })}
           {this.renderColors({
             ...this.props.chartConfig,
-            flatColor: flatColor
+            flatColor: flatColor,
+            data: this.props.data.datasets
           })}
           <Rect
             width="100%"
