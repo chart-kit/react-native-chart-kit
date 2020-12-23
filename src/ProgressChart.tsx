@@ -16,9 +16,6 @@ export interface ProgressChartProps extends AbstractChartProps {
   data: ProgressChartData;
   width: number;
   height: number;
-  accessor: string;
-  backgroundColor: string;
-  paddingLeft: string;
   center?: Array<number>;
   absolute?: boolean;
   hasLegend?: boolean;
