@@ -104,7 +104,11 @@ class ProgressChart extends AbstractChart<
                 key={Math.random()}
                 width="16px"
                 height="16px"
-                fill={this.props.chartConfig.color(0.2 * (i + 1), i)}
+                fill={
+                  this.props.withCustomBarColorFromData
+                    ? withColor(i)
+                    : this.props.chartConfig.color(0.2 * (i + 1), i)
+                }
                 rx={8}
                 ry={8}
                 x={this.props.width / 2.5 - 24}
