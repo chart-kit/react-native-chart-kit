@@ -1,5 +1,9 @@
 # Changelog
 
+## v6.8.0
+
+- use same colors in `ProgressChart` legend if `withCustomBarColorFromData` is set
+
 ## v6.7.0
 
 - allowed usage of custom color for each bar on ProgressChart
