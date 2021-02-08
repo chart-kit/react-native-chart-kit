@@ -1,5 +1,11 @@
 # Changelog
 
+## v6.11
+
+- added a prop to customize vertical labels heigh
+- use full width when legend is hidden in StackedBarChart
+- added custom Y labels in StackedBarChart
+
 ## v6.8.0
 
 - use same colors in `ProgressChart` legend if `withCustomBarColorFromData` is set
