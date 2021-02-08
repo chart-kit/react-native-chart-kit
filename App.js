@@ -51,6 +51,12 @@ const chartConfigs = [
     color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`
   },
   {
+    backgroundColor: "#ffffff",
+    backgroundGradientFrom: "#ffffff",
+    backgroundGradientTo: "#ffffff",
+    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`
+  },
+  {
     backgroundColor: "#26872a",
     backgroundGradientFrom: "#43a047",
     backgroundGradientTo: "#66bb6a",
@@ -171,6 +177,19 @@ export default class App extends React.Component {
                 width={width}
                 height={220}
                 chartConfig={chartConfig}
+              />
+              <Text style={labelStyle}>
+                Stacked Bar Graph with custom Y labels
+              </Text>
+              <StackedBarChart
+                style={graphStyle}
+                data={stackedBarGraphData}
+                width={width}
+                height={220}
+                chartConfig={chartConfig}
+                formatYLabel={input => {
+                  return +input * 2;
+                }}
               />
               <Text style={labelStyle}>Stacked Bar Graph Percentile</Text>
               <StackedBarChart

@@ -30,9 +30,12 @@ export interface AbstractChartConfig extends ChartConfig {
   stackedBar?: boolean;
   verticalLabelRotation?: number;
   formatXLabel?: (xLabel: string) => string;
+  verticalLabelsHeightPercentage?: number;
 }
 
 export type AbstractChartState = {};
+
+export const DEFAULT_X_LABELS_HEIGHT_PERCENTAGE = 0.75;
 
 class AbstractChart<
   IProps extends AbstractChartProps,
@@ -128,8 +131,15 @@ class AbstractChart<
   }
 
   renderHorizontalLines = config => {
-    const { count, width, height, paddingTop, paddingRight } = config;
-    const basePosition = height - height / 4;
+    const {
+      count,
+      width,
+      height,
+      paddingTop,
+      paddingRight,
+      verticalLabelsHeightPercentage = DEFAULT_X_LABELS_HEIGHT_PERCENTAGE
+    } = config;
+    const basePosition = height * verticalLabelsHeightPercentage;
 
     return [...new Array(count + 1)].map((_, i) => {
       const y = (basePosition / count) * i + paddingTop;
@@ -147,14 +157,20 @@ class AbstractChart<
   };
 
   renderHorizontalLine = config => {
-    const { width, height, paddingTop, paddingRight } = config;
+    const {
+      width,
+      height,
+      paddingTop,
+      paddingRight,
+      verticalLabelsHeightPercentage = DEFAULT_X_LABELS_HEIGHT_PERCENTAGE
+    } = config;
     return (
       <Line
         key={Math.random()}
         x1={paddingRight}
-        y1={height - height / 4 + paddingTop}
+        y1={height * verticalLabelsHeightPercentage + paddingTop}
         x2={width}
-        y2={height - height / 4 + paddingTop}
+        y2={height * verticalLabelsHeightPercentage + paddingTop}
         {...this.getPropsForBackgroundLines()}
       />
     );
@@ -171,7 +187,8 @@ class AbstractChart<
       paddingRight,
       horizontalLabelRotation = 0,
       decimalPlaces = 2,
-      formatYLabel = (yLabel: string) => yLabel
+      formatYLabel = (yLabel: string) => yLabel,
+      verticalLabelsHeightPercentage = DEFAULT_X_LABELS_HEIGHT_PERCENTAGE
     } = config;
 
     const {
@@ -195,12 +212,14 @@ class AbstractChart<
         )}${yAxisSuffix}`;
       }
 
-      const basePosition = height - height / 4;
+      const basePosition = height * verticalLabelsHeightPercentage;
       const x = paddingRight - yLabelsOffset;
       const y =
         count === 1 && this.props.fromZero
           ? paddingTop + 4
-          : (height * 3) / 4 - (basePosition / count) * i + paddingTop;
+          : height * verticalLabelsHeightPercentage -
+            (basePosition / count) * i +
+            paddingTop;
       return (
         <Text
           rotation={horizontalLabelRotation}
@@ -227,7 +246,8 @@ class AbstractChart<
     horizontalOffset = 0,
     stackedBar = false,
     verticalLabelRotation = 0,
-    formatXLabel = xLabel => xLabel
+    formatXLabel = xLabel => xLabel,
+    verticalLabelsHeightPercentage = DEFAULT_X_LABELS_HEIGHT_PERCENTAGE
   }: Pick<
     AbstractChartConfig,
     | "labels"
@@ -239,6 +259,7 @@ class AbstractChart<
     | "stackedBar"
     | "verticalLabelRotation"
     | "formatXLabel"
+    | "verticalLabelsHeightPercentage"
   >) => {
     const {
       xAxisLabel = "",
@@ -264,7 +285,11 @@ class AbstractChart<
           horizontalOffset) *
         fac;
 
-      const y = (height * 3) / 4 + paddingTop + fontSize * 2 + xLabelsOffset;
+      const y =
+        height * verticalLabelsHeightPercentage +
+        paddingTop +
+        fontSize * 2 +
+        xLabelsOffset;
 
       return (
         <Text
@@ -288,11 +313,17 @@ class AbstractChart<
     width,
     height,
     paddingTop,
-    paddingRight
+    paddingRight,
+    verticalLabelsHeightPercentage = DEFAULT_X_LABELS_HEIGHT_PERCENTAGE
   }: Omit<
     Pick<
       AbstractChartConfig,
-      "data" | "width" | "height" | "paddingRight" | "paddingTop"
+      | "data"
+      | "width"
+      | "height"
+      | "paddingRight"
+      | "paddingTop"
+      | "verticalLabelsHeightPercentage"
     >,
     "data"
   > & { data: number[] }) => {
@@ -312,7 +343,7 @@ class AbstractChart<
               ((width - paddingRight) / (data.length / yAxisInterval)) * i +
                 paddingRight
             )}
-            y2={height - height / 4 + paddingTop}
+            y2={height * verticalLabelsHeightPercentage + paddingTop}
             {...this.getPropsForBackgroundLines()}
           />
         );
@@ -323,14 +354,18 @@ class AbstractChart<
   renderVerticalLine = ({
     height,
     paddingTop,
-    paddingRight
-  }: Pick<AbstractChartConfig, "height" | "paddingRight" | "paddingTop">) => (
+    paddingRight,
+    verticalLabelsHeightPercentage = DEFAULT_X_LABELS_HEIGHT_PERCENTAGE
+  }: Pick<
+    AbstractChartConfig,
+    "height" | "paddingRight" | "paddingTop" | "verticalLabelsHeightPercentage"
+  >) => (
     <Line
       key={Math.random()}
       x1={Math.floor(paddingRight)}
       y1={0}
       x2={Math.floor(paddingRight)}
-      y2={height - height / 4 + paddingTop}
+      y2={height * verticalLabelsHeightPercentage + paddingTop}
       {...this.getPropsForBackgroundLines()}
     />
   );
