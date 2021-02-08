@@ -48,6 +48,8 @@ export interface StackedBarChartProps extends AbstractChartProps {
   segments?: number;
 
   percentile?: boolean;
+
+  formatYLabel?: (yLabel: string) => string;
 }
 
 type StackedBarChartState = {};
@@ -185,6 +187,9 @@ class StackedBarChart extends AbstractChart<
       segments = 4,
       decimalPlaces,
       percentile = false,
+      formatYLabel = (yLabel: string) => {
+        return yLabel;
+      },
       hideLegend = false
     } = this.props;
 
@@ -242,7 +247,8 @@ class StackedBarChart extends AbstractChart<
                   data: [0, border],
                   paddingTop,
                   paddingRight,
-                  decimalPlaces
+                  decimalPlaces,
+                  formatYLabel
                 })
               : null}
           </G>
