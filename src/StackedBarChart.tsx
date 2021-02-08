@@ -4,7 +4,8 @@ import { G, Rect, Svg, Text } from "react-native-svg";
 
 import AbstractChart, {
   AbstractChartConfig,
-  AbstractChartProps
+  AbstractChartProps,
+  DEFAULT_X_LABELS_HEIGHT_PERCENTAGE
 } from "./AbstractChart";
 
 export interface StackedBarChartData {
@@ -49,6 +50,12 @@ export interface StackedBarChartProps extends AbstractChartProps {
 
   percentile?: boolean;
 
+  /**
+   * Percentage of the chart height, dedicated to vertical labels
+   * (space below chart)
+   */
+  verticalLabelsHeightPercentage?: number;
+
   formatYLabel?: (yLabel: string) => string;
 }
 
@@ -77,10 +84,16 @@ class StackedBarChart extends AbstractChart<
     paddingRight,
     border,
     colors,
-    stackedBar = false
+    stackedBar = false,
+    verticalLabelsHeightPercentage
   }: Pick<
     Omit<AbstractChartConfig, "data">,
-    "width" | "height" | "paddingRight" | "paddingTop" | "stackedBar"
+    | "width"
+    | "height"
+    | "paddingRight"
+    | "paddingTop"
+    | "stackedBar"
+    | "verticalLabelsHeightPercentage"
   > & {
     border: number;
     colors: string[];
@@ -97,7 +110,7 @@ class StackedBarChart extends AbstractChart<
         fac = 0.7;
       }
       const sum = this.props.percentile ? x.reduce((a, b) => a + b, 0) : border;
-      const barsAreaHeight = (height / 4) * 3;
+      const barsAreaHeight = height * verticalLabelsHeightPercentage;
       for (let z = 0; z < x.length; z++) {
         h = barsAreaHeight * (x[z] / sum);
         const y = barsAreaHeight - h + st;
@@ -187,6 +200,7 @@ class StackedBarChart extends AbstractChart<
       segments = 4,
       decimalPlaces,
       percentile = false,
+      verticalLabelsHeightPercentage = DEFAULT_X_LABELS_HEIGHT_PERCENTAGE,
       formatYLabel = (yLabel: string) => {
         return yLabel;
       },
@@ -236,7 +250,8 @@ class StackedBarChart extends AbstractChart<
             {this.renderHorizontalLines({
               ...config,
               count: segments,
-              paddingTop
+              paddingTop,
+              verticalLabelsHeightPercentage
             })}
           </G>
           <G>
@@ -248,6 +263,7 @@ class StackedBarChart extends AbstractChart<
                   paddingTop,
                   paddingRight,
                   decimalPlaces,
+                  verticalLabelsHeightPercentage,
                   formatYLabel
                 })
               : null}
@@ -260,7 +276,8 @@ class StackedBarChart extends AbstractChart<
                   paddingRight: paddingRight + 28,
                   stackedBar,
                   paddingTop,
-                  horizontalOffset: barWidth
+                  horizontalOffset: barWidth,
+                  verticalLabelsHeightPercentage
                 })
               : null}
           </G>
@@ -272,7 +289,8 @@ class StackedBarChart extends AbstractChart<
               colors: this.props.data.barColors,
               paddingTop,
               paddingRight: paddingRight + 20,
-              stackedBar
+              stackedBar,
+              verticalLabelsHeightPercentage
             })}
           </G>
           {showLegend &&
