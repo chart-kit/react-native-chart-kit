@@ -60,5 +60,11 @@
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/indiespirit/react-native-chart-kit",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/indiespirit/react-native-chart-kit"
   }
 }
