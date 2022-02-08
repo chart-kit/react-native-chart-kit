@@ -31,6 +31,7 @@ export interface AbstractChartConfig extends ChartConfig {
   verticalLabelRotation?: number;
   formatXLabel?: (xLabel: string) => string;
   verticalLabelsHeightPercentage?: number;
+  formatTopBarValue?: (topBarValue: number) => string | number;
 }
 
 export type AbstractChartState = {};

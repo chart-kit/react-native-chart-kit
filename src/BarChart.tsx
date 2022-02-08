@@ -46,6 +46,7 @@ export interface BarChartProps extends AbstractChartProps {
   showValuesOnTopOfBars?: boolean;
   withCustomBarColorFromData?: boolean;
   flatColor?: boolean;
+  
 }
 
 type BarChartState = {};
@@ -183,6 +184,14 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
   }) => {
     const baseHeight = this.calcBaseHeight(data, height);
 
+    const renderLabel = (value: number) => {
+      if(this.props.chartConfig.formatTopBarValue) {
+        return this.props.chartConfig.formatTopBarValue(value)
+      }
+      else {
+        return value
+      }
+    }
     return data.map((x, i) => {
       const barHeight = this.calcHeight(x, data, height);
       const barWidth = 32 * this.getBarPercentage();
@@ -193,13 +202,14 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
             paddingRight +
             (i * (width - paddingRight)) / data.length +
             barWidth / 1
+            
           }
           y={((baseHeight - barHeight) / 4) * 3 + paddingTop - 1}
           fill={this.props.chartConfig.color(0.6)}
           fontSize="12"
           textAnchor="middle"
         >
-          {data[i]}
+          {renderLabel(data[i])}
         </Text>
       );
     });
