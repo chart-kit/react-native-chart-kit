@@ -166,8 +166,8 @@ class ContributionGraph extends AbstractChart<
         if (count) {
           const opacity = mapValue(
             count,
-            this.state.minValue,
-            this.state.maxValue,
+            this.state.maxValue === this.state.minValue ? 0: this.state.minValue,
+            isNaN(this.state.maxValue) ? 1 : this.state.maxValue,
             0.15 + 0.05, // + 0.05 to make smaller values a bit more visible
             1
           );
