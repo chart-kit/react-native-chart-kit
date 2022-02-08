@@ -66,5 +66,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/indiespirit/react-native-chart-kit"
+  },
+  "resolutions": {
+    "@types/react": "16.14.8"
   }
 }

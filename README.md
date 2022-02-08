@@ -93,23 +93,27 @@ const chartConfig = {
 };
 ```
 
-| Property                      | Type               | Description                                                                                            |
-| ----------------------------- | ------------------ | ------------------------------------------------------------------------------------------------------ |
-| backgroundGradientFrom        | string             | Defines the first color in the linear gradient of a chart's background                                 |
-| backgroundGradientFromOpacity | Number             | Defines the first color opacity in the linear gradient of a chart's background                         |
-| backgroundGradientTo          | string             | Defines the second color in the linear gradient of a chart's background                                |
-| backgroundGradientToOpacity   | Number             | Defines the second color opacity in the linear gradient of a chart's background                        |
-| fillShadowGradient            | string             | Defines the color of the area under data                                                               |
-| fillShadowGradientOpacity     | Number             | Defines the initial opacity of the area under data                                                     |
-| useShadowColorFromDataset     | Boolean            | Defines the option to use color from dataset to each chart data. Default is false                      |
-| color                         | function => string | Defines the base color function that is used to calculate colors of labels and sectors used in a chart |
-| strokeWidth                   | Number             | Defines the base stroke width in a chart                                                               |
-| barPercentage                 | Number             | Defines the percent (0-1) of the available width each bar width in a chart                             |
-| barRadius                     | Number             | Defines the radius of each bar                                                                         |
-| propsForBackgroundLines       | props              | Override styles of the background lines, refer to react-native-svg's Line documentation                |
-| propsForLabels                | props              | Override styles of the labels, refer to react-native-svg's Text documentation                          |
-| propsForVerticalLabels        | props              | Override styles of vertical labels, refer to react-native-svg's Text documentation                     |
-| propsForHorizontalLabels      | props              | Override styles of horizontal labels, refer to react-native-svg's Text documentation                   |
+| Property                      | Type               | Description                                                                                                                          |
+| ----------------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| backgroundGradientFrom        | string             | Defines the first color in the linear gradient of a chart's background                                                               |
+| backgroundGradientFromOpacity | Number             | Defines the first color opacity in the linear gradient of a chart's background                                                       |
+| backgroundGradientTo          | string             | Defines the second color in the linear gradient of a chart's background                                                              |
+| backgroundGradientToOpacity   | Number             | Defines the second color opacity in the linear gradient of a chart's background                                                      |
+| fillShadowGradientFrom        | string             | Defines the first color in the linear gradient of the area under data (can also be specified as `fillShadowGradient`)                |
+| fillShadowGradientFromOpacity | Number             | Defines the first color opacity in the linear gradient of the area under data (can also be specified as `fillShadowGradientOpacity`) |
+| fillShadowGradientFromOffset  | Number             | Defines the first color offset (0-1) in the linear gradient of the area under data                                                   |
+| fillShadowGradientTo          | string             | Defines the second color in the linear gradient of the area under data                                                               |
+| fillShadowGradientToOpacity   | Number             | Defines the second color opacity in the linear gradient of the area under data                                                       |
+| fillShadowGradientToOffset    | Number             | Defines the second color offset (0-1) in the linear gradient of the area under data                                                  |
+| useShadowColorFromDataset     | Boolean            | Defines the option to use color from dataset to each chart data. Default is false                                                    |
+| color                         | function => string | Defines the base color function that is used to calculate colors of labels and sectors used in a chart                               |
+| strokeWidth                   | Number             | Defines the base stroke width in a chart                                                                                             |
+| barPercentage                 | Number             | Defines the percent (0-1) of the available width each bar width in a chart                                                           |
+| barRadius                     | Number             | Defines the radius of each bar                                                                                                       |
+| propsForBackgroundLines       | props              | Override styles of the background lines, refer to react-native-svg's Line documentation                                              |
+| propsForLabels                | props              | Override styles of the labels, refer to react-native-svg's Text documentation                                                        |
+| propsForVerticalLabels        | props              | Override styles of vertical labels, refer to react-native-svg's Text documentation                                                   |
+| propsForHorizontalLabels      | props              | Override styles of horizontal labels, refer to react-native-svg's Text documentation                                                 |
 
 ## Responsive charts
 

@@ -95,7 +95,7 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
           fill={
             withCustomBarColorFromData
               ? `url(#customColor_0_${i})`
-              : "url(#fillShadowGradient)"
+              : "url(#fillShadowGradientFrom)"
           }
         />
       );
