@@ -43,7 +43,9 @@ class AbstractChart<
   IState extends AbstractChartState
 > extends Component<AbstractChartProps & IProps, AbstractChartState & IState> {
   calcScaler = (data: number[]) => {
-    if (this.props.fromZero) {
+    if (this.props.fromZero && this.props.fromNumber) {
+      return Math.max(...data, this.props.fromNumber) - Math.min(...data, 0) || 1;
+    } else if (this.props.fromZero) {
       return Math.max(...data, 0) - Math.min(...data, 0) || 1;
     } else if (this.props.fromNumber) {
       return (
