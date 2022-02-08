@@ -278,7 +278,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
         return null;
       }
     } = this.props;
-
+    const xMax = this.getXMaxValues(data);
     data.forEach(dataset => {
       if (dataset.withDots == false) return;
 
@@ -287,8 +287,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
           return;
         }
 
-        const cx =
-          paddingRight + (i * (width - paddingRight)) / dataset.data.length;
+        const cx = paddingRight + (i * (width - paddingRight)) / xMax;
 
         const cy =
           ((baseHeight - this.calcHeight(x, datas, height)) / 4) * 3 +
@@ -617,14 +616,14 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
     const output = [];
     const datas = this.getDatas(data);
     const baseHeight = this.calcBaseHeight(datas, height);
+    const xMax = this.getXMaxValues(data);
 
     let lastPoint: string;
 
     data.forEach((dataset, index) => {
       const points = dataset.data.map((d, i) => {
         if (d === null) return lastPoint;
-        const x =
-          (i * (width - paddingRight)) / dataset.data.length + paddingRight;
+        const x = (i * (width - paddingRight)) / xMax + paddingRight;
         const y =
           ((baseHeight - this.calcHeight(d, datas, height)) / 4) * 3 +
           paddingTop;
@@ -649,6 +648,12 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
     return output;
   };
 
+  getXMaxValues = (data: Dataset[]) => {
+    return data.reduce((acc, cur) => {
+      return cur.data.length > acc ? cur.data.length : acc;
+    }, 0);
+  };
+
   getBezierLinePoints = (
     dataset: Dataset,
     {
@@ -667,11 +672,10 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
     }
 
     const datas = this.getDatas(data);
+    const xMax = this.getXMaxValues(data);
 
     const x = (i: number) =>
-      Math.floor(
-        paddingRight + (i * (width - paddingRight)) / dataset.data.length
-      );
+      Math.floor(paddingRight + (i * (width - paddingRight)) / xMax);
 
     const baseHeight = this.calcBaseHeight(datas, height);
 
@@ -744,6 +748,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
     useColorFromDataset: AbstractChartConfig["useShadowColorFromDataset"];
   }) =>
     data.map((dataset, index) => {
+      const xMax = this.getXMaxValues(data);
       const d =
         this.getBezierLinePoints(dataset, {
           width,
@@ -753,7 +758,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
           data
         }) +
         ` L${paddingRight +
-          ((width - paddingRight) / dataset.data.length) *
+          ((width - paddingRight) / xMax) *
             (dataset.data.length - 1)},${(height / 4) * 3 +
           paddingTop} L${paddingRight},${(height / 4) * 3 + paddingTop} Z`;
 
