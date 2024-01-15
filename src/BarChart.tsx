@@ -46,7 +46,7 @@ export interface BarChartProps extends AbstractChartProps {
   showValuesOnTopOfBars?: boolean;
   withCustomBarColorFromData?: boolean;
   flatColor?: boolean;
-  
+
 }
 
 type BarChartState = {};
@@ -161,8 +161,8 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
               {flatColor ? (
                 <Stop offset="1" stopColor={highOpacityColor} stopOpacity="1" />
               ) : (
-                  <Stop offset="1" stopColor={lowOpacityColor} stopOpacity="0" />
-                )}
+                <Stop offset="1" stopColor={lowOpacityColor} stopOpacity="0" />
+              )}
             </LinearGradient>
           );
         })}
@@ -185,7 +185,7 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
     const baseHeight = this.calcBaseHeight(data, height);
 
     const renderLabel = (value: number) => {
-      if(this.props.chartConfig.formatTopBarValue) {
+      if (this.props.chartConfig.formatTopBarValue) {
         return this.props.chartConfig.formatTopBarValue(value)
       }
       else {
@@ -195,6 +195,7 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
     return data.map((x, i) => {
       const barHeight = this.calcHeight(x, data, height);
       const barWidth = 32 * this.getBarPercentage();
+      const propsForTopOfBarLabel = { fontSize: 12, ...this.props.chartConfig.propsForTopLabel } || { fontSize: 12 }
       return (
         <Text
           key={Math.random()}
@@ -202,12 +203,12 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
             paddingRight +
             (i * (width - paddingRight)) / data.length +
             barWidth / 1
-            
+
           }
           y={((baseHeight - barHeight) / 4) * 3 + paddingTop - 1}
           fill={this.props.chartConfig.color(0.6)}
-          fontSize="12"
           textAnchor="middle"
+          style={propsForTopOfBarLabel}
         >
           {renderLabel(data[i])}
         </Text>
