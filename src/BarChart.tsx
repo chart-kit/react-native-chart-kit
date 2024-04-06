@@ -120,18 +120,18 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
       const barHeight = this.calcHeight(x, data, height);
       const barWidth = 32 * this.getBarPercentage();
       return (
-        <Rect
-          key={Math.random()}
-          x={
-            paddingRight +
-            (i * (width - paddingRight)) / data.length +
-            barWidth / 2
-          }
-          y={((baseHeight - barHeight) / 4) * 3 + paddingTop}
-          width={barWidth}
-          height={2}
-          fill={this.props.chartConfig.color(0.6)}
-        />
+        if (data[i] > 59) {
+            return (
+                <Svg key={Math.random()}>
+                    <Rect width="15" height="15" rx="7.5" fill="#79B74B" x={(paddingRight +
+                        (i * (width - paddingRight)) / data.length +
+                        barWidth / 2) +2} y={((baseHeight - barHeight) / 4) * 3 + paddingTop+2}/>
+                    <Path d="M4.4704 7.19397L6.69415 9.41773L10.5296 5.58228" stroke="white" fill="none" x={(paddingRight +
+                        (i * (width - paddingRight)) / data.length +
+                        barWidth / 2) +2} y={((baseHeight - barHeight) / 4) * 3 + paddingTop+2}/>
+                </Svg>
+            )
+        }
       );
     });
   };
@@ -204,7 +204,7 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
             barWidth / 1
             
           }
-          y={((baseHeight - barHeight) / 4) * 3 + paddingTop - 1}
+          y={((baseHeight - barHeight) / 4) * 3 + paddingTop - 5}
           fill={this.props.chartConfig.color(0.6)}
           fontSize="12"
           textAnchor="middle"
