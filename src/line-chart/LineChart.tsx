@@ -221,7 +221,7 @@ type LineChartState = {
 };
 
 class LineChart extends AbstractChart<LineChartProps, LineChartState> {
-  label = React.createRef<TextInput>();
+  label = React.createRef<TextInput>([]);
 
   state = {
     scrollableDotHorizontalOffset: new Animated.Value(0)
@@ -380,58 +380,58 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
       let percent = index - abs;
       abs = data[0].data.length - abs - 1;
 
-      if (index >= data[0].data.length - 1) {
-        this.label.current.setNativeProps({
-          text: scrollableInfoTextDecorator(Math.floor(data[0].data[0]))
-        });
-      } else {
-        if (index > lastIndex) {
-          // to right
-
-          const base = data[0].data[abs];
-          const prev = data[0].data[abs - 1];
-          if (prev > base) {
-            let rest = prev - base;
-            this.label.current.setNativeProps({
-              text: scrollableInfoTextDecorator(
-                Math.floor(base + percent * rest)
-              )
-            });
-          } else {
-            let rest = base - prev;
-            this.label.current.setNativeProps({
-              text: scrollableInfoTextDecorator(
-                Math.floor(base - percent * rest)
-              )
-            });
-          }
+      data.forEach((dataset, datasetIndex) => {
+        if (index >= dataset.data.length - 1) {
+          this.label.current.setNativeProps({
+            text: scrollableInfoTextDecorator(Math.floor(dataset.data[0]))
+          });
         } else {
-          // to left
+          if (index > lastIndex) {
+            // to right
 
-          const base = data[0].data[abs - 1];
-          const next = data[0].data[abs];
-          percent = 1 - percent;
-          if (next > base) {
-            let rest = next - base;
-            this.label.current.setNativeProps({
-              text: scrollableInfoTextDecorator(
-                Math.floor(base + percent * rest)
-              )
-            });
+            const base = dataset.data[abs];
+            const prev = dataset.data[abs - 1];
+            if (prev > base) {
+              let rest = prev - base;
+              this.label.current[datasetIndex].setNativeProps({
+                text: scrollableInfoTextDecorator(
+                  Math.floor(base + percent * rest)
+                )
+              });
+            } else {
+              let rest = base - prev;
+              this.label.current[datasetIndex].setNativeProps({
+                text: scrollableInfoTextDecorator(
+                  Math.floor(base - percent * rest)
+                )
+              });
+            }
           } else {
-            let rest = base - next;
-            this.label.current.setNativeProps({
-              text: scrollableInfoTextDecorator(
-                Math.floor(base - percent * rest)
-              )
-            });
+            const base = dataset.data[abs - 1];
+            const next = dataset.data[abs];
+            percent = 1 - percent;
+            if (next > base) {
+              let rest = next - base;
+              this.label.current[datasetIndex].setNativeProps({
+                text: scrollableInfoTextDecorator(
+                  Math.floor(base + percent * rest)
+                )
+              });
+            } else {
+              let rest = base - next;
+              this.label.current[datasetIndex].setNativeProps({
+                text: scrollableInfoTextDecorator(
+                  Math.floor(base - percent * rest)
+                )
+              });
+            }
           }
         }
-      }
+      });
       lastIndex = index;
     });
 
-    data.forEach(dataset => {
+    data.forEach((dataset, datasetIndex) => {
       if (dataset.withScrollableDot == false) return;
 
       const perData = width / dataset.data.length;
@@ -508,14 +508,20 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
         >
           <TextInput
             onLayout={() => {
-              this.label.current.setNativeProps({
+              this.label.current[datasetIndex].setNativeProps({
                 text: scrollableInfoTextDecorator(
                   Math.floor(data[0].data[data[0].data.length - 1])
                 )
               });
             }}
             style={scrollableInfoTextStyle}
-            ref={this.label}
+            ref={labelRef => {
+              if(labelRef) {
+                this.label.current[datasetIndex] = labelRef
+              } else {
+                delete this.label.current[datasetIndex]
+              }
+            }}
           />
         </Animated.View>,
         <AnimatedCircle
