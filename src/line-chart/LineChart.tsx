@@ -293,7 +293,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
           ((baseHeight - this.calcHeight(x, datas, height)) / 4) * 3 +
           paddingTop;
 
-        const onPress = () => {
+        const onPressIn = () => {
           if (!onDataPointClick || hidePointsAtIndex.includes(i)) {
             return;
           }
@@ -318,7 +318,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
                 ? getDotColor(x, i)
                 : this.getColor(dataset, 0.9)
             }
-            onPress={onPress}
+            onPressIn={onPressIn}
             {...this.getPropsForDots(x, i)}
           />,
           <Circle
@@ -328,7 +328,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
             r="14"
             fill="#fff"
             fillOpacity={0}
-            onPress={onPress}
+            onPressIn={onPressIn}
           />,
           renderDotContent({ x: cx, y: cy, index: i, indexData: x })
         );
