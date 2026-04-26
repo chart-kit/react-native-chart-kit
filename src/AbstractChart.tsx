@@ -38,13 +38,27 @@ export type AbstractChartState = {};
 
 export const DEFAULT_X_LABELS_HEIGHT_PERCENTAGE = 0.75;
 
+let nextChartId = 0;
+
 class AbstractChart<
   IProps extends AbstractChartProps,
   IState extends AbstractChartState
 > extends Component<AbstractChartProps & IProps, AbstractChartState & IState> {
+  private chartId = nextChartId++;
+
+  protected getGradientId = (id: string) => {
+    return `chart-kit-${this.chartId}-${id}`;
+  };
+
+  protected getGradientUrl = (id: string) => {
+    return `url(#${this.getGradientId(id)})`;
+  };
+
   calcScaler = (data: number[]) => {
     if (this.props.fromZero && this.props.fromNumber) {
-      return Math.max(...data, this.props.fromNumber) - Math.min(...data, 0) || 1;
+      return (
+        Math.max(...data, this.props.fromNumber) - Math.min(...data, 0) || 1
+      );
     } else if (this.props.fromZero) {
       return Math.max(...data, 0) - Math.min(...data, 0) || 1;
     } else if (this.props.fromNumber) {
@@ -148,7 +162,7 @@ class AbstractChart<
       const y = (basePosition / count) * i + paddingTop;
       return (
         <Line
-          key={Math.random()}
+          key={`horizontal-line-${i}`}
           x1={paddingRight}
           y1={y}
           x2={width}
@@ -169,7 +183,7 @@ class AbstractChart<
     } = config;
     return (
       <Line
-        key={Math.random()}
+        key="horizontal-line"
         x1={paddingRight}
         y1={height * verticalLabelsHeightPercentage + paddingTop}
         x2={width}
@@ -227,7 +241,7 @@ class AbstractChart<
         <Text
           rotation={horizontalLabelRotation}
           origin={`${x}, ${y}`}
-          key={Math.random()}
+          key={`horizontal-label-${i}-${yLabel}`}
           x={x}
           textAnchor="end"
           y={y}
@@ -298,7 +312,7 @@ class AbstractChart<
         <Text
           origin={`${x}, ${y}`}
           rotation={verticalLabelRotation}
-          key={Math.random()}
+          key={`vertical-label-${i}-${label}`}
           x={x}
           y={y}
           textAnchor={verticalLabelRotation === 0 ? "middle" : "start"}
@@ -336,7 +350,7 @@ class AbstractChart<
       (_, i) => {
         return (
           <Line
-            key={Math.random()}
+            key={`vertical-line-${i}`}
             x1={Math.floor(
               ((width - paddingRight) / (data.length / yAxisInterval)) * i +
                 paddingRight
@@ -364,7 +378,7 @@ class AbstractChart<
     "height" | "paddingRight" | "paddingTop" | "verticalLabelsHeightPercentage"
   >) => (
     <Line
-      key={Math.random()}
+      key="vertical-line"
       x1={Math.floor(paddingRight)}
       y1={0}
       x2={Math.floor(paddingRight)}
@@ -469,7 +483,7 @@ class AbstractChart<
     return (
       <Defs>
         <LinearGradient
-          id="backgroundGradient"
+          id={this.getGradientId("backgroundGradient")}
           x1={0}
           y1={height}
           x2={width}
@@ -487,10 +501,10 @@ class AbstractChart<
             stopOpacity={toOpacity}
           />
         </LinearGradient>
-        {useShadowColorFromDataset ? (
+        {useShadowColorFromDataset && data ? (
           data.map((dataset, index) => (
             <LinearGradient
-              id={`fillShadowGradientFrom_${index}`}
+              id={this.getGradientId(`fillShadowGradientFrom_${index}`)}
               key={`${index}`}
               x1={0}
               y1={0}
@@ -518,7 +532,7 @@ class AbstractChart<
           ))
         ) : (
           <LinearGradient
-            id="fillShadowGradientFrom"
+            id={this.getGradientId("fillShadowGradientFrom")}
             x1={0}
             y1={0}
             x2={0}
