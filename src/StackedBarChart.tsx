@@ -122,7 +122,7 @@ class StackedBarChart extends AbstractChart<
 
         ret.push(
           <Rect
-            key={Math.random()}
+            key={`bar-${i}-${z}`}
             x={xC}
             y={y}
             rx={this.getBarRadius(ret, x)}
@@ -136,7 +136,7 @@ class StackedBarChart extends AbstractChart<
         if (!this.props.hideLegend) {
           ret.push(
             <Text
-              key={Math.random()}
+              key={`bar-label-${i}-${z}`}
               x={xC + 7 + barWidth / 2}
               textAnchor="end"
               y={h > 15 ? y + 15 : y + 7}
@@ -164,7 +164,7 @@ class StackedBarChart extends AbstractChart<
   }) =>
     legend.map((x, i) => {
       return (
-        <G key={Math.random()}>
+        <G key={`legend-${i}`}>
           <Rect
             width="16px"
             height="16px"
@@ -244,7 +244,7 @@ class StackedBarChart extends AbstractChart<
             height={height}
             rx={borderRadius}
             ry={borderRadius}
-            fill="url(#backgroundGradient)"
+            fill={this.getGradientUrl("backgroundGradient")}
           />
           <G>
             {this.renderHorizontalLines({
