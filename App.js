@@ -113,7 +113,7 @@ export default class App extends React.Component {
     const height = 256;
     return (
       <ScrollableTabView renderTabBar={this.renderTabBar}>
-        {chartConfigs.map(chartConfig => {
+        {chartConfigs.map((chartConfig, index) => {
           const labelStyle = {
             color: chartConfig.color(),
             marginVertical: 10,
@@ -126,7 +126,7 @@ export default class App extends React.Component {
           };
           return (
             <ScrollView
-              key={Math.random()}
+              key={`chart-config-${index}`}
               style={{
                 backgroundColor: chartConfig.backgroundColor
               }}

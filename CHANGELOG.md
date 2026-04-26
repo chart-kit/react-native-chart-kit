@@ -1,5 +1,14 @@
 # Changelog
 
+## v6.12.1
+
+- prepare next patch release after v6.12.0
+- add GitHub Actions build verification
+- replace unstable random React keys in chart renders
+- prefix generated SVG definition IDs to avoid collisions across charts
+- replace ContributionGraph's unsafe prop lifecycle with componentDidUpdate
+- fix stale root source exports
+
 ## v6.11
 
 - added a prop to customize vertical labels heigh

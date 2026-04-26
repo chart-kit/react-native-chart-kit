@@ -20,6 +20,7 @@
     "inlineSourceMap": true,
     "inlineSources": true,
     "esModuleInterop": true,
+    "skipLibCheck": true,
     "noErrorTruncation": true,
     "jsx": "react-native"
   }

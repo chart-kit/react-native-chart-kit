@@ -48,9 +48,21 @@ class ContributionGraph extends AbstractChart<
     };
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps: ContributionGraphProps) {
+  componentDidUpdate(prevProps: ContributionGraphProps) {
+    const shouldUpdateValueCache =
+      prevProps.values !== this.props.values ||
+      prevProps.endDate !== this.props.endDate ||
+      prevProps.numDays !== this.props.numDays ||
+      prevProps.accessor !== this.props.accessor ||
+      prevProps.titleForValue !== this.props.titleForValue ||
+      prevProps.tooltipDataAttrs !== this.props.tooltipDataAttrs;
+
+    if (!shouldUpdateValueCache) {
+      return;
+    }
+
     let { maxValue, minValue, valueCache } = this.getValueCache(
-      nextProps.values
+      this.props.values
     );
 
     this.setState({
@@ -166,7 +178,9 @@ class ContributionGraph extends AbstractChart<
         if (count) {
           const opacity = mapValue(
             count,
-            this.state.maxValue === this.state.minValue ? 0: this.state.minValue,
+            this.state.maxValue === this.state.minValue
+              ? 0
+              : this.state.minValue,
             isNaN(this.state.maxValue) ? 1 : this.state.maxValue,
             0.15 + 0.05, // + 0.05 to make smaller values a bit more visible
             1
@@ -387,7 +401,7 @@ class ContributionGraph extends AbstractChart<
             height={this.props.height}
             rx={borderRadius}
             ry={borderRadius}
-            fill="url(#backgroundGradient)"
+            fill={this.getGradientUrl("backgroundGradient")}
           />
           <G>{this.renderMonthLabels()}</G>
           <G>{this.renderAllWeeks()}</G>
