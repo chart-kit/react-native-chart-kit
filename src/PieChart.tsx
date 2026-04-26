@@ -69,7 +69,7 @@ class PieChart extends AbstractChart<PieChartProps, PieChartState> {
       }
 
       return (
-        <G key={Math.random()}>
+        <G key={`slice-${i}`}>
           <Path d={c.sector.path.print()} fill={c.item.color} />
           {hasLegend ? (
             <Rect
