@@ -206,6 +206,7 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
           fill={this.props.chartConfig.color(0.6)}
           fontSize="12"
           textAnchor="middle"
+          {...this.props.chartConfig.propsForTopLabels}
         >
           {renderLabel(data[i])}
         </Text>
