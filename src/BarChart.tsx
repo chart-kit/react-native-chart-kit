@@ -46,7 +46,6 @@ export interface BarChartProps extends AbstractChartProps {
   showValuesOnTopOfBars?: boolean;
   withCustomBarColorFromData?: boolean;
   flatColor?: boolean;
-
 }
 
 type BarChartState = {};
@@ -79,7 +78,7 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
       const barWidth = 32 * this.getBarPercentage();
       return (
         <Rect
-          key={Math.random()}
+          key={`bar-${i}`}
           x={
             paddingRight +
             (i * (width - paddingRight)) / data.length +
@@ -94,8 +93,8 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
           height={(Math.abs(barHeight) / 4) * 3}
           fill={
             withCustomBarColorFromData
-              ? `url(#customColor_0_${i})`
-              : "url(#fillShadowGradientFrom)"
+              ? this.getGradientUrl(`customColor_0_${i}`)
+              : this.getGradientUrl("fillShadowGradientFrom")
           }
         />
       );
@@ -121,7 +120,7 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
       const barWidth = 32 * this.getBarPercentage();
       return (
         <Rect
-          key={Math.random()}
+          key={`bar-top-${i}`}
           x={
             paddingRight +
             (i * (width - paddingRight)) / data.length +
@@ -150,7 +149,7 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
 
           return (
             <LinearGradient
-              id={`customColor_${index}_${colorIndex}`}
+              id={this.getGradientId(`customColor_${index}_${colorIndex}`)}
               key={`${index}_${colorIndex}`}
               x1={0}
               y1={0}
@@ -186,29 +185,28 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
 
     const renderLabel = (value: number) => {
       if (this.props.chartConfig.formatTopBarValue) {
-        return this.props.chartConfig.formatTopBarValue(value)
+        return this.props.chartConfig.formatTopBarValue(value);
       }
-      else {
-        return value
-      }
-    }
+
+      return value;
+    };
+
     return data.map((x, i) => {
       const barHeight = this.calcHeight(x, data, height);
       const barWidth = 32 * this.getBarPercentage();
-      const propsForTopOfBarLabel = { fontSize: 12, ...this.props.chartConfig.propsForTopLabel } || { fontSize: 12 }
       return (
         <Text
-          key={Math.random()}
+          key={`bar-value-${i}`}
           x={
             paddingRight +
             (i * (width - paddingRight)) / data.length +
             barWidth / 1
-
           }
           y={((baseHeight - barHeight) / 4) * 3 + paddingTop - 1}
           fill={this.props.chartConfig.color(0.6)}
+          fontSize="12"
           textAnchor="middle"
-          style={propsForTopOfBarLabel}
+          {...this.props.chartConfig.propsForTopLabels}
         >
           {renderLabel(data[i])}
         </Text>
@@ -247,12 +245,12 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
         (this.props.chartConfig && this.props.chartConfig.decimalPlaces) ?? 2,
       formatYLabel:
         (this.props.chartConfig && this.props.chartConfig.formatYLabel) ||
-        function (label) {
+        function(label) {
           return label;
         },
       formatXLabel:
         (this.props.chartConfig && this.props.chartConfig.formatXLabel) ||
-        function (label) {
+        function(label) {
           return label;
         }
     };
@@ -274,37 +272,37 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
             height={height}
             rx={borderRadius}
             ry={borderRadius}
-            fill="url(#backgroundGradient)"
+            fill={this.getGradientUrl("backgroundGradient")}
           />
           <G>
             {withInnerLines
               ? this.renderHorizontalLines({
-                ...config,
-                count: segments,
-                paddingTop
-              })
+                  ...config,
+                  count: segments,
+                  paddingTop
+                })
               : null}
           </G>
           <G>
             {withHorizontalLabels
               ? this.renderHorizontalLabels({
-                ...config,
-                count: segments,
-                data: data.datasets[0].data,
-                paddingTop: paddingTop as number,
-                paddingRight: paddingRight as number
-              })
+                  ...config,
+                  count: segments,
+                  data: data.datasets[0].data,
+                  paddingTop: paddingTop as number,
+                  paddingRight: paddingRight as number
+                })
               : null}
           </G>
           <G>
             {withVerticalLabels
               ? this.renderVerticalLabels({
-                ...config,
-                labels: data.labels,
-                paddingRight: paddingRight as number,
-                paddingTop: paddingTop as number,
-                horizontalOffset: barWidth * this.getBarPercentage()
-              })
+                  ...config,
+                  labels: data.labels,
+                  paddingRight: paddingRight as number,
+                  paddingTop: paddingTop as number,
+                  horizontalOffset: barWidth * this.getBarPercentage()
+                })
               : null}
           </G>
           <G>

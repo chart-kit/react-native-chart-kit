@@ -1,7 +1,8 @@
 {
   "name": "react-native-chart-kit",
-  "version": "6.11.0",
+  "version": "6.12.1",
   "devDependencies": {
+    "@types/react": "16.14.8",
     "@types/react-native": "^0.62.13",
     "babel-eslint": "10.x",
     "babel-plugin-module-resolver": "^3.1.1",
@@ -24,7 +25,7 @@
     "react-native-scrollable-tab-view": "^1.0.0",
     "react-native-svg": "11.0.1",
     "react-test-renderer": "16.7.0",
-    "typescript": "^3.9.5"
+    "typescript": "^5.4.5"
   },
   "_main": "./node_modules/expo/AppEntry.js",
   "main": "./dist/index.js",
@@ -38,10 +39,10 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "test": "jest",
+    "typecheck": "tsc --noEmit",
     "build": "tsc",
     "dev": "tsc --watch",
-    "prepublish": "yarn build",
-    "prepare": "yarn build"
+    "prepare": "npm run build"
   },
   "jest": {
     "preset": "jest-expo"
@@ -65,7 +66,10 @@
   "homepage": "https://github.com/indiespirit/react-native-chart-kit",
   "repository": {
     "type": "git",
-    "url": "https://github.com/indiespirit/react-native-chart-kit"
+    "url": "git+https://github.com/indiespirit/react-native-chart-kit.git"
+  },
+  "overrides": {
+    "@types/react": "16.14.8"
   },
   "resolutions": {
     "@types/react": "16.14.8"
