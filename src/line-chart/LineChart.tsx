@@ -279,7 +279,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
       }
     } = this.props;
     const xMax = this.getXMaxValues(data);
-    data.forEach(dataset => {
+    data.forEach((dataset, datasetIndex) => {
       if (dataset.withDots == false) return;
 
       dataset.data.forEach((x, i) => {
@@ -293,7 +293,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
           ((baseHeight - this.calcHeight(x, datas, height)) / 4) * 3 +
           paddingTop;
 
-        const onPress = () => {
+        const onPressIn = () => {
           if (!onDataPointClick || hidePointsAtIndex.includes(i)) {
             return;
           }
@@ -310,7 +310,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
 
         output.push(
           <Circle
-            key={Math.random()}
+            key={`dot-${datasetIndex}-${i}`}
             cx={cx}
             cy={cy}
             fill={
@@ -318,19 +318,21 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
                 ? getDotColor(x, i)
                 : this.getColor(dataset, 0.9)
             }
-            onPress={onPress}
+            onPressIn={onPressIn}
             {...this.getPropsForDots(x, i)}
           />,
           <Circle
-            key={Math.random()}
+            key={`dot-touch-${datasetIndex}-${i}`}
             cx={cx}
             cy={cy}
             r="14"
             fill="#fff"
             fillOpacity={0}
-            onPress={onPress}
+            onPressIn={onPressIn}
           />,
-          renderDotContent({ x: cx, y: cy, index: i, indexData: x })
+          <React.Fragment key={`dot-content-${datasetIndex}-${i}`}>
+            {renderDotContent({ x: cx, y: cy, index: i, indexData: x })}
+          </React.Fragment>
         );
       });
     });
@@ -431,7 +433,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
       lastIndex = index;
     });
 
-    data.forEach(dataset => {
+    data.forEach((dataset, datasetIndex) => {
       if (dataset.withScrollableDot == false) return;
 
       const perData = width / dataset.data.length;
@@ -491,9 +493,9 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
         extrapolate: "clamp"
       });
 
-      output.push([
+      output.push(
         <Animated.View
-          key={Math.random()}
+          key={`scrollable-info-${datasetIndex}`}
           style={[
             scrollableInfoViewStyle,
             {
@@ -519,7 +521,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
           />
         </Animated.View>,
         <AnimatedCircle
-          key={Math.random()}
+          key={`scrollable-dot-${datasetIndex}`}
           cx={translateX}
           cy={translateY}
           r={scrollableDotRadius}
@@ -527,7 +529,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
           strokeWidth={scrollableDotStrokeWidth}
           fill={scrollableDotFill}
         />
-      ]);
+      );
     });
 
     return output;
@@ -583,9 +585,9 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
                 (dataset.data.length - 1)},${(height / 4) * 3 +
               paddingTop} ${paddingRight},${(height / 4) * 3 + paddingTop}`
           }
-          fill={`url(#fillShadowGradientFrom${
-            useColorFromDataset ? `_${index}` : ""
-          })`}
+          fill={this.getGradientUrl(
+            `fillShadowGradientFrom${useColorFromDataset ? `_${index}` : ""}`
+          )}
           strokeWidth={0}
         />
       );
@@ -766,9 +768,9 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
         <Path
           key={index}
           d={d}
-          fill={`url(#fillShadowGradientFrom${
-            useColorFromDataset ? `_${index}` : ""
-          })`}
+          fill={this.getGradientUrl(
+            `fillShadowGradientFrom${useColorFromDataset ? `_${index}` : ""}`
+          )}
           strokeWidth={0}
         />
       );
@@ -779,7 +781,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
     const baseLegendItemX = width / (legend.length + 1);
 
     return legend.map((legendItem, i) => (
-      <G key={Math.random()}>
+      <G key={`legend-${i}`}>
         <LegendItem
           index={i}
           iconColor={this.getColor(datasets[i], 0.9)}
@@ -856,7 +858,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
             height={height + legendOffset}
             rx={borderRadius}
             ry={borderRadius}
-            fill="url(#backgroundGradient)"
+            fill={this.getGradientUrl("backgroundGradient")}
             fillOpacity={transparent ? 0 : 1}
           />
           {this.props.data.legend &&
@@ -981,13 +983,15 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
             contentContainerStyle={{ width: width * 2 }}
             showsHorizontalScrollIndicator={false}
             scrollEventThrottle={16}
-            onScroll={Animated.event([
-              {
-                nativeEvent: {
-                  contentOffset: { x: scrollableDotHorizontalOffset }
+            onScroll={Animated.event(
+              [
+                {
+                  nativeEvent: {
+                    contentOffset: { x: scrollableDotHorizontalOffset }
+                  }
                 }
-              }
-            ], { useNativeDriver: false }
+              ],
+              { useNativeDriver: false }
             )}
             horizontal
             bounces={false}

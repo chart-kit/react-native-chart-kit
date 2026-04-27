@@ -101,7 +101,7 @@ class ProgressChart extends AbstractChart<
           {pies.map((_, i) => {
             return (
               <Rect
-                key={Math.random()}
+                key={`legend-color-${i}`}
                 width="16px"
                 height="16px"
                 fill={
@@ -127,7 +127,7 @@ class ProgressChart extends AbstractChart<
           {pies.map((_, i) => {
             return (
               <Text
-                key={Math.random()}
+                key={`legend-label-${i}`}
                 x={this.props.width / 2.5}
                 y={
                   -(this.props.height / 2.5) +
@@ -173,7 +173,7 @@ class ProgressChart extends AbstractChart<
             height={this.props.height}
             rx={borderRadius}
             ry={borderRadius}
-            fill="url(#backgroundGradient)"
+            fill={this.getGradientUrl("backgroundGradient")}
           />
           <G
             x={this.props.width / (hideLegend ? 2 : 2.5)}
@@ -183,7 +183,7 @@ class ProgressChart extends AbstractChart<
               {pieBackgrounds.map((pie, i) => {
                 return (
                   <Path
-                    key={Math.random()}
+                    key={`progress-background-${i}`}
                     d={pie.curves[0].sector.path.print()}
                     strokeWidth={strokeWidth}
                     stroke={this.props.chartConfig.color(0.2, i)}
@@ -195,7 +195,7 @@ class ProgressChart extends AbstractChart<
               {pies.map((pie, i) => {
                 return (
                   <Path
-                    key={Math.random()}
+                    key={`progress-path-${i}`}
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     d={pie.curves[0].sector.path.print()}
