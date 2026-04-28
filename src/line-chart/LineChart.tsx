@@ -237,9 +237,18 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
 
   getDatas = (data: Dataset[]): number[] => {
     return data.reduce(
-      (acc, item) => (item.data ? [...acc, ...item.data] : acc),
+      (acc, item) =>
+        item.data ? [...acc, ...this.getValidData(item.data)] : acc,
       []
     );
+  };
+
+  getStrokeDashArray = (dataset: Dataset) => {
+    const { strokeDashArray } = dataset;
+
+    return Array.isArray(strokeDashArray)
+      ? strokeDashArray.join(",")
+      : strokeDashArray;
   };
 
   getPropsForDots = (x: any, i: number) => {
@@ -307,6 +316,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
             getColor: opacity => this.getColor(dataset, opacity)
           });
         };
+        const pressProps = { onPressIn, onClick: onPressIn } as any;
 
         output.push(
           <Circle
@@ -318,7 +328,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
                 ? getDotColor(x, i)
                 : this.getColor(dataset, 0.9)
             }
-            onPressIn={onPressIn}
+            {...pressProps}
             {...this.getPropsForDots(x, i)}
           />,
           <Circle
@@ -328,7 +338,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
             r="14"
             fill="#fff"
             fillOpacity={0}
-            onPressIn={onPressIn}
+            {...pressProps}
           />,
           <React.Fragment key={`dot-content-${datasetIndex}-${i}`}>
             {renderDotContent({ x: cx, y: cy, index: i, indexData: x })}
@@ -620,9 +630,8 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
     const baseHeight = this.calcBaseHeight(datas, height);
     const xMax = this.getXMaxValues(data);
 
-    let lastPoint: string;
-
     data.forEach((dataset, index) => {
+      let lastPoint: string;
       const points = dataset.data.map((d, i) => {
         if (d === null) return lastPoint;
         const x = (i * (width - paddingRight)) / xMax + paddingRight;
@@ -641,7 +650,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
           fill="none"
           stroke={this.getColor(dataset, 0.2)}
           strokeWidth={this.getStrokeWidth(dataset)}
-          strokeDasharray={dataset.strokeDashArray}
+          strokeDasharray={this.getStrokeDashArray(dataset)}
           strokeDashoffset={dataset.strokeDashOffset}
         />
       );
@@ -729,7 +738,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
           fill="none"
           stroke={this.getColor(dataset, 0.2)}
           strokeWidth={this.getStrokeWidth(dataset)}
-          strokeDasharray={dataset.strokeDashArray}
+          strokeDasharray={this.getStrokeDashArray(dataset)}
           strokeDashoffset={dataset.strokeDashOffset}
         />
       );
@@ -839,6 +848,10 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
     };
 
     const datas = this.getDatas(data.datasets);
+    const firstDataset = data.datasets[0] || { data: [] };
+    const hasScrollableData =
+      withScrollableDot &&
+      data.datasets.some(dataset => dataset.data && dataset.data.length > 0);
 
     let count = Math.min(...datas) === Math.max(...datas) ? 1 : 4;
     if (segments) {
@@ -903,7 +916,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
                 (withInnerLines
                   ? this.renderVerticalLines({
                       ...config,
-                      data: data.datasets[0].data,
+                      data: firstDataset.data,
                       paddingTop: paddingTop as number,
                       paddingRight: paddingRight as number
                     })
@@ -955,7 +968,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
                 })}
             </G>
             <G>
-              {withScrollableDot &&
+              {hasScrollableData &&
                 this.renderScrollableDot({
                   ...config,
                   ...chartConfig,
