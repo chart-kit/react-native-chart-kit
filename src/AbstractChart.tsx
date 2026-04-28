@@ -46,6 +46,10 @@ class AbstractChart<
 > extends Component<AbstractChartProps & IProps, AbstractChartState & IState> {
   private chartId = nextChartId++;
 
+  protected getValidData = (data: number[] = []) => {
+    return data.filter(value => typeof value === "number" && isFinite(value));
+  };
+
   protected getGradientId = (id: string) => {
     return `chart-kit-${this.chartId}-${id}`;
   };
@@ -55,48 +59,70 @@ class AbstractChart<
   };
 
   calcScaler = (data: number[]) => {
+    const values = this.getValidData(data);
+
+    if (values.length === 0) {
+      return 1;
+    }
+
     if (this.props.fromZero && this.props.fromNumber) {
       return (
-        Math.max(...data, this.props.fromNumber) - Math.min(...data, 0) || 1
+        Math.max(...values, this.props.fromNumber) - Math.min(...values, 0) || 1
       );
     } else if (this.props.fromZero) {
-      return Math.max(...data, 0) - Math.min(...data, 0) || 1;
+      return Math.max(...values, 0) - Math.min(...values, 0) || 1;
     } else if (this.props.fromNumber) {
       return (
-        Math.max(...data, this.props.fromNumber) -
-          Math.min(...data, this.props.fromNumber) || 1
+        Math.max(...values, this.props.fromNumber) -
+          Math.min(...values, this.props.fromNumber) || 1
       );
     } else {
-      return Math.max(...data) - Math.min(...data) || 1;
+      return Math.max(...values) - Math.min(...values) || 1;
     }
   };
 
   calcBaseHeight = (data: number[], height: number) => {
-    const min = Math.min(...data);
-    const max = Math.max(...data);
+    const values = this.getValidData(data);
+
+    if (values.length === 0) {
+      return height;
+    }
+
+    const min = Math.min(...values);
+    const max = Math.max(...values);
     if (min >= 0 && max >= 0) {
       return height;
     } else if (min < 0 && max <= 0) {
       return 0;
     } else if (min < 0 && max > 0) {
-      return (height * max) / this.calcScaler(data);
+      return (height * max) / this.calcScaler(values);
     }
   };
 
   calcHeight = (val: number, data: number[], height: number) => {
-    const max = Math.max(...data);
-    const min = Math.min(...data);
+    if (typeof val !== "number" || !isFinite(val)) {
+      return 0;
+    }
+
+    const values = this.getValidData(data);
+
+    if (values.length === 0) {
+      return 0;
+    }
+
+    const max = Math.max(...values);
+    const min = Math.min(...values);
 
     if (min < 0 && max > 0) {
-      return height * (val / this.calcScaler(data));
+      return height * (val / this.calcScaler(values));
     } else if (min >= 0 && max >= 0) {
       return this.props.fromZero
-        ? height * (val / this.calcScaler(data))
-        : height * ((val - min) / this.calcScaler(data));
+        ? height * (val / this.calcScaler(values))
+        : height * ((val - min) / this.calcScaler(values));
     } else if (min < 0 && max <= 0) {
       return this.props.fromZero
-        ? height * (val / this.calcScaler(data))
-        : height * ((val - max) / this.calcScaler(data));
+        ? height * (val / this.calcScaler(values))
+        : height * ((val - max) / this.calcScaler(values));
     }
   };
 
@@ -207,6 +233,8 @@ class AbstractChart<
       formatYLabel = (yLabel: string) => yLabel,
       verticalLabelsHeightPercentage = DEFAULT_X_LABELS_HEIGHT_PERCENTAGE
     } = config;
+    const values = this.getValidData(data);
+    const labelData = values.length === 0 ? [0] : values;
 
     const {
       yAxisLabel = "",
@@ -218,12 +246,12 @@ class AbstractChart<
 
       if (count === 1) {
         yLabel = `${yAxisLabel}${formatYLabel(
-          data[0].toFixed(decimalPlaces)
+          labelData[0].toFixed(decimalPlaces)
         )}${yAxisSuffix}`;
       } else {
         const label = this.props.fromZero
-          ? (this.calcScaler(data) / count) * i + Math.min(...data, 0)
-          : (this.calcScaler(data) / count) * i + Math.min(...data);
+          ? (this.calcScaler(labelData) / count) * i + Math.min(...labelData, 0)
+          : (this.calcScaler(labelData) / count) * i + Math.min(...labelData);
         yLabel = `${yAxisLabel}${formatYLabel(
           label.toFixed(decimalPlaces)
         )}${yAxisSuffix}`;

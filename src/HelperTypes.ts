@@ -24,7 +24,7 @@ export interface Dataset {
   key?: string | number;
 
   /** Stroke Dash Array */
-  strokeDashArray?: number[];
+  strokeDashArray?: number[] | string;
 
   /** Stroke Dash Offset */
   strokeDashOffset?: number;
