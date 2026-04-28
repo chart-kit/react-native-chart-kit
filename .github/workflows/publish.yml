@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
 
 jobs:
@@ -31,14 +31,43 @@ jobs:
         run: npm run typecheck
 
       - name: Verify package is unpublished
+        id: package
         run: |
           PACKAGE_NAME=$(node -p "require('./package.json').name")
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          TAG_NAME="v${PACKAGE_VERSION}"
+
+          echo "name=${PACKAGE_NAME}" >> "$GITHUB_OUTPUT"
+          echo "version=${PACKAGE_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "tag=${TAG_NAME}" >> "$GITHUB_OUTPUT"
 
           if npm view "${PACKAGE_NAME}@${PACKAGE_VERSION}" version >/dev/null 2>&1; then
             echo "${PACKAGE_NAME}@${PACKAGE_VERSION} is already published"
             exit 1
           fi
 
+          if git ls-remote --exit-code --tags origin "refs/tags/${TAG_NAME}" >/dev/null 2>&1; then
+            echo "${TAG_NAME} already exists"
+            exit 1
+          fi
+
       - name: Publish
-        run: npm publish
+        run: npm publish --provenance
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PACKAGE_NAME: ${{ steps.package.outputs.name }}
+          PACKAGE_VERSION: ${{ steps.package.outputs.version }}
+          TAG_NAME: ${{ steps.package.outputs.tag }}
+        run: |
+          awk "/^## v${PACKAGE_VERSION}$/{flag=1; next} /^## /{flag=0} flag" CHANGELOG.md > release-notes.md
+
+          if [ ! -s release-notes.md ]; then
+            echo "Published ${PACKAGE_NAME}@${PACKAGE_VERSION} to npm." > release-notes.md
+          fi
+
+          gh release create "${TAG_NAME}" \
+            --target "${GITHUB_SHA}" \
+            --title "${TAG_NAME}" \
+            --notes-file release-notes.md

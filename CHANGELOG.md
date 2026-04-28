@@ -1,5 +1,14 @@
 # Changelog
 
+## v6.12.2
+
+- remove the direct `lodash` dependency
+- guard chart scaling and labels against empty or invalid data
+- avoid NaN stacked bar geometry when all stacked values are zero
+- normalize line chart dash arrays before rendering SVG strokes
+- improve LineChart dot interaction support on web
+- prevent null placeholders in one line dataset from inheriting another dataset's last point
+
 ## v6.12.1
 
 - prepare next patch release after v6.12.0
