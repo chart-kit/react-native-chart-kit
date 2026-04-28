@@ -1,4 +1,3 @@
-import _ from "lodash";
 import React from "react";
 import { View } from "react-native";
 import { G, Rect, RectProps, Svg, Text } from "react-native-svg";
@@ -20,6 +19,7 @@ import { ContributionGraphProps, ContributionGraphState } from ".";
 const SQUARE_SIZE = 20;
 const MONTH_LABEL_GUTTER_SIZE = 8;
 const paddingLeft = 32;
+const range = (count: number) => Array.from({ length: count }, (_, i) => i);
 
 export type ContributionChartValue = {
   value: number;
@@ -322,7 +322,7 @@ class ContributionGraph extends AbstractChart<
     const [x, y] = this.getTransformForWeek(weekIndex);
     return (
       <G key={weekIndex} x={x} y={y}>
-        {_.range(DAYS_IN_WEEK).map(dayIndex =>
+        {range(DAYS_IN_WEEK).map(dayIndex =>
           this.renderSquare(dayIndex, weekIndex * DAYS_IN_WEEK + dayIndex)
         )}
       </G>
@@ -330,7 +330,7 @@ class ContributionGraph extends AbstractChart<
   }
 
   renderAllWeeks() {
-    return _.range(this.getWeekCount()).map(weekIndex =>
+    return range(this.getWeekCount()).map(weekIndex =>
       this.renderWeek(weekIndex)
     );
   }
@@ -340,7 +340,7 @@ class ContributionGraph extends AbstractChart<
       return null;
     }
 
-    const weekRange = _.range(this.getWeekCount() - 1); // don't render for last week, because label will be cut off
+    const weekRange = range(this.getWeekCount() - 1); // don't render for last week, because label will be cut off
 
     return weekRange.map(weekIndex => {
       const endOfWeek = shiftDate(
