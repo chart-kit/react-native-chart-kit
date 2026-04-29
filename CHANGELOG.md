@@ -1,5 +1,11 @@
 # Changelog
 
+## v7.0.0-next.0
+
+- publish the rebuild line under the `@chart-kit/react-native` npm package
+- update the support matrix to React 19, React Native 0.83+, and react-native-svg 15
+- modernize package tooling and remove the legacy Expo 37 root demo setup
+
 ## v6.12.2
 
 - remove the direct `lodash` dependency

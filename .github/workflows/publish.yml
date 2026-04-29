@@ -2,6 +2,16 @@ name: Publish to npm
 
 on:
   workflow_dispatch:
+    inputs:
+      npm_tag:
+        description: npm dist-tag to publish
+        required: true
+        default: next
+        type: choice
+        options:
+          - next
+          - beta
+          - latest
 
 permissions:
   contents: write
@@ -12,6 +22,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Verify release branch
+        run: |
+          if [ "${GITHUB_REF_NAME}" != "next" ]; then
+            echo "This workflow publishes the rebuild package and must be run from the next branch."
+            exit 1
+          fi
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -22,7 +39,7 @@ jobs:
           registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
-        run: npm install --legacy-peer-deps --ignore-scripts
+        run: npm install --ignore-scripts
 
       - name: Build
         run: npm run build
@@ -35,11 +52,18 @@ jobs:
         run: |
           PACKAGE_NAME=$(node -p "require('./package.json').name")
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          NPM_TAG="${{ inputs.npm_tag }}"
           TAG_NAME="v${PACKAGE_VERSION}"
 
           echo "name=${PACKAGE_NAME}" >> "$GITHUB_OUTPUT"
           echo "version=${PACKAGE_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "npm_tag=${NPM_TAG}" >> "$GITHUB_OUTPUT"
           echo "tag=${TAG_NAME}" >> "$GITHUB_OUTPUT"
+
+          if [ "${NPM_TAG}" = "latest" ] && [[ "${PACKAGE_VERSION}" == *-* ]]; then
+            echo "Refusing to publish prerelease version ${PACKAGE_VERSION} with npm dist-tag latest"
+            exit 1
+          fi
 
           if npm view "${PACKAGE_NAME}@${PACKAGE_VERSION}" version >/dev/null 2>&1; then
             echo "${PACKAGE_NAME}@${PACKAGE_VERSION} is already published"
@@ -52,7 +76,9 @@ jobs:
           fi
 
       - name: Publish
-        run: npm publish --provenance
+        run: npm publish --access public --provenance --tag "${NPM_TAG}"
+        env:
+          NPM_TAG: ${{ steps.package.outputs.npm_tag }}
 
       - name: Create GitHub release
         env:
@@ -67,7 +93,15 @@ jobs:
             echo "Published ${PACKAGE_NAME}@${PACKAGE_VERSION} to npm." > release-notes.md
           fi
 
-          gh release create "${TAG_NAME}" \
-            --target "${GITHUB_SHA}" \
-            --title "${TAG_NAME}" \
-            --notes-file release-notes.md
+          if [[ "${PACKAGE_VERSION}" == *-* ]]; then
+            gh release create "${TAG_NAME}" \
+              --target "${GITHUB_SHA}" \
+              --title "${TAG_NAME}" \
+              --notes-file release-notes.md \
+              --prerelease
+          else
+            gh release create "${TAG_NAME}" \
+              --target "${GITHUB_SHA}" \
+              --title "${TAG_NAME}" \
+              --notes-file release-notes.md
+          fi

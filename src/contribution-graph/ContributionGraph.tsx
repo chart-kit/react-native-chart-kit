@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { G, Rect, RectProps, Svg, Text } from "react-native-svg";
 
 import AbstractChart from "../AbstractChart";
-import { mapValue } from "../Utils";
+import { getNumberProp, mapValue } from "../Utils";
 import {
   convertToDate,
   getBeginningTimeForDate,
@@ -322,7 +322,7 @@ class ContributionGraph extends AbstractChart<
     const [x, y] = this.getTransformForWeek(weekIndex);
     return (
       <G key={weekIndex} x={x} y={y}>
-        {range(DAYS_IN_WEEK).map(dayIndex =>
+        {range(DAYS_IN_WEEK).map((dayIndex) =>
           this.renderSquare(dayIndex, weekIndex * DAYS_IN_WEEK + dayIndex)
         )}
       </G>
@@ -330,7 +330,7 @@ class ContributionGraph extends AbstractChart<
   }
 
   renderAllWeeks() {
-    return range(this.getWeekCount()).map(weekIndex =>
+    return range(this.getWeekCount()).map((weekIndex) =>
       this.renderWeek(weekIndex)
     );
   }
@@ -342,7 +342,7 @@ class ContributionGraph extends AbstractChart<
 
     const weekRange = range(this.getWeekCount() - 1); // don't render for last week, because label will be cut off
 
-    return weekRange.map(weekIndex => {
+    return weekRange.map((weekIndex) => {
       const endOfWeek = shiftDate(
         this.getStartDateWithEmptyDays(),
         (weekIndex + 1) * DAYS_IN_WEEK
@@ -374,7 +374,7 @@ class ContributionGraph extends AbstractChart<
     showMonthLabels: true,
     showOutOfRangeDays: false,
     accessor: "count",
-    classForValue: value => (value ? "black" : "#8cc665"),
+    classForValue: (value) => (value ? "black" : "#8cc665"),
     style: {}
   };
 
@@ -387,6 +387,7 @@ class ContributionGraph extends AbstractChart<
       const stupidXo = this.props.chartConfig.style.borderRadius;
       borderRadius = stupidXo;
     }
+    const backgroundRadius = getNumberProp(borderRadius);
 
     return (
       <View style={style}>
@@ -399,8 +400,8 @@ class ContributionGraph extends AbstractChart<
           <Rect
             width="100%"
             height={this.props.height}
-            rx={borderRadius}
-            ry={borderRadius}
+            rx={backgroundRadius}
+            ry={backgroundRadius}
             fill={this.getGradientUrl("backgroundGradient")}
           />
           <G>{this.renderMonthLabels()}</G>

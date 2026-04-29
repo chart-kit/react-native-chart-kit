@@ -47,7 +47,7 @@ class AbstractChart<
   private chartId = nextChartId++;
 
   protected getValidData = (data: number[] = []) => {
-    return data.filter(value => typeof value === "number" && isFinite(value));
+    return data.filter((value) => typeof value === "number" && isFinite(value));
   };
 
   protected getGradientId = (id: string) => {
@@ -173,7 +173,7 @@ class AbstractChart<
     };
   }
 
-  renderHorizontalLines = config => {
+  renderHorizontalLines = (config) => {
     const {
       count,
       width,
@@ -199,7 +199,7 @@ class AbstractChart<
     });
   };
 
-  renderHorizontalLine = config => {
+  renderHorizontalLine = (config) => {
     const {
       width,
       height,
@@ -291,7 +291,7 @@ class AbstractChart<
     horizontalOffset = 0,
     stackedBar = false,
     verticalLabelRotation = 0,
-    formatXLabel = xLabel => xLabel,
+    formatXLabel = (xLabel) => xLabel,
     verticalLabelsHeightPercentage = DEFAULT_X_LABELS_HEIGHT_PERCENTAGE
   }: Pick<
     AbstractChartConfig,

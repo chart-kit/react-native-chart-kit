@@ -7,6 +7,7 @@ import AbstractChart, {
   AbstractChartConfig,
   AbstractChartProps
 } from "./AbstractChart";
+import { getNumberProp } from "./Utils";
 
 export type ProgressChartData =
   | Array<number>
@@ -36,17 +37,11 @@ class ProgressChart extends AbstractChart<
   public static defaultProps = { style: {}, strokeWidth: 16, radius: 32 };
 
   render() {
-    let {
-      width,
-      height,
-      style,
-      data,
-      hideLegend,
-      strokeWidth,
-      radius
-    } = this.props;
+    let { width, height, style, data, hideLegend, strokeWidth, radius } =
+      this.props;
 
     const { borderRadius = 0, margin = 0, marginRight = 0 } = style;
+    const backgroundRadius = getNumberProp(borderRadius);
 
     if (Array.isArray(data)) {
       data = {
@@ -171,8 +166,8 @@ class ProgressChart extends AbstractChart<
           <Rect
             width="100%"
             height={this.props.height}
-            rx={borderRadius}
-            ry={borderRadius}
+            rx={backgroundRadius}
+            ry={backgroundRadius}
             fill={this.getGradientUrl("backgroundGradient")}
           />
           <G

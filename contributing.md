@@ -31,16 +31,13 @@ First clone:
 ```sh
 git clone git@github.com:indiespirit/react-native-chart-kit.git
 cd react-native-chart-kit
-npm install --legacy-peer-deps
+npm install
 ```
 
-In order to run it, you are gonna have to flip values for "main" and "\_main" in package json. This is nessesary because both npm and expo have a notion of a main file, but for npm it's the file that you run when you import this library in your app; and for expo it's the file that it uses to display the example app.
-
-Don't forget to flip it back before commiting.
-
-**After you update fix the package.json**
+The package root is focused on the library build and checks. The old Expo SDK 37 demo has been removed from the root tooling; a modern example app should live separately from the package entrypoint.
 
 ```sh
-npm start # And get your Expo app ready on your phone
-npm run build # Verify the package build
+npm run lint
+npm run typecheck
+npm run build
 ```

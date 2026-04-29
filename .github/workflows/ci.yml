@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - master
+      - next
 
 jobs:
   build:
@@ -17,10 +18,16 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Install dependencies
-        run: npm install --legacy-peer-deps --ignore-scripts
+        run: npm install --ignore-scripts
+
+      - name: Lint
+        run: npm run lint
 
       - name: Build
         run: npm run build
+
+      - name: Typecheck
+        run: npm run typecheck

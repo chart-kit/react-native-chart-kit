@@ -4,13 +4,11 @@ If you're looking to **build a website or a cross-platform mobile app** – we w
 
 [📲See example app](https://github.com/indiespirit/react-native-chart-kit-example)
 
-To try the examples in Expo, please change `main` to `./node_modules/expo/AppEntry.js` in `package.json` before starting things with `expo run`. You'll need to have `expo-cli` installed via `npm install -g expo-cli`.
-
 # React Native Chart Kit Documentation
 
 ## Import components
 
-1. `yarn add react-native-chart-kit`
+1. `yarn add @chart-kit/react-native`
 2. `yarn add react-native-svg` install peer dependencies
 3. Use with ES6 syntax to import components
 
@@ -22,7 +20,7 @@ import {
   ProgressChart,
   ContributionGraph,
   StackedBarChart
-} from "react-native-chart-kit";
+} from "@chart-kit/react-native";
 ```
 
 ## Quick Example

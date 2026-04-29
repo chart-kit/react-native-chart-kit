@@ -7,6 +7,7 @@ import AbstractChart, {
   AbstractChartProps,
   DEFAULT_X_LABELS_HEIGHT_PERCENTAGE
 } from "./AbstractChart";
+import { getNumberProp } from "./Utils";
 
 export interface StackedBarChartData {
   labels: string[];
@@ -209,6 +210,7 @@ class StackedBarChart extends AbstractChart<
     } = this.props;
 
     const { borderRadius = 0 } = style;
+    const backgroundRadius = getNumberProp(borderRadius);
     const config = {
       width,
       height
@@ -243,8 +245,8 @@ class StackedBarChart extends AbstractChart<
           <Rect
             width="100%"
             height={height}
-            rx={borderRadius}
-            ry={borderRadius}
+            rx={backgroundRadius}
+            ry={backgroundRadius}
             fill={this.getGradientUrl("backgroundGradient")}
           />
           <G>

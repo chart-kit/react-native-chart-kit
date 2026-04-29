@@ -15,6 +15,7 @@ import AbstractChart, {
   AbstractChartProps
 } from "./AbstractChart";
 import { ChartData } from "./HelperTypes";
+import { getNumberProp } from "./Utils";
 
 const barWidth = 32;
 
@@ -233,6 +234,7 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
     } = this.props;
 
     const { borderRadius = 0, paddingTop = 16, paddingRight = 64 } = style;
+    const backgroundRadius = getNumberProp(borderRadius);
 
     const config = {
       width,
@@ -245,12 +247,12 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
         (this.props.chartConfig && this.props.chartConfig.decimalPlaces) ?? 2,
       formatYLabel:
         (this.props.chartConfig && this.props.chartConfig.formatYLabel) ||
-        function(label) {
+        function (label) {
           return label;
         },
       formatXLabel:
         (this.props.chartConfig && this.props.chartConfig.formatXLabel) ||
-        function(label) {
+        function (label) {
           return label;
         }
     };
@@ -270,8 +272,8 @@ class BarChart extends AbstractChart<BarChartProps, BarChartState> {
           <Rect
             width="100%"
             height={height}
-            rx={borderRadius}
-            ry={borderRadius}
+            rx={backgroundRadius}
+            ry={backgroundRadius}
             fill={this.getGradientUrl("backgroundGradient")}
           />
           <G>

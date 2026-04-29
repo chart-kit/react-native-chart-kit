@@ -22,6 +22,7 @@ import AbstractChart, {
   AbstractChartProps
 } from "../AbstractChart";
 import { ChartData, Dataset } from "../HelperTypes";
+import { getNumberProp } from "../Utils";
 import { LegendItem } from "./LegendItem";
 
 let AnimatedCircle = Animated.createAnimatedComponent(Circle);
@@ -313,7 +314,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
             dataset,
             x: cx,
             y: cy,
-            getColor: opacity => this.getColor(dataset, opacity)
+            getColor: (opacity) => this.getColor(dataset, opacity)
           });
         };
         const pressProps = { onPressIn, onClick: onPressIn } as any;
@@ -363,7 +364,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
     scrollableDotRadius,
     scrollableInfoViewStyle,
     scrollableInfoTextStyle,
-    scrollableInfoTextDecorator = x => `${x}`,
+    scrollableInfoTextDecorator = (x) => `${x}`,
     scrollableInfoSize,
     scrollableInfoOffset
   }: AbstractChartConfig & {
@@ -382,7 +383,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
     }
     let lastIndex: number;
 
-    scrollableDotHorizontalOffset.addListener(value => {
+    scrollableDotHorizontalOffset.addListener((value) => {
       const index = value.value / perData;
       if (!lastIndex) {
         lastIndex = index;
@@ -590,10 +591,13 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
                 return `${x},${y}`;
               })
               .join(" ") +
-            ` ${paddingRight +
+            ` ${
+              paddingRight +
               ((width - paddingRight) / dataset.data.length) *
-                (dataset.data.length - 1)},${(height / 4) * 3 +
-              paddingTop} ${paddingRight},${(height / 4) * 3 + paddingTop}`
+                (dataset.data.length - 1)
+            },${
+              (height / 4) * 3 + paddingTop
+            } ${paddingRight},${(height / 4) * 3 + paddingTop}`
           }
           fill={this.getGradientUrl(
             `fillShadowGradientFrom${useColorFromDataset ? `_${index}` : ""}`
@@ -768,10 +772,12 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
           paddingTop,
           data
         }) +
-        ` L${paddingRight +
-          ((width - paddingRight) / xMax) *
-            (dataset.data.length - 1)},${(height / 4) * 3 +
-          paddingTop} L${paddingRight},${(height / 4) * 3 + paddingTop} Z`;
+        ` L${
+          paddingRight +
+          ((width - paddingRight) / xMax) * (dataset.data.length - 1)
+        },${
+          (height / 4) * 3 + paddingTop
+        } L${paddingRight},${(height / 4) * 3 + paddingTop} Z`;
 
       return (
         <Path
@@ -822,8 +828,8 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
       onDataPointClick,
       verticalLabelRotation = 0,
       horizontalLabelRotation = 0,
-      formatYLabel = yLabel => yLabel,
-      formatXLabel = xLabel => xLabel,
+      formatYLabel = (yLabel) => yLabel,
+      formatXLabel = (xLabel) => xLabel,
       segments,
       transparent = false,
       chartConfig
@@ -851,7 +857,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
     const firstDataset = data.datasets[0] || { data: [] };
     const hasScrollableData =
       withScrollableDot &&
-      data.datasets.some(dataset => dataset.data && dataset.data.length > 0);
+      data.datasets.some((dataset) => dataset.data && dataset.data.length > 0);
 
     let count = Math.min(...datas) === Math.max(...datas) ? 1 : 4;
     if (segments) {
@@ -859,6 +865,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
     }
 
     const legendOffset = this.props.data.legend ? height * 0.15 : 0;
+    const backgroundRadius = getNumberProp(borderRadius);
 
     return (
       <View style={style}>
@@ -869,8 +876,8 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
           <Rect
             width="100%"
             height={height + legendOffset}
-            rx={borderRadius}
-            ry={borderRadius}
+            rx={backgroundRadius}
+            ry={backgroundRadius}
             fill={this.getGradientUrl("backgroundGradient")}
             fillOpacity={transparent ? 0 : 1}
           />
@@ -892,12 +899,12 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
                       paddingRight
                     })
                   : withOuterLines
-                  ? this.renderHorizontalLine({
-                      ...config,
-                      paddingTop,
-                      paddingRight
-                    })
-                  : null)}
+                    ? this.renderHorizontalLine({
+                        ...config,
+                        paddingTop,
+                        paddingRight
+                      })
+                    : null)}
             </G>
             <G>
               {withHorizontalLabels &&
@@ -921,12 +928,12 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
                       paddingRight: paddingRight as number
                     })
                   : withOuterLines
-                  ? this.renderVerticalLine({
-                      ...config,
-                      paddingTop: paddingTop as number,
-                      paddingRight: paddingRight as number
-                    })
-                  : null)}
+                    ? this.renderVerticalLine({
+                        ...config,
+                        paddingTop: paddingTop as number,
+                        paddingRight: paddingRight as number
+                      })
+                    : null)}
             </G>
             <G>
               {withVerticalLabels &&

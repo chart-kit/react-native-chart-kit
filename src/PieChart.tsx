@@ -4,6 +4,7 @@ import { View, ViewStyle } from "react-native";
 import { G, Path, Rect, Svg, Text } from "react-native-svg";
 
 import AbstractChart, { AbstractChartProps } from "./AbstractChart";
+import { getNumberProp } from "./Utils";
 
 export interface PieChartProps extends AbstractChartProps {
   data: Array<any>;
@@ -32,13 +33,14 @@ class PieChart extends AbstractChart<PieChartProps, PieChartState> {
     } = this.props;
 
     const { borderRadius = 0 } = style;
+    const backgroundRadius = getNumberProp(borderRadius);
 
     const chart = Pie({
       center: this.props.center || [0, 0],
       r: 0,
       R: this.props.height / 2.5,
       data: this.props.data,
-      accessor: x => {
+      accessor: (x) => {
         return x[this.props.accessor];
       }
     });
@@ -125,8 +127,8 @@ class PieChart extends AbstractChart<PieChartProps, PieChartState> {
           <Rect
             width="100%"
             height={this.props.height}
-            rx={borderRadius}
-            ry={borderRadius}
+            rx={backgroundRadius}
+            ry={backgroundRadius}
             fill={backgroundColor}
           />
           <G
