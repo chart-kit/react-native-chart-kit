@@ -3,6 +3,8 @@
   "version": "7.0.0-next.0",
   "devDependencies": {
     "@eslint/js": "^9.39.4",
+    "@storybook/react-native-web-vite": "^10.3.6",
+    "@types/node": "^25.6.0",
     "@types/react": "^19.2.14",
     "eslint": "^9.39.4",
     "eslint-plugin-react": "^7.37.5",
@@ -12,10 +14,14 @@
     "lint-staged": "^16.4.0",
     "prettier": "^3.8.3",
     "react": "^19.2.5",
+    "react-dom": "^19.2.5",
     "react-native": "^0.83.9",
     "react-native-svg": "^15.15.4",
+    "react-native-web": "^0.21.2",
+    "storybook": "^10.3.6",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.59.1"
+    "typescript-eslint": "^8.59.1",
+    "vite": "^8.0.10"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -32,7 +38,10 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "npm run typecheck",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && npm run showcase:typecheck",
+    "showcase": "storybook dev -c apps/showcase-web/.storybook -p 6006 --disable-telemetry",
+    "showcase:build": "storybook build -c apps/showcase-web/.storybook -o apps/showcase-web/storybook-static --disable-telemetry",
+    "showcase:typecheck": "tsc -p apps/showcase-web/tsconfig.json --noEmit",
     "build": "tsc",
     "dev": "tsc --watch",
     "prepare": "npm run build && husky"

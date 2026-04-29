@@ -7,3 +7,4 @@ package-lock.json
 .vscode
 yarn.lock
 dist
+apps/showcase-web/storybook-static
