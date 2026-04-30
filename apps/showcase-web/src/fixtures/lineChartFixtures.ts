@@ -41,6 +41,8 @@ export type LineChartFixture = {
   style?: {
     borderRadius?: number;
     marginVertical?: number;
+    paddingRight?: number;
+    paddingTop?: number;
   };
   segments?: number;
   bezier?: boolean;
@@ -99,6 +101,12 @@ const darkChartConfig: LineChartFixture["chartConfig"] = {
   fillShadowGradientToOpacity: 0.03
 };
 
+const phoneChartStyle: LineChartFixture["style"] = {
+  borderRadius: 8,
+  paddingRight: 36,
+  paddingTop: 8
+};
+
 export const lineChartFixtures = {
   basic: {
     width: 375,
@@ -111,13 +119,10 @@ export const lineChartFixtures = {
           color: (opacity = 1) => `rgba(${blue}, ${opacity})`,
           strokeWidth: 3
         }
-      ],
-      legend: ["Revenue"]
+      ]
     },
     chartConfig: lightChartConfig,
-    style: {
-      borderRadius: 8
-    },
+    style: phoneChartStyle,
     bezier: true,
     segments: 4,
     yAxisSuffix: "k"
@@ -140,8 +145,7 @@ export const lineChartFixtures = {
           color: (opacity = 1) => `rgba(${cyan}, ${opacity})`,
           strokeWidth: 3
         }
-      ],
-      legend: ["Regional demand"]
+      ]
     },
     chartConfig: {
       ...lightChartConfig,
@@ -149,9 +153,7 @@ export const lineChartFixtures = {
       fillShadowGradientFrom: "#0891b2",
       fillShadowGradientTo: "#0891b2"
     },
-    style: {
-      borderRadius: 8
-    },
+    style: phoneChartStyle,
     segments: 4,
     verticalLabelRotation: 46,
     xLabelsOffset: -10
@@ -194,9 +196,7 @@ export const lineChartFixtures = {
       fillShadowGradientFrom: "#7c3aed",
       fillShadowGradientTo: "#7c3aed"
     },
-    style: {
-      borderRadius: 8
-    },
+    style: phoneChartStyle,
     segments: 5,
     withDots: false
   },
@@ -211,13 +211,10 @@ export const lineChartFixtures = {
           color: (opacity = 1) => `rgba(${blue}, ${opacity})`,
           strokeWidth: 3
         }
-      ],
-      legend: ["Net change"]
+      ]
     },
     chartConfig: lightChartConfig,
-    style: {
-      borderRadius: 8
-    },
+    style: phoneChartStyle,
     segments: 4
   },
   emptyState: {
@@ -235,9 +232,7 @@ export const lineChartFixtures = {
       legend: ["No data"]
     },
     chartConfig: lightChartConfig,
-    style: {
-      borderRadius: 8
-    }
+    style: phoneChartStyle
   },
   darkMode: {
     width: 375,
@@ -250,13 +245,10 @@ export const lineChartFixtures = {
           color: (opacity = 1) => `rgba(125, 211, 252, ${opacity})`,
           strokeWidth: 3
         }
-      ],
-      legend: ["Sessions"]
+      ]
     },
     chartConfig: darkChartConfig,
-    style: {
-      borderRadius: 8
-    },
+    style: phoneChartStyle,
     bezier: true,
     segments: 4
   },
@@ -275,7 +267,9 @@ export const lineChartFixtures = {
     },
     chartConfig: lightChartConfig,
     style: {
-      borderRadius: 8
+      borderRadius: 8,
+      paddingRight: 28,
+      paddingTop: 8
     },
     segments: 3,
     withInnerLines: false,
