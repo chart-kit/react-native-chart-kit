@@ -130,7 +130,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     height: 812,
     overflow: "hidden",
-    paddingHorizontal: 16,
     width: 393
   },
   darkPhone: {

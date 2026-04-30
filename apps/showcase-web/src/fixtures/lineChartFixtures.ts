@@ -101,7 +101,7 @@ const darkChartConfig: LineChartFixture["chartConfig"] = {
 
 export const lineChartFixtures = {
   basic: {
-    width: 343,
+    width: 375,
     height: 220,
     data: {
       labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
@@ -123,7 +123,7 @@ export const lineChartFixtures = {
     yAxisSuffix: "k"
   },
   longLabels: {
-    width: 343,
+    width: 375,
     height: 236,
     data: {
       labels: [
@@ -157,7 +157,7 @@ export const lineChartFixtures = {
     xLabelsOffset: -10
   },
   denseData: {
-    width: 343,
+    width: 375,
     height: 220,
     data: {
       labels: [
@@ -201,7 +201,7 @@ export const lineChartFixtures = {
     withDots: false
   },
   negativeValues: {
-    width: 343,
+    width: 375,
     height: 220,
     data: {
       labels: ["Q1", "Q2", "Q3", "Q4", "Q5", "Q6"],
@@ -221,7 +221,7 @@ export const lineChartFixtures = {
     segments: 4
   },
   emptyState: {
-    width: 343,
+    width: 375,
     height: 220,
     data: {
       labels: [],
@@ -240,7 +240,7 @@ export const lineChartFixtures = {
     }
   },
   darkMode: {
-    width: 343,
+    width: 375,
     height: 220,
     data: {
       labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
@@ -261,7 +261,7 @@ export const lineChartFixtures = {
     segments: 4
   },
   tinyWidth: {
-    width: 240,
+    width: 280,
     height: 220,
     data: {
       labels: ["A", "B", "C", "D"],
