@@ -330,11 +330,21 @@ class AbstractChart<
       }
 
       const isLastLabel = i === labels.length - 1;
+      const labelText = `${formatXLabel(label)}${xAxisLabel}`;
       const x =
         (((width - paddingRight) / xAxisDivisor) * i +
           paddingRight +
           horizontalOffset) *
         fac;
+      const rotatedLabelRightOverflow =
+        labelText.length *
+        fontSize *
+        0.62 *
+        Math.cos((Math.abs(verticalLabelRotation) * Math.PI) / 180);
+      const labelX =
+        isLastLabel && i > 0 && verticalLabelRotation !== 0
+          ? Math.min(x, width - rotatedLabelRightOverflow - 4)
+          : x;
 
       const y =
         height * verticalLabelsHeightPercentage +
@@ -344,10 +354,10 @@ class AbstractChart<
 
       return (
         <Text
-          origin={`${x}, ${y}`}
+          origin={`${labelX}, ${y}`}
           rotation={verticalLabelRotation}
           key={`vertical-label-${i}-${label}`}
-          x={x}
+          x={labelX}
           y={y}
           textAnchor={
             isLastLabel &&
@@ -362,7 +372,7 @@ class AbstractChart<
           {...this.getPropsForLabels()}
           {...this.getPropsForVerticalLabels()}
         >
-          {`${formatXLabel(label)}${xAxisLabel}`}
+          {labelText}
         </Text>
       );
     });
