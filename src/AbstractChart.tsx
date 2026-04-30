@@ -329,6 +329,7 @@ class AbstractChart<
         return null;
       }
 
+      const isLastLabel = i === labels.length - 1;
       const x =
         (((width - paddingRight) / xAxisDivisor) * i +
           paddingRight +
@@ -348,7 +349,13 @@ class AbstractChart<
           key={`vertical-label-${i}-${label}`}
           x={x}
           y={y}
-          textAnchor={verticalLabelRotation === 0 ? "middle" : "start"}
+          textAnchor={
+            isLastLabel && i > 0 && xAxisIntervalCount !== undefined
+              ? "end"
+              : verticalLabelRotation === 0
+                ? "middle"
+                : "start"
+          }
           {...this.getPropsForLabels()}
           {...this.getPropsForVerticalLabels()}
         >

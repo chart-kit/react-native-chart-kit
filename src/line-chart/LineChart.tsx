@@ -27,6 +27,19 @@ import { LegendItem } from "./LegendItem";
 
 let AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
+const getFiniteNumber = (value: unknown, fallback: number) => {
+  if (typeof value === "number") {
+    return Number.isFinite(value) ? value : fallback;
+  }
+
+  if (typeof value === "string") {
+    const parsed = Number.parseFloat(value);
+    return Number.isFinite(parsed) ? parsed : fallback;
+  }
+
+  return fallback;
+};
+
 export interface LineChartData extends ChartData {
   legend?: string[];
 }
@@ -234,6 +247,22 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
 
   getStrokeWidth = (dataset: Dataset) => {
     return dataset.strokeWidth || this.props.chartConfig.strokeWidth || 3;
+  };
+
+  getChartRightPadding = (data: Dataset[], withDots: boolean) => {
+    const propsForDots = this.props.chartConfig?.propsForDots ?? {};
+    const dotRadius = withDots ? getFiniteNumber(propsForDots.r, 4) : 0;
+    const dotStrokeWidth = withDots
+      ? getFiniteNumber(propsForDots.strokeWidth, 0)
+      : 0;
+    const maxStrokeWidth = data.reduce(
+      (maxWidth, dataset) => Math.max(maxWidth, this.getStrokeWidth(dataset)),
+      0
+    );
+
+    return Math.ceil(
+      Math.max(4, dotRadius + dotStrokeWidth / 2, maxStrokeWidth / 2)
+    );
   };
 
   getDatas = (data: Dataset[]): number[] => {
@@ -845,8 +874,17 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
       paddingBottom = 0
     } = style;
 
+    const chartRightPadding = this.getChartRightPadding(
+      data.datasets,
+      withDots
+    );
+    const chartWidth = Math.max(
+      width - chartRightPadding,
+      getFiniteNumber(paddingRight, 64) + 1
+    );
+
     const config = {
-      width,
+      width: chartWidth,
       height,
       verticalLabelRotation,
       horizontalLabelRotation
@@ -882,8 +920,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
             fill={this.getGradientUrl("backgroundGradient")}
             fillOpacity={transparent ? 0 : 1}
           />
-          {this.props.data.legend &&
-            this.renderLegend(config.width, legendOffset)}
+          {this.props.data.legend && this.renderLegend(width, legendOffset)}
           <G x="0" y={legendOffset}>
             {this.renderDefs({
               ...config,
