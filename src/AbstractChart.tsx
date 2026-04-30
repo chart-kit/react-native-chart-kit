@@ -350,7 +350,10 @@ class AbstractChart<
           x={x}
           y={y}
           textAnchor={
-            isLastLabel && i > 0 && xAxisIntervalCount !== undefined
+            isLastLabel &&
+            i > 0 &&
+            xAxisIntervalCount !== undefined &&
+            verticalLabelRotation === 0
               ? "end"
               : verticalLabelRotation === 0
                 ? "middle"
