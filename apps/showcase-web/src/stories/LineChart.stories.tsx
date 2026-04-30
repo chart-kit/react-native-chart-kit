@@ -151,6 +151,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#334155"
   },
   stage: {
+    alignItems: "center",
     backgroundColor: "#f8fafc",
     paddingTop: 8
   },
