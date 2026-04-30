@@ -857,6 +857,8 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
     const hasScrollableData =
       withScrollableDot &&
       data.datasets.some((dataset) => dataset.data && dataset.data.length > 0);
+    const xAxisDataIntervalCount = this.getXMaxValues(data.datasets);
+    const xAxisLabelIntervalCount = Math.max(labels.length - 1, 1);
 
     let count = Math.min(...datas) === Math.max(...datas) ? 1 : 4;
     if (segments) {
@@ -924,7 +926,8 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
                       ...config,
                       data: firstDataset.data,
                       paddingTop: paddingTop as number,
-                      paddingRight: paddingRight as number
+                      paddingRight: paddingRight as number,
+                      xAxisIntervalCount: xAxisDataIntervalCount
                     })
                   : withOuterLines
                     ? this.renderVerticalLine({
@@ -941,6 +944,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
                   labels,
                   paddingTop: paddingTop as number,
                   paddingRight: paddingRight as number,
+                  xAxisIntervalCount: xAxisLabelIntervalCount,
                   formatXLabel
                 })}
             </G>

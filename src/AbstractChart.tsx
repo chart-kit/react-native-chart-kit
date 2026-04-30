@@ -27,6 +27,7 @@ export interface AbstractChartConfig extends ChartConfig {
   formatYLabel?: (yLabel: string) => string;
   labels?: string[];
   horizontalOffset?: number;
+  xAxisIntervalCount?: number;
   stackedBar?: boolean;
   verticalLabelRotation?: number;
   formatXLabel?: (xLabel: string) => string;
@@ -289,6 +290,7 @@ class AbstractChart<
     paddingRight,
     paddingTop,
     horizontalOffset = 0,
+    xAxisIntervalCount,
     stackedBar = false,
     verticalLabelRotation = 0,
     formatXLabel = (xLabel) => xLabel,
@@ -301,6 +303,7 @@ class AbstractChart<
     | "paddingRight"
     | "paddingTop"
     | "horizontalOffset"
+    | "xAxisIntervalCount"
     | "stackedBar"
     | "verticalLabelRotation"
     | "formatXLabel"
@@ -318,6 +321,8 @@ class AbstractChart<
     if (stackedBar) {
       fac = 0.71;
     }
+    const labelIntervalCount = xAxisIntervalCount ?? labels.length;
+    const xAxisDivisor = Math.max(labelIntervalCount, 1);
 
     return labels.map((label, i) => {
       if (hidePointsAtIndex.includes(i)) {
@@ -325,7 +330,7 @@ class AbstractChart<
       }
 
       const x =
-        (((width - paddingRight) / labels.length) * i +
+        (((width - paddingRight) / xAxisDivisor) * i +
           paddingRight +
           horizontalOffset) *
         fac;
@@ -359,6 +364,7 @@ class AbstractChart<
     height,
     paddingTop,
     paddingRight,
+    xAxisIntervalCount,
     verticalLabelsHeightPercentage = DEFAULT_X_LABELS_HEIGHT_PERCENTAGE
   }: Omit<
     Pick<
@@ -368,32 +374,32 @@ class AbstractChart<
       | "height"
       | "paddingRight"
       | "paddingTop"
+      | "xAxisIntervalCount"
       | "verticalLabelsHeightPercentage"
     >,
     "data"
   > & { data: number[] }) => {
     const { yAxisInterval = 1 } = this.props;
+    const lineCount = Math.ceil(data.length / yAxisInterval);
+    const verticalLineStep =
+      xAxisIntervalCount === undefined
+        ? (width - paddingRight) / (data.length / yAxisInterval)
+        : ((width - paddingRight) / Math.max(xAxisIntervalCount, 1)) *
+          yAxisInterval;
 
-    return [...new Array(Math.ceil(data.length / yAxisInterval))].map(
-      (_, i) => {
-        return (
-          <Line
-            key={`vertical-line-${i}`}
-            x1={Math.floor(
-              ((width - paddingRight) / (data.length / yAxisInterval)) * i +
-                paddingRight
-            )}
-            y1={0}
-            x2={Math.floor(
-              ((width - paddingRight) / (data.length / yAxisInterval)) * i +
-                paddingRight
-            )}
-            y2={height * verticalLabelsHeightPercentage + paddingTop}
-            {...this.getPropsForBackgroundLines()}
-          />
-        );
-      }
-    );
+    return [...new Array(lineCount)].map((_, i) => {
+      const x = Math.floor(verticalLineStep * i + paddingRight);
+      return (
+        <Line
+          key={`vertical-line-${i}`}
+          x1={x}
+          y1={0}
+          x2={x}
+          y2={height * verticalLabelsHeightPercentage + paddingTop}
+          {...this.getPropsForBackgroundLines()}
+        />
+      );
+    });
   };
 
   renderVerticalLine = ({
