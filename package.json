@@ -42,7 +42,8 @@
     "showcase": "storybook dev -c apps/showcase-web/.storybook -p 6006 --disable-telemetry",
     "showcase:build": "storybook build -c apps/showcase-web/.storybook -o apps/showcase-web/storybook-static --disable-telemetry",
     "showcase:typecheck": "tsc -p apps/showcase-web/tsconfig.json --noEmit",
-    "build": "tsc",
+    "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
+    "build": "npm run clean && tsc",
     "dev": "tsc --watch",
     "prepare": "npm run build && husky"
   },
@@ -52,8 +53,7 @@
     "react-native-svg": ">=15.13.0 <16"
   },
   "dependencies": {
-    "paths-js": "^0.4.11",
-    "point-in-polygon": "^1.1.0"
+    "paths-js": "^0.4.11"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

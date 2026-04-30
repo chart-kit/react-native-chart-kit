@@ -13,9 +13,9 @@ import {
 import AbstractChart, {
   AbstractChartConfig,
   AbstractChartProps
-} from "./AbstractChart";
-import { ChartData } from "./HelperTypes";
-import { getNumberProp } from "./Utils";
+} from "../../shared/AbstractChart";
+import { ChartData } from "../../shared/types";
+import { getNumberProp } from "../../shared/utils";
 
 const barWidth = 32;
 

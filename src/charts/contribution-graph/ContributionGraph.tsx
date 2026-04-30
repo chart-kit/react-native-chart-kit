@@ -2,13 +2,9 @@ import React from "react";
 import { View } from "react-native";
 import { G, Rect, RectProps, Svg, Text } from "react-native-svg";
 
-import AbstractChart from "../AbstractChart";
-import { getNumberProp, mapValue } from "../Utils";
-import {
-  convertToDate,
-  getBeginningTimeForDate,
-  shiftDate
-} from "./DateHelpers";
+import AbstractChart from "../../shared/AbstractChart";
+import { getNumberProp, mapValue } from "../../shared/utils";
+import { convertToDate, getBeginningTimeForDate, shiftDate } from "./date";
 import {
   DAYS_IN_WEEK,
   MILLISECONDS_IN_ONE_DAY,

@@ -20,9 +20,9 @@ import {
 import AbstractChart, {
   AbstractChartConfig,
   AbstractChartProps
-} from "../AbstractChart";
-import { ChartData, Dataset } from "../HelperTypes";
-import { getNumberProp } from "../Utils";
+} from "../../shared/AbstractChart";
+import { ChartData, Dataset } from "../../shared/types";
+import { getNumberProp } from "../../shared/utils";
 import { LegendItem } from "./LegendItem";
 
 let AnimatedCircle = Animated.createAnimatedComponent(Circle);
@@ -149,7 +149,7 @@ export interface LineChartProps extends AbstractChartProps {
    */
   transparent?: boolean;
   /**
-   * This function takes a [whole bunch](https://github.com/indiespirit/react-native-chart-kit/blob/master/src/line-chart.js#L266)
+   * This function takes a [whole bunch](https://github.com/indiespirit/react-native-chart-kit/blob/master/src/charts/line/LineChart.tsx)
    * of stuff and can render extra elements,
    * such as data point info or additional markup.
    */

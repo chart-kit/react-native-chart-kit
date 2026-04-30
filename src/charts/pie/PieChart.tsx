@@ -3,8 +3,8 @@ import React from "react";
 import { View, ViewStyle } from "react-native";
 import { G, Path, Rect, Svg, Text } from "react-native-svg";
 
-import AbstractChart, { AbstractChartProps } from "./AbstractChart";
-import { getNumberProp } from "./Utils";
+import AbstractChart, { AbstractChartProps } from "../../shared/AbstractChart";
+import { getNumberProp } from "../../shared/utils";
 
 export interface PieChartProps extends AbstractChartProps {
   data: Array<any>;

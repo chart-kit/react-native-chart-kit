@@ -3,10 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 
 import { BarChart } from "@chart-kit/react-native";
 
-import {
-  BarChartFixture,
-  barChartFixtures
-} from "../fixtures/barChartFixtures";
+import { BarChartFixture, fixtures } from "./fixtures";
 
 type StoryFrameProps = {
   fixture: BarChartFixture;
@@ -87,38 +84,31 @@ export default {
 };
 
 export const Basic = () => (
-  <StoryFrame fixture={barChartFixtures.basic} label="Basic" />
+  <StoryFrame fixture={fixtures.basic} label="Basic" />
 );
 
 export const LongLabels = () => (
-  <StoryFrame fixture={barChartFixtures.longLabels} label="Long Labels" />
+  <StoryFrame fixture={fixtures.longLabels} label="Long Labels" />
 );
 
 export const DenseData = () => (
-  <StoryFrame fixture={barChartFixtures.denseData} label="Dense Data" />
+  <StoryFrame fixture={fixtures.denseData} label="Dense Data" />
 );
 
 export const NegativeValues = () => (
-  <StoryFrame
-    fixture={barChartFixtures.negativeValues}
-    label="Negative Values"
-  />
+  <StoryFrame fixture={fixtures.negativeValues} label="Negative Values" />
 );
 
 export const EmptyState = () => (
-  <StoryFrame fixture={barChartFixtures.emptyState} label="Empty State" />
+  <StoryFrame fixture={fixtures.emptyState} label="Empty State" />
 );
 
 export const DarkMode = () => (
-  <StoryFrame
-    fixture={barChartFixtures.darkMode}
-    label="Dark Mode"
-    tone="dark"
-  />
+  <StoryFrame fixture={fixtures.darkMode} label="Dark Mode" tone="dark" />
 );
 
 export const TinyWidth = () => (
-  <StoryFrame fixture={barChartFixtures.tinyWidth} label="Tiny Width" />
+  <StoryFrame fixture={fixtures.tinyWidth} label="Tiny Width" />
 );
 
 const styles = StyleSheet.create({

@@ -1,6 +1,6 @@
 import { ViewStyle } from "react-native";
 
-import { AbstractChartProps } from "../AbstractChart";
+import { AbstractChartProps } from "../../shared/AbstractChart";
 import ContributionGraph, {
   ContributionChartValue,
   TooltipDataAttrs

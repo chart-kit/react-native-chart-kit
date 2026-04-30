@@ -6,8 +6,8 @@ import { G, Path, Rect, Svg, Text } from "react-native-svg";
 import AbstractChart, {
   AbstractChartConfig,
   AbstractChartProps
-} from "./AbstractChart";
-import { getNumberProp } from "./Utils";
+} from "../../shared/AbstractChart";
+import { getNumberProp } from "../../shared/utils";
 
 export type ProgressChartData =
   | Array<number>

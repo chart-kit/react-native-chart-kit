@@ -6,8 +6,8 @@ import AbstractChart, {
   AbstractChartConfig,
   AbstractChartProps,
   DEFAULT_X_LABELS_HEIGHT_PERCENTAGE
-} from "./AbstractChart";
-import { getNumberProp } from "./Utils";
+} from "../../shared/AbstractChart";
+import { getNumberProp } from "../../shared/utils";
 
 export interface StackedBarChartData {
   labels: string[];

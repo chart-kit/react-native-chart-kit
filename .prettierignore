@@ -1,5 +1,4 @@
 dist
 node_modules
 coverage
-package-lock.json
 apps/showcase-web/storybook-static

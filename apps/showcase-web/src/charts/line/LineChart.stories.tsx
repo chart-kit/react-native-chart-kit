@@ -3,10 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 
 import { LineChart } from "@chart-kit/react-native";
 
-import {
-  LineChartFixture,
-  lineChartFixtures
-} from "../fixtures/lineChartFixtures";
+import { LineChartFixture, fixtures } from "./fixtures";
 
 type StoryFrameProps = {
   fixture: LineChartFixture;
@@ -80,38 +77,31 @@ export default {
 };
 
 export const Basic = () => (
-  <StoryFrame fixture={lineChartFixtures.basic} label="Basic" />
+  <StoryFrame fixture={fixtures.basic} label="Basic" />
 );
 
 export const LongLabels = () => (
-  <StoryFrame fixture={lineChartFixtures.longLabels} label="Long Labels" />
+  <StoryFrame fixture={fixtures.longLabels} label="Long Labels" />
 );
 
 export const DenseData = () => (
-  <StoryFrame fixture={lineChartFixtures.denseData} label="Dense Data" />
+  <StoryFrame fixture={fixtures.denseData} label="Dense Data" />
 );
 
 export const NegativeValues = () => (
-  <StoryFrame
-    fixture={lineChartFixtures.negativeValues}
-    label="Negative Values"
-  />
+  <StoryFrame fixture={fixtures.negativeValues} label="Negative Values" />
 );
 
 export const EmptyState = () => (
-  <StoryFrame fixture={lineChartFixtures.emptyState} label="Empty State" />
+  <StoryFrame fixture={fixtures.emptyState} label="Empty State" />
 );
 
 export const DarkMode = () => (
-  <StoryFrame
-    fixture={lineChartFixtures.darkMode}
-    label="Dark Mode"
-    tone="dark"
-  />
+  <StoryFrame fixture={fixtures.darkMode} label="Dark Mode" tone="dark" />
 );
 
 export const TinyWidth = () => (
-  <StoryFrame fixture={lineChartFixtures.tinyWidth} label="Tiny Width" />
+  <StoryFrame fixture={fixtures.tinyWidth} label="Tiny Width" />
 );
 
 const styles = StyleSheet.create({
