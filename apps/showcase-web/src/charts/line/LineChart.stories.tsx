@@ -19,7 +19,10 @@ const StoryFrame = ({ fixture, label, tone = "light" }: StoryFrameProps) => {
 
   return (
     <View style={[styles.screen, isDark && styles.darkScreen]}>
-      <View style={[styles.phone, isDark && styles.darkPhone]}>
+      <View
+        testID="visual-frame"
+        style={[styles.phone, isDark && styles.darkPhone]}
+      >
         <View style={styles.statusBar}>
           <View style={[styles.speaker, isDark && styles.darkSpeaker]} />
         </View>

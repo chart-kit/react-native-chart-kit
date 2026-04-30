@@ -3,6 +3,7 @@
   "version": "7.0.0-next.0",
   "devDependencies": {
     "@eslint/js": "^9.39.4",
+    "@playwright/test": "^1.59.1",
     "@storybook/react-native-web-vite": "^10.3.6",
     "@types/node": "^25.6.0",
     "@types/react": "^19.2.14",
@@ -42,6 +43,8 @@
     "showcase": "storybook dev -c apps/showcase-web/.storybook -p 6006 --disable-telemetry",
     "showcase:build": "storybook build -c apps/showcase-web/.storybook -o apps/showcase-web/storybook-static --disable-telemetry",
     "showcase:typecheck": "tsc -p apps/showcase-web/tsconfig.json --noEmit",
+    "visual:test": "npm run showcase:build && playwright test -c apps/showcase-web/playwright.config.ts",
+    "visual:update": "npm run showcase:build && playwright test -c apps/showcase-web/playwright.config.ts --update-snapshots",
     "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
     "build": "npm run clean && tsc",
     "dev": "tsc --watch",

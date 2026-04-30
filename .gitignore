@@ -7,3 +7,5 @@ npm-debug.*
 yarn.lock
 dist
 apps/showcase-web/storybook-static
+apps/showcase-web/test-results
+apps/showcase-web/visual/chart-stories.spec.ts-snapshots
