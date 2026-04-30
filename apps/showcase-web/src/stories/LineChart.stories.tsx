@@ -162,7 +162,8 @@ const styles = StyleSheet.create({
     color: "#111827",
     fontSize: 16,
     fontWeight: "600",
-    marginBottom: 16
+    marginBottom: 16,
+    paddingHorizontal: 16
   },
   darkLabel: {
     color: "#e5e7eb"
