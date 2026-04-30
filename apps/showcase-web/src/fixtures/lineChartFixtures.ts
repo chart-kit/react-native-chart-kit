@@ -101,8 +101,8 @@ const darkChartConfig: LineChartFixture["chartConfig"] = {
 
 export const lineChartFixtures = {
   basic: {
-    width: 640,
-    height: 320,
+    width: 343,
+    height: 220,
     data: {
       labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
       datasets: [
@@ -123,8 +123,8 @@ export const lineChartFixtures = {
     yAxisSuffix: "k"
   },
   longLabels: {
-    width: 720,
-    height: 320,
+    width: 343,
+    height: 236,
     data: {
       labels: [
         "North America",
@@ -153,12 +153,12 @@ export const lineChartFixtures = {
       borderRadius: 8
     },
     segments: 4,
-    verticalLabelRotation: 32,
-    xLabelsOffset: -8
+    verticalLabelRotation: 46,
+    xLabelsOffset: -10
   },
   denseData: {
-    width: 820,
-    height: 320,
+    width: 343,
+    height: 220,
     data: {
       labels: [
         "W1",
@@ -201,8 +201,8 @@ export const lineChartFixtures = {
     withDots: false
   },
   negativeValues: {
-    width: 640,
-    height: 320,
+    width: 343,
+    height: 220,
     data: {
       labels: ["Q1", "Q2", "Q3", "Q4", "Q5", "Q6"],
       datasets: [
@@ -221,8 +221,8 @@ export const lineChartFixtures = {
     segments: 4
   },
   emptyState: {
-    width: 640,
-    height: 320,
+    width: 343,
+    height: 220,
     data: {
       labels: [],
       datasets: [
@@ -240,8 +240,8 @@ export const lineChartFixtures = {
     }
   },
   darkMode: {
-    width: 640,
-    height: 320,
+    width: 343,
+    height: 220,
     data: {
       labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
       datasets: [
@@ -261,7 +261,7 @@ export const lineChartFixtures = {
     segments: 4
   },
   tinyWidth: {
-    width: 280,
+    width: 240,
     height: 220,
     data: {
       labels: ["A", "B", "C", "D"],

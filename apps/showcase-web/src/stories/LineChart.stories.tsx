@@ -22,48 +22,48 @@ const StoryFrame = ({ fixture, label, tone = "light" }: StoryFrameProps) => {
 
   return (
     <View style={[styles.screen, isDark && styles.darkScreen]}>
-      <View
-        style={[
-          styles.stage,
-          {
-            width: fixture.width + 48,
-            minHeight: fixture.height + 112
-          },
-          isDark && styles.darkStage
-        ]}
-      >
-        <Text style={[styles.label, isDark && styles.darkLabel]}>{label}</Text>
-        {hasRenderableData(fixture) ? (
-          <LineChart
-            data={fixture.data}
-            width={fixture.width}
-            height={fixture.height}
-            chartConfig={fixture.chartConfig}
-            style={fixture.style}
-            segments={fixture.segments}
-            bezier={fixture.bezier}
-            fromZero={fixture.fromZero}
-            withDots={fixture.withDots}
-            withInnerLines={fixture.withInnerLines}
-            withOuterLines={fixture.withOuterLines}
-            verticalLabelRotation={fixture.verticalLabelRotation}
-            xLabelsOffset={fixture.xLabelsOffset}
-            yAxisSuffix={fixture.yAxisSuffix}
-          />
-        ) : (
-          <View
-            style={[
-              styles.emptyState,
-              {
-                width: fixture.width,
-                height: fixture.height
-              }
-            ]}
-          >
-            <Text style={styles.emptyTitle}>No chart data</Text>
-            <Text style={styles.emptyCopy}>Fixture contains zero points.</Text>
-          </View>
-        )}
+      <View style={[styles.phone, isDark && styles.darkPhone]}>
+        <View style={styles.statusBar}>
+          <View style={[styles.speaker, isDark && styles.darkSpeaker]} />
+        </View>
+        <View style={[styles.stage, isDark && styles.darkStage]}>
+          <Text style={[styles.label, isDark && styles.darkLabel]}>
+            {label}
+          </Text>
+          {hasRenderableData(fixture) ? (
+            <LineChart
+              data={fixture.data}
+              width={fixture.width}
+              height={fixture.height}
+              chartConfig={fixture.chartConfig}
+              style={fixture.style}
+              segments={fixture.segments}
+              bezier={fixture.bezier}
+              fromZero={fixture.fromZero}
+              withDots={fixture.withDots}
+              withInnerLines={fixture.withInnerLines}
+              withOuterLines={fixture.withOuterLines}
+              verticalLabelRotation={fixture.verticalLabelRotation}
+              xLabelsOffset={fixture.xLabelsOffset}
+              yAxisSuffix={fixture.yAxisSuffix}
+            />
+          ) : (
+            <View
+              style={[
+                styles.emptyState,
+                {
+                  width: fixture.width,
+                  height: fixture.height
+                }
+              ]}
+            >
+              <Text style={styles.emptyTitle}>No chart data</Text>
+              <Text style={styles.emptyCopy}>
+                Fixture contains zero points.
+              </Text>
+            </View>
+          )}
+        </View>
       </View>
     </View>
   );
@@ -117,18 +117,43 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#eef2f7",
     justifyContent: "center",
-    minHeight: 520,
-    padding: 32
+    minHeight: 852,
+    padding: 24
   },
   darkScreen: {
     backgroundColor: "#020617"
   },
+  phone: {
+    backgroundColor: "#f8fafc",
+    borderColor: "#cbd5e1",
+    borderRadius: 48,
+    borderWidth: 1,
+    height: 812,
+    overflow: "hidden",
+    paddingHorizontal: 16,
+    width: 393
+  },
+  darkPhone: {
+    backgroundColor: "#020617",
+    borderColor: "#334155"
+  },
+  statusBar: {
+    alignItems: "center",
+    height: 42,
+    justifyContent: "center"
+  },
+  speaker: {
+    backgroundColor: "#cbd5e1",
+    borderRadius: 4,
+    height: 5,
+    width: 64
+  },
+  darkSpeaker: {
+    backgroundColor: "#334155"
+  },
   stage: {
     backgroundColor: "#f8fafc",
-    borderColor: "#dbe3ef",
-    borderRadius: 8,
-    borderWidth: 1,
-    padding: 24
+    paddingTop: 8
   },
   darkStage: {
     backgroundColor: "#020617",
