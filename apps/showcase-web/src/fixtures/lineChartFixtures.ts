@@ -43,6 +43,7 @@ export type LineChartFixture = {
     marginVertical?: number;
     paddingRight?: number;
     paddingTop?: number;
+    width?: number;
   };
   segments?: number;
   bezier?: boolean;
@@ -104,12 +105,13 @@ const darkChartConfig: LineChartFixture["chartConfig"] = {
 const phoneChartStyle: LineChartFixture["style"] = {
   borderRadius: 8,
   paddingRight: 36,
-  paddingTop: 8
+  paddingTop: 8,
+  width: 393
 };
 
 export const lineChartFixtures = {
   basic: {
-    width: 375,
+    width: 393,
     height: 220,
     data: {
       labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
@@ -128,7 +130,7 @@ export const lineChartFixtures = {
     yAxisSuffix: "k"
   },
   longLabels: {
-    width: 375,
+    width: 393,
     height: 236,
     data: {
       labels: [
@@ -159,7 +161,7 @@ export const lineChartFixtures = {
     xLabelsOffset: -10
   },
   denseData: {
-    width: 375,
+    width: 393,
     height: 220,
     data: {
       labels: [
@@ -201,7 +203,7 @@ export const lineChartFixtures = {
     withDots: false
   },
   negativeValues: {
-    width: 375,
+    width: 393,
     height: 220,
     data: {
       labels: ["Q1", "Q2", "Q3", "Q4", "Q5", "Q6"],
@@ -218,7 +220,7 @@ export const lineChartFixtures = {
     segments: 4
   },
   emptyState: {
-    width: 375,
+    width: 393,
     height: 220,
     data: {
       labels: [],
@@ -235,7 +237,7 @@ export const lineChartFixtures = {
     style: phoneChartStyle
   },
   darkMode: {
-    width: 375,
+    width: 393,
     height: 220,
     data: {
       labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
@@ -269,7 +271,8 @@ export const lineChartFixtures = {
     style: {
       borderRadius: 8,
       paddingRight: 28,
-      paddingTop: 8
+      paddingTop: 8,
+      width: 280
     },
     segments: 3,
     withInnerLines: false,

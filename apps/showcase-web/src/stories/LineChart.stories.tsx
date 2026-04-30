@@ -31,22 +31,24 @@ const StoryFrame = ({ fixture, label, tone = "light" }: StoryFrameProps) => {
             {label}
           </Text>
           {hasRenderableData(fixture) ? (
-            <LineChart
-              data={fixture.data}
-              width={fixture.width}
-              height={fixture.height}
-              chartConfig={fixture.chartConfig}
-              style={fixture.style}
-              segments={fixture.segments}
-              bezier={fixture.bezier}
-              fromZero={fixture.fromZero}
-              withDots={fixture.withDots}
-              withInnerLines={fixture.withInnerLines}
-              withOuterLines={fixture.withOuterLines}
-              verticalLabelRotation={fixture.verticalLabelRotation}
-              xLabelsOffset={fixture.xLabelsOffset}
-              yAxisSuffix={fixture.yAxisSuffix}
-            />
+            <View style={styles.chartSlot}>
+              <LineChart
+                data={fixture.data}
+                width={fixture.width}
+                height={fixture.height}
+                chartConfig={fixture.chartConfig}
+                style={fixture.style}
+                segments={fixture.segments}
+                bezier={fixture.bezier}
+                fromZero={fixture.fromZero}
+                withDots={fixture.withDots}
+                withInnerLines={fixture.withInnerLines}
+                withOuterLines={fixture.withOuterLines}
+                verticalLabelRotation={fixture.verticalLabelRotation}
+                xLabelsOffset={fixture.xLabelsOffset}
+                yAxisSuffix={fixture.yAxisSuffix}
+              />
+            </View>
           ) : (
             <View
               style={[
@@ -151,7 +153,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#334155"
   },
   stage: {
-    alignItems: "center",
     backgroundColor: "#f8fafc",
     paddingTop: 8
   },
@@ -168,6 +169,10 @@ const styles = StyleSheet.create({
   },
   darkLabel: {
     color: "#e5e7eb"
+  },
+  chartSlot: {
+    alignItems: "center",
+    width: "100%"
   },
   emptyState: {
     alignItems: "center",
