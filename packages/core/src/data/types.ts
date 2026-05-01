@@ -3,10 +3,12 @@ export type ChartYValue = number | null;
 
 export type ChartKitWarningCode =
   | "invalid-x-value"
+  | "invalid-date"
   | "missing-value"
   | "invalid-number"
   | "negative-pie-value"
-  | "progress-out-of-range";
+  | "progress-out-of-range"
+  | "contribution-out-of-range";
 
 export type ChartKitWarning = {
   code: ChartKitWarningCode;
@@ -122,5 +124,72 @@ export type NormalizedProgressRing = {
 export type NormalizedProgressData = {
   kind: "progress";
   rings: NormalizedProgressRing[];
+  warnings: ChartKitWarning[];
+};
+
+export type LegacyStackedBarData = {
+  labels: string[];
+  legend: string[];
+  data: Array<Array<number | null | undefined>>;
+  barColors: string[];
+};
+
+export type NormalizeLegacyStackedBarOptions = NormalizeOptions & {
+  percentile?: boolean;
+};
+
+export type NormalizedStackedBarSegment<TData = unknown> = {
+  index: number;
+  seriesIndex: number;
+  label: string;
+  value: ChartYValue;
+  defined: boolean;
+  color?: string;
+  raw: TData;
+};
+
+export type NormalizedStackedBarGroup<TData = unknown> = {
+  index: number;
+  label: string;
+  total: number;
+  segments: Array<NormalizedStackedBarSegment<TData>>;
+  raw: TData;
+};
+
+export type NormalizedStackedBarData<TData = unknown> = {
+  kind: "stacked-bar";
+  legend: string[];
+  colors: string[];
+  percentile: boolean;
+  groups: Array<NormalizedStackedBarGroup<TData>>;
+  warnings: ChartKitWarning[];
+};
+
+export type LegacyContributionValue = {
+  date?: string | number | Date;
+  [key: string]: unknown;
+};
+
+export type NormalizeLegacyContributionOptions = NormalizeOptions & {
+  accessor?: string;
+  endDate: string | number | Date;
+  numDays: number;
+  emptyValue?: 0 | null;
+};
+
+export type NormalizedContributionDay<TData = unknown> = {
+  index: number;
+  date: Date;
+  value: ChartYValue;
+  defined: boolean;
+  raw?: TData;
+};
+
+export type NormalizedContributionData<TData = unknown> = {
+  kind: "contribution";
+  accessor: string;
+  startDate: Date;
+  endDate: Date;
+  days: Array<NormalizedContributionDay<TData>>;
   warnings: ChartKitWarning[];
 };

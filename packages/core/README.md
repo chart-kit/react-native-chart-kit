@@ -26,3 +26,5 @@ Current exports:
 - `normalizeLegacyLineData`
 - `normalizeLegacyPieData`
 - `normalizeLegacyProgressData`
+- `normalizeLegacyStackedBarData`
+- `normalizeLegacyContributionData`

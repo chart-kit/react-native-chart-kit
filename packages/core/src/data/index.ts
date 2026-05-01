@@ -1,8 +1,10 @@
 export {
   normalizeCartesianData,
+  normalizeLegacyContributionData,
   normalizeLegacyLineData,
   normalizeLegacyPieData,
-  normalizeLegacyProgressData
+  normalizeLegacyProgressData,
+  normalizeLegacyStackedBarData
 } from "./normalize";
 export type {
   CartesianSeriesInput,
@@ -10,18 +12,27 @@ export type {
   ChartKitWarningCode,
   ChartXValue,
   ChartYValue,
+  LegacyContributionValue,
   LegacyDataset,
   LegacyLineData,
   LegacyPieDataItem,
   LegacyProgressData,
+  LegacyStackedBarData,
   NormalizeCartesianInput,
+  NormalizeLegacyContributionOptions,
   NormalizeLegacyPieOptions,
+  NormalizeLegacyStackedBarOptions,
   NormalizeOptions,
   NormalizedCartesianData,
+  NormalizedContributionData,
+  NormalizedContributionDay,
   NormalizedDataPoint,
   NormalizedPieData,
   NormalizedPieSlice,
   NormalizedProgressData,
   NormalizedProgressRing,
-  NormalizedSeries
+  NormalizedSeries,
+  NormalizedStackedBarData,
+  NormalizedStackedBarGroup,
+  NormalizedStackedBarSegment
 } from "./types";

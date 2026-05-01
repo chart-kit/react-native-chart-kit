@@ -3,20 +3,31 @@ import type {
   ChartXValue,
   ChartYValue,
   CartesianSeriesInput,
+  LegacyContributionValue,
   LegacyLineData,
   LegacyPieDataItem,
   LegacyProgressData,
+  LegacyStackedBarData,
   NormalizeCartesianInput,
+  NormalizeLegacyContributionOptions,
   NormalizeLegacyPieOptions,
+  NormalizeLegacyStackedBarOptions,
   NormalizeOptions,
   NormalizedCartesianData,
+  NormalizedContributionData,
+  NormalizedContributionDay,
   NormalizedDataPoint,
   NormalizedPieData,
   NormalizedPieSlice,
   NormalizedProgressData,
   NormalizedProgressRing,
-  NormalizedSeries
+  NormalizedSeries,
+  NormalizedStackedBarData,
+  NormalizedStackedBarGroup,
+  NormalizedStackedBarSegment
 } from "./types";
+
+const millisecondsInOneDay = 24 * 60 * 60 * 1000;
 
 type WarningCollector = {
   warnings: ChartKitWarning[];
@@ -92,6 +103,83 @@ const normalizeNumberValue = (
   });
 
   return null;
+};
+
+const shiftDate = (date: Date, numDays: number): Date => {
+  const shiftedDate = new Date(date);
+  shiftedDate.setDate(shiftedDate.getDate() + numDays);
+  return shiftedDate;
+};
+
+const isUtcMidnightDate = (date: Date): boolean => {
+  return (
+    date.getUTCHours() === 0 &&
+    date.getUTCMinutes() === 0 &&
+    date.getUTCSeconds() === 0 &&
+    date.getUTCMilliseconds() === 0
+  );
+};
+
+const getBeginningTimeForDate = (date: Date): Date => {
+  if (isUtcMidnightDate(date)) {
+    return new Date(
+      date.getUTCFullYear(),
+      date.getUTCMonth(),
+      date.getUTCDate()
+    );
+  }
+
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+};
+
+const normalizeDateValue = (
+  value: unknown,
+  path: string,
+  collector: WarningCollector
+): Date | null => {
+  if (
+    !(
+      typeof value === "string" ||
+      typeof value === "number" ||
+      value instanceof Date
+    )
+  ) {
+    collector.warn({
+      code: "invalid-date",
+      message: `Expected date value at ${path} to be a string, number, or Date.`,
+      path
+    });
+
+    return null;
+  }
+
+  const localDateMatch =
+    typeof value === "string" ? /^(\d{4})-(\d{2})-(\d{2})$/.exec(value) : null;
+  const date =
+    localDateMatch &&
+    localDateMatch[1] &&
+    localDateMatch[2] &&
+    localDateMatch[3]
+      ? new Date(
+          Number(localDateMatch[1]),
+          Number(localDateMatch[2]) - 1,
+          Number(localDateMatch[3])
+        )
+      : value instanceof Date
+        ? value
+        : new Date(value);
+
+  if (!Number.isFinite(date.valueOf())) {
+    collector.warn({
+      code: "invalid-date",
+      message: `Expected parseable date value at ${path}.`,
+      path
+    });
+
+    return null;
+  }
+
+  return getBeginningTimeForDate(date);
 };
 
 const getSeriesInputs = <TData extends Record<string, unknown>>(
@@ -308,6 +396,145 @@ export const normalizeLegacyProgressData = (
   return {
     kind: "progress",
     rings,
+    warnings: collector.warnings
+  };
+};
+
+export const normalizeLegacyStackedBarData = (
+  data: LegacyStackedBarData,
+  options: NormalizeLegacyStackedBarOptions = {}
+): NormalizedStackedBarData<Array<number | null | undefined>> => {
+  const collector = createWarningCollector(options);
+  const segmentCount = Math.max(
+    data.legend.length,
+    data.barColors.length,
+    ...data.data.map((group) => group.length)
+  );
+  const groups = data.data.map<
+    NormalizedStackedBarGroup<Array<number | null | undefined>>
+  >((group, groupIndex) => {
+    const segments = Array.from<
+      unknown,
+      NormalizedStackedBarSegment<Array<number | null | undefined>>
+    >({ length: segmentCount }, (_, segmentIndex) => {
+      const value = normalizeNumberValue(
+        group[segmentIndex],
+        `data[${groupIndex}][${segmentIndex}]`,
+        collector
+      );
+      const segment: NormalizedStackedBarSegment<
+        Array<number | null | undefined>
+      > = {
+        index: groupIndex,
+        seriesIndex: segmentIndex,
+        label: data.legend[segmentIndex] ?? `Series ${segmentIndex + 1}`,
+        value,
+        defined: value !== null,
+        raw: group
+      };
+
+      if (data.barColors[segmentIndex] !== undefined) {
+        segment.color = data.barColors[segmentIndex];
+      }
+
+      return segment;
+    });
+
+    return {
+      index: groupIndex,
+      label: data.labels[groupIndex] ?? String(groupIndex),
+      total: segments.reduce(
+        (total, segment) => total + (segment.value ?? 0),
+        0
+      ),
+      segments,
+      raw: group
+    };
+  });
+
+  return {
+    kind: "stacked-bar",
+    legend: data.legend,
+    colors: data.barColors,
+    percentile: options.percentile ?? false,
+    groups,
+    warnings: collector.warnings
+  };
+};
+
+export const normalizeLegacyContributionData = (
+  values: LegacyContributionValue[],
+  options: NormalizeLegacyContributionOptions
+): NormalizedContributionData<LegacyContributionValue> => {
+  const collector = createWarningCollector(options);
+  const accessor = options.accessor ?? "count";
+  const endDate =
+    normalizeDateValue(options.endDate, "endDate", collector) ??
+    getBeginningTimeForDate(new Date(0));
+  const startDate = shiftDate(endDate, -Math.max(options.numDays, 0) + 1);
+  const emptyValue = "emptyValue" in options ? options.emptyValue : 0;
+  const valuesByIndex = new Map<number, LegacyContributionValue>();
+
+  values.forEach((value, valueIndex) => {
+    const date = normalizeDateValue(
+      value.date,
+      `values[${valueIndex}].date`,
+      collector
+    );
+
+    if (!date) {
+      return;
+    }
+
+    const dayIndex = Math.floor(
+      (date.valueOf() - startDate.valueOf()) / millisecondsInOneDay
+    );
+
+    if (dayIndex < 0 || dayIndex >= options.numDays) {
+      collector.warn({
+        code: "contribution-out-of-range",
+        message: `Contribution date at values[${valueIndex}].date falls outside the configured range.`,
+        path: `values[${valueIndex}].date`
+      });
+
+      return;
+    }
+
+    valuesByIndex.set(dayIndex, value);
+  });
+
+  const days = Array.from<
+    unknown,
+    NormalizedContributionDay<LegacyContributionValue>
+  >({ length: Math.max(options.numDays, 0) }, (_, dayIndex) => {
+    const raw = valuesByIndex.get(dayIndex);
+    const value = raw
+      ? normalizeNumberValue(
+          raw[accessor],
+          `valuesByDate[${dayIndex}].${accessor}`,
+          collector
+        )
+      : emptyValue;
+    const day: NormalizedContributionDay<LegacyContributionValue> = {
+      index: dayIndex,
+      date: shiftDate(startDate, dayIndex),
+      value,
+      defined: value !== null
+    };
+
+    if (raw !== undefined) {
+      day.raw = raw;
+    }
+
+    return day;
+  });
+
+  return {
+    kind: "contribution",
+    accessor,
+    startDate,
+    endDate,
+    days,
     warnings: collector.warnings
   };
 };
