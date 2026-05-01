@@ -48,7 +48,7 @@
     "test:compat": "node scripts/missing-command.mjs test:compat \"Compatibility fixtures are planned after the H1 matrix is finalized.\"",
     "test:e2e": "node scripts/missing-command.mjs test:e2e \"Native end-to-end coverage is not configured yet.\"",
     "typecheck": "tsc --noEmit && npm run core:typecheck && npm run showcase:typecheck",
-    "core:typecheck": "tsc -p packages/core/tsconfig.json --noEmit",
+    "core:typecheck": "tsc -p packages/core/tsconfig.json --noEmit && tsc -p packages/core/tsconfig.test.json --noEmit",
     "benchmark": "node scripts/missing-command.mjs benchmark \"Benchmark scenarios are not configured yet.\"",
     "showcase": "storybook dev -c apps/showcase-web/.storybook -p 6006 --disable-telemetry",
     "showcase:build": "storybook build -c apps/showcase-web/.storybook -o apps/showcase-web/storybook-static --disable-telemetry",

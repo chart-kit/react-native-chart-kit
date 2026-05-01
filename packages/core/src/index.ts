@@ -1,2 +1,2 @@
 // CKV2 core owns renderer-agnostic chart logic and must not import React Native.
-export {};
+export * from "./data";

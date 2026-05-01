@@ -18,4 +18,11 @@ Boundary rules:
 - Do not import `react`, `react-native`, or `react-native-svg`.
 - Keep functions deterministic and unit-testable.
 - Return plain data models for renderers to consume.
-- Add public API intentionally; this scaffold currently exports no runtime API.
+- Add public API intentionally; current exports are the first data normalization primitives.
+
+Current exports:
+
+- `normalizeCartesianData`
+- `normalizeLegacyLineData`
+- `normalizeLegacyPieData`
+- `normalizeLegacyProgressData`
