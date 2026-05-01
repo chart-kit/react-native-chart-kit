@@ -173,6 +173,8 @@ export type LineChartProps<TData extends Record<string, unknown>> = {
   connectNulls?: boolean;
   area?: boolean;
   showDots?: boolean;
+  showHorizontalGridLines?: boolean;
+  showVerticalGridLines?: boolean;
   legend?: boolean | LineChartLegendConfig;
   labelStrategy?: LineChartLabelStrategy;
   labelRotation?: number;
@@ -454,6 +456,7 @@ type XLabelCandidate = {
 };
 
 type XLabelLayoutItem = XLabelCandidate & {
+  gridX: number;
   y: number;
   row: number;
   rotation: number;
@@ -885,6 +888,7 @@ const resolveXLabelLayout = ({
       return [
         {
           ...candidate,
+          gridX: candidate.x,
           x,
           y,
           row,
@@ -939,6 +943,8 @@ const useChartModel = <TData extends Record<string, unknown>>({
   connectNulls = false,
   area = false,
   showDots = true,
+  showHorizontalGridLines = false,
+  showVerticalGridLines = false,
   legend,
   labelStrategy = "auto",
   labelRotation = defaultLabelRotation,
@@ -1249,6 +1255,8 @@ const useChartModel = <TData extends Record<string, unknown>>({
       legendModel,
       resolvedTheme,
       showDots,
+      showHorizontalGridLines,
+      showVerticalGridLines,
       xLabelLayout,
       yScale,
       yTicks,
@@ -1269,6 +1277,8 @@ const useChartModel = <TData extends Record<string, unknown>>({
     legend,
     seriesInput,
     showDots,
+    showHorizontalGridLines,
+    showVerticalGridLines,
     theme,
     width,
     xKey,
@@ -1286,6 +1296,8 @@ export const LineChart = <TData extends Record<string, unknown>>(
     legendModel,
     resolvedTheme,
     showDots,
+    showHorizontalGridLines,
+    showVerticalGridLines,
     xLabelLayout,
     yScale,
     yTicks,
@@ -1336,21 +1348,38 @@ export const LineChart = <TData extends Record<string, unknown>>(
               config: legendModel.config
             })
           : null}
-        {yTicks.map((tick) => {
-          const y = yScale.scale(tick);
+        {showVerticalGridLines
+          ? xLabelLayout.items.map((label) => (
+              <SvgLine
+                key={`grid-x-${label.index}`}
+                x1={label.gridX}
+                x2={label.gridX}
+                y1={boxes.plot.y}
+                y2={boxes.plot.y + boxes.plot.height}
+                stroke={resolvedTheme.grid}
+                strokeOpacity={0.72}
+                strokeWidth={1}
+              />
+            ))
+          : null}
+        {showHorizontalGridLines
+          ? yTicks.map((tick) => {
+              const y = yScale.scale(tick);
 
-          return (
-            <SvgLine
-              key={`grid-y-${tick}`}
-              x1={boxes.plot.x}
-              x2={boxes.plot.x + boxes.plot.width}
-              y1={y}
-              y2={y}
-              stroke={resolvedTheme.grid}
-              strokeWidth={1}
-            />
-          );
-        })}
+              return (
+                <SvgLine
+                  key={`grid-y-${tick}`}
+                  x1={boxes.plot.x}
+                  x2={boxes.plot.x + boxes.plot.width}
+                  y1={y}
+                  y2={y}
+                  stroke={resolvedTheme.grid}
+                  strokeOpacity={0.78}
+                  strokeWidth={1}
+                />
+              );
+            })
+          : null}
         {yTicks.map((tick) => {
           const y = yScale.scale(tick);
 

@@ -11,6 +11,7 @@ import {
   multiSeriesRevenue,
   priceHistory,
   revenueWithGaps,
+  sixMonthRevenue,
   subscriptionMetrics
 } from "./fixtures";
 
@@ -295,6 +296,23 @@ export const RotatedLabels = () => (
   </StoryFrame>
 );
 
+export const RotatedSixLabels = () => (
+  <StoryFrame title="Six month labels">
+    <LineChart
+      data={sixMonthRevenue}
+      xKey="month"
+      yKey="actual"
+      width={345}
+      height={250}
+      showDots={false}
+      curve="monotone"
+      labelStrategy="rotate"
+      labelRotation={-70}
+      labelMinGap={0}
+    />
+  </StoryFrame>
+);
+
 export const StaggeredLabels = () => (
   <StoryFrame title="Weekly retention">
     <LineChart
@@ -306,6 +324,22 @@ export const StaggeredLabels = () => (
       showDots={false}
       curve="monotone"
       labelStrategy="stagger"
+    />
+  </StoryFrame>
+);
+
+export const GridLines = () => (
+  <StoryFrame title="Grid lines">
+    <LineChart
+      data={basicRevenue}
+      xKey="month"
+      yKey="actual"
+      width={345}
+      height={230}
+      curve="monotone"
+      showDots={false}
+      showHorizontalGridLines
+      showVerticalGridLines
     />
   </StoryFrame>
 );

@@ -83,6 +83,15 @@ export const longRangeRevenue: RevenuePoint[] = [
   { month: "August 2026", actual: 64 }
 ];
 
+export const sixMonthRevenue: RevenuePoint[] = [
+  { month: "Jan 26", actual: 18 },
+  { month: "Feb 26", actual: 25 },
+  { month: "Mar 26", actual: 33 },
+  { month: "Apr 26", actual: 41 },
+  { month: "May 26", actual: 52 },
+  { month: "Jun 26", actual: 61 }
+];
+
 export const priceHistory: PricePoint[] = [
   { date: new Date(2026, 0, 1), price: 121 },
   { date: new Date(2026, 0, 3), price: 126 },
