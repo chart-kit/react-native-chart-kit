@@ -128,6 +128,37 @@ describe("legend layout", () => {
       { id: "c", x: 4, y: 24 }
     ]);
   });
+
+  it("reserves custom item padding around legend content", () => {
+    const result = layoutLegend({
+      maxWidth: 200,
+      itemGap: 8,
+      itemPaddingHorizontal: 8,
+      itemPaddingVertical: 4,
+      labelGap: 6,
+      items: [
+        { id: "a", label: "Alpha", labelWidth: 40, labelHeight: 12 },
+        { id: "b", label: "Beta", labelWidth: 38, labelHeight: 12 }
+      ]
+    });
+
+    expect(result.items[0]).toMatchObject({
+      id: "a",
+      x: 0,
+      y: 0,
+      width: 72,
+      height: 20,
+      contentX: 8,
+      contentY: 4,
+      contentWidth: 56,
+      contentHeight: 12
+    });
+    expect(result.items[1]).toMatchObject({
+      id: "b",
+      x: 80,
+      y: 0
+    });
+  });
 });
 
 describe("tooltip placement", () => {

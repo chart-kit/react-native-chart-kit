@@ -81,11 +81,18 @@ export type LineChartLegendRenderItem = {
   y: number;
   width: number;
   height: number;
+  contentX: number;
+  contentY: number;
+  contentWidth: number;
+  contentHeight: number;
   markerSize: number;
   marker: LineChartLegendMarker;
   fontSize: number;
   fontFamily?: string;
   labelColor: string;
+  labelGap: number;
+  paddingHorizontal: number;
+  paddingVertical: number;
 };
 
 export type LineChartLegendRenderProps = {
@@ -107,6 +114,9 @@ export type LineChartLegendConfig = {
   itemGap?: number;
   rowGap?: number;
   padding?: number;
+  labelGap?: number;
+  itemPaddingHorizontal?: number;
+  itemPaddingVertical?: number;
   markerSize?: number;
   marker?: LineChartLegendMarker;
   labelColor?: string;
@@ -124,6 +134,9 @@ type ResolvedLineChartLegendConfig = {
   itemGap: number;
   rowGap: number;
   padding: number;
+  labelGap: number;
+  itemPaddingHorizontal: number;
+  itemPaddingVertical: number;
   markerSize: number;
   marker: LineChartLegendMarker;
   labelColor: string;
@@ -235,6 +248,9 @@ const getLegendConfig = (
     itemGap: config.itemGap ?? 20,
     rowGap: config.rowGap ?? 8,
     padding: config.padding ?? 0,
+    labelGap: config.labelGap ?? 6,
+    itemPaddingHorizontal: config.itemPaddingHorizontal ?? 0,
+    itemPaddingVertical: config.itemPaddingVertical ?? 0,
     markerSize: config.markerSize ?? 8,
     marker: config.marker ?? "square",
     labelColor: config.labelColor ?? theme.text,
@@ -286,21 +302,21 @@ const getLegendY = ({
 };
 
 const renderDefaultLegendItem = (item: LineChartLegendRenderItem) => {
-  const markerCenterY = item.y + item.height / 2;
+  const markerCenterY = item.contentY + item.contentHeight / 2;
 
   return (
     <SvgGroup key={`legend-${item.key}`}>
       {item.marker === "circle" ? (
         <SvgCircle
-          cx={item.x + item.markerSize / 2}
+          cx={item.contentX + item.markerSize / 2}
           cy={markerCenterY}
           r={item.markerSize / 2}
           fill={item.color}
         />
       ) : item.marker === "line" ? (
         <SvgLine
-          x1={item.x}
-          x2={item.x + item.markerSize}
+          x1={item.contentX}
+          x2={item.contentX + item.markerSize}
           y1={markerCenterY}
           y2={markerCenterY}
           stroke={item.color}
@@ -309,7 +325,7 @@ const renderDefaultLegendItem = (item: LineChartLegendRenderItem) => {
         />
       ) : (
         <SvgRect
-          x={item.x}
+          x={item.contentX}
           y={markerCenterY - item.markerSize / 2}
           width={item.markerSize}
           height={item.markerSize}
@@ -318,8 +334,8 @@ const renderDefaultLegendItem = (item: LineChartLegendRenderItem) => {
         />
       )}
       <SvgText
-        x={item.x + item.markerSize + 6}
-        y={item.y + item.height / 2 + item.fontSize * 0.36}
+        x={item.contentX + item.markerSize + item.labelGap}
+        y={item.contentY + item.contentHeight / 2 + item.fontSize * 0.36}
         fill={item.labelColor}
         fontSize={item.fontSize}
         {...getFontFamilyProps(item.fontFamily)}
@@ -574,7 +590,10 @@ const useChartModel = <TData extends Record<string, unknown>>({
           maxWidth: legendConfig.wrap ? Math.max(0, width - 32) : 100_000,
           itemGap: legendConfig.itemGap,
           rowGap: legendConfig.rowGap,
-          padding: legendConfig.padding
+          padding: legendConfig.padding,
+          labelGap: legendConfig.labelGap,
+          itemPaddingHorizontal: legendConfig.itemPaddingHorizontal,
+          itemPaddingVertical: legendConfig.itemPaddingVertical
         })
       : undefined;
     const autoPaddingOptions = {
@@ -712,11 +731,18 @@ const useChartModel = <TData extends Record<string, unknown>>({
                   y: legendOrigin.y + item.y,
                   width: item.width,
                   height: item.height,
+                  contentX: legendOrigin.x + item.contentX,
+                  contentY: legendOrigin.y + item.contentY,
+                  contentWidth: item.contentWidth,
+                  contentHeight: item.contentHeight,
                   markerSize: item.markerSize ?? legendConfig.markerSize,
                   marker: legendConfig.marker,
                   fontSize: legendConfig.fontSize,
                   ...getFontFamilyProps(legendConfig.fontFamily),
-                  labelColor: legendConfig.labelColor
+                  labelColor: legendConfig.labelColor,
+                  labelGap: legendConfig.labelGap,
+                  paddingHorizontal: legendConfig.itemPaddingHorizontal,
+                  paddingVertical: legendConfig.itemPaddingVertical
                 } satisfies LineChartLegendRenderItem;
               })
             } satisfies LineChartLegendRenderProps

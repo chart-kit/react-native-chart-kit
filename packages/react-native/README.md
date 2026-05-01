@@ -13,4 +13,4 @@ Current customization surface:
 
 - theme colors
 - theme typography for axis and legend labels
-- configurable legend visibility, position, alignment, wrapping, marker style, and custom renderers
+- configurable legend visibility, position, alignment, wrapping, marker style, spacing, item padding, and custom renderers

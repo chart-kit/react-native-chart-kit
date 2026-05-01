@@ -64,9 +64,18 @@ export type LegendLayoutOptions = {
   itemGap?: number;
   rowGap?: number;
   padding?: number;
+  labelGap?: number;
+  itemPaddingHorizontal?: number;
+  itemPaddingVertical?: number;
 };
 
-export type LegendLayoutItem = LegendItem & Rect;
+export type LegendLayoutItem = LegendItem &
+  Rect & {
+    contentX: number;
+    contentY: number;
+    contentWidth: number;
+    contentHeight: number;
+  };
 
 export type LegendLayout = {
   position: LegendPosition;

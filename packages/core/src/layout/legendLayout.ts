@@ -10,7 +10,10 @@ export const layoutLegend = ({
   maxWidth,
   itemGap = 12,
   rowGap = 8,
-  padding = 0
+  padding = 0,
+  labelGap = 4,
+  itemPaddingHorizontal = 0,
+  itemPaddingVertical = 0
 }: LegendLayoutOptions): LegendLayout => {
   const layoutItems: LegendLayoutItem[] = [];
   let cursorX = padding;
@@ -20,8 +23,10 @@ export const layoutLegend = ({
 
   items.forEach((item) => {
     const markerSize = item.markerSize ?? 10;
-    const itemWidth = markerSize + 4 + item.labelWidth;
-    const itemHeight = Math.max(markerSize, item.labelHeight);
+    const contentWidth = markerSize + labelGap + item.labelWidth;
+    const contentHeight = Math.max(markerSize, item.labelHeight);
+    const itemWidth = contentWidth + itemPaddingHorizontal * 2;
+    const itemHeight = contentHeight + itemPaddingVertical * 2;
 
     if (cursorX > padding && cursorX + itemWidth > maxWidth - padding) {
       cursorX = padding;
@@ -34,7 +39,11 @@ export const layoutLegend = ({
       x: cursorX,
       y: cursorY,
       width: itemWidth,
-      height: itemHeight
+      height: itemHeight,
+      contentX: cursorX + itemPaddingHorizontal,
+      contentY: cursorY + itemPaddingVertical,
+      contentWidth,
+      contentHeight
     });
 
     cursorX += itemWidth + itemGap;

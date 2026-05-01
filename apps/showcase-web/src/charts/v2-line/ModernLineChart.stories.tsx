@@ -129,27 +129,29 @@ export const CustomLegend = () => (
         align: "center",
         marker: "circle",
         fontSize: 12,
-        itemGap: 12,
+        itemGap: 18,
+        itemPaddingHorizontal: 10,
+        itemPaddingVertical: 4,
         renderItem: (item) => (
           <SvgGroup key={item.key}>
             <SvgRect
-              x={item.x - 8}
-              y={item.y - 4}
-              width={item.width + 16}
-              height={item.height + 8}
+              x={item.x}
+              y={item.y}
+              width={item.width}
+              height={item.height}
               rx={8}
               fill={item.color}
               opacity={0.1}
             />
             <SvgCircle
-              cx={item.x + item.markerSize / 2}
-              cy={item.y + item.height / 2}
+              cx={item.contentX + item.markerSize / 2}
+              cy={item.contentY + item.contentHeight / 2}
               r={item.markerSize / 2}
               fill={item.color}
             />
             <SvgText
-              x={item.x + item.markerSize + 6}
-              y={item.y + item.height / 2 + item.fontSize * 0.36}
+              x={item.contentX + item.markerSize + item.labelGap}
+              y={item.contentY + item.contentHeight / 2 + item.fontSize * 0.36}
               fill={item.color}
               fontSize={item.fontSize}
               fontWeight="600"
