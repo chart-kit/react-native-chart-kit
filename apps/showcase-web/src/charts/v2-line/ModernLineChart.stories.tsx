@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 import { AreaChart, LineChart } from "@chart-kit/react-native-v2";
+import { SvgCircle, SvgGroup, SvgRect, SvgText } from "@chart-kit/svg-renderer";
 
 import {
   basicRevenue,
@@ -78,6 +79,132 @@ export const RevenueCard = () => (
           yKey: "netRetention",
           label: "Retention",
           color: "#10b981",
+          strokeWidth: 2
+        }
+      ]}
+    />
+  </StoryFrame>
+);
+
+export const BottomLegend = () => (
+  <StoryFrame title="Legend placement">
+    <LineChart
+      data={subscriptionMetrics}
+      xKey="month"
+      width={345}
+      height={248}
+      showDots={false}
+      curve="monotone"
+      formatYLabel={(value) => `$${Math.round(value)}k`}
+      legend={{
+        position: "bottom",
+        align: "center",
+        marker: "line",
+        itemGap: 18,
+        fontSize: 12
+      }}
+      series={[
+        { yKey: "revenue", label: "Revenue", color: "#2563eb" },
+        {
+          yKey: "netRetention",
+          label: "Net retention",
+          color: "#10b981",
+          strokeWidth: 2
+        }
+      ]}
+    />
+  </StoryFrame>
+);
+
+export const CustomLegend = () => (
+  <StoryFrame title="Custom legend">
+    <LineChart
+      data={multiSeriesRevenue}
+      xKey="month"
+      width={345}
+      height={238}
+      showDots={false}
+      curve="monotone"
+      legend={{
+        align: "center",
+        marker: "circle",
+        fontSize: 12,
+        itemGap: 12,
+        renderItem: (item) => (
+          <SvgGroup key={item.key}>
+            <SvgRect
+              x={item.x - 8}
+              y={item.y - 4}
+              width={item.width + 16}
+              height={item.height + 8}
+              rx={8}
+              fill={item.color}
+              opacity={0.1}
+            />
+            <SvgCircle
+              cx={item.x + item.markerSize / 2}
+              cy={item.y + item.height / 2}
+              r={item.markerSize / 2}
+              fill={item.color}
+            />
+            <SvgText
+              x={item.x + item.markerSize + 6}
+              y={item.y + item.height / 2 + item.fontSize * 0.36}
+              fill={item.color}
+              fontSize={item.fontSize}
+              fontWeight="600"
+            >
+              {item.label}
+            </SvgText>
+          </SvgGroup>
+        )
+      }}
+      series={[
+        { yKey: "actual", label: "Actual", color: "#2563eb", strokeWidth: 3 },
+        {
+          yKey: "forecast",
+          label: "Forecast",
+          color: "#7c3aed",
+          strokeWidth: 2
+        }
+      ]}
+    />
+  </StoryFrame>
+);
+
+export const CustomTypography = () => (
+  <StoryFrame title="Typography">
+    <LineChart
+      data={multiSeriesRevenue}
+      xKey="month"
+      width={345}
+      height={238}
+      showDots={false}
+      curve="monotone"
+      theme={{
+        background: "#ffffff",
+        plotBackground: "#ffffff",
+        grid: "#e2e8f0",
+        axis: "#e2e8f0",
+        text: "#172033",
+        mutedText: "#475569",
+        series: ["#0f766e", "#2563eb"],
+        typography: {
+          fontFamily: "Georgia",
+          axisLabelSize: 12,
+          legendLabelSize: 13
+        }
+      }}
+      legend={{
+        align: "center",
+        marker: "circle"
+      }}
+      series={[
+        { yKey: "actual", label: "Actual", color: "#0f766e", strokeWidth: 3 },
+        {
+          yKey: "forecast",
+          label: "Forecast",
+          color: "#2563eb",
           strokeWidth: 2
         }
       ]}

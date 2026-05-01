@@ -12,6 +12,7 @@ import type {
 } from "react-native-svg";
 
 export type SvgTextMeasurementOptions = {
+  fontFamily?: TextProps["fontFamily"];
   fontSize?: number;
   fontWeight?: TextProps["fontWeight"];
   lineHeight?: number;
