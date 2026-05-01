@@ -1,0 +1,18 @@
+{
+  "name": "@chart-kit/svg-renderer",
+  "version": "7.0.0-next.0",
+  "private": true,
+  "description": "SVG renderer primitives for Chart Kit v2.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "peerDependencies": {
+    "react": ">=19.2.0 <20",
+    "react-native": ">=0.83 <1",
+    "react-native-svg": ">=15.13.0 <16"
+  },
+  "license": "MIT"
+}
