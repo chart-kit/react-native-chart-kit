@@ -214,8 +214,9 @@ const darkTheme: CartesianChartTheme = {
 
 const defaultYDomain: NumericDomainInput = { includeZero: true, nice: true };
 const defaultLabelRotation = -35;
-const xLabelRowGap = 4;
+const xLabelRowGap = 6;
 const xLabelBaselineOffset = 20;
+const rotatedLabelClearance = 10;
 const defaultTypography: CartesianChartTypography = {
   axisLabelSize: 11,
   legendLabelSize: 11
@@ -490,7 +491,9 @@ const getRotatedLabelHeight = (sizes: Size[], rotation: number) => {
   const radians = (Math.abs(rotation) * Math.PI) / 180;
 
   return (
-    maxSize.width * Math.sin(radians) + maxSize.height * Math.cos(radians) + 4
+    maxSize.width * Math.sin(radians) +
+    maxSize.height * Math.cos(radians) +
+    rotatedLabelClearance
   );
 };
 
@@ -717,6 +720,12 @@ const resolveXLabelLayout = ({
 
     return candidate ? [candidate.size] : [];
   });
+  const rotationLift =
+    resolvedStrategy === "rotate"
+      ? getMaxSize(sizes).width *
+          Math.sin((Math.abs(resolvedRotation) * Math.PI) / 180) +
+        rotatedLabelClearance
+      : 0;
   const height = getXLabelHeight({
     strategy: resolvedStrategy,
     sizes,
@@ -724,15 +733,18 @@ const resolveXLabelLayout = ({
     rows
   });
   const items = collision.visibleIndexes.flatMap<XLabelLayoutItem>(
-    (candidateIndex, visibleIndex) => {
+    (candidateIndex) => {
       const candidate = candidates[candidateIndex];
 
       if (!candidate) {
         return [];
       }
 
-      const row = resolvedStrategy === "stagger" ? visibleIndex % rows : 0;
-      const y = baseY + row * (candidate.size.height + xLabelRowGap);
+      const row = resolvedStrategy === "stagger" ? candidate.index % rows : 0;
+      const y =
+        resolvedStrategy === "rotate"
+          ? baseY + rotationLift
+          : baseY + row * (candidate.size.height + xLabelRowGap);
       const textAnchor = getXLabelTextAnchor({
         candidate,
         candidates,
