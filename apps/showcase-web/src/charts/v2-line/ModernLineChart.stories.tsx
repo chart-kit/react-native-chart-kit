@@ -8,7 +8,8 @@ import {
   denseRevenue,
   multiSeriesRevenue,
   priceHistory,
-  revenueWithGaps
+  revenueWithGaps,
+  subscriptionMetrics
 } from "./fixtures";
 
 type StoryFrameProps = {
@@ -57,7 +58,29 @@ export const Basic = () => (
       width={345}
       height={230}
       curve="monotone"
-      area
+    />
+  </StoryFrame>
+);
+
+export const RevenueCard = () => (
+  <StoryFrame title="MRR growth">
+    <LineChart
+      data={subscriptionMetrics}
+      xKey="month"
+      width={345}
+      height={230}
+      showDots={false}
+      curve="monotone"
+      formatYLabel={(value) => `$${Math.round(value)}k`}
+      series={[
+        { yKey: "revenue", label: "Revenue", color: "#2563eb" },
+        {
+          yKey: "netRetention",
+          label: "Retention",
+          color: "#10b981",
+          strokeWidth: 2
+        }
+      ]}
     />
   </StoryFrame>
 );

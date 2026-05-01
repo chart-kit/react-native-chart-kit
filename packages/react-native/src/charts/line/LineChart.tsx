@@ -73,9 +73,9 @@ export type LineChartProps<TData extends Record<string, unknown>> = {
 
 const lightTheme: CartesianChartTheme = {
   background: "#ffffff",
-  plotBackground: "#fbfdff",
-  grid: "#d9e2ec",
-  axis: "#94a3b8",
+  plotBackground: "#ffffff",
+  grid: "#e5e7eb",
+  axis: "#e5e7eb",
   text: "#0f172a",
   mutedText: "#64748b",
   series: ["#2563eb", "#0891b2", "#7c3aed", "#16a34a"]
@@ -155,18 +155,76 @@ const getXScaleType = (values: ChartXValue[]) => {
   return "point";
 };
 
-const getXLabelIndexes = (count: number, plotWidth: number) => {
+const getXLabelIndexes = (
+  count: number,
+  plotWidth: number,
+  labelWidths: number[],
+  labelPositions: Array<number | undefined>
+) => {
   if (count <= 0) {
     return [];
   }
 
-  const maxLabels = Math.max(2, Math.floor(plotWidth / 58));
+  if (count === 1) {
+    return [0];
+  }
+
+  const widestLabel = Math.max(...labelWidths, 0);
+  const pointSpacing = plotWidth / Math.max(1, count - 1);
+  const getPosition = (index: number) =>
+    labelPositions[index] ?? index * pointSpacing;
+  const getRequiredGap = (previous: number, index: number) => {
+    const previousWidth = labelWidths[previous] ?? widestLabel;
+    const currentWidth = labelWidths[index] ?? widestLabel;
+    const previousRightExtent =
+      previous === 0 ? previousWidth : previousWidth / 2;
+    const currentLeftExtent =
+      index === count - 1 ? currentWidth : currentWidth / 2;
+
+    return previousRightExtent + currentLeftExtent + 10;
+  };
+  const canShowEveryLabel = Array.from(
+    { length: count - 1 },
+    (_, index) => index
+  ).every((index) => {
+    const nextIndex = index + 1;
+
+    return (
+      getPosition(nextIndex) - getPosition(index) >=
+      getRequiredGap(index, nextIndex)
+    );
+  });
+
+  if (canShowEveryLabel) {
+    return Array.from({ length: count }, (_, index) => index);
+  }
+
+  const maxLabels = Math.max(2, Math.floor(plotWidth / (widestLabel + 14)));
   const interval = Math.max(1, Math.ceil(count / maxLabels));
   const indexes = Array.from({ length: count }, (_, index) => index).filter(
     (index) => index === 0 || index === count - 1 || index % interval === 0
   );
 
-  return unique(indexes);
+  return unique(indexes).reduce<number[]>((selected, index) => {
+    const previous = selected[selected.length - 1];
+
+    if (previous === undefined) {
+      return [index];
+    }
+
+    const distance = getPosition(index) - getPosition(previous);
+    const requiredGap = getRequiredGap(previous, index);
+
+    if (distance >= requiredGap) {
+      return [...selected, index];
+    }
+
+    if (index === count - 1) {
+      return [...selected.slice(0, -1), index];
+    }
+
+    return selected;
+  }, []);
 };
 
 const useSeriesInput = <TData extends Record<string, unknown>>(
@@ -231,7 +289,7 @@ const useChartModel = <TData extends Record<string, unknown>>({
     );
     const hasLegend = normalized.series.length > 1;
     const autoPaddingOptions = {
-      base: { top: 16, right: 34, bottom: 12, left: 12 },
+      base: { top: 16, right: 18, bottom: 12, left: 10 },
       leftLabels: yLabelSizes,
       bottomLabels: xLabelSizes.length > 0 ? [{ width: 1, height: 14 }] : [],
       gap: 8
@@ -320,7 +378,17 @@ const useChartModel = <TData extends Record<string, unknown>>({
         })
       };
     });
-    const xLabelIndexes = getXLabelIndexes(xValues.length, boxes.plot.width);
+    const xLabelPositions = xValues.map((value, index) => {
+      const point = normalized.series[0]?.points[index];
+
+      return point ? xScale(value, point) : undefined;
+    });
+    const xLabelIndexes = getXLabelIndexes(
+      xValues.length,
+      boxes.plot.width,
+      xLabelSizes.map((size) => size.width),
+      xLabelPositions
+    );
 
     return {
       boxes,
@@ -425,22 +493,6 @@ export const LineChart = <TData extends Record<string, unknown>>(
             />
           );
         })}
-        <SvgLine
-          x1={boxes.plot.x}
-          x2={boxes.plot.x}
-          y1={boxes.plot.y}
-          y2={boxes.plot.y + boxes.plot.height}
-          stroke={resolvedTheme.axis}
-          strokeWidth={1}
-        />
-        <SvgLine
-          x1={boxes.plot.x}
-          x2={boxes.plot.x + boxes.plot.width}
-          y1={boxes.plot.y + boxes.plot.height}
-          y2={boxes.plot.y + boxes.plot.height}
-          stroke={resolvedTheme.axis}
-          strokeWidth={1}
-        />
         {yTicks.map((tick) => {
           const y = yScale.scale(tick);
 
@@ -476,12 +528,18 @@ export const LineChart = <TData extends Record<string, unknown>>(
             return null;
           }
 
-          const label = formatXLabel(value, index);
-          const labelWidth = measureText(label, { fontSize: 11 }).width + 16;
-          const labelX = Math.min(
-            Math.max(x - labelWidth / 2, 4),
-            props.width - labelWidth - 4
-          );
+          const isFirstLabel = index === 0;
+          const isLastLabel = index === xValues.length - 1;
+          const labelX = isFirstLabel
+            ? Math.max(x, 4)
+            : isLastLabel
+              ? Math.min(x, props.width - 4)
+              : x;
+          const textAnchor = isFirstLabel
+            ? "start"
+            : isLastLabel
+              ? "end"
+              : "middle";
 
           return (
             <SvgText
@@ -490,9 +548,9 @@ export const LineChart = <TData extends Record<string, unknown>>(
               y={boxes.plot.y + boxes.plot.height + 20}
               fill={resolvedTheme.mutedText}
               fontSize={11}
-              textAnchor="start"
+              textAnchor={textAnchor}
             >
-              {label}
+              {formatXLabel(value, index)}
             </SvgText>
           );
         })}

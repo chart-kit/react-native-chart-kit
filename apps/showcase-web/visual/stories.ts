@@ -7,6 +7,7 @@ export const chartStories = [
   "charts-linechart--dark-mode",
   "charts-linechart--tiny-width",
   "charts-v2linechart--basic",
+  "charts-v2linechart--revenue-card",
   "charts-v2linechart--multi-series",
   "charts-v2linechart--null-gaps",
   "charts-v2linechart--area-fill",

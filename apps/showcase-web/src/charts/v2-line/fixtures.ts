@@ -9,6 +9,12 @@ export type PricePoint = {
   price: number | null;
 };
 
+export type SubscriptionPoint = {
+  month: string;
+  revenue: number;
+  netRetention: number;
+};
+
 export const basicRevenue: RevenuePoint[] = [
   { month: "Jan", actual: 18 },
   { month: "Feb", actual: 34 },
@@ -16,6 +22,21 @@ export const basicRevenue: RevenuePoint[] = [
   { month: "Apr", actual: 52 },
   { month: "May", actual: 46 },
   { month: "Jun", actual: 68 }
+];
+
+export const subscriptionMetrics: SubscriptionPoint[] = [
+  { month: "Jan", revenue: 124, netRetention: 102 },
+  { month: "Feb", revenue: 132, netRetention: 104 },
+  { month: "Mar", revenue: 141, netRetention: 106 },
+  { month: "Apr", revenue: 146, netRetention: 105 },
+  { month: "May", revenue: 158, netRetention: 108 },
+  { month: "Jun", revenue: 166, netRetention: 109 },
+  { month: "Jul", revenue: 172, netRetention: 111 },
+  { month: "Aug", revenue: 181, netRetention: 110 },
+  { month: "Sep", revenue: 190, netRetention: 112 },
+  { month: "Oct", revenue: 197, netRetention: 113 },
+  { month: "Nov", revenue: 205, netRetention: 114 },
+  { month: "Dec", revenue: 216, netRetention: 116 }
 ];
 
 export const multiSeriesRevenue: RevenuePoint[] = [
@@ -52,10 +73,10 @@ export const denseRevenue: RevenuePoint[] = [
 ];
 
 export const priceHistory: PricePoint[] = [
-  { date: new Date("2026-01-01T00:00:00Z"), price: 121 },
-  { date: new Date("2026-01-03T00:00:00Z"), price: 126 },
-  { date: new Date("2026-01-08T00:00:00Z"), price: 119 },
-  { date: new Date("2026-01-15T00:00:00Z"), price: 134 },
-  { date: new Date("2026-01-24T00:00:00Z"), price: 142 },
-  { date: new Date("2026-02-01T00:00:00Z"), price: 138 }
+  { date: new Date(2026, 0, 1), price: 121 },
+  { date: new Date(2026, 0, 3), price: 126 },
+  { date: new Date(2026, 0, 8), price: 119 },
+  { date: new Date(2026, 0, 15), price: 134 },
+  { date: new Date(2026, 0, 24), price: 142 },
+  { date: new Date(2026, 1, 1), price: 138 }
 ];
