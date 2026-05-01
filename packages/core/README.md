@@ -36,3 +36,9 @@ Current exports:
 - `createPointScale`
 - `generateLinearTicks`
 - `generateTimeTicks`
+- `solveChartBoxes`
+- `calculateAutoPadding`
+- `buildLayoutDebugModel`
+- `solveLabelCollision`
+- `layoutLegend`
+- `placeTooltip`
