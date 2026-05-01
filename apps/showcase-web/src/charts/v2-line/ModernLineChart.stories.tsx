@@ -237,6 +237,48 @@ export const MultiSeries = () => (
   </StoryFrame>
 );
 
+export const DotStyles = () => (
+  <StoryFrame title="Marker styles">
+    <LineChart
+      data={multiSeriesRevenue}
+      xKey="month"
+      width={345}
+      height={238}
+      curve="monotone"
+      dots={{
+        radius: 4,
+        fill: "background",
+        strokeWidth: 2
+      }}
+      series={[
+        {
+          yKey: "actual",
+          label: "Actual",
+          color: "#2563eb",
+          strokeWidth: 3,
+          dot: {
+            shape: "circle",
+            radius: 4.5
+          }
+        },
+        {
+          yKey: "forecast",
+          label: "Forecast",
+          color: "#0891b2",
+          strokeWidth: 2,
+          dot: {
+            shape: "diamond",
+            radius: 4,
+            fill: "series",
+            stroke: "background",
+            strokeWidth: 1.5
+          }
+        }
+      ]}
+    />
+  </StoryFrame>
+);
+
 export const NullGaps = () => (
   <StoryFrame title="Missing readings">
     <LineChart

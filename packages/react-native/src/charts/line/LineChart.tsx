@@ -20,6 +20,7 @@ import type {
   LineCurve,
   NumericDomainInput,
   ProjectScale,
+  ProjectedLinePoint,
   Size
 } from "@chart-kit/core";
 import {
@@ -42,8 +43,22 @@ export type LineChartSeries<TData extends Record<string, unknown>> = {
   label?: string;
   color?: string;
   strokeWidth?: number;
+  dot?: boolean | LineChartDotConfig;
   area?: boolean;
   curve?: LineCurve;
+};
+
+export type LineChartDotShape = "circle" | "square" | "diamond";
+export type LineChartDotColor = string | "background" | "series";
+
+export type LineChartDotConfig = {
+  visible?: boolean;
+  shape?: LineChartDotShape;
+  radius?: number;
+  fill?: LineChartDotColor;
+  stroke?: LineChartDotColor;
+  strokeWidth?: number;
+  opacity?: number;
 };
 
 export type CartesianChartTypography = {
@@ -68,6 +83,29 @@ export type ResolvedCartesianChartTheme = Omit<
   "typography"
 > & {
   typography: CartesianChartTypography;
+};
+
+export type ResolvedLineChartDotConfig = {
+  visible: boolean;
+  shape: LineChartDotShape;
+  radius: number;
+  fill: LineChartDotColor;
+  stroke: LineChartDotColor;
+  strokeWidth: number;
+  opacity: number;
+};
+
+export type LineChartDotRenderProps<TData = unknown> = {
+  point: ProjectedLinePoint<TData>;
+  seriesKey: string;
+  seriesLabel: string;
+  color: string;
+  x: number;
+  y: number;
+  value: number | null | undefined;
+  dataIndex: number;
+  config: ResolvedLineChartDotConfig;
+  theme: ResolvedCartesianChartTheme;
 };
 
 export type LineChartLegendPosition = "top" | "bottom";
@@ -173,6 +211,8 @@ export type LineChartProps<TData extends Record<string, unknown>> = {
   connectNulls?: boolean;
   area?: boolean;
   showDots?: boolean;
+  dots?: boolean | LineChartDotConfig;
+  renderDot?: (props: LineChartDotRenderProps<TData>) => ReactNode;
   showHorizontalGridLines?: boolean;
   showVerticalGridLines?: boolean;
   legend?: boolean | LineChartLegendConfig;
@@ -404,6 +444,134 @@ const renderConfiguredLegend = ({
 
 const getSeriesColor = (theme: ResolvedCartesianChartTheme, index: number) => {
   return theme.series[index % theme.series.length] ?? lightTheme.series[0]!;
+};
+
+const resolveDotColor = ({
+  color,
+  fallback,
+  seriesColor,
+  theme
+}: {
+  color: LineChartDotColor;
+  fallback: string;
+  seriesColor: string;
+  theme: ResolvedCartesianChartTheme;
+}) => {
+  if (color === "background") {
+    return theme.background;
+  }
+
+  if (color === "series") {
+    return seriesColor;
+  }
+
+  return color || fallback;
+};
+
+const getDotConfig = <TData extends Record<string, unknown>>({
+  dots,
+  seriesDot,
+  showDots
+}: {
+  dots: LineChartProps<TData>["dots"];
+  seriesDot: LineChartSeries<TData>["dot"];
+  showDots: boolean;
+}): ResolvedLineChartDotConfig => {
+  const globalConfig = typeof dots === "object" ? dots : {};
+  const seriesConfig = typeof seriesDot === "object" ? seriesDot : {};
+  const visible =
+    typeof seriesDot === "boolean"
+      ? seriesDot
+      : typeof seriesConfig.visible === "boolean"
+        ? seriesConfig.visible
+        : typeof dots === "boolean"
+          ? dots
+          : typeof globalConfig.visible === "boolean"
+            ? globalConfig.visible
+            : showDots;
+
+  return {
+    visible,
+    shape: seriesConfig.shape ?? globalConfig.shape ?? "circle",
+    radius: seriesConfig.radius ?? globalConfig.radius ?? 3.5,
+    fill: seriesConfig.fill ?? globalConfig.fill ?? "background",
+    stroke: seriesConfig.stroke ?? globalConfig.stroke ?? "series",
+    strokeWidth: seriesConfig.strokeWidth ?? globalConfig.strokeWidth ?? 2,
+    opacity: seriesConfig.opacity ?? globalConfig.opacity ?? 1
+  };
+};
+
+const getDiamondPath = (x: number, y: number, radius: number) => {
+  return [
+    `M ${x} ${y - radius}`,
+    `L ${x + radius} ${y}`,
+    `L ${x} ${y + radius}`,
+    `L ${x - radius} ${y}`,
+    "Z"
+  ].join(" ");
+};
+
+const renderDefaultDot = <TData,>({
+  color,
+  config,
+  point,
+  theme
+}: LineChartDotRenderProps<TData>) => {
+  const fill = resolveDotColor({
+    color: config.fill,
+    fallback: theme.background,
+    seriesColor: color,
+    theme
+  });
+  const stroke = resolveDotColor({
+    color: config.stroke,
+    fallback: color,
+    seriesColor: color,
+    theme
+  });
+  const commonProps = {
+    testID: createSvgTestId("line-dot", point.seriesKey, point.index),
+    fill,
+    opacity: config.opacity,
+    stroke,
+    strokeWidth: config.strokeWidth
+  };
+
+  if (config.shape === "square") {
+    const size = config.radius * 2;
+
+    return (
+      <SvgRect
+        key={`dot-${point.seriesKey}-${point.index}`}
+        x={point.x - config.radius}
+        y={point.y - config.radius}
+        width={size}
+        height={size}
+        rx={Math.min(3, config.radius * 0.45)}
+        {...commonProps}
+      />
+    );
+  }
+
+  if (config.shape === "diamond") {
+    return (
+      <SvgPath
+        key={`dot-${point.seriesKey}-${point.index}`}
+        d={getDiamondPath(point.x, point.y, config.radius)}
+        {...commonProps}
+      />
+    );
+  }
+
+  return (
+    <SvgCircle
+      key={`dot-${point.seriesKey}-${point.index}`}
+      cx={point.x}
+      cy={point.y}
+      r={config.radius}
+      {...commonProps}
+    />
+  );
 };
 
 const unique = <TValue,>(values: TValue[]) => {
@@ -943,6 +1111,7 @@ const useChartModel = <TData extends Record<string, unknown>>({
   connectNulls = false,
   area = false,
   showDots = true,
+  dots,
   showHorizontalGridLines = false,
   showVerticalGridLines = false,
   legend,
@@ -998,7 +1167,12 @@ const useChartModel = <TData extends Record<string, unknown>>({
           strokeWidth: item.strokeWidth ?? 3,
           area: item.area,
           curve: item.curve,
-          color: item.color ?? getSeriesColor(resolvedTheme, index)
+          color: item.color ?? getSeriesColor(resolvedTheme, index),
+          dot: getDotConfig({
+            dots,
+            seriesDot: item.dot,
+            showDots
+          })
         }
       ])
     );
@@ -1166,6 +1340,13 @@ const useChartModel = <TData extends Record<string, unknown>>({
       return {
         style: {
           strokeWidth: style?.strokeWidth ?? 3,
+          dot:
+            style?.dot ??
+            getDotConfig({
+              dots,
+              seriesDot: undefined,
+              showDots
+            }),
           color:
             item.color ?? style?.color ?? getSeriesColor(resolvedTheme, index)
         },
@@ -1267,6 +1448,7 @@ const useChartModel = <TData extends Record<string, unknown>>({
     connectNulls,
     curve,
     data,
+    dots,
     formatXLabel,
     formatYLabel,
     height,
@@ -1295,7 +1477,6 @@ export const LineChart = <TData extends Record<string, unknown>>(
     geometries,
     legendModel,
     resolvedTheme,
-    showDots,
     showHorizontalGridLines,
     showVerticalGridLines,
     xLabelLayout,
@@ -1438,28 +1619,33 @@ export const LineChart = <TData extends Record<string, unknown>>(
             strokeLinejoin="round"
           />
         ))}
-        {showDots
-          ? geometries.flatMap(({ geometry, style }) =>
-              geometry.points
-                .filter((point) => point.defined)
-                .map((point) => (
-                  <SvgCircle
-                    key={`dot-${geometry.key}-${point.index}`}
-                    testID={createSvgTestId(
-                      "line-dot",
-                      geometry.key,
-                      point.index
-                    )}
-                    cx={point.x}
-                    cy={point.y}
-                    r={3.5}
-                    fill={resolvedTheme.background}
-                    stroke={style.color}
-                    strokeWidth={2}
-                  />
-                ))
-            )
-          : null}
+        {geometries.flatMap(({ geometry, style }) =>
+          geometry.points
+            .filter((point) => point.defined && style.dot.visible)
+            .map((point) => {
+              const dotProps: LineChartDotRenderProps<TData> = {
+                point,
+                seriesKey: geometry.key,
+                seriesLabel: geometry.label,
+                color: style.color,
+                x: point.x,
+                y: point.y,
+                value: point.value,
+                dataIndex: point.dataIndex,
+                config: style.dot,
+                theme: resolvedTheme
+              };
+              const renderedDot = props.renderDot
+                ? props.renderDot(dotProps)
+                : renderDefaultDot(dotProps);
+
+              return renderedDot ? (
+                <SvgGroup key={`dot-${geometry.key}-${point.index}`}>
+                  {renderedDot}
+                </SvgGroup>
+              ) : null;
+            })
+        )}
       </SvgSurface>
     </View>
   );
