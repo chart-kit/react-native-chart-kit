@@ -323,6 +323,11 @@ export const NullGaps = () => (
       height={230}
       yDomain={[0, "dataMax"]}
       showDots
+      selectedIndex={3}
+      crosshair={{
+        strokeDasharray: [4, 4]
+      }}
+      tooltip
     />
   </StoryFrame>
 );
