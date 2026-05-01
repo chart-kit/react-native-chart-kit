@@ -7,6 +7,7 @@ import { SvgCircle, SvgGroup, SvgRect, SvgText } from "@chart-kit/svg-renderer";
 import {
   basicRevenue,
   denseRevenue,
+  longRangeRevenue,
   multiSeriesRevenue,
   priceHistory,
   revenueWithGaps,
@@ -89,13 +90,12 @@ export const RevenueCard = () => (
 export const BottomLegend = () => (
   <StoryFrame title="Legend placement">
     <LineChart
-      data={subscriptionMetrics}
+      data={multiSeriesRevenue}
       xKey="month"
       width={345}
       height={248}
       showDots={false}
       curve="monotone"
-      formatYLabel={(value) => `$${Math.round(value)}k`}
       legend={{
         position: "bottom",
         align: "center",
@@ -104,11 +104,11 @@ export const BottomLegend = () => (
         fontSize: 12
       }}
       series={[
-        { yKey: "revenue", label: "Revenue", color: "#2563eb" },
+        { yKey: "actual", label: "Actual", color: "#2563eb" },
         {
-          yKey: "netRetention",
-          label: "Net retention",
-          color: "#10b981",
+          yKey: "forecast",
+          label: "Forecast",
+          color: "#7c3aed",
           strokeWidth: 2
         }
       ]}
@@ -275,6 +275,52 @@ export const DenseLabels = () => (
       height={230}
       showDots={false}
       curve="linear"
+    />
+  </StoryFrame>
+);
+
+export const RotatedLabels = () => (
+  <StoryFrame title="Monthly expansion">
+    <LineChart
+      data={longRangeRevenue}
+      xKey="month"
+      yKey="actual"
+      width={345}
+      height={260}
+      showDots={false}
+      curve="monotone"
+      labelStrategy="rotate"
+      labelRotation={-35}
+    />
+  </StoryFrame>
+);
+
+export const StaggeredLabels = () => (
+  <StoryFrame title="Weekly retention">
+    <LineChart
+      data={denseRevenue}
+      xKey="month"
+      yKey="actual"
+      width={345}
+      height={248}
+      showDots={false}
+      curve="monotone"
+      labelStrategy="stagger"
+    />
+  </StoryFrame>
+);
+
+export const HiddenLabels = () => (
+  <StoryFrame title="Spark trend">
+    <LineChart
+      data={denseRevenue}
+      xKey="month"
+      yKey="actual"
+      width={345}
+      height={220}
+      showDots={false}
+      curve="monotone"
+      labelStrategy="hide"
     />
   </StoryFrame>
 );

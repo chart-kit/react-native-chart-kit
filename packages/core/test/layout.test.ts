@@ -92,6 +92,19 @@ describe("label collision", () => {
     ).toBe("stagger");
   });
 
+  it("uses rotation when stagger is disabled and rotated labels fit", () => {
+    const result = solveLabelCollision({
+      labels: labelBoxes([50, 50, 50], 36),
+      availableWidth: 120,
+      allowStagger: false,
+      maxRotation: 60
+    });
+
+    expect(result.strategy).toBe("rotate");
+    expect(result.visibleIndexes).toEqual([0, 1, 2]);
+    expect(result.rotation).toBe(60);
+  });
+
   it("skips labels when stagger and rotate cannot fit", () => {
     const result = solveLabelCollision({
       labels: labelBoxes([90, 90, 90, 90, 90], 30),

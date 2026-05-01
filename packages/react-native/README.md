@@ -14,3 +14,5 @@ Current customization surface:
 - theme colors
 - theme typography for axis and legend labels
 - configurable legend visibility, position, alignment, wrapping, marker style, spacing, item padding, and custom renderers
+- x-axis label strategies: auto, show, skip, rotate, stagger, and hide
+- edge label policies for shifting or hiding labels that would clip

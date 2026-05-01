@@ -12,13 +12,15 @@ import {
   layoutLegend,
   normalizeCartesianData,
   resolveNumericDomain,
-  solveChartBoxes
+  solveChartBoxes,
+  solveLabelCollision
 } from "@chart-kit/core";
 import type {
   ChartXValue,
   LineCurve,
   NumericDomainInput,
-  ProjectScale
+  ProjectScale,
+  Size
 } from "@chart-kit/core";
 import {
   SvgCircle,
@@ -71,6 +73,18 @@ export type ResolvedCartesianChartTheme = Omit<
 export type LineChartLegendPosition = "top" | "bottom";
 export type LineChartLegendAlign = "start" | "center" | "end";
 export type LineChartLegendMarker = "square" | "circle" | "line";
+export type LineChartLabelStrategy =
+  | "auto"
+  | "show"
+  | "skip"
+  | "rotate"
+  | "stagger"
+  | "hide";
+export type LineChartResolvedLabelStrategy = Exclude<
+  LineChartLabelStrategy,
+  "auto"
+>;
+export type LineChartEdgeLabelPolicy = "shift" | "hide" | "show";
 
 export type LineChartLegendRenderItem = {
   index: number;
@@ -160,6 +174,10 @@ export type LineChartProps<TData extends Record<string, unknown>> = {
   area?: boolean;
   showDots?: boolean;
   legend?: boolean | LineChartLegendConfig;
+  labelStrategy?: LineChartLabelStrategy;
+  labelRotation?: number;
+  labelMinGap?: number;
+  edgeLabelPolicy?: LineChartEdgeLabelPolicy;
   yDomain?: NumericDomainInput;
   formatXLabel?: (value: ChartXValue, index: number) => string;
   formatYLabel?: (value: number) => string;
@@ -195,6 +213,9 @@ const darkTheme: CartesianChartTheme = {
 };
 
 const defaultYDomain: NumericDomainInput = { includeZero: true, nice: true };
+const defaultLabelRotation = -35;
+const xLabelRowGap = 4;
+const xLabelBaselineOffset = 20;
 const defaultTypography: CartesianChartTypography = {
   axisLabelSize: 11,
   legendLabelSize: 11
@@ -285,17 +306,27 @@ const getLegendX = ({
 
 const getLegendY = ({
   boxes,
-  hasBottomLabels,
+  xLabelHeight,
+  xLabelLineHeight,
   legendHeight,
   position
 }: {
   boxes: ReturnType<typeof solveChartBoxes>;
-  hasBottomLabels: boolean;
+  xLabelHeight: number;
+  xLabelLineHeight: number;
   legendHeight: number;
   position: LineChartLegendPosition;
 }) => {
   if (position === "bottom") {
-    return boxes.plot.y + boxes.plot.height + (hasBottomLabels ? 34 : 10);
+    return (
+      boxes.plot.y +
+      boxes.plot.height +
+      (xLabelHeight > 0
+        ? xLabelBaselineOffset +
+          Math.max(0, xLabelHeight - xLabelLineHeight) +
+          10
+        : 10)
+    );
   }
 
   return Math.max(8, boxes.plot.y - legendHeight - 8);
@@ -413,76 +444,340 @@ const getXScaleType = (values: ChartXValue[]) => {
   return "point";
 };
 
-const getXLabelIndexes = (
-  count: number,
-  plotWidth: number,
-  labelWidths: number[],
-  labelPositions: Array<number | undefined>
-) => {
-  if (count <= 0) {
-    return [];
+type XLabelCandidate = {
+  index: number;
+  value: ChartXValue;
+  text: string;
+  x: number;
+  size: Size;
+};
+
+type XLabelLayoutItem = XLabelCandidate & {
+  y: number;
+  row: number;
+  rotation: number;
+  textAnchor: "start" | "middle" | "end";
+};
+
+type XLabelLayout = {
+  strategy: LineChartResolvedLabelStrategy;
+  items: XLabelLayoutItem[];
+  height: number;
+  rotation: number;
+  rows: number;
+};
+
+const clamp = (value: number, min: number, max: number) => {
+  if (max < min) {
+    return min;
   }
 
-  if (count === 1) {
-    return [0];
+  return Math.min(Math.max(value, min), max);
+};
+
+const getMaxSize = (sizes: Size[]) => {
+  return sizes.reduce(
+    (max, size) => ({
+      width: Math.max(max.width, size.width),
+      height: Math.max(max.height, size.height)
+    }),
+    { width: 0, height: 0 }
+  );
+};
+
+const getRotatedLabelHeight = (sizes: Size[], rotation: number) => {
+  const maxSize = getMaxSize(sizes);
+  const radians = (Math.abs(rotation) * Math.PI) / 180;
+
+  return (
+    maxSize.width * Math.sin(radians) + maxSize.height * Math.cos(radians) + 4
+  );
+};
+
+const getXLabelHeight = ({
+  strategy,
+  sizes,
+  rotation,
+  rows
+}: {
+  strategy: LineChartResolvedLabelStrategy;
+  sizes: Size[];
+  rotation: number;
+  rows: number;
+}) => {
+  if (strategy === "hide" || sizes.length === 0) {
+    return 0;
   }
 
-  const widestLabel = Math.max(...labelWidths, 0);
-  const pointSpacing = plotWidth / Math.max(1, count - 1);
-  const getPosition = (index: number) =>
-    labelPositions[index] ?? index * pointSpacing;
-  const getRequiredGap = (previous: number, index: number) => {
-    const previousWidth = labelWidths[previous] ?? widestLabel;
-    const currentWidth = labelWidths[index] ?? widestLabel;
-    const previousRightExtent =
-      previous === 0 ? previousWidth : previousWidth / 2;
-    const currentLeftExtent =
-      index === count - 1 ? currentWidth : currentWidth / 2;
+  if (strategy === "rotate") {
+    return getRotatedLabelHeight(sizes, rotation);
+  }
 
-    return previousRightExtent + currentLeftExtent + 10;
+  const maxHeight = getMaxSize(sizes).height;
+
+  if (strategy === "stagger") {
+    return maxHeight * rows + xLabelRowGap * Math.max(0, rows - 1);
+  }
+
+  return maxHeight;
+};
+
+const getExplicitXLabelCollision = ({
+  labels,
+  strategy,
+  availableWidth,
+  minGap,
+  rotation
+}: {
+  labels: Array<{
+    id: string;
+    text: string;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  }>;
+  strategy: Exclude<LineChartLabelStrategy, "auto">;
+  availableWidth: number;
+  minGap: number;
+  rotation: number;
+}) => {
+  const allIndexes = labels.map((_, index) => index);
+
+  if (strategy === "hide") {
+    return {
+      strategy,
+      visibleIndexes: [],
+      rotation: 0,
+      rows: 0
+    };
+  }
+
+  if (strategy === "skip") {
+    const result = solveLabelCollision({
+      labels,
+      availableWidth,
+      allowRotate: false,
+      allowStagger: false,
+      minGap
+    });
+
+    return {
+      strategy: result.strategy === "hide" ? "hide" : result.strategy,
+      visibleIndexes: result.visibleIndexes,
+      rotation: 0,
+      rows: 1
+    };
+  }
+
+  return {
+    strategy,
+    visibleIndexes: allIndexes,
+    rotation: strategy === "rotate" ? rotation : 0,
+    rows: strategy === "stagger" ? 2 : 1
   };
-  const canShowEveryLabel = Array.from(
-    { length: count - 1 },
-    (_, index) => index
-  ).every((index) => {
-    const nextIndex = index + 1;
+};
 
-    return (
-      getPosition(nextIndex) - getPosition(index) >=
-      getRequiredGap(index, nextIndex)
-    );
-  });
-
-  if (canShowEveryLabel) {
-    return Array.from({ length: count }, (_, index) => index);
+const getShiftedXLabel = ({
+  candidate,
+  chartWidth,
+  edgeLabelPolicy,
+  rotation,
+  textAnchor
+}: {
+  candidate: XLabelCandidate;
+  chartWidth: number;
+  edgeLabelPolicy: LineChartEdgeLabelPolicy;
+  rotation: number;
+  textAnchor: XLabelLayoutItem["textAnchor"];
+}) => {
+  if (edgeLabelPolicy === "show") {
+    return candidate.x;
   }
 
-  const maxLabels = Math.max(2, Math.floor(plotWidth / (widestLabel + 14)));
-  const interval = Math.max(1, Math.ceil(count / maxLabels));
-  const indexes = Array.from({ length: count }, (_, index) => index).filter(
-    (index) => index === 0 || index === count - 1 || index % interval === 0
+  const margin = 4;
+  const width =
+    rotation === 0
+      ? candidate.size.width
+      : candidate.size.width * Math.cos((Math.abs(rotation) * Math.PI) / 180);
+  const leftExtent =
+    textAnchor === "start" ? 0 : textAnchor === "end" ? width : width / 2;
+  const rightExtent =
+    textAnchor === "start" ? width : textAnchor === "end" ? 0 : width / 2;
+  const min = margin + leftExtent;
+  const max = chartWidth - margin - rightExtent;
+
+  return clamp(candidate.x, min, max);
+};
+
+const getXLabelTextAnchor = ({
+  candidate,
+  candidates,
+  rotation
+}: {
+  candidate: XLabelCandidate;
+  candidates: XLabelCandidate[];
+  rotation: number;
+}): XLabelLayoutItem["textAnchor"] => {
+  if (rotation === 0) {
+    return "middle";
+  }
+
+  if (candidate.index === candidates[0]?.index) {
+    return "start";
+  }
+
+  return "end";
+};
+
+const isXLabelInsideChart = ({
+  candidate,
+  chartWidth,
+  x,
+  textAnchor
+}: {
+  candidate: XLabelCandidate;
+  chartWidth: number;
+  x: number;
+  textAnchor: XLabelLayoutItem["textAnchor"];
+}) => {
+  const margin = 4;
+  const leftExtent =
+    textAnchor === "start"
+      ? 0
+      : textAnchor === "end"
+        ? candidate.size.width
+        : candidate.size.width / 2;
+  const rightExtent =
+    textAnchor === "start"
+      ? candidate.size.width
+      : textAnchor === "end"
+        ? 0
+        : candidate.size.width / 2;
+
+  return x - leftExtent >= margin && x + rightExtent <= chartWidth - margin;
+};
+
+const resolveXLabelLayout = ({
+  candidates,
+  plotWidth,
+  chartWidth,
+  strategy,
+  rotation,
+  edgeLabelPolicy,
+  minGap,
+  baseY
+}: {
+  candidates: XLabelCandidate[];
+  plotWidth: number;
+  chartWidth: number;
+  strategy: LineChartLabelStrategy;
+  rotation: number;
+  edgeLabelPolicy: LineChartEdgeLabelPolicy;
+  minGap: number;
+  baseY: number;
+}): XLabelLayout => {
+  const labels = candidates.map((candidate) => ({
+    id: String(candidate.index),
+    text: candidate.text,
+    x: candidate.x - candidate.size.width / 2,
+    y: 0,
+    width: candidate.size.width,
+    height: candidate.size.height
+  }));
+  const getAutoCollision = () => {
+    return solveLabelCollision({
+      labels,
+      availableWidth: plotWidth,
+      allowRotate: false,
+      allowStagger: false,
+      minGap
+    });
+  };
+  const collision =
+    strategy === "auto"
+      ? getAutoCollision()
+      : getExplicitXLabelCollision({
+          labels,
+          strategy,
+          availableWidth: plotWidth,
+          minGap,
+          rotation
+        });
+  const resolvedStrategy = collision.strategy as LineChartResolvedLabelStrategy;
+  const resolvedRotation =
+    resolvedStrategy === "rotate"
+      ? rotation < 0
+        ? rotation
+        : -Math.abs(rotation)
+      : 0;
+  const rows = resolvedStrategy === "stagger" ? 2 : collision.rows;
+  const sizes = collision.visibleIndexes.flatMap((candidateIndex) => {
+    const candidate = candidates[candidateIndex];
+
+    return candidate ? [candidate.size] : [];
+  });
+  const height = getXLabelHeight({
+    strategy: resolvedStrategy,
+    sizes,
+    rotation: resolvedRotation,
+    rows
+  });
+  const items = collision.visibleIndexes.flatMap<XLabelLayoutItem>(
+    (candidateIndex, visibleIndex) => {
+      const candidate = candidates[candidateIndex];
+
+      if (!candidate) {
+        return [];
+      }
+
+      const row = resolvedStrategy === "stagger" ? visibleIndex % rows : 0;
+      const y = baseY + row * (candidate.size.height + xLabelRowGap);
+      const textAnchor = getXLabelTextAnchor({
+        candidate,
+        candidates,
+        rotation: resolvedRotation
+      });
+      const x = getShiftedXLabel({
+        candidate,
+        chartWidth,
+        edgeLabelPolicy,
+        rotation: resolvedRotation,
+        textAnchor
+      });
+
+      if (
+        edgeLabelPolicy === "hide" &&
+        !isXLabelInsideChart({
+          candidate,
+          chartWidth,
+          x,
+          textAnchor
+        })
+      ) {
+        return [];
+      }
+
+      return [
+        {
+          ...candidate,
+          x,
+          y,
+          row,
+          rotation: resolvedRotation,
+          textAnchor
+        }
+      ];
+    }
   );
 
-  return unique(indexes).reduce<number[]>((selected, index) => {
-    const previous = selected[selected.length - 1];
-
-    if (previous === undefined) {
-      return [index];
-    }
-
-    const distance = getPosition(index) - getPosition(previous);
-    const requiredGap = getRequiredGap(previous, index);
-
-    if (distance >= requiredGap) {
-      return [...selected, index];
-    }
-
-    if (index === count - 1) {
-      return [...selected.slice(0, -1), index];
-    }
-
-    return selected;
-  }, []);
+  return {
+    strategy: resolvedStrategy,
+    items,
+    height,
+    rotation: resolvedRotation,
+    rows
+  };
 };
 
 const useSeriesInput = <TData extends Record<string, unknown>>(
@@ -517,6 +812,10 @@ const useChartModel = <TData extends Record<string, unknown>>({
   area = false,
   showDots = true,
   legend,
+  labelStrategy = "auto",
+  labelRotation = defaultLabelRotation,
+  labelMinGap = 8,
+  edgeLabelPolicy = "shift",
   yDomain = defaultYDomain,
   formatXLabel = defaultFormatXLabel,
   formatYLabel = defaultFormatYLabel
@@ -552,8 +851,11 @@ const useChartModel = <TData extends Record<string, unknown>>({
     const yLabelSizes = yTicks.map((tick) =>
       measureText(formatYLabel(tick), axisTextOptions)
     );
-    const xLabelSizes = xValues.map((value, index) =>
-      measureText(formatXLabel(value, index), axisTextOptions)
+    const xLabelTexts = xValues.map((value, index) =>
+      formatXLabel(value, index)
+    );
+    const xLabelSizes = xLabelTexts.map((text) =>
+      measureText(text, axisTextOptions)
     );
     const styleByKey = new Map(
       seriesInput.map((item, index) => [
@@ -596,31 +898,10 @@ const useChartModel = <TData extends Record<string, unknown>>({
           itemPaddingVertical: legendConfig.itemPaddingVertical
         })
       : undefined;
-    const autoPaddingOptions = {
-      base: { top: 16, right: 18, bottom: 12, left: 10 },
-      leftLabels: yLabelSizes,
-      bottomLabels: xLabelSizes.length > 0 ? [{ width: 1, height: 14 }] : [],
-      gap: 8
-    };
-    const padding = calculateAutoPadding(
-      legendLayout
-        ? {
-            ...autoPaddingOptions,
-            legend: {
-              width: Math.min(width - 32, legendLayout.width),
-              height: legendLayout.height,
-              position: legendLayout.position
-            }
-          }
-        : autoPaddingOptions
-    );
-    const boxes = solveChartBoxes({ width, height }, padding);
-    const yScale = createLinearScale({
-      domain: yDomainResolved,
-      range: [boxes.plot.y + boxes.plot.height, boxes.plot.y]
-    });
     const xScaleType = getXScaleType(xValues);
-    const xScale: ProjectScale<TData> =
+    const buildXScale = (
+      chartBoxes: ReturnType<typeof solveChartBoxes>
+    ): ProjectScale<TData> =>
       xScaleType === "time"
         ? (() => {
             const dates = xValues.filter(
@@ -628,7 +909,10 @@ const useChartModel = <TData extends Record<string, unknown>>({
             );
             const scale = createTimeScale({
               values: dates,
-              range: [boxes.plot.x, boxes.plot.x + boxes.plot.width]
+              range: [
+                chartBoxes.plot.x,
+                chartBoxes.plot.x + chartBoxes.plot.width
+              ]
             });
 
             return (value) =>
@@ -641,7 +925,10 @@ const useChartModel = <TData extends Record<string, unknown>>({
               );
               const scale = createLinearScale({
                 values: numbers,
-                range: [boxes.plot.x, boxes.plot.x + boxes.plot.width]
+                range: [
+                  chartBoxes.plot.x,
+                  chartBoxes.plot.x + chartBoxes.plot.width
+                ]
               });
 
               return (value) =>
@@ -651,11 +938,90 @@ const useChartModel = <TData extends Record<string, unknown>>({
               const domain = unique(xValues.map(getXKey));
               const scale = createPointScale<ReturnType<typeof getXKey>>({
                 domain,
-                range: [boxes.plot.x, boxes.plot.x + boxes.plot.width]
+                range: [
+                  chartBoxes.plot.x,
+                  chartBoxes.plot.x + chartBoxes.plot.width
+                ]
               });
 
               return (value) => scale.scale(getXKey(value));
             })();
+    const buildXLabelCandidates = (
+      chartBoxes: ReturnType<typeof solveChartBoxes>,
+      xScaleForBoxes: ProjectScale<TData>
+    ): XLabelCandidate[] => {
+      return xValues.flatMap((value, index) => {
+        const point = normalized.series[0]?.points[index];
+        const x = point ? xScaleForBoxes(value, point) : undefined;
+        const text = xLabelTexts[index];
+        const size = xLabelSizes[index];
+
+        if (x === undefined || text === undefined || size === undefined) {
+          return [];
+        }
+
+        return [
+          {
+            index,
+            value,
+            text,
+            x,
+            size
+          }
+        ];
+      });
+    };
+    const baseAutoPaddingOptions = {
+      base: { top: 16, right: 18, bottom: 12, left: 10 },
+      leftLabels: yLabelSizes,
+      gap: 8
+    };
+    const withLegendPaddingOptions = (bottomLabelHeight: number) =>
+      legendLayout
+        ? {
+            ...baseAutoPaddingOptions,
+            bottomLabels:
+              bottomLabelHeight > 0
+                ? [{ width: 1, height: bottomLabelHeight }]
+                : [],
+            legend: {
+              width: Math.min(width - 32, legendLayout.width),
+              height: legendLayout.height,
+              position: legendLayout.position
+            }
+          }
+        : {
+            ...baseAutoPaddingOptions,
+            bottomLabels:
+              bottomLabelHeight > 0
+                ? [{ width: 1, height: bottomLabelHeight }]
+                : []
+          };
+    const initialPadding = calculateAutoPadding(
+      withLegendPaddingOptions(getMaxSize(xLabelSizes).height)
+    );
+    const initialBoxes = solveChartBoxes({ width, height }, initialPadding);
+    const initialXScale = buildXScale(initialBoxes);
+    const initialXLabelLayout = resolveXLabelLayout({
+      candidates: buildXLabelCandidates(initialBoxes, initialXScale),
+      plotWidth: initialBoxes.plot.width,
+      chartWidth: width,
+      strategy: labelStrategy,
+      rotation: labelRotation,
+      edgeLabelPolicy,
+      minGap: labelMinGap,
+      baseY:
+        initialBoxes.plot.y + initialBoxes.plot.height + xLabelBaselineOffset
+    });
+    const padding = calculateAutoPadding(
+      withLegendPaddingOptions(initialXLabelLayout.height)
+    );
+    const boxes = solveChartBoxes({ width, height }, padding);
+    const yScale = createLinearScale({
+      domain: yDomainResolved,
+      range: [boxes.plot.y + boxes.plot.height, boxes.plot.y]
+    });
+    const xScale = buildXScale(boxes);
     const baselineValue =
       yDomainResolved[0] < 0 && yDomainResolved[1] > 0 ? 0 : yDomainResolved[0];
     const baselineY = yScale.scale(baselineValue);
@@ -679,17 +1045,16 @@ const useChartModel = <TData extends Record<string, unknown>>({
         })
       };
     });
-    const xLabelPositions = xValues.map((value, index) => {
-      const point = normalized.series[0]?.points[index];
-
-      return point ? xScale(value, point) : undefined;
+    const xLabelLayout = resolveXLabelLayout({
+      candidates: buildXLabelCandidates(boxes, xScale),
+      plotWidth: boxes.plot.width,
+      chartWidth: width,
+      strategy: labelStrategy,
+      rotation: labelRotation,
+      edgeLabelPolicy,
+      minGap: labelMinGap,
+      baseY: boxes.plot.y + boxes.plot.height + xLabelBaselineOffset
     });
-    const xLabelIndexes = getXLabelIndexes(
-      xValues.length,
-      boxes.plot.width,
-      xLabelSizes.map((size) => size.width),
-      xLabelPositions
-    );
     const legendOrigin =
       legendLayout && legendLayout.items.length > 0
         ? {
@@ -701,7 +1066,8 @@ const useChartModel = <TData extends Record<string, unknown>>({
             }),
             y: getLegendY({
               boxes,
-              hasBottomLabels: xValues.length > 0,
+              xLabelHeight: xLabelLayout.height,
+              xLabelLineHeight: getMaxSize(xLabelSizes).height,
               legendHeight: legendLayout.height,
               position: legendConfig.position
             })
@@ -753,15 +1119,11 @@ const useChartModel = <TData extends Record<string, unknown>>({
       boxes,
       geometries,
       legendModel,
-      normalized,
       resolvedTheme,
       showDots,
-      xLabelIndexes,
-      xValues,
-      xScale,
+      xLabelLayout,
       yScale,
       yTicks,
-      formatXLabel,
       formatYLabel
     };
   }, [
@@ -772,6 +1134,10 @@ const useChartModel = <TData extends Record<string, unknown>>({
     formatXLabel,
     formatYLabel,
     height,
+    edgeLabelPolicy,
+    labelMinGap,
+    labelRotation,
+    labelStrategy,
     legend,
     seriesInput,
     showDots,
@@ -790,15 +1156,11 @@ export const LineChart = <TData extends Record<string, unknown>>(
     boxes,
     geometries,
     legendModel,
-    normalized,
     resolvedTheme,
     showDots,
-    xLabelIndexes,
-    xValues,
-    xScale,
+    xLabelLayout,
     yScale,
     yTicks,
-    formatXLabel,
     formatYLabel
   } = model;
 
@@ -878,52 +1240,27 @@ export const LineChart = <TData extends Record<string, unknown>>(
             </SvgText>
           );
         })}
-        {xLabelIndexes.map((index) => {
-          const value = xValues[index];
-
-          if (value === undefined) {
-            return null;
-          }
-
-          const firstPoint = normalized.series[0]?.points[index];
-
-          if (!firstPoint) {
-            return null;
-          }
-
-          const x = xScale(value, firstPoint);
-
-          if (x === undefined) {
-            return null;
-          }
-
-          const isFirstLabel = index === 0;
-          const isLastLabel = index === xValues.length - 1;
-          const labelX = isFirstLabel
-            ? Math.max(x, 4)
-            : isLastLabel
-              ? Math.min(x, props.width - 4)
-              : x;
-          const textAnchor = isFirstLabel
-            ? "start"
-            : isLastLabel
-              ? "end"
-              : "middle";
-
-          return (
+        {xLabelLayout.items.map((label) => (
+          <SvgGroup
+            key={`label-x-${label.index}`}
+            transform={
+              label.rotation !== 0
+                ? `rotate(${label.rotation} ${label.x} ${label.y})`
+                : undefined
+            }
+          >
             <SvgText
-              key={`label-x-${index}`}
-              x={labelX}
-              y={boxes.plot.y + boxes.plot.height + 20}
+              x={label.x}
+              y={label.y}
               fill={resolvedTheme.mutedText}
               fontSize={resolvedTheme.typography.axisLabelSize}
-              textAnchor={textAnchor}
+              textAnchor={label.textAnchor}
               {...getFontFamilyProps(resolvedTheme.typography.fontFamily)}
             >
-              {formatXLabel(value, index)}
+              {label.text}
             </SvgText>
-          );
-        })}
+          </SvgGroup>
+        ))}
         {geometries.map(({ geometry }, index) =>
           geometry.area ? (
             <SvgPath
