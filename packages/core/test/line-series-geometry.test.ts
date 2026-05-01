@@ -1,0 +1,156 @@
+import { describe, expect, it } from "vitest";
+
+import {
+  buildLineSeriesGeometry,
+  createLinearScale,
+  createPointScale,
+  createTimeScale,
+  normalizeCartesianData
+} from "../src";
+import type { ChartXValue } from "../src";
+
+const numericX = (value: ChartXValue): number | undefined => {
+  return typeof value === "number" ? value : undefined;
+};
+
+describe("line series geometry projection", () => {
+  it("projects normalized data through point and linear scales", () => {
+    const normalized = normalizeCartesianData({
+      data: [
+        { month: "Jan", revenue: 10 },
+        { month: "Feb", revenue: null },
+        { month: "Mar", revenue: 30 }
+      ],
+      xKey: "month",
+      yKey: "revenue"
+    });
+    const xScale = createPointScale<string>({
+      domain: ["Jan", "Feb", "Mar"],
+      range: [0, 100]
+    });
+    const yScale = createLinearScale({
+      values: [10, 30],
+      range: [100, 0]
+    });
+
+    const geometry = buildLineSeriesGeometry({
+      series: normalized.series[0]!,
+      xScale: (value) =>
+        typeof value === "string" ? xScale.scale(value) : undefined,
+      yScale: (value) => yScale.scale(value)
+    });
+
+    expect(geometry.points.map((point) => point.defined)).toEqual([
+      true,
+      false,
+      true
+    ]);
+    expect(geometry.line.path).toBe("M 0 100 M 100 0");
+  });
+
+  it("connects projected points across missing values when requested", () => {
+    const normalized = normalizeCartesianData({
+      data: [
+        { x: 0, actual: 0 },
+        { x: 1, actual: null },
+        { x: 2, actual: 20 }
+      ],
+      xKey: "x",
+      yKey: "actual"
+    });
+    const yScale = createLinearScale({
+      values: [0, 20],
+      range: [100, 0]
+    });
+
+    const geometry = buildLineSeriesGeometry({
+      series: normalized.series[0]!,
+      xScale: (value) => (numericX(value) ?? 0) * 50,
+      yScale: (value) => yScale.scale(value),
+      connectNulls: true
+    });
+
+    expect(geometry.line.path).toBe("M 0 100 L 100 0");
+  });
+
+  it("keeps multi-series missing values independent", () => {
+    const normalized = normalizeCartesianData({
+      data: [
+        { x: 0, actual: 10, target: null },
+        { x: 1, actual: null, target: 20 },
+        { x: 2, actual: 30, target: 40 }
+      ],
+      xKey: "x",
+      yKeys: ["actual", "target"]
+    });
+    const yScale = createLinearScale({
+      values: [10, 40],
+      range: [100, 0]
+    });
+    const [actual, target] = normalized.series.map((series) =>
+      buildLineSeriesGeometry({
+        series,
+        xScale: (value) => (numericX(value) ?? 0) * 50,
+        yScale: (value) => yScale.scale(value)
+      })
+    );
+
+    expect(actual!.points.map((point) => point.defined)).toEqual([
+      true,
+      false,
+      true
+    ]);
+    expect(target!.points.map((point) => point.defined)).toEqual([
+      false,
+      true,
+      true
+    ]);
+  });
+
+  it("spaces irregular timestamps proportionally with a time scale", () => {
+    const normalized = normalizeCartesianData({
+      data: [
+        { date: new Date("2026-01-01T00:00:00Z"), price: 10 },
+        { date: new Date("2026-01-06T00:00:00Z"), price: 20 },
+        { date: new Date("2026-01-11T00:00:00Z"), price: 30 }
+      ],
+      xKey: "date",
+      yKey: "price"
+    });
+    const xScale = createTimeScale({
+      values: [
+        new Date("2026-01-01T00:00:00Z"),
+        new Date("2026-01-11T00:00:00Z")
+      ],
+      range: [0, 100]
+    });
+
+    const geometry = buildLineSeriesGeometry({
+      series: normalized.series[0]!,
+      xScale: (value) =>
+        value instanceof Date ? xScale.scale(value) : undefined,
+      yScale: (value) => value
+    });
+
+    expect(geometry.points.map((point) => point.x)).toEqual([0, 50, 100]);
+  });
+
+  it("builds area geometry when a baseline is provided", () => {
+    const normalized = normalizeCartesianData({
+      data: [
+        { x: 0, value: 0 },
+        { x: 1, value: 10 }
+      ],
+      xKey: "x",
+      yKey: "value"
+    });
+    const geometry = buildLineSeriesGeometry({
+      series: normalized.series[0]!,
+      xScale: (value) => (numericX(value) ?? 0) * 50,
+      yScale: (value) => 100 - value,
+      areaBaselineY: 100
+    });
+
+    expect(geometry.area?.path).toBe("M 0 100 L 50 90 L 50 100 L 0 100 Z");
+  });
+});

@@ -30,6 +30,7 @@ Current exports:
 - `normalizeLegacyContributionData`
 - `buildLinePath`
 - `buildAreaPath`
+- `buildLineSeriesGeometry`
 - `splitDefinedSegments`
 - `resolveNumericDomain`
 - `resolveTimeDomain`
