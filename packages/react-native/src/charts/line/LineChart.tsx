@@ -108,6 +108,71 @@ export type LineChartDotRenderProps<TData = unknown> = {
   theme: ResolvedCartesianChartTheme;
 };
 
+export type LineChartCrosshairConfig = {
+  visible?: boolean;
+  color?: string;
+  strokeWidth?: number;
+  opacity?: number;
+  strokeDasharray?: readonly number[];
+};
+
+export type ResolvedLineChartCrosshairConfig = {
+  visible: boolean;
+  color: string;
+  strokeWidth: number;
+  opacity: number;
+  strokeDasharray?: readonly number[];
+};
+
+export type LineChartTooltipConfig = {
+  visible?: boolean;
+  shared?: boolean;
+  width?: number;
+  padding?: number;
+  borderRadius?: number;
+  backgroundColor?: string;
+  borderColor?: string;
+  textColor?: string;
+  labelColor?: string;
+  fontSize?: number;
+  labelFontSize?: number;
+};
+
+export type ResolvedLineChartTooltipConfig = {
+  visible: boolean;
+  shared: boolean;
+  width: number | undefined;
+  padding: number;
+  borderRadius: number;
+  backgroundColor: string;
+  borderColor: string;
+  textColor: string;
+  labelColor: string;
+  fontSize: number;
+  labelFontSize: number;
+};
+
+export type LineChartTooltipSeriesItem<TData = unknown> = {
+  key: string;
+  label: string;
+  color: string;
+  value: number | null | undefined;
+  formattedValue: string;
+  point: ProjectedLinePoint<TData>;
+};
+
+export type LineChartTooltipRenderProps<TData = unknown> = {
+  index: number;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  xLabel: string;
+  series: Array<LineChartTooltipSeriesItem<TData>>;
+  config: ResolvedLineChartTooltipConfig;
+  theme: ResolvedCartesianChartTheme;
+};
+
 export type LineChartLegendPosition = "top" | "bottom";
 export type LineChartLegendAlign = "start" | "center" | "end";
 export type LineChartLegendMarker = "square" | "circle" | "line";
@@ -213,6 +278,12 @@ export type LineChartProps<TData extends Record<string, unknown>> = {
   showDots?: boolean;
   dots?: boolean | LineChartDotConfig;
   renderDot?: (props: LineChartDotRenderProps<TData>) => ReactNode;
+  selectedIndex?: number;
+  activeDot?: boolean | LineChartDotConfig;
+  renderActiveDot?: (props: LineChartDotRenderProps<TData>) => ReactNode;
+  crosshair?: boolean | LineChartCrosshairConfig;
+  tooltip?: boolean | LineChartTooltipConfig;
+  renderTooltip?: (props: LineChartTooltipRenderProps<TData>) => ReactNode;
   showHorizontalGridLines?: boolean;
   showVerticalGridLines?: boolean;
   legend?: boolean | LineChartLegendConfig;
@@ -259,6 +330,8 @@ const defaultLabelRotation = -35;
 const xLabelRowGap = 6;
 const xLabelBaselineOffset = 20;
 const rotatedLabelClearance = 10;
+const tooltipLineHeight = 18;
+const tooltipLabelLineHeight = 16;
 const defaultTypography: CartesianChartTypography = {
   axisLabelSize: 11,
   legendLabelSize: 11
@@ -501,6 +574,84 @@ const getDotConfig = <TData extends Record<string, unknown>>({
   };
 };
 
+const getActiveDotConfig = ({
+  activeDot,
+  baseDot
+}: {
+  activeDot: LineChartProps<Record<string, unknown>>["activeDot"];
+  baseDot: ResolvedLineChartDotConfig;
+}): ResolvedLineChartDotConfig => {
+  const config = typeof activeDot === "object" ? activeDot : {};
+  const visible =
+    typeof activeDot === "boolean"
+      ? activeDot
+      : typeof config.visible === "boolean"
+        ? config.visible
+        : true;
+
+  return {
+    visible,
+    shape: config.shape ?? baseDot.shape,
+    radius: config.radius ?? Math.max(5, baseDot.radius + 1.5),
+    fill: config.fill ?? baseDot.fill,
+    stroke: config.stroke ?? baseDot.stroke,
+    strokeWidth: config.strokeWidth ?? Math.max(2.5, baseDot.strokeWidth),
+    opacity: config.opacity ?? 1
+  };
+};
+
+const getCrosshairConfig = (
+  crosshair: LineChartProps<Record<string, unknown>>["crosshair"],
+  theme: ResolvedCartesianChartTheme
+): ResolvedLineChartCrosshairConfig => {
+  const config = typeof crosshair === "object" ? crosshair : {};
+  const visible =
+    typeof crosshair === "boolean"
+      ? crosshair
+      : typeof config.visible === "boolean"
+        ? config.visible
+        : crosshair !== undefined;
+  const resolved: ResolvedLineChartCrosshairConfig = {
+    visible,
+    color: config.color ?? theme.axis,
+    strokeWidth: config.strokeWidth ?? 1,
+    opacity: config.opacity ?? 0.95
+  };
+
+  if (config.strokeDasharray !== undefined) {
+    resolved.strokeDasharray = config.strokeDasharray;
+  }
+
+  return resolved;
+};
+
+const getTooltipConfig = (
+  tooltip: LineChartProps<Record<string, unknown>>["tooltip"],
+  theme: ResolvedCartesianChartTheme
+): ResolvedLineChartTooltipConfig => {
+  const config = typeof tooltip === "object" ? tooltip : {};
+  const visible =
+    typeof tooltip === "boolean"
+      ? tooltip
+      : typeof config.visible === "boolean"
+        ? config.visible
+        : tooltip !== undefined;
+
+  return {
+    visible,
+    shared: config.shared ?? true,
+    width: config.width,
+    padding: config.padding ?? 10,
+    borderRadius: config.borderRadius ?? 8,
+    backgroundColor: config.backgroundColor ?? "#0f172a",
+    borderColor: config.borderColor ?? theme.axis,
+    textColor: config.textColor ?? "#f8fafc",
+    labelColor: config.labelColor ?? "#cbd5e1",
+    fontSize: config.fontSize ?? 11,
+    labelFontSize: config.labelFontSize ?? 11
+  };
+};
+
 const getDiamondPath = (x: number, y: number, radius: number) => {
   return [
     `M ${x} ${y - radius}`,
@@ -574,6 +725,67 @@ const renderDefaultDot = <TData,>({
   );
 };
 
+const renderDefaultTooltip = <TData,>({
+  config,
+  height,
+  series,
+  width,
+  x,
+  xLabel,
+  y
+}: LineChartTooltipRenderProps<TData>) => {
+  const contentX = x + config.padding;
+  const labelY = y + config.padding + config.labelFontSize;
+  const firstItemY = labelY + tooltipLineHeight;
+
+  return (
+    <SvgGroup>
+      <SvgRect
+        x={x}
+        y={y}
+        width={width}
+        height={height}
+        rx={config.borderRadius}
+        fill={config.backgroundColor}
+        stroke={config.borderColor}
+        strokeOpacity={0.2}
+        strokeWidth={1}
+      />
+      <SvgText
+        x={contentX}
+        y={labelY}
+        fill={config.labelColor}
+        fontSize={config.labelFontSize}
+        fontWeight="600"
+      >
+        {xLabel}
+      </SvgText>
+      {series.map((item, index) => {
+        const itemY = firstItemY + index * tooltipLineHeight;
+
+        return (
+          <SvgGroup key={`tooltip-${item.key}`}>
+            <SvgCircle
+              cx={contentX + 3}
+              cy={itemY - config.fontSize * 0.32}
+              r={3}
+              fill={item.color}
+            />
+            <SvgText
+              x={contentX + 12}
+              y={itemY}
+              fill={config.textColor}
+              fontSize={config.fontSize}
+            >
+              {`${item.label}: ${item.formattedValue}`}
+            </SvgText>
+          </SvgGroup>
+        );
+      })}
+    </SvgGroup>
+  );
+};
+
 const unique = <TValue,>(values: TValue[]) => {
   return values.filter((value, index) => values.indexOf(value) === index);
 };
@@ -639,12 +851,85 @@ type XLabelLayout = {
   rows: number;
 };
 
+type LineChartSelectedSeriesItem<TData = unknown> =
+  LineChartTooltipSeriesItem<TData> & {
+    activeDot: ResolvedLineChartDotConfig;
+  };
+
+type LineChartSelectionModel<TData = unknown> = {
+  index: number;
+  x: number;
+  y: number;
+  xLabel: string;
+  series: Array<LineChartSelectedSeriesItem<TData>>;
+  tooltip: LineChartTooltipRenderProps<TData> | undefined;
+};
+
 const clamp = (value: number, min: number, max: number) => {
   if (max < min) {
     return min;
   }
 
   return Math.min(Math.max(value, min), max);
+};
+
+const getTooltipModel = <TData,>({
+  boxes,
+  chartHeight,
+  chartWidth,
+  config,
+  selection,
+  theme
+}: {
+  boxes: ReturnType<typeof solveChartBoxes>;
+  chartHeight: number;
+  chartWidth: number;
+  config: ResolvedLineChartTooltipConfig;
+  selection: Omit<LineChartSelectionModel<TData>, "tooltip">;
+  theme: ResolvedCartesianChartTheme;
+}): LineChartTooltipRenderProps<TData> | undefined => {
+  if (!config.visible || selection.series.length === 0) {
+    return undefined;
+  }
+
+  const series = config.shared
+    ? selection.series
+    : selection.series.slice(0, 1);
+  const labelWidth = measureText(selection.xLabel, {
+    fontSize: config.labelFontSize
+  }).width;
+  const seriesTextWidths = series.map(
+    (item) =>
+      measureText(`${item.label}: ${item.formattedValue}`, {
+        fontSize: config.fontSize
+      }).width
+  );
+  const markerWidth = 12;
+  const contentWidth = Math.max(labelWidth, ...seriesTextWidths) + markerWidth;
+  const width = config.width ?? contentWidth + config.padding * 2;
+  const height =
+    config.padding * 2 +
+    tooltipLabelLineHeight +
+    series.length * tooltipLineHeight;
+  const x = clamp(selection.x - width / 2, 4, chartWidth - width - 4);
+  const aboveY = selection.y - height - 12;
+  const belowY = selection.y + 12;
+  const y =
+    aboveY >= boxes.plot.y
+      ? aboveY
+      : clamp(belowY, 4, chartHeight - height - 4);
+
+  return {
+    index: selection.index,
+    x,
+    y,
+    width,
+    height,
+    xLabel: selection.xLabel,
+    series,
+    config,
+    theme
+  };
 };
 
 const getMaxSize = (sizes: Size[]) => {
@@ -1112,6 +1397,10 @@ const useChartModel = <TData extends Record<string, unknown>>({
   area = false,
   showDots = true,
   dots,
+  selectedIndex,
+  activeDot,
+  crosshair,
+  tooltip,
   showHorizontalGridLines = false,
   showVerticalGridLines = false,
   legend,
@@ -1370,6 +1659,74 @@ const useChartModel = <TData extends Record<string, unknown>>({
       minGap: labelMinGap,
       baseY: boxes.plot.y + boxes.plot.height + xLabelBaselineOffset
     });
+    const crosshairConfig = getCrosshairConfig(crosshair, resolvedTheme);
+    const tooltipConfig = getTooltipConfig(tooltip, resolvedTheme);
+    const roundedSelectedIndex =
+      typeof selectedIndex === "number" && Number.isFinite(selectedIndex)
+        ? Math.round(selectedIndex)
+        : undefined;
+    const selectedDataIndex =
+      roundedSelectedIndex !== undefined &&
+      roundedSelectedIndex >= 0 &&
+      roundedSelectedIndex < xValues.length
+        ? roundedSelectedIndex
+        : undefined;
+    const selectedSeries =
+      selectedDataIndex === undefined
+        ? []
+        : geometries.flatMap<LineChartSelectedSeriesItem<TData>>(
+            ({ geometry, style }) => {
+              const point = geometry.points.find(
+                (item) => item.dataIndex === selectedDataIndex
+              );
+
+              if (!point || !point.defined) {
+                return [];
+              }
+
+              return [
+                {
+                  key: geometry.key,
+                  label: geometry.label,
+                  color: style.color,
+                  value: point.value,
+                  formattedValue:
+                    typeof point.value === "number"
+                      ? formatYLabel(point.value)
+                      : "—",
+                  point,
+                  activeDot: getActiveDotConfig({
+                    activeDot,
+                    baseDot: style.dot
+                  })
+                }
+              ];
+            }
+          );
+    const selectionBase =
+      selectedDataIndex !== undefined && selectedSeries.length > 0
+        ? {
+            index: selectedDataIndex,
+            x: selectedSeries[0]!.point.x,
+            y: Math.min(...selectedSeries.map((item) => item.point.y)),
+            xLabel: xLabelTexts[selectedDataIndex] ?? String(selectedDataIndex),
+            series: selectedSeries
+          }
+        : undefined;
+    const selectionModel: LineChartSelectionModel<TData> | undefined =
+      selectionBase
+        ? {
+            ...selectionBase,
+            tooltip: getTooltipModel({
+              boxes,
+              chartHeight: height,
+              chartWidth: width,
+              config: tooltipConfig,
+              selection: selectionBase,
+              theme: resolvedTheme
+            })
+          }
+        : undefined;
     const legendOrigin =
       legendLayout && legendLayout.items.length > 0
         ? {
@@ -1438,6 +1795,8 @@ const useChartModel = <TData extends Record<string, unknown>>({
       showDots,
       showHorizontalGridLines,
       showVerticalGridLines,
+      crosshairConfig,
+      selectionModel,
       xLabelLayout,
       yScale,
       yTicks,
@@ -1445,7 +1804,9 @@ const useChartModel = <TData extends Record<string, unknown>>({
     };
   }, [
     area,
+    activeDot,
     connectNulls,
+    crosshair,
     curve,
     data,
     dots,
@@ -1457,11 +1818,13 @@ const useChartModel = <TData extends Record<string, unknown>>({
     labelRotation,
     labelStrategy,
     legend,
+    selectedIndex,
     seriesInput,
     showDots,
     showHorizontalGridLines,
     showVerticalGridLines,
     theme,
+    tooltip,
     width,
     xKey,
     yDomain
@@ -1479,6 +1842,8 @@ export const LineChart = <TData extends Record<string, unknown>>(
     resolvedTheme,
     showHorizontalGridLines,
     showVerticalGridLines,
+    crosshairConfig,
+    selectionModel,
     xLabelLayout,
     yScale,
     yTicks,
@@ -1619,6 +1984,21 @@ export const LineChart = <TData extends Record<string, unknown>>(
             strokeLinejoin="round"
           />
         ))}
+        {selectionModel && crosshairConfig.visible ? (
+          <SvgLine
+            key="selection-crosshair"
+            x1={selectionModel.x}
+            x2={selectionModel.x}
+            y1={boxes.plot.y}
+            y2={boxes.plot.y + boxes.plot.height}
+            stroke={crosshairConfig.color}
+            strokeOpacity={crosshairConfig.opacity}
+            strokeWidth={crosshairConfig.strokeWidth}
+            {...(crosshairConfig.strokeDasharray
+              ? { strokeDasharray: crosshairConfig.strokeDasharray }
+              : {})}
+          />
+        ) : null}
         {geometries.flatMap(({ geometry, style }) =>
           geometry.points
             .filter((point) => point.defined && style.dot.visible)
@@ -1646,6 +2026,38 @@ export const LineChart = <TData extends Record<string, unknown>>(
               ) : null;
             })
         )}
+        {selectionModel
+          ? selectionModel.series
+              .filter((item) => item.activeDot.visible)
+              .map((item) => {
+                const dotProps: LineChartDotRenderProps<TData> = {
+                  point: item.point,
+                  seriesKey: item.key,
+                  seriesLabel: item.label,
+                  color: item.color,
+                  x: item.point.x,
+                  y: item.point.y,
+                  value: item.value,
+                  dataIndex: item.point.dataIndex,
+                  config: item.activeDot,
+                  theme: resolvedTheme
+                };
+                const renderedDot = props.renderActiveDot
+                  ? props.renderActiveDot(dotProps)
+                  : renderDefaultDot(dotProps);
+
+                return renderedDot ? (
+                  <SvgGroup key={`active-dot-${item.key}`}>
+                    {renderedDot}
+                  </SvgGroup>
+                ) : null;
+              })
+          : null}
+        {selectionModel?.tooltip
+          ? props.renderTooltip
+            ? props.renderTooltip(selectionModel.tooltip)
+            : renderDefaultTooltip(selectionModel.tooltip)
+          : null}
       </SvgSurface>
     </View>
   );

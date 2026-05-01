@@ -2,6 +2,7 @@ export { AreaChart, LineChart } from "./charts/line/LineChart";
 export type {
   CartesianChartTheme,
   CartesianChartTypography,
+  LineChartCrosshairConfig,
   LineChartDotColor,
   LineChartDotConfig,
   LineChartDotRenderProps,
@@ -14,6 +15,11 @@ export type {
   LineChartProps,
   LineChartResolvedLabelStrategy,
   LineChartSeries,
+  LineChartTooltipConfig,
+  LineChartTooltipRenderProps,
+  LineChartTooltipSeriesItem,
+  ResolvedLineChartCrosshairConfig,
   ResolvedLineChartDotConfig,
+  ResolvedLineChartTooltipConfig,
   ResolvedCartesianChartTheme
 } from "./charts/line/LineChart";

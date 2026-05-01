@@ -13,6 +13,7 @@ export const chartStories = [
   "charts-v2linechart--custom-typography",
   "charts-v2linechart--multi-series",
   "charts-v2linechart--dot-styles",
+  "charts-v2linechart--selected-tooltip",
   "charts-v2linechart--null-gaps",
   "charts-v2linechart--area-fill",
   "charts-v2linechart--dense-labels",
