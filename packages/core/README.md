@@ -28,6 +28,9 @@ Current exports:
 - `normalizeLegacyProgressData`
 - `normalizeLegacyStackedBarData`
 - `normalizeLegacyContributionData`
+- `buildLinePath`
+- `buildAreaPath`
+- `splitDefinedSegments`
 - `resolveNumericDomain`
 - `resolveTimeDomain`
 - `createLinearScale`
