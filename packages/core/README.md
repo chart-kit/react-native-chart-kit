@@ -28,3 +28,11 @@ Current exports:
 - `normalizeLegacyProgressData`
 - `normalizeLegacyStackedBarData`
 - `normalizeLegacyContributionData`
+- `resolveNumericDomain`
+- `resolveTimeDomain`
+- `createLinearScale`
+- `createTimeScale`
+- `createBandScale`
+- `createPointScale`
+- `generateLinearTicks`
+- `generateTimeTicks`
