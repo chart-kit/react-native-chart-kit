@@ -1,6 +1,9 @@
 {
   "name": "@chart-kit/react-native",
   "version": "7.0.0-next.0",
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
     "@eslint/js": "^9.39.4",
     "@playwright/test": "^1.59.1",
@@ -22,7 +25,8 @@
     "storybook": "^10.3.6",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.59.1",
-    "vite": "^8.0.10"
+    "vite": "^8.0.10",
+    "vitest": "^4.1.5"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -38,13 +42,23 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "npm run typecheck",
-    "typecheck": "tsc --noEmit && npm run showcase:typecheck",
+    "test": "npm run typecheck && npm run test:unit",
+    "test:unit": "vitest run",
+    "test:visual": "npm run visual:test",
+    "test:compat": "node scripts/missing-command.mjs test:compat \"Compatibility fixtures are planned after the H1 matrix is finalized.\"",
+    "test:e2e": "node scripts/missing-command.mjs test:e2e \"Native end-to-end coverage is not configured yet.\"",
+    "typecheck": "tsc --noEmit && npm run core:typecheck && npm run showcase:typecheck",
+    "core:typecheck": "tsc -p packages/core/tsconfig.json --noEmit",
+    "benchmark": "node scripts/missing-command.mjs benchmark \"Benchmark scenarios are not configured yet.\"",
     "showcase": "storybook dev -c apps/showcase-web/.storybook -p 6006 --disable-telemetry",
     "showcase:build": "storybook build -c apps/showcase-web/.storybook -o apps/showcase-web/storybook-static --disable-telemetry",
     "showcase:typecheck": "tsc -p apps/showcase-web/tsconfig.json --noEmit",
     "visual:test": "npm run showcase:build && playwright test -c apps/showcase-web/playwright.config.ts",
     "visual:update": "npm run showcase:build && playwright test -c apps/showcase-web/playwright.config.ts --update-snapshots",
+    "example:ios": "node scripts/missing-command.mjs example:ios \"React Native CLI iOS example is not configured yet.\"",
+    "example:android": "node scripts/missing-command.mjs example:android \"React Native CLI Android example is not configured yet.\"",
+    "example:expo": "node scripts/missing-command.mjs example:expo \"Expo example is not configured yet.\"",
+    "docs:build": "node scripts/missing-command.mjs docs:build \"Docs site build is not configured yet.\"",
     "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
     "build": "npm run clean && tsc",
     "dev": "tsc --watch",

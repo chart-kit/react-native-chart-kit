@@ -41,3 +41,39 @@ npm run lint
 npm run typecheck
 npm run build
 ```
+
+## CKV2 command matrix
+
+The v2 specification defines the final command set in Yarn terms, but this repository currently uses npm and `package-lock.json`. The package scripts are named so either npm or Yarn can invoke them once the chosen package manager is finalized.
+
+Current working commands:
+
+```sh
+npm run lint
+npm run typecheck
+npm run core:typecheck
+npm run test
+npm run test:unit
+npm run test:visual
+npm run build
+```
+
+Command status:
+
+| Command                   | Current status                                                  |
+| ------------------------- | --------------------------------------------------------------- |
+| `npm run lint`            | Working ESLint check.                                           |
+| `npm run typecheck`       | Working TypeScript check for library and showcase.              |
+| `npm run core:typecheck`  | Working TypeScript check for the v2 core scaffold.              |
+| `npm run test`            | Working typecheck plus unit test command.                       |
+| `npm run test:unit`       | Working Vitest unit test command.                               |
+| `npm run test:visual`     | Working alias for Storybook plus Playwright visual screenshots. |
+| `npm run test:compat`     | Placeholder; compatibility fixtures not configured yet.         |
+| `npm run test:e2e`        | Placeholder; native e2e tests not configured yet.               |
+| `npm run benchmark`       | Placeholder; benchmark suite not configured yet.                |
+| `npm run example:ios`     | Placeholder; native iOS example not configured yet.             |
+| `npm run example:android` | Placeholder; native Android example not configured yet.         |
+| `npm run example:expo`    | Placeholder; Expo example not configured yet.                   |
+| `npm run docs:build`      | Placeholder; docs site build not configured yet.                |
+
+Placeholder commands intentionally exit with a non-zero status so CI cannot mistake missing coverage for a passing check.

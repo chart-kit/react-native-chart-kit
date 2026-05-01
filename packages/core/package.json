@@ -1,0 +1,13 @@
+{
+  "name": "@chart-kit/core",
+  "version": "7.0.0-next.0",
+  "private": true,
+  "description": "Renderer-agnostic Chart Kit v2 core scaffold.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "license": "MIT"
+}
