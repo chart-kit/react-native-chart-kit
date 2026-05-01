@@ -322,7 +322,7 @@ const data = {
 
 ### Modified Pie Chart Screenshot
 
-![Pie Chart_modified](/docs/assets/piechart-modified.png)
+![Pie Chart_modified](/promo/piechart-modified.png)
 
 ```js
 const data = [
