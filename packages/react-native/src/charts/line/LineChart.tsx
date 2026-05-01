@@ -626,11 +626,123 @@ const getXLabelTextAnchor = ({
     return "middle";
   }
 
-  if (candidate.index === candidates[0]?.index) {
-    return "start";
+  if (rotation < 0) {
+    return candidate.index === candidates[0]?.index ? "start" : "end";
   }
 
-  return "end";
+  return candidate.index === candidates[candidates.length - 1]?.index
+    ? "end"
+    : "start";
+};
+
+const getRotatedBaselineOffset = ({
+  rotation,
+  size,
+  textAnchor
+}: {
+  rotation: number;
+  size: Size;
+  textAnchor: XLabelLayoutItem["textAnchor"];
+}) => {
+  if (rotation === 0) {
+    return 0;
+  }
+
+  const radians = (Math.abs(rotation) * Math.PI) / 180;
+  const widthProjection = size.width * Math.sin(radians);
+
+  if (rotation < 0 && textAnchor === "start") {
+    return widthProjection;
+  }
+
+  if (rotation > 0 && textAnchor === "end") {
+    return widthProjection;
+  }
+
+  return 0;
+};
+
+const getXLabelHorizontalBounds = (label: XLabelLayoutItem) => {
+  if (label.rotation === 0) {
+    const leftExtent =
+      label.textAnchor === "start"
+        ? 0
+        : label.textAnchor === "end"
+          ? label.size.width
+          : label.size.width / 2;
+    const rightExtent =
+      label.textAnchor === "start"
+        ? label.size.width
+        : label.textAnchor === "end"
+          ? 0
+          : label.size.width / 2;
+
+    return {
+      left: label.x - leftExtent,
+      right: label.x + rightExtent
+    };
+  }
+
+  const radians = (Math.abs(label.rotation) * Math.PI) / 180;
+  const projectedWidth =
+    label.size.width * Math.cos(radians) +
+    label.size.height * Math.sin(radians);
+  const leftExtent =
+    label.textAnchor === "start"
+      ? 0
+      : label.textAnchor === "end"
+        ? projectedWidth
+        : projectedWidth / 2;
+  const rightExtent =
+    label.textAnchor === "start"
+      ? projectedWidth
+      : label.textAnchor === "end"
+        ? 0
+        : projectedWidth / 2;
+
+  return {
+    left: label.x - leftExtent,
+    right: label.x + rightExtent
+  };
+};
+
+const filterOverlappingRotatedLabels = (
+  items: XLabelLayoutItem[],
+  minGap: number
+) => {
+  if (items.length <= 1) {
+    return items;
+  }
+
+  const accepted: Array<{
+    bounds: ReturnType<typeof getXLabelHorizontalBounds>;
+    item: XLabelLayoutItem;
+  }> = [];
+  const lastIndex = items.length - 1;
+
+  items.forEach((item, index) => {
+    const bounds = getXLabelHorizontalBounds(item);
+    const overlapsPrevious = () => {
+      const previous = accepted[accepted.length - 1];
+
+      return previous ? previous.bounds.right + minGap > bounds.left : false;
+    };
+
+    if (index === lastIndex) {
+      while (overlapsPrevious()) {
+        accepted.pop();
+      }
+
+      accepted.push({ bounds, item });
+      return;
+    }
+
+    if (!overlapsPrevious()) {
+      accepted.push({ bounds, item });
+    }
+  });
+
+  return accepted.map(({ item }) => item);
 };
 
 const isXLabelInsideChart = ({
@@ -720,12 +832,6 @@ const resolveXLabelLayout = ({
 
     return candidate ? [candidate.size] : [];
   });
-  const rotationLift =
-    resolvedStrategy === "rotate"
-      ? getMaxSize(sizes).width *
-          Math.sin((Math.abs(resolvedRotation) * Math.PI) / 180) +
-        rotatedLabelClearance
-      : 0;
   const height = getXLabelHeight({
     strategy: resolvedStrategy,
     sizes,
@@ -741,15 +847,21 @@ const resolveXLabelLayout = ({
       }
 
       const row = resolvedStrategy === "stagger" ? candidate.index % rows : 0;
-      const y =
-        resolvedStrategy === "rotate"
-          ? baseY + rotationLift
-          : baseY + row * (candidate.size.height + xLabelRowGap);
       const textAnchor = getXLabelTextAnchor({
         candidate,
         candidates,
         rotation: resolvedRotation
       });
+      const baselineOffset =
+        resolvedStrategy === "rotate"
+          ? getRotatedBaselineOffset({
+              rotation: resolvedRotation,
+              size: candidate.size,
+              textAnchor
+            })
+          : 0;
+      const y =
+        baseY + row * (candidate.size.height + xLabelRowGap) + baselineOffset;
       const x = getShiftedXLabel({
         candidate,
         chartWidth,
@@ -782,10 +894,14 @@ const resolveXLabelLayout = ({
       ];
     }
   );
+  const visibleItems =
+    resolvedStrategy === "rotate"
+      ? filterOverlappingRotatedLabels(items, minGap)
+      : items;
 
   return {
     strategy: resolvedStrategy,
-    items,
+    items: visibleItems,
     height,
     rotation: resolvedRotation,
     rows
