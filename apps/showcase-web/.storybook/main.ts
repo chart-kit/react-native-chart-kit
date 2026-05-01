@@ -41,6 +41,24 @@ const config: StorybookConfig = {
           {
             find: /^@chart-kit\/react-native$/,
             replacement: path.resolve(repoRoot, "src/index.ts")
+          },
+          {
+            find: /^@chart-kit\/react-native-v2$/,
+            replacement: path.resolve(
+              repoRoot,
+              "packages/react-native/src/index.ts"
+            )
+          },
+          {
+            find: /^@chart-kit\/core$/,
+            replacement: path.resolve(repoRoot, "packages/core/src/index.ts")
+          },
+          {
+            find: /^@chart-kit\/svg-renderer$/,
+            replacement: path.resolve(
+              repoRoot,
+              "packages/svg-renderer/src/index.ts"
+            )
           }
         ]
       }
