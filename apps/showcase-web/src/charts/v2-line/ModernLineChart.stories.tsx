@@ -358,6 +358,44 @@ export const ScrubInteraction = () => (
   </StoryFrame>
 );
 
+export const WhileActiveScrub = () => (
+  <StoryFrame title="Hold to inspect">
+    <LineChart
+      data={multiSeriesRevenue}
+      xKey="month"
+      width={345}
+      height={238}
+      showDots={false}
+      curve="monotone"
+      interaction={{
+        mode: "scrub",
+        selectionPersistence: "whileActive",
+        deselectOnOutsidePress: true
+      }}
+      crosshair={{
+        strokeDasharray: [4, 4]
+      }}
+      tooltip={{
+        width: 138
+      }}
+      activeDot={{
+        radius: 5.5,
+        fill: "background",
+        strokeWidth: 2.5
+      }}
+      series={[
+        { yKey: "actual", label: "Actual", color: "#2563eb", strokeWidth: 3 },
+        {
+          yKey: "forecast",
+          label: "Forecast",
+          color: "#0891b2",
+          strokeWidth: 2
+        }
+      ]}
+    />
+  </StoryFrame>
+);
+
 export const NullGaps = () => (
   <StoryFrame title="Missing readings">
     <LineChart
