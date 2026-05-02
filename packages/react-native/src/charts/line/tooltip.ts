@@ -2,6 +2,7 @@ import type { ResolvedLineChartTooltipConfig } from "./options";
 
 export const lineChartTooltipLineHeight = 18;
 export const lineChartTooltipLabelLineHeight = 16;
+export const lineChartTooltipPositionAnimationDuration = 140;
 
 export type LineChartTooltipSeriesItem<TPoint = unknown> = {
   key: string;
@@ -38,6 +39,29 @@ const clamp = (value: number, min: number, max: number) => {
   }
 
   return Math.min(Math.max(value, min), max);
+};
+
+export const easeLineChartTooltipPosition = (progress: number) => {
+  const clampedProgress = clamp(progress, 0, 1);
+
+  return 1 - Math.pow(1 - clampedProgress, 3);
+};
+
+export const interpolateLineChartTooltipPosition = ({
+  from,
+  progress,
+  to
+}: {
+  from: { x: number; y: number };
+  progress: number;
+  to: { x: number; y: number };
+}) => {
+  const easedProgress = easeLineChartTooltipPosition(progress);
+
+  return {
+    x: from.x + (to.x - from.x) * easedProgress,
+    y: from.y + (to.y - from.y) * easedProgress
+  };
 };
 
 export const getLineChartTooltipModel = <TPoint, TTheme>({

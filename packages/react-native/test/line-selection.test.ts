@@ -5,7 +5,11 @@ import {
   type LineChartSelectableGeometry,
   type LineChartSelectablePoint
 } from "../src/charts/line/selection";
-import { getLineChartTooltipModel } from "../src/charts/line/tooltip";
+import {
+  easeLineChartTooltipPosition,
+  getLineChartTooltipModel,
+  interpolateLineChartTooltipPosition
+} from "../src/charts/line/tooltip";
 
 const dot = {
   visible: true,
@@ -150,5 +154,20 @@ describe("LineChart selection model", () => {
 
     expect(tooltip?.series.map((item) => item.key)).toEqual(["actual"]);
     expect(tooltip?.height).toBe(54);
+  });
+
+  it("eases tooltip position changes toward the selected point", () => {
+    expect(easeLineChartTooltipPosition(-1)).toBe(0);
+    expect(easeLineChartTooltipPosition(2)).toBe(1);
+    expect(
+      interpolateLineChartTooltipPosition({
+        from: { x: 10, y: 20 },
+        progress: 0.5,
+        to: { x: 50, y: 100 }
+      })
+    ).toEqual({
+      x: 45,
+      y: 90
+    });
   });
 });

@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 import type { GestureResponderEvent } from "react-native";
@@ -65,7 +65,9 @@ import {
   type LineChartSelectedSeriesItem as BaseLineChartSelectedSeriesItem
 } from "./selection";
 import {
+  interpolateLineChartTooltipPosition,
   getLineChartTooltipModel,
+  lineChartTooltipPositionAnimationDuration,
   lineChartTooltipLineHeight,
   type LineChartTooltipRenderProps as BaseLineChartTooltipRenderProps,
   type LineChartTooltipSeriesItem as BaseLineChartTooltipSeriesItem
@@ -1583,6 +1585,113 @@ const useChartModel = <TData extends Record<string, unknown>>({
   ]);
 };
 
+const tooltipPositionThreshold = 0.5;
+
+const useAnimatedTooltipModel = <TData,>(
+  tooltip: LineChartTooltipRenderProps<TData> | undefined
+) => {
+  const latestPositionRef = useRef<{ x: number; y: number } | undefined>(
+    undefined
+  );
+  const previousTooltipRef = useRef<
+    LineChartTooltipRenderProps<TData> | undefined
+  >(undefined);
+  const [animatedPosition, setAnimatedPosition] = useState<
+    { x: number; y: number } | undefined
+  >(undefined);
+
+  useEffect(() => {
+    let animationFrame = 0;
+
+    if (!tooltip) {
+      latestPositionRef.current = undefined;
+      previousTooltipRef.current = undefined;
+      animationFrame = requestAnimationFrame(() => {
+        setAnimatedPosition(undefined);
+      });
+
+      return () => {
+        cancelAnimationFrame(animationFrame);
+      };
+    }
+
+    const targetPosition = { x: tooltip.x, y: tooltip.y };
+    const currentPosition = latestPositionRef.current ?? targetPosition;
+    const hasPreviousTooltip = previousTooltipRef.current !== undefined;
+
+    previousTooltipRef.current = tooltip;
+
+    if (!hasPreviousTooltip) {
+      latestPositionRef.current = targetPosition;
+      animationFrame = requestAnimationFrame(() => {
+        setAnimatedPosition(targetPosition);
+      });
+
+      return () => {
+        cancelAnimationFrame(animationFrame);
+      };
+    }
+
+    const deltaX = Math.abs(currentPosition.x - targetPosition.x);
+    const deltaY = Math.abs(currentPosition.y - targetPosition.y);
+
+    if (
+      deltaX < tooltipPositionThreshold &&
+      deltaY < tooltipPositionThreshold
+    ) {
+      latestPositionRef.current = targetPosition;
+      animationFrame = requestAnimationFrame(() => {
+        setAnimatedPosition(targetPosition);
+      });
+
+      return () => {
+        cancelAnimationFrame(animationFrame);
+      };
+    }
+
+    let startTime: number | undefined;
+
+    const tick = (timestamp: number) => {
+      startTime ??= timestamp;
+
+      const progress = Math.min(
+        (timestamp - startTime) / lineChartTooltipPositionAnimationDuration,
+        1
+      );
+      const nextPosition = interpolateLineChartTooltipPosition({
+        from: currentPosition,
+        progress,
+        to: targetPosition
+      });
+
+      latestPositionRef.current = nextPosition;
+      setAnimatedPosition(nextPosition);
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(tick);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(tick);
+
+    return () => {
+      cancelAnimationFrame(animationFrame);
+    };
+  }, [tooltip]);
+
+  if (!tooltip) {
+    return undefined;
+  }
+
+  const position = animatedPosition ?? { x: tooltip.x, y: tooltip.y };
+
+  return {
+    ...tooltip,
+    x: position.x,
+    y: position.y
+  };
+};
+
 export const LineChart = <TData extends Record<string, unknown>>(
   props: LineChartProps<TData>
 ) => {
@@ -1745,6 +1854,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
         onResponderTerminate: handleResponderEnd
       }
     : {};
+  const animatedTooltip = useAnimatedTooltipModel(selectionModel?.tooltip);
 
   return (
     <View
@@ -1967,10 +2077,10 @@ export const LineChart = <TData extends Record<string, unknown>>(
                   ) : null;
                 })
             : null}
-          {selectionModel?.tooltip
+          {animatedTooltip
             ? props.renderTooltip
-              ? props.renderTooltip(selectionModel.tooltip)
-              : renderDefaultTooltip(selectionModel.tooltip)
+              ? props.renderTooltip(animatedTooltip)
+              : renderDefaultTooltip(animatedTooltip)
             : null}
         </SvgLayer>
       </SvgSurface>
