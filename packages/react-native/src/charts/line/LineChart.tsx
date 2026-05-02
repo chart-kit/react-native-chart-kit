@@ -71,6 +71,7 @@ import {
 import {
   buildLineChartSelectEvent,
   getLineChartInteractionConfig,
+  getLineChartVisibleInteractionBounds,
   getNearestLineChartInteractionIndex,
   isLineChartInteractionEnabled,
   isLineChartInteractionInBounds,
@@ -1749,6 +1750,27 @@ export const LineChart = <TData extends Record<string, unknown>>(
     },
     [boxes.plot]
   );
+  const visibleInteractionBounds = useMemo(
+    () =>
+      getLineChartVisibleInteractionBounds({
+        bounds: boxes.plot,
+        scrollable: viewport.scrollable,
+        viewportWidth: props.width
+      }),
+    [boxes.plot, props.width, viewport.scrollable]
+  );
+  const isVisibleResponderEventInPlot = useCallback(
+    (event: GestureResponderEvent) => {
+      const { locationX, locationY } = event.nativeEvent;
+
+      return isLineChartInteractionInBounds({
+        bounds: visibleInteractionBounds,
+        locationX,
+        locationY
+      });
+    },
+    [visibleInteractionBounds]
+  );
   const clearGestureSelection = useCallback(
     (event: LineChartDeselectEvent) => {
       if (props.selectedIndex === undefined) {
@@ -1855,6 +1877,17 @@ export const LineChart = <TData extends Record<string, unknown>>(
 
     interactionConfig.onGestureEnd?.();
   }, [clearGestureSelection, interactionConfig]);
+  const outsidePressResponderProps =
+    isInteractionEnabled && interactionConfig.deselectOnOutsidePress
+      ? {
+          onStartShouldSetResponderCapture: (event: GestureResponderEvent) =>
+            !isVisibleResponderEventInPlot(event),
+          onResponderGrant: (event: GestureResponderEvent) => {
+            preventBrowserSelection(event);
+            clearGestureSelection({ reason: "outsidePress" });
+          }
+        }
+      : {};
   const responderProps = isInteractionEnabled
     ? {
         onStartShouldSetResponder: () => true,
@@ -2172,6 +2205,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
     <View
       testID={props.testID}
       style={[styles.container, { width: props.width, height: props.height }]}
+      {...outsidePressResponderProps}
     >
       {viewport.scrollable ? (
         <ScrollView

@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import {
   buildLineChartSelectEvent,
   getLineChartInteractionConfig,
+  getLineChartVisibleInteractionBounds,
   getNearestLineChartInteractionIndex,
   isLineChartInteractionEnabled,
   isLineChartInteractionInBounds,
@@ -129,6 +130,30 @@ describe("LineChart interaction helpers", () => {
         locationY: 30
       })
     ).toBe(false);
+  });
+
+  it("limits outside-press hit testing to the visible scroll viewport", () => {
+    const bounds = { x: 52, y: 24, width: 900, height: 140 };
+
+    expect(
+      getLineChartVisibleInteractionBounds({
+        bounds,
+        scrollable: true,
+        viewportWidth: 360
+      })
+    ).toEqual({
+      x: 52,
+      y: 24,
+      width: 308,
+      height: 140
+    });
+    expect(
+      getLineChartVisibleInteractionBounds({
+        bounds,
+        scrollable: false,
+        viewportWidth: 360
+      })
+    ).toEqual(bounds);
   });
 
   it("maps touch x position to nearest data index", () => {

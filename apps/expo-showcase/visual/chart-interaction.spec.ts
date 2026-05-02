@@ -29,4 +29,27 @@ test.describe("Expo showcase chart interactions", () => {
 
     expect(selectedText).toBe("");
   });
+
+  test("scrollable comparison tooltip closes on outside press", async ({
+    page
+  }) => {
+    await page.goto("/?story=v2-scrollable-stock-comparison&visual=1");
+    await page.evaluate(async () => {
+      await document.fonts?.ready;
+    });
+
+    const frame = page.getByTestId("visual-frame");
+    await expect(frame).toBeVisible();
+    await expect(page.getByText("MSFT:")).toBeVisible();
+
+    const box = await frame.boundingBox();
+    expect(box).not.toBeNull();
+
+    if (!box) {
+      return;
+    }
+
+    await page.mouse.click(box.x + 24, box.y + 178);
+    await expect(page.getByText("MSFT:")).toBeHidden();
+  });
 });

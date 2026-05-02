@@ -144,6 +144,25 @@ export const isLineChartInteractionInBounds = ({
   );
 };
 
+export const getLineChartVisibleInteractionBounds = ({
+  bounds,
+  scrollable,
+  viewportWidth
+}: {
+  bounds: LineChartInteractionBounds;
+  scrollable: boolean;
+  viewportWidth: number;
+}): LineChartInteractionBounds => {
+  if (!scrollable) {
+    return bounds;
+  }
+
+  return {
+    ...bounds,
+    width: Math.max(0, viewportWidth - bounds.x)
+  };
+};
+
 export const getNearestLineChartInteractionIndex = ({
   locationX,
   points
