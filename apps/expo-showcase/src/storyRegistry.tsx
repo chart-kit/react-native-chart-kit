@@ -574,13 +574,6 @@ const V2ProAnimation = ({ isVisualMode, width }: NativeStoryProps) => {
           opacity: 0.8,
           strokeDasharray: [4, 4]
         }}
-        tooltip={{
-          width: 142,
-          backgroundColor: "#020617",
-          borderColor: "#38bdf8",
-          labelColor: "#bae6fd",
-          textColor: "#f8fafc"
-        }}
         activeDot={{
           radius: 5.5,
           fill: "background",
