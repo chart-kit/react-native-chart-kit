@@ -22,6 +22,7 @@ import {
   resolveChartViewport,
   resolveChartViewportInitialOffset,
   resolveChartViewportWindow,
+  resolveChartViewportWindowFromHandlePosition,
   resolveChartViewportWindowFromPosition,
   resolveNumericDomain,
   sliceChartViewportData,
@@ -177,14 +178,21 @@ export type LineChartRangeSelectorConfig = {
   height?: number;
   gap?: number;
   interactive?: boolean;
+  minVisiblePoints?: number;
   windowFill?: string;
   windowOpacity?: number;
   windowStroke?: string;
   lineOpacity?: number;
   handleColor?: string;
+  handleHitSlop?: number;
   handleOpacity?: number;
   handleWidth?: number;
 };
+
+export type LineChartRangeSelectorInteraction =
+  | "move"
+  | "resizeStart"
+  | "resizeEnd";
 
 export type LineChartViewportChangeEvent = {
   viewport: LineChartViewportConfig;
@@ -194,6 +202,7 @@ export type LineChartViewportChangeEvent = {
   itemCount: number;
   isWindowed: boolean;
   source: "rangeSelector";
+  interaction: LineChartRangeSelectorInteraction;
 };
 
 export type LineChartLegendRenderItem = {
@@ -375,11 +384,13 @@ const getRangeSelectorConfig = (
     height: config.height ?? 54,
     gap: config.gap ?? 10,
     interactive: config.interactive ?? false,
+    minVisiblePoints: config.minVisiblePoints ?? 2,
     windowFill: config.windowFill,
     windowOpacity: config.windowOpacity ?? 0.1,
     windowStroke: config.windowStroke,
     lineOpacity: config.lineOpacity ?? 0.62,
     handleColor: config.handleColor,
+    handleHitSlop: config.handleHitSlop ?? 18,
     handleOpacity: config.handleOpacity ?? 0.9,
     handleWidth: config.handleWidth ?? 3
   };
@@ -1733,7 +1744,10 @@ export const LineChart = <TData extends Record<string, unknown>>(
   const chartId = useId().replace(/:/g, "");
   const chartKitTheme = useChartKitTheme();
   const { onViewportChange } = props;
+  const dataLength = props.data.length;
   const scrollViewRef = useRef<ScrollView>(null);
+  const rangeSelectorInteractionRef =
+    useRef<LineChartRangeSelectorInteraction>("move");
   const interactionConfig = useMemo(
     () => getLineChartInteractionConfig(props.interaction),
     [props.interaction]
@@ -2366,7 +2380,10 @@ export const LineChart = <TData extends Record<string, unknown>>(
     rangeSelectorWindowEndX - rangeSelectorWindowX
   );
   const emitViewportChange = useCallback(
-    (nextWindow: ResolvedChartViewportWindow) => {
+    (
+      nextWindow: ResolvedChartViewportWindow,
+      interaction: LineChartRangeSelectorInteraction
+    ) => {
       onViewportChange?.({
         viewport: {
           startIndex: nextWindow.startIndex,
@@ -2377,7 +2394,8 @@ export const LineChart = <TData extends Record<string, unknown>>(
         visibleCount: nextWindow.visibleCount,
         itemCount: nextWindow.itemCount,
         isWindowed: nextWindow.isWindowed,
-        source: "rangeSelector"
+        source: "rangeSelector",
+        interaction
       });
     },
     [onViewportChange]
@@ -2386,21 +2404,61 @@ export const LineChart = <TData extends Record<string, unknown>>(
     isRangeSelectorVisible &&
     rangeSelectorConfig.interactive &&
     onViewportChange !== undefined;
+  const getRangeSelectorInteraction = useCallback(
+    (locationX: number): LineChartRangeSelectorInteraction => {
+      const handleHitSlop = Math.max(
+        rangeSelectorConfig.handleHitSlop,
+        rangeSelectorConfig.handleWidth * 2
+      );
+      const startDistance = Math.abs(locationX - rangeSelectorWindowX);
+      const endDistance = Math.abs(locationX - rangeSelectorWindowEndX);
+
+      if (startDistance <= handleHitSlop && startDistance <= endDistance) {
+        return "resizeStart";
+      }
+
+      if (endDistance <= handleHitSlop) {
+        return "resizeEnd";
+      }
+
+      return "move";
+    },
+    [
+      rangeSelectorConfig.handleHitSlop,
+      rangeSelectorConfig.handleWidth,
+      rangeSelectorWindowEndX,
+      rangeSelectorWindowX
+    ]
+  );
   const handleRangeSelectorInteraction = useCallback(
-    (event: GestureResponderEvent) => {
+    (
+      event: GestureResponderEvent,
+      interaction: LineChartRangeSelectorInteraction
+    ) => {
       preventBrowserSelection(event);
 
       if (!isRangeSelectorInteractive) {
         return;
       }
 
-      const nextWindow = resolveChartViewportWindowFromPosition({
-        itemCount: props.data.length,
-        locationX: event.nativeEvent.locationX,
-        plotWidth: overviewModel.boxes.plot.width,
-        plotX: overviewModel.boxes.plot.x,
-        visibleCount: viewportWindow.visibleCount
-      });
+      const nextWindow =
+        interaction === "move"
+          ? resolveChartViewportWindowFromPosition({
+              itemCount: dataLength,
+              locationX: event.nativeEvent.locationX,
+              plotWidth: overviewModel.boxes.plot.width,
+              plotX: overviewModel.boxes.plot.x,
+              visibleCount: viewportWindow.visibleCount
+            })
+          : resolveChartViewportWindowFromHandlePosition({
+              currentWindow: viewportWindow,
+              handle: interaction === "resizeStart" ? "start" : "end",
+              itemCount: dataLength,
+              locationX: event.nativeEvent.locationX,
+              minVisibleCount: rangeSelectorConfig.minVisiblePoints,
+              plotWidth: overviewModel.boxes.plot.width,
+              plotX: overviewModel.boxes.plot.x
+            });
 
       if (
         nextWindow.startIndex === viewportWindow.startIndex &&
@@ -2409,26 +2467,43 @@ export const LineChart = <TData extends Record<string, unknown>>(
         return;
       }
 
-      emitViewportChange(nextWindow);
+      emitViewportChange(nextWindow, interaction);
     },
     [
+      dataLength,
       emitViewportChange,
       isRangeSelectorInteractive,
       overviewModel.boxes.plot.width,
       overviewModel.boxes.plot.x,
       preventBrowserSelection,
-      props.data.length,
-      viewportWindow.endIndex,
-      viewportWindow.startIndex,
-      viewportWindow.visibleCount
+      rangeSelectorConfig.minVisiblePoints,
+      viewportWindow
     ]
   );
   const rangeSelectorResponderProps = isRangeSelectorInteractive
     ? {
         onStartShouldSetResponder: () => true,
         onMoveShouldSetResponder: () => true,
-        onResponderGrant: handleRangeSelectorInteraction,
-        onResponderMove: handleRangeSelectorInteraction,
+        onResponderGrant: (event: GestureResponderEvent) => {
+          const interaction = getRangeSelectorInteraction(
+            event.nativeEvent.locationX
+          );
+
+          rangeSelectorInteractionRef.current = interaction;
+          handleRangeSelectorInteraction(event, interaction);
+        },
+        onResponderMove: (event: GestureResponderEvent) => {
+          handleRangeSelectorInteraction(
+            event,
+            rangeSelectorInteractionRef.current
+          );
+        },
+        onResponderRelease: () => {
+          rangeSelectorInteractionRef.current = "move";
+        },
+        onResponderTerminate: () => {
+          rangeSelectorInteractionRef.current = "move";
+        },
         onResponderTerminationRequest: () => false
       }
     : {};

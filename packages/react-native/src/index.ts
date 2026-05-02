@@ -37,6 +37,7 @@ export type {
   LineChartLegendRenderProps,
   LineChartProps,
   LineChartRangeSelectorConfig,
+  LineChartRangeSelectorInteraction,
   LineChartResolvedLabelStrategy,
   LineChartSelectEvent,
   LineChartSeries,

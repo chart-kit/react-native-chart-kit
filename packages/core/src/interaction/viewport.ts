@@ -1,6 +1,7 @@
 import type { ChartXValue } from "../data";
 
 export type ChartViewportInitialIndex = "start" | "end" | number;
+export type ChartViewportWindowHandle = "start" | "end";
 export type ChartViewportPresetName =
   | "1D"
   | "1W"
@@ -55,6 +56,23 @@ export type ResolveChartViewportWindowFromPositionOptions = {
   plotWidth: number;
   plotX: number;
   visibleCount: number;
+};
+
+export type ResolveChartViewportIndexFromPositionOptions = {
+  itemCount: number;
+  locationX: number;
+  plotWidth: number;
+  plotX: number;
+};
+
+export type ResolveChartViewportWindowFromHandlePositionOptions = {
+  currentWindow: ResolvedChartViewportWindow;
+  handle: ChartViewportWindowHandle;
+  itemCount: number;
+  locationX: number;
+  minVisibleCount?: number | undefined;
+  plotWidth: number;
+  plotX: number;
 };
 
 const minVisiblePoints = 2;
@@ -235,6 +253,29 @@ export const sliceChartViewportData = <TData>(
   window: ResolvedChartViewportWindow
 ) => data.slice(window.startIndex, window.endIndex);
 
+export const resolveChartViewportIndexFromPosition = ({
+  itemCount,
+  locationX,
+  plotWidth,
+  plotX
+}: ResolveChartViewportIndexFromPositionOptions) => {
+  const safeItemCount = normalizePositiveInteger(itemCount, 0, 0);
+
+  if (safeItemCount === 0) {
+    return 0;
+  }
+
+  const safePlotWidth =
+    Number.isFinite(plotWidth) && plotWidth > 0 ? plotWidth : 1;
+  const normalizedPosition = clamp((locationX - plotX) / safePlotWidth, 0, 1);
+
+  return clamp(
+    Math.round(normalizedPosition * (safeItemCount - 1)),
+    0,
+    safeItemCount - 1
+  );
+};
+
 export const resolveChartViewportWindowFromPosition = ({
   itemCount,
   locationX,
@@ -258,10 +299,12 @@ export const resolveChartViewportWindowFromPosition = ({
     return resolveChartViewportWindow({ itemCount: safeItemCount });
   }
 
-  const safePlotWidth =
-    Number.isFinite(plotWidth) && plotWidth > 0 ? plotWidth : 1;
-  const normalizedPosition = clamp((locationX - plotX) / safePlotWidth, 0, 1);
-  const centerIndex = Math.round(normalizedPosition * (safeItemCount - 1));
+  const centerIndex = resolveChartViewportIndexFromPosition({
+    itemCount: safeItemCount,
+    locationX,
+    plotWidth,
+    plotX
+  });
   const startIndex = clamp(
     centerIndex - Math.floor(safeVisibleCount / 2),
     0,
@@ -272,6 +315,65 @@ export const resolveChartViewportWindowFromPosition = ({
     itemCount: safeItemCount,
     startIndex,
     endIndex: startIndex + safeVisibleCount
+  });
+};
+
+export const resolveChartViewportWindowFromHandlePosition = ({
+  currentWindow,
+  handle,
+  itemCount,
+  locationX,
+  minVisibleCount,
+  plotWidth,
+  plotX
+}: ResolveChartViewportWindowFromHandlePositionOptions): ResolvedChartViewportWindow => {
+  const safeItemCount = normalizePositiveInteger(itemCount, 0, 0);
+
+  if (safeItemCount === 0) {
+    return resolveChartViewportWindow({ itemCount: safeItemCount });
+  }
+
+  const normalizedCurrentWindow = resolveChartViewportWindow({
+    itemCount: safeItemCount,
+    startIndex: currentWindow.startIndex,
+    endIndex: currentWindow.endIndex
+  });
+  const safeMinVisibleCount = clamp(
+    normalizePositiveInteger(minVisibleCount, minVisiblePoints),
+    minVisiblePoints,
+    safeItemCount
+  );
+  const targetIndex = resolveChartViewportIndexFromPosition({
+    itemCount: safeItemCount,
+    locationX,
+    plotWidth,
+    plotX
+  });
+
+  if (handle === "start") {
+    const startIndex = clamp(
+      targetIndex,
+      0,
+      normalizedCurrentWindow.endIndex - safeMinVisibleCount
+    );
+
+    return resolveChartViewportWindow({
+      itemCount: safeItemCount,
+      startIndex,
+      endIndex: normalizedCurrentWindow.endIndex
+    });
+  }
+
+  const endIndex = clamp(
+    targetIndex + 1,
+    normalizedCurrentWindow.startIndex + safeMinVisibleCount,
+    safeItemCount
+  );
+
+  return resolveChartViewportWindow({
+    itemCount: safeItemCount,
+    startIndex: normalizedCurrentWindow.startIndex,
+    endIndex
   });
 };
 

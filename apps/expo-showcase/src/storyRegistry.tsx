@@ -690,6 +690,8 @@ const V2RangeSelectorOverview = ({ isVisualMode, width }: NativeStoryProps) => {
           height: 54,
           gap: 10,
           interactive: true,
+          handleHitSlop: 28,
+          handleWidth: 4,
           windowFill: "#2563EB",
           windowStroke: "#2563EB",
           windowOpacity: 0.11

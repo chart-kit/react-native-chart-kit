@@ -2,9 +2,11 @@ import { describe, expect, it } from "vitest";
 
 import {
   resolveChartViewport,
+  resolveChartViewportIndexFromPosition,
   resolveChartViewportInitialOffset,
   resolveChartViewportPresetWindow,
   resolveChartViewportWindow,
+  resolveChartViewportWindowFromHandlePosition,
   resolveChartViewportWindowFromPosition,
   sliceChartViewportData
 } from "../src";
@@ -256,6 +258,83 @@ describe("chart viewport", () => {
     ).toMatchObject({
       startIndex: 14,
       endIndex: 20
+    });
+  });
+
+  it("resolves an index from an overview position", () => {
+    expect(
+      resolveChartViewportIndexFromPosition({
+        itemCount: 20,
+        locationX: 40,
+        plotX: 40,
+        plotWidth: 200
+      })
+    ).toBe(0);
+    expect(
+      resolveChartViewportIndexFromPosition({
+        itemCount: 20,
+        locationX: 140,
+        plotX: 40,
+        plotWidth: 200
+      })
+    ).toBe(10);
+    expect(
+      resolveChartViewportIndexFromPosition({
+        itemCount: 20,
+        locationX: 260,
+        plotX: 40,
+        plotWidth: 200
+      })
+    ).toBe(19);
+  });
+
+  it("resizes a viewport window from handle positions", () => {
+    const currentWindow = resolveChartViewportWindow({
+      itemCount: 20,
+      startIndex: 8,
+      endIndex: 16
+    });
+
+    expect(
+      resolveChartViewportWindowFromHandlePosition({
+        currentWindow,
+        handle: "start",
+        itemCount: 20,
+        locationX: 60,
+        plotX: 40,
+        plotWidth: 200
+      })
+    ).toMatchObject({
+      startIndex: 2,
+      endIndex: 16
+    });
+    expect(
+      resolveChartViewportWindowFromHandlePosition({
+        currentWindow,
+        handle: "end",
+        itemCount: 20,
+        locationX: 250,
+        plotX: 40,
+        plotWidth: 200
+      })
+    ).toMatchObject({
+      startIndex: 8,
+      endIndex: 20
+    });
+    expect(
+      resolveChartViewportWindowFromHandlePosition({
+        currentWindow,
+        handle: "start",
+        itemCount: 20,
+        locationX: 190,
+        minVisibleCount: 4,
+        plotX: 40,
+        plotWidth: 200
+      })
+    ).toMatchObject({
+      startIndex: 12,
+      endIndex: 16,
+      visibleCount: 4
     });
   });
 });

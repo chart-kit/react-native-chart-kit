@@ -128,4 +128,38 @@ test.describe("Expo showcase chart interactions", () => {
     await expect(chart.getByText("Nov 3").first()).toBeVisible();
     await expect(chart.getByText("Jan 14")).toHaveCount(0);
   });
+
+  test("range selector handles resize the visible window", async ({ page }) => {
+    await page.goto("/?story=v2-range-selector");
+    await page.evaluate(async () => {
+      await document.fonts?.ready;
+    });
+
+    await expect(page.getByText("Portfolio range")).toBeVisible();
+    const chart = page.getByTestId("range-selector-chart");
+    await expect(chart.getByText("Dec 15").first()).toBeVisible();
+    await expect(chart.getByText("Jan 14").first()).toBeVisible();
+
+    const rangeSelector = page.getByTestId(
+      "range-selector-chart-range-selector"
+    );
+    await expect(rangeSelector).toBeVisible();
+    await rangeSelector.scrollIntoViewIfNeeded();
+
+    const rangeBox = await rangeSelector.boundingBox();
+    expect(rangeBox).not.toBeNull();
+
+    if (!rangeBox) {
+      return;
+    }
+
+    const y = rangeBox.y + rangeBox.height / 2;
+    await page.mouse.move(rangeBox.x + rangeBox.width - 28, y);
+    await page.mouse.down();
+    await page.mouse.move(rangeBox.x + rangeBox.width - 150, y, { steps: 8 });
+    await page.mouse.up();
+
+    await expect(chart.getByText("Dec 15").first()).toBeVisible();
+    await expect(chart.getByText("Jan 14")).toHaveCount(0);
+  });
 });
