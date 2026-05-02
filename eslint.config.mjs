@@ -10,6 +10,7 @@ export default [
       "dist/**",
       "node_modules/**",
       "coverage/**",
+      "apps/expo-showcase/.expo/**",
       "apps/showcase-web/storybook-static/**"
     ]
   },

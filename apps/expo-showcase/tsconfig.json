@@ -1,0 +1,27 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "noErrorTruncation": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "types": ["react", "react-native"],
+    "baseUrl": "../..",
+    "paths": {
+      "@chart-kit/core": ["packages/core/src/index.ts"],
+      "@chart-kit/react-native": ["src/index.ts"],
+      "@chart-kit/react-native-v2": ["packages/react-native/src/index.ts"],
+      "@chart-kit/svg-renderer": ["packages/svg-renderer/src/index.ts"]
+    }
+  },
+  "include": ["App.tsx", "src/**/*", "../showcase-web/src/**/*"]
+}

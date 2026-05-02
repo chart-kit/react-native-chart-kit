@@ -2,7 +2,8 @@
   "name": "@chart-kit/react-native",
   "version": "7.0.0-next.0",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "apps/expo-showcase"
   ],
   "devDependencies": {
     "@eslint/js": "^9.39.4",
@@ -47,7 +48,7 @@
     "test:visual": "npm run visual:test",
     "test:compat": "vitest run packages/core/test/compat",
     "test:e2e": "node scripts/missing-command.mjs test:e2e \"Native end-to-end coverage is not configured yet.\"",
-    "typecheck": "tsc --noEmit && npm run core:typecheck && npm run svg:typecheck && npm run rn:typecheck && npm run showcase:typecheck",
+    "typecheck": "tsc --noEmit && npm run core:typecheck && npm run svg:typecheck && npm run rn:typecheck && npm run showcase:typecheck && npm run expo:typecheck",
     "core:typecheck": "tsc -p packages/core/tsconfig.json --noEmit && tsc -p packages/core/tsconfig.test.json --noEmit",
     "svg:typecheck": "tsc -p packages/svg-renderer/tsconfig.json --noEmit && tsc -p packages/svg-renderer/tsconfig.test.json --noEmit",
     "rn:typecheck": "tsc -p packages/react-native/tsconfig.json --noEmit && tsc -p packages/react-native/tsconfig.test.json --noEmit",
@@ -55,11 +56,12 @@
     "showcase": "storybook dev -c apps/showcase-web/.storybook -p 6006 --disable-telemetry",
     "showcase:build": "storybook build -c apps/showcase-web/.storybook -o apps/showcase-web/storybook-static --disable-telemetry",
     "showcase:typecheck": "tsc -p apps/showcase-web/tsconfig.json --noEmit",
+    "expo:typecheck": "npm --workspace @chart-kit/expo-showcase run typecheck",
     "visual:test": "npm run showcase:build && playwright test -c apps/showcase-web/playwright.config.ts",
     "visual:update": "npm run showcase:build && playwright test -c apps/showcase-web/playwright.config.ts --update-snapshots",
     "example:ios": "node scripts/missing-command.mjs example:ios \"React Native CLI iOS example is not configured yet.\"",
     "example:android": "node scripts/missing-command.mjs example:android \"React Native CLI Android example is not configured yet.\"",
-    "example:expo": "node scripts/missing-command.mjs example:expo \"Expo example is not configured yet.\"",
+    "example:expo": "npm --workspace @chart-kit/expo-showcase run start --",
     "docs:build": "node scripts/missing-command.mjs docs:build \"Docs site build is not configured yet.\"",
     "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
     "build": "npm run clean && tsc",
