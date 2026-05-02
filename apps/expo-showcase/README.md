@@ -10,6 +10,11 @@ npm run example:expo
 ```
 
 Then scan the QR code with Expo Go while your computer and phone are on the same network.
+If Expo Go does not discover the LAN server, use tunnel mode:
+
+```bash
+npm run example:expo -- --tunnel
+```
 
 Useful commands:
 
