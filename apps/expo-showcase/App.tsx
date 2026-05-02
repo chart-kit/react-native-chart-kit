@@ -12,13 +12,46 @@ import {
 
 import { ShowcaseStory, stories, storySections } from "./src/storyRegistry";
 
-const initialStory =
+const defaultStory =
   stories.find((story) => story.id === "v2-basic") ?? stories[0];
+
+const isWebRuntime = Platform.OS === "web" && typeof window !== "undefined";
+
+const getWebSearchParams = () => {
+  if (!isWebRuntime) {
+    return null;
+  }
+
+  return new URLSearchParams(window.location.search);
+};
+
+const getInitialStory = () => {
+  const storyId = getWebSearchParams()?.get("story");
+
+  return stories.find((story) => story.id === storyId) ?? defaultStory;
+};
+
+const getInitialVisualMode = () => {
+  const params = getWebSearchParams();
+
+  return params?.get("visual") === "1" || params?.get("mode") === "visual";
+};
+
+const updateStoryUrl = (story: ShowcaseStory, isVisualMode: boolean) => {
+  if (!isWebRuntime || isVisualMode) {
+    return;
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  params.set("story", story.id);
+  window.history.replaceState(null, "", `?${params.toString()}`);
+};
 
 export default function App() {
   const { width } = useWindowDimensions();
+  const [isVisualMode] = useState(getInitialVisualMode);
   const [selectedStory, setSelectedStory] =
-    useState<ShowcaseStory>(initialStory);
+    useState<ShowcaseStory>(getInitialStory);
   const [isScrubbing, setIsScrubbing] = useState(false);
 
   const selectedSection = useMemo(
@@ -34,7 +67,21 @@ export default function App() {
   const selectStory = (story: ShowcaseStory) => {
     setIsScrubbing(false);
     setSelectedStory(story);
+    updateStoryUrl(story, isVisualMode);
   };
+
+  if (isVisualMode) {
+    return (
+      <View style={styles.visualRoot}>
+        <View
+          testID="visual-frame"
+          style={[styles.visualFrame, { width: previewWidth }]}
+        >
+          <StoryComponent width={previewWidth - 24} />
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.safeArea}>
@@ -140,6 +187,16 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  visualRoot: {
+    alignItems: "center",
+    backgroundColor: "#f4f7fb",
+    justifyContent: "center",
+    minHeight: "100%",
+    padding: 24
+  },
+  visualFrame: {
+    maxWidth: 430
+  },
   safeArea: {
     backgroundColor: "#f4f7fb",
     flex: 1,

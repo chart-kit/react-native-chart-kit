@@ -2,6 +2,10 @@
 
 Date: April 30, 2026
 
+Note: This is a historical audit of the repository before the CKV2 work began.
+Later slices replaced the Storybook visual harness with the Expo showcase so one
+surface can cover native, web, and Playwright visual review.
+
 ## Scope
 
 This audit covers the current repository state before starting deeper Chart Kit v2 work. It inventories package structure, tooling, examples, renderer architecture, dependencies, native risk, and test gaps.

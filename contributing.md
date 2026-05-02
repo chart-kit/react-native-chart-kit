@@ -64,23 +64,23 @@ npm run build
 
 Command status:
 
-| Command                      | Current status                                                  |
-| ---------------------------- | --------------------------------------------------------------- |
-| `npm run lint`               | Working ESLint check.                                           |
-| `npm run typecheck`          | Working TypeScript check for library and showcase.              |
-| `npm run core:typecheck`     | Working TypeScript check for the v2 core scaffold.              |
-| `npm run svg:typecheck`      | Working TypeScript check for the v2 SVG renderer package.       |
-| `npm run rn:typecheck`       | Working TypeScript check for the v2 React Native package.       |
-| `npm run showcase:typecheck` | Working TypeScript check for the showcase stories.              |
-| `npm run test`               | Working typecheck, unit, and compatibility test command.        |
-| `npm run test:unit`          | Working Vitest unit test command.                               |
-| `npm run test:visual`        | Working alias for Storybook plus Playwright visual screenshots. |
-| `npm run test:compat`        | Working Vitest command for legacy compatibility fixtures.       |
-| `npm run test:e2e`           | Placeholder; native e2e tests not configured yet.               |
-| `npm run benchmark`          | Placeholder; benchmark suite not configured yet.                |
-| `npm run example:ios`        | Placeholder; native iOS example not configured yet.             |
-| `npm run example:android`    | Placeholder; native Android example not configured yet.         |
-| `npm run example:expo`       | Placeholder; Expo example not configured yet.                   |
-| `npm run docs:build`         | Placeholder; docs site build not configured yet.                |
+| Command                      | Current status                                                      |
+| ---------------------------- | ------------------------------------------------------------------- |
+| `npm run lint`               | Working ESLint check.                                               |
+| `npm run typecheck`          | Working TypeScript check for library and showcase.                  |
+| `npm run core:typecheck`     | Working TypeScript check for the v2 core scaffold.                  |
+| `npm run svg:typecheck`      | Working TypeScript check for the v2 SVG renderer package.           |
+| `npm run rn:typecheck`       | Working TypeScript check for the v2 React Native package.           |
+| `npm run showcase:typecheck` | Working TypeScript check for the showcase stories.                  |
+| `npm run test`               | Working typecheck, unit, and compatibility test command.            |
+| `npm run test:unit`          | Working Vitest unit test command.                                   |
+| `npm run test:visual`        | Working alias for Expo showcase plus Playwright visual screenshots. |
+| `npm run test:compat`        | Working Vitest command for legacy compatibility fixtures.           |
+| `npm run test:e2e`           | Placeholder; native e2e tests not configured yet.                   |
+| `npm run benchmark`          | Placeholder; benchmark suite not configured yet.                    |
+| `npm run example:ios`        | Placeholder; native iOS example not configured yet.                 |
+| `npm run example:android`    | Placeholder; native Android example not configured yet.             |
+| `npm run example:expo`       | Working Expo showcase app command for phone/device review.          |
+| `npm run docs:build`         | Placeholder; docs site build not configured yet.                    |
 
 Placeholder commands intentionally exit with a non-zero status so CI cannot mistake missing coverage for a passing check.

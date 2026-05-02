@@ -11,7 +11,8 @@ export default [
       "node_modules/**",
       "coverage/**",
       "apps/expo-showcase/.expo/**",
-      "apps/showcase-web/storybook-static/**"
+      "apps/expo-showcase/dist/**",
+      "apps/expo-showcase/test-results/**"
     ]
   },
   js.configs.recommended,

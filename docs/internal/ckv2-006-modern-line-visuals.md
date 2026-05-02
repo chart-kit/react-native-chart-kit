@@ -11,7 +11,7 @@ Added:
 - private experimental `@chart-kit/react-native` package implementation
 - modern SVG `LineChart`
 - modern SVG `AreaChart`
-- Storybook fixtures for basic, multi-series, null gaps, area fill, dense labels, dark mode, label strategies, marker styles, custom legend, grid lines, and shared tooltip
+- Expo showcase fixtures for basic, multi-series, null gaps, area fill, dense labels, dark mode, label strategies, marker styles, custom legend, grid lines, and shared tooltip
 - visual regression story entries for the new v2 charts
 - configurable typography and legend render hooks
 - opt-in horizontal and vertical grid lines

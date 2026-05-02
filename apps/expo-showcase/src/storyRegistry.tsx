@@ -8,6 +8,11 @@ import {
 import { AreaChart, LineChart } from "@chart-kit/react-native-v2";
 import { SvgCircle, SvgGroup, SvgRect, SvgText } from "@chart-kit/svg-renderer";
 
+import { BarChartFixture, fixtures as barFixtures } from "./fixtures/compatBar";
+import {
+  LineChartFixture,
+  fixtures as lineFixtures
+} from "./fixtures/compatLine";
 import {
   basicRevenue,
   denseRevenue,
@@ -17,15 +22,7 @@ import {
   revenueWithGaps,
   sixMonthRevenue,
   subscriptionMetrics
-} from "../../showcase-web/src/charts/v2-line/fixtures";
-import {
-  LineChartFixture,
-  fixtures as lineFixtures
-} from "../../showcase-web/src/charts/line/fixtures";
-import {
-  BarChartFixture,
-  fixtures as barFixtures
-} from "../../showcase-web/src/charts/bar/fixtures";
+} from "./fixtures/v2Line";
 
 export type NativeStoryProps = {
   onScrubEnd?: () => void;

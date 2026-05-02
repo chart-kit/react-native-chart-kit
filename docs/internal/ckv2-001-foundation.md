@@ -21,7 +21,7 @@ Not changed:
 - current root package entrypoint
 - current `src/` chart implementation
 - current publish files
-- current Storybook visual harness
+- visual harness ownership, which was moved to the Expo showcase in a later slice
 - package manager choice
 
 ## Why This Shape

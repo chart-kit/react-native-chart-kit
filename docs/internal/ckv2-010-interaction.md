@@ -17,7 +17,7 @@ Added:
 - nearest-x hit testing
 - plot-bounds touch gating with touch slop
 - selection event payload with index, x value, x label, selected position, series values, and raw row
-- Storybook `Tap and scrub` example
+- Expo showcase `Tap and scrub` example
 - unit tests for interaction config, bounds checks, nearest-index mapping, and select-event payloads
 
 ## Design Choices

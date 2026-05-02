@@ -2,7 +2,7 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ES2022"],
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "allowSyntheticDefaultImports": true,
@@ -14,7 +14,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": false,
-    "types": ["react", "react-native"],
+    "types": ["node", "react", "react-native"],
     "baseUrl": "../..",
     "paths": {
       "@chart-kit/core": ["packages/core/src/index.ts"],
@@ -23,5 +23,5 @@
       "@chart-kit/svg-renderer": ["packages/svg-renderer/src/index.ts"]
     }
   },
-  "include": ["App.tsx", "src/**/*", "../showcase-web/src/**/*"]
+  "include": ["App.tsx", "src/**/*", "visual/**/*", "playwright.config.ts"]
 }
