@@ -77,7 +77,7 @@ export default function App() {
           testID="visual-frame"
           style={[styles.visualFrame, { width: previewWidth }]}
         >
-          <StoryComponent width={previewWidth - 24} />
+          <StoryComponent width={previewWidth - 24} isVisualMode />
         </View>
       </View>
     );

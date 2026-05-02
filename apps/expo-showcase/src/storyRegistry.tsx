@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useMemo, useState } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import {
   BarChart as CompatBarChart,
@@ -25,6 +25,7 @@ import {
 } from "./fixtures/v2Line";
 
 export type NativeStoryProps = {
+  isVisualMode?: boolean;
   onScrubEnd?: () => void;
   onScrubStart?: () => void;
   width: number;
@@ -461,6 +462,162 @@ const V2AreaFill = ({ width }: NativeStoryProps) => (
   </ChartCard>
 );
 
+type AnimatedPreviewPoint = {
+  month: string;
+  actual: number;
+  forecast: number;
+};
+
+const animationStartData: AnimatedPreviewPoint[] = [
+  { month: "Jan", actual: 22, forecast: 20 },
+  { month: "Feb", actual: 23, forecast: 22 },
+  { month: "Mar", actual: 24, forecast: 23 },
+  { month: "Apr", actual: 25, forecast: 24 },
+  { month: "May", actual: 27, forecast: 25 },
+  { month: "Jun", actual: 28, forecast: 27 },
+  { month: "Jul", actual: 29, forecast: 28 }
+];
+
+const animationEndData: AnimatedPreviewPoint[] = [
+  { month: "Jan", actual: 22, forecast: 20 },
+  { month: "Feb", actual: 31, forecast: 26 },
+  { month: "Mar", actual: 28, forecast: 31 },
+  { month: "Apr", actual: 47, forecast: 38 },
+  { month: "May", actual: 53, forecast: 44 },
+  { month: "Jun", actual: 62, forecast: 51 },
+  { month: "Jul", actual: 76, forecast: 57 }
+];
+
+const easeOutCubic = (value: number) => 1 - Math.pow(1 - value, 3);
+
+const interpolate = (from: number, to: number, progress: number) =>
+  from + (to - from) * progress;
+
+const useAnimatedPreviewData = (isVisualMode?: boolean) => {
+  const [progress, setProgress] = useState(isVisualMode ? 1 : 0);
+  const [runId, setRunId] = useState(0);
+
+  useEffect(() => {
+    if (isVisualMode) {
+      return;
+    }
+
+    let frameId = 0;
+    let startTime: number | undefined;
+
+    const tick = (timestamp: number) => {
+      startTime ??= timestamp;
+
+      const elapsed = timestamp - startTime;
+      const nextProgress = Math.min(elapsed / 1500, 1);
+      setProgress(easeOutCubic(nextProgress));
+
+      if (nextProgress < 1) {
+        frameId = requestAnimationFrame(tick);
+      }
+    };
+
+    frameId = requestAnimationFrame(tick);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+    };
+  }, [isVisualMode, runId]);
+
+  const data = useMemo(
+    () =>
+      animationEndData.map((target, index) => {
+        const start = animationStartData[index];
+        const delay = index * 0.045;
+        const localProgress = Math.max(
+          0,
+          Math.min(1, (progress - delay) / (1 - delay))
+        );
+
+        return {
+          month: target.month,
+          actual: interpolate(start.actual, target.actual, localProgress),
+          forecast: interpolate(start.forecast, target.forecast, localProgress)
+        };
+      }),
+    [progress]
+  );
+
+  return {
+    data,
+    replay: () => setRunId((currentRunId) => currentRunId + 1),
+    selectedIndex: Math.min(
+      data.length - 1,
+      Math.max(0, Math.round(progress * (data.length - 1)))
+    )
+  };
+};
+
+const V2ProAnimation = ({ isVisualMode, width }: NativeStoryProps) => {
+  const { data, replay, selectedIndex } = useAnimatedPreviewData(isVisualMode);
+
+  return (
+    <ChartCard title="Portfolio growth" kicker="Pro animation preview" isDark>
+      <LineChart
+        data={data}
+        xKey="month"
+        width={width}
+        height={248}
+        theme="dark"
+        curve="monotone"
+        area
+        showDots={false}
+        selectedIndex={selectedIndex}
+        yDomain={[0, "dataMax"]}
+        crosshair={{
+          color: "#38bdf8",
+          opacity: 0.8,
+          strokeDasharray: [4, 4]
+        }}
+        tooltip={{
+          width: 142,
+          backgroundColor: "#020617",
+          borderColor: "#38bdf8",
+          labelColor: "#bae6fd",
+          textColor: "#f8fafc"
+        }}
+        activeDot={{
+          radius: 5.5,
+          fill: "background",
+          strokeWidth: 2.5
+        }}
+        formatYLabel={(value) => `$${Math.round(value)}k`}
+        series={[
+          {
+            yKey: "actual",
+            label: "Portfolio",
+            color: "#38bdf8",
+            strokeWidth: 3
+          },
+          {
+            yKey: "forecast",
+            label: "Benchmark",
+            color: "#a78bfa",
+            strokeWidth: 2
+          }
+        ]}
+      />
+      {isVisualMode ? null : (
+        <Pressable
+          accessibilityRole="button"
+          onPress={replay}
+          style={({ pressed }) => [
+            styles.replayButton,
+            pressed && styles.replayButtonPressed
+          ]}
+        >
+          <Text style={styles.replayButtonText}>Replay</Text>
+        </Pressable>
+      )}
+    </ChartCard>
+  );
+};
+
 const V2DenseLabels = ({ width }: NativeStoryProps) => (
   <ChartCard title="Weekly trend" kicker="Dense labels">
     <LineChart
@@ -739,6 +896,11 @@ export const storySections: ShowcaseSection[] = [
       },
       { id: "v2-area", title: "Area Fill", Component: V2AreaFill },
       {
+        id: "v2-pro-animation",
+        title: "Pro Animation",
+        Component: V2ProAnimation
+      },
+      {
         id: "v2-dense-labels",
         title: "Dense Labels",
         Component: V2DenseLabels
@@ -962,5 +1124,26 @@ const styles = StyleSheet.create({
     color: "#64748b",
     fontSize: 14,
     textAlign: "center"
+  },
+  replayButton: {
+    alignItems: "center",
+    alignSelf: "center",
+    backgroundColor: "#e0f2fe",
+    borderColor: "#7dd3fc",
+    borderRadius: 8,
+    borderWidth: 1,
+    height: 34,
+    justifyContent: "center",
+    marginTop: 10,
+    minWidth: 88,
+    paddingHorizontal: 14
+  },
+  replayButtonPressed: {
+    opacity: 0.72
+  },
+  replayButtonText: {
+    color: "#075985",
+    fontSize: 13,
+    fontWeight: "800"
   }
 });

@@ -11,6 +11,7 @@ export const chartStories = [
   "v2-while-active",
   "v2-null-gaps",
   "v2-area",
+  "v2-pro-animation",
   "v2-dense-labels",
   "v2-rotated-labels",
   "v2-six-labels",
