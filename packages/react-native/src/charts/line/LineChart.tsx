@@ -1738,6 +1738,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
         onStartShouldSetResponder: () => true,
         onMoveShouldSetResponder: (event: GestureResponderEvent) =>
           interactionConfig.mode === "scrub" && isResponderEventInPlot(event),
+        onResponderTerminationRequest: () => interactionConfig.mode !== "scrub",
         onResponderGrant: handleResponderGrant,
         onResponderMove: handleResponderMove,
         onResponderRelease: handleResponderEnd,

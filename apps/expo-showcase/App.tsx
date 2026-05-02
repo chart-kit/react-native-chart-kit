@@ -19,6 +19,7 @@ export default function App() {
   const { width } = useWindowDimensions();
   const [selectedStory, setSelectedStory] =
     useState<ShowcaseStory>(initialStory);
+  const [isScrubbing, setIsScrubbing] = useState(false);
 
   const selectedSection = useMemo(
     () =>
@@ -30,6 +31,10 @@ export default function App() {
 
   const previewWidth = Math.max(280, Math.min(width - 40, 430));
   const StoryComponent = selectedStory.Component;
+  const selectStory = (story: ShowcaseStory) => {
+    setIsScrubbing(false);
+    setSelectedStory(story);
+  };
 
   return (
     <View style={styles.safeArea}>
@@ -59,7 +64,7 @@ export default function App() {
                 key={section.id}
                 accessibilityRole="button"
                 accessibilityState={{ selected: isSelected }}
-                onPress={() => setSelectedStory(section.stories[0])}
+                onPress={() => selectStory(section.stories[0])}
                 style={({ pressed }) => [
                   styles.sectionTab,
                   isSelected && styles.sectionTabSelected,
@@ -94,7 +99,7 @@ export default function App() {
                   key={story.id}
                   accessibilityRole="button"
                   accessibilityState={{ selected: isSelected }}
-                  onPress={() => setSelectedStory(story)}
+                  onPress={() => selectStory(story)}
                   style={({ pressed }) => [
                     styles.storyButton,
                     isSelected && styles.storyButtonSelected,
@@ -118,10 +123,15 @@ export default function App() {
         <ScrollView
           style={styles.previewScroll}
           contentContainerStyle={styles.previewContent}
+          scrollEnabled={!isScrubbing}
           showsVerticalScrollIndicator
         >
           <View style={[styles.previewWidth, { width: previewWidth }]}>
-            <StoryComponent width={previewWidth - 24} />
+            <StoryComponent
+              width={previewWidth - 24}
+              onScrubStart={() => setIsScrubbing(true)}
+              onScrubEnd={() => setIsScrubbing(false)}
+            />
           </View>
         </ScrollView>
       </View>

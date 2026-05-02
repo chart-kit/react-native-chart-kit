@@ -28,6 +28,8 @@ import {
 } from "../../showcase-web/src/charts/bar/fixtures";
 
 export type NativeStoryProps = {
+  onScrubEnd?: () => void;
+  onScrubStart?: () => void;
   width: number;
 };
 
@@ -339,7 +341,11 @@ const V2SelectedTooltip = ({ width }: NativeStoryProps) => (
   </ChartCard>
 );
 
-const V2ScrubInteraction = ({ width }: NativeStoryProps) => (
+const V2ScrubInteraction = ({
+  onScrubEnd,
+  onScrubStart,
+  width
+}: NativeStoryProps) => (
   <ChartCard title="Tap and scrub" kicker="Persistent selection">
     <LineChart
       data={multiSeriesRevenue}
@@ -352,7 +358,9 @@ const V2ScrubInteraction = ({ width }: NativeStoryProps) => (
       interaction={{
         mode: "scrub",
         selectionPersistence: "persist",
-        deselectOnOutsidePress: true
+        deselectOnOutsidePress: true,
+        onGestureEnd: onScrubEnd,
+        onGestureStart: onScrubStart
       }}
       crosshair={{
         strokeDasharray: [4, 4]
@@ -378,7 +386,11 @@ const V2ScrubInteraction = ({ width }: NativeStoryProps) => (
   </ChartCard>
 );
 
-const V2WhileActiveScrub = ({ width }: NativeStoryProps) => (
+const V2WhileActiveScrub = ({
+  onScrubEnd,
+  onScrubStart,
+  width
+}: NativeStoryProps) => (
   <ChartCard title="Hold to inspect" kicker="While-active selection">
     <LineChart
       data={multiSeriesRevenue}
@@ -390,7 +402,9 @@ const V2WhileActiveScrub = ({ width }: NativeStoryProps) => (
       interaction={{
         mode: "scrub",
         selectionPersistence: "whileActive",
-        deselectOnOutsidePress: true
+        deselectOnOutsidePress: true,
+        onGestureEnd: onScrubEnd,
+        onGestureStart: onScrubStart
       }}
       crosshair={{
         strokeDasharray: [4, 4]
