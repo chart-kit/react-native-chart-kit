@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import {
   resolveChartViewport,
-  resolveChartViewportInitialOffset
+  resolveChartViewportInitialOffset,
+  resolveChartViewportWindow,
+  sliceChartViewportData
 } from "../src";
 
 describe("chart viewport", () => {
@@ -88,5 +90,77 @@ describe("chart viewport", () => {
     expect(
       resolveChartViewportInitialOffset({ initialIndex: 99, viewport })
     ).toBe(840);
+  });
+
+  it("resolves visible windows from visible point count", () => {
+    expect(
+      resolveChartViewportWindow({
+        itemCount: 52,
+        visiblePoints: 12,
+        initialIndex: "end"
+      })
+    ).toEqual({
+      endIndex: 52,
+      isWindowed: true,
+      itemCount: 52,
+      startIndex: 40,
+      visibleCount: 12
+    });
+    expect(
+      resolveChartViewportWindow({
+        itemCount: 52,
+        visiblePoints: 12,
+        initialIndex: 8
+      })
+    ).toMatchObject({
+      endIndex: 20,
+      startIndex: 8,
+      visibleCount: 12
+    });
+  });
+
+  it("resolves explicit visible windows with clamped indexes", () => {
+    expect(
+      resolveChartViewportWindow({
+        itemCount: 20,
+        startIndex: 16,
+        endIndex: 50
+      })
+    ).toEqual({
+      endIndex: 20,
+      isWindowed: true,
+      itemCount: 20,
+      startIndex: 16,
+      visibleCount: 4
+    });
+  });
+
+  it("does not window when visible points cover all data", () => {
+    expect(
+      resolveChartViewportWindow({
+        itemCount: 8,
+        visiblePoints: 20
+      })
+    ).toEqual({
+      endIndex: 8,
+      isWindowed: false,
+      itemCount: 8,
+      startIndex: 0,
+      visibleCount: 8
+    });
+  });
+
+  it("slices data with a resolved visible window", () => {
+    const window = resolveChartViewportWindow({
+      itemCount: 5,
+      startIndex: 1,
+      endIndex: 4
+    });
+
+    expect(sliceChartViewportData(["a", "b", "c", "d", "e"], window)).toEqual([
+      "b",
+      "c",
+      "d"
+    ]);
   });
 });

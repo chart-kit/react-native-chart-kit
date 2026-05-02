@@ -606,6 +606,55 @@ const V2ScrollableStockComparison = ({
   );
 };
 
+const V2RangeSelectorOverview = ({ width }: NativeStoryProps) => (
+  <ChartCard title="Portfolio range" kicker="Overview window">
+    <LineChart
+      data={msftVsGoogHistory}
+      xKey="date"
+      width={width}
+      height={314}
+      viewport={{
+        visiblePoints: 18,
+        initialIndex: "end"
+      }}
+      rangeSelector={{
+        height: 54,
+        gap: 10,
+        windowFill: "#2563EB",
+        windowStroke: "#2563EB",
+        windowOpacity: 0.11
+      }}
+      curve="monotone"
+      showDots={false}
+      showHorizontalGridLines
+      yDomain={{ min: "dataMin", max: "dataMax", nice: true }}
+      formatXLabel={(value) =>
+        value instanceof Date
+          ? value.toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric"
+            })
+          : String(value)
+      }
+      formatYLabel={(value) => `$${Math.round(value)}`}
+      series={[
+        {
+          yKey: "msft",
+          label: "MSFT",
+          color: "#2563EB",
+          strokeWidth: 3
+        },
+        {
+          yKey: "goog",
+          label: "GOOG",
+          color: "#16A34A",
+          strokeWidth: 2.5
+        }
+      ]}
+    />
+  </ChartCard>
+);
+
 type AnimatedPreviewPoint = {
   month: string;
   actual: number;
@@ -1042,6 +1091,11 @@ export const storySections: ShowcaseSection[] = [
         Component: V2ScrollableStockComparison
       },
       {
+        id: "v2-range-selector",
+        title: "Range Selector",
+        Component: V2RangeSelectorOverview
+      },
+      {
         id: "v2-pro-animation",
         title: "Pro Animation",
         Component: V2ProAnimation
@@ -1236,6 +1290,7 @@ export const showcaseModes: ShowcaseMode[] = [
         storyIds: [
           "v2-scrollable-price",
           "v2-scrollable-stock-comparison",
+          "v2-range-selector",
           "v2-pro-animation",
           "v2-area",
           "v2-selected-tooltip"
@@ -1272,6 +1327,7 @@ export const showcaseModes: ShowcaseMode[] = [
           "v2-area",
           "v2-scrollable-price",
           "v2-scrollable-stock-comparison",
+          "v2-range-selector",
           "v2-pro-animation"
         ]
       },
@@ -1349,6 +1405,7 @@ export const showcaseModes: ShowcaseMode[] = [
           "v2-pro-animation",
           "v2-scrollable-price",
           "v2-scrollable-stock-comparison",
+          "v2-range-selector",
           "v2-dot-styles",
           "v2-scrub",
           "v2-while-active"
@@ -1449,6 +1506,7 @@ export const storyFeatureTags: Record<string, string[]> = {
     "scrub tooltip",
     "marker styles"
   ],
+  "v2-range-selector": ["viewport", "overview", "range selector"],
   "v2-pro-animation": ["animated data", "fixed domain", "dark theme"],
   "v2-dense-labels": ["dense labels", "auto strategy", "linear curve"],
   "v2-rotated-labels": ["rotated labels", "edge fit", "long range"],

@@ -21,7 +21,9 @@ import {
   normalizeCartesianData,
   resolveChartViewport,
   resolveChartViewportInitialOffset,
+  resolveChartViewportWindow,
   resolveNumericDomain,
+  sliceChartViewportData,
   solveChartBoxes,
   solveLabelCollision,
   type ChartViewportInitialIndex
@@ -161,6 +163,23 @@ export type LineChartResolvedLabelStrategy = Exclude<
 export type LineChartEdgeLabelPolicy = "shift" | "hide" | "show";
 export type LineChartInitialIndex = ChartViewportInitialIndex;
 
+export type LineChartViewportConfig = {
+  startIndex?: number;
+  endIndex?: number;
+  visiblePoints?: number;
+  initialIndex?: ChartViewportInitialIndex;
+};
+
+export type LineChartRangeSelectorConfig = {
+  visible?: boolean;
+  height?: number;
+  gap?: number;
+  windowFill?: string;
+  windowOpacity?: number;
+  windowStroke?: string;
+  lineOpacity?: number;
+};
+
 export type LineChartLegendRenderItem = {
   index: number;
   key: string;
@@ -248,6 +267,8 @@ export type LineChartProps<TData extends Record<string, unknown>> = {
   scrollable?: boolean;
   visiblePoints?: number;
   initialIndex?: ChartViewportInitialIndex;
+  viewport?: LineChartViewportConfig;
+  rangeSelector?: boolean | LineChartRangeSelectorConfig;
   curve?: LineCurve;
   connectNulls?: boolean;
   area?: boolean;
@@ -320,6 +341,26 @@ const getLegendConfig = (
     fontFamily: config.fontFamily ?? theme.typography.fontFamily,
     renderItem: config.renderItem,
     renderLegend: config.renderLegend
+  };
+};
+
+const getRangeSelectorConfig = (
+  rangeSelector: LineChartProps<Record<string, unknown>>["rangeSelector"]
+) => {
+  const config = typeof rangeSelector === "object" ? rangeSelector : {};
+  const visible =
+    typeof rangeSelector === "boolean"
+      ? rangeSelector
+      : rangeSelector !== undefined && config.visible !== false;
+
+  return {
+    visible,
+    height: config.height ?? 54,
+    gap: config.gap ?? 10,
+    windowFill: config.windowFill,
+    windowOpacity: config.windowOpacity ?? 0.1,
+    windowStroke: config.windowStroke,
+    lineOpacity: config.lineOpacity ?? 0.62
   };
 };
 
@@ -1679,15 +1720,48 @@ export const LineChart = <TData extends Record<string, unknown>>(
     number | undefined
   >(() => normalizeLineChartSelectedIndex(props.defaultSelectedIndex));
   const effectiveSelectedIndex = props.selectedIndex ?? gestureSelectedIndex;
+  const rangeSelectorConfig = useMemo(
+    () => getRangeSelectorConfig(props.rangeSelector),
+    [props.rangeSelector]
+  );
+  const viewportWindow = useMemo(
+    () =>
+      resolveChartViewportWindow({
+        itemCount: props.data.length,
+        startIndex: props.viewport?.startIndex,
+        endIndex: props.viewport?.endIndex,
+        visiblePoints: props.viewport?.visiblePoints,
+        initialIndex: props.viewport?.initialIndex
+      }),
+    [
+      props.data.length,
+      props.viewport?.endIndex,
+      props.viewport?.initialIndex,
+      props.viewport?.startIndex,
+      props.viewport?.visiblePoints
+    ]
+  );
+  const mainData = useMemo(
+    () => sliceChartViewportData(props.data, viewportWindow),
+    [props.data, viewportWindow]
+  );
+  const isRangeSelectorVisible =
+    rangeSelectorConfig.visible && viewportWindow.isWindowed;
+  const mainHeight = isRangeSelectorVisible
+    ? Math.max(
+        120,
+        props.height - rangeSelectorConfig.height - rangeSelectorConfig.gap
+      )
+    : props.height;
   const viewport = useMemo(
     () =>
       resolveChartViewport({
-        itemCount: props.data.length,
+        itemCount: mainData.length,
         scrollable: props.scrollable,
         viewportWidth: props.width,
         visiblePoints: props.visiblePoints
       }),
-    [props.data.length, props.scrollable, props.visiblePoints, props.width]
+    [mainData.length, props.scrollable, props.visiblePoints, props.width]
   );
   const initialScrollOffset = useMemo(
     () =>
@@ -1701,11 +1775,45 @@ export const LineChart = <TData extends Record<string, unknown>>(
     effectiveSelectedIndex !== undefined
       ? {
           ...props,
+          data: mainData,
+          height: mainHeight,
           width: viewport.contentWidth,
           selectedIndex: effectiveSelectedIndex
         }
-      : { ...props, width: viewport.contentWidth };
+      : {
+          ...props,
+          data: mainData,
+          height: mainHeight,
+          width: viewport.contentWidth
+        };
   const model = useChartModel({ ...chartProps, chartKitTheme });
+  const {
+    activeDot: _overviewActiveDot,
+    crosshair: _overviewCrosshair,
+    defaultSelectedIndex: _overviewDefaultSelectedIndex,
+    initialIndex: _overviewInitialIndex,
+    interaction: _overviewInteraction,
+    legend: _overviewLegend,
+    rangeSelector: _overviewRangeSelector,
+    selectedIndex: _overviewSelectedIndex,
+    scrollable: _overviewScrollable,
+    tooltip: _overviewTooltip,
+    viewport: _overviewViewport,
+    visiblePoints: _overviewVisiblePoints,
+    ...overviewBaseProps
+  } = props;
+  const overviewModel = useChartModel({
+    ...overviewBaseProps,
+    activeDot: false,
+    chartKitTheme,
+    crosshair: false,
+    height: rangeSelectorConfig.height,
+    labelStrategy: "hide",
+    legend: false,
+    showDots: false,
+    tooltip: false,
+    width: props.width
+  });
   const {
     boxes,
     geometries,
@@ -1916,7 +2024,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
           {
             key: "bottom",
             height:
-              props.height -
+              mainHeight -
               (visibleInteractionBounds.y + visibleInteractionBounds.height),
             left: 0,
             top: visibleInteractionBounds.y + visibleInteractionBounds.height,
@@ -1927,7 +2035,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
   const animatedTooltip = useAnimatedTooltipModel(selectionModel?.tooltip);
   const chartWidth = viewport.contentWidth;
   const xAxisLabelFadeY = boxes.plot.y + boxes.plot.height;
-  const xAxisLabelFadeHeight = Math.max(0, props.height - xAxisLabelFadeY);
+  const xAxisLabelFadeHeight = Math.max(0, mainHeight - xAxisLabelFadeY);
   const scrollStartFadeWidth = Math.min(
     12,
     Math.max(0, props.width - boxes.plot.x)
@@ -1935,17 +2043,14 @@ export const LineChart = <TData extends Record<string, unknown>>(
   const scrollStartFadeId = `${chartId}-scroll-start-fade`;
 
   const chartSurface = (
-    <View
-      style={{ width: chartWidth, height: props.height }}
-      {...responderProps}
-    >
-      <SvgSurface width={chartWidth} height={props.height}>
+    <View style={{ width: chartWidth, height: mainHeight }} {...responderProps}>
+      <SvgSurface width={chartWidth} height={mainHeight}>
         <SvgLayer name="background">
           <SvgRect
             x={0}
             y={0}
             width={chartWidth}
-            height={props.height}
+            height={mainHeight}
             rx={8}
             fill={resolvedTheme.background}
           />
@@ -2168,9 +2273,9 @@ export const LineChart = <TData extends Record<string, unknown>>(
   const stickyYAxis = viewport.scrollable ? (
     <View
       pointerEvents="none"
-      style={[styles.stickyYAxis, { width: props.width, height: props.height }]}
+      style={[styles.stickyYAxis, { width: props.width, height: mainHeight }]}
     >
-      <SvgSurface width={props.width} height={props.height}>
+      <SvgSurface width={props.width} height={mainHeight}>
         <SvgDefs>
           <SvgLinearGradientDef
             id={scrollStartFadeId}
@@ -2189,7 +2294,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
             x={0}
             y={0}
             width={boxes.plot.x}
-            height={props.height}
+            height={mainHeight}
             fill={resolvedTheme.background}
           />
           {scrollStartFadeWidth > 0 ? (
@@ -2224,48 +2329,132 @@ export const LineChart = <TData extends Record<string, unknown>>(
       </SvgSurface>
     </View>
   ) : null;
+  const rangeStartPoint = overviewModel.interactionPoints.find(
+    (point) => point.dataIndex === viewportWindow.startIndex
+  );
+  const rangeEndPoint = overviewModel.interactionPoints.find(
+    (point) => point.dataIndex === Math.max(0, viewportWindow.endIndex - 1)
+  );
+  const rangeSelectorWindowX = rangeStartPoint?.x ?? overviewModel.boxes.plot.x;
+  const rangeSelectorWindowEndX =
+    rangeEndPoint?.x ??
+    overviewModel.boxes.plot.x + overviewModel.boxes.plot.width;
+  const rangeSelectorWindowWidth = Math.max(
+    10,
+    rangeSelectorWindowEndX - rangeSelectorWindowX
+  );
+  const rangeSelectorElement = isRangeSelectorVisible ? (
+    <View
+      pointerEvents="none"
+      style={[
+        styles.rangeSelector,
+        {
+          height: rangeSelectorConfig.height,
+          marginTop: rangeSelectorConfig.gap,
+          width: props.width
+        }
+      ]}
+    >
+      <SvgSurface width={props.width} height={rangeSelectorConfig.height}>
+        <SvgLayer name="background">
+          <SvgRect
+            x={0}
+            y={0}
+            width={props.width}
+            height={rangeSelectorConfig.height}
+            rx={8}
+            fill={overviewModel.resolvedTheme.background}
+          />
+          <SvgRect
+            x={overviewModel.boxes.plot.x}
+            y={overviewModel.boxes.plot.y}
+            width={overviewModel.boxes.plot.width}
+            height={overviewModel.boxes.plot.height}
+            rx={6}
+            fill={overviewModel.resolvedTheme.plotBackground}
+          />
+        </SvgLayer>
+        <SvgLayer name="data">
+          {overviewModel.geometries.map(({ geometry, style }) => (
+            <SvgPath
+              key={`range-line-${geometry.key}`}
+              d={geometry.line.path}
+              fill="none"
+              stroke={style.color}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeOpacity={rangeSelectorConfig.lineOpacity}
+              strokeWidth={Math.max(1.5, style.strokeWidth * 0.62)}
+            />
+          ))}
+        </SvgLayer>
+        <SvgLayer name="overlays">
+          <SvgRect
+            x={rangeSelectorWindowX}
+            y={overviewModel.boxes.plot.y}
+            width={rangeSelectorWindowWidth}
+            height={overviewModel.boxes.plot.height}
+            rx={6}
+            fill={
+              rangeSelectorConfig.windowFill ?? overviewModel.resolvedTheme.axis
+            }
+            opacity={rangeSelectorConfig.windowOpacity}
+            stroke={
+              rangeSelectorConfig.windowStroke ??
+              overviewModel.resolvedTheme.axis
+            }
+            strokeOpacity={0.42}
+            strokeWidth={1}
+          />
+        </SvgLayer>
+      </SvgSurface>
+    </View>
+  ) : null;
 
   return (
     <View
       testID={props.testID}
       style={[styles.container, { width: props.width, height: props.height }]}
     >
-      {viewport.scrollable ? (
-        <ScrollView
-          ref={scrollViewRef}
-          horizontal
-          bounces={false}
-          showsHorizontalScrollIndicator
-          style={[
-            styles.scroller,
-            { width: props.width, height: props.height }
-          ]}
-          contentContainerStyle={[
-            styles.scrollerContent,
-            { width: chartWidth, height: props.height }
-          ]}
-        >
-          {chartSurface}
-        </ScrollView>
-      ) : (
-        chartSurface
-      )}
-      {stickyYAxis}
-      {outsidePressSurfaces.map((surface) => (
-        <View
-          key={`outside-press-${surface.key}`}
-          style={[
-            styles.outsidePressSurface,
-            {
-              height: surface.height,
-              left: surface.left,
-              top: surface.top,
-              width: surface.width
-            }
-          ]}
-          {...outsidePressSurfaceResponderProps}
-        />
-      ))}
+      <View style={{ width: props.width, height: mainHeight }}>
+        {viewport.scrollable ? (
+          <ScrollView
+            ref={scrollViewRef}
+            horizontal
+            bounces={false}
+            showsHorizontalScrollIndicator
+            style={[
+              styles.scroller,
+              { width: props.width, height: mainHeight }
+            ]}
+            contentContainerStyle={[
+              styles.scrollerContent,
+              { width: chartWidth, height: mainHeight }
+            ]}
+          >
+            {chartSurface}
+          </ScrollView>
+        ) : (
+          chartSurface
+        )}
+        {stickyYAxis}
+        {outsidePressSurfaces.map((surface) => (
+          <View
+            key={`outside-press-${surface.key}`}
+            style={[
+              styles.outsidePressSurface,
+              {
+                height: surface.height,
+                left: surface.left,
+                top: surface.top,
+                width: surface.width
+              }
+            ]}
+            {...outsidePressSurfaceResponderProps}
+          />
+        ))}
+      </View>
+      {rangeSelectorElement}
     </View>
   );
 };
@@ -2292,5 +2481,8 @@ const styles = StyleSheet.create({
   },
   outsidePressSurface: {
     position: "absolute"
+  },
+  rangeSelector: {
+    overflow: "hidden"
   }
 });

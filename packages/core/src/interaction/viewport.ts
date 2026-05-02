@@ -17,6 +17,22 @@ export type ResolvedChartViewport = {
   visiblePoints: number;
 };
 
+export type ResolveChartViewportWindowOptions = {
+  endIndex?: number | undefined;
+  initialIndex?: ChartViewportInitialIndex | undefined;
+  itemCount: number;
+  startIndex?: number | undefined;
+  visiblePoints?: number | undefined;
+};
+
+export type ResolvedChartViewportWindow = {
+  endIndex: number;
+  isWindowed: boolean;
+  itemCount: number;
+  startIndex: number;
+  visibleCount: number;
+};
+
 const minVisiblePoints = 2;
 
 const clamp = (value: number, min: number, max: number) => {
@@ -101,3 +117,86 @@ export const resolveChartViewportInitialOffset = ({
 
   return clamp(index * viewport.pointSpacing, 0, viewport.maxOffset);
 };
+
+export const resolveChartViewportWindow = ({
+  endIndex,
+  initialIndex = "start",
+  itemCount,
+  startIndex,
+  visiblePoints
+}: ResolveChartViewportWindowOptions): ResolvedChartViewportWindow => {
+  const safeItemCount = normalizePositiveInteger(itemCount, 0, 0);
+
+  if (safeItemCount === 0) {
+    return {
+      endIndex: 0,
+      isWindowed: false,
+      itemCount: 0,
+      startIndex: 0,
+      visibleCount: 0
+    };
+  }
+
+  if (startIndex !== undefined || endIndex !== undefined) {
+    const normalizedStartIndex = clamp(
+      normalizePositiveInteger(startIndex, 0, 0),
+      0,
+      safeItemCount - 1
+    );
+    const normalizedEndIndex = clamp(
+      normalizePositiveInteger(endIndex, safeItemCount, 0),
+      normalizedStartIndex + 1,
+      safeItemCount
+    );
+
+    return {
+      endIndex: normalizedEndIndex,
+      isWindowed:
+        normalizedStartIndex > 0 || normalizedEndIndex < safeItemCount,
+      itemCount: safeItemCount,
+      startIndex: normalizedStartIndex,
+      visibleCount: normalizedEndIndex - normalizedStartIndex
+    };
+  }
+
+  const normalizedVisiblePoints = clamp(
+    normalizePositiveInteger(visiblePoints, safeItemCount),
+    minVisiblePoints,
+    safeItemCount
+  );
+
+  if (normalizedVisiblePoints >= safeItemCount) {
+    return {
+      endIndex: safeItemCount,
+      isWindowed: false,
+      itemCount: safeItemCount,
+      startIndex: 0,
+      visibleCount: safeItemCount
+    };
+  }
+
+  const startFromInitialIndex =
+    initialIndex === "end"
+      ? safeItemCount - normalizedVisiblePoints
+      : typeof initialIndex === "number" && Number.isFinite(initialIndex)
+        ? Math.floor(initialIndex)
+        : 0;
+  const normalizedStartIndex = clamp(
+    startFromInitialIndex,
+    0,
+    safeItemCount - normalizedVisiblePoints
+  );
+
+  return {
+    endIndex: normalizedStartIndex + normalizedVisiblePoints,
+    isWindowed: true,
+    itemCount: safeItemCount,
+    startIndex: normalizedStartIndex,
+    visibleCount: normalizedVisiblePoints
+  };
+};
+
+export const sliceChartViewportData = <TData>(
+  data: readonly TData[],
+  window: ResolvedChartViewportWindow
+) => data.slice(window.startIndex, window.endIndex);

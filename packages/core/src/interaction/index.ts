@@ -1,9 +1,13 @@
 export {
   resolveChartViewport,
-  resolveChartViewportInitialOffset
+  resolveChartViewportInitialOffset,
+  resolveChartViewportWindow,
+  sliceChartViewportData
 } from "./viewport";
 export type {
   ChartViewportInitialIndex,
+  ResolvedChartViewportWindow,
   ResolvedChartViewport,
-  ResolveChartViewportOptions
+  ResolveChartViewportOptions,
+  ResolveChartViewportWindowOptions
 } from "./viewport";

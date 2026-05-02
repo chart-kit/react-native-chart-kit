@@ -14,6 +14,7 @@ export const chartStories = [
   "v2-scrollable-price",
   "v2-scrollable-dense",
   "v2-scrollable-stock-comparison",
+  "v2-range-selector",
   "v2-pro-animation",
   "v2-dense-labels",
   "v2-rotated-labels",
