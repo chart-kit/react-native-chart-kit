@@ -1759,18 +1759,6 @@ export const LineChart = <TData extends Record<string, unknown>>(
       }),
     [boxes.plot, props.width, viewport.scrollable]
   );
-  const isVisibleResponderEventInPlot = useCallback(
-    (event: GestureResponderEvent) => {
-      const { locationX, locationY } = event.nativeEvent;
-
-      return isLineChartInteractionInBounds({
-        bounds: visibleInteractionBounds,
-        locationX,
-        locationY
-      });
-    },
-    [visibleInteractionBounds]
-  );
   const clearGestureSelection = useCallback(
     (event: LineChartDeselectEvent) => {
       if (props.selectedIndex === undefined) {
@@ -1877,11 +1865,10 @@ export const LineChart = <TData extends Record<string, unknown>>(
 
     interactionConfig.onGestureEnd?.();
   }, [clearGestureSelection, interactionConfig]);
-  const outsidePressResponderProps =
+  const outsidePressSurfaceResponderProps =
     isInteractionEnabled && interactionConfig.deselectOnOutsidePress
       ? {
-          onStartShouldSetResponderCapture: (event: GestureResponderEvent) =>
-            !isVisibleResponderEventInPlot(event),
+          onStartShouldSetResponder: () => true,
           onResponderGrant: (event: GestureResponderEvent) => {
             preventBrowserSelection(event);
             clearGestureSelection({ reason: "outsidePress" });
@@ -1900,6 +1887,43 @@ export const LineChart = <TData extends Record<string, unknown>>(
         onResponderTerminate: handleResponderEnd
       }
     : {};
+  const outsidePressSurfaces =
+    isInteractionEnabled && interactionConfig.deselectOnOutsidePress
+      ? [
+          {
+            key: "top",
+            height: visibleInteractionBounds.y,
+            left: 0,
+            top: 0,
+            width: props.width
+          },
+          {
+            key: "left",
+            height: visibleInteractionBounds.height,
+            left: 0,
+            top: visibleInteractionBounds.y,
+            width: visibleInteractionBounds.x
+          },
+          {
+            key: "right",
+            height: visibleInteractionBounds.height,
+            left: visibleInteractionBounds.x + visibleInteractionBounds.width,
+            top: visibleInteractionBounds.y,
+            width:
+              props.width -
+              (visibleInteractionBounds.x + visibleInteractionBounds.width)
+          },
+          {
+            key: "bottom",
+            height:
+              props.height -
+              (visibleInteractionBounds.y + visibleInteractionBounds.height),
+            left: 0,
+            top: visibleInteractionBounds.y + visibleInteractionBounds.height,
+            width: props.width
+          }
+        ].filter((surface) => surface.width > 0 && surface.height > 0)
+      : [];
   const animatedTooltip = useAnimatedTooltipModel(selectionModel?.tooltip);
   const chartWidth = viewport.contentWidth;
   const xAxisLabelFadeY = boxes.plot.y + boxes.plot.height;
@@ -2205,7 +2229,6 @@ export const LineChart = <TData extends Record<string, unknown>>(
     <View
       testID={props.testID}
       style={[styles.container, { width: props.width, height: props.height }]}
-      {...outsidePressResponderProps}
     >
       {viewport.scrollable ? (
         <ScrollView
@@ -2228,6 +2251,21 @@ export const LineChart = <TData extends Record<string, unknown>>(
         chartSurface
       )}
       {stickyYAxis}
+      {outsidePressSurfaces.map((surface) => (
+        <View
+          key={`outside-press-${surface.key}`}
+          style={[
+            styles.outsidePressSurface,
+            {
+              height: surface.height,
+              left: surface.left,
+              top: surface.top,
+              width: surface.width
+            }
+          ]}
+          {...outsidePressSurfaceResponderProps}
+        />
+      ))}
     </View>
   );
 };
@@ -2251,5 +2289,8 @@ const styles = StyleSheet.create({
     left: 0,
     position: "absolute",
     top: 0
+  },
+  outsidePressSurface: {
+    position: "absolute"
   }
 });
