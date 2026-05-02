@@ -57,6 +57,7 @@ import {
   isLineChartInteractionInBounds,
   normalizeLineChartSelectedIndex,
   type LineChartInteraction,
+  type LineChartDeselectEvent,
   type LineChartInteractionPoint
 } from "./interaction";
 import {
@@ -74,6 +75,7 @@ export type {
   LineChartInteraction,
   LineChartInteractionConfig,
   LineChartInteractionMode,
+  LineChartDeselectEvent,
   LineChartSelectEvent
 } from "./interaction";
 
@@ -1624,6 +1626,16 @@ export const LineChart = <TData extends Record<string, unknown>>(
     },
     [boxes.plot]
   );
+  const clearGestureSelection = useCallback(
+    (event: LineChartDeselectEvent) => {
+      if (props.selectedIndex === undefined) {
+        setGestureSelectedIndex(undefined);
+      }
+
+      interactionConfig.onDeselect?.(event);
+    },
+    [interactionConfig, props.selectedIndex]
+  );
   const handleInteractionEvent = useCallback(
     (event: GestureResponderEvent) => {
       const { locationX } = event.nativeEvent;
@@ -1655,7 +1667,10 @@ export const LineChart = <TData extends Record<string, unknown>>(
         return;
       }
 
-      if (props.selectedIndex === undefined) {
+      if (
+        props.selectedIndex === undefined &&
+        interactionConfig.selectionPersistence !== "none"
+      ) {
         setGestureSelectedIndex(selectedDataIndex);
       }
 
@@ -1672,10 +1687,23 @@ export const LineChart = <TData extends Record<string, unknown>>(
   );
   const handleResponderGrant = useCallback(
     (event: GestureResponderEvent) => {
+      if (!isResponderEventInPlot(event)) {
+        if (interactionConfig.deselectOnOutsidePress) {
+          clearGestureSelection({ reason: "outsidePress" });
+        }
+
+        return;
+      }
+
       interactionConfig.onGestureStart?.();
       handleInteractionEvent(event);
     },
-    [handleInteractionEvent, interactionConfig]
+    [
+      clearGestureSelection,
+      handleInteractionEvent,
+      interactionConfig,
+      isResponderEventInPlot
+    ]
   );
   const handleResponderMove = useCallback(
     (event: GestureResponderEvent) => {
@@ -1686,12 +1714,15 @@ export const LineChart = <TData extends Record<string, unknown>>(
     [handleInteractionEvent, interactionConfig.mode]
   );
   const handleResponderEnd = useCallback(() => {
+    if (interactionConfig.selectionPersistence === "whileActive") {
+      clearGestureSelection({ reason: "gestureEnd" });
+    }
+
     interactionConfig.onGestureEnd?.();
-  }, [interactionConfig]);
+  }, [clearGestureSelection, interactionConfig]);
   const responderProps = isInteractionEnabled
     ? {
-        onStartShouldSetResponder: (event: GestureResponderEvent) =>
-          isResponderEventInPlot(event),
+        onStartShouldSetResponder: () => true,
         onMoveShouldSetResponder: (event: GestureResponderEvent) =>
           interactionConfig.mode === "scrub" && isResponderEventInPlot(event),
         onResponderGrant: handleResponderGrant,

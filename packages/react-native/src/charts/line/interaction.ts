@@ -6,6 +6,7 @@ import type {
 } from "./selection";
 
 export type LineChartInteractionMode = "none" | "tap" | "scrub";
+export type LineChartSelectionPersistence = "persist" | "whileActive" | "none";
 
 export type LineChartSelectSeriesItem<
   TPoint extends LineChartSelectablePoint = LineChartSelectablePoint
@@ -33,9 +34,16 @@ export type LineChartSelectEvent<
   raw?: TData;
 };
 
+export type LineChartDeselectEvent = {
+  reason: "outsidePress" | "gestureEnd" | "programmatic";
+};
+
 export type LineChartInteractionConfig<TData = unknown> = {
   mode?: LineChartInteractionMode;
+  selectionPersistence?: LineChartSelectionPersistence;
+  deselectOnOutsidePress?: boolean;
   onSelect?: (event: LineChartSelectEvent<TData>) => void;
+  onDeselect?: (event: LineChartDeselectEvent) => void;
   onGestureStart?: () => void;
   onGestureEnd?: () => void;
 };
@@ -46,7 +54,10 @@ export type LineChartInteraction<TData = unknown> =
 
 export type ResolvedLineChartInteractionConfig<TData = unknown> = {
   mode: LineChartInteractionMode;
+  selectionPersistence: LineChartSelectionPersistence;
+  deselectOnOutsidePress: boolean;
   onSelect?: (event: LineChartSelectEvent<TData>) => void;
+  onDeselect?: (event: LineChartDeselectEvent) => void;
   onGestureStart?: () => void;
   onGestureEnd?: () => void;
 };
@@ -78,16 +89,29 @@ export const getLineChartInteractionConfig = <TData>(
   interaction: LineChartInteraction<TData> | undefined
 ): ResolvedLineChartInteractionConfig<TData> => {
   if (!interaction) {
-    return { mode: "none" };
+    return {
+      mode: "none",
+      selectionPersistence: "persist",
+      deselectOnOutsidePress: false
+    };
   }
 
   if (typeof interaction === "string") {
-    return { mode: interaction };
+    return {
+      mode: interaction,
+      selectionPersistence: "persist",
+      deselectOnOutsidePress: true
+    };
   }
 
+  const mode = interaction.mode ?? "tap";
+
   return {
-    mode: interaction.mode ?? "tap",
+    mode,
+    selectionPersistence: interaction.selectionPersistence ?? "persist",
+    deselectOnOutsidePress: interaction.deselectOnOutsidePress ?? true,
     ...(interaction.onSelect ? { onSelect: interaction.onSelect } : {}),
+    ...(interaction.onDeselect ? { onDeselect: interaction.onDeselect } : {}),
     ...(interaction.onGestureStart
       ? { onGestureStart: interaction.onGestureStart }
       : {}),

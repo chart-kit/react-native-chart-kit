@@ -80,14 +80,32 @@ describe("LineChart interaction helpers", () => {
 
   it("resolves interaction config from strings and objects", () => {
     const onSelect = vi.fn();
+    const onDeselect = vi.fn();
 
-    expect(getLineChartInteractionConfig(undefined)).toEqual({ mode: "none" });
-    expect(getLineChartInteractionConfig("scrub")).toEqual({ mode: "scrub" });
+    expect(getLineChartInteractionConfig(undefined)).toEqual({
+      mode: "none",
+      selectionPersistence: "persist",
+      deselectOnOutsidePress: false
+    });
+    expect(getLineChartInteractionConfig("scrub")).toEqual({
+      mode: "scrub",
+      selectionPersistence: "persist",
+      deselectOnOutsidePress: true
+    });
     expect(
-      getLineChartInteractionConfig({ onSelect, onGestureStart: vi.fn() })
+      getLineChartInteractionConfig({
+        onSelect,
+        onDeselect,
+        onGestureStart: vi.fn(),
+        selectionPersistence: "whileActive",
+        deselectOnOutsidePress: false
+      })
     ).toMatchObject({
       mode: "tap",
-      onSelect
+      selectionPersistence: "whileActive",
+      deselectOnOutsidePress: false,
+      onSelect,
+      onDeselect
     });
     expect(
       isLineChartInteractionEnabled(getLineChartInteractionConfig("tap"))

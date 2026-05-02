@@ -11,6 +11,7 @@ Added:
 - `interaction="tap"` and `interaction="scrub"` modes
 - object form `interaction={{ mode, onSelect, onGestureStart, onGestureEnd }}`
 - uncontrolled `defaultSelectedIndex`
+- selection lifecycle options: `selectionPersistence`, `deselectOnOutsidePress`, and `onDeselect`
 - tap selection through React Native responder events
 - scrub selection through responder move events
 - nearest-x hit testing
@@ -21,9 +22,11 @@ Added:
 
 ## Design Choices
 
-Gesture selection reuses the same selection model as controlled `selectedIndex`, so tooltips, active dots, crosshair, null-gap handling, and formatter behavior stay consistent.
+Gesture selection reuses the same selection model as controlled `selectedIndex`, so tooltips, active dots, crosshair, null-gap handling, and formatter behavior stay consistent. Tooltip rendering is intentionally just one consumer of selection state.
 
 The interaction baseline is opt-in. Charts do not claim responder ownership unless `interaction` is set, which keeps default charts safer inside app scroll containers.
+
+Selection lifecycle is named around selection, not tooltip. That allows Wealthsimple-style external consumers, such as a balance header, to respond through `onSelect` and `onDeselect` while keeping `tooltip={false}`.
 
 This first pass intentionally uses React Native responder events rather than adding Gesture Handler or Reanimated. That keeps the free baseline dependency-light while leaving room for a stronger adapter for pan, zoom, and high-frequency scrub later.
 

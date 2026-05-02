@@ -330,7 +330,9 @@ export const ScrubInteraction = () => (
       curve="monotone"
       defaultSelectedIndex={3}
       interaction={{
-        mode: "scrub"
+        mode: "scrub",
+        selectionPersistence: "persist",
+        deselectOnOutsidePress: true
       }}
       crosshair={{
         strokeDasharray: [4, 4]
