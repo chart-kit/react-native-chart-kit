@@ -572,7 +572,6 @@ const V2ScrollableStockComparison = ({
           strokeWidth: 1.75
         }}
         activeDot={{
-          fill: "background",
           radius: 5.5,
           strokeWidth: 2.5
         }}
