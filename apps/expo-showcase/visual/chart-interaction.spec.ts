@@ -20,7 +20,7 @@ test.describe("Expo showcase chart interactions", () => {
     await page.mouse.move(box.x + 92, box.y + 210);
     await page.mouse.down();
     await page.mouse.move(box.x + 330, box.y + 210, { steps: 8 });
-    await expect(page.getByText("Portfolio:")).toBeVisible();
+    await expect(page.getByText("Actual:")).toBeVisible();
     await page.mouse.up();
 
     const selectedText = await page.evaluate(

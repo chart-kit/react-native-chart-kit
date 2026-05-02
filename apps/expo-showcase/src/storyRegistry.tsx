@@ -15,13 +15,12 @@ import {
 } from "./fixtures/compatLine";
 import {
   basicRevenue,
-  campaignAttribution,
   denseRevenue,
-  hourlyTraffic,
+  longRangeRevenue,
   multiSeriesRevenue,
-  payrollRunway,
   priceHistory,
   revenueWithGaps,
+  sixMonthRevenue,
   subscriptionMetrics
 } from "./fixtures/v2Line";
 
@@ -31,21 +30,15 @@ export type NativeStoryProps = {
   width: number;
 };
 
-export type StoryBrowseMode = "scenario" | "example";
-
 export type ShowcaseStory = {
   id: string;
   title: string;
-  example?: string;
-  features?: string[];
-  scenario?: string;
   Component: React.ComponentType<NativeStoryProps>;
 };
 
 export type ShowcaseSection = {
   id: string;
   title: string;
-  browseModes?: StoryBrowseMode[];
   stories: ShowcaseStory[];
 };
 
@@ -79,7 +72,7 @@ const EmptyState = ({ copy, height }: { copy: string; height: number }) => (
 );
 
 const V2Basic = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Net revenue" kicker="Stripe-style billing dashboard">
+  <ChartCard title="Revenue" kicker="Basic">
     <LineChart
       data={basicRevenue}
       xKey="month"
@@ -92,7 +85,7 @@ const V2Basic = ({ width }: NativeStoryProps) => (
 );
 
 const V2RevenueCard = ({ width }: NativeStoryProps) => (
-  <ChartCard title="MRR and retention" kicker="SaaS board report">
+  <ChartCard title="MRR growth" kicker="Multi-metric">
     <LineChart
       data={subscriptionMetrics}
       xKey="month"
@@ -115,7 +108,7 @@ const V2RevenueCard = ({ width }: NativeStoryProps) => (
 );
 
 const V2BottomLegend = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Pipeline forecast" kicker="Sales planning">
+  <ChartCard title="Plan vs actual" kicker="Bottom legend">
     <LineChart
       data={multiSeriesRevenue}
       xKey="month"
@@ -131,7 +124,7 @@ const V2BottomLegend = ({ width }: NativeStoryProps) => (
         fontSize: 12
       }}
       series={[
-        { yKey: "actual", label: "Closed won", color: "#2563eb" },
+        { yKey: "actual", label: "Actual", color: "#2563eb" },
         {
           yKey: "forecast",
           label: "Forecast",
@@ -144,7 +137,7 @@ const V2BottomLegend = ({ width }: NativeStoryProps) => (
 );
 
 const V2CustomLegend = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Opportunity mix" kicker="CRM pipeline health">
+  <ChartCard title="Custom legend" kicker="Composable legend item">
     <LineChart
       data={multiSeriesRevenue}
       xKey="month"
@@ -189,15 +182,10 @@ const V2CustomLegend = ({ width }: NativeStoryProps) => (
         )
       }}
       series={[
-        {
-          yKey: "actual",
-          label: "Enterprise",
-          color: "#2563eb",
-          strokeWidth: 3
-        },
+        { yKey: "actual", label: "Actual", color: "#2563eb", strokeWidth: 3 },
         {
           yKey: "forecast",
-          label: "SMB",
+          label: "Forecast",
           color: "#7c3aed",
           strokeWidth: 2
         }
@@ -207,7 +195,7 @@ const V2CustomLegend = ({ width }: NativeStoryProps) => (
 );
 
 const V2CustomTypography = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Cash runway" kicker="Banking and treasury app">
+  <ChartCard title="Typography" kicker="Font token mapping">
     <LineChart
       data={multiSeriesRevenue}
       xKey="month"
@@ -234,10 +222,10 @@ const V2CustomTypography = ({ width }: NativeStoryProps) => (
         marker: "circle"
       }}
       series={[
-        { yKey: "actual", label: "Cash", color: "#0f766e", strokeWidth: 3 },
+        { yKey: "actual", label: "Actual", color: "#0f766e", strokeWidth: 3 },
         {
           yKey: "forecast",
-          label: "Burn",
+          label: "Forecast",
           color: "#2563eb",
           strokeWidth: 2
         }
@@ -247,7 +235,7 @@ const V2CustomTypography = ({ width }: NativeStoryProps) => (
 );
 
 const V2MultiSeries = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Active users and signups" kicker="Google Analytics-style">
+  <ChartCard title="Plan vs actual" kicker="Multi-series">
     <LineChart
       data={multiSeriesRevenue}
       xKey="month"
@@ -256,15 +244,10 @@ const V2MultiSeries = ({ width }: NativeStoryProps) => (
       showDots={false}
       curve="monotone"
       series={[
-        {
-          yKey: "actual",
-          label: "Active users",
-          color: "#2563eb",
-          strokeWidth: 3
-        },
+        { yKey: "actual", label: "Actual", color: "#2563eb", strokeWidth: 3 },
         {
           yKey: "forecast",
-          label: "Signups",
+          label: "Forecast",
           color: "#0891b2",
           strokeWidth: 2
         }
@@ -274,7 +257,7 @@ const V2MultiSeries = ({ width }: NativeStoryProps) => (
 );
 
 const V2DotStyles = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Cycle signals" kicker="Period tracking app">
+  <ChartCard title="Marker styles" kicker="Circle and diamond markers">
     <LineChart
       data={multiSeriesRevenue.map((point) => ({
         ...point,
@@ -295,7 +278,7 @@ const V2DotStyles = ({ width }: NativeStoryProps) => (
       series={[
         {
           yKey: "actual",
-          label: "Symptoms",
+          label: "Actual",
           color: "#2563eb",
           strokeWidth: 3,
           dot: {
@@ -305,7 +288,7 @@ const V2DotStyles = ({ width }: NativeStoryProps) => (
         },
         {
           yKey: "forecast",
-          label: "Energy",
+          label: "Forecast",
           color: "#0891b2",
           strokeWidth: 2,
           dot: {
@@ -322,7 +305,7 @@ const V2DotStyles = ({ width }: NativeStoryProps) => (
 );
 
 const V2SelectedTooltip = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Portfolio drilldown" kicker="Wealthsimple-style">
+  <ChartCard title="Shared tooltip" kicker="Selection model">
     <LineChart
       data={multiSeriesRevenue}
       xKey="month"
@@ -343,15 +326,10 @@ const V2SelectedTooltip = ({ width }: NativeStoryProps) => (
         strokeWidth: 2.5
       }}
       series={[
-        {
-          yKey: "actual",
-          label: "Portfolio",
-          color: "#2563eb",
-          strokeWidth: 3
-        },
+        { yKey: "actual", label: "Actual", color: "#2563eb", strokeWidth: 3 },
         {
           yKey: "forecast",
-          label: "Deposits",
+          label: "Forecast",
           color: "#0891b2",
           strokeWidth: 2
         }
@@ -365,7 +343,7 @@ const V2ScrubInteraction = ({
   onScrubStart,
   width
 }: NativeStoryProps) => (
-  <ChartCard title="Portfolio history" kicker="Scrub to inspect balance">
+  <ChartCard title="Tap and scrub" kicker="Persistent selection">
     <LineChart
       data={multiSeriesRevenue}
       xKey="month"
@@ -393,15 +371,10 @@ const V2ScrubInteraction = ({
         strokeWidth: 2.5
       }}
       series={[
-        {
-          yKey: "actual",
-          label: "Portfolio",
-          color: "#2563eb",
-          strokeWidth: 3
-        },
+        { yKey: "actual", label: "Actual", color: "#2563eb", strokeWidth: 3 },
         {
           yKey: "forecast",
-          label: "Deposits",
+          label: "Forecast",
           color: "#0891b2",
           strokeWidth: 2
         }
@@ -415,10 +388,7 @@ const V2WhileActiveScrub = ({
   onScrubStart,
   width
 }: NativeStoryProps) => (
-  <ChartCard
-    title="Live balance preview"
-    kicker="Selection only while touching"
-  >
+  <ChartCard title="Hold to inspect" kicker="While-active selection">
     <LineChart
       data={multiSeriesRevenue}
       xKey="month"
@@ -445,15 +415,10 @@ const V2WhileActiveScrub = ({
         strokeWidth: 2.5
       }}
       series={[
-        {
-          yKey: "actual",
-          label: "Portfolio",
-          color: "#2563eb",
-          strokeWidth: 3
-        },
+        { yKey: "actual", label: "Actual", color: "#2563eb", strokeWidth: 3 },
         {
           yKey: "forecast",
-          label: "Deposits",
+          label: "Forecast",
           color: "#0891b2",
           strokeWidth: 2
         }
@@ -463,7 +428,7 @@ const V2WhileActiveScrub = ({
 );
 
 const V2NullGaps = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Sensor readings" kicker="Glucose monitor gaps">
+  <ChartCard title="Missing readings" kicker="Null gap handling">
     <LineChart
       data={revenueWithGaps}
       xKey="month"
@@ -482,7 +447,7 @@ const V2NullGaps = ({ width }: NativeStoryProps) => (
 );
 
 const V2AreaFill = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Stock price" kicker="Robinhood-style dark chart" isDark>
+  <ChartCard title="Price history" kicker="Dark area chart" isDark>
     <AreaChart
       data={priceHistory}
       xKey="date"
@@ -497,9 +462,9 @@ const V2AreaFill = ({ width }: NativeStoryProps) => (
 );
 
 const V2DenseLabels = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Hourly traffic" kicker="Product analytics">
+  <ChartCard title="Weekly trend" kicker="Dense labels">
     <LineChart
-      data={hourlyTraffic}
+      data={denseRevenue}
       xKey="month"
       yKey="actual"
       width={width}
@@ -511,9 +476,9 @@ const V2DenseLabels = ({ width }: NativeStoryProps) => (
 );
 
 const V2RotatedLabels = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Campaign attribution" kicker="Marketing analytics">
+  <ChartCard title="Monthly expansion" kicker="Rotated labels">
     <LineChart
-      data={campaignAttribution}
+      data={longRangeRevenue}
       xKey="month"
       yKey="actual"
       width={width}
@@ -527,9 +492,9 @@ const V2RotatedLabels = ({ width }: NativeStoryProps) => (
 );
 
 const V2RotatedSixLabels = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Payroll runway" kicker="Finance operations">
+  <ChartCard title="Six month labels" kicker="Steep rotation">
     <LineChart
-      data={payrollRunway}
+      data={sixMonthRevenue}
       xKey="month"
       yKey="actual"
       width={width}
@@ -544,7 +509,7 @@ const V2RotatedSixLabels = ({ width }: NativeStoryProps) => (
 );
 
 const V2StaggeredLabels = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Retention cohort" kicker="Subscription analytics">
+  <ChartCard title="Weekly retention" kicker="Staggered labels">
     <LineChart
       data={denseRevenue}
       xKey="month"
@@ -559,7 +524,7 @@ const V2StaggeredLabels = ({ width }: NativeStoryProps) => (
 );
 
 const V2GridLines = ({ width }: NativeStoryProps) => (
-  <ChartCard title="API latency" kicker="Ops monitoring">
+  <ChartCard title="Grid lines" kicker="Opt-in horizontal and vertical grid">
     <LineChart
       data={basicRevenue}
       xKey="month"
@@ -575,7 +540,7 @@ const V2GridLines = ({ width }: NativeStoryProps) => (
 );
 
 const V2HiddenLabels = ({ width }: NativeStoryProps) => (
-  <ChartCard title="KPI sparkline" kicker="Executive dashboard card">
+  <ChartCard title="Spark trend" kicker="Hidden labels">
     <LineChart
       data={denseRevenue}
       xKey="month"
@@ -590,11 +555,7 @@ const V2HiddenLabels = ({ width }: NativeStoryProps) => (
 );
 
 const V2DarkMode = ({ width }: NativeStoryProps) => (
-  <ChartCard
-    title="Portfolio vs benchmark"
-    kicker="Dark fintech dashboard"
-    isDark
-  >
+  <ChartCard title="Dark mode" kicker="Area and multi-series" isDark>
     <LineChart
       data={multiSeriesRevenue}
       xKey="month"
@@ -604,18 +565,8 @@ const V2DarkMode = ({ width }: NativeStoryProps) => (
       curve="monotone"
       area
       series={[
-        {
-          yKey: "actual",
-          label: "Portfolio",
-          color: "#38bdf8",
-          strokeWidth: 3
-        },
-        {
-          yKey: "forecast",
-          label: "Benchmark",
-          color: "#a78bfa",
-          strokeWidth: 2
-        }
+        { yKey: "actual", label: "Actual", color: "#38bdf8", strokeWidth: 3 },
+        { yKey: "forecast", label: "Target", color: "#a78bfa", strokeWidth: 2 }
       ]}
     />
   </ChartCard>
@@ -734,174 +685,92 @@ export const storySections: ShowcaseSection[] = [
   {
     id: "v2-line",
     title: "V2 Line and Area",
-    browseModes: ["scenario", "example"],
     stories: [
-      {
-        id: "v2-basic",
-        title: "Stripe revenue",
-        scenario: "SaaS and billing",
-        example: "Starter chart",
-        features: ["single series", "monotone curve", "card-safe layout"],
-        Component: V2Basic
-      },
+      { id: "v2-basic", title: "Basic", Component: V2Basic },
       {
         id: "v2-revenue-card",
-        title: "MRR report",
-        scenario: "SaaS and billing",
-        example: "Multi-metric card",
-        features: [
-          "multi-series",
-          "custom y-axis formatter",
-          "per-series colors"
-        ],
+        title: "Revenue Card",
         Component: V2RevenueCard
       },
       {
         id: "v2-bottom-legend",
-        title: "Sales forecast",
-        scenario: "Sales and CRM",
-        example: "Bottom legend",
-        features: ["multi-series", "bottom legend", "line legend markers"],
+        title: "Bottom Legend",
         Component: V2BottomLegend
       },
       {
         id: "v2-custom-legend",
-        title: "CRM pipeline",
-        scenario: "Sales and CRM",
-        example: "Custom legend",
-        features: [
-          "custom legend renderer",
-          "legend item padding",
-          "SVG renderer primitives"
-        ],
+        title: "Custom Legend",
         Component: V2CustomLegend
       },
       {
         id: "v2-custom-typography",
-        title: "Cash runway",
-        scenario: "Finance operations",
-        example: "Typography tokens",
-        features: ["custom theme", "font family", "axis label sizing"],
+        title: "Custom Typography",
         Component: V2CustomTypography
       },
       {
         id: "v2-multi-series",
-        title: "GA4 acquisition",
-        scenario: "Product analytics",
-        example: "Multi-series",
-        features: ["multi-series", "series labels", "per-series stroke width"],
+        title: "Multi Series",
         Component: V2MultiSeries
       },
       {
         id: "v2-dot-styles",
-        title: "Cycle tracking",
-        scenario: "Health and wellness",
-        example: "Marker styles",
-        features: ["marker shapes", "per-series dots", "diamond markers"],
+        title: "Marker Styles",
         Component: V2DotStyles
       },
       {
         id: "v2-selected-tooltip",
-        title: "Portfolio point",
-        scenario: "Investing",
-        example: "Controlled selection",
-        features: ["controlled selection", "shared tooltip", "crosshair"],
+        title: "Shared Tooltip",
         Component: V2SelectedTooltip
       },
       {
         id: "v2-scrub",
-        title: "Portfolio scrub",
-        scenario: "Investing",
-        example: "Tap and scrub",
-        features: [
-          "scrub interaction",
-          "persistent selection",
-          "outside deselect"
-        ],
+        title: "Tap and Scrub",
         Component: V2ScrubInteraction
       },
       {
         id: "v2-while-active",
-        title: "Balance preview",
-        scenario: "Investing",
-        example: "While-active selection",
-        features: ["scrub interaction", "while-active selection", "onDeselect"],
+        title: "Hold to Inspect",
         Component: V2WhileActiveScrub
       },
       {
         id: "v2-null-gaps",
-        title: "Glucose readings",
-        scenario: "Health and wellness",
-        example: "Null gaps",
-        features: ["null gap handling", "explicit y-domain", "selected point"],
+        title: "Null Gaps",
         Component: V2NullGaps
       },
-      {
-        id: "v2-area",
-        title: "Stock price",
-        scenario: "Investing",
-        example: "Area fill",
-        features: ["AreaChart", "time x-values", "dark theme"],
-        Component: V2AreaFill
-      },
+      { id: "v2-area", title: "Area Fill", Component: V2AreaFill },
       {
         id: "v2-dense-labels",
-        title: "Hourly traffic",
-        scenario: "Product analytics",
-        example: "Dense labels",
-        features: ["dense x labels", "linear curve", "auto layout"],
+        title: "Dense Labels",
         Component: V2DenseLabels
       },
       {
         id: "v2-rotated-labels",
-        title: "Campaign labels",
-        scenario: "Marketing analytics",
-        example: "Rotated labels",
-        features: ["rotated labels", "long labels", "label collision strategy"],
+        title: "Rotated Labels",
         Component: V2RotatedLabels
       },
       {
         id: "v2-six-labels",
-        title: "Payroll runway",
-        scenario: "Finance operations",
-        example: "Steep rotation",
-        features: ["six labels", "steep rotation", "label gap control"],
+        title: "Six Rotated Labels",
         Component: V2RotatedSixLabels
       },
       {
         id: "v2-staggered-labels",
-        title: "Retention cohort",
-        scenario: "Product analytics",
-        example: "Staggered labels",
-        features: ["staggered labels", "dense weekly labels", "monotone curve"],
+        title: "Staggered Labels",
         Component: V2StaggeredLabels
       },
       {
         id: "v2-grid-lines",
-        title: "API latency",
-        scenario: "Operations",
-        example: "Grid lines",
-        features: [
-          "horizontal grid lines",
-          "vertical grid lines",
-          "opt-in grid"
-        ],
+        title: "Grid Lines",
         Component: V2GridLines
       },
       {
         id: "v2-hidden-labels",
-        title: "KPI sparkline",
-        scenario: "Executive dashboards",
-        example: "Hidden labels",
-        features: ["hidden labels", "compact chart", "sparkline layout"],
+        title: "Hidden Labels",
         Component: V2HiddenLabels
       },
       {
         id: "v2-dark-mode",
-        title: "Dark portfolio",
-        scenario: "Investing",
-        example: "Dark mode",
-        features: ["dark theme", "area fill", "multi-series"],
+        title: "Dark Mode",
         Component: V2DarkMode
       }
     ]

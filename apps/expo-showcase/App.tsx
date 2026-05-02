@@ -10,13 +10,7 @@ import {
   View
 } from "react-native";
 
-import {
-  NativeStoryProps,
-  ShowcaseStory,
-  StoryBrowseMode,
-  stories,
-  storySections
-} from "./src/storyRegistry";
+import { ShowcaseStory, stories, storySections } from "./src/storyRegistry";
 
 const defaultStory =
   stories.find((story) => story.id === "v2-basic") ?? stories[0];
@@ -53,83 +47,11 @@ const updateStoryUrl = (story: ShowcaseStory, isVisualMode: boolean) => {
   window.history.replaceState(null, "", `?${params.toString()}`);
 };
 
-type StoryGroup = {
-  id: string;
-  title: string;
-  stories: ShowcaseStory[];
-};
-
-const getStoryGroupValue = (story: ShowcaseStory, mode: StoryBrowseMode) =>
-  mode === "scenario"
-    ? (story.scenario ?? "Other scenarios")
-    : (story.example ?? "Examples");
-
-const getStoryGroups = (
-  storiesForSection: ShowcaseStory[],
-  mode: StoryBrowseMode
-) => {
-  const groups = new Map<string, StoryGroup>();
-
-  for (const story of storiesForSection) {
-    const title = getStoryGroupValue(story, mode);
-    const id = title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-    const group = groups.get(id);
-
-    if (group) {
-      group.stories.push(story);
-    } else {
-      groups.set(id, {
-        id,
-        title,
-        stories: [story]
-      });
-    }
-  }
-
-  return Array.from(groups.values());
-};
-
-const StoryPreview = ({
-  onScrubEnd,
-  onScrubStart,
-  story,
-  width
-}: NativeStoryProps & {
-  story: ShowcaseStory;
-}) => {
-  const StoryComponent = story.Component;
-
-  return (
-    <>
-      <StoryComponent
-        width={width}
-        onScrubStart={onScrubStart}
-        onScrubEnd={onScrubEnd}
-      />
-      {story.features?.length ? (
-        <View style={styles.featurePanel}>
-          <Text style={styles.featurePanelTitle}>Features used</Text>
-          <View style={styles.featureList}>
-            {story.features.map((feature) => (
-              <View key={feature} style={styles.featurePill}>
-                <Text style={styles.featurePillText}>{feature}</Text>
-              </View>
-            ))}
-          </View>
-        </View>
-      ) : null}
-    </>
-  );
-};
-
 export default function App() {
   const { width } = useWindowDimensions();
   const [isVisualMode] = useState(getInitialVisualMode);
   const [selectedStory, setSelectedStory] =
     useState<ShowcaseStory>(getInitialStory);
-  const [browseModes, setBrowseModes] = useState<
-    Record<string, StoryBrowseMode>
-  >({});
   const [isScrubbing, setIsScrubbing] = useState(false);
 
   const selectedSection = useMemo(
@@ -140,35 +62,12 @@ export default function App() {
     [selectedStory.id]
   );
 
-  const selectedBrowseMode =
-    selectedSection.browseModes?.find(
-      (mode) => mode === browseModes[selectedSection.id]
-    ) ??
-    selectedSection.browseModes?.[0] ??
-    "example";
-  const storyGroups = useMemo(
-    () => getStoryGroups(selectedSection.stories, selectedBrowseMode),
-    [selectedBrowseMode, selectedSection.stories]
-  );
-  const selectedGroup =
-    storyGroups.find((group) =>
-      group.stories.some((story) => story.id === selectedStory.id)
-    ) ?? storyGroups[0];
-  const visibleStories = selectedGroup?.stories ?? selectedSection.stories;
   const previewWidth = Math.max(280, Math.min(width - 40, 430));
+  const StoryComponent = selectedStory.Component;
   const selectStory = (story: ShowcaseStory) => {
     setIsScrubbing(false);
     setSelectedStory(story);
     updateStoryUrl(story, isVisualMode);
-  };
-  const selectBrowseMode = (mode: StoryBrowseMode) => {
-    setBrowseModes((currentModes) => ({
-      ...currentModes,
-      [selectedSection.id]: mode
-    }));
-  };
-  const selectGroup = (group: StoryGroup) => {
-    selectStory(group.stories[0]);
   };
 
   if (isVisualMode) {
@@ -178,7 +77,7 @@ export default function App() {
           testID="visual-frame"
           style={[styles.visualFrame, { width: previewWidth }]}
         >
-          <StoryPreview story={selectedStory} width={previewWidth - 24} />
+          <StoryComponent width={previewWidth - 24} />
         </View>
       </View>
     );
@@ -232,81 +131,14 @@ export default function App() {
           })}
         </ScrollView>
 
-        {selectedSection.browseModes?.length ? (
-          <View style={styles.browseModeTabs}>
-            {selectedSection.browseModes.map((mode) => {
-              const isSelected = selectedBrowseMode === mode;
-
-              return (
-                <Pressable
-                  key={mode}
-                  accessibilityRole="button"
-                  accessibilityState={{ selected: isSelected }}
-                  onPress={() => selectBrowseMode(mode)}
-                  style={({ pressed }) => [
-                    styles.browseModeButton,
-                    isSelected && styles.browseModeButtonSelected,
-                    pressed && styles.pressed
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.browseModeText,
-                      isSelected && styles.browseModeTextSelected
-                    ]}
-                  >
-                    {mode === "scenario" ? "By scenario" : "By example"}
-                  </Text>
-                </Pressable>
-              );
-            })}
-          </View>
-        ) : null}
-
-        {storyGroups.length > 1 ? (
-          <ScrollView
-            horizontal
-            style={styles.groupTabsScroller}
-            contentContainerStyle={styles.groupTabs}
-            showsHorizontalScrollIndicator={false}
-          >
-            {storyGroups.map((group) => {
-              const isSelected = selectedGroup?.id === group.id;
-
-              return (
-                <Pressable
-                  key={group.id}
-                  accessibilityRole="button"
-                  accessibilityState={{ selected: isSelected }}
-                  onPress={() => selectGroup(group)}
-                  style={({ pressed }) => [
-                    styles.groupButton,
-                    isSelected && styles.groupButtonSelected,
-                    pressed && styles.pressed
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.groupButtonText,
-                      isSelected && styles.groupButtonTextSelected
-                    ]}
-                  >
-                    {group.title}
-                  </Text>
-                </Pressable>
-              );
-            })}
-          </ScrollView>
-        ) : null}
-
-        {visibleStories.length > 1 ? (
+        {selectedSection ? (
           <ScrollView
             horizontal
             style={styles.storyTabsScroller}
             contentContainerStyle={styles.storyTabs}
             showsHorizontalScrollIndicator={false}
           >
-            {visibleStories.map((story) => {
+            {selectedSection.stories.map((story) => {
               const isSelected = selectedStory.id === story.id;
 
               return (
@@ -342,8 +174,7 @@ export default function App() {
           showsVerticalScrollIndicator
         >
           <View style={[styles.previewWidth, { width: previewWidth }]}>
-            <StoryPreview
-              story={selectedStory}
+            <StoryComponent
               width={previewWidth - 24}
               onScrubStart={() => setIsScrubbing(true)}
               onScrubEnd={() => setIsScrubbing(false)}
@@ -444,72 +275,15 @@ const styles = StyleSheet.create({
   sectionTabTextSelected: {
     color: "#ffffff"
   },
-  browseModeTabs: {
-    alignSelf: "flex-start",
-    backgroundColor: "#e8eef7",
-    borderRadius: 8,
-    flexDirection: "row",
-    gap: 3,
-    marginBottom: 8,
-    padding: 3
-  },
-  browseModeButton: {
-    borderRadius: 6,
-    height: 30,
-    justifyContent: "center",
-    paddingHorizontal: 10
-  },
-  browseModeButtonSelected: {
-    backgroundColor: "#ffffff"
-  },
-  browseModeText: {
-    color: "#526176",
-    fontSize: 12,
-    fontWeight: "800"
-  },
-  browseModeTextSelected: {
-    color: "#0f172a"
-  },
-  groupTabsScroller: {
-    flexGrow: 0,
-    height: 42,
-    marginBottom: 6
-  },
-  groupTabs: {
-    alignItems: "center",
-    gap: 8,
-    height: 42
-  },
-  groupButton: {
-    backgroundColor: "#ffffff",
-    borderColor: "#d9e2ef",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 34,
-    justifyContent: "center",
-    paddingHorizontal: 12
-  },
-  groupButtonSelected: {
-    backgroundColor: "#eef4ff",
-    borderColor: "#3b82f6"
-  },
-  groupButtonText: {
-    color: "#475467",
-    fontSize: 13,
-    fontWeight: "800"
-  },
-  groupButtonTextSelected: {
-    color: "#1d4ed8"
-  },
   storyTabsScroller: {
     flexGrow: 0,
-    height: 50,
+    height: 54,
     marginBottom: 12
   },
   storyTabs: {
     alignItems: "center",
     gap: 8,
-    height: 50
+    height: 54
   },
   storyButton: {
     backgroundColor: "#ffffff",
@@ -546,35 +320,5 @@ const styles = StyleSheet.create({
   },
   previewWidth: {
     maxWidth: 430
-  },
-  featurePanel: {
-    marginTop: 10,
-    paddingHorizontal: 2
-  },
-  featurePanelTitle: {
-    color: "#526176",
-    fontSize: 11,
-    fontWeight: "900",
-    letterSpacing: 0,
-    marginBottom: 7,
-    textTransform: "uppercase"
-  },
-  featureList: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 7
-  },
-  featurePill: {
-    backgroundColor: "#eaf1fb",
-    borderColor: "#d6e2f1",
-    borderRadius: 8,
-    borderWidth: 1,
-    paddingHorizontal: 9,
-    paddingVertical: 5
-  },
-  featurePillText: {
-    color: "#334155",
-    fontSize: 12,
-    fontWeight: "800"
   }
 });
