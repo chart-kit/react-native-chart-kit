@@ -9,6 +9,12 @@ export type PricePoint = {
   price: number | null;
 };
 
+export type EquityComparisonPoint = {
+  date: Date;
+  msft: number;
+  goog: number;
+};
+
 export type SubscriptionPoint = {
   month: string;
   revenue: number;
@@ -118,5 +124,27 @@ export const scrollablePriceHistory: PricePoint[] = stockPrices.map(
   (price, index) => ({
     date: new Date(2025, 10, 3 + tradingDayOffsets[index]!),
     price
+  })
+);
+
+const msftPrices = [
+  414, 418, 416, 421, 426, 424, 430, 433, 428, 435, 439, 444, 441, 447, 452,
+  456, 453, 459, 464, 461, 468, 472, 476, 471, 479, 485, 489, 493, 490, 497,
+  503, 500, 507, 512, 516, 513, 521, 527, 532, 528, 536, 541, 547, 543, 552,
+  558, 563, 560, 568, 574, 579, 584
+];
+
+const googPrices = [
+  168, 170, 169, 172, 176, 174, 178, 181, 179, 183, 186, 188, 187, 191, 194,
+  197, 195, 199, 203, 201, 205, 208, 211, 209, 214, 218, 220, 224, 222, 227,
+  231, 230, 235, 238, 242, 240, 245, 249, 253, 251, 256, 260, 265, 263, 268,
+  272, 276, 274, 280, 285, 289, 293
+];
+
+export const msftVsGoogHistory: EquityComparisonPoint[] = msftPrices.map(
+  (msft, index) => ({
+    date: new Date(2025, 10, 3 + tradingDayOffsets[index]!),
+    goog: googPrices[index]!,
+    msft
   })
 );

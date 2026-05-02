@@ -22,6 +22,7 @@ import {
   denseRevenue,
   longRangeRevenue,
   multiSeriesRevenue,
+  msftVsGoogHistory,
   priceHistory,
   revenueWithGaps,
   scrollablePriceHistory,
@@ -518,6 +519,86 @@ const V2ScrollableDenseLine = ({ width }: NativeStoryProps) => (
   </ChartCard>
 );
 
+const V2ScrollableStockComparison = ({
+  onScrubEnd,
+  onScrubStart,
+  width
+}: NativeStoryProps) => (
+  <ChartCard title="MSFT vs GOOG" kicker="Scrollable scrub">
+    <LineChart
+      data={msftVsGoogHistory}
+      xKey="date"
+      width={width}
+      height={262}
+      scrollable
+      visiblePoints={16}
+      initialIndex="end"
+      defaultSelectedIndex={msftVsGoogHistory.length - 5}
+      curve="monotone"
+      showHorizontalGridLines
+      yDomain={{ min: "dataMin", max: "dataMax", nice: true }}
+      formatXLabel={(value) =>
+        value instanceof Date
+          ? value.toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric"
+            })
+          : String(value)
+      }
+      formatYLabel={(value) => `$${Math.round(value)}`}
+      interaction={{
+        mode: "scrub",
+        selectionPersistence: "persist",
+        deselectOnOutsidePress: true,
+        onGestureEnd: onScrubEnd,
+        onGestureStart: onScrubStart
+      }}
+      crosshair={{
+        strokeDasharray: [4, 4]
+      }}
+      tooltip={{
+        positionAnimationDuration: 140,
+        width: 142
+      }}
+      dots={{
+        radius: 3.5,
+        strokeWidth: 1.75
+      }}
+      activeDot={{
+        fill: "background",
+        radius: 5.5,
+        strokeWidth: 2.5
+      }}
+      series={[
+        {
+          yKey: "msft",
+          label: "MSFT",
+          color: "#2563EB",
+          strokeWidth: 3,
+          dot: {
+            shape: "circle",
+            fill: "background",
+            stroke: "series"
+          }
+        },
+        {
+          yKey: "goog",
+          label: "GOOG",
+          color: "#16A34A",
+          strokeWidth: 2.5,
+          dot: {
+            shape: "diamond",
+            fill: "series",
+            radius: 3.8,
+            stroke: "background",
+            strokeWidth: 1.5
+          }
+        }
+      ]}
+    />
+  </ChartCard>
+);
+
 type AnimatedPreviewPoint = {
   month: string;
   actual: number;
@@ -949,6 +1030,11 @@ export const storySections: ShowcaseSection[] = [
         Component: V2ScrollableDenseLine
       },
       {
+        id: "v2-scrollable-stock-comparison",
+        title: "Scrollable Stock Comparison",
+        Component: V2ScrollableStockComparison
+      },
+      {
         id: "v2-pro-animation",
         title: "Pro Animation",
         Component: V2ProAnimation
@@ -1142,6 +1228,7 @@ export const showcaseModes: ShowcaseMode[] = [
           "Portfolio motion, benchmark comparison, dark cards, and inspection states.",
         storyIds: [
           "v2-scrollable-price",
+          "v2-scrollable-stock-comparison",
           "v2-pro-animation",
           "v2-area",
           "v2-selected-tooltip"
@@ -1177,6 +1264,7 @@ export const showcaseModes: ShowcaseMode[] = [
           "v2-null-gaps",
           "v2-area",
           "v2-scrollable-price",
+          "v2-scrollable-stock-comparison",
           "v2-pro-animation"
         ]
       },
@@ -1213,6 +1301,7 @@ export const showcaseModes: ShowcaseMode[] = [
         storyIds: [
           "v2-selected-tooltip",
           "v2-scrub",
+          "v2-scrollable-stock-comparison",
           "v2-while-active",
           "v2-null-gaps"
         ]
@@ -1252,6 +1341,7 @@ export const showcaseModes: ShowcaseMode[] = [
         storyIds: [
           "v2-pro-animation",
           "v2-scrollable-price",
+          "v2-scrollable-stock-comparison",
           "v2-dot-styles",
           "v2-scrub",
           "v2-while-active"
@@ -1346,6 +1436,12 @@ export const storyFeatureTags: Record<string, string[]> = {
   "v2-area": ["area fill", "time scale", "price labels"],
   "v2-scrollable-price": ["scrollable", "visible points", "initial end"],
   "v2-scrollable-dense": ["scrollable", "visible points", "dense labels"],
+  "v2-scrollable-stock-comparison": [
+    "scrollable",
+    "two series",
+    "scrub tooltip",
+    "marker styles"
+  ],
   "v2-pro-animation": ["animated data", "fixed domain", "dark theme"],
   "v2-dense-labels": ["dense labels", "auto strategy", "linear curve"],
   "v2-rotated-labels": ["rotated labels", "edge fit", "long range"],
