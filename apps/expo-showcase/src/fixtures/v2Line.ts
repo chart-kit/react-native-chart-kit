@@ -100,3 +100,23 @@ export const priceHistory: PricePoint[] = [
   { date: new Date(2026, 0, 24), price: 142 },
   { date: new Date(2026, 1, 1), price: 138 }
 ];
+
+const tradingDayOffsets = [
+  0, 1, 2, 5, 6, 7, 8, 9, 12, 13, 14, 15, 16, 20, 21, 22, 23, 26, 27, 28, 29,
+  30, 33, 34, 35, 36, 37, 40, 41, 42, 43, 44, 47, 48, 49, 50, 51, 54, 55, 56,
+  57, 58, 61, 62, 63, 64, 65, 68, 69, 70, 71, 72
+];
+
+const stockPrices = [
+  182, 184, 181, 187, 191, 189, 194, 198, 195, 199, 204, 207, 205, 211, 216,
+  219, 217, 224, 228, 226, 231, 235, 238, 234, 241, 246, 249, 252, 250, 257,
+  263, 261, 268, 272, 276, 273, 281, 286, 290, 287, 294, 301, 306, 302, 311,
+  316, 321, 319, 327, 334, 338, 343
+];
+
+export const scrollablePriceHistory: PricePoint[] = stockPrices.map(
+  (price, index) => ({
+    date: new Date(2025, 10, 3 + tradingDayOffsets[index]!),
+    price
+  })
+);

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import type { GestureResponderEvent } from "react-native";
 
 import {
@@ -12,9 +12,12 @@ import {
   generateLinearTicks,
   layoutLegend,
   normalizeCartesianData,
+  resolveChartViewport,
+  resolveChartViewportInitialOffset,
   resolveNumericDomain,
   solveChartBoxes,
-  solveLabelCollision
+  solveLabelCollision,
+  type ChartViewportInitialIndex
 } from "@chart-kit/core";
 import type {
   ChartXValue,
@@ -148,6 +151,7 @@ export type LineChartResolvedLabelStrategy = Exclude<
   "auto"
 >;
 export type LineChartEdgeLabelPolicy = "shift" | "hide" | "show";
+export type LineChartInitialIndex = ChartViewportInitialIndex;
 
 export type LineChartLegendRenderItem = {
   index: number;
@@ -233,6 +237,9 @@ export type LineChartProps<TData extends Record<string, unknown>> = {
   height: number;
   theme?: ChartKitThemeMode | CartesianChartTheme;
   preset?: CartesianChartPresetValue;
+  scrollable?: boolean;
+  visiblePoints?: number;
+  initialIndex?: ChartViewportInitialIndex;
   curve?: LineCurve;
   connectNulls?: boolean;
   area?: boolean;
@@ -1654,6 +1661,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
   props: LineChartProps<TData>
 ) => {
   const chartKitTheme = useChartKitTheme();
+  const scrollViewRef = useRef<ScrollView>(null);
   const interactionConfig = useMemo(
     () => getLineChartInteractionConfig(props.interaction),
     [props.interaction]
@@ -1662,10 +1670,32 @@ export const LineChart = <TData extends Record<string, unknown>>(
     number | undefined
   >(() => normalizeLineChartSelectedIndex(props.defaultSelectedIndex));
   const effectiveSelectedIndex = props.selectedIndex ?? gestureSelectedIndex;
+  const viewport = useMemo(
+    () =>
+      resolveChartViewport({
+        itemCount: props.data.length,
+        scrollable: props.scrollable,
+        viewportWidth: props.width,
+        visiblePoints: props.visiblePoints
+      }),
+    [props.data.length, props.scrollable, props.visiblePoints, props.width]
+  );
+  const initialScrollOffset = useMemo(
+    () =>
+      resolveChartViewportInitialOffset({
+        initialIndex: props.initialIndex,
+        viewport
+      }),
+    [props.initialIndex, viewport]
+  );
   const chartProps =
     effectiveSelectedIndex !== undefined
-      ? { ...props, selectedIndex: effectiveSelectedIndex }
-      : props;
+      ? {
+          ...props,
+          width: viewport.contentWidth,
+          selectedIndex: effectiveSelectedIndex
+        }
+      : { ...props, width: viewport.contentWidth };
   const model = useChartModel({ ...chartProps, chartKitTheme });
   const {
     boxes,
@@ -1683,6 +1713,22 @@ export const LineChart = <TData extends Record<string, unknown>>(
     formatYLabel
   } = model;
   const isInteractionEnabled = isLineChartInteractionEnabled(interactionConfig);
+  useEffect(() => {
+    if (!viewport.scrollable) {
+      return;
+    }
+
+    const frame = requestAnimationFrame(() => {
+      scrollViewRef.current?.scrollTo({
+        animated: false,
+        x: initialScrollOffset
+      });
+    });
+
+    return () => {
+      cancelAnimationFrame(frame);
+    };
+  }, [initialScrollOffset, viewport.scrollable]);
   const isResponderEventInPlot = useCallback(
     (event: GestureResponderEvent) => {
       const { locationX, locationY } = event.nativeEvent;
@@ -1814,19 +1860,19 @@ export const LineChart = <TData extends Record<string, unknown>>(
       }
     : {};
   const animatedTooltip = useAnimatedTooltipModel(selectionModel?.tooltip);
+  const chartWidth = viewport.contentWidth;
 
-  return (
+  const chartSurface = (
     <View
-      testID={props.testID}
-      style={[styles.container, { width: props.width, height: props.height }]}
+      style={{ width: chartWidth, height: props.height }}
       {...responderProps}
     >
-      <SvgSurface width={props.width} height={props.height}>
+      <SvgSurface width={chartWidth} height={props.height}>
         <SvgLayer name="background">
           <SvgRect
             x={0}
             y={0}
-            width={props.width}
+            width={chartWidth}
             height={props.height}
             rx={8}
             fill={resolvedTheme.background}
@@ -1893,23 +1939,25 @@ export const LineChart = <TData extends Record<string, unknown>>(
             : null}
         </SvgLayer>
         <SvgLayer name="axes">
-          {yTicks.map((tick) => {
-            const y = yScale.scale(tick);
+          {viewport.scrollable
+            ? null
+            : yTicks.map((tick) => {
+                const y = yScale.scale(tick);
 
-            return (
-              <SvgText
-                key={`label-y-${tick}`}
-                x={boxes.plot.x - 8}
-                y={y + resolvedTheme.typography.axisLabelSize * 0.36}
-                fill={resolvedTheme.mutedText}
-                fontSize={resolvedTheme.typography.axisLabelSize}
-                textAnchor="end"
-                {...getFontFamilyProps(resolvedTheme.typography.fontFamily)}
-              >
-                {formatYLabel(tick)}
-              </SvgText>
-            );
-          })}
+                return (
+                  <SvgText
+                    key={`label-y-${tick}`}
+                    x={boxes.plot.x - 8}
+                    y={y + resolvedTheme.typography.axisLabelSize * 0.36}
+                    fill={resolvedTheme.mutedText}
+                    fontSize={resolvedTheme.typography.axisLabelSize}
+                    textAnchor="end"
+                    {...getFontFamilyProps(resolvedTheme.typography.fontFamily)}
+                  >
+                    {formatYLabel(tick)}
+                  </SvgText>
+                );
+              })}
           {xLabelLayout.items.map((label) => (
             <SvgGroup
               key={`label-x-${label.index}`}
@@ -2045,6 +2093,72 @@ export const LineChart = <TData extends Record<string, unknown>>(
       </SvgSurface>
     </View>
   );
+  const stickyYAxis = viewport.scrollable ? (
+    <View
+      pointerEvents="none"
+      style={[styles.stickyYAxis, { width: props.width, height: props.height }]}
+    >
+      <SvgSurface width={props.width} height={props.height}>
+        <SvgLayer name="background">
+          <SvgRect
+            x={0}
+            y={0}
+            width={boxes.plot.x}
+            height={boxes.plot.y + boxes.plot.height}
+            fill={resolvedTheme.background}
+          />
+        </SvgLayer>
+        <SvgLayer name="axes">
+          {yTicks.map((tick) => {
+            const y = yScale.scale(tick);
+
+            return (
+              <SvgText
+                key={`sticky-label-y-${tick}`}
+                x={boxes.plot.x - 8}
+                y={y + resolvedTheme.typography.axisLabelSize * 0.36}
+                fill={resolvedTheme.mutedText}
+                fontSize={resolvedTheme.typography.axisLabelSize}
+                textAnchor="end"
+                {...getFontFamilyProps(resolvedTheme.typography.fontFamily)}
+              >
+                {formatYLabel(tick)}
+              </SvgText>
+            );
+          })}
+        </SvgLayer>
+      </SvgSurface>
+    </View>
+  ) : null;
+
+  return (
+    <View
+      testID={props.testID}
+      style={[styles.container, { width: props.width, height: props.height }]}
+    >
+      {viewport.scrollable ? (
+        <ScrollView
+          ref={scrollViewRef}
+          horizontal
+          bounces={false}
+          showsHorizontalScrollIndicator
+          style={[
+            styles.scroller,
+            { width: props.width, height: props.height }
+          ]}
+          contentContainerStyle={[
+            styles.scrollerContent,
+            { width: chartWidth, height: props.height }
+          ]}
+        >
+          {chartSurface}
+        </ScrollView>
+      ) : (
+        chartSurface
+      )}
+      {stickyYAxis}
+    </View>
+  );
 };
 
 export const AreaChart = <TData extends Record<string, unknown>>(
@@ -2055,5 +2169,16 @@ const styles = StyleSheet.create({
   container: {
     overflow: "hidden",
     userSelect: "none"
+  },
+  scroller: {
+    overflow: "hidden"
+  },
+  scrollerContent: {
+    flexGrow: 0
+  },
+  stickyYAxis: {
+    left: 0,
+    position: "absolute",
+    top: 0
   }
 });

@@ -30,6 +30,7 @@ export type {
   LineChartInteraction,
   LineChartInteractionConfig,
   LineChartInteractionMode,
+  LineChartInitialIndex,
   LineChartLabelStrategy,
   LineChartLegendConfig,
   LineChartLegendRenderItem,

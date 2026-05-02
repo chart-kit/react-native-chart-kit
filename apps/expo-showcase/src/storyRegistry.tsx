@@ -24,6 +24,7 @@ import {
   multiSeriesRevenue,
   priceHistory,
   revenueWithGaps,
+  scrollablePriceHistory,
   sixMonthRevenue,
   subscriptionMetrics
 } from "./fixtures/v2Line";
@@ -470,6 +471,53 @@ const V2AreaFill = ({ width }: NativeStoryProps) => (
   </ChartCard>
 );
 
+const V2ScrollablePriceHistory = ({ width }: NativeStoryProps) => (
+  <ChartCard title="Stock price history" kicker="Scrollable viewport">
+    <AreaChart
+      data={scrollablePriceHistory}
+      xKey="date"
+      yKey="price"
+      width={width}
+      height={248}
+      scrollable
+      visiblePoints={18}
+      initialIndex="end"
+      curve="monotone"
+      showDots={false}
+      yDomain={{ min: "dataMin", max: "dataMax", nice: true }}
+      formatXLabel={(value) =>
+        value instanceof Date
+          ? value.toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric"
+            })
+          : String(value)
+      }
+      formatYLabel={(value) => `$${Math.round(value)}`}
+    />
+  </ChartCard>
+);
+
+const V2ScrollableDenseLine = ({ width }: NativeStoryProps) => (
+  <ChartCard title="Scrollable weekly trend" kicker="Visible points">
+    <LineChart
+      data={denseRevenue}
+      xKey="month"
+      yKey="actual"
+      width={width}
+      height={230}
+      scrollable
+      visiblePoints={6}
+      initialIndex="start"
+      showDots={false}
+      curve="monotone"
+      showHorizontalGridLines
+      labelStrategy="auto"
+      formatXLabel={(_, index) => `W${index + 1}`}
+    />
+  </ChartCard>
+);
+
 type AnimatedPreviewPoint = {
   month: string;
   actual: number;
@@ -891,6 +939,16 @@ export const storySections: ShowcaseSection[] = [
       },
       { id: "v2-area", title: "Area Fill", Component: V2AreaFill },
       {
+        id: "v2-scrollable-price",
+        title: "Scrollable Price",
+        Component: V2ScrollablePriceHistory
+      },
+      {
+        id: "v2-scrollable-dense",
+        title: "Scrollable Dense",
+        Component: V2ScrollableDenseLine
+      },
+      {
         id: "v2-pro-animation",
         title: "Pro Animation",
         Component: V2ProAnimation
@@ -1083,10 +1141,10 @@ export const showcaseModes: ShowcaseMode[] = [
         description:
           "Portfolio motion, benchmark comparison, dark cards, and inspection states.",
         storyIds: [
+          "v2-scrollable-price",
           "v2-pro-animation",
           "v2-area",
-          "v2-selected-tooltip",
-          "v2-custom-legend"
+          "v2-selected-tooltip"
         ]
       },
       {
@@ -1118,6 +1176,7 @@ export const showcaseModes: ShowcaseMode[] = [
           "v2-multi-series",
           "v2-null-gaps",
           "v2-area",
+          "v2-scrollable-price",
           "v2-pro-animation"
         ]
       },
@@ -1167,6 +1226,7 @@ export const showcaseModes: ShowcaseMode[] = [
           "v2-dense-labels",
           "v2-rotated-labels",
           "v2-six-labels",
+          "v2-scrollable-dense",
           "v2-staggered-labels",
           "v2-grid-lines",
           "v2-hidden-labels"
@@ -1191,6 +1251,7 @@ export const showcaseModes: ShowcaseMode[] = [
           "Animation preview, marker styling, active dots, and smoothed tooltip movement.",
         storyIds: [
           "v2-pro-animation",
+          "v2-scrollable-price",
           "v2-dot-styles",
           "v2-scrub",
           "v2-while-active"
@@ -1211,6 +1272,7 @@ export const showcaseModes: ShowcaseMode[] = [
           "v2-dense-labels",
           "v2-rotated-labels",
           "v2-six-labels",
+          "v2-scrollable-dense",
           "v2-staggered-labels",
           "v2-null-gaps",
           "v2-hidden-labels",
@@ -1281,7 +1343,9 @@ export const storyFeatureTags: Record<string, string[]> = {
   "v2-scrub": ["scrub gesture", "persistent selection", "animated tooltip"],
   "v2-while-active": ["hold to inspect", "while-active", "scroll lock"],
   "v2-null-gaps": ["null gaps", "fixed domain", "selection"],
-  "v2-area": ["dark theme", "area fill", "price scale"],
+  "v2-area": ["area fill", "time scale", "price labels"],
+  "v2-scrollable-price": ["scrollable", "visible points", "initial end"],
+  "v2-scrollable-dense": ["scrollable", "visible points", "dense labels"],
   "v2-pro-animation": ["animated data", "fixed domain", "dark theme"],
   "v2-dense-labels": ["dense labels", "auto strategy", "linear curve"],
   "v2-rotated-labels": ["rotated labels", "edge fit", "long range"],
