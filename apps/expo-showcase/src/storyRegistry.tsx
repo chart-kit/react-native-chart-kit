@@ -490,7 +490,22 @@ const animationEndData: AnimatedPreviewPoint[] = [
   { month: "Jul", actual: 76, forecast: 57 }
 ];
 
-const easeOutCubic = (value: number) => 1 - Math.pow(1 - value, 3);
+const animationPreviewDuration = 2200;
+const animationPreviewPointDelay = 0.04;
+const animationPreviewYMax = 84;
+
+const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
+
+const smootherStep = (value: number) => {
+  const clampedValue = clamp01(value);
+
+  return (
+    clampedValue *
+    clampedValue *
+    clampedValue *
+    (clampedValue * (clampedValue * 6 - 15) + 10)
+  );
+};
 
 const interpolate = (from: number, to: number, progress: number) =>
   from + (to - from) * progress;
@@ -511,8 +526,8 @@ const useAnimatedPreviewData = (isVisualMode?: boolean) => {
       startTime ??= timestamp;
 
       const elapsed = timestamp - startTime;
-      const nextProgress = Math.min(elapsed / 1500, 1);
-      setProgress(easeOutCubic(nextProgress));
+      const nextProgress = clamp01(elapsed / animationPreviewDuration);
+      setProgress(nextProgress);
 
       if (nextProgress < 1) {
         frameId = requestAnimationFrame(tick);
@@ -530,11 +545,8 @@ const useAnimatedPreviewData = (isVisualMode?: boolean) => {
     () =>
       animationEndData.map((target, index) => {
         const start = animationStartData[index];
-        const delay = index * 0.045;
-        const localProgress = Math.max(
-          0,
-          Math.min(1, (progress - delay) / (1 - delay))
-        );
+        const delay = index * animationPreviewPointDelay;
+        const localProgress = smootherStep((progress - delay) / (1 - delay));
 
         return {
           month: target.month,
@@ -547,16 +559,12 @@ const useAnimatedPreviewData = (isVisualMode?: boolean) => {
 
   return {
     data,
-    replay: () => setRunId((currentRunId) => currentRunId + 1),
-    selectedIndex: Math.min(
-      data.length - 1,
-      Math.max(0, Math.round(progress * (data.length - 1)))
-    )
+    replay: () => setRunId((currentRunId) => currentRunId + 1)
   };
 };
 
 const V2ProAnimation = ({ isVisualMode, width }: NativeStoryProps) => {
-  const { data, replay, selectedIndex } = useAnimatedPreviewData(isVisualMode);
+  const { data, replay } = useAnimatedPreviewData(isVisualMode);
 
   return (
     <ChartCard title="Portfolio growth" kicker="Pro animation preview" isDark>
@@ -569,18 +577,7 @@ const V2ProAnimation = ({ isVisualMode, width }: NativeStoryProps) => {
         curve="monotone"
         area
         showDots={false}
-        selectedIndex={selectedIndex}
-        yDomain={[0, "dataMax"]}
-        crosshair={{
-          color: "#38bdf8",
-          opacity: 0.8,
-          strokeDasharray: [4, 4]
-        }}
-        activeDot={{
-          radius: 5.5,
-          fill: "background",
-          strokeWidth: 2.5
-        }}
+        yDomain={[0, animationPreviewYMax]}
         formatYLabel={(value) => `$${Math.round(value)}k`}
         series={[
           {
