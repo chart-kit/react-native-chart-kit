@@ -1,10 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-import {
-  resolveChartViewportPresetWindow,
-  type ChartViewportPresetName
-} from "@chart-kit/core";
+import { resolveChartViewportPresetWindow } from "@chart-kit/core";
 import {
   BarChart as CompatBarChart,
   LineChart as CompatLineChart
@@ -613,36 +610,20 @@ const V2ScrollableStockComparison = ({
   );
 };
 
-const rangeSelectorPresetOptions: ChartViewportPresetName[] = [
-  "1M",
-  "YTD",
-  "ALL"
-];
-
 const rangeSelectorXValues = portfolioRangeHistory.map((point) => point.date);
 
-const getRangeSelectorPresetViewport = (
-  option: ChartViewportPresetName
-): LineChartViewportConfig =>
+const getInitialRangeSelectorViewport = (): LineChartViewportConfig =>
   resolveChartViewportPresetWindow({
-    preset: option,
+    preset: "1M",
     xValues: rangeSelectorXValues
   });
 
 const V2RangeSelectorOverview = ({ isVisualMode, width }: NativeStoryProps) => {
-  const [selectedPreset, setSelectedPreset] = useState<
-    ChartViewportPresetName | undefined
-  >("1M");
   const [viewport, setViewport] = useState<LineChartViewportConfig>(() =>
-    getRangeSelectorPresetViewport("1M")
+    getInitialRangeSelectorViewport()
   );
-  const handlePresetPress = useCallback((option: ChartViewportPresetName) => {
-    setSelectedPreset(option);
-    setViewport(getRangeSelectorPresetViewport(option));
-  }, []);
   const handleViewportChange = useCallback(
     (event: LineChartViewportChangeEvent) => {
-      setSelectedPreset(undefined);
       setViewport(event.viewport);
     },
     []
@@ -650,45 +631,16 @@ const V2RangeSelectorOverview = ({ isVisualMode, width }: NativeStoryProps) => {
 
   return (
     <ChartCard title="Portfolio range" kicker="Overview window">
-      {isVisualMode ? null : (
-        <View style={styles.rangePresetRow}>
-          {rangeSelectorPresetOptions.map((option) => {
-            const isSelected = option === selectedPreset;
-
-            return (
-              <Pressable
-                key={option}
-                accessibilityRole="button"
-                onPress={() => handlePresetPress(option)}
-                style={({ pressed }) => [
-                  styles.rangePresetButton,
-                  isSelected && styles.rangePresetButtonActive,
-                  pressed && styles.rangePresetButtonPressed
-                ]}
-              >
-                <Text
-                  style={[
-                    styles.rangePresetButtonText,
-                    isSelected && styles.rangePresetButtonTextActive
-                  ]}
-                >
-                  {option === "ALL" ? "All" : option}
-                </Text>
-              </Pressable>
-            );
-          })}
-        </View>
-      )}
       <LineChart
         data={portfolioRangeHistory}
         xKey="date"
         width={width}
-        height={isVisualMode ? 314 : 300}
+        height={isVisualMode ? 326 : 312}
         onViewportChange={handleViewportChange}
         testID="range-selector-chart"
         viewport={viewport}
         rangeSelector={{
-          height: 54,
+          height: 66,
           gap: 10,
           interactive: true,
           handleHitSlop: 28,
@@ -1685,42 +1637,5 @@ const styles = StyleSheet.create({
     color: "#075985",
     fontSize: 13,
     fontWeight: "800"
-  },
-  rangePresetRow: {
-    alignSelf: "center",
-    backgroundColor: "#eef4fb",
-    borderColor: "#d7e3f1",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: 4,
-    marginBottom: 10,
-    padding: 3
-  },
-  rangePresetButton: {
-    alignItems: "center",
-    borderRadius: 6,
-    height: 30,
-    justifyContent: "center",
-    minWidth: 48,
-    paddingHorizontal: 10
-  },
-  rangePresetButtonActive: {
-    backgroundColor: "#ffffff",
-    shadowColor: "#0f172a",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
-    shadowRadius: 3
-  },
-  rangePresetButtonPressed: {
-    opacity: 0.7
-  },
-  rangePresetButtonText: {
-    color: "#64748b",
-    fontSize: 12,
-    fontWeight: "800"
-  },
-  rangePresetButtonTextActive: {
-    color: "#0f172a"
   }
 });

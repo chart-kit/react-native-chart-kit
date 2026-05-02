@@ -81,23 +81,6 @@ test.describe("Expo showcase chart interactions", () => {
     await expect(page.getByText("Jan 10")).toBeHidden();
   });
 
-  test("range selector preset controls update the visible window", async ({
-    page
-  }) => {
-    await page.goto("/?story=v2-range-selector");
-    await page.evaluate(async () => {
-      await document.fonts?.ready;
-    });
-
-    await expect(page.getByText("Portfolio range")).toBeVisible();
-    const chart = page.getByTestId("range-selector-chart");
-    await expect(chart.getByText("Dec 15").first()).toBeVisible();
-
-    await page.getByRole("button", { name: "YTD" }).click();
-    await expect(chart.getByText("Jan 3").first()).toBeVisible();
-    await expect(chart.getByText("Dec 15")).toHaveCount(0);
-  });
-
   test("range selector overview changes the visible window", async ({
     page
   }) => {
