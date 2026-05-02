@@ -240,7 +240,13 @@ export const MultiSeries = () => (
 export const DotStyles = () => (
   <StoryFrame title="Marker styles">
     <LineChart
-      data={multiSeriesRevenue}
+      data={multiSeriesRevenue.map((point) => ({
+        ...point,
+        forecast:
+          typeof point.forecast === "number"
+            ? point.forecast - 8
+            : point.forecast
+      }))}
       xKey="month"
       width={345}
       height={238}
