@@ -10,10 +10,18 @@ import {
   View
 } from "react-native";
 
-import { ShowcaseStory, stories, storySections } from "./src/storyRegistry";
+import {
+  ShowcaseMode,
+  ShowcasePage,
+  ShowcaseStory,
+  showcaseModes,
+  stories,
+  storyFeatureTags
+} from "./src/storyRegistry";
 
 const defaultStory =
   stories.find((story) => story.id === "v2-basic") ?? stories[0];
+const defaultMode = showcaseModes[0];
 
 const isWebRuntime = Platform.OS === "web" && typeof window !== "undefined";
 
@@ -37,47 +45,125 @@ const getInitialVisualMode = () => {
   return params?.get("visual") === "1" || params?.get("mode") === "visual";
 };
 
-const updateStoryUrl = (story: ShowcaseStory, isVisualMode: boolean) => {
+type PageSelection = {
+  mode: ShowcaseMode;
+  page: ShowcasePage;
+};
+
+const getPageSelectionForStory = (
+  storyId: string | null | undefined
+): PageSelection | undefined => {
+  if (!storyId) {
+    return undefined;
+  }
+
+  for (const mode of showcaseModes) {
+    for (const page of mode.pages) {
+      if (page.storyIds.includes(storyId)) {
+        return { mode, page };
+      }
+    }
+  }
+
+  return undefined;
+};
+
+const getPageSelection = ({
+  pageId,
+  storyId,
+  viewId
+}: {
+  pageId?: string | null;
+  storyId?: string | null;
+  viewId?: string | null;
+}): PageSelection => {
+  const storySelection = getPageSelectionForStory(storyId);
+
+  if (storySelection) {
+    return storySelection;
+  }
+
+  const mode =
+    showcaseModes.find((currentMode) => currentMode.id === viewId) ??
+    defaultMode;
+  const page =
+    mode.pages.find((currentPage) => currentPage.id === pageId) ??
+    mode.pages[0];
+
+  return { mode, page };
+};
+
+const getInitialPageSelection = () => {
+  const params = getWebSearchParams();
+
+  return getPageSelection({
+    pageId: params?.get("page"),
+    storyId: params?.get("story"),
+    viewId: params?.get("view")
+  });
+};
+
+const updateShowcaseUrl = (selection: PageSelection, isVisualMode: boolean) => {
   if (!isWebRuntime || isVisualMode) {
     return;
   }
 
   const params = new URLSearchParams(window.location.search);
-  params.set("story", story.id);
+  params.set("view", selection.mode.id);
+  params.set("page", selection.page.id);
+  params.delete("story");
   window.history.replaceState(null, "", `?${params.toString()}`);
 };
 
 export default function App() {
   const { width } = useWindowDimensions();
   const [isVisualMode] = useState(getInitialVisualMode);
-  const [selectedStory, setSelectedStory] =
-    useState<ShowcaseStory>(getInitialStory);
+  const [visualStory] = useState<ShowcaseStory>(getInitialStory);
+  const [pageSelection, setPageSelection] = useState<PageSelection>(
+    getInitialPageSelection
+  );
   const [isScrubbing, setIsScrubbing] = useState(false);
 
-  const selectedSection = useMemo(
+  const pageStories = useMemo(
     () =>
-      storySections.find((section) =>
-        section.stories.some((story) => story.id === selectedStory.id)
-      ) ?? storySections[0],
-    [selectedStory.id]
+      pageSelection.page.storyIds
+        .map((storyId) => stories.find((story) => story.id === storyId))
+        .filter((story): story is ShowcaseStory => story !== undefined),
+    [pageSelection.page.storyIds]
   );
 
-  const previewWidth = Math.max(280, Math.min(width - 40, 430));
-  const StoryComponent = selectedStory.Component;
-  const selectStory = (story: ShowcaseStory) => {
+  const isWideLayout = width >= 860;
+  const previewWidth = Math.max(
+    280,
+    Math.min(width - 40, isWideLayout ? 940 : 430)
+  );
+  const storyGap = 16;
+  const storyBlockWidth = isWideLayout
+    ? Math.floor((previewWidth - storyGap) / 2)
+    : previewWidth;
+  const chartWidth = Math.max(256, storyBlockWidth - 24);
+  const VisualStoryComponent = visualStory.Component;
+
+  const selectPage = (selection: PageSelection) => {
     setIsScrubbing(false);
-    setSelectedStory(story);
-    updateStoryUrl(story, isVisualMode);
+    setPageSelection(selection);
+    updateShowcaseUrl(selection, isVisualMode);
+  };
+
+  const selectMode = (mode: ShowcaseMode) => {
+    selectPage({ mode, page: mode.pages[0] });
   };
 
   if (isVisualMode) {
+    const visualWidth = Math.min(previewWidth, 430);
+
     return (
       <View style={styles.visualRoot}>
         <View
           testID="visual-frame"
-          style={[styles.visualFrame, { width: previewWidth }]}
+          style={[styles.visualFrame, { width: visualWidth }]}
         >
-          <StoryComponent width={previewWidth - 24} isVisualMode />
+          <VisualStoryComponent width={visualWidth - 24} isVisualMode />
         </View>
       </View>
     );
@@ -93,79 +179,77 @@ export default function App() {
             <Text style={styles.title}>Showcase</Text>
           </View>
           <View style={styles.countBadge}>
-            <Text style={styles.countText}>{stories.length}</Text>
+            <Text style={styles.countText}>{pageStories.length}</Text>
           </View>
         </View>
 
         <ScrollView
           horizontal
-          style={styles.sectionTabsScroller}
-          contentContainerStyle={styles.sectionTabs}
+          style={styles.modeTabsScroller}
+          contentContainerStyle={styles.modeTabs}
           showsHorizontalScrollIndicator={false}
         >
-          {storySections.map((section) => {
-            const isSelected = selectedSection?.id === section.id;
+          {showcaseModes.map((mode) => {
+            const isSelected = pageSelection.mode.id === mode.id;
 
             return (
               <Pressable
-                key={section.id}
+                key={mode.id}
                 accessibilityRole="button"
                 accessibilityState={{ selected: isSelected }}
-                onPress={() => selectStory(section.stories[0])}
+                onPress={() => selectMode(mode)}
                 style={({ pressed }) => [
-                  styles.sectionTab,
-                  isSelected && styles.sectionTabSelected,
+                  styles.modeTab,
+                  isSelected && styles.modeTabSelected,
                   pressed && styles.pressed
                 ]}
               >
                 <Text
                   style={[
-                    styles.sectionTabText,
-                    isSelected && styles.sectionTabTextSelected
+                    styles.modeTabText,
+                    isSelected && styles.modeTabTextSelected
                   ]}
                 >
-                  {section.title}
+                  {mode.title}
                 </Text>
               </Pressable>
             );
           })}
         </ScrollView>
 
-        {selectedSection ? (
-          <ScrollView
-            horizontal
-            style={styles.storyTabsScroller}
-            contentContainerStyle={styles.storyTabs}
-            showsHorizontalScrollIndicator={false}
-          >
-            {selectedSection.stories.map((story) => {
-              const isSelected = selectedStory.id === story.id;
+        <ScrollView
+          horizontal
+          style={styles.pageTabsScroller}
+          contentContainerStyle={styles.pageTabs}
+          showsHorizontalScrollIndicator={false}
+        >
+          {pageSelection.mode.pages.map((page) => {
+            const isSelected = pageSelection.page.id === page.id;
 
-              return (
-                <Pressable
-                  key={story.id}
-                  accessibilityRole="button"
-                  accessibilityState={{ selected: isSelected }}
-                  onPress={() => selectStory(story)}
-                  style={({ pressed }) => [
-                    styles.storyButton,
-                    isSelected && styles.storyButtonSelected,
-                    pressed && styles.pressed
+            return (
+              <Pressable
+                key={page.id}
+                accessibilityRole="button"
+                accessibilityState={{ selected: isSelected }}
+                onPress={() => selectPage({ mode: pageSelection.mode, page })}
+                style={({ pressed }) => [
+                  styles.pageButton,
+                  isSelected && styles.pageButtonSelected,
+                  pressed && styles.pressed
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.pageButtonText,
+                    isSelected && styles.pageButtonTextSelected
                   ]}
                 >
-                  <Text
-                    style={[
-                      styles.storyButtonText,
-                      isSelected && styles.storyButtonTextSelected
-                    ]}
-                  >
-                    {story.title}
-                  </Text>
-                </Pressable>
-              );
-            })}
-          </ScrollView>
-        ) : null}
+                  {page.title}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
 
         <ScrollView
           style={styles.previewScroll}
@@ -173,12 +257,43 @@ export default function App() {
           scrollEnabled={!isScrubbing}
           showsVerticalScrollIndicator
         >
-          <View style={[styles.previewWidth, { width: previewWidth }]}>
-            <StoryComponent
-              width={previewWidth - 24}
-              onScrubStart={() => setIsScrubbing(true)}
-              onScrubEnd={() => setIsScrubbing(false)}
-            />
+          <View style={[styles.pageContent, { width: previewWidth }]}>
+            <View style={styles.pageIntro}>
+              <Text style={styles.pageKicker}>{pageSelection.mode.title}</Text>
+              <Text style={styles.pageTitle}>{pageSelection.page.title}</Text>
+              <Text style={styles.pageDescription}>
+                {pageSelection.page.description}
+              </Text>
+            </View>
+
+            <View style={styles.storyGrid}>
+              {pageStories.map((story) => {
+                const StoryComponent = story.Component;
+                const tags = storyFeatureTags[story.id] ?? [];
+
+                return (
+                  <View
+                    key={story.id}
+                    style={[styles.storyBlock, { width: storyBlockWidth }]}
+                  >
+                    <StoryComponent
+                      width={chartWidth}
+                      onScrubStart={() => setIsScrubbing(true)}
+                      onScrubEnd={() => setIsScrubbing(false)}
+                    />
+                    {tags.length > 0 ? (
+                      <View style={styles.featureTags}>
+                        {tags.map((tag) => (
+                          <View key={tag} style={styles.featureTag}>
+                            <Text style={styles.featureTagText}>{tag}</Text>
+                          </View>
+                        ))}
+                      </View>
+                    ) : null}
+                  </View>
+                );
+              })}
+            </View>
           </View>
         </ScrollView>
       </View>
@@ -204,8 +319,11 @@ const styles = StyleSheet.create({
       Platform.OS === "ios" ? 54 : Math.max(StatusBar.currentHeight ?? 0, 24)
   },
   appShell: {
+    alignSelf: "center",
     flex: 1,
-    paddingHorizontal: 16
+    maxWidth: 972,
+    paddingHorizontal: 16,
+    width: "100%"
   },
   header: {
     alignItems: "center",
@@ -244,17 +362,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "900"
   },
-  sectionTabsScroller: {
+  modeTabsScroller: {
     flexGrow: 0,
     height: 48,
     marginBottom: 6
   },
-  sectionTabs: {
+  modeTabs: {
     alignItems: "center",
     gap: 8,
     height: 48
   },
-  sectionTab: {
+  modeTab: {
     backgroundColor: "#ffffff",
     borderColor: "#d9e2ef",
     borderRadius: 8,
@@ -263,29 +381,29 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: 12
   },
-  sectionTabSelected: {
+  modeTabSelected: {
     backgroundColor: "#0f172a",
     borderColor: "#0f172a"
   },
-  sectionTabText: {
+  modeTabText: {
     color: "#344054",
     fontSize: 13,
     fontWeight: "800"
   },
-  sectionTabTextSelected: {
+  modeTabTextSelected: {
     color: "#ffffff"
   },
-  storyTabsScroller: {
+  pageTabsScroller: {
     flexGrow: 0,
     height: 54,
     marginBottom: 12
   },
-  storyTabs: {
+  pageTabs: {
     alignItems: "center",
     gap: 8,
     height: 54
   },
-  storyButton: {
+  pageButton: {
     backgroundColor: "#ffffff",
     borderColor: "#d9e2ef",
     borderRadius: 8,
@@ -294,16 +412,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: 13
   },
-  storyButtonSelected: {
+  pageButtonSelected: {
     backgroundColor: "#eff6ff",
     borderColor: "#2563eb"
   },
-  storyButtonText: {
+  pageButtonText: {
     color: "#344054",
     fontSize: 14,
     fontWeight: "800"
   },
-  storyButtonTextSelected: {
+  pageButtonTextSelected: {
     color: "#1d4ed8"
   },
   pressed: {
@@ -318,7 +436,58 @@ const styles = StyleSheet.create({
     paddingBottom: 28,
     paddingHorizontal: 16
   },
-  previewWidth: {
-    maxWidth: 430
+  pageContent: {
+    maxWidth: 940
+  },
+  pageIntro: {
+    marginBottom: 14
+  },
+  pageKicker: {
+    color: "#64748b",
+    fontSize: 11,
+    fontWeight: "900",
+    letterSpacing: 0,
+    textTransform: "uppercase"
+  },
+  pageTitle: {
+    color: "#101828",
+    fontSize: 24,
+    fontWeight: "900",
+    letterSpacing: 0,
+    marginTop: 3
+  },
+  pageDescription: {
+    color: "#475569",
+    fontSize: 14,
+    fontWeight: "600",
+    lineHeight: 20,
+    marginTop: 5
+  },
+  storyGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 16
+  },
+  storyBlock: {
+    gap: 8
+  },
+  featureTags: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 6,
+    paddingHorizontal: 4
+  },
+  featureTag: {
+    backgroundColor: "#e8eef7",
+    borderColor: "#d6e0ec",
+    borderRadius: 6,
+    borderWidth: 1,
+    paddingHorizontal: 8,
+    paddingVertical: 4
+  },
+  featureTagText: {
+    color: "#344054",
+    fontSize: 11,
+    fontWeight: "800"
   }
 });
