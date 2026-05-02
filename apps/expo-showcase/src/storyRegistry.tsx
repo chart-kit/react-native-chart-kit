@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import {
@@ -12,6 +12,8 @@ import {
 import {
   AreaChart,
   LineChart,
+  type LineChartViewportChangeEvent,
+  type LineChartViewportConfig,
   useChartKitTheme
 } from "@chart-kit/react-native-v2";
 import { SvgCircle, SvgGroup, SvgRect, SvgText } from "@chart-kit/svg-renderer";
@@ -616,15 +618,33 @@ const rangeSelectorPresetOptions: ChartViewportPresetName[] = [
   "ALL"
 ];
 
+const rangeSelectorXValues = msftVsGoogHistory.map((point) => point.date);
+
+const getRangeSelectorPresetViewport = (
+  option: ChartViewportPresetName
+): LineChartViewportConfig =>
+  resolveChartViewportPresetWindow({
+    preset: option,
+    xValues: rangeSelectorXValues
+  });
+
 const V2RangeSelectorOverview = ({ isVisualMode, width }: NativeStoryProps) => {
-  const [preset, setPreset] = useState<ChartViewportPresetName>("1M");
-  const viewport = useMemo(
-    () =>
-      resolveChartViewportPresetWindow({
-        preset,
-        xValues: msftVsGoogHistory.map((point) => point.date)
-      }),
-    [preset]
+  const [selectedPreset, setSelectedPreset] = useState<
+    ChartViewportPresetName | undefined
+  >("1M");
+  const [viewport, setViewport] = useState<LineChartViewportConfig>(() =>
+    getRangeSelectorPresetViewport("1M")
+  );
+  const handlePresetPress = useCallback((option: ChartViewportPresetName) => {
+    setSelectedPreset(option);
+    setViewport(getRangeSelectorPresetViewport(option));
+  }, []);
+  const handleViewportChange = useCallback(
+    (event: LineChartViewportChangeEvent) => {
+      setSelectedPreset(undefined);
+      setViewport(event.viewport);
+    },
+    []
   );
 
   return (
@@ -632,13 +652,13 @@ const V2RangeSelectorOverview = ({ isVisualMode, width }: NativeStoryProps) => {
       {isVisualMode ? null : (
         <View style={styles.rangePresetRow}>
           {rangeSelectorPresetOptions.map((option) => {
-            const isSelected = option === preset;
+            const isSelected = option === selectedPreset;
 
             return (
               <Pressable
                 key={option}
                 accessibilityRole="button"
-                onPress={() => setPreset(option)}
+                onPress={() => handlePresetPress(option)}
                 style={({ pressed }) => [
                   styles.rangePresetButton,
                   isSelected && styles.rangePresetButtonActive,
@@ -663,10 +683,13 @@ const V2RangeSelectorOverview = ({ isVisualMode, width }: NativeStoryProps) => {
         xKey="date"
         width={width}
         height={isVisualMode ? 314 : 300}
+        onViewportChange={handleViewportChange}
+        testID="range-selector-chart"
         viewport={viewport}
         rangeSelector={{
           height: 54,
           gap: 10,
+          interactive: true,
           windowFill: "#2563EB",
           windowStroke: "#2563EB",
           windowOpacity: 0.11

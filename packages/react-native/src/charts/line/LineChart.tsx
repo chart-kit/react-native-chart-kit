@@ -22,11 +22,13 @@ import {
   resolveChartViewport,
   resolveChartViewportInitialOffset,
   resolveChartViewportWindow,
+  resolveChartViewportWindowFromPosition,
   resolveNumericDomain,
   sliceChartViewportData,
   solveChartBoxes,
   solveLabelCollision,
-  type ChartViewportInitialIndex
+  type ChartViewportInitialIndex,
+  type ResolvedChartViewportWindow
 } from "@chart-kit/core";
 import type {
   ChartXValue,
@@ -174,10 +176,24 @@ export type LineChartRangeSelectorConfig = {
   visible?: boolean;
   height?: number;
   gap?: number;
+  interactive?: boolean;
   windowFill?: string;
   windowOpacity?: number;
   windowStroke?: string;
   lineOpacity?: number;
+  handleColor?: string;
+  handleOpacity?: number;
+  handleWidth?: number;
+};
+
+export type LineChartViewportChangeEvent = {
+  viewport: LineChartViewportConfig;
+  startIndex: number;
+  endIndex: number;
+  visibleCount: number;
+  itemCount: number;
+  isWindowed: boolean;
+  source: "rangeSelector";
 };
 
 export type LineChartLegendRenderItem = {
@@ -268,6 +284,7 @@ export type LineChartProps<TData extends Record<string, unknown>> = {
   visiblePoints?: number;
   initialIndex?: ChartViewportInitialIndex;
   viewport?: LineChartViewportConfig;
+  onViewportChange?: (event: LineChartViewportChangeEvent) => void;
   rangeSelector?: boolean | LineChartRangeSelectorConfig;
   curve?: LineCurve;
   connectNulls?: boolean;
@@ -357,10 +374,14 @@ const getRangeSelectorConfig = (
     visible,
     height: config.height ?? 54,
     gap: config.gap ?? 10,
+    interactive: config.interactive ?? false,
     windowFill: config.windowFill,
     windowOpacity: config.windowOpacity ?? 0.1,
     windowStroke: config.windowStroke,
-    lineOpacity: config.lineOpacity ?? 0.62
+    lineOpacity: config.lineOpacity ?? 0.62,
+    handleColor: config.handleColor,
+    handleOpacity: config.handleOpacity ?? 0.9,
+    handleWidth: config.handleWidth ?? 3
   };
 };
 
@@ -1711,6 +1732,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
 ) => {
   const chartId = useId().replace(/:/g, "");
   const chartKitTheme = useChartKitTheme();
+  const { onViewportChange } = props;
   const scrollViewRef = useRef<ScrollView>(null);
   const interactionConfig = useMemo(
     () => getLineChartInteractionConfig(props.interaction),
@@ -2343,9 +2365,96 @@ export const LineChart = <TData extends Record<string, unknown>>(
     10,
     rangeSelectorWindowEndX - rangeSelectorWindowX
   );
+  const emitViewportChange = useCallback(
+    (nextWindow: ResolvedChartViewportWindow) => {
+      onViewportChange?.({
+        viewport: {
+          startIndex: nextWindow.startIndex,
+          endIndex: nextWindow.endIndex
+        },
+        startIndex: nextWindow.startIndex,
+        endIndex: nextWindow.endIndex,
+        visibleCount: nextWindow.visibleCount,
+        itemCount: nextWindow.itemCount,
+        isWindowed: nextWindow.isWindowed,
+        source: "rangeSelector"
+      });
+    },
+    [onViewportChange]
+  );
+  const isRangeSelectorInteractive =
+    isRangeSelectorVisible &&
+    rangeSelectorConfig.interactive &&
+    onViewportChange !== undefined;
+  const handleRangeSelectorInteraction = useCallback(
+    (event: GestureResponderEvent) => {
+      preventBrowserSelection(event);
+
+      if (!isRangeSelectorInteractive) {
+        return;
+      }
+
+      const nextWindow = resolveChartViewportWindowFromPosition({
+        itemCount: props.data.length,
+        locationX: event.nativeEvent.locationX,
+        plotWidth: overviewModel.boxes.plot.width,
+        plotX: overviewModel.boxes.plot.x,
+        visibleCount: viewportWindow.visibleCount
+      });
+
+      if (
+        nextWindow.startIndex === viewportWindow.startIndex &&
+        nextWindow.endIndex === viewportWindow.endIndex
+      ) {
+        return;
+      }
+
+      emitViewportChange(nextWindow);
+    },
+    [
+      emitViewportChange,
+      isRangeSelectorInteractive,
+      overviewModel.boxes.plot.width,
+      overviewModel.boxes.plot.x,
+      preventBrowserSelection,
+      props.data.length,
+      viewportWindow.endIndex,
+      viewportWindow.startIndex,
+      viewportWindow.visibleCount
+    ]
+  );
+  const rangeSelectorResponderProps = isRangeSelectorInteractive
+    ? {
+        onStartShouldSetResponder: () => true,
+        onMoveShouldSetResponder: () => true,
+        onResponderGrant: handleRangeSelectorInteraction,
+        onResponderMove: handleRangeSelectorInteraction,
+        onResponderTerminationRequest: () => false
+      }
+    : {};
+  const rangeSelectorHandleWidth = rangeSelectorConfig.handleWidth;
+  const rangeSelectorHandleColor =
+    rangeSelectorConfig.handleColor ??
+    rangeSelectorConfig.windowStroke ??
+    overviewModel.resolvedTheme.axis;
+  const rangeSelectorHandleMinX = overviewModel.boxes.plot.x;
+  const rangeSelectorHandleMaxX =
+    overviewModel.boxes.plot.x +
+    overviewModel.boxes.plot.width -
+    rangeSelectorHandleWidth;
+  const rangeSelectorStartHandleX = clamp(
+    rangeSelectorWindowX - rangeSelectorHandleWidth / 2,
+    rangeSelectorHandleMinX,
+    rangeSelectorHandleMaxX
+  );
+  const rangeSelectorEndHandleX = clamp(
+    rangeSelectorWindowEndX - rangeSelectorHandleWidth / 2,
+    rangeSelectorHandleMinX,
+    rangeSelectorHandleMaxX
+  );
   const rangeSelectorElement = isRangeSelectorVisible ? (
     <View
-      pointerEvents="none"
+      pointerEvents={isRangeSelectorInteractive ? "auto" : "none"}
       style={[
         styles.rangeSelector,
         {
@@ -2354,6 +2463,8 @@ export const LineChart = <TData extends Record<string, unknown>>(
           width: props.width
         }
       ]}
+      testID={props.testID ? `${props.testID}-range-selector` : undefined}
+      {...rangeSelectorResponderProps}
     >
       <SvgSurface width={props.width} height={rangeSelectorConfig.height}>
         <SvgLayer name="background">
@@ -2406,6 +2517,28 @@ export const LineChart = <TData extends Record<string, unknown>>(
             strokeOpacity={0.42}
             strokeWidth={1}
           />
+          {isRangeSelectorInteractive ? (
+            <>
+              <SvgRect
+                x={rangeSelectorStartHandleX}
+                y={overviewModel.boxes.plot.y + 6}
+                width={rangeSelectorHandleWidth}
+                height={Math.max(8, overviewModel.boxes.plot.height - 12)}
+                rx={rangeSelectorHandleWidth / 2}
+                fill={rangeSelectorHandleColor}
+                opacity={rangeSelectorConfig.handleOpacity}
+              />
+              <SvgRect
+                x={rangeSelectorEndHandleX}
+                y={overviewModel.boxes.plot.y + 6}
+                width={rangeSelectorHandleWidth}
+                height={Math.max(8, overviewModel.boxes.plot.height - 12)}
+                rx={rangeSelectorHandleWidth / 2}
+                fill={rangeSelectorHandleColor}
+                opacity={rangeSelectorConfig.handleOpacity}
+              />
+            </>
+          ) : null}
         </SvgLayer>
       </SvgSurface>
     </View>

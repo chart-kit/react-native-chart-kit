@@ -43,6 +43,7 @@ export type {
   LineChartTooltipConfig,
   LineChartTooltipRenderProps,
   LineChartTooltipSeriesItem,
+  LineChartViewportChangeEvent,
   LineChartViewportConfig,
   ResolvedLineChartCrosshairConfig,
   ResolvedLineChartDotConfig,

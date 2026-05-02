@@ -49,6 +49,14 @@ export type ResolveChartViewportPresetWindowOptions = {
   xValues: readonly ChartXValue[];
 };
 
+export type ResolveChartViewportWindowFromPositionOptions = {
+  itemCount: number;
+  locationX: number;
+  plotWidth: number;
+  plotX: number;
+  visibleCount: number;
+};
+
 const minVisiblePoints = 2;
 const millisecondsInOneDay = 24 * 60 * 60 * 1000;
 
@@ -226,6 +234,46 @@ export const sliceChartViewportData = <TData>(
   data: readonly TData[],
   window: ResolvedChartViewportWindow
 ) => data.slice(window.startIndex, window.endIndex);
+
+export const resolveChartViewportWindowFromPosition = ({
+  itemCount,
+  locationX,
+  plotWidth,
+  plotX,
+  visibleCount
+}: ResolveChartViewportWindowFromPositionOptions): ResolvedChartViewportWindow => {
+  const safeItemCount = normalizePositiveInteger(itemCount, 0, 0);
+
+  if (safeItemCount === 0) {
+    return resolveChartViewportWindow({ itemCount: safeItemCount });
+  }
+
+  const safeVisibleCount = clamp(
+    normalizePositiveInteger(visibleCount, safeItemCount),
+    minVisiblePoints,
+    safeItemCount
+  );
+
+  if (safeVisibleCount >= safeItemCount) {
+    return resolveChartViewportWindow({ itemCount: safeItemCount });
+  }
+
+  const safePlotWidth =
+    Number.isFinite(plotWidth) && plotWidth > 0 ? plotWidth : 1;
+  const normalizedPosition = clamp((locationX - plotX) / safePlotWidth, 0, 1);
+  const centerIndex = Math.round(normalizedPosition * (safeItemCount - 1));
+  const startIndex = clamp(
+    centerIndex - Math.floor(safeVisibleCount / 2),
+    0,
+    safeItemCount - safeVisibleCount
+  );
+
+  return resolveChartViewportWindow({
+    itemCount: safeItemCount,
+    startIndex,
+    endIndex: startIndex + safeVisibleCount
+  });
+};
 
 const isFiniteDate = (value: ChartXValue): value is Date =>
   value instanceof Date && Number.isFinite(value.valueOf());

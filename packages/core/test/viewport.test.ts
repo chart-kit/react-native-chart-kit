@@ -5,6 +5,7 @@ import {
   resolveChartViewportInitialOffset,
   resolveChartViewportPresetWindow,
   resolveChartViewportWindow,
+  resolveChartViewportWindowFromPosition,
   sliceChartViewportData
 } from "../src";
 
@@ -216,6 +217,45 @@ describe("chart viewport", () => {
       startIndex: 13,
       endIndex: 20,
       visibleCount: 7
+    });
+  });
+
+  it("resolves a fixed-width window from an overview position", () => {
+    expect(
+      resolveChartViewportWindowFromPosition({
+        itemCount: 20,
+        locationX: 60,
+        plotX: 40,
+        plotWidth: 200,
+        visibleCount: 6
+      })
+    ).toMatchObject({
+      startIndex: 0,
+      endIndex: 6
+    });
+    expect(
+      resolveChartViewportWindowFromPosition({
+        itemCount: 20,
+        locationX: 140,
+        plotX: 40,
+        plotWidth: 200,
+        visibleCount: 6
+      })
+    ).toMatchObject({
+      startIndex: 7,
+      endIndex: 13
+    });
+    expect(
+      resolveChartViewportWindowFromPosition({
+        itemCount: 20,
+        locationX: 260,
+        plotX: 40,
+        plotWidth: 200,
+        visibleCount: 6
+      })
+    ).toMatchObject({
+      startIndex: 14,
+      endIndex: 20
     });
   });
 });

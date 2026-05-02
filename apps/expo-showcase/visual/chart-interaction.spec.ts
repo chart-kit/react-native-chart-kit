@@ -90,10 +90,42 @@ test.describe("Expo showcase chart interactions", () => {
     });
 
     await expect(page.getByText("Portfolio range")).toBeVisible();
-    await expect(page.getByText("Dec 15").first()).toBeVisible();
+    const chart = page.getByTestId("range-selector-chart");
+    await expect(chart.getByText("Dec 15").first()).toBeVisible();
 
     await page.getByRole("button", { name: "YTD" }).click();
-    await expect(page.getByText("Jan 3").first()).toBeVisible();
-    await expect(page.getByText("Dec 15")).toHaveCount(0);
+    await expect(chart.getByText("Jan 3").first()).toBeVisible();
+    await expect(chart.getByText("Dec 15")).toHaveCount(0);
+  });
+
+  test("range selector overview changes the visible window", async ({
+    page
+  }) => {
+    await page.goto("/?story=v2-range-selector");
+    await page.evaluate(async () => {
+      await document.fonts?.ready;
+    });
+
+    await expect(page.getByText("Portfolio range")).toBeVisible();
+    const chart = page.getByTestId("range-selector-chart");
+    await expect(chart.getByText("Dec 15").first()).toBeVisible();
+    await expect(chart.getByText("Jan 14").first()).toBeVisible();
+
+    const rangeSelector = page.getByTestId(
+      "range-selector-chart-range-selector"
+    );
+    await expect(rangeSelector).toBeVisible();
+    await rangeSelector.scrollIntoViewIfNeeded();
+
+    const rangeBox = await rangeSelector.boundingBox();
+    expect(rangeBox).not.toBeNull();
+
+    if (!rangeBox) {
+      return;
+    }
+
+    await page.mouse.click(rangeBox.x + 56, rangeBox.y + rangeBox.height / 2);
+    await expect(chart.getByText("Nov 3").first()).toBeVisible();
+    await expect(chart.getByText("Jan 14")).toHaveCount(0);
   });
 });
