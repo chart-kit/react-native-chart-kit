@@ -1869,8 +1869,10 @@ export const LineChart = <TData extends Record<string, unknown>>(
     : {};
   const animatedTooltip = useAnimatedTooltipModel(selectionModel?.tooltip);
   const chartWidth = viewport.contentWidth;
+  const xAxisLabelFadeY = boxes.plot.y + boxes.plot.height;
+  const xAxisLabelFadeHeight = Math.max(0, props.height - xAxisLabelFadeY);
   const scrollStartFadeWidth = Math.min(
-    22,
+    12,
     Math.max(0, props.width - boxes.plot.x)
   );
   const scrollStartFadeId = `${chartId}-scroll-start-fade`;
@@ -2136,9 +2138,9 @@ export const LineChart = <TData extends Record<string, unknown>>(
           {scrollStartFadeWidth > 0 ? (
             <SvgRect
               x={boxes.plot.x}
-              y={0}
+              y={xAxisLabelFadeY}
               width={scrollStartFadeWidth}
-              height={props.height}
+              height={xAxisLabelFadeHeight}
               fill={`url(#${scrollStartFadeId})`}
             />
           ) : null}
