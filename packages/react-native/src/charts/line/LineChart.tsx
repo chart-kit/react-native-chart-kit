@@ -1,6 +1,7 @@
-import { useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
+import type { GestureResponderEvent } from "react-native";
 
 import {
   buildLineSeriesGeometry,
@@ -49,6 +50,16 @@ import {
   type ResolvedLineChartDotConfig
 } from "./options";
 import {
+  buildLineChartSelectEvent,
+  getLineChartInteractionConfig,
+  getNearestLineChartInteractionIndex,
+  isLineChartInteractionEnabled,
+  isLineChartInteractionInBounds,
+  normalizeLineChartSelectedIndex,
+  type LineChartInteraction,
+  type LineChartInteractionPoint
+} from "./interaction";
+import {
   getSelectedLineSeries,
   type LineChartSelectedSeriesItem as BaseLineChartSelectedSeriesItem
 } from "./selection";
@@ -58,6 +69,13 @@ import {
   type LineChartTooltipRenderProps as BaseLineChartTooltipRenderProps,
   type LineChartTooltipSeriesItem as BaseLineChartTooltipSeriesItem
 } from "./tooltip";
+
+export type {
+  LineChartInteraction,
+  LineChartInteractionConfig,
+  LineChartInteractionMode,
+  LineChartSelectEvent
+} from "./interaction";
 
 export type {
   LineChartCrosshairConfig,
@@ -233,8 +251,10 @@ export type LineChartProps<TData extends Record<string, unknown>> = {
   dots?: boolean | LineChartDotConfig;
   renderDot?: (props: LineChartDotRenderProps<TData>) => ReactNode;
   selectedIndex?: number;
+  defaultSelectedIndex?: number;
   activeDot?: boolean | LineChartDotConfig;
   renderActiveDot?: (props: LineChartDotRenderProps<TData>) => ReactNode;
+  interaction?: LineChartInteraction<TData>;
   crosshair?: boolean | LineChartCrosshairConfig;
   tooltip?: boolean | LineChartTooltipConfig;
   renderTooltip?: (props: LineChartTooltipRenderProps<TData>) => ReactNode;
@@ -1379,6 +1399,25 @@ const useChartModel = <TData extends Record<string, unknown>>({
         })
       };
     });
+    const interactionPoints: Array<LineChartInteractionPoint<TData>> =
+      geometries[0]?.geometry.points.flatMap((point) => {
+        if (!Number.isFinite(point.x)) {
+          return [];
+        }
+
+        const dataIndex = point.dataIndex;
+        const xLabel = xLabelTexts[dataIndex] ?? String(point.xValue);
+        const interactionPoint = {
+          dataIndex,
+          x: point.x,
+          xValue: point.xValue,
+          xLabel
+        };
+
+        return point.raw !== undefined
+          ? [{ ...interactionPoint, raw: point.raw }]
+          : [interactionPoint];
+      }) ?? [];
     const xLabelLayout = resolveXLabelLayout({
       candidates: buildXLabelCandidates(boxes, xScale),
       plotWidth: boxes.plot.width,
@@ -1397,10 +1436,7 @@ const useChartModel = <TData extends Record<string, unknown>>({
       tooltip,
       themeAxisColor: resolvedTheme.axis
     });
-    const roundedSelectedIndex =
-      typeof selectedIndex === "number" && Number.isFinite(selectedIndex)
-        ? Math.round(selectedIndex)
-        : undefined;
+    const roundedSelectedIndex = normalizeLineChartSelectedIndex(selectedIndex);
     const selectedDataIndex =
       roundedSelectedIndex !== undefined &&
       roundedSelectedIndex >= 0 &&
@@ -1502,6 +1538,7 @@ const useChartModel = <TData extends Record<string, unknown>>({
     return {
       boxes,
       geometries,
+      interactionPoints,
       legendModel,
       resolvedTheme,
       showDots,
@@ -1546,10 +1583,23 @@ const useChartModel = <TData extends Record<string, unknown>>({
 export const LineChart = <TData extends Record<string, unknown>>(
   props: LineChartProps<TData>
 ) => {
-  const model = useChartModel(props);
+  const interactionConfig = useMemo(
+    () => getLineChartInteractionConfig(props.interaction),
+    [props.interaction]
+  );
+  const [gestureSelectedIndex, setGestureSelectedIndex] = useState<
+    number | undefined
+  >(() => normalizeLineChartSelectedIndex(props.defaultSelectedIndex));
+  const effectiveSelectedIndex = props.selectedIndex ?? gestureSelectedIndex;
+  const chartProps =
+    effectiveSelectedIndex !== undefined
+      ? { ...props, selectedIndex: effectiveSelectedIndex }
+      : props;
+  const model = useChartModel(chartProps);
   const {
     boxes,
     geometries,
+    interactionPoints,
     legendModel,
     resolvedTheme,
     showHorizontalGridLines,
@@ -1561,11 +1611,101 @@ export const LineChart = <TData extends Record<string, unknown>>(
     yTicks,
     formatYLabel
   } = model;
+  const isInteractionEnabled = isLineChartInteractionEnabled(interactionConfig);
+  const isResponderEventInPlot = useCallback(
+    (event: GestureResponderEvent) => {
+      const { locationX, locationY } = event.nativeEvent;
+
+      return isLineChartInteractionInBounds({
+        bounds: boxes.plot,
+        locationX,
+        locationY
+      });
+    },
+    [boxes.plot]
+  );
+  const handleInteractionEvent = useCallback(
+    (event: GestureResponderEvent) => {
+      const { locationX } = event.nativeEvent;
+      const selectedDataIndex = getNearestLineChartInteractionIndex({
+        locationX,
+        points: interactionPoints
+      });
+
+      if (selectedDataIndex === undefined) {
+        return;
+      }
+
+      const selectedSeries = getSelectedLineSeries({
+        activeDot: props.activeDot,
+        formatYLabel,
+        geometries,
+        selectedDataIndex
+      });
+      const selectEvent = buildLineChartSelectEvent<
+        TData,
+        ProjectedLinePoint<TData>
+      >({
+        interactionPoints,
+        selectedDataIndex,
+        selectedSeries
+      });
+
+      if (!selectEvent) {
+        return;
+      }
+
+      if (props.selectedIndex === undefined) {
+        setGestureSelectedIndex(selectedDataIndex);
+      }
+
+      interactionConfig.onSelect?.(selectEvent);
+    },
+    [
+      formatYLabel,
+      geometries,
+      interactionConfig,
+      interactionPoints,
+      props.activeDot,
+      props.selectedIndex
+    ]
+  );
+  const handleResponderGrant = useCallback(
+    (event: GestureResponderEvent) => {
+      interactionConfig.onGestureStart?.();
+      handleInteractionEvent(event);
+    },
+    [handleInteractionEvent, interactionConfig]
+  );
+  const handleResponderMove = useCallback(
+    (event: GestureResponderEvent) => {
+      if (interactionConfig.mode === "scrub") {
+        handleInteractionEvent(event);
+      }
+    },
+    [handleInteractionEvent, interactionConfig.mode]
+  );
+  const handleResponderEnd = useCallback(() => {
+    interactionConfig.onGestureEnd?.();
+  }, [interactionConfig]);
+  const responderProps = isInteractionEnabled
+    ? {
+        onStartShouldSetResponder: (event: GestureResponderEvent) =>
+          isResponderEventInPlot(event),
+        onMoveShouldSetResponder: (event: GestureResponderEvent) =>
+          interactionConfig.mode === "scrub" && isResponderEventInPlot(event),
+        onResponderGrant: handleResponderGrant,
+        onResponderMove: handleResponderMove,
+        onResponderRelease: handleResponderEnd,
+        onResponderTerminate: handleResponderEnd
+      }
+    : {};
 
   return (
     <View
       testID={props.testID}
       style={[styles.container, { width: props.width, height: props.height }]}
+      {...responderProps}
     >
       <SvgSurface width={props.width} height={props.height}>
         <SvgLayer name="background">

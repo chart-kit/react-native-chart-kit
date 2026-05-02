@@ -35,7 +35,7 @@ Marker and selection option resolution moved into small pure helpers so marker p
 - label strategies: implemented for auto, skip, rotate, stagger, hide, and show
 - marker styles: implemented through shared renderer symbols
 - basic legend flexibility: implemented with sizing, spacing, alignment, render item, and render legend hooks
-- tooltip and crosshair: implemented as controlled selection state
+- tooltip and crosshair: implemented for controlled and opt-in tap/scrub selection state
 - dark mode example: implemented
 - unit coverage: added for marker config, crosshair/tooltip config, tooltip placement, and null-gap selection
 
@@ -44,4 +44,4 @@ Marker and selection option resolution moved into small pure helpers so marker p
 - Promote or rename the import path after API review.
 - Add user-facing docs examples for the modern Line/Area API.
 - Add legacy `LineChart` adapter work in the compatibility package slice.
-- Add gesture-driven selection in CKV2-010; current selection is controlled-only.
+- Continue CKV2-010 with richer gesture adapters and native conflict testing.
