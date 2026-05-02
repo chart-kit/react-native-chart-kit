@@ -1,4 +1,15 @@
+import type { ChartXValue } from "../data";
+
 export type ChartViewportInitialIndex = "start" | "end" | number;
+export type ChartViewportPresetName =
+  | "1D"
+  | "1W"
+  | "1M"
+  | "3M"
+  | "6M"
+  | "YTD"
+  | "1Y"
+  | "ALL";
 
 export type ResolveChartViewportOptions = {
   itemCount: number;
@@ -33,7 +44,22 @@ export type ResolvedChartViewportWindow = {
   visibleCount: number;
 };
 
+export type ResolveChartViewportPresetWindowOptions = {
+  preset: ChartViewportPresetName;
+  xValues: readonly ChartXValue[];
+};
+
 const minVisiblePoints = 2;
+const millisecondsInOneDay = 24 * 60 * 60 * 1000;
+
+const presetDayCounts: Partial<Record<ChartViewportPresetName, number>> = {
+  "1D": 1,
+  "1W": 7,
+  "1M": 30,
+  "3M": 90,
+  "6M": 180,
+  "1Y": 365
+};
 
 const clamp = (value: number, min: number, max: number) => {
   if (max < min) {
@@ -200,3 +226,77 @@ export const sliceChartViewportData = <TData>(
   data: readonly TData[],
   window: ResolvedChartViewportWindow
 ) => data.slice(window.startIndex, window.endIndex);
+
+const isFiniteDate = (value: ChartXValue): value is Date =>
+  value instanceof Date && Number.isFinite(value.valueOf());
+
+const getPresetPointFallback = (
+  preset: ChartViewportPresetName,
+  itemCount: number
+) => {
+  if (preset === "ALL") {
+    return itemCount;
+  }
+
+  if (preset === "YTD") {
+    return Math.min(itemCount, 252);
+  }
+
+  return Math.min(itemCount, presetDayCounts[preset] ?? itemCount);
+};
+
+const getStartDateForPreset = (
+  preset: ChartViewportPresetName,
+  lastDate: Date
+) => {
+  if (preset === "ALL") {
+    return undefined;
+  }
+
+  if (preset === "YTD") {
+    return new Date(lastDate.getFullYear(), 0, 1);
+  }
+
+  const days = presetDayCounts[preset];
+
+  if (days === undefined) {
+    return undefined;
+  }
+
+  return new Date(lastDate.valueOf() - days * millisecondsInOneDay);
+};
+
+export const resolveChartViewportPresetWindow = ({
+  preset,
+  xValues
+}: ResolveChartViewportPresetWindowOptions): ResolvedChartViewportWindow => {
+  const itemCount = xValues.length;
+
+  if (preset === "ALL") {
+    return resolveChartViewportWindow({ itemCount });
+  }
+
+  const lastValue = xValues[itemCount - 1];
+
+  if (lastValue && isFiniteDate(lastValue)) {
+    const startDate = getStartDateForPreset(preset, lastValue);
+
+    if (startDate) {
+      const startIndex = xValues.findIndex(
+        (value) => isFiniteDate(value) && value.valueOf() >= startDate.valueOf()
+      );
+
+      return resolveChartViewportWindow({
+        itemCount,
+        startIndex: startIndex >= 0 ? startIndex : itemCount - 1,
+        endIndex: itemCount
+      });
+    }
+  }
+
+  return resolveChartViewportWindow({
+    itemCount,
+    visiblePoints: getPresetPointFallback(preset, itemCount),
+    initialIndex: "end"
+  });
+};

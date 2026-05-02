@@ -2,6 +2,10 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import {
+  resolveChartViewportPresetWindow,
+  type ChartViewportPresetName
+} from "@chart-kit/core";
+import {
   BarChart as CompatBarChart,
   LineChart as CompatLineChart
 } from "@chart-kit/react-native";
@@ -606,54 +610,98 @@ const V2ScrollableStockComparison = ({
   );
 };
 
-const V2RangeSelectorOverview = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Portfolio range" kicker="Overview window">
-    <LineChart
-      data={msftVsGoogHistory}
-      xKey="date"
-      width={width}
-      height={314}
-      viewport={{
-        visiblePoints: 18,
-        initialIndex: "end"
-      }}
-      rangeSelector={{
-        height: 54,
-        gap: 10,
-        windowFill: "#2563EB",
-        windowStroke: "#2563EB",
-        windowOpacity: 0.11
-      }}
-      curve="monotone"
-      showDots={false}
-      showHorizontalGridLines
-      yDomain={{ min: "dataMin", max: "dataMax", nice: true }}
-      formatXLabel={(value) =>
-        value instanceof Date
-          ? value.toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric"
-            })
-          : String(value)
-      }
-      formatYLabel={(value) => `$${Math.round(value)}`}
-      series={[
-        {
-          yKey: "msft",
-          label: "MSFT",
-          color: "#2563EB",
-          strokeWidth: 3
-        },
-        {
-          yKey: "goog",
-          label: "GOOG",
-          color: "#16A34A",
-          strokeWidth: 2.5
+const rangeSelectorPresetOptions: ChartViewportPresetName[] = [
+  "1M",
+  "YTD",
+  "ALL"
+];
+
+const V2RangeSelectorOverview = ({ isVisualMode, width }: NativeStoryProps) => {
+  const [preset, setPreset] = useState<ChartViewportPresetName>("1M");
+  const viewport = useMemo(
+    () =>
+      resolveChartViewportPresetWindow({
+        preset,
+        xValues: msftVsGoogHistory.map((point) => point.date)
+      }),
+    [preset]
+  );
+
+  return (
+    <ChartCard title="Portfolio range" kicker="Overview window">
+      {isVisualMode ? null : (
+        <View style={styles.rangePresetRow}>
+          {rangeSelectorPresetOptions.map((option) => {
+            const isSelected = option === preset;
+
+            return (
+              <Pressable
+                key={option}
+                accessibilityRole="button"
+                onPress={() => setPreset(option)}
+                style={({ pressed }) => [
+                  styles.rangePresetButton,
+                  isSelected && styles.rangePresetButtonActive,
+                  pressed && styles.rangePresetButtonPressed
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.rangePresetButtonText,
+                    isSelected && styles.rangePresetButtonTextActive
+                  ]}
+                >
+                  {option === "ALL" ? "All" : option}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
+      )}
+      <LineChart
+        data={msftVsGoogHistory}
+        xKey="date"
+        width={width}
+        height={isVisualMode ? 314 : 300}
+        viewport={viewport}
+        rangeSelector={{
+          height: 54,
+          gap: 10,
+          windowFill: "#2563EB",
+          windowStroke: "#2563EB",
+          windowOpacity: 0.11
+        }}
+        curve="monotone"
+        showDots={false}
+        showHorizontalGridLines
+        yDomain={{ min: "dataMin", max: "dataMax", nice: true }}
+        formatXLabel={(value) =>
+          value instanceof Date
+            ? value.toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric"
+              })
+            : String(value)
         }
-      ]}
-    />
-  </ChartCard>
-);
+        formatYLabel={(value) => `$${Math.round(value)}`}
+        series={[
+          {
+            yKey: "msft",
+            label: "MSFT",
+            color: "#2563EB",
+            strokeWidth: 3
+          },
+          {
+            yKey: "goog",
+            label: "GOOG",
+            color: "#16A34A",
+            strokeWidth: 2.5
+          }
+        ]}
+      />
+    </ChartCard>
+  );
+};
 
 type AnimatedPreviewPoint = {
   month: string;
@@ -1611,5 +1659,42 @@ const styles = StyleSheet.create({
     color: "#075985",
     fontSize: 13,
     fontWeight: "800"
+  },
+  rangePresetRow: {
+    alignSelf: "center",
+    backgroundColor: "#eef4fb",
+    borderColor: "#d7e3f1",
+    borderRadius: 8,
+    borderWidth: 1,
+    flexDirection: "row",
+    gap: 4,
+    marginBottom: 10,
+    padding: 3
+  },
+  rangePresetButton: {
+    alignItems: "center",
+    borderRadius: 6,
+    height: 30,
+    justifyContent: "center",
+    minWidth: 48,
+    paddingHorizontal: 10
+  },
+  rangePresetButtonActive: {
+    backgroundColor: "#ffffff",
+    shadowColor: "#0f172a",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 3
+  },
+  rangePresetButtonPressed: {
+    opacity: 0.7
+  },
+  rangePresetButtonText: {
+    color: "#64748b",
+    fontSize: 12,
+    fontWeight: "800"
+  },
+  rangePresetButtonTextActive: {
+    color: "#0f172a"
   }
 });

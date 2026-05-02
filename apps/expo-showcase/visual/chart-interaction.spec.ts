@@ -80,4 +80,20 @@ test.describe("Expo showcase chart interactions", () => {
     await expect(page.getByText("MSFT:")).toBeVisible();
     await expect(page.getByText("Jan 10")).toBeHidden();
   });
+
+  test("range selector preset controls update the visible window", async ({
+    page
+  }) => {
+    await page.goto("/?story=v2-range-selector");
+    await page.evaluate(async () => {
+      await document.fonts?.ready;
+    });
+
+    await expect(page.getByText("Portfolio range")).toBeVisible();
+    await expect(page.getByText("Dec 15").first()).toBeVisible();
+
+    await page.getByRole("button", { name: "YTD" }).click();
+    await expect(page.getByText("Jan 3").first()).toBeVisible();
+    await expect(page.getByText("Dec 15")).toHaveCount(0);
+  });
 });

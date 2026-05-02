@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   resolveChartViewport,
   resolveChartViewportInitialOffset,
+  resolveChartViewportPresetWindow,
   resolveChartViewportWindow,
   sliceChartViewportData
 } from "../src";
@@ -162,5 +163,59 @@ describe("chart viewport", () => {
       "c",
       "d"
     ]);
+  });
+
+  it("resolves date-based preset windows from x values", () => {
+    const xValues = [
+      new Date(2025, 10, 3),
+      new Date(2025, 10, 20),
+      new Date(2025, 11, 20),
+      new Date(2026, 0, 4),
+      new Date(2026, 0, 14)
+    ];
+
+    expect(
+      resolveChartViewportPresetWindow({
+        preset: "1M",
+        xValues
+      })
+    ).toMatchObject({
+      startIndex: 2,
+      endIndex: 5,
+      visibleCount: 3
+    });
+    expect(
+      resolveChartViewportPresetWindow({
+        preset: "YTD",
+        xValues
+      })
+    ).toMatchObject({
+      startIndex: 3,
+      endIndex: 5,
+      visibleCount: 2
+    });
+    expect(
+      resolveChartViewportPresetWindow({
+        preset: "ALL",
+        xValues
+      })
+    ).toMatchObject({
+      isWindowed: false,
+      startIndex: 0,
+      endIndex: 5
+    });
+  });
+
+  it("falls back to point counts for non-date preset windows", () => {
+    expect(
+      resolveChartViewportPresetWindow({
+        preset: "1W",
+        xValues: Array.from({ length: 20 }, (_, index) => `W${index + 1}`)
+      })
+    ).toMatchObject({
+      startIndex: 13,
+      endIndex: 20,
+      visibleCount: 7
+    });
   });
 });

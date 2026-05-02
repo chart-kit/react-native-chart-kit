@@ -1746,7 +1746,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
     [props.data, viewportWindow]
   );
   const isRangeSelectorVisible =
-    rangeSelectorConfig.visible && viewportWindow.isWindowed;
+    rangeSelectorConfig.visible && props.data.length > 1;
   const mainHeight = isRangeSelectorVisible
     ? Math.max(
         120,
