@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState
+} from "react";
 import type { ReactNode } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import type { GestureResponderEvent } from "react-native";
@@ -1660,6 +1667,7 @@ const useAnimatedTooltipModel = <TData,>(
 export const LineChart = <TData extends Record<string, unknown>>(
   props: LineChartProps<TData>
 ) => {
+  const chartId = useId().replace(/:/g, "");
   const chartKitTheme = useChartKitTheme();
   const scrollViewRef = useRef<ScrollView>(null);
   const interactionConfig = useMemo(
@@ -1861,6 +1869,11 @@ export const LineChart = <TData extends Record<string, unknown>>(
     : {};
   const animatedTooltip = useAnimatedTooltipModel(selectionModel?.tooltip);
   const chartWidth = viewport.contentWidth;
+  const scrollStartFadeWidth = Math.min(
+    22,
+    Math.max(0, props.width - boxes.plot.x)
+  );
+  const scrollStartFadeId = `${chartId}-scroll-start-fade`;
 
   const chartSurface = (
     <View
@@ -2099,14 +2112,36 @@ export const LineChart = <TData extends Record<string, unknown>>(
       style={[styles.stickyYAxis, { width: props.width, height: props.height }]}
     >
       <SvgSurface width={props.width} height={props.height}>
+        <SvgDefs>
+          <SvgLinearGradientDef
+            id={scrollStartFadeId}
+            x1="0%"
+            x2="100%"
+            y1="0%"
+            y2="0%"
+            stops={[
+              { offset: "0%", color: resolvedTheme.background, opacity: 1 },
+              { offset: "100%", color: resolvedTheme.background, opacity: 0 }
+            ]}
+          />
+        </SvgDefs>
         <SvgLayer name="background">
           <SvgRect
             x={0}
             y={0}
             width={boxes.plot.x}
-            height={boxes.plot.y + boxes.plot.height}
+            height={props.height}
             fill={resolvedTheme.background}
           />
+          {scrollStartFadeWidth > 0 ? (
+            <SvgRect
+              x={boxes.plot.x}
+              y={0}
+              width={scrollStartFadeWidth}
+              height={props.height}
+              fill={`url(#${scrollStartFadeId})`}
+            />
+          ) : null}
         </SvgLayer>
         <SvgLayer name="axes">
           {yTicks.map((tick) => {
