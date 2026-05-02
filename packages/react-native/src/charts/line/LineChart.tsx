@@ -1636,8 +1636,16 @@ export const LineChart = <TData extends Record<string, unknown>>(
     },
     [interactionConfig, props.selectedIndex]
   );
+  const preventBrowserSelection = useCallback(
+    (event: GestureResponderEvent) => {
+      event.preventDefault();
+    },
+    []
+  );
   const handleInteractionEvent = useCallback(
     (event: GestureResponderEvent) => {
+      preventBrowserSelection(event);
+
       const { locationX } = event.nativeEvent;
       const selectedDataIndex = getNearestLineChartInteractionIndex({
         locationX,
@@ -1682,11 +1690,14 @@ export const LineChart = <TData extends Record<string, unknown>>(
       interactionConfig,
       interactionPoints,
       props.activeDot,
-      props.selectedIndex
+      props.selectedIndex,
+      preventBrowserSelection
     ]
   );
   const handleResponderGrant = useCallback(
     (event: GestureResponderEvent) => {
+      preventBrowserSelection(event);
+
       if (!isResponderEventInPlot(event)) {
         if (interactionConfig.deselectOnOutsidePress) {
           clearGestureSelection({ reason: "outsidePress" });
@@ -1702,7 +1713,8 @@ export const LineChart = <TData extends Record<string, unknown>>(
       clearGestureSelection,
       handleInteractionEvent,
       interactionConfig,
-      isResponderEventInPlot
+      isResponderEventInPlot,
+      preventBrowserSelection
     ]
   );
   const handleResponderMove = useCallback(
@@ -1970,6 +1982,7 @@ export const AreaChart = <TData extends Record<string, unknown>>(
 
 const styles = StyleSheet.create({
   container: {
-    overflow: "hidden"
+    overflow: "hidden",
+    userSelect: "none"
   }
 });
