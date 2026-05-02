@@ -2,7 +2,6 @@ import type { ResolvedLineChartTooltipConfig } from "./options";
 
 export const lineChartTooltipLineHeight = 18;
 export const lineChartTooltipLabelLineHeight = 16;
-export const lineChartTooltipPositionAnimationDuration = 140;
 
 export type LineChartTooltipSeriesItem<TPoint = unknown> = {
   key: string;

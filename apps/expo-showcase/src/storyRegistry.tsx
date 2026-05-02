@@ -364,7 +364,8 @@ const V2ScrubInteraction = ({
         strokeDasharray: [4, 4]
       }}
       tooltip={{
-        width: 138
+        width: 138,
+        positionAnimationDuration: 180
       }}
       activeDot={{
         radius: 5.5,
@@ -408,7 +409,8 @@ const V2WhileActiveScrub = ({
         strokeDasharray: [4, 4]
       }}
       tooltip={{
-        width: 138
+        width: 138,
+        positionAnimationDuration: 110
       }}
       activeDot={{
         radius: 5.5,

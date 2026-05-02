@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  defaultLineChartTooltipPositionAnimationDuration,
   getLineChartActiveDotConfig,
   getLineChartCrosshairConfig,
   getLineChartDotConfig,
@@ -92,7 +93,32 @@ describe("LineChart marker and interaction options", () => {
       visible: true,
       shared: false,
       width: 120,
-      borderColor: "#ddd"
+      borderColor: "#ddd",
+      positionAnimationDuration:
+        defaultLineChartTooltipPositionAnimationDuration
     });
+  });
+
+  it("allows tooltip position animation duration to be configured or disabled", () => {
+    expect(
+      getLineChartTooltipConfig({
+        tooltip: { positionAnimationDuration: 220 },
+        themeAxisColor: "#ddd"
+      }).positionAnimationDuration
+    ).toBe(220);
+
+    expect(
+      getLineChartTooltipConfig({
+        tooltip: { positionAnimationDuration: 0 },
+        themeAxisColor: "#ddd"
+      }).positionAnimationDuration
+    ).toBe(0);
+
+    expect(
+      getLineChartTooltipConfig({
+        tooltip: { positionAnimationDuration: -25 },
+        themeAxisColor: "#ddd"
+      }).positionAnimationDuration
+    ).toBe(0);
   });
 });

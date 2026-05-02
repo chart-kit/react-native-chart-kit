@@ -49,7 +49,10 @@ export type LineChartTooltipConfig = {
   labelColor?: string;
   fontSize?: number;
   labelFontSize?: number;
+  positionAnimationDuration?: number;
 };
+
+export const defaultLineChartTooltipPositionAnimationDuration = 140;
 
 export type ResolvedLineChartTooltipConfig = {
   visible: boolean;
@@ -63,7 +66,16 @@ export type ResolvedLineChartTooltipConfig = {
   labelColor: string;
   fontSize: number;
   labelFontSize: number;
+  positionAnimationDuration: number;
 };
+
+const resolveNonNegativeNumber = (
+  value: number | undefined,
+  fallback: number
+) =>
+  typeof value === "number" && Number.isFinite(value)
+    ? Math.max(0, value)
+    : fallback;
 
 export const getLineChartDotConfig = ({
   dots,
@@ -178,6 +190,10 @@ export const getLineChartTooltipConfig = ({
     textColor: config.textColor ?? "#f8fafc",
     labelColor: config.labelColor ?? "#cbd5e1",
     fontSize: config.fontSize ?? 11,
-    labelFontSize: config.labelFontSize ?? 11
+    labelFontSize: config.labelFontSize ?? 11,
+    positionAnimationDuration: resolveNonNegativeNumber(
+      config.positionAnimationDuration,
+      defaultLineChartTooltipPositionAnimationDuration
+    )
   };
 };

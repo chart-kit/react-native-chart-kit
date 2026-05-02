@@ -67,7 +67,6 @@ import {
 import {
   interpolateLineChartTooltipPosition,
   getLineChartTooltipModel,
-  lineChartTooltipPositionAnimationDuration,
   lineChartTooltipLineHeight,
   type LineChartTooltipRenderProps as BaseLineChartTooltipRenderProps,
   type LineChartTooltipSeriesItem as BaseLineChartTooltipSeriesItem
@@ -1618,10 +1617,22 @@ const useAnimatedTooltipModel = <TData,>(
     const targetPosition = { x: tooltip.x, y: tooltip.y };
     const currentPosition = latestPositionRef.current ?? targetPosition;
     const hasPreviousTooltip = previousTooltipRef.current !== undefined;
+    const positionAnimationDuration = tooltip.config.positionAnimationDuration;
 
     previousTooltipRef.current = tooltip;
 
     if (!hasPreviousTooltip) {
+      latestPositionRef.current = targetPosition;
+      animationFrame = requestAnimationFrame(() => {
+        setAnimatedPosition(targetPosition);
+      });
+
+      return () => {
+        cancelAnimationFrame(animationFrame);
+      };
+    }
+
+    if (positionAnimationDuration <= 0) {
       latestPositionRef.current = targetPosition;
       animationFrame = requestAnimationFrame(() => {
         setAnimatedPosition(targetPosition);
@@ -1655,7 +1666,7 @@ const useAnimatedTooltipModel = <TData,>(
       startTime ??= timestamp;
 
       const progress = Math.min(
-        (timestamp - startTime) / lineChartTooltipPositionAnimationDuration,
+        (timestamp - startTime) / positionAnimationDuration,
         1
       );
       const nextPosition = interpolateLineChartTooltipPosition({

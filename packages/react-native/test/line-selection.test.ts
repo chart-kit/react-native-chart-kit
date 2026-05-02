@@ -5,6 +5,7 @@ import {
   type LineChartSelectableGeometry,
   type LineChartSelectablePoint
 } from "../src/charts/line/selection";
+import { defaultLineChartTooltipPositionAnimationDuration } from "../src/charts/line/options";
 import {
   easeLineChartTooltipPosition,
   getLineChartTooltipModel,
@@ -66,7 +67,8 @@ const tooltipConfig = {
   textColor: "#fff",
   labelColor: "#cbd5e1",
   fontSize: 11,
-  labelFontSize: 11
+  labelFontSize: 11,
+  positionAnimationDuration: defaultLineChartTooltipPositionAnimationDuration
 };
 
 describe("LineChart selection model", () => {
