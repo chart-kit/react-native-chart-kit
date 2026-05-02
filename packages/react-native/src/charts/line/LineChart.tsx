@@ -517,8 +517,8 @@ const renderDefaultDot = <TData,>({
     seriesColor: color,
     theme
   });
+  const dotKey = `dot-${point.seriesKey}-${point.index}`;
   const commonProps = {
-    key: `dot-${point.seriesKey}-${point.index}`,
     testID: createSvgTestId("line-dot", point.seriesKey, point.index),
     fill,
     opacity: config.opacity,
@@ -528,6 +528,7 @@ const renderDefaultDot = <TData,>({
 
   return (
     <SvgSymbol
+      key={dotKey}
       shape={config.shape}
       x={point.x}
       y={point.y}

@@ -1,25 +1,22 @@
 import React, { useMemo, useState } from "react";
 import {
+  Platform,
   Pressable,
-  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
+  useWindowDimensions,
   View
 } from "react-native";
 
-import {
-  ShowcaseSection,
-  ShowcaseStory,
-  stories,
-  storySections
-} from "./src/storyRegistry";
+import { ShowcaseStory, stories, storySections } from "./src/storyRegistry";
 
 const initialStory =
   stories.find((story) => story.id === "v2-basic") ?? stories[0];
 
 export default function App() {
+  const { width } = useWindowDimensions();
   const [selectedStory, setSelectedStory] =
     useState<ShowcaseStory>(initialStory);
 
@@ -27,18 +24,19 @@ export default function App() {
     () =>
       storySections.find((section) =>
         section.stories.some((story) => story.id === selectedStory.id)
-      ),
+      ) ?? storySections[0],
     [selectedStory.id]
   );
 
+  const previewWidth = Math.max(280, Math.min(width - 40, 430));
   const StoryComponent = selectedStory.Component;
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <View style={styles.safeArea}>
       <StatusBar barStyle="dark-content" />
       <View style={styles.appShell}>
         <View style={styles.header}>
-          <View>
+          <View style={styles.headerText}>
             <Text style={styles.eyebrow}>React Native Chart Kit</Text>
             <Text style={styles.title}>Showcase</Text>
           </View>
@@ -47,226 +45,199 @@ export default function App() {
           </View>
         </View>
 
-        <View style={styles.body}>
-          <ScrollView
-            style={styles.sidebar}
-            contentContainerStyle={styles.sidebarContent}
-            showsVerticalScrollIndicator={false}
-          >
-            {storySections.map((section) => (
-              <StorySection
+        <ScrollView
+          horizontal
+          contentContainerStyle={styles.sectionTabs}
+          showsHorizontalScrollIndicator={false}
+        >
+          {storySections.map((section) => {
+            const isSelected = selectedSection?.id === section.id;
+
+            return (
+              <Pressable
                 key={section.id}
-                section={section}
-                selectedStoryId={selectedStory.id}
-                onSelect={setSelectedStory}
-              />
-            ))}
-          </ScrollView>
-
-          <View style={styles.previewPanel}>
-            <View style={styles.previewHeader}>
-              <View>
-                <Text style={styles.previewSection}>
-                  {selectedSection?.title ?? "Chart"}
-                </Text>
-                <Text style={styles.previewTitle}>{selectedStory.title}</Text>
-              </View>
-            </View>
-
-            <ScrollView
-              style={styles.previewScroll}
-              contentContainerStyle={styles.previewScrollContent}
-              showsVerticalScrollIndicator
-            >
-              <ScrollView
-                horizontal
-                contentContainerStyle={styles.storyCanvas}
-                showsHorizontalScrollIndicator
+                accessibilityRole="button"
+                accessibilityState={{ selected: isSelected }}
+                onPress={() => setSelectedStory(section.stories[0])}
+                style={({ pressed }) => [
+                  styles.sectionTab,
+                  isSelected && styles.sectionTabSelected,
+                  pressed && styles.pressed
+                ]}
               >
-                <StoryComponent />
-              </ScrollView>
-            </ScrollView>
+                <Text
+                  style={[
+                    styles.sectionTabText,
+                    isSelected && styles.sectionTabTextSelected
+                  ]}
+                >
+                  {section.title}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+
+        {selectedSection ? (
+          <ScrollView
+            horizontal
+            contentContainerStyle={styles.storyTabs}
+            showsHorizontalScrollIndicator={false}
+          >
+            {selectedSection.stories.map((story) => {
+              const isSelected = selectedStory.id === story.id;
+
+              return (
+                <Pressable
+                  key={story.id}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected: isSelected }}
+                  onPress={() => setSelectedStory(story)}
+                  style={({ pressed }) => [
+                    styles.storyButton,
+                    isSelected && styles.storyButtonSelected,
+                    pressed && styles.pressed
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.storyButtonText,
+                      isSelected && styles.storyButtonTextSelected
+                    ]}
+                  >
+                    {story.title}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </ScrollView>
+        ) : null}
+
+        <ScrollView
+          style={styles.previewScroll}
+          contentContainerStyle={styles.previewContent}
+          showsVerticalScrollIndicator
+        >
+          <View style={[styles.previewWidth, { width: previewWidth }]}>
+            <StoryComponent width={previewWidth - 24} />
           </View>
-        </View>
+        </ScrollView>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
-
-type StorySectionProps = {
-  section: ShowcaseSection;
-  selectedStoryId: string;
-  onSelect: (story: ShowcaseStory) => void;
-};
-
-const StorySection = ({
-  section,
-  selectedStoryId,
-  onSelect
-}: StorySectionProps) => (
-  <View style={styles.section}>
-    <Text style={styles.sectionTitle}>{section.title}</Text>
-    <View style={styles.storyList}>
-      {section.stories.map((story) => {
-        const isSelected = selectedStoryId === story.id;
-
-        return (
-          <Pressable
-            key={story.id}
-            accessibilityRole="button"
-            accessibilityState={{ selected: isSelected }}
-            onPress={() => onSelect(story)}
-            style={({ pressed }) => [
-              styles.storyButton,
-              isSelected && styles.storyButtonSelected,
-              pressed && styles.storyButtonPressed
-            ]}
-          >
-            <Text
-              style={[
-                styles.storyButtonText,
-                isSelected && styles.storyButtonTextSelected
-              ]}
-            >
-              {story.title}
-            </Text>
-          </Pressable>
-        );
-      })}
-    </View>
-  </View>
-);
 
 const styles = StyleSheet.create({
   safeArea: {
     backgroundColor: "#f4f7fb",
-    flex: 1
+    flex: 1,
+    paddingTop:
+      Platform.OS === "ios" ? 54 : Math.max(StatusBar.currentHeight ?? 0, 24)
   },
   appShell: {
     flex: 1,
-    paddingHorizontal: 14,
-    paddingTop: 10
+    paddingHorizontal: 16
   },
   header: {
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 14,
-    paddingHorizontal: 2
+    marginBottom: 18
+  },
+  headerText: {
+    flexShrink: 1
   },
   eyebrow: {
     color: "#526176",
     fontSize: 12,
-    fontWeight: "700",
+    fontWeight: "800",
     letterSpacing: 0,
     textTransform: "uppercase"
   },
   title: {
     color: "#101828",
-    fontSize: 28,
-    fontWeight: "800",
+    fontSize: 36,
+    fontWeight: "900",
     letterSpacing: 0,
     marginTop: 2
   },
   countBadge: {
     alignItems: "center",
     backgroundColor: "#0f172a",
-    borderRadius: 18,
-    height: 36,
+    borderRadius: 20,
+    height: 40,
     justifyContent: "center",
-    minWidth: 48,
-    paddingHorizontal: 12
+    minWidth: 58,
+    paddingHorizontal: 14
   },
   countText: {
     color: "#ffffff",
-    fontSize: 14,
-    fontWeight: "800"
+    fontSize: 16,
+    fontWeight: "900"
   },
-  body: {
-    flex: 1
+  sectionTabs: {
+    gap: 8,
+    paddingBottom: 10
   },
-  sidebar: {
-    flexGrow: 0,
-    maxHeight: 250
+  sectionTab: {
+    backgroundColor: "#ffffff",
+    borderColor: "#d9e2ef",
+    borderRadius: 8,
+    borderWidth: 1,
+    height: 38,
+    justifyContent: "center",
+    paddingHorizontal: 12
   },
-  sidebarContent: {
-    paddingBottom: 8
+  sectionTabSelected: {
+    backgroundColor: "#0f172a",
+    borderColor: "#0f172a"
   },
-  section: {
-    marginBottom: 13
-  },
-  sectionTitle: {
+  sectionTabText: {
     color: "#344054",
     fontSize: 13,
-    fontWeight: "800",
-    marginBottom: 8
+    fontWeight: "800"
   },
-  storyList: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 8
+  sectionTabTextSelected: {
+    color: "#ffffff"
+  },
+  storyTabs: {
+    gap: 8,
+    paddingBottom: 16
   },
   storyButton: {
     backgroundColor: "#ffffff",
     borderColor: "#d9e2ef",
     borderRadius: 8,
     borderWidth: 1,
-    paddingHorizontal: 11,
-    paddingVertical: 8
+    height: 42,
+    justifyContent: "center",
+    paddingHorizontal: 13
   },
   storyButtonSelected: {
     backgroundColor: "#eff6ff",
     borderColor: "#2563eb"
   },
-  storyButtonPressed: {
-    opacity: 0.72
-  },
   storyButtonText: {
     color: "#344054",
-    fontSize: 13,
-    fontWeight: "700"
+    fontSize: 14,
+    fontWeight: "800"
   },
   storyButtonTextSelected: {
     color: "#1d4ed8"
   },
-  previewPanel: {
-    backgroundColor: "#ffffff",
-    borderColor: "#dde6f2",
-    borderRadius: 10,
-    borderWidth: 1,
-    flex: 1,
-    marginBottom: 12,
-    overflow: "hidden"
-  },
-  previewHeader: {
-    borderBottomColor: "#e4ebf4",
-    borderBottomWidth: 1,
-    paddingHorizontal: 14,
-    paddingVertical: 12
-  },
-  previewSection: {
-    color: "#667085",
-    fontSize: 12,
-    fontWeight: "700",
-    letterSpacing: 0,
-    textTransform: "uppercase"
-  },
-  previewTitle: {
-    color: "#101828",
-    fontSize: 18,
-    fontWeight: "800",
-    letterSpacing: 0,
-    marginTop: 2
+  pressed: {
+    opacity: 0.72
   },
   previewScroll: {
-    backgroundColor: "#e9eff7",
-    flex: 1
+    flex: 1,
+    marginHorizontal: -16
   },
-  previewScrollContent: {
-    minHeight: "100%"
+  previewContent: {
+    alignItems: "center",
+    paddingBottom: 28,
+    paddingHorizontal: 16
   },
-  storyCanvas: {
-    minHeight: "100%",
-    minWidth: "100%"
+  previewWidth: {
+    maxWidth: 430
   }
 });
