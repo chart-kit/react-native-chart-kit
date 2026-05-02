@@ -72,24 +72,39 @@ export const denseRevenue: RevenuePoint[] = [
   { month: "Week 12", actual: 58 }
 ];
 
-export const longRangeRevenue: RevenuePoint[] = [
-  { month: "January 2026", actual: 18 },
-  { month: "February 2026", actual: 24 },
-  { month: "March 2026", actual: 31 },
-  { month: "April 2026", actual: 38 },
-  { month: "May 2026", actual: 45 },
-  { month: "June 2026", actual: 51 },
-  { month: "July 2026", actual: 57 },
-  { month: "August 2026", actual: 64 }
+export const hourlyTraffic: RevenuePoint[] = [
+  { month: "00:00", actual: 12 },
+  { month: "02:00", actual: 18 },
+  { month: "04:00", actual: 17 },
+  { month: "06:00", actual: 24 },
+  { month: "08:00", actual: 31 },
+  { month: "10:00", actual: 29 },
+  { month: "12:00", actual: 35 },
+  { month: "14:00", actual: 43 },
+  { month: "16:00", actual: 39 },
+  { month: "18:00", actual: 47 },
+  { month: "20:00", actual: 52 },
+  { month: "22:00", actual: 58 }
 ];
 
-export const sixMonthRevenue: RevenuePoint[] = [
-  { month: "Jan 26", actual: 18 },
-  { month: "Feb 26", actual: 25 },
-  { month: "Mar 26", actual: 33 },
-  { month: "Apr 26", actual: 41 },
-  { month: "May 26", actual: 52 },
-  { month: "Jun 26", actual: 61 }
+export const campaignAttribution: RevenuePoint[] = [
+  { month: "Brand Search", actual: 18 },
+  { month: "Paid Social", actual: 24 },
+  { month: "Lifecycle Email", actual: 31 },
+  { month: "Creator Ads", actual: 38 },
+  { month: "Partner Webinar", actual: 45 },
+  { month: "Retargeting", actual: 51 },
+  { month: "Organic SEO", actual: 57 },
+  { month: "Marketplace", actual: 64 }
+];
+
+export const payrollRunway: RevenuePoint[] = [
+  { month: "May Payroll", actual: 18 },
+  { month: "Jun Payroll", actual: 25 },
+  { month: "Jul Payroll", actual: 33 },
+  { month: "Aug Payroll", actual: 41 },
+  { month: "Sep Payroll", actual: 52 },
+  { month: "Oct Payroll", actual: 61 }
 ];
 
 export const priceHistory: PricePoint[] = [
