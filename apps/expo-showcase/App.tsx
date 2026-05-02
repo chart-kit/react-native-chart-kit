@@ -47,6 +47,7 @@ export default function App() {
 
         <ScrollView
           horizontal
+          style={styles.sectionTabsScroller}
           contentContainerStyle={styles.sectionTabs}
           showsHorizontalScrollIndicator={false}
         >
@@ -81,6 +82,7 @@ export default function App() {
         {selectedSection ? (
           <ScrollView
             horizontal
+            style={styles.storyTabsScroller}
             contentContainerStyle={styles.storyTabs}
             showsHorizontalScrollIndicator={false}
           >
@@ -175,9 +177,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "900"
   },
+  sectionTabsScroller: {
+    flexGrow: 0,
+    height: 48,
+    marginBottom: 6
+  },
   sectionTabs: {
+    alignItems: "center",
     gap: 8,
-    paddingBottom: 10
+    height: 48
   },
   sectionTab: {
     backgroundColor: "#ffffff",
@@ -200,9 +208,15 @@ const styles = StyleSheet.create({
   sectionTabTextSelected: {
     color: "#ffffff"
   },
+  storyTabsScroller: {
+    flexGrow: 0,
+    height: 54,
+    marginBottom: 12
+  },
   storyTabs: {
+    alignItems: "center",
     gap: 8,
-    paddingBottom: 16
+    height: 54
   },
   storyButton: {
     backgroundColor: "#ffffff",
