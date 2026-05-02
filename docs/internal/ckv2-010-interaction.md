@@ -30,10 +30,45 @@ Selection lifecycle is named around selection, not tooltip. That allows Wealthsi
 
 This first pass intentionally uses React Native responder events rather than adding Gesture Handler or Reanimated. That keeps the free baseline dependency-light while leaving room for a stronger adapter for pan, zoom, and high-frequency scrub later.
 
+## Future Selection Scope
+
+Chart-local dismissal is useful but not sufficient for real product screens. A chart can reliably dismiss selection when a user taps inside that chart's own non-plot regions, but it cannot observe touches on arbitrary sibling views, other charts, buttons, navigation controls, or screen background outside its mounted tree.
+
+Add a shared selection scope in a future interaction slice:
+
+```tsx
+<ChartSelectionProvider dismissOnPressOutside>
+  <PortfolioHeader />
+  <LineChart id="portfolio" interaction="scrub" />
+  <LineChart id="benchmark" interaction="scrub" />
+  <RangeButtons />
+</ChartSelectionProvider>
+```
+
+Recommended behavior:
+
+- Selecting one chart clears previous selection in the same scope unless multiple active selections are explicitly allowed.
+- Tapping empty space inside the provider dismisses current selection.
+- Tapping another chart moves selection to the new chart and clears the previous chart.
+- Consumers such as tooltip, crosshair, active dots, selected-value headers, and synchronized legends all read from the same selection model.
+- Buttons or controls inside the provider can call an imperative hook such as `useDismissChartSelection()` before running their own action.
+- Apps that need dismissal from controls outside the provider should either place the provider at the screen boundary or use controlled `selectedIndex` plus explicit `onPress` wiring.
+
+Do not implement this as a global event listener by default. Global touch interception is fragile in React Native and can break `ScrollView`, navigation, modals, bottom sheets, and app-specific gesture systems. The provider should be a screen-level or card-group-level scope chosen by the app.
+
+Candidate API names:
+
+- `ChartSelectionProvider`
+- `dismissOnPressOutside`
+- `useChartSelection()`
+- `useDismissChartSelection()`
+- `selectionScope` or `selectionGroup` for advanced multi-chart coordination
+
 ## Remaining Work
 
 - Verify touch behavior in native iOS and Android examples.
 - Add interaction examples inside `ScrollView`.
+- Add shared `ChartSelectionProvider` for screen-level selection, external selected-value UI, cross-chart dismissal, and future shared tooltips.
 - Add bar and pie press events.
 - Add gesture conflict tests once native example apps exist.
 - Defer pinch zoom and viewport pan to the scroll/zoom slice.
