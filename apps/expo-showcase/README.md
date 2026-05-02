@@ -2,6 +2,9 @@
 
 Expo app for reviewing the same chart stories used by the web showcase on a physical device.
 
+This app intentionally tracks Expo SDK 54 for broad Expo Go compatibility during visual review.
+The library source can still target newer React Native versions independently.
+
 Run from the repository root:
 
 ```bash
