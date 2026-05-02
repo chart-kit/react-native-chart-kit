@@ -5,7 +5,11 @@ import {
   BarChart as CompatBarChart,
   LineChart as CompatLineChart
 } from "@chart-kit/react-native";
-import { AreaChart, LineChart } from "@chart-kit/react-native-v2";
+import {
+  AreaChart,
+  LineChart,
+  useChartKitTheme
+} from "@chart-kit/react-native-v2";
 import { SvgCircle, SvgGroup, SvgRect, SvgText } from "@chart-kit/svg-renderer";
 
 import { BarChartFixture, fixtures as barFixtures } from "./fixtures/compatBar";
@@ -58,7 +62,7 @@ export type ShowcasePage = {
 
 const ChartCard = ({
   children,
-  isDark = false,
+  isDark,
   kicker,
   title
 }: {
@@ -66,17 +70,24 @@ const ChartCard = ({
   isDark?: boolean;
   kicker?: string;
   title: string;
-}) => (
-  <View style={[styles.card, isDark && styles.darkCard]}>
-    {kicker ? (
-      <Text style={[styles.kicker, isDark && styles.darkKicker]}>{kicker}</Text>
-    ) : null}
-    <Text style={[styles.cardTitle, isDark && styles.darkCardTitle]}>
-      {title}
-    </Text>
-    <View style={styles.chartSlot}>{children}</View>
-  </View>
-);
+}) => {
+  const { mode } = useChartKitTheme();
+  const isDarkCard = isDark ?? mode === "dark";
+
+  return (
+    <View style={[styles.card, isDarkCard && styles.darkCard]}>
+      {kicker ? (
+        <Text style={[styles.kicker, isDarkCard && styles.darkKicker]}>
+          {kicker}
+        </Text>
+      ) : null}
+      <Text style={[styles.cardTitle, isDarkCard && styles.darkCardTitle]}>
+        {title}
+      </Text>
+      <View style={styles.chartSlot}>{children}</View>
+    </View>
+  );
+};
 
 const EmptyState = ({ copy, height }: { copy: string; height: number }) => (
   <View style={[styles.emptyState, { height }]}>
@@ -109,11 +120,10 @@ const V2RevenueCard = ({ width }: NativeStoryProps) => (
       curve="monotone"
       formatYLabel={(value) => `$${Math.round(value)}k`}
       series={[
-        { yKey: "revenue", label: "Revenue", color: "#2563eb" },
+        { yKey: "revenue", label: "Revenue" },
         {
           yKey: "netRetention",
           label: "Retention",
-          color: "#10b981",
           strokeWidth: 2
         }
       ]}
@@ -138,11 +148,10 @@ const V2BottomLegend = ({ width }: NativeStoryProps) => (
         fontSize: 12
       }}
       series={[
-        { yKey: "actual", label: "Actual", color: "#2563eb" },
+        { yKey: "actual", label: "Actual" },
         {
           yKey: "forecast",
           label: "Forecast",
-          color: "#7c3aed",
           strokeWidth: 2
         }
       ]}
@@ -196,11 +205,10 @@ const V2CustomLegend = ({ width }: NativeStoryProps) => (
         )
       }}
       series={[
-        { yKey: "actual", label: "Actual", color: "#2563eb", strokeWidth: 3 },
+        { yKey: "actual", label: "Actual", strokeWidth: 3 },
         {
           yKey: "forecast",
           label: "Forecast",
-          color: "#7c3aed",
           strokeWidth: 2
         }
       ]}
@@ -218,13 +226,6 @@ const V2CustomTypography = ({ width }: NativeStoryProps) => (
       showDots={false}
       curve="monotone"
       theme={{
-        background: "#ffffff",
-        plotBackground: "#ffffff",
-        grid: "#e2e8f0",
-        axis: "#e2e8f0",
-        text: "#172033",
-        mutedText: "#475569",
-        series: ["#0f766e", "#2563eb"],
         typography: {
           fontFamily: "Georgia",
           axisLabelSize: 12,
@@ -236,11 +237,10 @@ const V2CustomTypography = ({ width }: NativeStoryProps) => (
         marker: "circle"
       }}
       series={[
-        { yKey: "actual", label: "Actual", color: "#0f766e", strokeWidth: 3 },
+        { yKey: "actual", label: "Actual", strokeWidth: 3 },
         {
           yKey: "forecast",
           label: "Forecast",
-          color: "#2563eb",
           strokeWidth: 2
         }
       ]}
@@ -258,11 +258,10 @@ const V2MultiSeries = ({ width }: NativeStoryProps) => (
       showDots={false}
       curve="monotone"
       series={[
-        { yKey: "actual", label: "Actual", color: "#2563eb", strokeWidth: 3 },
+        { yKey: "actual", label: "Actual", strokeWidth: 3 },
         {
           yKey: "forecast",
           label: "Forecast",
-          color: "#0891b2",
           strokeWidth: 2
         }
       ]}
@@ -293,7 +292,6 @@ const V2DotStyles = ({ width }: NativeStoryProps) => (
         {
           yKey: "actual",
           label: "Actual",
-          color: "#2563eb",
           strokeWidth: 3,
           dot: {
             shape: "circle",
@@ -303,7 +301,6 @@ const V2DotStyles = ({ width }: NativeStoryProps) => (
         {
           yKey: "forecast",
           label: "Forecast",
-          color: "#0891b2",
           strokeWidth: 2,
           dot: {
             shape: "diamond",
@@ -340,11 +337,10 @@ const V2SelectedTooltip = ({ width }: NativeStoryProps) => (
         strokeWidth: 2.5
       }}
       series={[
-        { yKey: "actual", label: "Actual", color: "#2563eb", strokeWidth: 3 },
+        { yKey: "actual", label: "Actual", strokeWidth: 3 },
         {
           yKey: "forecast",
           label: "Forecast",
-          color: "#0891b2",
           strokeWidth: 2
         }
       ]}
@@ -386,11 +382,10 @@ const V2ScrubInteraction = ({
         strokeWidth: 2.5
       }}
       series={[
-        { yKey: "actual", label: "Actual", color: "#2563eb", strokeWidth: 3 },
+        { yKey: "actual", label: "Actual", strokeWidth: 3 },
         {
           yKey: "forecast",
           label: "Forecast",
-          color: "#0891b2",
           strokeWidth: 2
         }
       ]}
@@ -431,11 +426,10 @@ const V2WhileActiveScrub = ({
         strokeWidth: 2.5
       }}
       series={[
-        { yKey: "actual", label: "Actual", color: "#2563eb", strokeWidth: 3 },
+        { yKey: "actual", label: "Actual", strokeWidth: 3 },
         {
           yKey: "forecast",
           label: "Forecast",
-          color: "#0891b2",
           strokeWidth: 2
         }
       ]}
@@ -463,14 +457,13 @@ const V2NullGaps = ({ width }: NativeStoryProps) => (
 );
 
 const V2AreaFill = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Price history" kicker="Dark area chart" isDark>
+  <ChartCard title="Price history" kicker="Area chart">
     <AreaChart
       data={priceHistory}
       xKey="date"
       yKey="price"
       width={width}
       height={230}
-      theme="dark"
       curve="monotone"
       formatYLabel={(value) => `$${Math.round(value)}`}
     />
@@ -580,13 +573,12 @@ const V2ProAnimation = ({ isVisualMode, width }: NativeStoryProps) => {
   const { data, replay } = useAnimatedPreviewData(isVisualMode);
 
   return (
-    <ChartCard title="Portfolio growth" kicker="Pro animation preview" isDark>
+    <ChartCard title="Portfolio growth" kicker="Pro animation preview">
       <LineChart
         data={data}
         xKey="month"
         width={width}
         height={248}
-        theme="dark"
         curve="monotone"
         area
         showDots={false}
@@ -596,13 +588,11 @@ const V2ProAnimation = ({ isVisualMode, width }: NativeStoryProps) => {
           {
             yKey: "actual",
             label: "Portfolio",
-            color: "#38bdf8",
             strokeWidth: 3
           },
           {
             yKey: "forecast",
             label: "Benchmark",
-            color: "#a78bfa",
             strokeWidth: 2
           }
         ]}
@@ -1096,7 +1086,7 @@ export const showcaseModes: ShowcaseMode[] = [
           "v2-pro-animation",
           "v2-area",
           "v2-selected-tooltip",
-          "v2-dark-mode"
+          "v2-custom-legend"
         ]
       },
       {
@@ -1128,7 +1118,7 @@ export const showcaseModes: ShowcaseMode[] = [
           "v2-multi-series",
           "v2-null-gaps",
           "v2-area",
-          "v2-dark-mode"
+          "v2-pro-animation"
         ]
       },
       {
@@ -1190,7 +1180,7 @@ export const showcaseModes: ShowcaseMode[] = [
         storyIds: [
           "v2-custom-typography",
           "v2-custom-legend",
-          "v2-dark-mode",
+          "v2-revenue-card",
           "v2-area"
         ]
       },
@@ -1223,7 +1213,8 @@ export const showcaseModes: ShowcaseMode[] = [
           "v2-six-labels",
           "v2-staggered-labels",
           "v2-null-gaps",
-          "v2-hidden-labels"
+          "v2-hidden-labels",
+          "v2-dark-mode"
         ]
       },
       {

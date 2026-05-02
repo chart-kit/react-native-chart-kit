@@ -11,6 +11,14 @@ import {
 } from "react-native";
 
 import {
+  ChartKitProvider,
+  createChartPreset,
+  type CartesianChartPresetName,
+  type CartesianChartPresetRegistry,
+  type ResolvedChartKitThemeMode
+} from "@chart-kit/react-native-v2";
+
+import {
   ShowcaseMode,
   ShowcasePage,
   ShowcaseStory,
@@ -22,6 +30,55 @@ import {
 const defaultStory =
   stories.find((story) => story.id === "v2-basic") ?? stories[0];
 const defaultMode = showcaseModes[0];
+const showcaseModeOptions: Array<{
+  id: ResolvedChartKitThemeMode;
+  title: string;
+}> = [
+  { id: "light", title: "Light" },
+  { id: "dark", title: "Dark" }
+];
+const showcasePresetOptions: Array<{
+  id: CartesianChartPresetName | "studio";
+  title: string;
+}> = [
+  { id: "default", title: "Default" },
+  { id: "analytics", title: "Analytics" },
+  { id: "fintech", title: "Fintech" },
+  { id: "health", title: "Health" },
+  { id: "minimal", title: "Minimal" },
+  { id: "highContrast", title: "High Contrast" },
+  { id: "studio", title: "Studio" }
+];
+const showcaseCustomPresets: CartesianChartPresetRegistry = {
+  studio: createChartPreset({
+    light: {
+      background: "#fffdf8",
+      plotBackground: "#ffffff",
+      grid: "#eadfca",
+      axis: "#dccdaf",
+      text: "#18130c",
+      mutedText: "#7a6748",
+      series: ["#a16207", "#be123c", "#0369a1", "#4d7c0f"],
+      typography: {
+        axisLabelSize: 11,
+        legendLabelSize: 12
+      }
+    },
+    dark: {
+      background: "#18130c",
+      plotBackground: "#22190f",
+      grid: "#574124",
+      axis: "#765b34",
+      text: "#fff7ed",
+      mutedText: "#dbc6a0",
+      series: ["#fbbf24", "#fb7185", "#38bdf8", "#a3e635"],
+      typography: {
+        axisLabelSize: 11,
+        legendLabelSize: 12
+      }
+    }
+  })
+};
 
 const isWebRuntime = Platform.OS === "web" && typeof window !== "undefined";
 
@@ -122,7 +179,13 @@ export default function App() {
   const [pageSelection, setPageSelection] = useState<PageSelection>(
     getInitialPageSelection
   );
+  const [themeMode, setThemeMode] =
+    useState<ResolvedChartKitThemeMode>("light");
+  const [chartPreset, setChartPreset] = useState<
+    CartesianChartPresetName | "studio"
+  >("default");
   const [isScrubbing, setIsScrubbing] = useState(false);
+  const isDarkApp = themeMode === "dark";
 
   const pageStories = useMemo(
     () =>
@@ -170,13 +233,17 @@ export default function App() {
   }
 
   return (
-    <View style={styles.safeArea}>
-      <StatusBar barStyle="dark-content" />
+    <View style={[styles.safeArea, isDarkApp && styles.safeAreaDark]}>
+      <StatusBar barStyle={isDarkApp ? "light-content" : "dark-content"} />
       <View style={styles.appShell}>
         <View style={styles.header}>
           <View style={styles.headerText}>
-            <Text style={styles.eyebrow}>React Native Chart Kit</Text>
-            <Text style={styles.title}>Showcase</Text>
+            <Text style={[styles.eyebrow, isDarkApp && styles.darkEyebrow]}>
+              React Native Chart Kit
+            </Text>
+            <Text style={[styles.title, isDarkApp && styles.darkTitle]}>
+              Showcase
+            </Text>
           </View>
           <View style={styles.countBadge}>
             <Text style={styles.countText}>{pageStories.length}</Text>
@@ -200,6 +267,7 @@ export default function App() {
                 onPress={() => selectMode(mode)}
                 style={({ pressed }) => [
                   styles.modeTab,
+                  isDarkApp && styles.navButtonDark,
                   isSelected && styles.modeTabSelected,
                   pressed && styles.pressed
                 ]}
@@ -207,6 +275,7 @@ export default function App() {
                 <Text
                   style={[
                     styles.modeTabText,
+                    isDarkApp && styles.navButtonTextDark,
                     isSelected && styles.modeTabTextSelected
                   ]}
                 >
@@ -216,6 +285,96 @@ export default function App() {
             );
           })}
         </ScrollView>
+
+        <View
+          style={[styles.themeControls, isDarkApp && styles.themeControlsDark]}
+        >
+          <View style={styles.themeControlGroup}>
+            <Text
+              style={[
+                styles.themeControlLabel,
+                isDarkApp && styles.themeControlLabelDark
+              ]}
+            >
+              Mode
+            </Text>
+            <View style={styles.segmentedControl}>
+              {showcaseModeOptions.map((option) => {
+                const isSelected = themeMode === option.id;
+
+                return (
+                  <Pressable
+                    key={option.id}
+                    accessibilityRole="button"
+                    accessibilityState={{ selected: isSelected }}
+                    onPress={() => setThemeMode(option.id)}
+                    style={({ pressed }) => [
+                      styles.segmentButton,
+                      isDarkApp && styles.segmentButtonDark,
+                      isSelected && styles.segmentButtonSelected,
+                      pressed && styles.pressed
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.segmentButtonText,
+                        isDarkApp && styles.segmentButtonTextDark,
+                        isSelected && styles.segmentButtonTextSelected
+                      ]}
+                    >
+                      {option.title}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+          </View>
+
+          <View style={[styles.themeControlGroup, styles.presetControlGroup]}>
+            <Text
+              style={[
+                styles.themeControlLabel,
+                isDarkApp && styles.themeControlLabelDark
+              ]}
+            >
+              Preset
+            </Text>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.presetOptions}
+            >
+              {showcasePresetOptions.map((option) => {
+                const isSelected = chartPreset === option.id;
+
+                return (
+                  <Pressable
+                    key={option.id}
+                    accessibilityRole="button"
+                    accessibilityState={{ selected: isSelected }}
+                    onPress={() => setChartPreset(option.id)}
+                    style={({ pressed }) => [
+                      styles.segmentButton,
+                      isDarkApp && styles.segmentButtonDark,
+                      isSelected && styles.segmentButtonSelected,
+                      pressed && styles.pressed
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.segmentButtonText,
+                        isDarkApp && styles.segmentButtonTextDark,
+                        isSelected && styles.segmentButtonTextSelected
+                      ]}
+                    >
+                      {option.title}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </ScrollView>
+          </View>
+        </View>
 
         <ScrollView
           horizontal
@@ -234,6 +393,7 @@ export default function App() {
                 onPress={() => selectPage({ mode: pageSelection.mode, page })}
                 style={({ pressed }) => [
                   styles.pageButton,
+                  isDarkApp && styles.navButtonDark,
                   isSelected && styles.pageButtonSelected,
                   pressed && styles.pressed
                 ]}
@@ -241,6 +401,7 @@ export default function App() {
                 <Text
                   style={[
                     styles.pageButtonText,
+                    isDarkApp && styles.navButtonTextDark,
                     isSelected && styles.pageButtonTextSelected
                   ]}
                 >
@@ -257,44 +418,79 @@ export default function App() {
           scrollEnabled={!isScrubbing}
           showsVerticalScrollIndicator
         >
-          <View style={[styles.pageContent, { width: previewWidth }]}>
-            <View style={styles.pageIntro}>
-              <Text style={styles.pageKicker}>{pageSelection.mode.title}</Text>
-              <Text style={styles.pageTitle}>{pageSelection.page.title}</Text>
-              <Text style={styles.pageDescription}>
-                {pageSelection.page.description}
-              </Text>
-            </View>
+          <ChartKitProvider
+            mode={themeMode}
+            preset={chartPreset}
+            presets={showcaseCustomPresets}
+          >
+            <View style={[styles.pageContent, { width: previewWidth }]}>
+              <View style={styles.pageIntro}>
+                <Text
+                  style={[
+                    styles.pageKicker,
+                    isDarkApp && styles.pageKickerDark
+                  ]}
+                >
+                  {pageSelection.mode.title}
+                </Text>
+                <Text
+                  style={[styles.pageTitle, isDarkApp && styles.pageTitleDark]}
+                >
+                  {pageSelection.page.title}
+                </Text>
+                <Text
+                  style={[
+                    styles.pageDescription,
+                    isDarkApp && styles.pageDescriptionDark
+                  ]}
+                >
+                  {pageSelection.page.description}
+                </Text>
+              </View>
 
-            <View style={styles.storyGrid}>
-              {pageStories.map((story) => {
-                const StoryComponent = story.Component;
-                const tags = storyFeatureTags[story.id] ?? [];
+              <View style={styles.storyGrid}>
+                {pageStories.map((story) => {
+                  const StoryComponent = story.Component;
+                  const tags = storyFeatureTags[story.id] ?? [];
 
-                return (
-                  <View
-                    key={story.id}
-                    style={[styles.storyBlock, { width: storyBlockWidth }]}
-                  >
-                    <StoryComponent
-                      width={chartWidth}
-                      onScrubStart={() => setIsScrubbing(true)}
-                      onScrubEnd={() => setIsScrubbing(false)}
-                    />
-                    {tags.length > 0 ? (
-                      <View style={styles.featureTags}>
-                        {tags.map((tag) => (
-                          <View key={tag} style={styles.featureTag}>
-                            <Text style={styles.featureTagText}>{tag}</Text>
-                          </View>
-                        ))}
-                      </View>
-                    ) : null}
-                  </View>
-                );
-              })}
+                  return (
+                    <View
+                      key={story.id}
+                      style={[styles.storyBlock, { width: storyBlockWidth }]}
+                    >
+                      <StoryComponent
+                        width={chartWidth}
+                        onScrubStart={() => setIsScrubbing(true)}
+                        onScrubEnd={() => setIsScrubbing(false)}
+                      />
+                      {tags.length > 0 ? (
+                        <View style={styles.featureTags}>
+                          {tags.map((tag) => (
+                            <View
+                              key={tag}
+                              style={[
+                                styles.featureTag,
+                                isDarkApp && styles.featureTagDark
+                              ]}
+                            >
+                              <Text
+                                style={[
+                                  styles.featureTagText,
+                                  isDarkApp && styles.featureTagTextDark
+                                ]}
+                              >
+                                {tag}
+                              </Text>
+                            </View>
+                          ))}
+                        </View>
+                      ) : null}
+                    </View>
+                  );
+                })}
+              </View>
             </View>
-          </View>
+          </ChartKitProvider>
         </ScrollView>
       </View>
     </View>
@@ -317,6 +513,9 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop:
       Platform.OS === "ios" ? 54 : Math.max(StatusBar.currentHeight ?? 0, 24)
+  },
+  safeAreaDark: {
+    backgroundColor: "#050914"
   },
   appShell: {
     alignSelf: "center",
@@ -341,12 +540,18 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textTransform: "uppercase"
   },
+  darkEyebrow: {
+    color: "#8fa2bd"
+  },
   title: {
     color: "#101828",
     fontSize: 36,
     fontWeight: "900",
     letterSpacing: 0,
     marginTop: 2
+  },
+  darkTitle: {
+    color: "#f8fafc"
   },
   countBadge: {
     alignItems: "center",
@@ -381,6 +586,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: 12
   },
+  navButtonDark: {
+    backgroundColor: "#101827",
+    borderColor: "#223149"
+  },
   modeTabSelected: {
     backgroundColor: "#0f172a",
     borderColor: "#0f172a"
@@ -390,7 +599,75 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "800"
   },
+  navButtonTextDark: {
+    color: "#dbe7f7"
+  },
   modeTabTextSelected: {
+    color: "#ffffff"
+  },
+  themeControls: {
+    backgroundColor: "#eaf1fa",
+    borderColor: "#d8e3f1",
+    borderRadius: 10,
+    borderWidth: 1,
+    gap: 10,
+    marginBottom: 12,
+    padding: 10
+  },
+  themeControlsDark: {
+    backgroundColor: "#0b1220",
+    borderColor: "#1f2d44"
+  },
+  themeControlGroup: {
+    gap: 6
+  },
+  presetControlGroup: {
+    marginRight: -10
+  },
+  themeControlLabel: {
+    color: "#526176",
+    fontSize: 11,
+    fontWeight: "900",
+    letterSpacing: 0,
+    textTransform: "uppercase"
+  },
+  themeControlLabelDark: {
+    color: "#8fa2bd"
+  },
+  segmentedControl: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 6
+  },
+  presetOptions: {
+    gap: 6,
+    paddingRight: 10
+  },
+  segmentButton: {
+    backgroundColor: "#ffffff",
+    borderColor: "#d1ddea",
+    borderRadius: 7,
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 7
+  },
+  segmentButtonDark: {
+    backgroundColor: "#111827",
+    borderColor: "#2a3950"
+  },
+  segmentButtonSelected: {
+    backgroundColor: "#2563eb",
+    borderColor: "#2563eb"
+  },
+  segmentButtonText: {
+    color: "#344054",
+    fontSize: 12,
+    fontWeight: "900"
+  },
+  segmentButtonTextDark: {
+    color: "#dbe7f7"
+  },
+  segmentButtonTextSelected: {
     color: "#ffffff"
   },
   pageTabsScroller: {
@@ -449,6 +726,9 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textTransform: "uppercase"
   },
+  pageKickerDark: {
+    color: "#8fa2bd"
+  },
   pageTitle: {
     color: "#101828",
     fontSize: 24,
@@ -456,12 +736,18 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     marginTop: 3
   },
+  pageTitleDark: {
+    color: "#f8fafc"
+  },
   pageDescription: {
     color: "#475569",
     fontSize: 14,
     fontWeight: "600",
     lineHeight: 20,
     marginTop: 5
+  },
+  pageDescriptionDark: {
+    color: "#b7c5d8"
   },
   storyGrid: {
     flexDirection: "row",
@@ -485,9 +771,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 4
   },
+  featureTagDark: {
+    backgroundColor: "#111827",
+    borderColor: "#2a3950"
+  },
   featureTagText: {
     color: "#344054",
     fontSize: 11,
     fontWeight: "800"
+  },
+  featureTagTextDark: {
+    color: "#cbd5e1"
   }
 });

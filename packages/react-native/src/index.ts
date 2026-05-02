@@ -1,7 +1,26 @@
 export { AreaChart, LineChart } from "./charts/line/LineChart";
+export {
+  builtInCartesianChartPresets,
+  ChartKitProvider,
+  createChartPreset,
+  useChartKitTheme
+} from "./theme";
 export type {
+  CartesianChartPreset,
+  CartesianChartPresetInput,
+  CartesianChartPresetName,
+  CartesianChartPresetRegistry,
+  CartesianChartPresetValue,
   CartesianChartTheme,
   CartesianChartTypography,
+  ChartKitProviderProps,
+  ChartKitThemeContextValue,
+  ChartKitThemeMode,
+  ResolvedCartesianChartTheme,
+  ResolvedCartesianChartTypography,
+  ResolvedChartKitThemeMode
+} from "./theme";
+export type {
   LineChartCrosshairConfig,
   LineChartDotColor,
   LineChartDotConfig,
@@ -24,6 +43,5 @@ export type {
   LineChartTooltipSeriesItem,
   ResolvedLineChartCrosshairConfig,
   ResolvedLineChartDotConfig,
-  ResolvedLineChartTooltipConfig,
-  ResolvedCartesianChartTheme
+  ResolvedLineChartTooltipConfig
 } from "./charts/line/LineChart";

@@ -40,6 +40,15 @@ import {
   createSvgTestId
 } from "@chart-kit/svg-renderer";
 import {
+  resolveCartesianChartThemeConfig,
+  useChartKitTheme,
+  type CartesianChartPresetValue,
+  type CartesianChartTheme,
+  type ChartKitThemeMode,
+  type ChartKitThemeContextValue,
+  type ResolvedCartesianChartTheme
+} from "../../theme";
+import {
   getLineChartCrosshairConfig,
   getLineChartDotConfig,
   getLineChartTooltipConfig,
@@ -100,30 +109,6 @@ export type LineChartSeries<TData extends Record<string, unknown>> = {
   dot?: boolean | LineChartDotConfig;
   area?: boolean;
   curve?: LineCurve;
-};
-
-export type CartesianChartTypography = {
-  fontFamily?: string;
-  axisLabelSize: number;
-  legendLabelSize: number;
-};
-
-export type CartesianChartTheme = {
-  background: string;
-  plotBackground: string;
-  grid: string;
-  axis: string;
-  text: string;
-  mutedText: string;
-  series: string[];
-  typography?: Partial<CartesianChartTypography>;
-};
-
-export type ResolvedCartesianChartTheme = Omit<
-  CartesianChartTheme,
-  "typography"
-> & {
-  typography: CartesianChartTypography;
 };
 
 export type LineChartDotRenderProps<TData = unknown> = {
@@ -246,7 +231,8 @@ export type LineChartProps<TData extends Record<string, unknown>> = {
   series?: Array<LineChartSeries<TData>>;
   width: number;
   height: number;
-  theme?: "light" | "dark" | CartesianChartTheme;
+  theme?: ChartKitThemeMode | CartesianChartTheme;
+  preset?: CartesianChartPresetValue;
   curve?: LineCurve;
   connectNulls?: boolean;
   area?: boolean;
@@ -274,66 +260,15 @@ export type LineChartProps<TData extends Record<string, unknown>> = {
   testID?: string;
 };
 
-const lightTheme: CartesianChartTheme = {
-  background: "#ffffff",
-  plotBackground: "#ffffff",
-  grid: "#e5e7eb",
-  axis: "#e5e7eb",
-  text: "#0f172a",
-  mutedText: "#64748b",
-  series: ["#2563eb", "#0891b2", "#7c3aed", "#16a34a"],
-  typography: {
-    axisLabelSize: 11,
-    legendLabelSize: 11
-  }
-};
-
-const darkTheme: CartesianChartTheme = {
-  background: "#0f172a",
-  plotBackground: "#111827",
-  grid: "#334155",
-  axis: "#475569",
-  text: "#e5e7eb",
-  mutedText: "#94a3b8",
-  series: ["#38bdf8", "#a78bfa", "#22c55e", "#f59e0b"],
-  typography: {
-    axisLabelSize: 11,
-    legendLabelSize: 11
-  }
-};
-
 const defaultYDomain: NumericDomainInput = { includeZero: true, nice: true };
 const defaultLabelRotation = -35;
 const xLabelRowGap = 6;
 const xLabelBaselineOffset = 20;
 const rotatedLabelClearance = 10;
-const defaultTypography: CartesianChartTypography = {
-  axisLabelSize: 11,
-  legendLabelSize: 11
-};
 
 const measureText = createSvgTextMeasurer({
   lineHeight: 14
 });
-
-const resolveTheme = (
-  theme: LineChartProps<Record<string, unknown>>["theme"]
-): ResolvedCartesianChartTheme => {
-  const base =
-    theme === "dark"
-      ? darkTheme
-      : theme && theme !== "light"
-        ? theme
-        : lightTheme;
-
-  return {
-    ...base,
-    typography: {
-      ...defaultTypography,
-      ...base.typography
-    }
-  };
-};
 
 const getFontFamilyProps = (fontFamily: string | undefined) => {
   return fontFamily ? { fontFamily } : {};
@@ -475,7 +410,7 @@ const renderConfiguredLegend = ({
 };
 
 const getSeriesColor = (theme: ResolvedCartesianChartTheme, index: number) => {
-  return theme.series[index % theme.series.length] ?? lightTheme.series[0]!;
+  return theme.series[index % theme.series.length] ?? "#2563eb";
 };
 
 const resolveDotColor = ({
@@ -1145,7 +1080,8 @@ const useChartModel = <TData extends Record<string, unknown>>({
   series,
   width,
   height,
-  theme = "light",
+  theme,
+  preset,
   curve = "linear",
   connectNulls = false,
   area = false,
@@ -1164,12 +1100,21 @@ const useChartModel = <TData extends Record<string, unknown>>({
   edgeLabelPolicy = "shift",
   yDomain = defaultYDomain,
   formatXLabel = defaultFormatXLabel,
-  formatYLabel = defaultFormatYLabel
-}: LineChartProps<TData>) => {
+  formatYLabel = defaultFormatYLabel,
+  chartKitTheme
+}: LineChartProps<TData> & { chartKitTheme: ChartKitThemeContextValue }) => {
   const seriesInput = useSeriesInput(yKey, yKeys, series);
 
   return useMemo(() => {
-    const resolvedTheme = resolveTheme(theme);
+    const resolvedTheme = resolveCartesianChartThemeConfig({
+      mode:
+        typeof theme === "string" && theme !== "system"
+          ? theme
+          : chartKitTheme.mode,
+      preset: preset ?? chartKitTheme.preset,
+      presets: chartKitTheme.presets,
+      theme: typeof theme === "object" ? theme : chartKitTheme.theme
+    });
     const normalized = normalizeCartesianData({
       data,
       xKey,
@@ -1577,6 +1522,8 @@ const useChartModel = <TData extends Record<string, unknown>>({
     showHorizontalGridLines,
     showVerticalGridLines,
     theme,
+    preset,
+    chartKitTheme,
     tooltip,
     width,
     xKey,
@@ -1706,6 +1653,7 @@ const useAnimatedTooltipModel = <TData,>(
 export const LineChart = <TData extends Record<string, unknown>>(
   props: LineChartProps<TData>
 ) => {
+  const chartKitTheme = useChartKitTheme();
   const interactionConfig = useMemo(
     () => getLineChartInteractionConfig(props.interaction),
     [props.interaction]
@@ -1718,7 +1666,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
     effectiveSelectedIndex !== undefined
       ? { ...props, selectedIndex: effectiveSelectedIndex }
       : props;
-  const model = useChartModel(chartProps);
+  const model = useChartModel({ ...chartProps, chartKitTheme });
   const {
     boxes,
     geometries,
