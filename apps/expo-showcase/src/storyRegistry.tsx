@@ -29,6 +29,7 @@ import {
   longRangeRevenue,
   multiSeriesRevenue,
   msftVsGoogHistory,
+  portfolioRangeHistory,
   priceHistory,
   revenueWithGaps,
   scrollablePriceHistory,
@@ -618,7 +619,7 @@ const rangeSelectorPresetOptions: ChartViewportPresetName[] = [
   "ALL"
 ];
 
-const rangeSelectorXValues = msftVsGoogHistory.map((point) => point.date);
+const rangeSelectorXValues = portfolioRangeHistory.map((point) => point.date);
 
 const getRangeSelectorPresetViewport = (
   option: ChartViewportPresetName
@@ -679,7 +680,7 @@ const V2RangeSelectorOverview = ({ isVisualMode, width }: NativeStoryProps) => {
         </View>
       )}
       <LineChart
-        data={msftVsGoogHistory}
+        data={portfolioRangeHistory}
         xKey="date"
         width={width}
         height={isVisualMode ? 314 : 300}
@@ -711,14 +712,14 @@ const V2RangeSelectorOverview = ({ isVisualMode, width }: NativeStoryProps) => {
         formatYLabel={(value) => `$${Math.round(value)}`}
         series={[
           {
-            yKey: "msft",
-            label: "MSFT",
+            yKey: "portfolio",
+            label: "Portfolio",
             color: "#2563EB",
             strokeWidth: 3
           },
           {
-            yKey: "goog",
-            label: "GOOG",
+            yKey: "benchmark",
+            label: "Benchmark",
             color: "#16A34A",
             strokeWidth: 2.5
           }

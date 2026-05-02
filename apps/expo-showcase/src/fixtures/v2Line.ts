@@ -15,6 +15,12 @@ export type EquityComparisonPoint = {
   goog: number;
 };
 
+export type PortfolioRangePoint = {
+  date: Date;
+  portfolio: number;
+  benchmark: number;
+};
+
 export type SubscriptionPoint = {
   month: string;
   revenue: number;
@@ -146,5 +152,27 @@ export const msftVsGoogHistory: EquityComparisonPoint[] = msftPrices.map(
     date: new Date(2025, 10, 3 + tradingDayOffsets[index]!),
     goog: googPrices[index]!,
     msft
+  })
+);
+
+const portfolioValues = [
+  512, 529, 501, 548, 536, 572, 524, 561, 589, 552, 606, 581, 545, 627, 594,
+  650, 612, 638, 681, 619, 696, 662, 721, 675, 742, 701, 768, 724, 791, 735,
+  815, 762, 842, 780, 870, 811, 894, 829, 925, 858, 908, 872, 948, 891, 982,
+  924, 961, 907, 1008, 944, 1036, 972
+];
+
+const benchmarkValues = [
+  468, 472, 466, 481, 477, 489, 474, 486, 496, 488, 503, 498, 486, 510, 502,
+  519, 508, 516, 529, 512, 536, 526, 543, 532, 552, 541, 561, 548, 569, 553,
+  578, 563, 587, 571, 598, 584, 606, 589, 617, 602, 611, 604, 624, 609, 637,
+  621, 632, 616, 646, 629, 657, 641
+];
+
+export const portfolioRangeHistory: PortfolioRangePoint[] = portfolioValues.map(
+  (portfolio, index) => ({
+    benchmark: benchmarkValues[index]!,
+    date: new Date(2025, 10, 3 + tradingDayOffsets[index]!),
+    portfolio
   })
 );
