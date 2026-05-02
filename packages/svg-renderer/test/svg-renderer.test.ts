@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 
 import { createClipPathRef } from "../src/clipPath";
+import {
+  chartRenderLayerOrder,
+  chartRenderLayers,
+  getChartRenderLayerTestId
+} from "../src/layerOrder";
+import { createSvgSymbolDiamondPath } from "../src/symbolGeometry";
 import { createSvgTestId } from "../src/testIds";
 import {
   createSvgTextMeasurer,
@@ -40,5 +46,33 @@ describe("SVG renderer helpers", () => {
 
   it("creates clip path references", () => {
     expect(createClipPathRef("plot-area")).toBe("url(#plot-area)");
+  });
+
+  it("defines stable render layer ordering", () => {
+    expect(chartRenderLayerOrder).toEqual([
+      "background",
+      "plot",
+      "grid",
+      "axes",
+      "dataArea",
+      "data",
+      "markers",
+      "overlays",
+      "interaction",
+      "debug"
+    ]);
+    expect(chartRenderLayers.markers).toBeGreaterThan(chartRenderLayers.data);
+    expect(chartRenderLayers.interaction).toBeGreaterThan(
+      chartRenderLayers.overlays
+    );
+    expect(getChartRenderLayerTestId("interaction")).toBe(
+      "chart-layer.interaction"
+    );
+  });
+
+  it("creates deterministic diamond marker paths", () => {
+    expect(createSvgSymbolDiamondPath({ x: 10, y: 20, size: 8 })).toBe(
+      "M 10 16 L 14 20 L 10 24 L 6 20 Z"
+    );
   });
 });

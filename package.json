@@ -50,7 +50,7 @@
     "typecheck": "tsc --noEmit && npm run core:typecheck && npm run svg:typecheck && npm run rn:typecheck && npm run showcase:typecheck",
     "core:typecheck": "tsc -p packages/core/tsconfig.json --noEmit && tsc -p packages/core/tsconfig.test.json --noEmit",
     "svg:typecheck": "tsc -p packages/svg-renderer/tsconfig.json --noEmit && tsc -p packages/svg-renderer/tsconfig.test.json --noEmit",
-    "rn:typecheck": "tsc -p packages/react-native/tsconfig.json --noEmit",
+    "rn:typecheck": "tsc -p packages/react-native/tsconfig.json --noEmit && tsc -p packages/react-native/tsconfig.test.json --noEmit",
     "benchmark": "node scripts/missing-command.mjs benchmark \"Benchmark scenarios are not configured yet.\"",
     "showcase": "storybook dev -c apps/showcase-web/.storybook -p 6006 --disable-telemetry",
     "showcase:build": "storybook build -c apps/showcase-web/.storybook -o apps/showcase-web/storybook-static --disable-telemetry",

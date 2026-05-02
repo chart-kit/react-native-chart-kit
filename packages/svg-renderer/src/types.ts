@@ -10,6 +10,7 @@ import type {
   SvgProps,
   TextProps
 } from "react-native-svg";
+import type { ChartRenderLayerName } from "./layerOrder";
 
 export type SvgTextMeasurementOptions = {
   fontFamily?: TextProps["fontFamily"];
@@ -52,6 +53,25 @@ export type SvgCircleProps = CircleProps & SvgTestableProps;
 export type SvgTextProps = TextProps & SvgTestableProps;
 export type SvgLineProps = LineProps & SvgTestableProps;
 
+export type SvgSymbolShape = "circle" | "square" | "diamond" | "line";
+
+export type SvgSymbolProps = SvgTestableProps & {
+  shape: SvgSymbolShape;
+  x: number;
+  y: number;
+  size: number;
+  fill?: string;
+  stroke?: string;
+  strokeWidth?: number;
+  opacity?: number;
+  strokeLinecap?: LineProps["strokeLinecap"];
+  cornerRadius?: number;
+};
+
+export type SvgLayerProps = SvgGroupProps & {
+  name: ChartRenderLayerName;
+};
+
 export type SvgDefsProps = {
   children?: ReactNode;
 };
@@ -87,8 +107,10 @@ export type SvgRenderer = {
   Path: ComponentType<SvgPathProps>;
   Rect: ComponentType<SvgRectProps>;
   Circle: ComponentType<SvgCircleProps>;
+  Symbol: ComponentType<SvgSymbolProps>;
   Text: ComponentType<SvgTextProps>;
   Line: ComponentType<SvgLineProps>;
+  Layer: ComponentType<SvgLayerProps>;
   Defs: ComponentType<SvgDefsProps>;
   ClipRect: ComponentType<SvgClipRectProps>;
   LinearGradient: ComponentType<SvgLinearGradientDefProps>;

@@ -27,15 +27,48 @@ import {
   SvgCircle,
   SvgDefs,
   SvgGroup,
+  SvgLayer,
   SvgLine,
   SvgLinearGradientDef,
   SvgPath,
   SvgRect,
   SvgSurface,
+  SvgSymbol,
   SvgText,
   createSvgTextMeasurer,
   createSvgTestId
 } from "@chart-kit/svg-renderer";
+import {
+  getLineChartCrosshairConfig,
+  getLineChartDotConfig,
+  getLineChartTooltipConfig,
+  type LineChartCrosshairConfig,
+  type LineChartDotColor,
+  type LineChartDotConfig,
+  type LineChartTooltipConfig,
+  type ResolvedLineChartDotConfig
+} from "./options";
+import {
+  getSelectedLineSeries,
+  type LineChartSelectedSeriesItem as BaseLineChartSelectedSeriesItem
+} from "./selection";
+import {
+  getLineChartTooltipModel,
+  lineChartTooltipLineHeight,
+  type LineChartTooltipRenderProps as BaseLineChartTooltipRenderProps,
+  type LineChartTooltipSeriesItem as BaseLineChartTooltipSeriesItem
+} from "./tooltip";
+
+export type {
+  LineChartCrosshairConfig,
+  LineChartDotColor,
+  LineChartDotConfig,
+  LineChartDotShape,
+  LineChartTooltipConfig,
+  ResolvedLineChartCrosshairConfig,
+  ResolvedLineChartDotConfig,
+  ResolvedLineChartTooltipConfig
+} from "./options";
 
 export type LineChartSeries<TData extends Record<string, unknown>> = {
   yKey: keyof TData & string;
@@ -46,19 +79,6 @@ export type LineChartSeries<TData extends Record<string, unknown>> = {
   dot?: boolean | LineChartDotConfig;
   area?: boolean;
   curve?: LineCurve;
-};
-
-export type LineChartDotShape = "circle" | "square" | "diamond";
-export type LineChartDotColor = string | "background" | "series";
-
-export type LineChartDotConfig = {
-  visible?: boolean;
-  shape?: LineChartDotShape;
-  radius?: number;
-  fill?: LineChartDotColor;
-  stroke?: LineChartDotColor;
-  strokeWidth?: number;
-  opacity?: number;
 };
 
 export type CartesianChartTypography = {
@@ -85,16 +105,6 @@ export type ResolvedCartesianChartTheme = Omit<
   typography: CartesianChartTypography;
 };
 
-export type ResolvedLineChartDotConfig = {
-  visible: boolean;
-  shape: LineChartDotShape;
-  radius: number;
-  fill: LineChartDotColor;
-  stroke: LineChartDotColor;
-  strokeWidth: number;
-  opacity: number;
-};
-
 export type LineChartDotRenderProps<TData = unknown> = {
   point: ProjectedLinePoint<TData>;
   seriesKey: string;
@@ -108,70 +118,14 @@ export type LineChartDotRenderProps<TData = unknown> = {
   theme: ResolvedCartesianChartTheme;
 };
 
-export type LineChartCrosshairConfig = {
-  visible?: boolean;
-  color?: string;
-  strokeWidth?: number;
-  opacity?: number;
-  strokeDasharray?: readonly number[];
-};
+export type LineChartTooltipSeriesItem<TData = unknown> =
+  BaseLineChartTooltipSeriesItem<ProjectedLinePoint<TData>>;
 
-export type ResolvedLineChartCrosshairConfig = {
-  visible: boolean;
-  color: string;
-  strokeWidth: number;
-  opacity: number;
-  strokeDasharray?: readonly number[];
-};
-
-export type LineChartTooltipConfig = {
-  visible?: boolean;
-  shared?: boolean;
-  width?: number;
-  padding?: number;
-  borderRadius?: number;
-  backgroundColor?: string;
-  borderColor?: string;
-  textColor?: string;
-  labelColor?: string;
-  fontSize?: number;
-  labelFontSize?: number;
-};
-
-export type ResolvedLineChartTooltipConfig = {
-  visible: boolean;
-  shared: boolean;
-  width: number | undefined;
-  padding: number;
-  borderRadius: number;
-  backgroundColor: string;
-  borderColor: string;
-  textColor: string;
-  labelColor: string;
-  fontSize: number;
-  labelFontSize: number;
-};
-
-export type LineChartTooltipSeriesItem<TData = unknown> = {
-  key: string;
-  label: string;
-  color: string;
-  value: number | null | undefined;
-  formattedValue: string;
-  point: ProjectedLinePoint<TData>;
-};
-
-export type LineChartTooltipRenderProps<TData = unknown> = {
-  index: number;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  xLabel: string;
-  series: Array<LineChartTooltipSeriesItem<TData>>;
-  config: ResolvedLineChartTooltipConfig;
-  theme: ResolvedCartesianChartTheme;
-};
+export type LineChartTooltipRenderProps<TData = unknown> =
+  BaseLineChartTooltipRenderProps<
+    ProjectedLinePoint<TData>,
+    ResolvedCartesianChartTheme
+  >;
 
 export type LineChartLegendPosition = "top" | "bottom";
 export type LineChartLegendAlign = "start" | "center" | "end";
@@ -330,8 +284,6 @@ const defaultLabelRotation = -35;
 const xLabelRowGap = 6;
 const xLabelBaselineOffset = 20;
 const rotatedLabelClearance = 10;
-const tooltipLineHeight = 18;
-const tooltipLabelLineHeight = 16;
 const defaultTypography: CartesianChartTypography = {
   axisLabelSize: 11,
   legendLabelSize: 11
@@ -450,36 +402,20 @@ const getLegendY = ({
 
 const renderDefaultLegendItem = (item: LineChartLegendRenderItem) => {
   const markerCenterY = item.contentY + item.contentHeight / 2;
+  const markerShape = item.marker === "line" ? "line" : item.marker;
 
   return (
     <SvgGroup key={`legend-${item.key}`}>
-      {item.marker === "circle" ? (
-        <SvgCircle
-          cx={item.contentX + item.markerSize / 2}
-          cy={markerCenterY}
-          r={item.markerSize / 2}
-          fill={item.color}
-        />
-      ) : item.marker === "line" ? (
-        <SvgLine
-          x1={item.contentX}
-          x2={item.contentX + item.markerSize}
-          y1={markerCenterY}
-          y2={markerCenterY}
-          stroke={item.color}
-          strokeLinecap="round"
-          strokeWidth={3}
-        />
-      ) : (
-        <SvgRect
-          x={item.contentX}
-          y={markerCenterY - item.markerSize / 2}
-          width={item.markerSize}
-          height={item.markerSize}
-          rx={2}
-          fill={item.color}
-        />
-      )}
+      <SvgSymbol
+        shape={markerShape}
+        x={item.contentX + item.markerSize / 2}
+        y={markerCenterY}
+        size={item.markerSize}
+        fill={item.color}
+        stroke={item.color}
+        cornerRadius={2}
+        {...(item.marker === "line" ? { strokeWidth: 3 } : {})}
+      />
       <SvgText
         x={item.contentX + item.markerSize + item.labelGap}
         y={item.contentY + item.contentHeight / 2 + item.fontSize * 0.36}
@@ -541,127 +477,6 @@ const resolveDotColor = ({
   return color || fallback;
 };
 
-const getDotConfig = <TData extends Record<string, unknown>>({
-  dots,
-  seriesDot,
-  showDots
-}: {
-  dots: LineChartProps<TData>["dots"];
-  seriesDot: LineChartSeries<TData>["dot"];
-  showDots: boolean;
-}): ResolvedLineChartDotConfig => {
-  const globalConfig = typeof dots === "object" ? dots : {};
-  const seriesConfig = typeof seriesDot === "object" ? seriesDot : {};
-  const visible =
-    typeof seriesDot === "boolean"
-      ? seriesDot
-      : typeof seriesConfig.visible === "boolean"
-        ? seriesConfig.visible
-        : typeof dots === "boolean"
-          ? dots
-          : typeof globalConfig.visible === "boolean"
-            ? globalConfig.visible
-            : showDots;
-
-  return {
-    visible,
-    shape: seriesConfig.shape ?? globalConfig.shape ?? "circle",
-    radius: seriesConfig.radius ?? globalConfig.radius ?? 3.5,
-    fill: seriesConfig.fill ?? globalConfig.fill ?? "background",
-    stroke: seriesConfig.stroke ?? globalConfig.stroke ?? "series",
-    strokeWidth: seriesConfig.strokeWidth ?? globalConfig.strokeWidth ?? 2,
-    opacity: seriesConfig.opacity ?? globalConfig.opacity ?? 1
-  };
-};
-
-const getActiveDotConfig = ({
-  activeDot,
-  baseDot
-}: {
-  activeDot: LineChartProps<Record<string, unknown>>["activeDot"];
-  baseDot: ResolvedLineChartDotConfig;
-}): ResolvedLineChartDotConfig => {
-  const config = typeof activeDot === "object" ? activeDot : {};
-  const visible =
-    typeof activeDot === "boolean"
-      ? activeDot
-      : typeof config.visible === "boolean"
-        ? config.visible
-        : true;
-
-  return {
-    visible,
-    shape: config.shape ?? baseDot.shape,
-    radius: config.radius ?? Math.max(5, baseDot.radius + 1.5),
-    fill: config.fill ?? baseDot.fill,
-    stroke: config.stroke ?? baseDot.stroke,
-    strokeWidth: config.strokeWidth ?? Math.max(2.5, baseDot.strokeWidth),
-    opacity: config.opacity ?? 1
-  };
-};
-
-const getCrosshairConfig = (
-  crosshair: LineChartProps<Record<string, unknown>>["crosshair"],
-  theme: ResolvedCartesianChartTheme
-): ResolvedLineChartCrosshairConfig => {
-  const config = typeof crosshair === "object" ? crosshair : {};
-  const visible =
-    typeof crosshair === "boolean"
-      ? crosshair
-      : typeof config.visible === "boolean"
-        ? config.visible
-        : crosshair !== undefined;
-  const resolved: ResolvedLineChartCrosshairConfig = {
-    visible,
-    color: config.color ?? theme.axis,
-    strokeWidth: config.strokeWidth ?? 1,
-    opacity: config.opacity ?? 0.95
-  };
-
-  if (config.strokeDasharray !== undefined) {
-    resolved.strokeDasharray = config.strokeDasharray;
-  }
-
-  return resolved;
-};
-
-const getTooltipConfig = (
-  tooltip: LineChartProps<Record<string, unknown>>["tooltip"],
-  theme: ResolvedCartesianChartTheme
-): ResolvedLineChartTooltipConfig => {
-  const config = typeof tooltip === "object" ? tooltip : {};
-  const visible =
-    typeof tooltip === "boolean"
-      ? tooltip
-      : typeof config.visible === "boolean"
-        ? config.visible
-        : tooltip !== undefined;
-
-  return {
-    visible,
-    shared: config.shared ?? true,
-    width: config.width,
-    padding: config.padding ?? 10,
-    borderRadius: config.borderRadius ?? 8,
-    backgroundColor: config.backgroundColor ?? "#0f172a",
-    borderColor: config.borderColor ?? theme.axis,
-    textColor: config.textColor ?? "#f8fafc",
-    labelColor: config.labelColor ?? "#cbd5e1",
-    fontSize: config.fontSize ?? 11,
-    labelFontSize: config.labelFontSize ?? 11
-  };
-};
-
-const getDiamondPath = (x: number, y: number, radius: number) => {
-  return [
-    `M ${x} ${y - radius}`,
-    `L ${x + radius} ${y}`,
-    `L ${x} ${y + radius}`,
-    `L ${x - radius} ${y}`,
-    "Z"
-  ].join(" ");
-};
-
 const renderDefaultDot = <TData,>({
   color,
   config,
@@ -681,6 +496,7 @@ const renderDefaultDot = <TData,>({
     theme
   });
   const commonProps = {
+    key: `dot-${point.seriesKey}-${point.index}`,
     testID: createSvgTestId("line-dot", point.seriesKey, point.index),
     fill,
     opacity: config.opacity,
@@ -688,38 +504,13 @@ const renderDefaultDot = <TData,>({
     strokeWidth: config.strokeWidth
   };
 
-  if (config.shape === "square") {
-    const size = config.radius * 2;
-
-    return (
-      <SvgRect
-        key={`dot-${point.seriesKey}-${point.index}`}
-        x={point.x - config.radius}
-        y={point.y - config.radius}
-        width={size}
-        height={size}
-        rx={Math.min(3, config.radius * 0.45)}
-        {...commonProps}
-      />
-    );
-  }
-
-  if (config.shape === "diamond") {
-    return (
-      <SvgPath
-        key={`dot-${point.seriesKey}-${point.index}`}
-        d={getDiamondPath(point.x, point.y, config.radius)}
-        {...commonProps}
-      />
-    );
-  }
-
   return (
-    <SvgCircle
-      key={`dot-${point.seriesKey}-${point.index}`}
-      cx={point.x}
-      cy={point.y}
-      r={config.radius}
+    <SvgSymbol
+      shape={config.shape}
+      x={point.x}
+      y={point.y}
+      size={config.radius * 2}
+      cornerRadius={Math.min(3, config.radius * 0.45)}
       {...commonProps}
     />
   );
@@ -736,7 +527,7 @@ const renderDefaultTooltip = <TData,>({
 }: LineChartTooltipRenderProps<TData>) => {
   const contentX = x + config.padding;
   const labelY = y + config.padding + config.labelFontSize;
-  const firstItemY = labelY + tooltipLineHeight;
+  const firstItemY = labelY + lineChartTooltipLineHeight;
 
   return (
     <SvgGroup>
@@ -761,7 +552,7 @@ const renderDefaultTooltip = <TData,>({
         {xLabel}
       </SvgText>
       {series.map((item, index) => {
-        const itemY = firstItemY + index * tooltipLineHeight;
+        const itemY = firstItemY + index * lineChartTooltipLineHeight;
 
         return (
           <SvgGroup key={`tooltip-${item.key}`}>
@@ -852,9 +643,7 @@ type XLabelLayout = {
 };
 
 type LineChartSelectedSeriesItem<TData = unknown> =
-  LineChartTooltipSeriesItem<TData> & {
-    activeDot: ResolvedLineChartDotConfig;
-  };
+  BaseLineChartSelectedSeriesItem<ProjectedLinePoint<TData>>;
 
 type LineChartSelectionModel<TData = unknown> = {
   index: number;
@@ -871,65 +660,6 @@ const clamp = (value: number, min: number, max: number) => {
   }
 
   return Math.min(Math.max(value, min), max);
-};
-
-const getTooltipModel = <TData,>({
-  boxes,
-  chartHeight,
-  chartWidth,
-  config,
-  selection,
-  theme
-}: {
-  boxes: ReturnType<typeof solveChartBoxes>;
-  chartHeight: number;
-  chartWidth: number;
-  config: ResolvedLineChartTooltipConfig;
-  selection: Omit<LineChartSelectionModel<TData>, "tooltip">;
-  theme: ResolvedCartesianChartTheme;
-}): LineChartTooltipRenderProps<TData> | undefined => {
-  if (!config.visible || selection.series.length === 0) {
-    return undefined;
-  }
-
-  const series = config.shared
-    ? selection.series
-    : selection.series.slice(0, 1);
-  const labelWidth = measureText(selection.xLabel, {
-    fontSize: config.labelFontSize
-  }).width;
-  const seriesTextWidths = series.map(
-    (item) =>
-      measureText(`${item.label}: ${item.formattedValue}`, {
-        fontSize: config.fontSize
-      }).width
-  );
-  const markerWidth = 12;
-  const contentWidth = Math.max(labelWidth, ...seriesTextWidths) + markerWidth;
-  const width = config.width ?? contentWidth + config.padding * 2;
-  const height =
-    config.padding * 2 +
-    tooltipLabelLineHeight +
-    series.length * tooltipLineHeight;
-  const x = clamp(selection.x - width / 2, 4, chartWidth - width - 4);
-  const aboveY = selection.y - height - 12;
-  const belowY = selection.y + 12;
-  const y =
-    aboveY >= boxes.plot.y
-      ? aboveY
-      : clamp(belowY, 4, chartHeight - height - 4);
-
-  return {
-    index: selection.index,
-    x,
-    y,
-    width,
-    height,
-    xLabel: selection.xLabel,
-    series,
-    config,
-    theme
-  };
 };
 
 const getMaxSize = (sizes: Size[]) => {
@@ -1457,7 +1187,7 @@ const useChartModel = <TData extends Record<string, unknown>>({
           area: item.area,
           curve: item.curve,
           color: item.color ?? getSeriesColor(resolvedTheme, index),
-          dot: getDotConfig({
+          dot: getLineChartDotConfig({
             dots,
             seriesDot: item.dot,
             showDots
@@ -1631,7 +1361,7 @@ const useChartModel = <TData extends Record<string, unknown>>({
           strokeWidth: style?.strokeWidth ?? 3,
           dot:
             style?.dot ??
-            getDotConfig({
+            getLineChartDotConfig({
               dots,
               seriesDot: undefined,
               showDots
@@ -1659,8 +1389,14 @@ const useChartModel = <TData extends Record<string, unknown>>({
       minGap: labelMinGap,
       baseY: boxes.plot.y + boxes.plot.height + xLabelBaselineOffset
     });
-    const crosshairConfig = getCrosshairConfig(crosshair, resolvedTheme);
-    const tooltipConfig = getTooltipConfig(tooltip, resolvedTheme);
+    const crosshairConfig = getLineChartCrosshairConfig({
+      crosshair,
+      themeAxisColor: resolvedTheme.axis
+    });
+    const tooltipConfig = getLineChartTooltipConfig({
+      tooltip,
+      themeAxisColor: resolvedTheme.axis
+    });
     const roundedSelectedIndex =
       typeof selectedIndex === "number" && Number.isFinite(selectedIndex)
         ? Math.round(selectedIndex)
@@ -1671,38 +1407,13 @@ const useChartModel = <TData extends Record<string, unknown>>({
       roundedSelectedIndex < xValues.length
         ? roundedSelectedIndex
         : undefined;
-    const selectedSeries =
-      selectedDataIndex === undefined
-        ? []
-        : geometries.flatMap<LineChartSelectedSeriesItem<TData>>(
-            ({ geometry, style }) => {
-              const point = geometry.points.find(
-                (item) => item.dataIndex === selectedDataIndex
-              );
-
-              if (!point || !point.defined) {
-                return [];
-              }
-
-              return [
-                {
-                  key: geometry.key,
-                  label: geometry.label,
-                  color: style.color,
-                  value: point.value,
-                  formattedValue:
-                    typeof point.value === "number"
-                      ? formatYLabel(point.value)
-                      : "—",
-                  point,
-                  activeDot: getActiveDotConfig({
-                    activeDot,
-                    baseDot: style.dot
-                  })
-                }
-              ];
-            }
-          );
+    const selectedSeries: Array<LineChartSelectedSeriesItem<TData>> =
+      getSelectedLineSeries({
+        activeDot,
+        formatYLabel,
+        geometries,
+        selectedDataIndex
+      });
     const selectionBase =
       selectedDataIndex !== undefined && selectedSeries.length > 0
         ? {
@@ -1717,11 +1428,12 @@ const useChartModel = <TData extends Record<string, unknown>>({
       selectionBase
         ? {
             ...selectionBase,
-            tooltip: getTooltipModel({
-              boxes,
+            tooltip: getLineChartTooltipModel({
               chartHeight: height,
               chartWidth: width,
               config: tooltipConfig,
+              measureText,
+              plotY: boxes.plot.y,
               selection: selectionBase,
               theme: resolvedTheme
             })
@@ -1856,22 +1568,26 @@ export const LineChart = <TData extends Record<string, unknown>>(
       style={[styles.container, { width: props.width, height: props.height }]}
     >
       <SvgSurface width={props.width} height={props.height}>
-        <SvgRect
-          x={0}
-          y={0}
-          width={props.width}
-          height={props.height}
-          rx={8}
-          fill={resolvedTheme.background}
-        />
-        <SvgRect
-          x={boxes.plot.x}
-          y={boxes.plot.y}
-          width={boxes.plot.width}
-          height={boxes.plot.height}
-          rx={6}
-          fill={resolvedTheme.plotBackground}
-        />
+        <SvgLayer name="background">
+          <SvgRect
+            x={0}
+            y={0}
+            width={props.width}
+            height={props.height}
+            rx={8}
+            fill={resolvedTheme.background}
+          />
+        </SvgLayer>
+        <SvgLayer name="plot">
+          <SvgRect
+            x={boxes.plot.x}
+            y={boxes.plot.y}
+            width={boxes.plot.width}
+            height={boxes.plot.height}
+            rx={6}
+            fill={resolvedTheme.plotBackground}
+          />
+        </SvgLayer>
         <SvgDefs>
           {geometries.map(({ style }, index) => (
             <SvgLinearGradientDef
@@ -1888,176 +1604,190 @@ export const LineChart = <TData extends Record<string, unknown>>(
             />
           ))}
         </SvgDefs>
-        {legendModel
-          ? renderConfiguredLegend({
-              legend: legendModel.renderProps,
-              config: legendModel.config
-            })
-          : null}
-        {showVerticalGridLines
-          ? xLabelLayout.items.map((label) => (
-              <SvgLine
-                key={`grid-x-${label.index}`}
-                x1={label.gridX}
-                x2={label.gridX}
-                y1={boxes.plot.y}
-                y2={boxes.plot.y + boxes.plot.height}
-                stroke={resolvedTheme.grid}
-                strokeOpacity={0.72}
-                strokeWidth={1}
-              />
-            ))
-          : null}
-        {showHorizontalGridLines
-          ? yTicks.map((tick) => {
-              const y = yScale.scale(tick);
-
-              return (
+        <SvgLayer name="grid">
+          {showVerticalGridLines
+            ? xLabelLayout.items.map((label) => (
                 <SvgLine
-                  key={`grid-y-${tick}`}
-                  x1={boxes.plot.x}
-                  x2={boxes.plot.x + boxes.plot.width}
-                  y1={y}
-                  y2={y}
+                  key={`grid-x-${label.index}`}
+                  x1={label.gridX}
+                  x2={label.gridX}
+                  y1={boxes.plot.y}
+                  y2={boxes.plot.y + boxes.plot.height}
                   stroke={resolvedTheme.grid}
-                  strokeOpacity={0.78}
+                  strokeOpacity={0.72}
                   strokeWidth={1}
                 />
-              );
-            })
-          : null}
-        {yTicks.map((tick) => {
-          const y = yScale.scale(tick);
+              ))
+            : null}
+          {showHorizontalGridLines
+            ? yTicks.map((tick) => {
+                const y = yScale.scale(tick);
 
-          return (
-            <SvgText
-              key={`label-y-${tick}`}
-              x={boxes.plot.x - 8}
-              y={y + resolvedTheme.typography.axisLabelSize * 0.36}
-              fill={resolvedTheme.mutedText}
-              fontSize={resolvedTheme.typography.axisLabelSize}
-              textAnchor="end"
-              {...getFontFamilyProps(resolvedTheme.typography.fontFamily)}
+                return (
+                  <SvgLine
+                    key={`grid-y-${tick}`}
+                    x1={boxes.plot.x}
+                    x2={boxes.plot.x + boxes.plot.width}
+                    y1={y}
+                    y2={y}
+                    stroke={resolvedTheme.grid}
+                    strokeOpacity={0.78}
+                    strokeWidth={1}
+                  />
+                );
+              })
+            : null}
+        </SvgLayer>
+        <SvgLayer name="axes">
+          {yTicks.map((tick) => {
+            const y = yScale.scale(tick);
+
+            return (
+              <SvgText
+                key={`label-y-${tick}`}
+                x={boxes.plot.x - 8}
+                y={y + resolvedTheme.typography.axisLabelSize * 0.36}
+                fill={resolvedTheme.mutedText}
+                fontSize={resolvedTheme.typography.axisLabelSize}
+                textAnchor="end"
+                {...getFontFamilyProps(resolvedTheme.typography.fontFamily)}
+              >
+                {formatYLabel(tick)}
+              </SvgText>
+            );
+          })}
+          {xLabelLayout.items.map((label) => (
+            <SvgGroup
+              key={`label-x-${label.index}`}
+              transform={
+                label.rotation !== 0
+                  ? `rotate(${label.rotation} ${label.x} ${label.y})`
+                  : undefined
+              }
             >
-              {formatYLabel(tick)}
-            </SvgText>
-          );
-        })}
-        {xLabelLayout.items.map((label) => (
-          <SvgGroup
-            key={`label-x-${label.index}`}
-            transform={
-              label.rotation !== 0
-                ? `rotate(${label.rotation} ${label.x} ${label.y})`
-                : undefined
-            }
-          >
-            <SvgText
-              x={label.x}
-              y={label.y}
-              fill={resolvedTheme.mutedText}
-              fontSize={resolvedTheme.typography.axisLabelSize}
-              textAnchor={label.textAnchor}
-              {...getFontFamilyProps(resolvedTheme.typography.fontFamily)}
-            >
-              {label.text}
-            </SvgText>
-          </SvgGroup>
-        ))}
-        {geometries.map(({ geometry }, index) =>
-          geometry.area ? (
+              <SvgText
+                x={label.x}
+                y={label.y}
+                fill={resolvedTheme.mutedText}
+                fontSize={resolvedTheme.typography.axisLabelSize}
+                textAnchor={label.textAnchor}
+                {...getFontFamilyProps(resolvedTheme.typography.fontFamily)}
+              >
+                {label.text}
+              </SvgText>
+            </SvgGroup>
+          ))}
+        </SvgLayer>
+        <SvgLayer name="dataArea">
+          {geometries.map(({ geometry }, index) =>
+            geometry.area ? (
+              <SvgPath
+                key={`area-${geometry.key}`}
+                d={geometry.area.path}
+                fill={`url(#area-gradient-${index})`}
+              />
+            ) : null
+          )}
+        </SvgLayer>
+        <SvgLayer name="data">
+          {geometries.map(({ geometry, style }) => (
             <SvgPath
-              key={`area-${geometry.key}`}
-              d={geometry.area.path}
-              fill={`url(#area-gradient-${index})`}
+              key={`line-${geometry.key}`}
+              d={geometry.line.path}
+              fill="none"
+              stroke={style.color}
+              strokeWidth={style.strokeWidth}
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
-          ) : null
-        )}
-        {geometries.map(({ geometry, style }) => (
-          <SvgPath
-            key={`line-${geometry.key}`}
-            d={geometry.line.path}
-            fill="none"
-            stroke={style.color}
-            strokeWidth={style.strokeWidth}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        ))}
-        {selectionModel && crosshairConfig.visible ? (
-          <SvgLine
-            key="selection-crosshair"
-            x1={selectionModel.x}
-            x2={selectionModel.x}
-            y1={boxes.plot.y}
-            y2={boxes.plot.y + boxes.plot.height}
-            stroke={crosshairConfig.color}
-            strokeOpacity={crosshairConfig.opacity}
-            strokeWidth={crosshairConfig.strokeWidth}
-            {...(crosshairConfig.strokeDasharray
-              ? { strokeDasharray: crosshairConfig.strokeDasharray }
-              : {})}
-          />
-        ) : null}
-        {geometries.flatMap(({ geometry, style }) =>
-          geometry.points
-            .filter((point) => point.defined && style.dot.visible)
-            .map((point) => {
-              const dotProps: LineChartDotRenderProps<TData> = {
-                point,
-                seriesKey: geometry.key,
-                seriesLabel: geometry.label,
-                color: style.color,
-                x: point.x,
-                y: point.y,
-                value: point.value,
-                dataIndex: point.dataIndex,
-                config: style.dot,
-                theme: resolvedTheme
-              };
-              const renderedDot = props.renderDot
-                ? props.renderDot(dotProps)
-                : renderDefaultDot(dotProps);
-
-              return renderedDot ? (
-                <SvgGroup key={`dot-${geometry.key}-${point.index}`}>
-                  {renderedDot}
-                </SvgGroup>
-              ) : null;
-            })
-        )}
-        {selectionModel
-          ? selectionModel.series
-              .filter((item) => item.activeDot.visible)
-              .map((item) => {
+          ))}
+        </SvgLayer>
+        <SvgLayer name="markers">
+          {geometries.flatMap(({ geometry, style }) =>
+            geometry.points
+              .filter((point) => point.defined && style.dot.visible)
+              .map((point) => {
                 const dotProps: LineChartDotRenderProps<TData> = {
-                  point: item.point,
-                  seriesKey: item.key,
-                  seriesLabel: item.label,
-                  color: item.color,
-                  x: item.point.x,
-                  y: item.point.y,
-                  value: item.value,
-                  dataIndex: item.point.dataIndex,
-                  config: item.activeDot,
+                  point,
+                  seriesKey: geometry.key,
+                  seriesLabel: geometry.label,
+                  color: style.color,
+                  x: point.x,
+                  y: point.y,
+                  value: point.value,
+                  dataIndex: point.dataIndex,
+                  config: style.dot,
                   theme: resolvedTheme
                 };
-                const renderedDot = props.renderActiveDot
-                  ? props.renderActiveDot(dotProps)
+                const renderedDot = props.renderDot
+                  ? props.renderDot(dotProps)
                   : renderDefaultDot(dotProps);
 
                 return renderedDot ? (
-                  <SvgGroup key={`active-dot-${item.key}`}>
+                  <SvgGroup key={`dot-${geometry.key}-${point.index}`}>
                     {renderedDot}
                   </SvgGroup>
                 ) : null;
               })
-          : null}
-        {selectionModel?.tooltip
-          ? props.renderTooltip
-            ? props.renderTooltip(selectionModel.tooltip)
-            : renderDefaultTooltip(selectionModel.tooltip)
-          : null}
+          )}
+        </SvgLayer>
+        <SvgLayer name="overlays">
+          {selectionModel && crosshairConfig.visible ? (
+            <SvgLine
+              key="selection-crosshair"
+              x1={selectionModel.x}
+              x2={selectionModel.x}
+              y1={boxes.plot.y}
+              y2={boxes.plot.y + boxes.plot.height}
+              stroke={crosshairConfig.color}
+              strokeOpacity={crosshairConfig.opacity}
+              strokeWidth={crosshairConfig.strokeWidth}
+              {...(crosshairConfig.strokeDasharray
+                ? { strokeDasharray: crosshairConfig.strokeDasharray }
+                : {})}
+            />
+          ) : null}
+          {legendModel
+            ? renderConfiguredLegend({
+                legend: legendModel.renderProps,
+                config: legendModel.config
+              })
+            : null}
+        </SvgLayer>
+        <SvgLayer name="interaction">
+          {selectionModel
+            ? selectionModel.series
+                .filter((item) => item.activeDot.visible)
+                .map((item) => {
+                  const dotProps: LineChartDotRenderProps<TData> = {
+                    point: item.point,
+                    seriesKey: item.key,
+                    seriesLabel: item.label,
+                    color: item.color,
+                    x: item.point.x,
+                    y: item.point.y,
+                    value: item.value,
+                    dataIndex: item.point.dataIndex,
+                    config: item.activeDot,
+                    theme: resolvedTheme
+                  };
+                  const renderedDot = props.renderActiveDot
+                    ? props.renderActiveDot(dotProps)
+                    : renderDefaultDot(dotProps);
+
+                  return renderedDot ? (
+                    <SvgGroup key={`active-dot-${item.key}`}>
+                      {renderedDot}
+                    </SvgGroup>
+                  ) : null;
+                })
+            : null}
+          {selectionModel?.tooltip
+            ? props.renderTooltip
+              ? props.renderTooltip(selectionModel.tooltip)
+              : renderDefaultTooltip(selectionModel.tooltip)
+            : null}
+        </SvgLayer>
       </SvgSurface>
     </View>
   );
