@@ -61,7 +61,11 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
   } = model;
 
   return (
-    <View style={{ width: chartWidth, height: mainHeight }} {...responderProps}>
+    <View
+      collapsable={false}
+      style={{ width: chartWidth, height: mainHeight }}
+      {...responderProps}
+    >
       <SvgSurface width={chartWidth} height={mainHeight}>
         <SvgLayer name="background">
           <SvgRect

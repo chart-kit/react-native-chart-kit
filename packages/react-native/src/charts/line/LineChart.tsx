@@ -43,6 +43,10 @@ import { useAnimatedTooltipModel } from "./useAnimatedTooltipModel";
 import { useLineChartYAxisLabels } from "./useAnimatedYAxisLabels";
 import { useChartModel } from "./useChartModel";
 import { useLineChartViewportPan } from "./viewportInteraction";
+import {
+  LineChartViewportGesture,
+  useLineChartViewportPinchZoom
+} from "./viewportPinchZoom";
 import { clampLineChartTooltipToViewport } from "./tooltip";
 import type { LineChartProps } from "./types";
 
@@ -206,6 +210,14 @@ export const LineChart = <TData extends Record<string, unknown>>(
     viewportInteraction: props.viewportInteraction,
     viewportWindow
   });
+  const viewportPinchZoom = useLineChartViewportPinchZoom({
+    dataLength,
+    enabled: !viewport.scrollable,
+    onViewportChange,
+    plotBounds: boxes.plot,
+    viewportInteraction: props.viewportInteraction,
+    viewportWindow
+  });
   const isResponderEventInPlot = useCallback(
     (event: GestureResponderEvent) => {
       const { locationX, locationY } = event.nativeEvent;
@@ -357,6 +369,18 @@ export const LineChart = <TData extends Record<string, unknown>>(
   const chartWidth = viewport.contentWidth;
   const xAxisLabelFadeY = boxes.plot.y + boxes.plot.height;
   const scrollStartFadeId = `${chartId}-scroll-start-fade`;
+  const mainSurface = (
+    <LineChartSurface
+      animatedTooltip={displayTooltip}
+      chartWidth={chartWidth}
+      isScrollable={viewport.scrollable}
+      mainHeight={mainHeight}
+      model={model}
+      props={props}
+      responderProps={responderProps}
+      yAxisLabels={animatedYAxisLabels}
+    />
+  );
 
   return (
     <View
@@ -381,28 +405,12 @@ export const LineChart = <TData extends Record<string, unknown>>(
             onScroll={handleScroll}
             scrollEventThrottle={16}
           >
-            <LineChartSurface
-              animatedTooltip={displayTooltip}
-              chartWidth={chartWidth}
-              isScrollable={viewport.scrollable}
-              mainHeight={mainHeight}
-              model={model}
-              props={props}
-              responderProps={responderProps}
-              yAxisLabels={animatedYAxisLabels}
-            />
+            {mainSurface}
           </ScrollView>
         ) : (
-          <LineChartSurface
-            animatedTooltip={displayTooltip}
-            chartWidth={chartWidth}
-            isScrollable={viewport.scrollable}
-            mainHeight={mainHeight}
-            model={model}
-            props={props}
-            responderProps={responderProps}
-            yAxisLabels={animatedYAxisLabels}
-          />
+          <LineChartViewportGesture gesture={viewportPinchZoom}>
+            {mainSurface}
+          </LineChartViewportGesture>
         )}
         {viewport.scrollable ? (
           <StickyYAxis

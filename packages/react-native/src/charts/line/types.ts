@@ -192,14 +192,22 @@ export type LineChartRangeSelectorGestureEvent = {
 };
 
 export type LineChartViewportPanInteraction = "pan";
+export type LineChartViewportPinchZoomInteraction = "pinchZoom";
+export type LineChartViewportInteractionType =
+  | LineChartViewportPanInteraction
+  | LineChartViewportPinchZoomInteraction;
 
 export type LineChartViewportInteractionGestureEvent = {
-  interaction: LineChartViewportPanInteraction;
+  interaction: LineChartViewportInteractionType;
 };
 
 export type LineChartViewportInteractionConfig = {
   pan?: boolean;
+  pinchZoom?: boolean;
   minPanDistance?: number;
+  minVisiblePoints?: number;
+  maxVisiblePoints?: number;
+  pinchSensitivity?: number;
   lockParentScroll?: boolean;
   onGestureEnd?: (event: LineChartViewportInteractionGestureEvent) => void;
   onGestureStart?: (event: LineChartViewportInteractionGestureEvent) => void;
@@ -250,7 +258,7 @@ export type LineChartViewportChangeEvent = {
   source: "mainPlot" | "rangeSelector";
   interaction:
     | LineChartRangeSelectorInteraction
-    | LineChartViewportPanInteraction;
+    | LineChartViewportInteractionType;
 };
 
 export type LineChartLegendRenderItem = {

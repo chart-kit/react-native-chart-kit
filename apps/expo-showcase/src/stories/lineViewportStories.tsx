@@ -228,7 +228,7 @@ const V2ViewportZoomPan = ({
   );
 
   return (
-    <ChartSection title="Controlled viewport" kicker="Drag to pan">
+    <ChartSection title="Controlled viewport" kicker="Drag or pinch">
       <LineChart
         data={portfolioRangeHistory}
         xKey="date"
@@ -239,6 +239,8 @@ const V2ViewportZoomPan = ({
         viewport={viewport}
         viewportInteraction={{
           pan: true,
+          pinchZoom: true,
+          minVisiblePoints: 6,
           onGestureEnd: onScrubEnd,
           onGestureStart: onScrubStart
         }}
