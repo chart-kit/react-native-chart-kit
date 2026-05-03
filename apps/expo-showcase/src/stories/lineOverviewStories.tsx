@@ -201,8 +201,8 @@ const V2ReferenceTargets = ({ width }: NativeStoryProps) => (
       formatYLabel={(value) => `${Math.round(value)}%`}
       referenceBands={[
         {
-          y1: 95,
-          y2: 105,
+          y1: 90,
+          y2: 110,
           label: "Target range",
           opacity: 0.09
         }
