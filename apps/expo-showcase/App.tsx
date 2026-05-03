@@ -184,6 +184,7 @@ export default function App() {
   const [chartPreset, setChartPreset] = useState<
     CartesianChartPresetName | "studio"
   >("default");
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isScrubbing, setIsScrubbing] = useState(false);
   const isDarkApp = themeMode === "dark";
 
@@ -209,6 +210,7 @@ export default function App() {
 
   const selectPage = (selection: PageSelection) => {
     setIsScrubbing(false);
+    setIsSettingsOpen(false);
     setPageSelection(selection);
     updateShowcaseUrl(selection, isVisualMode);
   };
@@ -245,172 +247,206 @@ export default function App() {
               Showcase
             </Text>
           </View>
-          <View style={styles.countBadge}>
-            <Text style={styles.countText}>{pageStories.length}</Text>
-          </View>
-        </View>
-
-        <ScrollView
-          horizontal
-          style={styles.modeTabsScroller}
-          contentContainerStyle={styles.modeTabs}
-          showsHorizontalScrollIndicator={false}
-        >
-          {showcaseModes.map((mode) => {
-            const isSelected = pageSelection.mode.id === mode.id;
-
-            return (
-              <Pressable
-                key={mode.id}
-                accessibilityRole="button"
-                accessibilityState={{ selected: isSelected }}
-                onPress={() => selectMode(mode)}
-                style={({ pressed }) => [
-                  styles.modeTab,
-                  isDarkApp && styles.navButtonDark,
-                  isSelected && styles.modeTabSelected,
-                  pressed && styles.pressed
-                ]}
-              >
-                <Text
-                  style={[
-                    styles.modeTabText,
-                    isDarkApp && styles.navButtonTextDark,
-                    isSelected && styles.modeTabTextSelected
-                  ]}
-                >
-                  {mode.title}
-                </Text>
-              </Pressable>
-            );
-          })}
-        </ScrollView>
-
-        <View
-          style={[styles.themeControls, isDarkApp && styles.themeControlsDark]}
-        >
-          <View style={styles.themeControlGroup}>
+          <Pressable
+            accessibilityLabel={
+              isSettingsOpen ? "Hide preview settings" : "Show preview settings"
+            }
+            accessibilityRole="button"
+            accessibilityState={{ expanded: isSettingsOpen }}
+            onPress={() => setIsSettingsOpen((current) => !current)}
+            style={({ pressed }) => [
+              styles.settingsButton,
+              isDarkApp && styles.settingsButtonDark,
+              isSettingsOpen && styles.settingsButtonOpen,
+              pressed && styles.pressed
+            ]}
+          >
             <Text
               style={[
-                styles.themeControlLabel,
-                isDarkApp && styles.themeControlLabelDark
+                styles.settingsButtonIcon,
+                isDarkApp && styles.settingsButtonIconDark,
+                isSettingsOpen && styles.settingsButtonIconOpen
               ]}
             >
-              Mode
+              ⚙
             </Text>
-            <View style={styles.segmentedControl}>
-              {showcaseModeOptions.map((option) => {
-                const isSelected = themeMode === option.id;
+          </Pressable>
+        </View>
 
-                return (
-                  <Pressable
-                    key={option.id}
-                    accessibilityRole="button"
-                    accessibilityState={{ selected: isSelected }}
-                    onPress={() => setThemeMode(option.id)}
-                    style={({ pressed }) => [
-                      styles.segmentButton,
-                      isDarkApp && styles.segmentButtonDark,
-                      isSelected && styles.segmentButtonSelected,
-                      pressed && styles.pressed
-                    ]}
-                  >
-                    <Text
-                      style={[
-                        styles.segmentButtonText,
-                        isDarkApp && styles.segmentButtonTextDark,
-                        isSelected && styles.segmentButtonTextSelected
+        {isSettingsOpen ? (
+          <View
+            style={[
+              styles.settingsPanel,
+              isDarkApp && styles.settingsPanelDark
+            ]}
+          >
+            <View style={styles.settingsGroup}>
+              <Text
+                style={[
+                  styles.settingsLabel,
+                  isDarkApp && styles.settingsLabelDark
+                ]}
+              >
+                Browse
+              </Text>
+              <View style={styles.settingsOptions}>
+                {showcaseModes.map((mode) => {
+                  const isSelected = pageSelection.mode.id === mode.id;
+
+                  return (
+                    <Pressable
+                      key={mode.id}
+                      accessibilityRole="button"
+                      accessibilityState={{ selected: isSelected }}
+                      onPress={() => selectMode(mode)}
+                      style={({ pressed }) => [
+                        styles.settingsOption,
+                        isDarkApp && styles.settingsOptionDark,
+                        isSelected && styles.settingsOptionSelected,
+                        pressed && styles.pressed
                       ]}
                     >
-                      {option.title}
-                    </Text>
-                  </Pressable>
-                );
-              })}
+                      <Text
+                        style={[
+                          styles.settingsOptionText,
+                          isDarkApp && styles.settingsOptionTextDark,
+                          isSelected && styles.settingsOptionTextSelected
+                        ]}
+                      >
+                        {mode.title}
+                      </Text>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            </View>
+
+            <View style={styles.settingsGroup}>
+              <Text
+                style={[
+                  styles.settingsLabel,
+                  isDarkApp && styles.settingsLabelDark
+                ]}
+              >
+                Page
+              </Text>
+              <View style={styles.settingsOptions}>
+                {pageSelection.mode.pages.map((page) => {
+                  const isSelected = pageSelection.page.id === page.id;
+
+                  return (
+                    <Pressable
+                      key={page.id}
+                      accessibilityRole="button"
+                      accessibilityState={{ selected: isSelected }}
+                      onPress={() =>
+                        selectPage({ mode: pageSelection.mode, page })
+                      }
+                      style={({ pressed }) => [
+                        styles.settingsOption,
+                        isDarkApp && styles.settingsOptionDark,
+                        isSelected && styles.settingsOptionSelected,
+                        pressed && styles.pressed
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.settingsOptionText,
+                          isDarkApp && styles.settingsOptionTextDark,
+                          isSelected && styles.settingsOptionTextSelected
+                        ]}
+                      >
+                        {page.title}
+                      </Text>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            </View>
+
+            <View style={styles.settingsGroup}>
+              <Text
+                style={[
+                  styles.settingsLabel,
+                  isDarkApp && styles.settingsLabelDark
+                ]}
+              >
+                Appearance
+              </Text>
+              <View style={styles.settingsOptions}>
+                {showcaseModeOptions.map((option) => {
+                  const isSelected = themeMode === option.id;
+
+                  return (
+                    <Pressable
+                      key={option.id}
+                      accessibilityRole="button"
+                      accessibilityState={{ selected: isSelected }}
+                      onPress={() => setThemeMode(option.id)}
+                      style={({ pressed }) => [
+                        styles.settingsOption,
+                        isDarkApp && styles.settingsOptionDark,
+                        isSelected && styles.settingsOptionSelected,
+                        pressed && styles.pressed
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.settingsOptionText,
+                          isDarkApp && styles.settingsOptionTextDark,
+                          isSelected && styles.settingsOptionTextSelected
+                        ]}
+                      >
+                        {option.title}
+                      </Text>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            </View>
+
+            <View style={styles.settingsGroup}>
+              <Text
+                style={[
+                  styles.settingsLabel,
+                  isDarkApp && styles.settingsLabelDark
+                ]}
+              >
+                Theme
+              </Text>
+              <View style={styles.settingsOptions}>
+                {showcasePresetOptions.map((option) => {
+                  const isSelected = chartPreset === option.id;
+
+                  return (
+                    <Pressable
+                      key={option.id}
+                      accessibilityRole="button"
+                      accessibilityState={{ selected: isSelected }}
+                      onPress={() => setChartPreset(option.id)}
+                      style={({ pressed }) => [
+                        styles.settingsOption,
+                        isDarkApp && styles.settingsOptionDark,
+                        isSelected && styles.settingsOptionSelected,
+                        pressed && styles.pressed
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.settingsOptionText,
+                          isDarkApp && styles.settingsOptionTextDark,
+                          isSelected && styles.settingsOptionTextSelected
+                        ]}
+                      >
+                        {option.title}
+                      </Text>
+                    </Pressable>
+                  );
+                })}
+              </View>
             </View>
           </View>
-
-          <View style={[styles.themeControlGroup, styles.presetControlGroup]}>
-            <Text
-              style={[
-                styles.themeControlLabel,
-                isDarkApp && styles.themeControlLabelDark
-              ]}
-            >
-              Preset
-            </Text>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.presetOptions}
-            >
-              {showcasePresetOptions.map((option) => {
-                const isSelected = chartPreset === option.id;
-
-                return (
-                  <Pressable
-                    key={option.id}
-                    accessibilityRole="button"
-                    accessibilityState={{ selected: isSelected }}
-                    onPress={() => setChartPreset(option.id)}
-                    style={({ pressed }) => [
-                      styles.segmentButton,
-                      isDarkApp && styles.segmentButtonDark,
-                      isSelected && styles.segmentButtonSelected,
-                      pressed && styles.pressed
-                    ]}
-                  >
-                    <Text
-                      style={[
-                        styles.segmentButtonText,
-                        isDarkApp && styles.segmentButtonTextDark,
-                        isSelected && styles.segmentButtonTextSelected
-                      ]}
-                    >
-                      {option.title}
-                    </Text>
-                  </Pressable>
-                );
-              })}
-            </ScrollView>
-          </View>
-        </View>
-
-        <ScrollView
-          horizontal
-          style={styles.pageTabsScroller}
-          contentContainerStyle={styles.pageTabs}
-          showsHorizontalScrollIndicator={false}
-        >
-          {pageSelection.mode.pages.map((page) => {
-            const isSelected = pageSelection.page.id === page.id;
-
-            return (
-              <Pressable
-                key={page.id}
-                accessibilityRole="button"
-                accessibilityState={{ selected: isSelected }}
-                onPress={() => selectPage({ mode: pageSelection.mode, page })}
-                style={({ pressed }) => [
-                  styles.pageButton,
-                  isDarkApp && styles.navButtonDark,
-                  isSelected && styles.pageButtonSelected,
-                  pressed && styles.pressed
-                ]}
-              >
-                <Text
-                  style={[
-                    styles.pageButtonText,
-                    isDarkApp && styles.navButtonTextDark,
-                    isSelected && styles.pageButtonTextSelected
-                  ]}
-                >
-                  {page.title}
-                </Text>
-              </Pressable>
-            );
-          })}
-        </ScrollView>
+        ) : null}
 
         <ScrollView
           style={styles.previewScroll}
@@ -553,153 +589,89 @@ const styles = StyleSheet.create({
   darkTitle: {
     color: "#f8fafc"
   },
-  countBadge: {
+  settingsButton: {
     alignItems: "center",
     backgroundColor: "#0f172a",
     borderRadius: 20,
     height: 40,
     justifyContent: "center",
-    minWidth: 58,
-    paddingHorizontal: 14
+    width: 44
   },
-  countText: {
+  settingsButtonDark: {
+    backgroundColor: "#f8fafc"
+  },
+  settingsButtonOpen: {
+    backgroundColor: "#2563eb"
+  },
+  settingsButtonIcon: {
     color: "#ffffff",
-    fontSize: 16,
-    fontWeight: "900"
+    fontSize: 21,
+    fontWeight: "900",
+    lineHeight: 24
   },
-  modeTabsScroller: {
-    flexGrow: 0,
-    height: 48,
-    marginBottom: 6
+  settingsButtonIconDark: {
+    color: "#0f172a"
   },
-  modeTabs: {
-    alignItems: "center",
-    gap: 8,
-    height: 48
-  },
-  modeTab: {
-    backgroundColor: "#ffffff",
-    borderColor: "#d9e2ef",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 38,
-    justifyContent: "center",
-    paddingHorizontal: 12
-  },
-  navButtonDark: {
-    backgroundColor: "#101827",
-    borderColor: "#223149"
-  },
-  modeTabSelected: {
-    backgroundColor: "#0f172a",
-    borderColor: "#0f172a"
-  },
-  modeTabText: {
-    color: "#344054",
-    fontSize: 13,
-    fontWeight: "800"
-  },
-  navButtonTextDark: {
-    color: "#dbe7f7"
-  },
-  modeTabTextSelected: {
+  settingsButtonIconOpen: {
     color: "#ffffff"
   },
-  themeControls: {
-    backgroundColor: "#eaf1fa",
-    borderColor: "#d8e3f1",
+  settingsPanel: {
+    backgroundColor: "#ffffff",
+    borderColor: "#d9e2ef",
     borderRadius: 10,
     borderWidth: 1,
-    gap: 10,
-    marginBottom: 12,
-    padding: 10
+    gap: 12,
+    marginBottom: 14,
+    padding: 12
   },
-  themeControlsDark: {
+  settingsPanelDark: {
     backgroundColor: "#0b1220",
-    borderColor: "#1f2d44"
+    borderColor: "#223149"
   },
-  themeControlGroup: {
-    gap: 6
+  settingsGroup: {
+    gap: 7
   },
-  presetControlGroup: {
-    marginRight: -10
-  },
-  themeControlLabel: {
+  settingsLabel: {
     color: "#526176",
     fontSize: 11,
     fontWeight: "900",
     letterSpacing: 0,
     textTransform: "uppercase"
   },
-  themeControlLabelDark: {
+  settingsLabelDark: {
     color: "#8fa2bd"
   },
-  segmentedControl: {
+  settingsOptions: {
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 6
   },
-  presetOptions: {
-    gap: 6,
-    paddingRight: 10
-  },
-  segmentButton: {
-    backgroundColor: "#ffffff",
-    borderColor: "#d1ddea",
+  settingsOption: {
+    backgroundColor: "#f8fafc",
+    borderColor: "#d9e2ef",
     borderRadius: 7,
     borderWidth: 1,
     paddingHorizontal: 10,
     paddingVertical: 7
   },
-  segmentButtonDark: {
+  settingsOptionDark: {
     backgroundColor: "#111827",
     borderColor: "#2a3950"
   },
-  segmentButtonSelected: {
+  settingsOptionSelected: {
     backgroundColor: "#2563eb",
     borderColor: "#2563eb"
   },
-  segmentButtonText: {
+  settingsOptionText: {
     color: "#344054",
     fontSize: 12,
     fontWeight: "900"
   },
-  segmentButtonTextDark: {
+  settingsOptionTextDark: {
     color: "#dbe7f7"
   },
-  segmentButtonTextSelected: {
+  settingsOptionTextSelected: {
     color: "#ffffff"
-  },
-  pageTabsScroller: {
-    flexGrow: 0,
-    height: 54,
-    marginBottom: 12
-  },
-  pageTabs: {
-    alignItems: "center",
-    gap: 8,
-    height: 54
-  },
-  pageButton: {
-    backgroundColor: "#ffffff",
-    borderColor: "#d9e2ef",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 42,
-    justifyContent: "center",
-    paddingHorizontal: 13
-  },
-  pageButtonSelected: {
-    backgroundColor: "#eff6ff",
-    borderColor: "#2563eb"
-  },
-  pageButtonText: {
-    color: "#344054",
-    fontSize: 14,
-    fontWeight: "800"
-  },
-  pageButtonTextSelected: {
-    color: "#1d4ed8"
   },
   pressed: {
     opacity: 0.72

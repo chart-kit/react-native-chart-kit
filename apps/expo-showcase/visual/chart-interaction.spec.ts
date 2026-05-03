@@ -1,6 +1,23 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("Expo showcase chart interactions", () => {
+  test("showcase settings stay behind the settings button", async ({
+    page
+  }) => {
+    await page.goto("/");
+    await page.evaluate(async () => {
+      await document.fonts?.ready;
+    });
+
+    await expect(page.getByText("Line & Area")).toBeVisible();
+    await expect(page.getByText("High Contrast")).toHaveCount(0);
+    await expect(page.getByText("Scenarios")).toHaveCount(0);
+
+    await page.getByRole("button", { name: "Show preview settings" }).click();
+    await expect(page.getByText("High Contrast")).toBeVisible();
+    await expect(page.getByRole("button", { name: "QA" })).toBeVisible();
+  });
+
   test("scrubbing does not select chart text on web", async ({ page }) => {
     await page.goto("/?story=v2-while-active&visual=1");
     await page.evaluate(async () => {

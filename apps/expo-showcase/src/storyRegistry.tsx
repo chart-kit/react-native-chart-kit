@@ -54,7 +54,7 @@ export type ShowcaseSection = {
 };
 
 export type ShowcaseMode = {
-  id: "scenarios" | "charts" | "features" | "qa";
+  id: "charts" | "features" | "qa";
   title: string;
   pages: ShowcasePage[];
 };
@@ -1292,50 +1292,6 @@ export const storySections: ShowcaseSection[] = [
 export const stories = storySections.flatMap((section) => section.stories);
 
 export const showcaseModes: ShowcaseMode[] = [
-  {
-    id: "scenarios",
-    title: "Scenarios",
-    pages: [
-      {
-        id: "saas-analytics",
-        title: "SaaS Analytics",
-        description:
-          "Revenue, forecast, selection, and legend patterns for subscription dashboards.",
-        storyIds: [
-          "v2-revenue-card",
-          "v2-scrub",
-          "v2-bottom-legend",
-          "v2-grid-lines"
-        ]
-      },
-      {
-        id: "investing",
-        title: "Investing",
-        description:
-          "Portfolio motion, benchmark comparison, dark cards, and inspection states.",
-        storyIds: [
-          "v2-scrollable-price",
-          "v2-scrollable-stock-comparison",
-          "v2-range-selector",
-          "v2-pro-animation",
-          "v2-area",
-          "v2-selected-tooltip"
-        ]
-      },
-      {
-        id: "mobile-dashboard",
-        title: "Mobile Dashboard",
-        description:
-          "Compact card-friendly charts for product, finance, and ops surfaces.",
-        storyIds: [
-          "v2-basic",
-          "v2-multi-series",
-          "v2-custom-typography",
-          "v2-dot-styles"
-        ]
-      }
-    ]
-  },
   {
     id: "charts",
     title: "Charts",
