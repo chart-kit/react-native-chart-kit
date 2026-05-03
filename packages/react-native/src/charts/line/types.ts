@@ -347,6 +347,7 @@ export type LineChartProps<TData extends Record<string, unknown>> = {
   labelMinGap?: number;
   edgeLabelPolicy?: LineChartEdgeLabelPolicy;
   yDomain?: NumericDomainInput;
+  yAxisLabelWidth?: number;
   formatXLabel?: (value: ChartXValue, index: number) => string;
   formatYLabel?: (value: number) => string;
   testID?: string;

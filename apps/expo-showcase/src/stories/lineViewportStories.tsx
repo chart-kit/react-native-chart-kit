@@ -225,6 +225,7 @@ const V2ViewportZoomPan = ({ width }: NativeStoryProps) => {
         width={width}
         height={248}
         viewport={viewport}
+        yAxisLabelWidth={44}
         curve="monotone"
         showDots={false}
         showHorizontalGridLines
@@ -315,6 +316,7 @@ const V2RangeSelectorOverview = ({
         onViewportChange={handleViewportChange}
         testID="range-selector-chart"
         viewport={viewport}
+        yAxisLabelWidth={44}
         interaction={{
           mode: "scrub",
           selectionPersistence: "persist",

@@ -21,6 +21,7 @@ import {
   getLineChartStrokeStyle,
   getLineChartTooltipConfig
 } from "./options";
+import { resolveLineChartYAxisLabelSizes } from "./axisLabels";
 import { getSelectedLineSeries } from "./selection";
 import { getLineChartTooltipModel } from "./tooltip";
 import {
@@ -91,6 +92,7 @@ export const useChartModel = <TData extends Record<string, unknown>>({
   labelMinGap = 8,
   edgeLabelPolicy = "shift",
   yDomain = defaultYDomain,
+  yAxisLabelWidth,
   formatXLabel = defaultFormatXLabel,
   formatYLabel = defaultFormatYLabel,
   chartKitTheme
@@ -131,9 +133,12 @@ export const useChartModel = <TData extends Record<string, unknown>>({
       domain: yDomainResolved,
       count: 4
     });
-    const yLabelSizes = yTicks.map((tick) =>
-      measureLineChartText(formatYLabel(tick), axisTextOptions)
-    );
+    const yLabelSizes = resolveLineChartYAxisLabelSizes({
+      sizes: yTicks.map((tick) =>
+        measureLineChartText(formatYLabel(tick), axisTextOptions)
+      ),
+      width: yAxisLabelWidth
+    });
     const xLabelTexts = xValues.map((value, index) =>
       formatXLabel(value, index)
     );
@@ -484,6 +489,7 @@ export const useChartModel = <TData extends Record<string, unknown>>({
     tooltip,
     width,
     xKey,
+    yAxisLabelWidth,
     yDomain
   ]);
 };
