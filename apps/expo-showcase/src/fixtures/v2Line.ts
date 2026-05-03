@@ -27,6 +27,11 @@ export type SubscriptionPoint = {
   netRetention: number;
 };
 
+export type PlanAttainmentPoint = {
+  month: string;
+  attainment: number;
+};
+
 export const basicRevenue: RevenuePoint[] = [
   { month: "Jan", actual: 18 },
   { month: "Feb", actual: 34 },
@@ -49,6 +54,21 @@ export const subscriptionMetrics: SubscriptionPoint[] = [
   { month: "Oct", revenue: 197, netRetention: 113 },
   { month: "Nov", revenue: 205, netRetention: 114 },
   { month: "Dec", revenue: 216, netRetention: 116 }
+];
+
+export const planAttainment: PlanAttainmentPoint[] = [
+  { month: "Jan", attainment: 82 },
+  { month: "Feb", attainment: 88 },
+  { month: "Mar", attainment: 91 },
+  { month: "Apr", attainment: 96 },
+  { month: "May", attainment: 101 },
+  { month: "Jun", attainment: 99 },
+  { month: "Jul", attainment: 104 },
+  { month: "Aug", attainment: 108 },
+  { month: "Sep", attainment: 103 },
+  { month: "Oct", attainment: 97 },
+  { month: "Nov", attainment: 101 },
+  { month: "Dec", attainment: 112 }
 ];
 
 export const multiSeriesRevenue: RevenuePoint[] = [

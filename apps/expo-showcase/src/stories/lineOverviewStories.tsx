@@ -4,6 +4,7 @@ import { SvgCircle, SvgGroup, SvgRect, SvgText } from "@chart-kit/svg-renderer";
 import {
   basicRevenue,
   multiSeriesRevenue,
+  planAttainment,
   subscriptionMetrics
 } from "../fixtures/v2Line";
 import {
@@ -186,29 +187,29 @@ const V2MultiSeries = ({ width }: NativeStoryProps) => (
 );
 
 const V2ReferenceTargets = ({ width }: NativeStoryProps) => (
-  <ChartSection title="Revenue targets" kicker="Reference overlays">
+  <ChartSection title="Quota attainment" kicker="Reference overlays">
     <LineChart
-      data={subscriptionMetrics}
+      data={planAttainment}
       xKey="month"
-      yKey="revenue"
+      yKey="attainment"
       width={width}
       height={238}
       curve="monotone"
       showDots={false}
       showHorizontalGridLines
-      yDomain={[100, 230]}
-      formatYLabel={(value) => `$${Math.round(value)}k`}
+      yDomain={[80, 115]}
+      formatYLabel={(value) => `${Math.round(value)}%`}
       referenceBands={[
         {
-          y1: 190,
-          y2: 215,
+          y1: 95,
+          y2: 105,
           label: "Target range",
           opacity: 0.09
         }
       ]}
       referenceLines={[
         {
-          y: 200,
+          y: 100,
           label: "Plan",
           labelPosition: "center",
           strokeDasharray: [5, 5],
