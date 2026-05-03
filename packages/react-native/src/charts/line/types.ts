@@ -28,6 +28,7 @@ import type {
   LineChartTooltipRenderProps as BaseLineChartTooltipRenderProps,
   LineChartTooltipSeriesItem as BaseLineChartTooltipSeriesItem
 } from "./tooltip";
+import type { LineChartAxisLabelAnimationConfig } from "./axisLabels";
 
 export type {
   LineChartInteraction,
@@ -51,6 +52,13 @@ export type {
   ResolvedLineChartStrokeStyle,
   ResolvedLineChartTooltipConfig
 } from "./options";
+
+export type {
+  LineChartAxisLabelAnimationConfig,
+  LineChartAxisLabelAnimationStrategy,
+  LineChartYAxisLabelModel,
+  ResolvedLineChartAxisLabelAnimationConfig
+} from "./axisLabels";
 
 export type LineChartSeries<TData extends Record<string, unknown>> = {
   yKey: keyof TData & string;
@@ -348,6 +356,7 @@ export type LineChartProps<TData extends Record<string, unknown>> = {
   edgeLabelPolicy?: LineChartEdgeLabelPolicy;
   yDomain?: NumericDomainInput;
   yAxisLabelWidth?: number;
+  axisLabelAnimation?: boolean | LineChartAxisLabelAnimationConfig;
   formatXLabel?: (value: ChartXValue, index: number) => string;
   formatYLabel?: (value: number) => string;
   testID?: string;

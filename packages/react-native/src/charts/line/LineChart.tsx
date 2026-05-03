@@ -39,6 +39,7 @@ import {
   LineChartRangeSelector
 } from "./rangeSelector";
 import { useAnimatedTooltipModel } from "./useAnimatedTooltipModel";
+import { useLineChartYAxisLabels } from "./useAnimatedYAxisLabels";
 import { useChartModel } from "./useChartModel";
 import { clampLineChartTooltipToViewport } from "./tooltip";
 import type { LineChartProps } from "./types";
@@ -159,6 +160,10 @@ export const LineChart = <TData extends Record<string, unknown>>(
   const { boxes, geometries, interactionPoints, selectionModel, formatYLabel } =
     model;
   const isInteractionEnabled = isLineChartInteractionEnabled(interactionConfig);
+  const animatedYAxisLabels = useLineChartYAxisLabels(
+    model,
+    props.axisLabelAnimation
+  );
 
   useEffect(() => {
     if (!viewport.scrollable) {
@@ -414,6 +419,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
               model={model}
               props={props}
               responderProps={responderProps}
+              yAxisLabels={animatedYAxisLabels}
             />
           </ScrollView>
         ) : (
@@ -425,6 +431,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
             model={model}
             props={props}
             responderProps={responderProps}
+            yAxisLabels={animatedYAxisLabels}
           />
         )}
         {viewport.scrollable ? (
@@ -436,6 +443,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
             mainHeight={mainHeight}
             model={model}
             width={props.width}
+            yAxisLabels={animatedYAxisLabels}
           />
         ) : null}
         {outsidePressSurfaces.map((surface) => (

@@ -17,7 +17,11 @@ import { renderConfiguredLegend } from "./legend";
 import { renderDefaultDot } from "./markers";
 import { getFontFamilyProps } from "./text";
 import type { LineChartModel } from "./useChartModel";
-import type { LineChartDotRenderProps, LineChartProps } from "./types";
+import type {
+  LineChartDotRenderProps,
+  LineChartProps,
+  LineChartYAxisLabelModel
+} from "./types";
 
 export const LineChartSurface = <TData extends Record<string, unknown>>({
   animatedTooltip,
@@ -26,7 +30,8 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
   mainHeight,
   model,
   props,
-  responderProps
+  responderProps,
+  yAxisLabels
 }: {
   animatedTooltip: NonNullable<
     LineChartModel<TData>["selectionModel"]
@@ -37,6 +42,7 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
   model: LineChartModel<TData>;
   props: LineChartProps<TData>;
   responderProps: ViewProps;
+  yAxisLabels: LineChartYAxisLabelModel[];
 }) => {
   const {
     boxes,
@@ -51,8 +57,7 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
     selectionModel,
     xLabelLayout,
     yScale,
-    yTicks,
-    formatYLabel
+    yTicks
   } = model;
 
   return (
@@ -129,24 +134,23 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
             : null}
         </SvgLayer>
         <SvgLayer name="axes">
-          {model.yTicks.map((tick) => {
+          {yAxisLabels.map((label) => {
             if (isScrollable) {
               return null;
             }
 
-            const y = yScale.scale(tick);
-
             return (
               <SvgText
-                key={`label-y-${tick}`}
+                key={`label-y-${label.key}`}
                 x={boxes.plot.x - 8}
-                y={y + resolvedTheme.typography.axisLabelSize * 0.36}
+                y={label.y}
                 fill={resolvedTheme.mutedText}
                 fontSize={resolvedTheme.typography.axisLabelSize}
+                opacity={label.opacity}
                 textAnchor="end"
                 {...getFontFamilyProps(resolvedTheme.typography.fontFamily)}
               >
-                {formatYLabel(tick)}
+                {label.text}
               </SvgText>
             );
           })}
@@ -354,7 +358,8 @@ export const StickyYAxis = <TData extends Record<string, unknown>>({
   gradientId,
   mainHeight,
   model,
-  width
+  width,
+  yAxisLabels
 }: {
   fadeHeight: number;
   fadeWidth: number;
@@ -363,8 +368,9 @@ export const StickyYAxis = <TData extends Record<string, unknown>>({
   mainHeight: number;
   model: LineChartModel<TData>;
   width: number;
+  yAxisLabels: LineChartYAxisLabelModel[];
 }) => {
-  const { boxes, resolvedTheme, yScale, yTicks, formatYLabel } = model;
+  const { boxes, resolvedTheme } = model;
 
   return (
     <View
@@ -410,23 +416,20 @@ export const StickyYAxis = <TData extends Record<string, unknown>>({
           ) : null}
         </SvgLayer>
         <SvgLayer name="axes">
-          {yTicks.map((tick) => {
-            const y = yScale.scale(tick);
-
-            return (
-              <SvgText
-                key={`sticky-label-y-${tick}`}
-                x={boxes.plot.x - 8}
-                y={y + resolvedTheme.typography.axisLabelSize * 0.36}
-                fill={resolvedTheme.mutedText}
-                fontSize={resolvedTheme.typography.axisLabelSize}
-                textAnchor="end"
-                {...getFontFamilyProps(resolvedTheme.typography.fontFamily)}
-              >
-                {formatYLabel(tick)}
-              </SvgText>
-            );
-          })}
+          {yAxisLabels.map((label) => (
+            <SvgText
+              key={`sticky-label-y-${label.key}`}
+              x={boxes.plot.x - 8}
+              y={label.y}
+              fill={resolvedTheme.mutedText}
+              fontSize={resolvedTheme.typography.axisLabelSize}
+              opacity={label.opacity}
+              textAnchor="end"
+              {...getFontFamilyProps(resolvedTheme.typography.fontFamily)}
+            >
+              {label.text}
+            </SvgText>
+          ))}
         </SvgLayer>
       </SvgSurface>
     </View>
