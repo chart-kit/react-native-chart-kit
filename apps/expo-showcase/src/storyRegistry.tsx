@@ -2,6 +2,7 @@ import { compatBarStories, compatLineStories } from "./stories/compatStories";
 import { lineInteractionStories } from "./stories/lineInteractionStories";
 import { lineOverviewStories } from "./stories/lineOverviewStories";
 import { lineQaStories } from "./stories/lineQaStories";
+import { lineViewportStories } from "./stories/lineViewportStories";
 import type { ShowcaseMode, ShowcaseSection } from "./stories/storyPrimitives";
 
 export type {
@@ -19,6 +20,7 @@ export const storySections: ShowcaseSection[] = [
     stories: [
       ...lineOverviewStories,
       ...lineInteractionStories,
+      ...lineViewportStories,
       ...lineQaStories
     ]
   },
@@ -50,11 +52,13 @@ export const showcaseModes: ShowcaseMode[] = [
           "v2-basic",
           "v2-revenue-card",
           "v2-multi-series",
+          "v2-reference-targets",
           "v2-dashed-forecast",
           "v2-null-gaps",
           "v2-area",
           "v2-scrollable-price",
           "v2-scrollable-stock-comparison",
+          "v2-viewport-zoom-pan",
           "v2-range-selector",
           "v2-pro-animation"
         ]
@@ -94,6 +98,7 @@ export const showcaseModes: ShowcaseMode[] = [
           "v2-selected-tooltip",
           "v2-scrub",
           "v2-scrollable-stock-comparison",
+          "v2-viewport-zoom-pan",
           "v2-while-active",
           "v2-null-gaps"
         ]
@@ -134,6 +139,7 @@ export const showcaseModes: ShowcaseMode[] = [
           "v2-pro-animation",
           "v2-scrollable-price",
           "v2-scrollable-stock-comparison",
+          "v2-viewport-zoom-pan",
           "v2-range-selector",
           "v2-dot-styles",
           "v2-scrub",
@@ -217,6 +223,7 @@ export const storyFeatureTags: Record<string, string[]> = {
   "v2-custom-legend": ["custom legend", "SVG render item", "spacing"],
   "v2-custom-typography": ["font tokens", "theme override", "legend labels"],
   "v2-multi-series": ["multi-series", "forecast line", "stroke widths"],
+  "v2-reference-targets": ["reference line", "reference band", "target label"],
   "v2-dashed-forecast": ["dashed line", "linear curve", "forecast style"],
   "v2-dot-styles": ["marker styles", "series dots", "diamond marker"],
   "v2-selected-tooltip": [
@@ -235,6 +242,11 @@ export const storyFeatureTags: Record<string, string[]> = {
     "two series",
     "scrub tooltip",
     "marker styles"
+  ],
+  "v2-viewport-zoom-pan": [
+    "controlled viewport",
+    "zoom helpers",
+    "pan helpers"
   ],
   "v2-range-selector": ["viewport", "overview", "range selector"],
   "v2-pro-animation": ["animated data", "fixed domain", "dark theme"],

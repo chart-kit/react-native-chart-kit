@@ -42,6 +42,8 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
     boxes,
     geometries,
     legendModel,
+    referenceBandModels,
+    referenceLineModels,
     resolvedTheme,
     showHorizontalGridLines,
     showVerticalGridLines,
@@ -170,6 +172,32 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
             </SvgGroup>
           ))}
         </SvgLayer>
+        <SvgLayer name="referenceBands">
+          {referenceBandModels.map((band) => (
+            <SvgGroup key={band.key}>
+              <SvgRect
+                x={band.x}
+                y={band.y}
+                width={band.width}
+                height={band.height}
+                fill={band.color}
+                opacity={band.opacity}
+              />
+              {band.label ? (
+                <SvgText
+                  x={band.label.x}
+                  y={band.label.y}
+                  fill={band.label.color}
+                  fontSize={band.label.fontSize}
+                  textAnchor={band.label.textAnchor}
+                  {...getFontFamilyProps(resolvedTheme.typography.fontFamily)}
+                >
+                  {band.label.text}
+                </SvgText>
+              ) : null}
+            </SvgGroup>
+          ))}
+        </SvgLayer>
         <SvgLayer name="dataArea">
           {geometries.map(({ geometry }, index) =>
             geometry.area ? (
@@ -196,6 +224,36 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
                 ? { strokeDasharray: style.strokeStyle.strokeDasharray }
                 : {})}
             />
+          ))}
+        </SvgLayer>
+        <SvgLayer name="referenceLines">
+          {referenceLineModels.map((line) => (
+            <SvgGroup key={line.key}>
+              <SvgLine
+                x1={line.x1}
+                x2={line.x2}
+                y1={line.y}
+                y2={line.y}
+                stroke={line.color}
+                strokeOpacity={line.opacity}
+                strokeWidth={line.strokeWidth}
+                {...(line.strokeDasharray
+                  ? { strokeDasharray: line.strokeDasharray }
+                  : {})}
+              />
+              {line.label ? (
+                <SvgText
+                  x={line.label.x}
+                  y={line.label.y}
+                  fill={line.label.color}
+                  fontSize={line.label.fontSize}
+                  textAnchor={line.label.textAnchor}
+                  {...getFontFamilyProps(resolvedTheme.typography.fontFamily)}
+                >
+                  {line.label.text}
+                </SvgText>
+              ) : null}
+            </SvgGroup>
           ))}
         </SvgLayer>
         <SvgLayer name="markers">

@@ -8,6 +8,10 @@ export {
   resolveChartViewportWindowFromPosition,
   sliceChartViewportData
 } from "./viewport";
+export {
+  resolveChartViewportWindowFromPanDelta,
+  resolveChartViewportWindowFromZoom
+} from "./viewportTransform";
 export type {
   ChartViewportInitialIndex,
   ChartViewportPresetName,
@@ -21,3 +25,7 @@ export type {
   ResolveChartViewportOptions,
   ResolveChartViewportWindowOptions
 } from "./viewport";
+export type {
+  ResolveChartViewportWindowFromPanDeltaOptions,
+  ResolveChartViewportWindowFromZoomOptions
+} from "./viewportTransform";

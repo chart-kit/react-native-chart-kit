@@ -185,6 +185,39 @@ const V2MultiSeries = ({ width }: NativeStoryProps) => (
   </ChartSection>
 );
 
+const V2ReferenceTargets = ({ width }: NativeStoryProps) => (
+  <ChartSection title="Revenue targets" kicker="Reference overlays">
+    <LineChart
+      data={subscriptionMetrics}
+      xKey="month"
+      yKey="revenue"
+      width={width}
+      height={238}
+      curve="monotone"
+      showDots={false}
+      showHorizontalGridLines
+      yDomain={[100, 230]}
+      formatYLabel={(value) => `$${Math.round(value)}k`}
+      referenceBands={[
+        {
+          y1: 190,
+          y2: 215,
+          label: "Target range",
+          opacity: 0.09
+        }
+      ]}
+      referenceLines={[
+        {
+          y: 200,
+          label: "Plan",
+          strokeDasharray: [5, 5],
+          strokeWidth: 1.25
+        }
+      ]}
+    />
+  </ChartSection>
+);
+
 const V2DashedForecast = ({ width }: NativeStoryProps) => (
   <ChartSection title="Forecast variance" kicker="Straight and dashed lines">
     <LineChart
@@ -276,6 +309,11 @@ export const lineOverviewStories: ShowcaseStory[] = [
     Component: V2CustomTypography
   },
   { id: "v2-multi-series", title: "Multi Series", Component: V2MultiSeries },
+  {
+    id: "v2-reference-targets",
+    title: "Reference Targets",
+    Component: V2ReferenceTargets
+  },
   {
     id: "v2-dashed-forecast",
     title: "Dashed Forecast",

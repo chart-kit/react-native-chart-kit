@@ -105,6 +105,31 @@ export type LineChartResolvedLabelStrategy = Exclude<
 >;
 export type LineChartEdgeLabelPolicy = "shift" | "hide" | "show";
 export type LineChartInitialIndex = ChartViewportInitialIndex;
+export type LineChartReferenceLabelPosition = "start" | "center" | "end";
+
+export type LineChartReferenceLineConfig = {
+  y: number;
+  label?: string;
+  labelColor?: string;
+  labelFontSize?: number;
+  labelOffset?: number;
+  labelPosition?: LineChartReferenceLabelPosition;
+  color?: string;
+  opacity?: number;
+  strokeDasharray?: readonly number[];
+  strokeWidth?: number;
+};
+
+export type LineChartReferenceBandConfig = {
+  y1: number;
+  y2: number;
+  label?: string;
+  labelColor?: string;
+  labelFontSize?: number;
+  labelPosition?: LineChartReferenceLabelPosition;
+  color?: string;
+  opacity?: number;
+};
 
 export type LineChartViewportConfig = {
   startIndex?: number;
@@ -310,6 +335,8 @@ export type LineChartProps<TData extends Record<string, unknown>> = {
   crosshair?: boolean | LineChartCrosshairConfig;
   tooltip?: boolean | LineChartTooltipConfig;
   renderTooltip?: (props: LineChartTooltipRenderProps<TData>) => ReactNode;
+  referenceLines?: LineChartReferenceLineConfig[];
+  referenceBands?: LineChartReferenceBandConfig[];
   showHorizontalGridLines?: boolean;
   showVerticalGridLines?: boolean;
   legend?: boolean | LineChartLegendConfig;

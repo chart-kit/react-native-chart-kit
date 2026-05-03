@@ -4,8 +4,6 @@ import {
   buildLineSeriesGeometry,
   calculateAutoPadding,
   createLinearScale,
-  createPointScale,
-  createTimeScale,
   generateLinearTicks,
   normalizeCartesianData,
   resolveNumericDomain,
@@ -31,13 +29,16 @@ import {
   getLegendX,
   getLegendY
 } from "./legend";
+import {
+  buildLineChartReferenceBandModels,
+  buildLineChartReferenceLineModels
+} from "./references";
 import { getFontFamilyProps, measureLineChartText } from "./text";
 import type {
   LineChartLegendRenderItem,
   LineChartLegendRenderProps,
   LineChartProps,
   LineChartSelectedSeriesItem,
-  LineChartSeries,
   LineChartSelectionModel
 } from "./types";
 import {
@@ -50,35 +51,16 @@ import {
 import {
   defaultFormatXLabel,
   defaultFormatYLabel,
-  getSeriesColor,
-  getXKey,
-  getXScaleType,
-  unique
+  getSeriesColor
 } from "./utils";
 import {
   normalizeLineChartSelectedIndex,
   type LineChartInteractionPoint
 } from "./interaction";
+import { useSeriesInput } from "./seriesInput";
+import { buildLineChartXScale } from "./xScale";
 
 const defaultYDomain = { includeZero: true, nice: true } as const;
-
-const useSeriesInput = <TData extends Record<string, unknown>>(
-  yKey: LineChartProps<TData>["yKey"],
-  yKeys: LineChartProps<TData>["yKeys"],
-  series: LineChartProps<TData>["series"]
-) => {
-  return useMemo(() => {
-    if (series && series.length > 0) {
-      return series;
-    }
-
-    if (yKeys && yKeys.length > 0) {
-      return yKeys.map<LineChartSeries<TData>>((key) => ({ yKey: key }));
-    }
-
-    return yKey ? [{ yKey } satisfies LineChartSeries<TData>] : [];
-  }, [series, yKey, yKeys]);
-};
 
 export const useChartModel = <TData extends Record<string, unknown>>({
   data,
@@ -99,6 +81,8 @@ export const useChartModel = <TData extends Record<string, unknown>>({
   activeDot,
   crosshair,
   tooltip,
+  referenceBands,
+  referenceLines,
   showHorizontalGridLines = false,
   showVerticalGridLines = false,
   legend,
@@ -189,54 +173,6 @@ export const useChartModel = <TData extends Record<string, unknown>>({
           measureText: measureLineChartText
         })
       : undefined;
-    const xScaleType = getXScaleType(xValues);
-    const buildXScale = (
-      chartBoxes: ReturnType<typeof solveChartBoxes>
-    ): ProjectScale<TData> =>
-      xScaleType === "time"
-        ? (() => {
-            const dates = xValues.filter(
-              (value): value is Date => value instanceof Date
-            );
-            const scale = createTimeScale({
-              values: dates,
-              range: [
-                chartBoxes.plot.x,
-                chartBoxes.plot.x + chartBoxes.plot.width
-              ]
-            });
-
-            return (value) =>
-              value instanceof Date ? scale.scale(value) : undefined;
-          })()
-        : xScaleType === "linear"
-          ? (() => {
-              const numbers = xValues.filter(
-                (value): value is number => typeof value === "number"
-              );
-              const scale = createLinearScale({
-                values: numbers,
-                range: [
-                  chartBoxes.plot.x,
-                  chartBoxes.plot.x + chartBoxes.plot.width
-                ]
-              });
-
-              return (value) =>
-                typeof value === "number" ? scale.scale(value) : undefined;
-            })()
-          : (() => {
-              const domain = unique(xValues.map(getXKey));
-              const scale = createPointScale<ReturnType<typeof getXKey>>({
-                domain,
-                range: [
-                  chartBoxes.plot.x,
-                  chartBoxes.plot.x + chartBoxes.plot.width
-                ]
-              });
-
-              return (value) => scale.scale(getXKey(value));
-            })();
     const buildXLabelCandidates = (
       chartBoxes: ReturnType<typeof solveChartBoxes>,
       xScaleForBoxes: ProjectScale<TData>
@@ -292,7 +228,10 @@ export const useChartModel = <TData extends Record<string, unknown>>({
       withLegendPaddingOptions(getMaxSize(xLabelSizes).height)
     );
     const initialBoxes = solveChartBoxes({ width, height }, initialPadding);
-    const initialXScale = buildXScale(initialBoxes);
+    const initialXScale = buildLineChartXScale<TData>({
+      boxes: initialBoxes,
+      xValues
+    });
     const initialXLabelLayout = resolveXLabelLayout({
       candidates: buildXLabelCandidates(initialBoxes, initialXScale),
       plotWidth: initialBoxes.plot.width,
@@ -312,7 +251,19 @@ export const useChartModel = <TData extends Record<string, unknown>>({
       domain: yDomainResolved,
       range: [boxes.plot.y + boxes.plot.height, boxes.plot.y]
     });
-    const xScale = buildXScale(boxes);
+    const referenceBandModels = buildLineChartReferenceBandModels({
+      bands: referenceBands,
+      plot: boxes.plot,
+      theme: resolvedTheme,
+      yScale
+    });
+    const referenceLineModels = buildLineChartReferenceLineModels({
+      lines: referenceLines,
+      plot: boxes.plot,
+      theme: resolvedTheme,
+      yScale
+    });
+    const xScale = buildLineChartXScale<TData>({ boxes, xValues });
     const baselineValue =
       yDomainResolved[0] < 0 && yDomainResolved[1] > 0 ? 0 : yDomainResolved[0];
     const baselineY = yScale.scale(baselineValue);
@@ -490,6 +441,8 @@ export const useChartModel = <TData extends Record<string, unknown>>({
       geometries,
       interactionPoints,
       legendModel,
+      referenceBandModels,
+      referenceLineModels,
       resolvedTheme,
       showHorizontalGridLines,
       showVerticalGridLines,
@@ -516,6 +469,8 @@ export const useChartModel = <TData extends Record<string, unknown>>({
     labelRotation,
     labelStrategy,
     legend,
+    referenceBands,
+    referenceLines,
     selectedIndex,
     seriesInput,
     showDots,

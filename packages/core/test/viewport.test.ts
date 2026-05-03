@@ -6,8 +6,10 @@ import {
   resolveChartViewportInitialOffset,
   resolveChartViewportPresetWindow,
   resolveChartViewportWindow,
+  resolveChartViewportWindowFromPanDelta,
   resolveChartViewportWindowFromHandlePosition,
   resolveChartViewportWindowFromPosition,
+  resolveChartViewportWindowFromZoom,
   sliceChartViewportData
 } from "../src";
 
@@ -335,6 +337,116 @@ describe("chart viewport", () => {
       startIndex: 12,
       endIndex: 16,
       visibleCount: 4
+    });
+  });
+
+  it("zooms viewport windows around the current center by default", () => {
+    const currentWindow = resolveChartViewportWindow({
+      itemCount: 40,
+      startIndex: 10,
+      endIndex: 22
+    });
+
+    expect(
+      resolveChartViewportWindowFromZoom({
+        currentWindow,
+        itemCount: 40,
+        zoomFactor: 2
+      })
+    ).toMatchObject({
+      startIndex: 13,
+      endIndex: 19,
+      visibleCount: 6
+    });
+
+    expect(
+      resolveChartViewportWindowFromZoom({
+        currentWindow,
+        itemCount: 40,
+        zoomFactor: 0.5
+      })
+    ).toMatchObject({
+      startIndex: 4,
+      endIndex: 28,
+      visibleCount: 24
+    });
+  });
+
+  it("zooms viewport windows around an explicit anchor", () => {
+    const currentWindow = resolveChartViewportWindow({
+      itemCount: 40,
+      startIndex: 10,
+      endIndex: 22
+    });
+
+    expect(
+      resolveChartViewportWindowFromZoom({
+        anchorIndex: 10,
+        currentWindow,
+        itemCount: 40,
+        zoomFactor: 2
+      })
+    ).toMatchObject({
+      startIndex: 10,
+      endIndex: 16,
+      visibleCount: 6
+    });
+
+    expect(
+      resolveChartViewportWindowFromZoom({
+        anchorIndex: 21,
+        currentWindow,
+        itemCount: 40,
+        maxVisibleCount: 18,
+        minVisibleCount: 4,
+        zoomFactor: 0.25
+      })
+    ).toMatchObject({
+      startIndex: 4,
+      endIndex: 22,
+      visibleCount: 18
+    });
+  });
+
+  it("pans viewport windows by point deltas and clamps to data edges", () => {
+    const currentWindow = resolveChartViewportWindow({
+      itemCount: 30,
+      startIndex: 8,
+      endIndex: 18
+    });
+
+    expect(
+      resolveChartViewportWindowFromPanDelta({
+        currentWindow,
+        deltaPoints: 4,
+        itemCount: 30
+      })
+    ).toMatchObject({
+      startIndex: 12,
+      endIndex: 22,
+      visibleCount: 10
+    });
+
+    expect(
+      resolveChartViewportWindowFromPanDelta({
+        currentWindow,
+        deltaPoints: -99,
+        itemCount: 30
+      })
+    ).toMatchObject({
+      startIndex: 0,
+      endIndex: 10
+    });
+
+    expect(
+      resolveChartViewportWindowFromPanDelta({
+        currentWindow,
+        deltaPoints: 99,
+        itemCount: 30
+      })
+    ).toMatchObject({
+      startIndex: 20,
+      endIndex: 30
     });
   });
 });
