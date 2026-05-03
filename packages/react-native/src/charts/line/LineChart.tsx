@@ -179,16 +179,67 @@ export type LineChartRangeSelectorConfig = {
   gap?: number;
   interactive?: boolean;
   minVisiblePoints?: number;
+  backgroundFill?: string;
+  plotFill?: string;
+  plotRadius?: number;
+  lineMinStrokeWidth?: number;
+  lineStrokeWidth?: number;
+  lineStrokeWidthScale?: number;
+  series?: Record<string, LineChartRangeSelectorSeriesStyle>;
+  outsideFill?: string;
+  outsideOpacity?: number;
   windowFill?: string;
   windowOpacity?: number;
+  windowRadius?: number;
   windowStroke?: string;
+  windowStrokeOpacity?: number;
+  windowStrokeWidth?: number;
   lineOpacity?: number;
   handleColor?: string;
+  handleHeight?: number;
   handleHitSlop?: number;
+  handleInset?: number;
   handleOpacity?: number;
+  handleRadius?: number;
   handleWidth?: number;
+  renderHandle?: (props: LineChartRangeSelectorHandleRenderProps) => ReactNode;
+  renderWindow?: (props: LineChartRangeSelectorWindowRenderProps) => ReactNode;
   onGestureEnd?: (event: LineChartRangeSelectorGestureEvent) => void;
   onGestureStart?: (event: LineChartRangeSelectorGestureEvent) => void;
+};
+
+export type LineChartRangeSelectorSeriesStyle = {
+  color?: string;
+  opacity?: number;
+  strokeDasharray?: readonly number[];
+  strokeWidth?: number;
+};
+
+export type LineChartRangeSelectorWindowRenderProps = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  radius: number;
+  fill: string;
+  opacity: number;
+  stroke: string;
+  strokeOpacity: number;
+  strokeWidth: number;
+  theme: ResolvedCartesianChartTheme;
+};
+
+export type LineChartRangeSelectorHandleRenderProps = {
+  side: "start" | "end";
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  radius: number;
+  color: string;
+  opacity: number;
+  theme: ResolvedCartesianChartTheme;
+  window: LineChartRangeSelectorWindowRenderProps;
 };
 
 export type LineChartRangeSelectorInteraction =
@@ -391,14 +442,31 @@ const getRangeSelectorConfig = (
     gap: config.gap ?? 10,
     interactive: config.interactive ?? false,
     minVisiblePoints: config.minVisiblePoints ?? 2,
+    backgroundFill: config.backgroundFill,
+    plotFill: config.plotFill,
+    plotRadius: config.plotRadius ?? 6,
+    lineMinStrokeWidth: config.lineMinStrokeWidth ?? 1.5,
+    lineStrokeWidth: config.lineStrokeWidth,
+    lineStrokeWidthScale: config.lineStrokeWidthScale ?? 0.62,
+    series: config.series,
+    outsideFill: config.outsideFill,
+    outsideOpacity: config.outsideOpacity ?? 0,
     windowFill: config.windowFill,
     windowOpacity: config.windowOpacity ?? 0.1,
+    windowRadius: config.windowRadius ?? 6,
     windowStroke: config.windowStroke,
+    windowStrokeOpacity: config.windowStrokeOpacity ?? 0.42,
+    windowStrokeWidth: config.windowStrokeWidth ?? 1,
     lineOpacity: config.lineOpacity ?? 0.62,
     handleColor: config.handleColor,
+    handleHeight: config.handleHeight,
     handleHitSlop: config.handleHitSlop ?? 18,
+    handleInset: config.handleInset ?? 6,
     handleOpacity: config.handleOpacity ?? 0.9,
+    handleRadius: config.handleRadius,
     handleWidth: config.handleWidth ?? 3,
+    renderHandle: config.renderHandle,
+    renderWindow: config.renderWindow,
     onGestureEnd: config.onGestureEnd,
     onGestureStart: config.onGestureStart
   };
@@ -2527,6 +2595,10 @@ export const LineChart = <TData extends Record<string, unknown>>(
     rangeSelectorConfig.handleColor ??
     rangeSelectorConfig.windowStroke ??
     overviewModel.resolvedTheme.axis;
+  const rangeSelectorPlotX = overviewModel.boxes.plot.x;
+  const rangeSelectorPlotY = overviewModel.boxes.plot.y;
+  const rangeSelectorPlotWidth = overviewModel.boxes.plot.width;
+  const rangeSelectorPlotHeight = overviewModel.boxes.plot.height;
   const rangeSelectorHandleMinX = overviewModel.boxes.plot.x;
   const rangeSelectorHandleMaxX =
     overviewModel.boxes.plot.x +
@@ -2542,6 +2614,81 @@ export const LineChart = <TData extends Record<string, unknown>>(
     rangeSelectorHandleMinX,
     rangeSelectorHandleMaxX
   );
+  const rangeSelectorHandleHeight = Math.max(
+    8,
+    rangeSelectorConfig.handleHeight ??
+      rangeSelectorPlotHeight - rangeSelectorConfig.handleInset * 2
+  );
+  const rangeSelectorHandleY =
+    rangeSelectorPlotY +
+    (rangeSelectorPlotHeight - rangeSelectorHandleHeight) / 2;
+  const rangeSelectorHandleRadius =
+    rangeSelectorConfig.handleRadius ?? rangeSelectorHandleWidth / 2;
+  const rangeSelectorWindowFill =
+    rangeSelectorConfig.windowFill ?? overviewModel.resolvedTheme.axis;
+  const rangeSelectorWindowStroke =
+    rangeSelectorConfig.windowStroke ?? overviewModel.resolvedTheme.axis;
+  const rangeSelectorWindowProps: LineChartRangeSelectorWindowRenderProps = {
+    x: rangeSelectorWindowX,
+    y: rangeSelectorPlotY,
+    width: rangeSelectorWindowWidth,
+    height: rangeSelectorPlotHeight,
+    radius: rangeSelectorConfig.windowRadius,
+    fill: rangeSelectorWindowFill,
+    opacity: rangeSelectorConfig.windowOpacity,
+    stroke: rangeSelectorWindowStroke,
+    strokeOpacity: rangeSelectorConfig.windowStrokeOpacity,
+    strokeWidth: rangeSelectorConfig.windowStrokeWidth,
+    theme: overviewModel.resolvedTheme
+  };
+  const renderRangeSelectorWindow = () =>
+    rangeSelectorConfig.renderWindow ? (
+      rangeSelectorConfig.renderWindow(rangeSelectorWindowProps)
+    ) : (
+      <SvgRect
+        x={rangeSelectorWindowProps.x}
+        y={rangeSelectorWindowProps.y}
+        width={rangeSelectorWindowProps.width}
+        height={rangeSelectorWindowProps.height}
+        rx={rangeSelectorWindowProps.radius}
+        fill={rangeSelectorWindowProps.fill}
+        opacity={rangeSelectorWindowProps.opacity}
+        stroke={rangeSelectorWindowProps.stroke}
+        strokeOpacity={rangeSelectorWindowProps.strokeOpacity}
+        strokeWidth={rangeSelectorWindowProps.strokeWidth}
+      />
+    );
+  const renderRangeSelectorHandle = (
+    side: LineChartRangeSelectorHandleRenderProps["side"],
+    x: number
+  ) => {
+    const handleProps: LineChartRangeSelectorHandleRenderProps = {
+      side,
+      x,
+      y: rangeSelectorHandleY,
+      width: rangeSelectorHandleWidth,
+      height: rangeSelectorHandleHeight,
+      radius: rangeSelectorHandleRadius,
+      color: rangeSelectorHandleColor,
+      opacity: rangeSelectorConfig.handleOpacity,
+      theme: overviewModel.resolvedTheme,
+      window: rangeSelectorWindowProps
+    };
+
+    return rangeSelectorConfig.renderHandle ? (
+      rangeSelectorConfig.renderHandle(handleProps)
+    ) : (
+      <SvgRect
+        x={handleProps.x}
+        y={handleProps.y}
+        width={handleProps.width}
+        height={handleProps.height}
+        rx={handleProps.radius}
+        fill={handleProps.color}
+        opacity={handleProps.opacity}
+      />
+    );
+  };
   const rangeSelectorElement = isRangeSelectorVisible ? (
     <View
       pointerEvents={isRangeSelectorInteractive ? "auto" : "none"}
@@ -2564,69 +2711,90 @@ export const LineChart = <TData extends Record<string, unknown>>(
             width={props.width}
             height={rangeSelectorConfig.height}
             rx={8}
-            fill={overviewModel.resolvedTheme.background}
+            fill={
+              rangeSelectorConfig.backgroundFill ??
+              overviewModel.resolvedTheme.background
+            }
           />
           <SvgRect
-            x={overviewModel.boxes.plot.x}
-            y={overviewModel.boxes.plot.y}
-            width={overviewModel.boxes.plot.width}
-            height={overviewModel.boxes.plot.height}
-            rx={6}
-            fill={overviewModel.resolvedTheme.plotBackground}
+            x={rangeSelectorPlotX}
+            y={rangeSelectorPlotY}
+            width={rangeSelectorPlotWidth}
+            height={rangeSelectorPlotHeight}
+            rx={rangeSelectorConfig.plotRadius}
+            fill={
+              rangeSelectorConfig.plotFill ??
+              overviewModel.resolvedTheme.plotBackground
+            }
           />
         </SvgLayer>
         <SvgLayer name="data">
-          {overviewModel.geometries.map(({ geometry, style }) => (
-            <SvgPath
-              key={`range-line-${geometry.key}`}
-              d={geometry.line.path}
-              fill="none"
-              stroke={style.color}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeOpacity={rangeSelectorConfig.lineOpacity}
-              strokeWidth={Math.max(1.5, style.strokeWidth * 0.62)}
-            />
-          ))}
+          {overviewModel.geometries.map(({ geometry, style }) => {
+            const seriesStyle = rangeSelectorConfig.series?.[geometry.key];
+
+            return (
+              <SvgPath
+                key={`range-line-${geometry.key}`}
+                d={geometry.line.path}
+                fill="none"
+                stroke={seriesStyle?.color ?? style.color}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeOpacity={
+                  seriesStyle?.opacity ?? rangeSelectorConfig.lineOpacity
+                }
+                strokeWidth={
+                  seriesStyle?.strokeWidth ??
+                  rangeSelectorConfig.lineStrokeWidth ??
+                  Math.max(
+                    rangeSelectorConfig.lineMinStrokeWidth,
+                    style.strokeWidth * rangeSelectorConfig.lineStrokeWidthScale
+                  )
+                }
+                {...(seriesStyle?.strokeDasharray
+                  ? { strokeDasharray: seriesStyle.strokeDasharray }
+                  : {})}
+              />
+            );
+          })}
         </SvgLayer>
         <SvgLayer name="overlays">
-          <SvgRect
-            x={rangeSelectorWindowX}
-            y={overviewModel.boxes.plot.y}
-            width={rangeSelectorWindowWidth}
-            height={overviewModel.boxes.plot.height}
-            rx={6}
-            fill={
-              rangeSelectorConfig.windowFill ?? overviewModel.resolvedTheme.axis
-            }
-            opacity={rangeSelectorConfig.windowOpacity}
-            stroke={
-              rangeSelectorConfig.windowStroke ??
-              overviewModel.resolvedTheme.axis
-            }
-            strokeOpacity={0.42}
-            strokeWidth={1}
-          />
-          {isRangeSelectorInteractive ? (
+          {rangeSelectorConfig.outsideOpacity > 0 ? (
             <>
               <SvgRect
-                x={rangeSelectorStartHandleX}
-                y={overviewModel.boxes.plot.y + 6}
-                width={rangeSelectorHandleWidth}
-                height={Math.max(8, overviewModel.boxes.plot.height - 12)}
-                rx={rangeSelectorHandleWidth / 2}
-                fill={rangeSelectorHandleColor}
-                opacity={rangeSelectorConfig.handleOpacity}
+                x={rangeSelectorPlotX}
+                y={rangeSelectorPlotY}
+                width={Math.max(0, rangeSelectorWindowX - rangeSelectorPlotX)}
+                height={rangeSelectorPlotHeight}
+                fill={
+                  rangeSelectorConfig.outsideFill ??
+                  overviewModel.resolvedTheme.background
+                }
+                opacity={rangeSelectorConfig.outsideOpacity}
               />
               <SvgRect
-                x={rangeSelectorEndHandleX}
-                y={overviewModel.boxes.plot.y + 6}
-                width={rangeSelectorHandleWidth}
-                height={Math.max(8, overviewModel.boxes.plot.height - 12)}
-                rx={rangeSelectorHandleWidth / 2}
-                fill={rangeSelectorHandleColor}
-                opacity={rangeSelectorConfig.handleOpacity}
+                x={rangeSelectorWindowEndX}
+                y={rangeSelectorPlotY}
+                width={Math.max(
+                  0,
+                  rangeSelectorPlotX +
+                    rangeSelectorPlotWidth -
+                    rangeSelectorWindowEndX
+                )}
+                height={rangeSelectorPlotHeight}
+                fill={
+                  rangeSelectorConfig.outsideFill ??
+                  overviewModel.resolvedTheme.background
+                }
+                opacity={rangeSelectorConfig.outsideOpacity}
               />
+            </>
+          ) : null}
+          {renderRangeSelectorWindow()}
+          {isRangeSelectorInteractive ? (
+            <>
+              {renderRangeSelectorHandle("start", rangeSelectorStartHandleX)}
+              {renderRangeSelectorHandle("end", rangeSelectorEndHandleX)}
             </>
           ) : null}
         </SvgLayer>

@@ -667,13 +667,68 @@ const V2RangeSelectorOverview = ({
           height: 66,
           gap: 10,
           interactive: true,
+          backgroundFill: "#F8FBFF",
+          plotFill: "#EFF6FF",
+          plotRadius: 9,
+          lineMinStrokeWidth: 1.2,
+          lineStrokeWidthScale: 0.52,
+          series: {
+            portfolio: {
+              opacity: 0.9,
+              strokeWidth: 1.8
+            },
+            benchmark: {
+              color: "#64748B",
+              opacity: 0.72,
+              strokeDasharray: [4, 4],
+              strokeWidth: 1.4
+            }
+          },
           handleHitSlop: 28,
-          handleWidth: 4,
+          handleHeight: 28,
+          handleRadius: 5,
+          handleWidth: 6,
+          handleColor: "#1D4ED8",
           onGestureEnd: onScrubEnd,
           onGestureStart: onScrubStart,
+          outsideFill: "#DBEAFE",
+          outsideOpacity: 0.4,
           windowFill: "#2563EB",
           windowStroke: "#2563EB",
-          windowOpacity: 0.11
+          windowOpacity: 0.12,
+          windowRadius: 9,
+          windowStrokeOpacity: 0.72,
+          windowStrokeWidth: 1.5,
+          renderHandle: ({
+            color,
+            height,
+            opacity,
+            radius,
+            width: w,
+            x,
+            y
+          }) => (
+            <SvgGroup>
+              <SvgRect
+                x={x}
+                y={y}
+                width={w}
+                height={height}
+                rx={radius}
+                fill={color}
+                opacity={opacity}
+              />
+              <SvgRect
+                x={x + w / 2 - 0.75}
+                y={y + 7}
+                width={1.5}
+                height={height - 14}
+                rx={0.75}
+                fill="#FFFFFF"
+                opacity={0.68}
+              />
+            </SvgGroup>
+          )
         }}
         curve="monotone"
         showDots={false}
