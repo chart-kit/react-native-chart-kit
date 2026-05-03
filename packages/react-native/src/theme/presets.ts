@@ -12,6 +12,10 @@ export type CartesianChartTooltipTheme = {
   border?: string;
   text?: string;
   mutedText?: string;
+  shadowColor?: string;
+  shadowOpacity?: number;
+  shadowOffsetX?: number;
+  shadowOffsetY?: number;
   borderRadius?: number;
   padding?: number;
   fontSize?: number;
@@ -41,6 +45,10 @@ export type ResolvedCartesianChartTooltipTheme = {
   border: string;
   text: string;
   mutedText: string;
+  shadowColor: string;
+  shadowOpacity: number;
+  shadowOffsetX: number;
+  shadowOffsetY: number;
   borderRadius: number;
   padding: number;
   fontSize: number;
@@ -103,6 +111,10 @@ const resolveCartesianChartTooltipTheme = (
   border: tooltip?.border ?? theme.axis,
   text: tooltip?.text ?? theme.text,
   mutedText: tooltip?.mutedText ?? theme.mutedText,
+  shadowColor: tooltip?.shadowColor ?? "#020617",
+  shadowOpacity: tooltip?.shadowOpacity ?? 0.07,
+  shadowOffsetX: tooltip?.shadowOffsetX ?? 0,
+  shadowOffsetY: tooltip?.shadowOffsetY ?? 1,
   borderRadius: tooltip?.borderRadius ?? 8,
   padding: tooltip?.padding ?? 10,
   fontSize: tooltip?.fontSize ?? theme.typography.legendLabelSize,

@@ -66,6 +66,10 @@ export type LineChartTooltipConfig = {
   borderColor?: string;
   textColor?: string;
   labelColor?: string;
+  shadowColor?: string;
+  shadowOpacity?: number;
+  shadowOffsetX?: number;
+  shadowOffsetY?: number;
   fontFamily?: string;
   fontSize?: number;
   labelFontSize?: number;
@@ -84,6 +88,10 @@ export type ResolvedLineChartTooltipConfig = {
   borderColor: string;
   textColor: string;
   labelColor: string;
+  shadowColor: string;
+  shadowOpacity: number;
+  shadowOffsetX: number;
+  shadowOffsetY: number;
   fontFamily: string | undefined;
   fontSize: number;
   labelFontSize: number;
@@ -236,6 +244,13 @@ export const getLineChartTooltipConfig = ({
     borderColor: config.borderColor ?? themeTooltip.border,
     textColor: config.textColor ?? themeTooltip.text,
     labelColor: config.labelColor ?? themeTooltip.mutedText,
+    shadowColor: config.shadowColor ?? themeTooltip.shadowColor,
+    shadowOpacity: resolveOpacity(
+      config.shadowOpacity,
+      themeTooltip.shadowOpacity
+    ),
+    shadowOffsetX: config.shadowOffsetX ?? themeTooltip.shadowOffsetX,
+    shadowOffsetY: config.shadowOffsetY ?? themeTooltip.shadowOffsetY,
     fontFamily: config.fontFamily ?? themeFontFamily,
     fontSize: config.fontSize ?? themeTooltip.fontSize,
     labelFontSize: config.labelFontSize ?? themeTooltip.labelFontSize,

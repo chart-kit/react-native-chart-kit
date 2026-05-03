@@ -16,9 +16,21 @@ export const renderDefaultTooltip = <TData,>({
   const contentX = x + config.padding;
   const labelY = y + config.padding + config.labelFontSize;
   const firstItemY = labelY + lineChartTooltipLineHeight;
+  const hasShadow = config.shadowOpacity > 0;
 
   return (
     <SvgGroup>
+      {hasShadow ? (
+        <SvgRect
+          x={x + config.shadowOffsetX}
+          y={y + config.shadowOffsetY}
+          width={width}
+          height={height}
+          rx={config.borderRadius}
+          fill={config.shadowColor}
+          opacity={config.shadowOpacity}
+        />
+      ) : null}
       <SvgRect
         x={x}
         y={y}

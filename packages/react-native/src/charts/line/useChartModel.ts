@@ -367,6 +367,7 @@ export const useChartModel = <TData extends Record<string, unknown>>({
               chartWidth: width,
               config: tooltipConfig,
               measureText: measureLineChartText,
+              plotX: boxes.plot.x,
               plotY: boxes.plot.y,
               selection: selectionBase,
               theme: resolvedTheme

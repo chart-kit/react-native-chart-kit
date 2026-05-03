@@ -7,7 +7,11 @@ import {
   useState
 } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import type { GestureResponderEvent } from "react-native";
+import type {
+  GestureResponderEvent,
+  NativeScrollEvent,
+  NativeSyntheticEvent
+} from "react-native";
 
 import {
   resolveChartViewport,
@@ -36,6 +40,7 @@ import {
 } from "./rangeSelector";
 import { useAnimatedTooltipModel } from "./useAnimatedTooltipModel";
 import { useChartModel } from "./useChartModel";
+import { clampLineChartTooltipToViewport } from "./tooltip";
 import type { LineChartProps } from "./types";
 
 export type * from "./types";
@@ -107,6 +112,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
       }),
     [props.initialIndex, viewport]
   );
+  const [scrollOffset, setScrollOffset] = useState(initialScrollOffset);
   const chartProps =
     effectiveSelectedIndex !== undefined
       ? {
@@ -160,6 +166,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
     }
 
     const frame = requestAnimationFrame(() => {
+      setScrollOffset(initialScrollOffset);
       scrollViewRef.current?.scrollTo({
         animated: false,
         x: initialScrollOffset
@@ -170,6 +177,12 @@ export const LineChart = <TData extends Record<string, unknown>>(
       cancelAnimationFrame(frame);
     };
   }, [initialScrollOffset, viewport.scrollable]);
+  const handleScroll = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      setScrollOffset(event.nativeEvent.contentOffset.x);
+    },
+    []
+  );
 
   const preventBrowserSelection = useCallback(
     (event: GestureResponderEvent) => {
@@ -358,6 +371,14 @@ export const LineChart = <TData extends Record<string, unknown>>(
         ].filter((surface) => surface.width > 0 && surface.height > 0)
       : [];
   const animatedTooltip = useAnimatedTooltipModel(selectionModel?.tooltip);
+  const displayTooltip =
+    animatedTooltip && viewport.scrollable
+      ? clampLineChartTooltipToViewport(animatedTooltip, {
+          leftInset: boxes.plot.x + 4,
+          scrollOffset,
+          viewportWidth: props.width
+        })
+      : animatedTooltip;
   const chartWidth = viewport.contentWidth;
   const xAxisLabelFadeY = boxes.plot.y + boxes.plot.height;
   const scrollStartFadeId = `${chartId}-scroll-start-fade`;
@@ -382,9 +403,11 @@ export const LineChart = <TData extends Record<string, unknown>>(
               styles.scrollerContent,
               { width: chartWidth, height: mainHeight }
             ]}
+            onScroll={handleScroll}
+            scrollEventThrottle={16}
           >
             <LineChartSurface
-              animatedTooltip={animatedTooltip}
+              animatedTooltip={displayTooltip}
               chartWidth={chartWidth}
               isScrollable={viewport.scrollable}
               mainHeight={mainHeight}
@@ -395,7 +418,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
           </ScrollView>
         ) : (
           <LineChartSurface
-            animatedTooltip={animatedTooltip}
+            animatedTooltip={displayTooltip}
             chartWidth={chartWidth}
             isScrollable={viewport.scrollable}
             mainHeight={mainHeight}

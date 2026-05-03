@@ -7,6 +7,7 @@ import {
 } from "../src/charts/line/selection";
 import { defaultLineChartTooltipPositionAnimationDuration } from "../src/charts/line/options";
 import {
+  clampLineChartTooltipToViewport,
   easeLineChartTooltipPosition,
   getLineChartTooltipModel,
   interpolateLineChartTooltipPosition
@@ -66,6 +67,10 @@ const tooltipConfig = {
   borderColor: "#e5e7eb",
   textColor: "#fff",
   labelColor: "#cbd5e1",
+  shadowColor: "#020617",
+  shadowOpacity: 0.07,
+  shadowOffsetX: 0,
+  shadowOffsetY: 1,
   fontFamily: undefined,
   fontSize: 11,
   labelFontSize: 11,
@@ -130,6 +135,66 @@ describe("LineChart selection model", () => {
       height: 72
     });
     expect(tooltip?.series).toHaveLength(2);
+  });
+
+  it("keeps tooltips clear of the plot left inset", () => {
+    const selected = getSelectedLineSeries({
+      activeDot: undefined,
+      formatYLabel: (value) => `${value}`,
+      geometries,
+      selectedDataIndex: 0
+    });
+    const tooltip = getLineChartTooltipModel({
+      chartHeight: 150,
+      chartWidth: 220,
+      config: tooltipConfig,
+      measureText: (text) => ({ width: text.length * 6, height: 12 }),
+      plotX: 42,
+      plotY: 24,
+      selection: {
+        index: 0,
+        x: 50,
+        y: 80,
+        xLabel: "January",
+        series: selected
+      },
+      theme: { axis: "#e5e7eb" }
+    });
+
+    expect(tooltip?.x).toBe(46);
+  });
+
+  it("keeps scrollable tooltips inside the visible viewport", () => {
+    const tooltip = {
+      index: 4,
+      x: 118,
+      y: 20,
+      width: 120,
+      height: 54,
+      xLabel: "May",
+      series: [],
+      config: tooltipConfig,
+      theme: { axis: "#e5e7eb" }
+    };
+
+    expect(
+      clampLineChartTooltipToViewport(tooltip, {
+        leftInset: 46,
+        scrollOffset: 80,
+        viewportWidth: 180
+      }).x
+    ).toBe(126);
+
+    expect(
+      clampLineChartTooltipToViewport(
+        { ...tooltip, x: 220 },
+        {
+          leftInset: 46,
+          scrollOffset: 80,
+          viewportWidth: 180
+        }
+      ).x
+    ).toBe(136);
   });
 
   it("supports single-series tooltip content", () => {

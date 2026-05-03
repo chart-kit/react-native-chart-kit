@@ -63,11 +63,44 @@ export const interpolateLineChartTooltipPosition = ({
   };
 };
 
+const getTooltipX = ({
+  chartWidth,
+  leftInset = 4,
+  selectionX,
+  width
+}: {
+  chartWidth: number;
+  leftInset?: number | undefined;
+  selectionX: number;
+  width: number;
+}) => clamp(selectionX - width / 2, leftInset, chartWidth - width - 4);
+
+export const clampLineChartTooltipToViewport = <TPoint, TTheme>(
+  tooltip: LineChartTooltipRenderProps<TPoint, TTheme>,
+  {
+    leftInset = 4,
+    scrollOffset,
+    viewportWidth
+  }: {
+    leftInset?: number | undefined;
+    scrollOffset: number;
+    viewportWidth: number;
+  }
+): LineChartTooltipRenderProps<TPoint, TTheme> => ({
+  ...tooltip,
+  x: clamp(
+    tooltip.x,
+    scrollOffset + leftInset,
+    scrollOffset + viewportWidth - tooltip.width - 4
+  )
+});
+
 export const getLineChartTooltipModel = <TPoint, TTheme>({
   chartHeight,
   chartWidth,
   config,
   measureText,
+  plotX,
   plotY,
   selection,
   theme
@@ -76,6 +109,7 @@ export const getLineChartTooltipModel = <TPoint, TTheme>({
   chartWidth: number;
   config: ResolvedLineChartTooltipConfig;
   measureText: TextMeasurer;
+  plotX?: number | undefined;
   plotY: number;
   selection: {
     index: number;
@@ -109,7 +143,12 @@ export const getLineChartTooltipModel = <TPoint, TTheme>({
     config.padding * 2 +
     lineChartTooltipLabelLineHeight +
     series.length * lineChartTooltipLineHeight;
-  const x = clamp(selection.x - width / 2, 4, chartWidth - width - 4);
+  const x = getTooltipX({
+    chartWidth,
+    leftInset: plotX === undefined ? 4 : Math.max(4, plotX + 4),
+    selectionX: selection.x,
+    width
+  });
   const aboveY = selection.y - height - 12;
   const belowY = selection.y + 12;
   const y =
