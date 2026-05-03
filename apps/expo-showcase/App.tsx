@@ -505,26 +505,14 @@ export default function App() {
                         onScrubEnd={() => setIsScrubbing(false)}
                       />
                       {tags.length > 0 ? (
-                        <View style={styles.featureTags}>
-                          {tags.map((tag) => (
-                            <View
-                              key={tag}
-                              style={[
-                                styles.featureTag,
-                                isDarkApp && styles.featureTagDark
-                              ]}
-                            >
-                              <Text
-                                style={[
-                                  styles.featureTagText,
-                                  isDarkApp && styles.featureTagTextDark
-                                ]}
-                              >
-                                {tag}
-                              </Text>
-                            </View>
-                          ))}
-                        </View>
+                        <Text
+                          style={[
+                            styles.featureTags,
+                            isDarkApp && styles.featureTagsDark
+                          ]}
+                        >
+                          {tags.join(" / ")}
+                        </Text>
                       ) : null}
                     </View>
                   );
@@ -729,42 +717,27 @@ const styles = StyleSheet.create({
   storyGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 16
+    columnGap: 16,
+    rowGap: 20
   },
   storyBlock: {
-    borderTopColor: "#cfd9e7",
+    borderTopColor: "#e6edf6",
     borderTopWidth: 1,
-    gap: 10,
-    paddingBottom: 18,
-    paddingTop: 18
+    gap: 12,
+    paddingBottom: 22,
+    paddingTop: 24
   },
   storyBlockDark: {
-    borderTopColor: "#24344e"
+    borderTopColor: "#172235"
   },
   featureTags: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 6,
-    paddingHorizontal: 4
-  },
-  featureTag: {
-    backgroundColor: "#e8eef7",
-    borderColor: "#d6e0ec",
-    borderRadius: 6,
-    borderWidth: 1,
-    paddingHorizontal: 8,
-    paddingVertical: 4
-  },
-  featureTagDark: {
-    backgroundColor: "#111827",
-    borderColor: "#2a3950"
-  },
-  featureTagText: {
-    color: "#344054",
+    color: "#94a3b8",
     fontSize: 11,
-    fontWeight: "800"
+    fontWeight: "700",
+    lineHeight: 15,
+    paddingHorizontal: 2
   },
-  featureTagTextDark: {
-    color: "#cbd5e1"
+  featureTagsDark: {
+    color: "#64748b"
   }
 });
