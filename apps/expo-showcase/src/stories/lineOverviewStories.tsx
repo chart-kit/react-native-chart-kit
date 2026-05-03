@@ -210,6 +210,7 @@ const V2ReferenceTargets = ({ width }: NativeStoryProps) => (
         {
           y: 200,
           label: "Plan",
+          labelPosition: "center",
           strokeDasharray: [5, 5],
           strokeWidth: 1.25
         }

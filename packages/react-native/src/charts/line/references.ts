@@ -193,7 +193,7 @@ export const buildLineChartReferenceBandModels = ({
       return [];
     }
 
-    const labelPosition = band.labelPosition ?? "end";
+    const labelPosition = band.labelPosition ?? "start";
     const labelFontSize =
       typeof band.labelFontSize === "number" && band.labelFontSize > 0
         ? band.labelFontSize

@@ -60,8 +60,7 @@ describe("LineChart reference overlays", () => {
           {
             y1: 20,
             y2: 40,
-            label: "Goal range",
-            labelPosition: "start"
+            label: "Goal range"
           },
           {
             y1: 90,
