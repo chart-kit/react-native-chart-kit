@@ -163,6 +163,32 @@ test.describe("Expo showcase chart interactions", () => {
     await expect(chart.getByText("Jan 14")).toHaveCount(0);
   });
 
+  test("range selector overview uses the dark mini-chart palette", async ({
+    page
+  }) => {
+    await page.goto("/?story=v2-range-selector");
+    await page.evaluate(async () => {
+      await document.fonts?.ready;
+    });
+
+    await page.getByRole("button", { name: "Show preview settings" }).click();
+    await page.getByRole("button", { name: "Dark" }).click();
+
+    const rangeSelector = page.getByTestId(
+      "range-selector-chart-range-selector"
+    );
+    await rangeSelector.scrollIntoViewIfNeeded();
+
+    const fills = await rangeSelector
+      .locator("rect")
+      .evaluateAll((nodes) =>
+        nodes.map((node) => node.getAttribute("fill")).filter(Boolean)
+      );
+
+    expect(fills).toContain("#07111F");
+    expect(fills).toContain("#0B1627");
+  });
+
   test("portfolio range supports scrub tooltip and locks scroll during range gestures", async ({
     page
   }) => {

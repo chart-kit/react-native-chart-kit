@@ -656,6 +656,29 @@ const V2RangeSelectorOverview = ({
   onScrubStart,
   width
 }: NativeStoryProps) => {
+  const { mode } = useChartKitTheme();
+  const isDarkMode = mode === "dark";
+  const rangeSelectorPalette = isDarkMode
+    ? {
+        backgroundFill: "#07111F",
+        benchmarkColor: "#94A3B8",
+        handleColor: "#38BDF8",
+        handleGripColor: "#E0F2FE",
+        outsideFill: "#0F2744",
+        plotFill: "#0B1627",
+        windowFill: "#38BDF8",
+        windowStroke: "#38BDF8"
+      }
+    : {
+        backgroundFill: "#F8FBFF",
+        benchmarkColor: "#64748B",
+        handleColor: "#1D4ED8",
+        handleGripColor: "#FFFFFF",
+        outsideFill: "#DBEAFE",
+        plotFill: "#EFF6FF",
+        windowFill: "#2563EB",
+        windowStroke: "#2563EB"
+      };
   const [viewport, setViewport] = useState<LineChartViewportConfig>(() =>
     getInitialRangeSelectorViewport()
   );
@@ -699,8 +722,8 @@ const V2RangeSelectorOverview = ({
           height: 66,
           gap: 10,
           interactive: true,
-          backgroundFill: "#F8FBFF",
-          plotFill: "#EFF6FF",
+          backgroundFill: rangeSelectorPalette.backgroundFill,
+          plotFill: rangeSelectorPalette.plotFill,
           plotRadius: 9,
           lineMinStrokeWidth: 1.2,
           lineStrokeWidthScale: 0.52,
@@ -710,7 +733,7 @@ const V2RangeSelectorOverview = ({
               strokeWidth: 1.8
             },
             benchmark: {
-              color: "#64748B",
+              color: rangeSelectorPalette.benchmarkColor,
               opacity: 0.72,
               strokeDasharray: [4, 4],
               strokeWidth: 1.4
@@ -720,13 +743,13 @@ const V2RangeSelectorOverview = ({
           handleHeight: 28,
           handleRadius: 5,
           handleWidth: 6,
-          handleColor: "#1D4ED8",
+          handleColor: rangeSelectorPalette.handleColor,
           onGestureEnd: onScrubEnd,
           onGestureStart: onScrubStart,
-          outsideFill: "#DBEAFE",
+          outsideFill: rangeSelectorPalette.outsideFill,
           outsideOpacity: 0.4,
-          windowFill: "#2563EB",
-          windowStroke: "#2563EB",
+          windowFill: rangeSelectorPalette.windowFill,
+          windowStroke: rangeSelectorPalette.windowStroke,
           windowOpacity: 0.12,
           windowRadius: 9,
           windowStrokeOpacity: 0.72,
@@ -756,7 +779,7 @@ const V2RangeSelectorOverview = ({
                 width={1.5}
                 height={height - 14}
                 rx={0.75}
-                fill="#FFFFFF"
+                fill={rangeSelectorPalette.handleGripColor}
                 opacity={0.68}
               />
             </SvgGroup>
