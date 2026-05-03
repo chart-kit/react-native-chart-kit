@@ -205,7 +205,7 @@ export default function App() {
   const storyBlockWidth = isWideLayout
     ? Math.floor((previewWidth - storyGap) / 2)
     : previewWidth;
-  const chartWidth = Math.max(256, storyBlockWidth - 24);
+  const chartWidth = Math.max(256, storyBlockWidth);
   const VisualStoryComponent = visualStory.Component;
 
   const selectPage = (selection: PageSelection) => {
@@ -228,7 +228,7 @@ export default function App() {
           testID="visual-frame"
           style={[styles.visualFrame, { width: visualWidth }]}
         >
-          <VisualStoryComponent width={visualWidth - 24} isVisualMode />
+          <VisualStoryComponent width={visualWidth} isVisualMode />
         </View>
       </View>
     );
@@ -493,7 +493,11 @@ export default function App() {
                   return (
                     <View
                       key={story.id}
-                      style={[styles.storyBlock, { width: storyBlockWidth }]}
+                      style={[
+                        styles.storyBlock,
+                        isDarkApp && styles.storyBlockDark,
+                        { width: storyBlockWidth }
+                      ]}
                     >
                       <StoryComponent
                         width={chartWidth}
@@ -728,7 +732,14 @@ const styles = StyleSheet.create({
     gap: 16
   },
   storyBlock: {
-    gap: 8
+    borderTopColor: "#cfd9e7",
+    borderTopWidth: 1,
+    gap: 10,
+    paddingBottom: 18,
+    paddingTop: 18
+  },
+  storyBlockDark: {
+    borderTopColor: "#24344e"
   },
   featureTags: {
     flexDirection: "row",

@@ -66,28 +66,26 @@ export type ShowcasePage = {
   storyIds: string[];
 };
 
-const ChartCard = ({
+const ChartSection = ({
   children,
-  isDark,
   kicker,
   title
 }: {
   children: React.ReactNode;
-  isDark?: boolean;
   kicker?: string;
   title: string;
 }) => {
   const { mode } = useChartKitTheme();
-  const isDarkCard = isDark ?? mode === "dark";
+  const isDarkSection = mode === "dark";
 
   return (
-    <View style={[styles.card, isDarkCard && styles.darkCard]}>
+    <View style={styles.storySection}>
       {kicker ? (
-        <Text style={[styles.kicker, isDarkCard && styles.darkKicker]}>
+        <Text style={[styles.kicker, isDarkSection && styles.darkKicker]}>
           {kicker}
         </Text>
       ) : null}
-      <Text style={[styles.cardTitle, isDarkCard && styles.darkCardTitle]}>
+      <Text style={[styles.storyTitle, isDarkSection && styles.darkStoryTitle]}>
         {title}
       </Text>
       <View style={styles.chartSlot}>{children}</View>
@@ -103,7 +101,7 @@ const EmptyState = ({ copy, height }: { copy: string; height: number }) => (
 );
 
 const V2Basic = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Revenue" kicker="Basic">
+  <ChartSection title="Revenue" kicker="Basic">
     <LineChart
       data={basicRevenue}
       xKey="month"
@@ -112,11 +110,11 @@ const V2Basic = ({ width }: NativeStoryProps) => (
       height={230}
       curve="monotone"
     />
-  </ChartCard>
+  </ChartSection>
 );
 
 const V2RevenueCard = ({ width }: NativeStoryProps) => (
-  <ChartCard title="MRR growth" kicker="Multi-metric">
+  <ChartSection title="MRR growth" kicker="Multi-metric">
     <LineChart
       data={subscriptionMetrics}
       xKey="month"
@@ -134,11 +132,11 @@ const V2RevenueCard = ({ width }: NativeStoryProps) => (
         }
       ]}
     />
-  </ChartCard>
+  </ChartSection>
 );
 
 const V2BottomLegend = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Plan vs actual" kicker="Bottom legend">
+  <ChartSection title="Plan vs actual" kicker="Bottom legend">
     <LineChart
       data={multiSeriesRevenue}
       xKey="month"
@@ -162,11 +160,11 @@ const V2BottomLegend = ({ width }: NativeStoryProps) => (
         }
       ]}
     />
-  </ChartCard>
+  </ChartSection>
 );
 
 const V2CustomLegend = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Custom legend" kicker="Composable legend item">
+  <ChartSection title="Custom legend" kicker="Composable legend item">
     <LineChart
       data={multiSeriesRevenue}
       xKey="month"
@@ -219,11 +217,11 @@ const V2CustomLegend = ({ width }: NativeStoryProps) => (
         }
       ]}
     />
-  </ChartCard>
+  </ChartSection>
 );
 
 const V2CustomTypography = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Typography" kicker="Font token mapping">
+  <ChartSection title="Typography" kicker="Font token mapping">
     <LineChart
       data={multiSeriesRevenue}
       xKey="month"
@@ -251,11 +249,11 @@ const V2CustomTypography = ({ width }: NativeStoryProps) => (
         }
       ]}
     />
-  </ChartCard>
+  </ChartSection>
 );
 
 const V2MultiSeries = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Plan vs actual" kicker="Multi-series">
+  <ChartSection title="Plan vs actual" kicker="Multi-series">
     <LineChart
       data={multiSeriesRevenue}
       xKey="month"
@@ -272,11 +270,11 @@ const V2MultiSeries = ({ width }: NativeStoryProps) => (
         }
       ]}
     />
-  </ChartCard>
+  </ChartSection>
 );
 
 const V2DotStyles = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Marker styles" kicker="Circle and diamond markers">
+  <ChartSection title="Marker styles" kicker="Circle and diamond markers">
     <LineChart
       data={multiSeriesRevenue.map((point) => ({
         ...point,
@@ -318,11 +316,11 @@ const V2DotStyles = ({ width }: NativeStoryProps) => (
         }
       ]}
     />
-  </ChartCard>
+  </ChartSection>
 );
 
 const V2SelectedTooltip = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Shared tooltip" kicker="Selection model">
+  <ChartSection title="Shared tooltip" kicker="Selection model">
     <LineChart
       data={multiSeriesRevenue}
       xKey="month"
@@ -351,7 +349,7 @@ const V2SelectedTooltip = ({ width }: NativeStoryProps) => (
         }
       ]}
     />
-  </ChartCard>
+  </ChartSection>
 );
 
 const V2ScrubInteraction = ({
@@ -359,7 +357,7 @@ const V2ScrubInteraction = ({
   onScrubStart,
   width
 }: NativeStoryProps) => (
-  <ChartCard title="Tap and scrub" kicker="Persistent selection">
+  <ChartSection title="Tap and scrub" kicker="Persistent selection">
     <LineChart
       data={multiSeriesRevenue}
       xKey="month"
@@ -396,7 +394,7 @@ const V2ScrubInteraction = ({
         }
       ]}
     />
-  </ChartCard>
+  </ChartSection>
 );
 
 const V2WhileActiveScrub = ({
@@ -404,7 +402,7 @@ const V2WhileActiveScrub = ({
   onScrubStart,
   width
 }: NativeStoryProps) => (
-  <ChartCard title="Hold to inspect" kicker="While-active selection">
+  <ChartSection title="Hold to inspect" kicker="While-active selection">
     <LineChart
       data={multiSeriesRevenue}
       xKey="month"
@@ -440,11 +438,11 @@ const V2WhileActiveScrub = ({
         }
       ]}
     />
-  </ChartCard>
+  </ChartSection>
 );
 
 const V2NullGaps = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Missing readings" kicker="Null gap handling">
+  <ChartSection title="Missing readings" kicker="Null gap handling">
     <LineChart
       data={revenueWithGaps}
       xKey="month"
@@ -459,11 +457,11 @@ const V2NullGaps = ({ width }: NativeStoryProps) => (
       }}
       tooltip
     />
-  </ChartCard>
+  </ChartSection>
 );
 
 const V2AreaFill = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Price history" kicker="Area chart">
+  <ChartSection title="Price history" kicker="Area chart">
     <AreaChart
       data={priceHistory}
       xKey="date"
@@ -473,11 +471,11 @@ const V2AreaFill = ({ width }: NativeStoryProps) => (
       curve="monotone"
       formatYLabel={(value) => `$${Math.round(value)}`}
     />
-  </ChartCard>
+  </ChartSection>
 );
 
 const V2ScrollablePriceHistory = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Stock price history" kicker="Scrollable viewport">
+  <ChartSection title="Stock price history" kicker="Scrollable viewport">
     <AreaChart
       data={scrollablePriceHistory}
       xKey="date"
@@ -500,11 +498,11 @@ const V2ScrollablePriceHistory = ({ width }: NativeStoryProps) => (
       }
       formatYLabel={(value) => `$${Math.round(value)}`}
     />
-  </ChartCard>
+  </ChartSection>
 );
 
 const V2ScrollableDenseLine = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Scrollable weekly trend" kicker="Visible points">
+  <ChartSection title="Scrollable weekly trend" kicker="Visible points">
     <LineChart
       data={denseRevenue}
       xKey="month"
@@ -520,7 +518,7 @@ const V2ScrollableDenseLine = ({ width }: NativeStoryProps) => (
       labelStrategy="auto"
       formatXLabel={(_, index) => `W${index + 1}`}
     />
-  </ChartCard>
+  </ChartSection>
 );
 
 const V2ScrollableStockComparison = ({
@@ -533,7 +531,7 @@ const V2ScrollableStockComparison = ({
   );
 
   return (
-    <ChartCard title="MSFT vs GOOG" kicker="Scrollable scrub">
+    <ChartSection title="MSFT vs GOOG" kicker="Scrollable scrub">
       <LineChart
         data={msftVsGoogHistory}
         xKey="date"
@@ -606,7 +604,7 @@ const V2ScrollableStockComparison = ({
           }
         ]}
       />
-    </ChartCard>
+    </ChartSection>
   );
 };
 
@@ -635,7 +633,7 @@ const V2RangeSelectorOverview = ({
   );
 
   return (
-    <ChartCard title="Portfolio range" kicker="Overview window">
+    <ChartSection title="Portfolio range" kicker="Overview window">
       <LineChart
         data={portfolioRangeHistory}
         xKey="date"
@@ -758,7 +756,7 @@ const V2RangeSelectorOverview = ({
           }
         ]}
       />
-    </ChartCard>
+    </ChartSection>
   );
 };
 
@@ -865,7 +863,7 @@ const V2ProAnimation = ({ isVisualMode, width }: NativeStoryProps) => {
   const { data, replay } = useAnimatedPreviewData(isVisualMode);
 
   return (
-    <ChartCard title="Portfolio growth" kicker="Pro animation preview">
+    <ChartSection title="Portfolio growth" kicker="Pro animation preview">
       <LineChart
         data={data}
         xKey="month"
@@ -901,12 +899,12 @@ const V2ProAnimation = ({ isVisualMode, width }: NativeStoryProps) => {
           <Text style={styles.replayButtonText}>Replay</Text>
         </Pressable>
       )}
-    </ChartCard>
+    </ChartSection>
   );
 };
 
 const V2DenseLabels = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Weekly trend" kicker="Dense labels">
+  <ChartSection title="Weekly trend" kicker="Dense labels">
     <LineChart
       data={denseRevenue}
       xKey="month"
@@ -916,11 +914,11 @@ const V2DenseLabels = ({ width }: NativeStoryProps) => (
       showDots={false}
       curve="linear"
     />
-  </ChartCard>
+  </ChartSection>
 );
 
 const V2RotatedLabels = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Monthly expansion" kicker="Rotated labels">
+  <ChartSection title="Monthly expansion" kicker="Rotated labels">
     <LineChart
       data={longRangeRevenue}
       xKey="month"
@@ -932,11 +930,11 @@ const V2RotatedLabels = ({ width }: NativeStoryProps) => (
       labelStrategy="rotate"
       labelRotation={-35}
     />
-  </ChartCard>
+  </ChartSection>
 );
 
 const V2RotatedSixLabels = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Six month labels" kicker="Steep rotation">
+  <ChartSection title="Six month labels" kicker="Steep rotation">
     <LineChart
       data={sixMonthRevenue}
       xKey="month"
@@ -949,11 +947,11 @@ const V2RotatedSixLabels = ({ width }: NativeStoryProps) => (
       labelRotation={-70}
       labelMinGap={0}
     />
-  </ChartCard>
+  </ChartSection>
 );
 
 const V2StaggeredLabels = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Weekly retention" kicker="Staggered labels">
+  <ChartSection title="Weekly retention" kicker="Staggered labels">
     <LineChart
       data={denseRevenue}
       xKey="month"
@@ -964,11 +962,11 @@ const V2StaggeredLabels = ({ width }: NativeStoryProps) => (
       curve="monotone"
       labelStrategy="stagger"
     />
-  </ChartCard>
+  </ChartSection>
 );
 
 const V2GridLines = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Grid lines" kicker="Opt-in horizontal and vertical grid">
+  <ChartSection title="Grid lines" kicker="Opt-in horizontal and vertical grid">
     <LineChart
       data={basicRevenue}
       xKey="month"
@@ -980,11 +978,11 @@ const V2GridLines = ({ width }: NativeStoryProps) => (
       showHorizontalGridLines
       showVerticalGridLines
     />
-  </ChartCard>
+  </ChartSection>
 );
 
 const V2HiddenLabels = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Spark trend" kicker="Hidden labels">
+  <ChartSection title="Spark trend" kicker="Hidden labels">
     <LineChart
       data={denseRevenue}
       xKey="month"
@@ -995,11 +993,11 @@ const V2HiddenLabels = ({ width }: NativeStoryProps) => (
       curve="monotone"
       labelStrategy="hide"
     />
-  </ChartCard>
+  </ChartSection>
 );
 
 const V2DarkMode = ({ width }: NativeStoryProps) => (
-  <ChartCard title="Dark mode" kicker="Area and multi-series" isDark>
+  <ChartSection title="Dark mode" kicker="Area and multi-series">
     <LineChart
       data={multiSeriesRevenue}
       xKey="month"
@@ -1013,7 +1011,7 @@ const V2DarkMode = ({ width }: NativeStoryProps) => (
         { yKey: "forecast", label: "Target", color: "#a78bfa", strokeWidth: 2 }
       ]}
     />
-  </ChartCard>
+  </ChartSection>
 );
 
 const hasLineData = (fixture: LineChartFixture) =>
@@ -1044,10 +1042,9 @@ const CompatLineStory = ({
 }) => {
   const Story = ({ width }: NativeStoryProps) => {
     const chartWidth = resolveLegacyWidth(width, fixture);
-    const isDark = title === "Dark Mode";
 
     return (
-      <ChartCard title={title} kicker="Compat LineChart" isDark={isDark}>
+      <ChartSection title={title} kicker="Compat LineChart">
         {hasLineData(fixture) ? (
           <CompatLineChart
             data={fixture.data}
@@ -1071,7 +1068,7 @@ const CompatLineStory = ({
             height={fixture.height}
           />
         )}
-      </ChartCard>
+      </ChartSection>
     );
   };
 
@@ -1087,10 +1084,9 @@ const CompatBarStory = ({
 }) => {
   const Story = ({ width }: NativeStoryProps) => {
     const chartWidth = resolveLegacyWidth(width, fixture);
-    const isDark = title === "Dark Mode";
 
     return (
-      <ChartCard title={title} kicker="Compat BarChart" isDark={isDark}>
+      <ChartSection title={title} kicker="Compat BarChart">
         {hasBarData(fixture) ? (
           <CompatBarChart
             data={fixture.data}
@@ -1118,7 +1114,7 @@ const CompatBarStory = ({
             height={fixture.height}
           />
         )}
-      </ChartCard>
+      </ChartSection>
     );
   };
 
@@ -1133,7 +1129,7 @@ export const storySections: ShowcaseSection[] = [
       { id: "v2-basic", title: "Basic", Component: V2Basic },
       {
         id: "v2-revenue-card",
-        title: "Revenue Card",
+        title: "MRR Growth",
         Component: V2RevenueCard
       },
       {
@@ -1451,7 +1447,7 @@ export const showcaseModes: ShowcaseMode[] = [
         id: "theme-composition",
         title: "Theme & Composition",
         description:
-          "Theme overrides, custom SVG legend composition, dark cards, and area fills.",
+          "Theme overrides, custom SVG legend composition, dark previews, and area fills.",
         storyIds: [
           "v2-custom-typography",
           "v2-custom-legend",
@@ -1576,7 +1572,7 @@ export const storyFeatureTags: Record<string, string[]> = {
   "v2-six-labels": ["six ticks", "rotation", "edge labels"],
   "v2-staggered-labels": ["staggered labels", "collision policy", "dense axis"],
   "v2-grid-lines": ["horizontal grid", "vertical grid", "opt-in"],
-  "v2-hidden-labels": ["hidden labels", "minimal axis", "clean card"],
+  "v2-hidden-labels": ["hidden labels", "minimal axis", "clean preview"],
   "v2-dark-mode": ["dark theme", "area fill", "multi-series"],
   "line-basic": ["legacy data", "compat facade", "line chart"],
   "line-long-labels": ["long labels", "compat facade", "line chart"],
@@ -1595,18 +1591,8 @@ export const storyFeatureTags: Record<string, string[]> = {
 };
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: "#ffffff",
-    borderColor: "#dde6f2",
-    borderRadius: 10,
-    borderWidth: 1,
-    paddingHorizontal: 12,
-    paddingTop: 14,
-    paddingBottom: 12
-  },
-  darkCard: {
-    backgroundColor: "#020617",
-    borderColor: "#1e293b"
+  storySection: {
+    width: "100%"
   },
   kicker: {
     color: "#64748b",
@@ -1619,19 +1605,19 @@ const styles = StyleSheet.create({
   darkKicker: {
     color: "#94a3b8"
   },
-  cardTitle: {
+  storyTitle: {
     color: "#0f172a",
     fontSize: 22,
     fontWeight: "800",
     letterSpacing: 0,
     marginBottom: 14
   },
-  darkCardTitle: {
+  darkStoryTitle: {
     color: "#f8fafc"
   },
   chartSlot: {
     alignItems: "center",
-    overflow: "hidden"
+    overflow: "visible"
   },
   emptyState: {
     alignItems: "center",
