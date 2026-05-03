@@ -618,7 +618,12 @@ const getInitialRangeSelectorViewport = (): LineChartViewportConfig =>
     xValues: rangeSelectorXValues
   });
 
-const V2RangeSelectorOverview = ({ isVisualMode, width }: NativeStoryProps) => {
+const V2RangeSelectorOverview = ({
+  isVisualMode,
+  onScrubEnd,
+  onScrubStart,
+  width
+}: NativeStoryProps) => {
   const [viewport, setViewport] = useState<LineChartViewportConfig>(() =>
     getInitialRangeSelectorViewport()
   );
@@ -639,12 +644,33 @@ const V2RangeSelectorOverview = ({ isVisualMode, width }: NativeStoryProps) => {
         onViewportChange={handleViewportChange}
         testID="range-selector-chart"
         viewport={viewport}
+        interaction={{
+          mode: "scrub",
+          selectionPersistence: "persist",
+          deselectOnOutsidePress: true,
+          onGestureEnd: onScrubEnd,
+          onGestureStart: onScrubStart
+        }}
+        crosshair={{
+          strokeDasharray: [4, 4]
+        }}
+        tooltip={{
+          positionAnimationDuration: 140,
+          width: 168
+        }}
+        activeDot={{
+          radius: 5.5,
+          fill: "background",
+          strokeWidth: 2.5
+        }}
         rangeSelector={{
           height: 66,
           gap: 10,
           interactive: true,
           handleHitSlop: 28,
           handleWidth: 4,
+          onGestureEnd: onScrubEnd,
+          onGestureStart: onScrubStart,
           windowFill: "#2563EB",
           windowStroke: "#2563EB",
           windowOpacity: 0.11

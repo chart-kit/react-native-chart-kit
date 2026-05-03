@@ -187,12 +187,18 @@ export type LineChartRangeSelectorConfig = {
   handleHitSlop?: number;
   handleOpacity?: number;
   handleWidth?: number;
+  onGestureEnd?: (event: LineChartRangeSelectorGestureEvent) => void;
+  onGestureStart?: (event: LineChartRangeSelectorGestureEvent) => void;
 };
 
 export type LineChartRangeSelectorInteraction =
   | "move"
   | "resizeStart"
   | "resizeEnd";
+
+export type LineChartRangeSelectorGestureEvent = {
+  interaction: LineChartRangeSelectorInteraction;
+};
 
 export type LineChartViewportChangeEvent = {
   viewport: LineChartViewportConfig;
@@ -392,7 +398,9 @@ const getRangeSelectorConfig = (
     handleColor: config.handleColor,
     handleHitSlop: config.handleHitSlop ?? 18,
     handleOpacity: config.handleOpacity ?? 0.9,
-    handleWidth: config.handleWidth ?? 3
+    handleWidth: config.handleWidth ?? 3,
+    onGestureEnd: config.onGestureEnd,
+    onGestureStart: config.onGestureStart
   };
 };
 
@@ -2490,6 +2498,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
           );
 
           rangeSelectorInteractionRef.current = interaction;
+          rangeSelectorConfig.onGestureStart?.({ interaction });
           handleRangeSelectorInteraction(event, interaction);
         },
         onResponderMove: (event: GestureResponderEvent) => {
@@ -2499,9 +2508,15 @@ export const LineChart = <TData extends Record<string, unknown>>(
           );
         },
         onResponderRelease: () => {
+          rangeSelectorConfig.onGestureEnd?.({
+            interaction: rangeSelectorInteractionRef.current
+          });
           rangeSelectorInteractionRef.current = "move";
         },
         onResponderTerminate: () => {
+          rangeSelectorConfig.onGestureEnd?.({
+            interaction: rangeSelectorInteractionRef.current
+          });
           rangeSelectorInteractionRef.current = "move";
         },
         onResponderTerminationRequest: () => false

@@ -162,4 +162,57 @@ test.describe("Expo showcase chart interactions", () => {
     await expect(chart.getByText("Dec 15").first()).toBeVisible();
     await expect(chart.getByText("Jan 14")).toHaveCount(0);
   });
+
+  test("portfolio range supports scrub tooltip and locks scroll during range gestures", async ({
+    page
+  }) => {
+    await page.goto("/?story=v2-range-selector");
+    await page.evaluate(async () => {
+      await document.fonts?.ready;
+    });
+
+    const chart = page.getByTestId("range-selector-chart");
+    await expect(chart).toBeVisible();
+    await chart.scrollIntoViewIfNeeded();
+
+    const chartBox = await chart.boundingBox();
+    expect(chartBox).not.toBeNull();
+
+    if (!chartBox) {
+      return;
+    }
+
+    await page.mouse.move(chartBox.x + chartBox.width - 96, chartBox.y + 150);
+    await page.mouse.down();
+    await page.mouse.move(chartBox.x + chartBox.width - 160, chartBox.y + 150, {
+      steps: 6
+    });
+    await expect(page.getByText("Portfolio:")).toBeVisible();
+    await page.mouse.up();
+
+    const rangeSelector = page.getByTestId(
+      "range-selector-chart-range-selector"
+    );
+    await rangeSelector.scrollIntoViewIfNeeded();
+
+    const scrollView = page.getByTestId("preview-scroll");
+    const rangeBox = await rangeSelector.boundingBox();
+    expect(rangeBox).not.toBeNull();
+
+    if (!rangeBox) {
+      return;
+    }
+
+    const scrollTopBefore = await scrollView.evaluate((node) => node.scrollTop);
+    await page.mouse.move(
+      rangeBox.x + rangeBox.width - 96,
+      rangeBox.y + rangeBox.height / 2
+    );
+    await page.mouse.down();
+    await page.mouse.wheel(0, 420);
+    const scrollTopDuring = await scrollView.evaluate((node) => node.scrollTop);
+    await page.mouse.up();
+
+    expect(scrollTopDuring).toBe(scrollTopBefore);
+  });
 });

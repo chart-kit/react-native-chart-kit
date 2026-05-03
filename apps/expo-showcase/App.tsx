@@ -449,6 +449,7 @@ export default function App() {
         ) : null}
 
         <ScrollView
+          testID="preview-scroll"
           style={styles.previewScroll}
           contentContainerStyle={styles.previewContent}
           scrollEnabled={!isScrubbing}
