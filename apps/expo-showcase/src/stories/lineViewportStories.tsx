@@ -237,6 +237,7 @@ const V2ViewportZoomPan = ({
         onViewportChange={handleViewportChange}
         testID="viewport-pan-chart"
         viewport={viewport}
+        viewportAnimation={{ duration: 120 }}
         viewportInteraction={{
           pan: true,
           pinchZoom: true,

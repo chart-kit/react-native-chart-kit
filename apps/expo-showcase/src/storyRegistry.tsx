@@ -242,7 +242,7 @@ export const storyFeatureTags: Record<string, string[]> = {
     "two series",
     "marker styles"
   ],
-  "v2-viewport-zoom-pan": ["controlled viewport", "pinch zoom", "touch pan"],
+  "v2-viewport-zoom-pan": ["animated viewport", "pinch zoom", "touch pan"],
   "v2-range-selector": ["viewport", "overview", "range selector"],
   "v2-pro-animation": ["animated data", "fixed domain", "dark theme"],
   "v2-dense-labels": ["dense labels", "auto strategy", "linear curve"],
