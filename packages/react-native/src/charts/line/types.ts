@@ -106,6 +106,7 @@ export type LineChartResolvedLabelStrategy = Exclude<
 export type LineChartEdgeLabelPolicy = "shift" | "hide" | "show";
 export type LineChartInitialIndex = ChartViewportInitialIndex;
 export type LineChartReferenceLabelPosition = "start" | "center" | "end";
+export type LineChartReferenceLabelPlacement = "auto" | "above" | "below";
 
 export type LineChartReferenceLineConfig = {
   y: number;
@@ -113,6 +114,7 @@ export type LineChartReferenceLineConfig = {
   labelColor?: string;
   labelFontSize?: number;
   labelOffset?: number;
+  labelPlacement?: LineChartReferenceLabelPlacement;
   labelPosition?: LineChartReferenceLabelPosition;
   color?: string;
   opacity?: number;

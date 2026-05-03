@@ -1,6 +1,10 @@
 import type { LinearScale, Rect } from "@chart-kit/core";
 
 import type { ResolvedCartesianChartTheme } from "../../theme";
+import {
+  resolveReferenceLineLabelY,
+  type ReferenceCollisionGeometry
+} from "./referenceLabelPlacement";
 import type {
   LineChartReferenceBandConfig,
   LineChartReferenceLabelPosition,
@@ -89,11 +93,13 @@ const getReferenceLabelX = ({
 };
 
 export const buildLineChartReferenceLineModels = ({
+  geometries,
   lines,
   plot,
   theme,
   yScale
 }: {
+  geometries?: ReferenceCollisionGeometry[] | undefined;
   lines: LineChartReferenceLineConfig[] | undefined;
   plot: Rect;
   theme: ResolvedCartesianChartTheme;
@@ -125,11 +131,6 @@ export const buildLineChartReferenceLineModels = ({
       typeof line.labelOffset === "number" && Number.isFinite(line.labelOffset)
         ? line.labelOffset
         : 6;
-    const labelY = clamp(
-      y - labelOffset,
-      plot.y + labelFontSize,
-      plotBottom - 4
-    );
     const model: LineChartReferenceLineModel = {
       key: `reference-line-${index}-${line.y}`,
       x1: plot.x,
@@ -145,13 +146,26 @@ export const buildLineChartReferenceLineModels = ({
     }
 
     if (line.label) {
+      const textAnchor = getTextAnchor(labelPosition);
+      const labelX = getReferenceLabelX({ plot, position: labelPosition });
+
       model.label = {
         text: line.label,
-        x: getReferenceLabelX({ plot, position: labelPosition }),
-        y: labelY,
+        x: labelX,
+        y: resolveReferenceLineLabelY({
+          geometries,
+          labelOffset,
+          labelPlacement: line.labelPlacement,
+          lineY: y,
+          plot,
+          text: line.label,
+          textAnchor,
+          fontSize: labelFontSize,
+          x: labelX
+        }),
         color: line.labelColor ?? line.color ?? theme.mutedText,
         fontSize: labelFontSize,
-        textAnchor: getTextAnchor(labelPosition)
+        textAnchor
       };
     }
 

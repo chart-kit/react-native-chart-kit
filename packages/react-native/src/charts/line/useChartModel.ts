@@ -257,12 +257,6 @@ export const useChartModel = <TData extends Record<string, unknown>>({
       theme: resolvedTheme,
       yScale
     });
-    const referenceLineModels = buildLineChartReferenceLineModels({
-      lines: referenceLines,
-      plot: boxes.plot,
-      theme: resolvedTheme,
-      yScale
-    });
     const xScale = buildLineChartXScale<TData>({ boxes, xValues });
     const baselineValue =
       yDomainResolved[0] < 0 && yDomainResolved[1] > 0 ? 0 : yDomainResolved[0];
@@ -294,6 +288,13 @@ export const useChartModel = <TData extends Record<string, unknown>>({
           ...(wantsArea ? { areaBaselineY: baselineY } : {})
         })
       };
+    });
+    const referenceLineModels = buildLineChartReferenceLineModels({
+      geometries: geometries.map(({ geometry }) => geometry),
+      lines: referenceLines,
+      plot: boxes.plot,
+      theme: resolvedTheme,
+      yScale
     });
     const interactionPoints: Array<LineChartInteractionPoint<TData>> =
       geometries[0]?.geometry.points.flatMap((point) => {

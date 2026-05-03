@@ -53,6 +53,68 @@ describe("LineChart reference overlays", () => {
     ]);
   });
 
+  it("moves auto reference line labels below nearby series geometry", () => {
+    const [line] = buildLineChartReferenceLineModels({
+      geometries: [
+        {
+          line: {
+            segments: [
+              {
+                points: [
+                  { index: 0, x: 248, y: 88, defined: true },
+                  { index: 1, x: 280, y: 92, defined: true }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      lines: [{ y: 50, label: "Plan", labelPosition: "end" }],
+      plot,
+      theme,
+      yScale
+    });
+
+    expect(line?.label).toMatchObject({
+      text: "Plan",
+      x: 272,
+      y: 117,
+      textAnchor: "end"
+    });
+  });
+
+  it("lets reference line labels opt into a fixed vertical placement", () => {
+    const [line] = buildLineChartReferenceLineModels({
+      geometries: [
+        {
+          line: {
+            segments: [
+              {
+                points: [
+                  { index: 0, x: 248, y: 88, defined: true },
+                  { index: 1, x: 280, y: 92, defined: true }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      lines: [
+        {
+          y: 50,
+          label: "Plan",
+          labelPlacement: "above",
+          labelPosition: "end"
+        }
+      ],
+      plot,
+      theme,
+      yScale
+    });
+
+    expect(line?.label?.y).toBe(94);
+  });
+
   it("clamps reference bands to the plot bounds", () => {
     expect(
       buildLineChartReferenceBandModels({
