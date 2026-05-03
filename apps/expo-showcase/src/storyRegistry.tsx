@@ -9,6 +9,7 @@ import {
 import {
   AreaChart,
   LineChart,
+  resolveCartesianChartThemeConfig,
   type LineChartViewportChangeEvent,
   type LineChartViewportConfig,
   useChartKitTheme
@@ -615,7 +616,6 @@ const V2ScrollableStockComparison = ({
           {
             yKey: "msft",
             label: "MSFT",
-            color: "#2563EB",
             strokeWidth: 3,
             dot: {
               shape: "circle",
@@ -626,7 +626,6 @@ const V2ScrollableStockComparison = ({
           {
             yKey: "goog",
             label: "GOOG",
-            color: "#16A34A",
             strokeWidth: 2.5,
             dot: {
               shape: "diamond",
@@ -656,29 +655,21 @@ const V2RangeSelectorOverview = ({
   onScrubStart,
   width
 }: NativeStoryProps) => {
-  const { mode } = useChartKitTheme();
-  const isDarkMode = mode === "dark";
-  const rangeSelectorPalette = isDarkMode
-    ? {
-        backgroundFill: "#07111F",
-        benchmarkColor: "#94A3B8",
-        handleColor: "#38BDF8",
-        handleGripColor: "#E0F2FE",
-        outsideFill: "#0F2744",
-        plotFill: "#0B1627",
-        windowFill: "#38BDF8",
-        windowStroke: "#38BDF8"
-      }
-    : {
-        backgroundFill: "#F8FBFF",
-        benchmarkColor: "#64748B",
-        handleColor: "#1D4ED8",
-        handleGripColor: "#FFFFFF",
-        outsideFill: "#DBEAFE",
-        plotFill: "#EFF6FF",
-        windowFill: "#2563EB",
-        windowStroke: "#2563EB"
-      };
+  const chartKitTheme = useChartKitTheme();
+  const resolvedTheme = useMemo(
+    () => resolveCartesianChartThemeConfig(chartKitTheme),
+    [chartKitTheme]
+  );
+  const rangeSelectorPalette = {
+    backgroundFill: resolvedTheme.background,
+    benchmarkColor: resolvedTheme.series[1] ?? resolvedTheme.mutedText,
+    handleColor: resolvedTheme.series[0] ?? resolvedTheme.text,
+    handleGripColor: resolvedTheme.background,
+    outsideFill: resolvedTheme.grid,
+    plotFill: resolvedTheme.plotBackground,
+    windowFill: resolvedTheme.series[0] ?? resolvedTheme.text,
+    windowStroke: resolvedTheme.series[0] ?? resolvedTheme.text
+  };
   const [viewport, setViewport] = useState<LineChartViewportConfig>(() =>
     getInitialRangeSelectorViewport()
   );
@@ -802,13 +793,11 @@ const V2RangeSelectorOverview = ({
           {
             yKey: "portfolio",
             label: "Portfolio",
-            color: "#2563EB",
             strokeWidth: 3
           },
           {
             yKey: "benchmark",
             label: "Benchmark",
-            color: "#16A34A",
             strokeWidth: 2.5
           }
         ]}

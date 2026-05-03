@@ -3,6 +3,7 @@ export {
   builtInCartesianChartPresets,
   ChartKitProvider,
   createChartPreset,
+  resolveCartesianChartThemeConfig,
   useChartKitTheme
 } from "./theme";
 export type {

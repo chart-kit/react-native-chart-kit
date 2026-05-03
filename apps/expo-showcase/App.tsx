@@ -13,6 +13,7 @@ import {
 import {
   ChartKitProvider,
   createChartPreset,
+  resolveCartesianChartThemeConfig,
   type CartesianChartPresetName,
   type CartesianChartPresetRegistry,
   type ResolvedChartKitThemeMode
@@ -187,6 +188,17 @@ export default function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isScrubbing, setIsScrubbing] = useState(false);
   const isDarkApp = themeMode === "dark";
+  const appTheme = useMemo(
+    () =>
+      resolveCartesianChartThemeConfig({
+        mode: themeMode,
+        preset: chartPreset,
+        presets: showcaseCustomPresets
+      }),
+    [chartPreset, themeMode]
+  );
+  const selectedControlColor = appTheme.series[0] ?? appTheme.text;
+  const selectedControlTextColor = appTheme.background;
 
   const pageStories = useMemo(
     () =>
@@ -235,15 +247,15 @@ export default function App() {
   }
 
   return (
-    <View style={[styles.safeArea, isDarkApp && styles.safeAreaDark]}>
+    <View style={[styles.safeArea, { backgroundColor: appTheme.background }]}>
       <StatusBar barStyle={isDarkApp ? "light-content" : "dark-content"} />
       <View style={styles.appShell}>
         <View style={styles.header}>
           <View style={styles.headerText}>
-            <Text style={[styles.eyebrow, isDarkApp && styles.darkEyebrow]}>
+            <Text style={[styles.eyebrow, { color: appTheme.mutedText }]}>
               React Native Chart Kit
             </Text>
-            <Text style={[styles.title, isDarkApp && styles.darkTitle]}>
+            <Text style={[styles.title, { color: appTheme.text }]}>
               Showcase
             </Text>
           </View>
@@ -256,16 +268,18 @@ export default function App() {
             onPress={() => setIsSettingsOpen((current) => !current)}
             style={({ pressed }) => [
               styles.settingsButton,
-              isDarkApp && styles.settingsButtonDark,
-              isSettingsOpen && styles.settingsButtonOpen,
+              {
+                backgroundColor: isSettingsOpen
+                  ? selectedControlColor
+                  : appTheme.text
+              },
               pressed && styles.pressed
             ]}
           >
             <Text
               style={[
                 styles.settingsButtonIcon,
-                isDarkApp && styles.settingsButtonIconDark,
-                isSettingsOpen && styles.settingsButtonIconOpen
+                { color: selectedControlTextColor }
               ]}
             >
               ⚙
@@ -277,15 +291,15 @@ export default function App() {
           <View
             style={[
               styles.settingsPanel,
-              isDarkApp && styles.settingsPanelDark
+              {
+                backgroundColor: appTheme.plotBackground,
+                borderColor: appTheme.axis
+              }
             ]}
           >
             <View style={styles.settingsGroup}>
               <Text
-                style={[
-                  styles.settingsLabel,
-                  isDarkApp && styles.settingsLabelDark
-                ]}
+                style={[styles.settingsLabel, { color: appTheme.mutedText }]}
               >
                 Browse
               </Text>
@@ -301,16 +315,25 @@ export default function App() {
                       onPress={() => selectMode(mode)}
                       style={({ pressed }) => [
                         styles.settingsOption,
-                        isDarkApp && styles.settingsOptionDark,
-                        isSelected && styles.settingsOptionSelected,
+                        {
+                          backgroundColor: isSelected
+                            ? selectedControlColor
+                            : appTheme.background,
+                          borderColor: isSelected
+                            ? selectedControlColor
+                            : appTheme.axis
+                        },
                         pressed && styles.pressed
                       ]}
                     >
                       <Text
                         style={[
                           styles.settingsOptionText,
-                          isDarkApp && styles.settingsOptionTextDark,
-                          isSelected && styles.settingsOptionTextSelected
+                          {
+                            color: isSelected
+                              ? selectedControlTextColor
+                              : appTheme.text
+                          }
                         ]}
                       >
                         {mode.title}
@@ -323,10 +346,7 @@ export default function App() {
 
             <View style={styles.settingsGroup}>
               <Text
-                style={[
-                  styles.settingsLabel,
-                  isDarkApp && styles.settingsLabelDark
-                ]}
+                style={[styles.settingsLabel, { color: appTheme.mutedText }]}
               >
                 Page
               </Text>
@@ -344,16 +364,25 @@ export default function App() {
                       }
                       style={({ pressed }) => [
                         styles.settingsOption,
-                        isDarkApp && styles.settingsOptionDark,
-                        isSelected && styles.settingsOptionSelected,
+                        {
+                          backgroundColor: isSelected
+                            ? selectedControlColor
+                            : appTheme.background,
+                          borderColor: isSelected
+                            ? selectedControlColor
+                            : appTheme.axis
+                        },
                         pressed && styles.pressed
                       ]}
                     >
                       <Text
                         style={[
                           styles.settingsOptionText,
-                          isDarkApp && styles.settingsOptionTextDark,
-                          isSelected && styles.settingsOptionTextSelected
+                          {
+                            color: isSelected
+                              ? selectedControlTextColor
+                              : appTheme.text
+                          }
                         ]}
                       >
                         {page.title}
@@ -366,10 +395,7 @@ export default function App() {
 
             <View style={styles.settingsGroup}>
               <Text
-                style={[
-                  styles.settingsLabel,
-                  isDarkApp && styles.settingsLabelDark
-                ]}
+                style={[styles.settingsLabel, { color: appTheme.mutedText }]}
               >
                 Appearance
               </Text>
@@ -385,16 +411,25 @@ export default function App() {
                       onPress={() => setThemeMode(option.id)}
                       style={({ pressed }) => [
                         styles.settingsOption,
-                        isDarkApp && styles.settingsOptionDark,
-                        isSelected && styles.settingsOptionSelected,
+                        {
+                          backgroundColor: isSelected
+                            ? selectedControlColor
+                            : appTheme.background,
+                          borderColor: isSelected
+                            ? selectedControlColor
+                            : appTheme.axis
+                        },
                         pressed && styles.pressed
                       ]}
                     >
                       <Text
                         style={[
                           styles.settingsOptionText,
-                          isDarkApp && styles.settingsOptionTextDark,
-                          isSelected && styles.settingsOptionTextSelected
+                          {
+                            color: isSelected
+                              ? selectedControlTextColor
+                              : appTheme.text
+                          }
                         ]}
                       >
                         {option.title}
@@ -407,10 +442,7 @@ export default function App() {
 
             <View style={styles.settingsGroup}>
               <Text
-                style={[
-                  styles.settingsLabel,
-                  isDarkApp && styles.settingsLabelDark
-                ]}
+                style={[styles.settingsLabel, { color: appTheme.mutedText }]}
               >
                 Theme
               </Text>
@@ -426,16 +458,25 @@ export default function App() {
                       onPress={() => setChartPreset(option.id)}
                       style={({ pressed }) => [
                         styles.settingsOption,
-                        isDarkApp && styles.settingsOptionDark,
-                        isSelected && styles.settingsOptionSelected,
+                        {
+                          backgroundColor: isSelected
+                            ? selectedControlColor
+                            : appTheme.background,
+                          borderColor: isSelected
+                            ? selectedControlColor
+                            : appTheme.axis
+                        },
                         pressed && styles.pressed
                       ]}
                     >
                       <Text
                         style={[
                           styles.settingsOptionText,
-                          isDarkApp && styles.settingsOptionTextDark,
-                          isSelected && styles.settingsOptionTextSelected
+                          {
+                            color: isSelected
+                              ? selectedControlTextColor
+                              : appTheme.text
+                          }
                         ]}
                       >
                         {option.title}
@@ -463,22 +504,17 @@ export default function App() {
             <View style={[styles.pageContent, { width: previewWidth }]}>
               <View style={styles.pageIntro}>
                 <Text
-                  style={[
-                    styles.pageKicker,
-                    isDarkApp && styles.pageKickerDark
-                  ]}
+                  style={[styles.pageKicker, { color: appTheme.mutedText }]}
                 >
                   {pageSelection.mode.title}
                 </Text>
-                <Text
-                  style={[styles.pageTitle, isDarkApp && styles.pageTitleDark]}
-                >
+                <Text style={[styles.pageTitle, { color: appTheme.text }]}>
                   {pageSelection.page.title}
                 </Text>
                 <Text
                   style={[
                     styles.pageDescription,
-                    isDarkApp && styles.pageDescriptionDark
+                    { color: appTheme.mutedText }
                   ]}
                 >
                   {pageSelection.page.description}
@@ -495,7 +531,7 @@ export default function App() {
                       key={story.id}
                       style={[
                         styles.storyBlock,
-                        isDarkApp && styles.storyBlockDark,
+                        { borderTopColor: appTheme.grid },
                         { width: storyBlockWidth }
                       ]}
                     >
@@ -508,7 +544,7 @@ export default function App() {
                         <Text
                           style={[
                             styles.featureTags,
-                            isDarkApp && styles.featureTagsDark
+                            { color: appTheme.mutedText }
                           ]}
                         >
                           {tags.join(" / ")}
@@ -543,9 +579,6 @@ const styles = StyleSheet.create({
     paddingTop:
       Platform.OS === "ios" ? 54 : Math.max(StatusBar.currentHeight ?? 0, 24)
   },
-  safeAreaDark: {
-    backgroundColor: "#050914"
-  },
   appShell: {
     alignSelf: "center",
     flex: 1,
@@ -569,18 +602,12 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textTransform: "uppercase"
   },
-  darkEyebrow: {
-    color: "#8fa2bd"
-  },
   title: {
     color: "#101828",
     fontSize: 36,
     fontWeight: "900",
     letterSpacing: 0,
     marginTop: 2
-  },
-  darkTitle: {
-    color: "#f8fafc"
   },
   settingsButton: {
     alignItems: "center",
@@ -590,23 +617,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: 44
   },
-  settingsButtonDark: {
-    backgroundColor: "#f8fafc"
-  },
-  settingsButtonOpen: {
-    backgroundColor: "#2563eb"
-  },
   settingsButtonIcon: {
     color: "#ffffff",
     fontSize: 21,
     fontWeight: "900",
     lineHeight: 24
-  },
-  settingsButtonIconDark: {
-    color: "#0f172a"
-  },
-  settingsButtonIconOpen: {
-    color: "#ffffff"
   },
   settingsPanel: {
     backgroundColor: "#ffffff",
@@ -617,10 +632,6 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     padding: 12
   },
-  settingsPanelDark: {
-    backgroundColor: "#0b1220",
-    borderColor: "#223149"
-  },
   settingsGroup: {
     gap: 7
   },
@@ -630,9 +641,6 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     letterSpacing: 0,
     textTransform: "uppercase"
-  },
-  settingsLabelDark: {
-    color: "#8fa2bd"
   },
   settingsOptions: {
     flexDirection: "row",
@@ -647,24 +655,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 7
   },
-  settingsOptionDark: {
-    backgroundColor: "#111827",
-    borderColor: "#2a3950"
-  },
-  settingsOptionSelected: {
-    backgroundColor: "#2563eb",
-    borderColor: "#2563eb"
-  },
   settingsOptionText: {
     color: "#344054",
     fontSize: 12,
     fontWeight: "900"
-  },
-  settingsOptionTextDark: {
-    color: "#dbe7f7"
-  },
-  settingsOptionTextSelected: {
-    color: "#ffffff"
   },
   pressed: {
     opacity: 0.72
@@ -691,9 +685,6 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textTransform: "uppercase"
   },
-  pageKickerDark: {
-    color: "#8fa2bd"
-  },
   pageTitle: {
     color: "#101828",
     fontSize: 24,
@@ -701,18 +692,12 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     marginTop: 3
   },
-  pageTitleDark: {
-    color: "#f8fafc"
-  },
   pageDescription: {
     color: "#475569",
     fontSize: 14,
     fontWeight: "600",
     lineHeight: 20,
     marginTop: 5
-  },
-  pageDescriptionDark: {
-    color: "#b7c5d8"
   },
   storyGrid: {
     flexDirection: "row",
@@ -727,17 +712,11 @@ const styles = StyleSheet.create({
     paddingBottom: 22,
     paddingTop: 24
   },
-  storyBlockDark: {
-    borderTopColor: "#172235"
-  },
   featureTags: {
     color: "#94a3b8",
     fontSize: 11,
     fontWeight: "700",
     lineHeight: 15,
     paddingHorizontal: 2
-  },
-  featureTagsDark: {
-    color: "#64748b"
   }
 });

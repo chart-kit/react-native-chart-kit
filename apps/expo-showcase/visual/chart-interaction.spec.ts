@@ -185,8 +185,10 @@ test.describe("Expo showcase chart interactions", () => {
         nodes.map((node) => node.getAttribute("fill")).filter(Boolean)
       );
 
-    expect(fills).toContain("#07111F");
-    expect(fills).toContain("#0B1627");
+    expect(fills).toContain("#0f172a");
+    expect(fills).toContain("#111827");
+    expect(fills).not.toContain("#F8FBFF");
+    expect(fills).not.toContain("#EFF6FF");
   });
 
   test("portfolio range supports scrub tooltip and locks scroll during range gestures", async ({
