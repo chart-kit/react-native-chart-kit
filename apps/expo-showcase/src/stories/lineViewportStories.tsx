@@ -134,7 +134,7 @@ const V2ScrollableStockComparison = ({
           onSelect: (event) => setSelectedIndex(event.index)
         }}
         crosshair={{ strokeDasharray: [4, 4] }}
-        tooltip={{ positionAnimationDuration: 140, width: 142 }}
+        tooltip={{ positionAnimationDuration: 260, width: 142 }}
         dots={{ radius: 3.5, strokeWidth: 1.75 }}
         activeDot={{ radius: 5.5, strokeWidth: 2.5 }}
         series={[
@@ -346,7 +346,7 @@ const V2RangeSelectorOverview = ({
           onGestureStart: onScrubStart
         }}
         crosshair={{ strokeDasharray: [4, 4] }}
-        tooltip={{ positionAnimationDuration: 140, width: 168 }}
+        tooltip={{ positionAnimationDuration: 260, width: 168 }}
         activeDot={{ radius: 5.5, fill: "background", strokeWidth: 2.5 }}
         rangeSelector={{
           height: 66,

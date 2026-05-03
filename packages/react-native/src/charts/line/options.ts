@@ -76,7 +76,7 @@ export type LineChartTooltipConfig = {
   positionAnimationDuration?: number;
 };
 
-export const defaultLineChartTooltipPositionAnimationDuration = 140;
+export const defaultLineChartTooltipPositionAnimationDuration = 220;
 
 export type ResolvedLineChartTooltipConfig = {
   visible: boolean;

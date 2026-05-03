@@ -43,7 +43,7 @@ const animationEndData: AnimatedPreviewPoint[] = [
   { month: "Jul", actual: 76, forecast: 57 }
 ];
 
-const animationPreviewDuration = 2200;
+const animationPreviewDuration = 1850;
 const animationPreviewPointDelay = 0.04;
 const animationPreviewYMax = 84;
 

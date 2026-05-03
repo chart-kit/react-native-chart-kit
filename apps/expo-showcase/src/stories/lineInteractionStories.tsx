@@ -54,7 +54,7 @@ const V2ScrubInteraction = ({
         onGestureStart: onScrubStart
       }}
       crosshair={{ strokeDasharray: [4, 4] }}
-      tooltip={{ width: 138, positionAnimationDuration: 180 }}
+      tooltip={{ width: 138, positionAnimationDuration: 260 }}
       activeDot={{
         radius: 5.5,
         fill: "background",
@@ -89,7 +89,7 @@ const V2WhileActiveScrub = ({
         onGestureStart: onScrubStart
       }}
       crosshair={{ strokeDasharray: [4, 4] }}
-      tooltip={{ width: 138, positionAnimationDuration: 110 }}
+      tooltip={{ width: 138, positionAnimationDuration: 240 }}
       activeDot={{
         radius: 5.5,
         fill: "background",
