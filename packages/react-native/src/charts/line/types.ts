@@ -148,11 +148,6 @@ export type LineChartViewportConfig = {
   initialIndex?: ChartViewportInitialIndex;
 };
 
-export type LineChartViewportAnimationConfig = {
-  enabled?: boolean;
-  duration?: number;
-};
-
 export type LineChartRangeSelectorSeriesStyle = {
   color?: string;
   opacity?: number;
@@ -360,7 +355,6 @@ export type LineChartProps<TData extends Record<string, unknown>> = {
   viewport?: LineChartViewportConfig;
   onViewportChange?: (event: LineChartViewportChangeEvent) => void;
   viewportInteraction?: boolean | LineChartViewportInteractionConfig;
-  viewportAnimation?: boolean | LineChartViewportAnimationConfig;
   rangeSelector?: boolean | LineChartRangeSelectorConfig;
   curve?: LineCurve;
   connectNulls?: boolean;

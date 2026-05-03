@@ -42,7 +42,6 @@ import {
 import { useAnimatedTooltipModel } from "./useAnimatedTooltipModel";
 import { useLineChartYAxisLabels } from "./useAnimatedYAxisLabels";
 import { useChartModel } from "./useChartModel";
-import { useAnimatedLineChartGeometries } from "./viewportAnimation";
 import { useLineChartViewportPan } from "./viewportInteraction";
 import {
   LineChartViewportGesture,
@@ -166,17 +165,6 @@ export const LineChart = <TData extends Record<string, unknown>>(
   });
   const { boxes, geometries, interactionPoints, selectionModel, formatYLabel } =
     model;
-  const animatedGeometries = useAnimatedLineChartGeometries(
-    geometries,
-    props.viewportAnimation
-  );
-  const surfaceModel = useMemo(
-    () =>
-      animatedGeometries === geometries
-        ? model
-        : { ...model, geometries: animatedGeometries },
-    [animatedGeometries, geometries, model]
-  );
   const isInteractionEnabled = isLineChartInteractionEnabled(interactionConfig);
   const animatedYAxisLabels = useLineChartYAxisLabels(
     model,
@@ -387,7 +375,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
       chartWidth={chartWidth}
       isScrollable={viewport.scrollable}
       mainHeight={mainHeight}
-      model={surfaceModel}
+      model={model}
       props={props}
       responderProps={responderProps}
       yAxisLabels={animatedYAxisLabels}

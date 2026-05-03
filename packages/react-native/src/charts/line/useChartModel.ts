@@ -269,7 +269,6 @@ export const useChartModel = <TData extends Record<string, unknown>>({
     const geometries = normalized.series.map((item, index) => {
       const style = styleByKey.get(item.key);
       const wantsArea = style?.area ?? area;
-      const resolvedCurve = style?.curve ?? curve;
 
       return {
         style: {
@@ -289,15 +288,10 @@ export const useChartModel = <TData extends Record<string, unknown>>({
           series: item,
           xScale,
           yScale: (value) => yScale.scale(value),
-          curve: resolvedCurve,
+          curve: style?.curve ?? curve,
           connectNulls,
           ...(wantsArea ? { areaBaselineY: baselineY } : {})
-        }),
-        viewportAnimation: {
-          areaBaselineY: wantsArea ? baselineY : undefined,
-          connectNulls,
-          curve: resolvedCurve
-        }
+        })
       };
     });
     const referenceLineModels = buildLineChartReferenceLineModels({
