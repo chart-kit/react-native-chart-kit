@@ -5,6 +5,7 @@ export const chartStories = [
   "v2-custom-legend",
   "v2-custom-typography",
   "v2-multi-series",
+  "v2-dashed-forecast",
   "v2-dot-styles",
   "v2-selected-tooltip",
   "v2-scrub",

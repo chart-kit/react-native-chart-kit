@@ -45,6 +45,9 @@ export type {
   LineChartResolvedLabelStrategy,
   LineChartSelectEvent,
   LineChartSeries,
+  LineChartStrokeLinecap,
+  LineChartStrokeLinejoin,
+  LineChartStrokeStyleConfig,
   LineChartTooltipConfig,
   LineChartTooltipRenderProps,
   LineChartTooltipSeriesItem,
@@ -52,5 +55,6 @@ export type {
   LineChartViewportConfig,
   ResolvedLineChartCrosshairConfig,
   ResolvedLineChartDotConfig,
+  ResolvedLineChartStrokeStyle,
   ResolvedLineChartTooltipConfig
 } from "./charts/line/LineChart";

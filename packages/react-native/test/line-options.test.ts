@@ -5,6 +5,7 @@ import {
   getLineChartActiveDotConfig,
   getLineChartCrosshairConfig,
   getLineChartDotConfig,
+  getLineChartStrokeStyle,
   getLineChartTooltipConfig
 } from "../src/charts/line/options";
 
@@ -81,6 +82,27 @@ describe("LineChart marker and interaction options", () => {
       opacity: 0.95,
       strokeDasharray: [4, 4]
     });
+  });
+
+  it("resolves per-series stroke styling for dashed and muted lines", () => {
+    expect(
+      getLineChartStrokeStyle({
+        strokeDasharray: [6, 4],
+        strokeLinecap: "butt",
+        strokeLinejoin: "bevel",
+        strokeOpacity: 0.62
+      })
+    ).toEqual({
+      strokeDasharray: [6, 4],
+      strokeLinecap: "butt",
+      strokeLinejoin: "bevel",
+      strokeOpacity: 0.62
+    });
+
+    expect(getLineChartStrokeStyle({ strokeOpacity: 2 }).strokeOpacity).toBe(1);
+    expect(getLineChartStrokeStyle({ strokeOpacity: -1 }).strokeOpacity).toBe(
+      0
+    );
   });
 
   it("treats object tooltip config as opt-in visible", () => {

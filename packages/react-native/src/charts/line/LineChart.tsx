@@ -66,10 +66,13 @@ import {
 import {
   getLineChartCrosshairConfig,
   getLineChartDotConfig,
+  getLineChartStrokeStyle,
   getLineChartTooltipConfig,
   type LineChartCrosshairConfig,
   type LineChartDotColor,
   type LineChartDotConfig,
+  type LineChartStrokeLinecap,
+  type LineChartStrokeLinejoin,
   type LineChartTooltipConfig,
   type ResolvedLineChartDotConfig
 } from "./options";
@@ -110,9 +113,13 @@ export type {
   LineChartDotColor,
   LineChartDotConfig,
   LineChartDotShape,
+  LineChartStrokeLinecap,
+  LineChartStrokeLinejoin,
+  LineChartStrokeStyleConfig,
   LineChartTooltipConfig,
   ResolvedLineChartCrosshairConfig,
   ResolvedLineChartDotConfig,
+  ResolvedLineChartStrokeStyle,
   ResolvedLineChartTooltipConfig
 } from "./options";
 
@@ -122,6 +129,10 @@ export type LineChartSeries<TData extends Record<string, unknown>> = {
   label?: string;
   color?: string;
   strokeWidth?: number;
+  strokeDasharray?: readonly number[] | undefined;
+  strokeLinecap?: LineChartStrokeLinecap;
+  strokeLinejoin?: LineChartStrokeLinejoin;
+  strokeOpacity?: number;
   dot?: boolean | LineChartDotConfig;
   area?: boolean;
   curve?: LineCurve;
@@ -211,7 +222,7 @@ export type LineChartRangeSelectorConfig = {
 export type LineChartRangeSelectorSeriesStyle = {
   color?: string;
   opacity?: number;
-  strokeDasharray?: readonly number[];
+  strokeDasharray?: readonly number[] | undefined;
   strokeWidth?: number;
 };
 
@@ -283,6 +294,10 @@ export type LineChartLegendRenderItem = {
   labelGap: number;
   paddingHorizontal: number;
   paddingVertical: number;
+  strokeDasharray?: readonly number[] | undefined;
+  strokeLinecap: LineChartStrokeLinecap;
+  strokeOpacity: number;
+  strokeWidth: number;
 };
 
 export type LineChartLegendRenderProps = {
@@ -525,19 +540,36 @@ const getLegendY = ({
 const renderDefaultLegendItem = (item: LineChartLegendRenderItem) => {
   const markerCenterY = item.contentY + item.contentHeight / 2;
   const markerShape = item.marker === "line" ? "line" : item.marker;
+  const legendLineStrokeWidth = Math.min(3, Math.max(1.5, item.strokeWidth));
 
   return (
     <SvgGroup key={`legend-${item.key}`}>
-      <SvgSymbol
-        shape={markerShape}
-        x={item.contentX + item.markerSize / 2}
-        y={markerCenterY}
-        size={item.markerSize}
-        fill={item.color}
-        stroke={item.color}
-        cornerRadius={2}
-        {...(item.marker === "line" ? { strokeWidth: 3 } : {})}
-      />
+      {item.marker === "line" ? (
+        <SvgLine
+          x1={item.contentX}
+          x2={item.contentX + item.markerSize}
+          y1={markerCenterY}
+          y2={markerCenterY}
+          stroke={item.color}
+          strokeLinecap={item.strokeLinecap}
+          strokeOpacity={item.strokeOpacity}
+          strokeWidth={legendLineStrokeWidth}
+          {...(item.strokeDasharray
+            ? { strokeDasharray: item.strokeDasharray }
+            : {})}
+        />
+      ) : (
+        <SvgSymbol
+          shape={markerShape}
+          x={item.contentX + item.markerSize / 2}
+          y={markerCenterY}
+          size={item.markerSize}
+          fill={item.color}
+          opacity={item.strokeOpacity}
+          stroke={item.color}
+          cornerRadius={2}
+        />
+      )}
       <SvgText
         x={item.contentX + item.markerSize + item.labelGap}
         y={item.contentY + item.contentHeight / 2 + item.fontSize * 0.36}
@@ -1317,6 +1349,12 @@ const useChartModel = <TData extends Record<string, unknown>>({
         String(item.key ?? item.yKey),
         {
           strokeWidth: item.strokeWidth ?? 3,
+          strokeStyle: getLineChartStrokeStyle({
+            strokeDasharray: item.strokeDasharray,
+            strokeLinecap: item.strokeLinecap,
+            strokeLinejoin: item.strokeLinejoin,
+            strokeOpacity: item.strokeOpacity
+          }),
           area: item.area,
           curve: item.curve,
           color: item.color ?? getSeriesColor(resolvedTheme, index),
@@ -1492,6 +1530,7 @@ const useChartModel = <TData extends Record<string, unknown>>({
       return {
         style: {
           strokeWidth: style?.strokeWidth ?? 3,
+          strokeStyle: style?.strokeStyle ?? getLineChartStrokeStyle(),
           dot:
             style?.dot ??
             getLineChartDotConfig({
@@ -1641,7 +1680,11 @@ const useChartModel = <TData extends Record<string, unknown>>({
                   labelColor: legendConfig.labelColor,
                   labelGap: legendConfig.labelGap,
                   paddingHorizontal: legendConfig.itemPaddingHorizontal,
-                  paddingVertical: legendConfig.itemPaddingVertical
+                  paddingVertical: legendConfig.itemPaddingVertical,
+                  strokeDasharray: style?.strokeStyle.strokeDasharray,
+                  strokeLinecap: style?.strokeStyle.strokeLinecap ?? "round",
+                  strokeOpacity: style?.strokeStyle.strokeOpacity ?? 1,
+                  strokeWidth: style?.strokeWidth ?? 3
                 } satisfies LineChartLegendRenderItem;
               })
             } satisfies LineChartLegendRenderProps
@@ -2288,8 +2331,12 @@ export const LineChart = <TData extends Record<string, unknown>>(
               fill="none"
               stroke={style.color}
               strokeWidth={style.strokeWidth}
-              strokeLinecap="round"
-              strokeLinejoin="round"
+              strokeLinecap={style.strokeStyle.strokeLinecap}
+              strokeLinejoin={style.strokeStyle.strokeLinejoin}
+              strokeOpacity={style.strokeStyle.strokeOpacity}
+              {...(style.strokeStyle.strokeDasharray
+                ? { strokeDasharray: style.strokeStyle.strokeDasharray }
+                : {})}
             />
           ))}
         </SvgLayer>

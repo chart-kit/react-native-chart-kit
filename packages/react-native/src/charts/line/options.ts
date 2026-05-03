@@ -37,6 +37,23 @@ export type ResolvedLineChartCrosshairConfig = {
   strokeDasharray?: readonly number[];
 };
 
+export type LineChartStrokeLinecap = "butt" | "round" | "square";
+export type LineChartStrokeLinejoin = "bevel" | "miter" | "round";
+
+export type LineChartStrokeStyleConfig = {
+  strokeDasharray?: readonly number[] | undefined;
+  strokeLinecap?: LineChartStrokeLinecap | undefined;
+  strokeLinejoin?: LineChartStrokeLinejoin | undefined;
+  strokeOpacity?: number | undefined;
+};
+
+export type ResolvedLineChartStrokeStyle = {
+  strokeLinecap: LineChartStrokeLinecap;
+  strokeLinejoin: LineChartStrokeLinejoin;
+  strokeOpacity: number;
+  strokeDasharray?: readonly number[] | undefined;
+};
+
 export type LineChartTooltipConfig = {
   visible?: boolean;
   shared?: boolean;
@@ -76,6 +93,30 @@ const resolveNonNegativeNumber = (
   typeof value === "number" && Number.isFinite(value)
     ? Math.max(0, value)
     : fallback;
+
+const resolveOpacity = (value: number | undefined, fallback: number) =>
+  typeof value === "number" && Number.isFinite(value)
+    ? Math.max(0, Math.min(1, value))
+    : fallback;
+
+export const getLineChartStrokeStyle = ({
+  strokeDasharray,
+  strokeLinecap,
+  strokeLinejoin,
+  strokeOpacity
+}: LineChartStrokeStyleConfig = {}): ResolvedLineChartStrokeStyle => {
+  const resolved: ResolvedLineChartStrokeStyle = {
+    strokeLinecap: strokeLinecap ?? "round",
+    strokeLinejoin: strokeLinejoin ?? "round",
+    strokeOpacity: resolveOpacity(strokeOpacity, 1)
+  };
+
+  if (strokeDasharray !== undefined) {
+    resolved.strokeDasharray = strokeDasharray;
+  }
+
+  return resolved;
+};
 
 export const getLineChartDotConfig = ({
   dots,

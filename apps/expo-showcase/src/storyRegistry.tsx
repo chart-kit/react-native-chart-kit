@@ -273,6 +273,40 @@ const V2MultiSeries = ({ width }: NativeStoryProps) => (
   </ChartSection>
 );
 
+const V2DashedForecast = ({ width }: NativeStoryProps) => (
+  <ChartSection title="Forecast variance" kicker="Straight and dashed lines">
+    <LineChart
+      data={multiSeriesRevenue}
+      xKey="month"
+      width={width}
+      height={238}
+      showDots={false}
+      curve="linear"
+      legend={{
+        marker: "line",
+        itemGap: 18
+      }}
+      series={[
+        {
+          yKey: "actual",
+          label: "Actual",
+          strokeWidth: 3,
+          strokeLinecap: "round"
+        },
+        {
+          yKey: "forecast",
+          label: "Forecast",
+          color: "#64748B",
+          strokeDasharray: [6, 5],
+          strokeLinecap: "butt",
+          strokeOpacity: 0.82,
+          strokeWidth: 2.5
+        }
+      ]}
+    />
+  </ChartSection>
+);
+
 const V2DotStyles = ({ width }: NativeStoryProps) => (
   <ChartSection title="Marker styles" kicker="Circle and diamond markers">
     <LineChart
@@ -1153,6 +1187,11 @@ export const storySections: ShowcaseSection[] = [
         Component: V2MultiSeries
       },
       {
+        id: "v2-dashed-forecast",
+        title: "Dashed Forecast",
+        Component: V2DashedForecast
+      },
+      {
         id: "v2-dot-styles",
         title: "Marker Styles",
         Component: V2DotStyles
@@ -1382,6 +1421,7 @@ export const showcaseModes: ShowcaseMode[] = [
           "v2-basic",
           "v2-revenue-card",
           "v2-multi-series",
+          "v2-dashed-forecast",
           "v2-null-gaps",
           "v2-area",
           "v2-scrollable-price",
@@ -1394,8 +1434,9 @@ export const showcaseModes: ShowcaseMode[] = [
         id: "legends-markers",
         title: "Legends & Markers",
         description:
-          "Legend layout, custom legend rendering, marker shapes, and typography overrides.",
+          "Legend layout, dashed series, custom legend rendering, marker shapes, and typography overrides.",
         storyIds: [
+          "v2-dashed-forecast",
           "v2-bottom-legend",
           "v2-custom-legend",
           "v2-dot-styles",
@@ -1547,6 +1588,7 @@ export const storyFeatureTags: Record<string, string[]> = {
   "v2-custom-legend": ["custom legend", "SVG render item", "spacing"],
   "v2-custom-typography": ["font tokens", "theme override", "legend labels"],
   "v2-multi-series": ["multi-series", "forecast line", "stroke widths"],
+  "v2-dashed-forecast": ["dashed line", "linear curve", "forecast style"],
   "v2-dot-styles": ["marker styles", "series dots", "diamond marker"],
   "v2-selected-tooltip": [
     "shared tooltip",
