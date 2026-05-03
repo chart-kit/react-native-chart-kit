@@ -1,3 +1,5 @@
+import type { ResolvedCartesianChartTooltipTheme } from "../../theme";
+
 export type LineChartDotShape = "circle" | "square" | "diamond";
 export type LineChartDotColor = string | "background" | "series";
 
@@ -64,6 +66,7 @@ export type LineChartTooltipConfig = {
   borderColor?: string;
   textColor?: string;
   labelColor?: string;
+  fontFamily?: string;
   fontSize?: number;
   labelFontSize?: number;
   positionAnimationDuration?: number;
@@ -81,6 +84,7 @@ export type ResolvedLineChartTooltipConfig = {
   borderColor: string;
   textColor: string;
   labelColor: string;
+  fontFamily: string | undefined;
   fontSize: number;
   labelFontSize: number;
   positionAnimationDuration: number;
@@ -206,11 +210,13 @@ export const getLineChartCrosshairConfig = ({
 };
 
 export const getLineChartTooltipConfig = ({
-  themeAxisColor,
+  themeFontFamily,
+  themeTooltip,
   tooltip
 }: {
   tooltip: boolean | LineChartTooltipConfig | undefined;
-  themeAxisColor: string;
+  themeFontFamily?: string | undefined;
+  themeTooltip: ResolvedCartesianChartTooltipTheme;
 }): ResolvedLineChartTooltipConfig => {
   const config = typeof tooltip === "object" ? tooltip : {};
   const visible =
@@ -224,14 +230,15 @@ export const getLineChartTooltipConfig = ({
     visible,
     shared: config.shared ?? true,
     width: config.width,
-    padding: config.padding ?? 10,
-    borderRadius: config.borderRadius ?? 8,
-    backgroundColor: config.backgroundColor ?? "#0f172a",
-    borderColor: config.borderColor ?? themeAxisColor,
-    textColor: config.textColor ?? "#f8fafc",
-    labelColor: config.labelColor ?? "#cbd5e1",
-    fontSize: config.fontSize ?? 11,
-    labelFontSize: config.labelFontSize ?? 11,
+    padding: config.padding ?? themeTooltip.padding,
+    borderRadius: config.borderRadius ?? themeTooltip.borderRadius,
+    backgroundColor: config.backgroundColor ?? themeTooltip.background,
+    borderColor: config.borderColor ?? themeTooltip.border,
+    textColor: config.textColor ?? themeTooltip.text,
+    labelColor: config.labelColor ?? themeTooltip.mutedText,
+    fontFamily: config.fontFamily ?? themeFontFamily,
+    fontSize: config.fontSize ?? themeTooltip.fontSize,
+    labelFontSize: config.labelFontSize ?? themeTooltip.labelFontSize,
     positionAnimationDuration: resolveNonNegativeNumber(
       config.positionAnimationDuration,
       defaultLineChartTooltipPositionAnimationDuration

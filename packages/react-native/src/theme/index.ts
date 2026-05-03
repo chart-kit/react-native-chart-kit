@@ -12,9 +12,11 @@ export type {
   CartesianChartPresetRegistry,
   CartesianChartPresetValue,
   CartesianChartTheme,
+  CartesianChartTooltipTheme,
   CartesianChartTypography,
   ChartKitThemeMode,
   ResolvedCartesianChartTheme,
+  ResolvedCartesianChartTooltipTheme,
   ResolvedCartesianChartTypography,
   ResolvedChartKitThemeMode
 } from "./presets";

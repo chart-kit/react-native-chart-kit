@@ -13,11 +13,13 @@ export type {
   CartesianChartPresetRegistry,
   CartesianChartPresetValue,
   CartesianChartTheme,
+  CartesianChartTooltipTheme,
   CartesianChartTypography,
   ChartKitProviderProps,
   ChartKitThemeContextValue,
   ChartKitThemeMode,
   ResolvedCartesianChartTheme,
+  ResolvedCartesianChartTooltipTheme,
   ResolvedCartesianChartTypography,
   ResolvedChartKitThemeMode
 } from "./theme";

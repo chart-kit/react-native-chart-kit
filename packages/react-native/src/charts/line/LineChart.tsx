@@ -703,6 +703,7 @@ const renderDefaultTooltip = <TData,>({
         fill={config.labelColor}
         fontSize={config.labelFontSize}
         fontWeight="600"
+        {...getFontFamilyProps(config.fontFamily)}
       >
         {xLabel}
       </SvgText>
@@ -722,6 +723,7 @@ const renderDefaultTooltip = <TData,>({
               y={itemY}
               fill={config.textColor}
               fontSize={config.fontSize}
+              {...getFontFamilyProps(config.fontFamily)}
             >
               {`${item.label}: ${item.formattedValue}`}
             </SvgText>
@@ -1586,7 +1588,8 @@ const useChartModel = <TData extends Record<string, unknown>>({
     });
     const tooltipConfig = getLineChartTooltipConfig({
       tooltip,
-      themeAxisColor: resolvedTheme.axis
+      themeFontFamily: resolvedTheme.typography.fontFamily,
+      themeTooltip: resolvedTheme.tooltip
     });
     const roundedSelectedIndex = normalizeLineChartSelectedIndex(selectedIndex);
     const selectedDataIndex =

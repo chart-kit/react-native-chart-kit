@@ -19,6 +19,17 @@ const baseDot = {
   opacity: 1
 };
 
+const themeTooltip = {
+  background: "#ffffff",
+  border: "#dddddd",
+  text: "#111827",
+  mutedText: "#64748b",
+  borderRadius: 12,
+  padding: 14,
+  fontSize: 12,
+  labelFontSize: 13
+};
+
 describe("LineChart marker and interaction options", () => {
   it("lets series marker config override global marker config", () => {
     expect(
@@ -109,15 +120,52 @@ describe("LineChart marker and interaction options", () => {
     expect(
       getLineChartTooltipConfig({
         tooltip: { shared: false, width: 120 },
-        themeAxisColor: "#ddd"
+        themeTooltip
       })
     ).toMatchObject({
       visible: true,
       shared: false,
       width: 120,
-      borderColor: "#ddd",
+      borderColor: "#dddddd",
+      backgroundColor: "#ffffff",
+      textColor: "#111827",
+      labelColor: "#64748b",
+      borderRadius: 12,
+      padding: 14,
+      fontSize: 12,
+      labelFontSize: 13,
       positionAnimationDuration:
         defaultLineChartTooltipPositionAnimationDuration
+    });
+  });
+
+  it("lets chart tooltip config override theme tooltip tokens", () => {
+    expect(
+      getLineChartTooltipConfig({
+        tooltip: {
+          backgroundColor: "#0f172a",
+          borderColor: "#334155",
+          textColor: "#f8fafc",
+          labelColor: "#cbd5e1",
+          borderRadius: 6,
+          padding: 8,
+          fontFamily: "Acme Sans",
+          fontSize: 10,
+          labelFontSize: 9
+        },
+        themeFontFamily: "Theme Sans",
+        themeTooltip
+      })
+    ).toMatchObject({
+      backgroundColor: "#0f172a",
+      borderColor: "#334155",
+      textColor: "#f8fafc",
+      labelColor: "#cbd5e1",
+      borderRadius: 6,
+      padding: 8,
+      fontFamily: "Acme Sans",
+      fontSize: 10,
+      labelFontSize: 9
     });
   });
 
@@ -125,21 +173,21 @@ describe("LineChart marker and interaction options", () => {
     expect(
       getLineChartTooltipConfig({
         tooltip: { positionAnimationDuration: 220 },
-        themeAxisColor: "#ddd"
+        themeTooltip
       }).positionAnimationDuration
     ).toBe(220);
 
     expect(
       getLineChartTooltipConfig({
         tooltip: { positionAnimationDuration: 0 },
-        themeAxisColor: "#ddd"
+        themeTooltip
       }).positionAnimationDuration
     ).toBe(0);
 
     expect(
       getLineChartTooltipConfig({
         tooltip: { positionAnimationDuration: -25 },
-        themeAxisColor: "#ddd"
+        themeTooltip
       }).positionAnimationDuration
     ).toBe(0);
   });

@@ -14,6 +14,12 @@ describe("Cartesian chart theme presets", () => {
       })
     ).toMatchObject({
       background: "#020617",
+      tooltip: {
+        background: "#0c1424",
+        border: "#2c5078",
+        text: "#f8fafc",
+        mutedText: "#9fb6d1"
+      },
       series: ["#38bdf8", "#a78bfa", "#2dd4bf", "#fb923c"]
     });
 
@@ -24,6 +30,12 @@ describe("Cartesian chart theme presets", () => {
       })
     ).toMatchObject({
       background: "#fbfefc",
+      tooltip: {
+        background: "#ffffff",
+        border: "#c9dfd4",
+        text: "#10221a",
+        mutedText: "#5f776b"
+      },
       series: ["#059669", "#e11d48", "#0ea5e9", "#84cc16"]
     });
   });
@@ -37,7 +49,11 @@ describe("Cartesian chart theme presets", () => {
       },
       dark: {
         background: "#1c0f08",
+        plotBackground: "#22130b",
         grid: "#7c2d12",
+        axis: "#9a3412",
+        text: "#ffedd5",
+        mutedText: "#fdba74",
         series: ["#fdba74", "#5eead4"]
       }
     });
@@ -51,6 +67,12 @@ describe("Cartesian chart theme presets", () => {
     ).toMatchObject({
       background: "#1c0f08",
       grid: "#7c2d12",
+      tooltip: {
+        background: "#22130b",
+        border: "#9a3412",
+        text: "#ffedd5",
+        mutedText: "#fdba74"
+      },
       series: ["#fdba74", "#5eead4"]
     });
   });
@@ -62,6 +84,12 @@ describe("Cartesian chart theme presets", () => {
         preset: "analytics",
         theme: {
           series: ["#111111"],
+          tooltip: {
+            background: "#111111",
+            border: "#222222",
+            text: "#ffffff",
+            borderRadius: 14
+          },
           typography: {
             fontFamily: "Acme Sans",
             axisLabelSize: 13
@@ -70,6 +98,13 @@ describe("Cartesian chart theme presets", () => {
       })
     ).toMatchObject({
       series: ["#111111"],
+      tooltip: {
+        background: "#111111",
+        border: "#222222",
+        text: "#ffffff",
+        mutedText: "#55708d",
+        borderRadius: 14
+      },
       typography: {
         fontFamily: "Acme Sans",
         axisLabelSize: 13,

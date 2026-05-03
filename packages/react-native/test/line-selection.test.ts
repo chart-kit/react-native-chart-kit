@@ -66,6 +66,7 @@ const tooltipConfig = {
   borderColor: "#e5e7eb",
   textColor: "#fff",
   labelColor: "#cbd5e1",
+  fontFamily: undefined,
   fontSize: 11,
   labelFontSize: 11,
   positionAnimationDuration: defaultLineChartTooltipPositionAnimationDuration

@@ -7,6 +7,17 @@ export type CartesianChartTypography = {
   legendLabelSize?: number;
 };
 
+export type CartesianChartTooltipTheme = {
+  background?: string;
+  border?: string;
+  text?: string;
+  mutedText?: string;
+  borderRadius?: number;
+  padding?: number;
+  fontSize?: number;
+  labelFontSize?: number;
+};
+
 export type CartesianChartTheme = {
   background?: string;
   plotBackground?: string;
@@ -16,6 +27,7 @@ export type CartesianChartTheme = {
   mutedText?: string;
   series?: string[];
   typography?: CartesianChartTypography;
+  tooltip?: CartesianChartTooltipTheme;
 };
 
 export type ResolvedCartesianChartTypography = {
@@ -24,7 +36,18 @@ export type ResolvedCartesianChartTypography = {
   legendLabelSize: number;
 };
 
-export type ResolvedCartesianChartTheme = {
+export type ResolvedCartesianChartTooltipTheme = {
+  background: string;
+  border: string;
+  text: string;
+  mutedText: string;
+  borderRadius: number;
+  padding: number;
+  fontSize: number;
+  labelFontSize: number;
+};
+
+type CartesianChartCoreTheme = {
   background: string;
   plotBackground: string;
   grid: string;
@@ -35,14 +58,13 @@ export type ResolvedCartesianChartTheme = {
   typography: ResolvedCartesianChartTypography;
 };
 
+export type ResolvedCartesianChartTheme = CartesianChartCoreTheme & {
+  tooltip: ResolvedCartesianChartTooltipTheme;
+};
+
 export type CartesianChartPreset = {
   light?: CartesianChartTheme;
   dark?: CartesianChartTheme;
-};
-
-type ResolvedCartesianChartPreset = {
-  light: ResolvedCartesianChartTheme;
-  dark: ResolvedCartesianChartTheme;
 };
 
 export type CartesianChartPresetInput =
@@ -73,7 +95,28 @@ export const defaultCartesianChartTypography: ResolvedCartesianChartTypography =
     legendLabelSize: 11
   };
 
-const defaultLightTheme: ResolvedCartesianChartTheme = {
+const resolveCartesianChartTooltipTheme = (
+  theme: CartesianChartCoreTheme,
+  tooltip: CartesianChartTooltipTheme | undefined
+): ResolvedCartesianChartTooltipTheme => ({
+  background: tooltip?.background ?? theme.plotBackground,
+  border: tooltip?.border ?? theme.axis,
+  text: tooltip?.text ?? theme.text,
+  mutedText: tooltip?.mutedText ?? theme.mutedText,
+  borderRadius: tooltip?.borderRadius ?? 8,
+  padding: tooltip?.padding ?? 10,
+  fontSize: tooltip?.fontSize ?? theme.typography.legendLabelSize,
+  labelFontSize: tooltip?.labelFontSize ?? theme.typography.legendLabelSize
+});
+
+const createResolvedCartesianChartTheme = (
+  theme: CartesianChartCoreTheme & { tooltip?: CartesianChartTooltipTheme }
+): ResolvedCartesianChartTheme => ({
+  ...theme,
+  tooltip: resolveCartesianChartTooltipTheme(theme, theme.tooltip)
+});
+
+const defaultLightTheme: CartesianChartCoreTheme = {
   background: "#ffffff",
   plotBackground: "#ffffff",
   grid: "#e5e7eb",
@@ -84,7 +127,7 @@ const defaultLightTheme: ResolvedCartesianChartTheme = {
   typography: defaultCartesianChartTypography
 };
 
-const defaultDarkTheme: ResolvedCartesianChartTheme = {
+const defaultDarkTheme: CartesianChartCoreTheme = {
   background: "#0f172a",
   plotBackground: "#111827",
   grid: "#334155",
@@ -95,9 +138,17 @@ const defaultDarkTheme: ResolvedCartesianChartTheme = {
   typography: defaultCartesianChartTypography
 };
 
+const resolvedDefaultThemes: Record<
+  ResolvedChartKitThemeMode,
+  ResolvedCartesianChartTheme
+> = {
+  light: createResolvedCartesianChartTheme(defaultLightTheme),
+  dark: createResolvedCartesianChartTheme(defaultDarkTheme)
+};
+
 export const builtInCartesianChartPresets: Record<
   CartesianChartPresetName,
-  ResolvedCartesianChartPreset
+  Required<CartesianChartPreset>
 > = {
   default: {
     light: defaultLightTheme,
@@ -281,7 +332,7 @@ export const mergeCartesianChartTheme = (
     typography.fontFamily = fontFamily;
   }
 
-  return {
+  const mergedTheme = {
     background: override.background ?? base.background,
     plotBackground: override.plotBackground ?? base.plotBackground,
     grid: override.grid ?? base.grid,
@@ -290,6 +341,14 @@ export const mergeCartesianChartTheme = (
     mutedText: override.mutedText ?? base.mutedText,
     series: override.series ?? base.series,
     typography
+  };
+
+  return {
+    ...mergedTheme,
+    tooltip: resolveCartesianChartTooltipTheme(
+      mergedTheme,
+      override.tooltip ?? base.tooltip
+    )
   };
 };
 
@@ -309,10 +368,22 @@ export const resolveCartesianChartThemeConfig = ({
     ...presets
   };
   const presetTheme = getPresetTheme({ mode, preset, registry });
-  const baseTheme = builtInCartesianChartPresets.default[mode];
-
-  return mergeCartesianChartTheme(
+  const baseTheme = resolvedDefaultThemes[mode];
+  const mergedTheme = mergeCartesianChartTheme(
     mergeCartesianChartTheme(baseTheme, presetTheme),
     theme
   );
+  const hasTooltipOverride =
+    presetTheme.tooltip !== undefined || theme?.tooltip !== undefined;
+  const tooltipOverride = hasTooltipOverride
+    ? {
+        ...(presetTheme.tooltip ?? {}),
+        ...(theme?.tooltip ?? {})
+      }
+    : undefined;
+
+  return {
+    ...mergedTheme,
+    tooltip: resolveCartesianChartTooltipTheme(mergedTheme, tooltipOverride)
+  };
 };
