@@ -240,7 +240,6 @@ export const storyFeatureTags: Record<string, string[]> = {
   "v2-scrollable-stock-comparison": [
     "scrollable",
     "two series",
-    "scrub tooltip",
     "marker styles"
   ],
   "v2-viewport-zoom-pan": [

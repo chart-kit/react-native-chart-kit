@@ -92,75 +92,52 @@ const V2ScrollableDenseLine = ({ width }: NativeStoryProps) => (
   </ChartSection>
 );
 
-const V2ScrollableStockComparison = ({
-  onScrubEnd,
-  onScrubStart,
-  width
-}: NativeStoryProps) => {
-  const [selectedIndex, setSelectedIndex] = useState<number | undefined>(
-    msftVsGoogHistory.length - 5
-  );
-
-  return (
-    <ChartSection title="MSFT vs GOOG" kicker="Scrollable scrub">
-      <LineChart
-        data={msftVsGoogHistory}
-        xKey="date"
-        width={width}
-        height={262}
-        scrollable
-        visiblePoints={16}
-        initialIndex="end"
-        selectedIndex={selectedIndex}
-        curve="monotone"
-        showHorizontalGridLines
-        yDomain={{ min: "dataMin", max: "dataMax", nice: true }}
-        formatXLabel={(value) =>
-          value instanceof Date
-            ? value.toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric"
-              })
-            : String(value)
-        }
-        formatYLabel={(value) => `$${Math.round(value)}`}
-        interaction={{
-          mode: "scrub",
-          selectionPersistence: "persist",
-          deselectOnOutsidePress: true,
-          onDeselect: () => setSelectedIndex(undefined),
-          onGestureEnd: onScrubEnd,
-          onGestureStart: onScrubStart,
-          onSelect: (event) => setSelectedIndex(event.index)
-        }}
-        crosshair={{ strokeDasharray: [4, 4] }}
-        tooltip={{ positionAnimationDuration: 260, width: 142 }}
-        dots={{ radius: 3.5, strokeWidth: 1.75 }}
-        activeDot={{ radius: 5.5, strokeWidth: 2.5 }}
-        series={[
-          {
-            yKey: "msft",
-            label: "MSFT",
-            strokeWidth: 3,
-            dot: { shape: "circle", fill: "background", stroke: "series" }
-          },
-          {
-            yKey: "goog",
-            label: "GOOG",
-            strokeWidth: 2.5,
-            dot: {
-              shape: "diamond",
-              fill: "series",
-              radius: 3.8,
-              stroke: "background",
-              strokeWidth: 1.5
-            }
+const V2ScrollableStockComparison = ({ width }: NativeStoryProps) => (
+  <ChartSection title="MSFT vs GOOG" kicker="Scrollable">
+    <LineChart
+      data={msftVsGoogHistory}
+      xKey="date"
+      width={width}
+      height={262}
+      scrollable
+      visiblePoints={16}
+      initialIndex="end"
+      curve="monotone"
+      showHorizontalGridLines
+      yDomain={{ min: "dataMin", max: "dataMax", nice: true }}
+      formatXLabel={(value) =>
+        value instanceof Date
+          ? value.toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric"
+            })
+          : String(value)
+      }
+      formatYLabel={(value) => `$${Math.round(value)}`}
+      dots={{ radius: 3.5, strokeWidth: 1.75 }}
+      series={[
+        {
+          yKey: "msft",
+          label: "MSFT",
+          strokeWidth: 3,
+          dot: { shape: "circle", fill: "background", stroke: "series" }
+        },
+        {
+          yKey: "goog",
+          label: "GOOG",
+          strokeWidth: 2.5,
+          dot: {
+            shape: "diamond",
+            fill: "series",
+            radius: 3.8,
+            stroke: "background",
+            strokeWidth: 1.5
           }
-        ]}
-      />
-    </ChartSection>
-  );
-};
+        }
+      ]}
+    />
+  </ChartSection>
+);
 
 const rangeSelectorXValues = portfolioRangeHistory.map((point) => point.date);
 
@@ -448,7 +425,7 @@ export const lineViewportStories: ShowcaseStory[] = [
   },
   {
     id: "v2-scrollable-stock-comparison",
-    title: "Scrollable Stock Comparison",
+    title: "Scrollable",
     Component: V2ScrollableStockComparison
   },
   {

@@ -47,9 +47,7 @@ test.describe("Expo showcase chart interactions", () => {
     expect(selectedText).toBe("");
   });
 
-  test("scrollable comparison tooltip closes on outside press", async ({
-    page
-  }) => {
+  test("scrollable comparison remains passive", async ({ page }) => {
     await page.goto("/?story=v2-scrollable-stock-comparison&visual=1");
     await page.evaluate(async () => {
       await document.fonts?.ready;
@@ -57,30 +55,8 @@ test.describe("Expo showcase chart interactions", () => {
 
     const frame = page.getByTestId("visual-frame");
     await expect(frame).toBeVisible();
-    await expect(page.getByText("MSFT:")).toBeVisible();
-
-    const box = await frame.boundingBox();
-    expect(box).not.toBeNull();
-
-    if (!box) {
-      return;
-    }
-
-    await page.mouse.click(box.x + 24, box.y + 178);
-    await expect(page.getByText("MSFT:")).toBeHidden();
-  });
-
-  test("scrollable comparison still scrubs inside the plot", async ({
-    page
-  }) => {
-    await page.goto("/?story=v2-scrollable-stock-comparison&visual=1");
-    await page.evaluate(async () => {
-      await document.fonts?.ready;
-    });
-
-    const frame = page.getByTestId("visual-frame");
-    await expect(frame).toBeVisible();
-    await expect(page.getByText("Jan 10")).toBeVisible();
+    await expect(page.getByText("Scrollable", { exact: true })).toBeVisible();
+    await expect(page.getByText("MSFT:")).toHaveCount(0);
 
     const box = await frame.boundingBox();
     expect(box).not.toBeNull();
@@ -94,8 +70,7 @@ test.describe("Expo showcase chart interactions", () => {
     await page.mouse.move(box.x + 124, box.y + 176, { steps: 8 });
     await page.mouse.up();
 
-    await expect(page.getByText("MSFT:")).toBeVisible();
-    await expect(page.getByText("Jan 10")).toBeHidden();
+    await expect(page.getByText("MSFT:")).toHaveCount(0);
   });
 
   test("range selector overview changes the visible window", async ({
