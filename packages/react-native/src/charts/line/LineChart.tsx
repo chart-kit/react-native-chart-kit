@@ -34,6 +34,7 @@ import {
   type LineChartDeselectEvent
 } from "./interaction";
 import { getSelectedLineSeries } from "./selection";
+import { useLineChartResponderProps } from "./responders";
 import {
   getRangeSelectorConfig,
   LineChartRangeSelector
@@ -41,6 +42,7 @@ import {
 import { useAnimatedTooltipModel } from "./useAnimatedTooltipModel";
 import { useLineChartYAxisLabels } from "./useAnimatedYAxisLabels";
 import { useChartModel } from "./useChartModel";
+import { useLineChartViewportPan } from "./viewportInteraction";
 import { clampLineChartTooltipToViewport } from "./tooltip";
 import type { LineChartProps } from "./types";
 
@@ -195,6 +197,15 @@ export const LineChart = <TData extends Record<string, unknown>>(
     },
     []
   );
+  const viewportPan = useLineChartViewportPan({
+    dataLength,
+    enabled: !viewport.scrollable,
+    onViewportChange,
+    plotBounds: boxes.plot,
+    preventBrowserSelection,
+    viewportInteraction: props.viewportInteraction,
+    viewportWindow
+  });
   const isResponderEventInPlot = useCallback(
     (event: GestureResponderEvent) => {
       const { locationX, locationY } = event.nativeEvent;
@@ -278,44 +289,15 @@ export const LineChart = <TData extends Record<string, unknown>>(
       preventBrowserSelection
     ]
   );
-  const handleResponderGrant = useCallback(
-    (event: GestureResponderEvent) => {
-      preventBrowserSelection(event);
-
-      if (!isResponderEventInPlot(event)) {
-        if (interactionConfig.deselectOnOutsidePress) {
-          clearGestureSelection({ reason: "outsidePress" });
-        }
-
-        return;
-      }
-
-      interactionConfig.onGestureStart?.();
-      handleInteractionEvent(event);
-    },
-    [
-      clearGestureSelection,
-      handleInteractionEvent,
-      interactionConfig,
-      isResponderEventInPlot,
-      preventBrowserSelection
-    ]
-  );
-  const handleResponderMove = useCallback(
-    (event: GestureResponderEvent) => {
-      if (interactionConfig.mode === "scrub") {
-        handleInteractionEvent(event);
-      }
-    },
-    [handleInteractionEvent, interactionConfig.mode]
-  );
-  const handleResponderEnd = useCallback(() => {
-    if (interactionConfig.selectionPersistence === "whileActive") {
-      clearGestureSelection({ reason: "gestureEnd" });
-    }
-
-    interactionConfig.onGestureEnd?.();
-  }, [clearGestureSelection, interactionConfig]);
+  const responderProps = useLineChartResponderProps({
+    clearGestureSelection,
+    handleInteractionEvent,
+    interactionConfig,
+    isInteractionEnabled,
+    isResponderEventInPlot,
+    preventBrowserSelection,
+    viewportPan
+  });
   const outsidePressSurfaceResponderProps =
     isInteractionEnabled && interactionConfig.deselectOnOutsidePress
       ? {
@@ -326,18 +308,6 @@ export const LineChart = <TData extends Record<string, unknown>>(
           }
         }
       : {};
-  const responderProps = isInteractionEnabled
-    ? {
-        onStartShouldSetResponder: () => true,
-        onMoveShouldSetResponder: (event: GestureResponderEvent) =>
-          interactionConfig.mode === "scrub" && isResponderEventInPlot(event),
-        onResponderTerminationRequest: () => interactionConfig.mode !== "scrub",
-        onResponderGrant: handleResponderGrant,
-        onResponderMove: handleResponderMove,
-        onResponderRelease: handleResponderEnd,
-        onResponderTerminate: handleResponderEnd
-      }
-    : {};
   const outsidePressSurfaces =
     isInteractionEnabled && interactionConfig.deselectOnOutsidePress
       ? [

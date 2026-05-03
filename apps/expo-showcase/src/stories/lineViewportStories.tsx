@@ -170,7 +170,11 @@ const resolveCurrentViewportWindow = (viewport: LineChartViewportConfig) =>
     initialIndex: viewport.initialIndex
   });
 
-const V2ViewportZoomPan = ({ width }: NativeStoryProps) => {
+const V2ViewportZoomPan = ({
+  onScrubEnd,
+  onScrubStart,
+  width
+}: NativeStoryProps) => {
   const chartKitTheme = useChartKitTheme();
   const resolvedTheme = useMemo(
     () => resolveCartesianChartThemeConfig(chartKitTheme),
@@ -216,15 +220,28 @@ const V2ViewportZoomPan = ({ width }: NativeStoryProps) => {
       )
     );
   }, []);
+  const handleViewportChange = useCallback(
+    (event: LineChartViewportChangeEvent) => {
+      setViewport(event.viewport);
+    },
+    []
+  );
 
   return (
-    <ChartSection title="Controlled viewport" kicker="Zoom and pan helpers">
+    <ChartSection title="Controlled viewport" kicker="Drag to pan">
       <LineChart
         data={portfolioRangeHistory}
         xKey="date"
         width={width}
         height={248}
+        onViewportChange={handleViewportChange}
+        testID="viewport-pan-chart"
         viewport={viewport}
+        viewportInteraction={{
+          pan: true,
+          onGestureEnd: onScrubEnd,
+          onGestureStart: onScrubStart
+        }}
         yAxisLabelWidth={44}
         axisLabelAnimation={{ duration: 160 }}
         curve="monotone"

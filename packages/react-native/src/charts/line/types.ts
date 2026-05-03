@@ -191,6 +191,20 @@ export type LineChartRangeSelectorGestureEvent = {
   interaction: LineChartRangeSelectorInteraction;
 };
 
+export type LineChartViewportPanInteraction = "pan";
+
+export type LineChartViewportInteractionGestureEvent = {
+  interaction: LineChartViewportPanInteraction;
+};
+
+export type LineChartViewportInteractionConfig = {
+  pan?: boolean;
+  minPanDistance?: number;
+  lockParentScroll?: boolean;
+  onGestureEnd?: (event: LineChartViewportInteractionGestureEvent) => void;
+  onGestureStart?: (event: LineChartViewportInteractionGestureEvent) => void;
+};
+
 export type LineChartRangeSelectorConfig = {
   visible?: boolean;
   height?: number;
@@ -233,8 +247,10 @@ export type LineChartViewportChangeEvent = {
   visibleCount: number;
   itemCount: number;
   isWindowed: boolean;
-  source: "rangeSelector";
-  interaction: LineChartRangeSelectorInteraction;
+  source: "mainPlot" | "rangeSelector";
+  interaction:
+    | LineChartRangeSelectorInteraction
+    | LineChartViewportPanInteraction;
 };
 
 export type LineChartLegendRenderItem = {
@@ -330,6 +346,7 @@ export type LineChartProps<TData extends Record<string, unknown>> = {
   initialIndex?: ChartViewportInitialIndex;
   viewport?: LineChartViewportConfig;
   onViewportChange?: (event: LineChartViewportChangeEvent) => void;
+  viewportInteraction?: boolean | LineChartViewportInteractionConfig;
   rangeSelector?: boolean | LineChartRangeSelectorConfig;
   curve?: LineCurve;
   connectNulls?: boolean;

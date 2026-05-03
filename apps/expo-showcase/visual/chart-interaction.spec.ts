@@ -104,6 +104,35 @@ test.describe("Expo showcase chart interactions", () => {
     await expect(chart.getByText("Jan 14")).toHaveCount(0);
   });
 
+  test("main plot drag pans a controlled viewport", async ({ page }) => {
+    await page.goto("/?story=v2-viewport-zoom-pan");
+    await page.evaluate(async () => {
+      await document.fonts?.ready;
+    });
+
+    await expect(
+      page.getByText("Controlled viewport", { exact: true })
+    ).toBeVisible();
+    const chart = page.getByTestId("viewport-pan-chart");
+    await chart.scrollIntoViewIfNeeded();
+    await expect(chart.getByText("Jan 14").first()).toBeVisible();
+
+    const chartBox = await chart.boundingBox();
+    expect(chartBox).not.toBeNull();
+
+    if (!chartBox) {
+      return;
+    }
+
+    await page.mouse.move(chartBox.x + 112, chartBox.y + 150);
+    await page.mouse.down();
+    await page.mouse.move(chartBox.x + 310, chartBox.y + 150, { steps: 8 });
+    await page.mouse.up();
+
+    await expect(chart.getByText("Dec 9").first()).toBeVisible();
+    await expect(chart.getByText("Jan 14")).toHaveCount(0);
+  });
+
   test("range selector handles resize the visible window", async ({ page }) => {
     await page.goto("/?story=v2-range-selector");
     await page.evaluate(async () => {
