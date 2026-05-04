@@ -222,6 +222,50 @@ const V2ReferenceTargets = ({ width }: NativeStoryProps) => (
   </ChartSection>
 );
 
+const V2ThresholdColors = ({ width }: NativeStoryProps) => (
+  <ChartSection title="Plan health" kicker="Threshold coloring">
+    <LineChart
+      data={planAttainment}
+      xKey="month"
+      yKey="attainment"
+      width={width}
+      height={238}
+      area
+      curve="monotone"
+      showDots={false}
+      showHorizontalGridLines
+      yDomain={[80, 115]}
+      formatYLabel={(value) => `${Math.round(value)}%`}
+      series={[
+        {
+          yKey: "attainment",
+          label: "Attainment",
+          strokeWidth: 3,
+          threshold: {
+            y: 100,
+            aboveColor: "#16A34A",
+            belowColor: "#DC2626",
+            areaAboveColor: "#22C55E",
+            areaBelowColor: "#EF4444",
+            areaOpacity: 0.11
+          }
+        }
+      ]}
+      referenceLines={[
+        {
+          y: 100,
+          label: "Plan",
+          labelOffset: 12,
+          labelPlacement: "below",
+          labelPosition: "end",
+          strokeDasharray: [5, 5],
+          strokeWidth: 1.25
+        }
+      ]}
+    />
+  </ChartSection>
+);
+
 const V2DashedForecast = ({ width }: NativeStoryProps) => (
   <ChartSection title="Forecast variance" kicker="Straight and dashed lines">
     <LineChart
@@ -317,6 +361,11 @@ export const lineOverviewStories: ShowcaseStory[] = [
     id: "v2-reference-targets",
     title: "Reference Targets",
     Component: V2ReferenceTargets
+  },
+  {
+    id: "v2-threshold-colors",
+    title: "Threshold Colors",
+    Component: V2ThresholdColors
   },
   {
     id: "v2-dashed-forecast",

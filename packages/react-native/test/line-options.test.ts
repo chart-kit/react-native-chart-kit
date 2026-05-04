@@ -6,6 +6,7 @@ import {
   getLineChartCrosshairConfig,
   getLineChartDotConfig,
   getLineChartStrokeStyle,
+  getLineChartThresholdStyle,
   getLineChartTooltipConfig
 } from "../src/charts/line/options";
 
@@ -118,6 +119,38 @@ describe("LineChart marker and interaction options", () => {
     expect(getLineChartStrokeStyle({ strokeOpacity: -1 }).strokeOpacity).toBe(
       0
     );
+  });
+
+  it("resolves threshold line and area colors", () => {
+    expect(
+      getLineChartThresholdStyle({
+        seriesColor: "#2563eb",
+        threshold: {
+          y: 100,
+          aboveColor: "#16a34a",
+          belowColor: "#dc2626",
+          aboveOpacity: 1.4,
+          belowOpacity: -0.5,
+          areaOpacity: 0.18
+        }
+      })
+    ).toEqual({
+      y: 100,
+      aboveColor: "#16a34a",
+      belowColor: "#dc2626",
+      aboveOpacity: 1,
+      belowOpacity: 0,
+      areaAboveColor: "#16a34a",
+      areaBelowColor: "#dc2626",
+      areaOpacity: 0.18
+    });
+
+    expect(
+      getLineChartThresholdStyle({
+        seriesColor: "#2563eb",
+        threshold: { y: Number.NaN }
+      })
+    ).toBeUndefined();
   });
 
   it("treats object tooltip config as opt-in visible", () => {

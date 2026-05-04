@@ -56,6 +56,7 @@ export const publicChartMode: ShowcaseMode = {
         "v2-selected-tooltip",
         "v2-dot-styles",
         "v2-area",
+        "v2-threshold-colors",
         "v2-dashed-forecast",
         "v2-multi-series",
         "v2-reference-targets",
@@ -96,6 +97,7 @@ export const showcaseModes: ShowcaseMode[] = [
           "v2-revenue-card",
           "v2-multi-series",
           "v2-reference-targets",
+          "v2-threshold-colors",
           "v2-dashed-forecast",
           "v2-null-gaps",
           "v2-area",
@@ -267,6 +269,7 @@ export const storyFeatureTags: Record<string, string[]> = {
   "v2-custom-typography": ["font tokens", "theme override", "legend labels"],
   "v2-multi-series": ["multi-series", "forecast line", "stroke widths"],
   "v2-reference-targets": ["reference line", "reference band", "target label"],
+  "v2-threshold-colors": ["threshold colors", "area fill", "reference line"],
   "v2-dashed-forecast": ["dashed line", "linear curve", "forecast style"],
   "v2-dot-styles": ["marker styles", "series dots", "diamond marker"],
   "v2-selected-tooltip": [

@@ -57,6 +57,7 @@ export type {
   LineChartStrokeLinecap,
   LineChartStrokeLinejoin,
   LineChartStrokeStyleConfig,
+  LineChartThresholdStyleConfig,
   LineChartTooltipConfig,
   LineChartTooltipRenderProps,
   LineChartTooltipSeriesItem,
@@ -69,6 +70,7 @@ export type {
   ResolvedLineChartCrosshairConfig,
   ResolvedLineChartDotConfig,
   ResolvedLineChartStrokeStyle,
+  ResolvedLineChartThresholdStyle,
   ResolvedLineChartTooltipConfig
 } from "./charts/line/LineChart";
 export {

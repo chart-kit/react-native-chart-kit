@@ -6,7 +6,6 @@ import {
   SvgLayer,
   SvgLine,
   SvgLinearGradientDef,
-  SvgPath,
   SvgRect,
   SvgSurface,
   SvgText
@@ -16,6 +15,12 @@ import { renderDefaultTooltip } from "./defaultTooltip";
 import { renderConfiguredLegend } from "./legend";
 import { renderDefaultDot } from "./markers";
 import { getFontFamilyProps } from "./text";
+import {
+  getLineChartAreaGradientId,
+  LineChartAreaPaths,
+  LineChartLinePaths,
+  LineChartThresholdClipDefs
+} from "./thresholdRendering";
 import type { LineChartModel } from "./useChartModel";
 import type {
   LineChartDotRenderProps,
@@ -25,6 +30,7 @@ import type {
 
 export const LineChartSurface = <TData extends Record<string, unknown>>({
   animatedTooltip,
+  chartId,
   chartWidth,
   isScrollable,
   mainHeight,
@@ -37,6 +43,7 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
     LineChartModel<TData>["selectionModel"]
   >["tooltip"];
   chartWidth: number;
+  chartId: string;
   isScrollable: boolean;
   mainHeight: number;
   model: LineChartModel<TData>;
@@ -91,7 +98,7 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
           {geometries.map(({ style }, index) => (
             <SvgLinearGradientDef
               key={`area-gradient-${index}`}
-              id={`area-gradient-${index}`}
+              id={getLineChartAreaGradientId(chartId, index)}
               x1="0%"
               x2="0%"
               y1="0%"
@@ -102,6 +109,12 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
               ]}
             />
           ))}
+          <LineChartThresholdClipDefs
+            chartId={chartId}
+            geometries={geometries}
+            plot={boxes.plot}
+            yScale={yScale}
+          />
         </SvgDefs>
         <SvgLayer name="grid">
           {showVerticalGridLines
@@ -207,32 +220,10 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
           ))}
         </SvgLayer>
         <SvgLayer name="dataArea">
-          {geometries.map(({ geometry }, index) =>
-            geometry.area ? (
-              <SvgPath
-                key={`area-${geometry.key}`}
-                d={geometry.area.path}
-                fill={`url(#area-gradient-${index})`}
-              />
-            ) : null
-          )}
+          <LineChartAreaPaths chartId={chartId} geometries={geometries} />
         </SvgLayer>
         <SvgLayer name="data">
-          {geometries.map(({ geometry, style }) => (
-            <SvgPath
-              key={`line-${geometry.key}`}
-              d={geometry.line.path}
-              fill="none"
-              stroke={style.color}
-              strokeWidth={style.strokeWidth}
-              strokeLinecap={style.strokeStyle.strokeLinecap}
-              strokeLinejoin={style.strokeStyle.strokeLinejoin}
-              strokeOpacity={style.strokeStyle.strokeOpacity}
-              {...(style.strokeStyle.strokeDasharray
-                ? { strokeDasharray: style.strokeStyle.strokeDasharray }
-                : {})}
-            />
-          ))}
+          <LineChartLinePaths chartId={chartId} geometries={geometries} />
         </SvgLayer>
         <SvgLayer name="referenceLines">
           {referenceLineModels.map((line) => (

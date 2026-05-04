@@ -56,6 +56,28 @@ export type ResolvedLineChartStrokeStyle = {
   strokeDasharray?: readonly number[] | undefined;
 };
 
+export type LineChartThresholdStyleConfig = {
+  y: number;
+  aboveColor?: string;
+  belowColor?: string;
+  aboveOpacity?: number;
+  belowOpacity?: number;
+  areaAboveColor?: string;
+  areaBelowColor?: string;
+  areaOpacity?: number;
+};
+
+export type ResolvedLineChartThresholdStyle = {
+  y: number;
+  aboveColor: string;
+  belowColor: string;
+  aboveOpacity: number;
+  belowOpacity: number;
+  areaAboveColor: string;
+  areaBelowColor: string;
+  areaOpacity: number;
+};
+
 export type LineChartTooltipConfig = {
   visible?: boolean;
   shared?: boolean;
@@ -128,6 +150,36 @@ export const getLineChartStrokeStyle = ({
   }
 
   return resolved;
+};
+
+export const getLineChartThresholdStyle = ({
+  seriesColor,
+  threshold
+}: {
+  seriesColor: string;
+  threshold: LineChartThresholdStyleConfig | undefined;
+}): ResolvedLineChartThresholdStyle | undefined => {
+  if (
+    !threshold ||
+    typeof threshold.y !== "number" ||
+    !Number.isFinite(threshold.y)
+  ) {
+    return undefined;
+  }
+
+  const aboveColor = threshold.aboveColor ?? seriesColor;
+  const belowColor = threshold.belowColor ?? seriesColor;
+
+  return {
+    y: threshold.y,
+    aboveColor,
+    belowColor,
+    aboveOpacity: resolveOpacity(threshold.aboveOpacity, 1),
+    belowOpacity: resolveOpacity(threshold.belowOpacity, 1),
+    areaAboveColor: threshold.areaAboveColor ?? aboveColor,
+    areaBelowColor: threshold.areaBelowColor ?? belowColor,
+    areaOpacity: resolveOpacity(threshold.areaOpacity, 0.12)
+  };
 };
 
 export const getLineChartDotConfig = ({

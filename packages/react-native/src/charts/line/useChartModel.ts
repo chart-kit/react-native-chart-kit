@@ -18,6 +18,7 @@ import {
   getLineChartStrokeStyle,
   getLineChartTooltipConfig
 } from "./options";
+import { buildLineChartSeriesStyleMap } from "./seriesStyles";
 import { resolveLineChartYAxisModel } from "./yAxisModel";
 import { getSelectedLineSeries } from "./selection";
 import { getLineChartTooltipModel } from "./tooltip";
@@ -140,28 +141,12 @@ export const useChartModel = <TData extends Record<string, unknown>>({
     const xLabelSizes = xLabelTexts.map((text) =>
       measureLineChartText(text, axisTextOptions)
     );
-    const styleByKey = new Map(
-      seriesInput.map((item, index) => [
-        String(item.key ?? item.yKey),
-        {
-          strokeWidth: item.strokeWidth ?? 3,
-          strokeStyle: getLineChartStrokeStyle({
-            strokeDasharray: item.strokeDasharray,
-            strokeLinecap: item.strokeLinecap,
-            strokeLinejoin: item.strokeLinejoin,
-            strokeOpacity: item.strokeOpacity
-          }),
-          area: item.area,
-          curve: item.curve,
-          color: item.color ?? getSeriesColor(resolvedTheme, index),
-          dot: getLineChartDotConfig({
-            dots,
-            seriesDot: item.dot,
-            showDots
-          })
-        }
-      ])
-    );
+    const styleByKey = buildLineChartSeriesStyleMap({
+      dots,
+      resolvedTheme,
+      seriesInput,
+      showDots
+    });
     const legendLayout = legendConfig.visible
       ? buildLegendLayout({
           config: legendConfig,
@@ -277,7 +262,8 @@ export const useChartModel = <TData extends Record<string, unknown>>({
               showDots
             }),
           color:
-            item.color ?? style?.color ?? getSeriesColor(resolvedTheme, index)
+            item.color ?? style?.color ?? getSeriesColor(resolvedTheme, index),
+          threshold: style?.threshold
         },
         geometry: buildLineSeriesGeometry({
           series: item,

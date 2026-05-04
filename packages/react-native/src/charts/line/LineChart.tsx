@@ -388,6 +388,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
   const mainSurface = (
     <LineChartSurface
       animatedTooltip={displayTooltip}
+      chartId={chartId}
       chartWidth={chartWidth}
       isScrollable={viewport.scrollable}
       mainHeight={mainHeight}

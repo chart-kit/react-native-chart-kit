@@ -6,6 +6,7 @@ export const chartStories = [
   "v2-custom-typography",
   "v2-multi-series",
   "v2-reference-targets",
+  "v2-threshold-colors",
   "v2-dashed-forecast",
   "v2-dot-styles",
   "v2-selected-tooltip",

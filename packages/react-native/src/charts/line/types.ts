@@ -20,6 +20,7 @@ import type {
   LineChartDotConfig,
   LineChartStrokeLinecap,
   LineChartStrokeLinejoin,
+  LineChartThresholdStyleConfig,
   LineChartTooltipConfig,
   ResolvedLineChartDotConfig
 } from "./options";
@@ -47,10 +48,12 @@ export type {
   LineChartStrokeLinecap,
   LineChartStrokeLinejoin,
   LineChartStrokeStyleConfig,
+  LineChartThresholdStyleConfig,
   LineChartTooltipConfig,
   ResolvedLineChartCrosshairConfig,
   ResolvedLineChartDotConfig,
   ResolvedLineChartStrokeStyle,
+  ResolvedLineChartThresholdStyle,
   ResolvedLineChartTooltipConfig
 } from "./options";
 
@@ -73,6 +76,7 @@ export type LineChartSeries<TData extends Record<string, unknown>> = {
   strokeLinejoin?: LineChartStrokeLinejoin;
   strokeOpacity?: number;
   dot?: boolean | LineChartDotConfig;
+  threshold?: LineChartThresholdStyleConfig;
   area?: boolean;
   curve?: LineCurve;
 };
