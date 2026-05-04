@@ -107,6 +107,35 @@ describe("line series geometry projection", () => {
     ]);
   });
 
+  it("can preserve original data indexes when projecting a viewport window", () => {
+    const normalized = normalizeCartesianData({
+      data: [
+        { month: "Apr", revenue: 30 },
+        { month: "May", revenue: 36 }
+      ],
+      xKey: "month",
+      yKey: "revenue"
+    });
+    const xScale = createPointScale<string>({
+      domain: ["Apr", "May"],
+      range: [0, 100]
+    });
+
+    const geometry = buildLineSeriesGeometry({
+      series: normalized.series[0]!,
+      xScale: (value) =>
+        typeof value === "string" ? xScale.scale(value) : undefined,
+      yScale: (value) => value,
+      dataIndexOffset: 3
+    });
+
+    expect(geometry.points.map((point) => point.dataIndex)).toEqual([3, 4]);
+    expect(geometry.points.map((point) => point.index)).toEqual([3, 4]);
+    expect(
+      geometry.line.segments[0]?.points.map((point) => point.index)
+    ).toEqual([3, 4]);
+  });
+
   it("spaces irregular timestamps proportionally with a time scale", () => {
     const normalized = normalizeCartesianData({
       data: [

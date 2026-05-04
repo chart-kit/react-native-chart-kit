@@ -212,4 +212,34 @@ describe("LineChart interaction helpers", () => {
       ]
     });
   });
+
+  it("preserves original data indexes in windowed select events", () => {
+    const event = buildLineChartSelectEvent({
+      interactionPoints: [
+        {
+          dataIndex: 24,
+          x: 72,
+          xValue: "May 24",
+          xLabel: "May 24",
+          raw: { month: "May" }
+        }
+      ],
+      selectedDataIndex: 24,
+      selectedSeries: [
+        {
+          ...selectedSeries[0]!,
+          point: {
+            ...selectedSeries[0]!.point,
+            dataIndex: 24,
+            index: 24,
+            x: 72
+          }
+        }
+      ]
+    });
+
+    expect(event?.index).toBe(24);
+    expect(event?.series[0]?.point.dataIndex).toBe(24);
+    expect(event?.raw).toEqual({ month: "May" });
+  });
 });

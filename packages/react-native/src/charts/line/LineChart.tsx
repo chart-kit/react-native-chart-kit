@@ -135,7 +135,11 @@ export const LineChart = <TData extends Record<string, unknown>>(
           height: mainHeight,
           width: viewport.contentWidth
         };
-  const model = useChartModel({ ...chartProps, chartKitTheme });
+  const model = useChartModel({
+    ...chartProps,
+    chartKitTheme,
+    dataIndexOffset: viewportWindow.startIndex
+  });
   const {
     activeDot: _overviewActiveDot,
     crosshair: _overviewCrosshair,

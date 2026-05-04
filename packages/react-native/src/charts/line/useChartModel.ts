@@ -95,8 +95,12 @@ export const useChartModel = <TData extends Record<string, unknown>>({
   yAxisLabelWidth,
   formatXLabel = defaultFormatXLabel,
   formatYLabel = defaultFormatYLabel,
-  chartKitTheme
-}: LineChartProps<TData> & { chartKitTheme: ChartKitThemeContextValue }) => {
+  chartKitTheme,
+  dataIndexOffset = 0
+}: LineChartProps<TData> & {
+  chartKitTheme: ChartKitThemeContextValue;
+  dataIndexOffset?: number;
+}) => {
   const seriesInput = useSeriesInput(yKey, yKeys, series);
 
   return useMemo(() => {
@@ -140,7 +144,7 @@ export const useChartModel = <TData extends Record<string, unknown>>({
       width: yAxisLabelWidth
     });
     const xLabelTexts = xValues.map((value, index) =>
-      formatXLabel(value, index)
+      formatXLabel(value, index + dataIndexOffset)
     );
     const xLabelSizes = xLabelTexts.map((text) =>
       measureLineChartText(text, axisTextOptions)
@@ -194,7 +198,7 @@ export const useChartModel = <TData extends Record<string, unknown>>({
 
         return [
           {
-            index,
+            index: index + dataIndexOffset,
             value,
             text,
             x,
@@ -290,6 +294,7 @@ export const useChartModel = <TData extends Record<string, unknown>>({
           yScale: (value) => yScale.scale(value),
           curve: style?.curve ?? curve,
           connectNulls,
+          dataIndexOffset,
           ...(wantsArea ? { areaBaselineY: baselineY } : {})
         })
       };
@@ -308,7 +313,8 @@ export const useChartModel = <TData extends Record<string, unknown>>({
         }
 
         const dataIndex = point.dataIndex;
-        const xLabel = xLabelTexts[dataIndex] ?? String(point.xValue);
+        const xLabel =
+          xLabelTexts[dataIndex - dataIndexOffset] ?? String(point.xValue);
         const interactionPoint = {
           dataIndex,
           x: point.x,
@@ -342,8 +348,8 @@ export const useChartModel = <TData extends Record<string, unknown>>({
     const roundedSelectedIndex = normalizeLineChartSelectedIndex(selectedIndex);
     const selectedDataIndex =
       roundedSelectedIndex !== undefined &&
-      roundedSelectedIndex >= 0 &&
-      roundedSelectedIndex < xValues.length
+      roundedSelectedIndex >= dataIndexOffset &&
+      roundedSelectedIndex < dataIndexOffset + xValues.length
         ? roundedSelectedIndex
         : undefined;
     const selectedSeries: Array<LineChartSelectedSeriesItem<TData>> =
@@ -359,7 +365,9 @@ export const useChartModel = <TData extends Record<string, unknown>>({
             index: selectedDataIndex,
             x: selectedSeries[0]!.point.x,
             y: Math.min(...selectedSeries.map((item) => item.point.y)),
-            xLabel: xLabelTexts[selectedDataIndex] ?? String(selectedDataIndex),
+            xLabel:
+              xLabelTexts[selectedDataIndex - dataIndexOffset] ??
+              String(selectedDataIndex),
             series: selectedSeries
           }
         : undefined;
@@ -467,6 +475,7 @@ export const useChartModel = <TData extends Record<string, unknown>>({
     crosshair,
     curve,
     data,
+    dataIndexOffset,
     dots,
     formatXLabel,
     formatYLabel,

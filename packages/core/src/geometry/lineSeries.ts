@@ -34,6 +34,7 @@ export type BuildLineSeriesGeometryOptions<TData = unknown> = {
   yScale: ProjectValueScale<TData>;
   curve?: LineCurve;
   connectNulls?: boolean;
+  dataIndexOffset?: number;
   areaBaselineY?: BuildAreaPathOptions<ProjectedLinePoint<TData>>["baselineY"];
 };
 
@@ -54,7 +55,8 @@ const projectPoint = <TData>(
   series: NormalizedSeries<TData>,
   point: NormalizedDataPoint<TData>,
   xScale: ProjectScale<TData>,
-  yScale: ProjectValueScale<TData>
+  yScale: ProjectValueScale<TData>,
+  dataIndexOffset: number
 ): ProjectedLinePoint<TData> => {
   const projectedX = xScale(point.x, point);
   const projectedY =
@@ -65,8 +67,8 @@ const projectPoint = <TData>(
     isFinitePosition(projectedY);
 
   return {
-    index: point.index,
-    dataIndex: point.index,
+    index: point.index + dataIndexOffset,
+    dataIndex: point.index + dataIndexOffset,
     seriesKey: series.key,
     xValue: point.x,
     x: projectedX ?? 0,
@@ -83,10 +85,11 @@ export const buildLineSeriesGeometry = <TData = unknown>({
   yScale,
   curve = "linear",
   connectNulls = false,
+  dataIndexOffset = 0,
   areaBaselineY
 }: BuildLineSeriesGeometryOptions<TData>): LineSeriesGeometry<TData> => {
   const points = series.points.map((point) =>
-    projectPoint(series, point, xScale, yScale)
+    projectPoint(series, point, xScale, yScale, dataIndexOffset)
   );
   const line = buildLinePath({
     points,

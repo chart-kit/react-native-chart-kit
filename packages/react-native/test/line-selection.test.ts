@@ -105,6 +105,57 @@ describe("LineChart selection model", () => {
     ).toEqual([]);
   });
 
+  it("selects series by original data index for windowed charts", () => {
+    const windowedGeometries: Array<
+      LineChartSelectableGeometry<LineChartSelectablePoint>
+    > = [
+      {
+        geometry: {
+          key: "price",
+          label: "Price",
+          points: [
+            {
+              dataIndex: 12,
+              defined: true,
+              index: 12,
+              value: 118,
+              x: 40,
+              y: 80
+            },
+            {
+              dataIndex: 13,
+              defined: true,
+              index: 13,
+              value: 124,
+              x: 90,
+              y: 52
+            }
+          ]
+        },
+        style: {
+          color: "#2563eb",
+          dot
+        }
+      }
+    ];
+
+    const selected = getSelectedLineSeries({
+      activeDot: undefined,
+      formatYLabel: (value) => `$${value}`,
+      geometries: windowedGeometries,
+      selectedDataIndex: 13
+    });
+
+    expect(selected).toHaveLength(1);
+    expect(selected[0]).toMatchObject({
+      formattedValue: "$124",
+      point: {
+        dataIndex: 13,
+        index: 13
+      }
+    });
+  });
+
   it("keeps shared tooltip content inside chart bounds", () => {
     const selected = getSelectedLineSeries({
       activeDot: undefined,
