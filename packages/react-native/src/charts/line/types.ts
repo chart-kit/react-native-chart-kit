@@ -192,6 +192,18 @@ export type LineChartRangeSelectorWindowRenderProps = {
   theme: ResolvedCartesianChartTheme;
 };
 
+export type LineChartRangeSelectorLineRenderProps = {
+  color: string;
+  index: number;
+  key: string;
+  label: string;
+  opacity: number;
+  path: string;
+  strokeDasharray?: readonly number[] | undefined;
+  strokeWidth: number;
+  theme: ResolvedCartesianChartTheme;
+};
+
 export type LineChartRangeSelectorHandleRenderProps = {
   side: "start" | "end";
   x: number;
@@ -266,6 +278,7 @@ export type LineChartRangeSelectorConfig = {
   handleRadius?: number;
   handleWidth?: number;
   renderHandle?: (props: LineChartRangeSelectorHandleRenderProps) => ReactNode;
+  renderLine?: (props: LineChartRangeSelectorLineRenderProps) => ReactNode;
   renderWindow?: (props: LineChartRangeSelectorWindowRenderProps) => ReactNode;
   onGestureEnd?: (event: LineChartRangeSelectorGestureEvent) => void;
   onGestureStart?: (event: LineChartRangeSelectorGestureEvent) => void;

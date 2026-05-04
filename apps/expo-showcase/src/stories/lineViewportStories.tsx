@@ -16,7 +16,6 @@ import {
   type LineChartViewportConfig,
   useChartKitTheme
 } from "@chart-kit/react-native-v2";
-import { SvgGroup, SvgRect } from "@chart-kit/svg-renderer";
 
 import {
   denseRevenue,
@@ -30,6 +29,10 @@ import {
   type NativeStoryProps,
   type ShowcaseStory
 } from "./storyPrimitives";
+import {
+  createRangeSelectorHandleRenderer,
+  createRangeSelectorLineRenderer
+} from "./rangeSelectorRenderers";
 
 const V2AreaFill = ({ width }: NativeStoryProps) => (
   <ChartSection title="Price history" kicker="Area chart">
@@ -381,36 +384,10 @@ const V2RangeSelectorOverview = ({
           windowRadius: 9,
           windowStrokeOpacity: 0.72,
           windowStrokeWidth: 1.5,
-          renderHandle: ({
-            color,
-            height,
-            opacity,
-            radius,
-            width: w,
-            x,
-            y
-          }) => (
-            <SvgGroup>
-              <SvgRect
-                x={x}
-                y={y}
-                width={w}
-                height={height}
-                rx={radius}
-                fill={color}
-                opacity={opacity}
-              />
-              <SvgRect
-                x={x + w / 2 - 0.75}
-                y={y + 7}
-                width={1.5}
-                height={height - 14}
-                rx={0.75}
-                fill={rangeSelectorPalette.handleGripColor}
-                opacity={0.68}
-              />
-            </SvgGroup>
-          )
+          renderLine: createRangeSelectorLineRenderer(),
+          renderHandle: createRangeSelectorHandleRenderer({
+            handleGripColor: rangeSelectorPalette.handleGripColor
+          })
         }}
         curve="monotone"
         showDots={false}

@@ -5,8 +5,29 @@ import {
   getLineChartViewportPinchZoomFactor,
   resolveLineChartViewportInteractionConfig
 } from "../src/charts/line/viewportInteractionConfig";
+import { getRangeSelectorConfig } from "../src/charts/line/rangeSelectorConfig";
 
 describe("LineChart viewport interaction helpers", () => {
+  it("preserves range selector custom render hooks", () => {
+    const renderHandle = vi.fn();
+    const renderLine = vi.fn();
+    const renderWindow = vi.fn();
+
+    expect(
+      getRangeSelectorConfig({
+        renderHandle,
+        renderLine,
+        renderWindow,
+        visible: true
+      })
+    ).toMatchObject({
+      renderHandle,
+      renderLine,
+      renderWindow,
+      visible: true
+    });
+  });
+
   it("keeps main-plot viewport pan opt-in", () => {
     expect(resolveLineChartViewportInteractionConfig()).toMatchObject({
       pan: false,

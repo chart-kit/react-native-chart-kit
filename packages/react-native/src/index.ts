@@ -68,6 +68,7 @@ export type {
   LineChartRangeSelectorGestureEvent,
   LineChartRangeSelectorHandleRenderProps,
   LineChartRangeSelectorInteraction,
+  LineChartRangeSelectorLineRenderProps,
   LineChartRangeSelectorSeriesStyle,
   LineChartRangeSelectorWindowRenderProps,
   LineChartReferenceBandConfig,

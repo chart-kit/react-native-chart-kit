@@ -36,10 +36,8 @@ import {
 } from "./interaction";
 import { getSelectedLineSeries } from "./selection";
 import { useLineChartResponderProps } from "./responders";
-import {
-  getRangeSelectorConfig,
-  LineChartRangeSelector
-} from "./rangeSelector";
+import { LineChartRangeSelector } from "./rangeSelector";
+import { getRangeSelectorConfig } from "./rangeSelectorConfig";
 import { useAnimatedTooltipModel } from "./useAnimatedTooltipModel";
 import { useLineChartYAxisLabels } from "./useAnimatedYAxisLabels";
 import { useChartModel } from "./useChartModel";

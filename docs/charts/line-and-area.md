@@ -242,6 +242,8 @@ const [viewport, setViewport] = useState({
 
 `yAxisLabelWidth="stable"` reserves label width from the full dataset, so changing the viewport does not make the plot jump when labels change from values such as `$10k` to `$100k`.
 
+The range selector is composable through `renderLine`, `renderHandle`, and `renderWindow`, so products can brand the overview path, handles, and selected window without replacing the built-in viewport logic.
+
 ## Reference Overlays
 
 Reference lines and bands are clipped to the plot bounds. Line labels default to automatic vertical placement and try to avoid nearby series geometry.

@@ -16,59 +16,14 @@ import {
 
 import type { LineChartModel } from "./useChartModel";
 import type {
-  LineChartProps,
   LineChartRangeSelectorHandleRenderProps,
   LineChartRangeSelectorInteraction,
+  LineChartRangeSelectorLineRenderProps,
   LineChartRangeSelectorWindowRenderProps
 } from "./types";
+import type { LineChartProps } from "./types";
+import type { LineChartRangeSelectorResolvedConfig } from "./rangeSelectorConfig";
 import { clamp } from "./utils";
-
-export const getRangeSelectorConfig = (
-  rangeSelector: LineChartProps<Record<string, unknown>>["rangeSelector"]
-) => {
-  const config = typeof rangeSelector === "object" ? rangeSelector : {};
-  const visible =
-    typeof rangeSelector === "boolean"
-      ? rangeSelector
-      : rangeSelector !== undefined && config.visible !== false;
-
-  return {
-    visible,
-    height: config.height ?? 54,
-    gap: config.gap ?? 10,
-    interactive: config.interactive ?? false,
-    minVisiblePoints: config.minVisiblePoints ?? 2,
-    backgroundFill: config.backgroundFill,
-    plotFill: config.plotFill,
-    plotRadius: config.plotRadius ?? 6,
-    lineMinStrokeWidth: config.lineMinStrokeWidth ?? 1.5,
-    lineStrokeWidth: config.lineStrokeWidth,
-    lineStrokeWidthScale: config.lineStrokeWidthScale ?? 0.62,
-    series: config.series,
-    outsideFill: config.outsideFill,
-    outsideOpacity: config.outsideOpacity ?? 0,
-    windowFill: config.windowFill,
-    windowOpacity: config.windowOpacity ?? 0.1,
-    windowRadius: config.windowRadius ?? 6,
-    windowStroke: config.windowStroke,
-    windowStrokeOpacity: config.windowStrokeOpacity ?? 0.42,
-    windowStrokeWidth: config.windowStrokeWidth ?? 1,
-    lineOpacity: config.lineOpacity ?? 0.62,
-    handleColor: config.handleColor,
-    handleHeight: config.handleHeight,
-    handleHitSlop: config.handleHitSlop ?? 18,
-    handleInset: config.handleInset ?? 6,
-    handleOpacity: config.handleOpacity ?? 0.9,
-    handleRadius: config.handleRadius,
-    handleWidth: config.handleWidth ?? 3,
-    renderHandle: config.renderHandle,
-    renderWindow: config.renderWindow,
-    onGestureEnd: config.onGestureEnd,
-    onGestureStart: config.onGestureStart
-  };
-};
-
-type RangeSelectorConfig = ReturnType<typeof getRangeSelectorConfig>;
 
 export const LineChartRangeSelector = <TData extends Record<string, unknown>>({
   config,
@@ -81,7 +36,7 @@ export const LineChartRangeSelector = <TData extends Record<string, unknown>>({
   viewportWindow,
   width
 }: {
-  config: RangeSelectorConfig;
+  config: LineChartRangeSelectorResolvedConfig;
   dataLength: number;
   isVisible: boolean;
   model: LineChartModel<TData>;
@@ -308,6 +263,24 @@ export const LineChartRangeSelector = <TData extends Record<string, unknown>>({
       />
     );
   };
+  const renderLine = (props: LineChartRangeSelectorLineRenderProps) =>
+    config.renderLine ? (
+      config.renderLine(props)
+    ) : (
+      <SvgPath
+        key={`range-line-${props.key}`}
+        d={props.path}
+        fill="none"
+        stroke={props.color}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeOpacity={props.opacity}
+        strokeWidth={props.strokeWidth}
+        {...(props.strokeDasharray
+          ? { strokeDasharray: props.strokeDasharray }
+          : {})}
+      />
+    );
 
   return (
     <View
@@ -341,31 +314,27 @@ export const LineChartRangeSelector = <TData extends Record<string, unknown>>({
           />
         </SvgLayer>
         <SvgLayer name="data">
-          {model.geometries.map(({ geometry, style }) => {
+          {model.geometries.map(({ geometry, style }, index) => {
             const seriesStyle = config.series?.[geometry.key];
+            const lineProps = {
+              color: seriesStyle?.color ?? style.color,
+              index,
+              key: geometry.key,
+              label: geometry.label,
+              opacity: seriesStyle?.opacity ?? config.lineOpacity,
+              path: geometry.line.path,
+              strokeDasharray: seriesStyle?.strokeDasharray,
+              strokeWidth:
+                seriesStyle?.strokeWidth ??
+                config.lineStrokeWidth ??
+                Math.max(
+                  config.lineMinStrokeWidth,
+                  style.strokeWidth * config.lineStrokeWidthScale
+                ),
+              theme: model.resolvedTheme
+            } satisfies LineChartRangeSelectorLineRenderProps;
 
-            return (
-              <SvgPath
-                key={`range-line-${geometry.key}`}
-                d={geometry.line.path}
-                fill="none"
-                stroke={seriesStyle?.color ?? style.color}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeOpacity={seriesStyle?.opacity ?? config.lineOpacity}
-                strokeWidth={
-                  seriesStyle?.strokeWidth ??
-                  config.lineStrokeWidth ??
-                  Math.max(
-                    config.lineMinStrokeWidth,
-                    style.strokeWidth * config.lineStrokeWidthScale
-                  )
-                }
-                {...(seriesStyle?.strokeDasharray
-                  ? { strokeDasharray: seriesStyle.strokeDasharray }
-                  : {})}
-              />
-            );
+            return renderLine(lineProps);
           })}
         </SvgLayer>
         <SvgLayer name="overlays">
