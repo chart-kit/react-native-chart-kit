@@ -128,11 +128,14 @@ const V2CustomCrosshair = ({ width }: NativeStoryProps) => (
           valueLabel.length * fontSize * 0.56 + 18
         );
         const badgeHeight = 24;
+        const placeValueBadgeOnLeft = x > plot.x + plot.width * 0.56;
         const xBadgeX = Math.min(
           Math.max(4, x - xBadgeWidth / 2),
           plot.x + plot.width - xBadgeWidth
         );
-        const yBadgeX = plot.x + plot.width - yBadgeWidth - 6;
+        const yBadgeX = placeValueBadgeOnLeft
+          ? plot.x + 6
+          : plot.x + plot.width - yBadgeWidth - 6;
         const yBadgeY = Math.min(
           Math.max(plot.y + 6, y - badgeHeight / 2),
           plot.y + plot.height - badgeHeight - 6
