@@ -6,6 +6,14 @@ import type { BarChartBarModel, ResolvedBarChartTooltipConfig } from "./types";
 const tooltipLineHeight = 18;
 const tooltipGap = 8;
 
+export type BarChartTooltipModel<TData = unknown> = {
+  bar: BarChartBarModel<TData>;
+  height: number;
+  width: number;
+  x: number;
+  y: number;
+};
+
 export const getBarChartTooltipModel = <TData,>({
   bar,
   boxes,
@@ -14,7 +22,7 @@ export const getBarChartTooltipModel = <TData,>({
   bar: BarChartBarModel<TData> | undefined;
   boxes: { plot: { x: number; y: number; width: number; height: number } };
   config: ResolvedBarChartTooltipConfig;
-}) => {
+}): BarChartTooltipModel<TData> | undefined => {
   if (!bar || !config.visible) {
     return undefined;
   }
