@@ -4,9 +4,6 @@ import {
   buildLineSeriesGeometry,
   calculateAutoPadding,
   createLinearScale,
-  generateLinearTicks,
-  normalizeCartesianData,
-  resolveNumericDomain,
   solveChartBoxes
 } from "@chart-kit/core";
 import type { ProjectScale } from "@chart-kit/core";
@@ -21,7 +18,7 @@ import {
   getLineChartStrokeStyle,
   getLineChartTooltipConfig
 } from "./options";
-import { resolveLineChartYAxisLabelSizes } from "./axisLabels";
+import { resolveLineChartYAxisModel } from "./yAxisModel";
 import { getSelectedLineSeries } from "./selection";
 import { getLineChartTooltipModel } from "./tooltip";
 import {
@@ -96,10 +93,12 @@ export const useChartModel = <TData extends Record<string, unknown>>({
   formatXLabel = defaultFormatXLabel,
   formatYLabel = defaultFormatYLabel,
   chartKitTheme,
-  dataIndexOffset = 0
+  dataIndexOffset = 0,
+  stableYAxisData
 }: LineChartProps<TData> & {
   chartKitTheme: ChartKitThemeContextValue;
   dataIndexOffset?: number;
+  stableYAxisData?: TData[] | undefined;
 }) => {
   const seriesInput = useSeriesInput(yKey, yKeys, series);
 
@@ -113,36 +112,28 @@ export const useChartModel = <TData extends Record<string, unknown>>({
       presets: chartKitTheme.presets,
       theme: typeof theme === "object" ? theme : chartKitTheme.theme
     });
-    const normalized = normalizeCartesianData({
-      data,
-      xKey,
-      series: seriesInput
-    });
+    const axisTextOptions = {
+      fontSize: resolvedTheme.typography.axisLabelSize,
+      ...getFontFamilyProps(resolvedTheme.typography.fontFamily)
+    };
+    const { normalized, yDomainResolved, yLabelSizes, yTicks } =
+      resolveLineChartYAxisModel({
+        data,
+        formatYLabel,
+        measureText: measureLineChartText,
+        series: seriesInput,
+        stableData: stableYAxisData,
+        textOptions: axisTextOptions,
+        xKey,
+        yAxisLabelWidth,
+        yDomain
+      });
     const legendConfig = getLegendConfig(
       legend,
       normalized.series.length,
       resolvedTheme
     );
-    const axisTextOptions = {
-      fontSize: resolvedTheme.typography.axisLabelSize,
-      ...getFontFamilyProps(resolvedTheme.typography.fontFamily)
-    };
-    const allPoints = normalized.series.flatMap((item) => item.points);
-    const yValues = allPoints.flatMap((point) =>
-      typeof point.value === "number" ? [point.value] : []
-    );
     const xValues = normalized.series[0]?.points.map((point) => point.x) ?? [];
-    const yDomainResolved = resolveNumericDomain(yValues, yDomain);
-    const yTicks = generateLinearTicks({
-      domain: yDomainResolved,
-      count: 4
-    });
-    const yLabelSizes = resolveLineChartYAxisLabelSizes({
-      sizes: yTicks.map((tick) =>
-        measureLineChartText(formatYLabel(tick), axisTextOptions)
-      ),
-      width: yAxisLabelWidth
-    });
     const xLabelTexts = xValues.map((value, index) =>
       formatXLabel(value, index + dataIndexOffset)
     );
@@ -492,6 +483,7 @@ export const useChartModel = <TData extends Record<string, unknown>>({
     showDots,
     showHorizontalGridLines,
     showVerticalGridLines,
+    stableYAxisData,
     theme,
     preset,
     chartKitTheme,

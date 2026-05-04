@@ -149,7 +149,8 @@ export const LineChart = <TData extends Record<string, unknown>>(
   const model = useChartModel({
     ...chartProps,
     chartKitTheme,
-    dataIndexOffset: viewportWindow.startIndex
+    dataIndexOffset: viewportWindow.startIndex,
+    stableYAxisData: props.data
   });
   const {
     activeDot: _overviewActiveDot,

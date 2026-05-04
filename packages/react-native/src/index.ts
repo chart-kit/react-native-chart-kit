@@ -65,6 +65,7 @@ export type {
   LineChartViewportInteractionConfig,
   LineChartViewportInteractionGestureEvent,
   LineChartViewportPanInteraction,
+  LineChartYAxisLabelWidth,
   ResolvedLineChartCrosshairConfig,
   ResolvedLineChartDotConfig,
   ResolvedLineChartStrokeStyle,

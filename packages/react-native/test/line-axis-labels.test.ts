@@ -32,6 +32,36 @@ describe("LineChart axis labels", () => {
     ]);
   });
 
+  it("reserves stable y-axis width from full-data label sizes", () => {
+    expect(
+      resolveLineChartYAxisLabelSizes({
+        sizes: [
+          { width: 18, height: 12 },
+          { width: 30, height: 12 }
+        ],
+        stableSizes: [
+          { width: 24, height: 12 },
+          { width: 72, height: 12 }
+        ],
+        width: "stable"
+      })
+    ).toEqual([
+      { width: 72, height: 12 },
+      { width: 72, height: 12 }
+    ]);
+  });
+
+  it("keeps automatic y-axis widths when configured as auto", () => {
+    const sizes = [
+      { width: 18, height: 12 },
+      { width: 30, height: 12 }
+    ];
+
+    expect(resolveLineChartYAxisLabelSizes({ sizes, width: "auto" })).toEqual(
+      sizes
+    );
+  });
+
   it("builds positioned y-axis label models", () => {
     expect(
       buildLineChartYAxisLabels({

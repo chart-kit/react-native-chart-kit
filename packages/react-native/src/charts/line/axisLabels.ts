@@ -6,6 +6,7 @@ type AxisLabelSize = {
 };
 
 export type LineChartAxisLabelAnimationStrategy = "crossfade";
+export type LineChartYAxisLabelWidth = number | "auto" | "stable";
 
 export type LineChartAxisLabelAnimationConfig = {
   duration?: number;
@@ -27,18 +28,28 @@ export type LineChartYAxisLabelModel = {
 
 export const defaultLineChartAxisLabelAnimationDuration = 160;
 
+const getMaxWidth = (sizes: AxisLabelSize[]) =>
+  sizes.reduce((max, size) => Math.max(max, size.width), 0);
+
 export const resolveLineChartYAxisLabelSizes = ({
   sizes,
+  stableSizes,
   width
 }: {
   sizes: AxisLabelSize[];
-  width?: number | undefined;
+  stableSizes?: AxisLabelSize[] | undefined;
+  width?: LineChartYAxisLabelWidth | undefined;
 }) => {
-  if (typeof width !== "number" || !Number.isFinite(width)) {
+  const fixedWidth =
+    typeof width === "number" && Number.isFinite(width)
+      ? Math.max(0, width)
+      : width === "stable"
+        ? getMaxWidth(stableSizes ?? sizes)
+        : undefined;
+
+  if (fixedWidth === undefined) {
     return sizes;
   }
-
-  const fixedWidth = Math.max(0, width);
 
   return sizes.map((size) => ({
     ...size,

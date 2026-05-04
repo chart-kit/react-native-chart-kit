@@ -244,7 +244,7 @@ const V2ViewportZoomPan = ({
           onGestureEnd: onScrubEnd,
           onGestureStart: onScrubStart
         }}
-        yAxisLabelWidth={44}
+        yAxisLabelWidth="stable"
         axisLabelAnimation={{ duration: 160 }}
         curve="monotone"
         showDots={false}
@@ -336,7 +336,7 @@ const V2RangeSelectorOverview = ({
         onViewportChange={handleViewportChange}
         testID="range-selector-chart"
         viewport={viewport}
-        yAxisLabelWidth={44}
+        yAxisLabelWidth="stable"
         axisLabelAnimation={{ duration: 180 }}
         interaction={{
           mode: "scrub",
