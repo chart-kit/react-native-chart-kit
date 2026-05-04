@@ -182,4 +182,67 @@ describe("line series geometry projection", () => {
 
     expect(geometry.area?.path).toBe("M 0 100 L 50 90 L 50 100 L 0 100 Z");
   });
+
+  it("decimates path points without dropping source geometry points", () => {
+    const normalized = normalizeCartesianData({
+      data: [
+        { x: 0, value: 50 },
+        { x: 1, value: 10 },
+        { x: 2, value: 90 },
+        { x: 3, value: 20 },
+        { x: 4, value: 80 },
+        { x: 5, value: 60 }
+      ],
+      xKey: "x",
+      yKey: "value"
+    });
+
+    const geometry = buildLineSeriesGeometry({
+      series: normalized.series[0]!,
+      xScale: (value) => numericX(value),
+      yScale: (value) => value,
+      pathDecimation: { maxPoints: 4 }
+    });
+
+    expect(geometry.points).toHaveLength(6);
+    expect(geometry.line.segments[0]?.points).toHaveLength(4);
+    expect(
+      geometry.line.segments[0]?.points.map((point) => point.value)
+    ).toEqual([50, 10, 90, 60]);
+  });
+
+  it("keeps null gaps when decimating disconnected path segments", () => {
+    const normalized = normalizeCartesianData({
+      data: [
+        { x: 0, value: 10 },
+        { x: 1, value: null },
+        { x: 2, value: 30 },
+        { x: 3, value: 40 },
+        { x: 4, value: null },
+        { x: 5, value: 60 }
+      ],
+      xKey: "x",
+      yKey: "value"
+    });
+
+    const geometry = buildLineSeriesGeometry({
+      series: normalized.series[0]!,
+      xScale: (value) => numericX(value),
+      yScale: (value) => value,
+      pathDecimation: { maxPoints: 3 }
+    });
+
+    expect(geometry.points.map((point) => point.defined)).toEqual([
+      true,
+      false,
+      true,
+      true,
+      false,
+      true
+    ]);
+    expect(
+      geometry.line.segments.map((segment) => segment.points.length)
+    ).toEqual([1, 2, 1]);
+    expect(geometry.line.path).toBe("M 0 10 M 2 30 L 3 40 M 5 60");
+  });
 });

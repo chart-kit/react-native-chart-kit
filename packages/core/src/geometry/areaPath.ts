@@ -1,4 +1,5 @@
-import { buildLineSegmentPath, splitDefinedSegments } from "./linePath";
+import { getDecimatedLinePathSegments } from "./lineDecimation";
+import { buildLineSegmentPath } from "./linePath";
 import { pointCommand } from "./path";
 import type {
   BuildAreaPathOptions,
@@ -38,18 +39,21 @@ export const buildAreaPath = <TPoint extends GeometryPoint = GeometryPoint>({
   points,
   curve = "linear",
   connectNulls = false,
+  decimation,
   baselineY
 }: BuildAreaPathOptions<TPoint>): LinePathModel<TPoint> => {
-  const segments = splitDefinedSegments(points, connectNulls)
-    .filter((segment) => segment.length > 0)
-    .map<GeometrySegment<TPoint>>((segment) => {
-      const linePath = buildLineSegmentPath(segment, curve);
+  const segments = getDecimatedLinePathSegments({
+    points,
+    connectNulls,
+    decimation
+  }).map<GeometrySegment<TPoint>>((segment) => {
+    const linePath = buildLineSegmentPath(segment, curve);
 
-      return {
-        points: segment,
-        path: closeAreaPath(linePath, segment, baselineY)
-      };
-    });
+    return {
+      points: segment,
+      path: closeAreaPath(linePath, segment, baselineY)
+    };
+  });
 
   return {
     segments,

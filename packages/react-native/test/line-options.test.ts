@@ -7,7 +7,8 @@ import {
   getLineChartDotConfig,
   getLineChartStrokeStyle,
   getLineChartThresholdStyle,
-  getLineChartTooltipConfig
+  getLineChartTooltipConfig,
+  resolveLineChartDecimationConfig
 } from "../src/charts/line/options";
 
 const baseDot = {
@@ -149,6 +150,45 @@ describe("LineChart marker and interaction options", () => {
       getLineChartThresholdStyle({
         seriesColor: "#2563eb",
         threshold: { y: Number.NaN }
+      })
+    ).toBeUndefined();
+  });
+
+  it("resolves automatic and fixed path decimation configs", () => {
+    expect(
+      resolveLineChartDecimationConfig({
+        decimation: "auto",
+        plotWidth: 180
+      })
+    ).toEqual({
+      maxPoints: 360,
+      strategy: "min-max"
+    });
+
+    expect(
+      resolveLineChartDecimationConfig({
+        decimation: 200.8,
+        plotWidth: 180
+      })
+    ).toEqual({
+      maxPoints: 200,
+      strategy: "min-max"
+    });
+
+    expect(
+      resolveLineChartDecimationConfig({
+        decimation: { maxPoints: 50 },
+        plotWidth: 180
+      })
+    ).toEqual({
+      maxPoints: 50,
+      strategy: "min-max"
+    });
+
+    expect(
+      resolveLineChartDecimationConfig({
+        decimation: false,
+        plotWidth: 180
       })
     ).toBeUndefined();
   });

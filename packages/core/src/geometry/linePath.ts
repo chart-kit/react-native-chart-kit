@@ -4,6 +4,10 @@ import {
   pointCommand,
   verticalCommand
 } from "./path";
+import {
+  getDecimatedLinePathSegments,
+  splitLinePathSegments
+} from "./lineDecimation";
 import type {
   BuildLinePathOptions,
   GeometryPoint,
@@ -11,41 +15,12 @@ import type {
   LinePathModel
 } from "./types";
 
-const isFinitePoint = (point: GeometryPoint): boolean => {
-  return point.defined && Number.isFinite(point.x) && Number.isFinite(point.y);
-};
-
 export const splitDefinedSegments = <
   TPoint extends GeometryPoint = GeometryPoint
 >(
   points: TPoint[],
   connectNulls = false
-): TPoint[][] => {
-  if (connectNulls) {
-    return [points.filter(isFinitePoint)];
-  }
-
-  const segments: TPoint[][] = [];
-  let current: TPoint[] = [];
-
-  points.forEach((point) => {
-    if (isFinitePoint(point)) {
-      current.push(point);
-      return;
-    }
-
-    if (current.length > 0) {
-      segments.push(current);
-      current = [];
-    }
-  });
-
-  if (current.length > 0) {
-    segments.push(current);
-  }
-
-  return segments;
-};
+): TPoint[][] => splitLinePathSegments(points, connectNulls);
 
 const buildLinearSegmentPath = <TPoint extends GeometryPoint>(
   points: TPoint[]
@@ -179,14 +154,17 @@ export const buildLineSegmentPath = <TPoint extends GeometryPoint>(
 export const buildLinePath = <TPoint extends GeometryPoint = GeometryPoint>({
   points,
   curve = "linear",
-  connectNulls = false
+  connectNulls = false,
+  decimation
 }: BuildLinePathOptions<TPoint>): LinePathModel<TPoint> => {
-  const segments = splitDefinedSegments(points, connectNulls)
-    .filter((segment) => segment.length > 0)
-    .map<GeometrySegment<TPoint>>((segment) => ({
-      points: segment,
-      path: buildLineSegmentPath(segment, curve)
-    }));
+  const segments = getDecimatedLinePathSegments({
+    points,
+    connectNulls,
+    decimation
+  }).map<GeometrySegment<TPoint>>((segment) => ({
+    points: segment,
+    path: buildLineSegmentPath(segment, curve)
+  }));
 
   return {
     segments,

@@ -1,3 +1,5 @@
+import type { LinePathDecimationStrategy } from "@chart-kit/core";
+
 import type { ResolvedCartesianChartTooltipTheme } from "../../theme";
 
 export type LineChartDotShape = "circle" | "square" | "diamond";
@@ -78,6 +80,17 @@ export type ResolvedLineChartThresholdStyle = {
   areaOpacity: number;
 };
 
+export type LineChartDecimationConfig = {
+  enabled?: boolean;
+  maxPoints?: number;
+  strategy?: LinePathDecimationStrategy;
+};
+
+export type ResolvedLineChartDecimationConfig = {
+  maxPoints: number;
+  strategy: LinePathDecimationStrategy;
+};
+
 export type LineChartTooltipConfig = {
   visible?: boolean;
   shared?: boolean;
@@ -133,6 +146,13 @@ const resolveOpacity = (value: number | undefined, fallback: number) =>
     ? Math.max(0, Math.min(1, value))
     : fallback;
 
+const getAutoDecimationMaxPoints = (plotWidth: number) => {
+  const safePlotWidth =
+    Number.isFinite(plotWidth) && plotWidth > 0 ? plotWidth : 320;
+
+  return Math.max(120, Math.ceil(safePlotWidth * 2));
+};
+
 export const getLineChartStrokeStyle = ({
   strokeDasharray,
   strokeLinecap,
@@ -150,6 +170,53 @@ export const getLineChartStrokeStyle = ({
   }
 
   return resolved;
+};
+
+export const resolveLineChartDecimationConfig = ({
+  decimation,
+  plotWidth
+}: {
+  decimation: false | "auto" | number | LineChartDecimationConfig | undefined;
+  plotWidth: number;
+}): ResolvedLineChartDecimationConfig | undefined => {
+  if (decimation === false) {
+    return undefined;
+  }
+
+  if (decimation === undefined || decimation === "auto") {
+    return {
+      maxPoints: getAutoDecimationMaxPoints(plotWidth),
+      strategy: "min-max"
+    };
+  }
+
+  if (typeof decimation === "number") {
+    if (!Number.isFinite(decimation) || decimation <= 0) {
+      return undefined;
+    }
+
+    return {
+      maxPoints: Math.floor(decimation),
+      strategy: "min-max"
+    };
+  }
+
+  if (decimation.enabled === false) {
+    return undefined;
+  }
+
+  const configuredMaxPoints = decimation.maxPoints;
+  const maxPoints =
+    configuredMaxPoints !== undefined &&
+    Number.isFinite(configuredMaxPoints) &&
+    configuredMaxPoints > 0
+      ? Math.floor(configuredMaxPoints)
+      : getAutoDecimationMaxPoints(plotWidth);
+
+  return {
+    maxPoints,
+    strategy: decimation.strategy ?? "min-max"
+  };
 };
 
 export const getLineChartThresholdStyle = ({

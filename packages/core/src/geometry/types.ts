@@ -19,11 +19,19 @@ export type LinePathModel<TPoint extends GeometryPoint = GeometryPoint> = {
   segments: Array<GeometrySegment<TPoint>>;
 };
 
+export type LinePathDecimationStrategy = "min-max";
+
+export type LinePathDecimationConfig = {
+  maxPoints: number;
+  strategy?: LinePathDecimationStrategy;
+};
+
 export type BuildLinePathOptions<TPoint extends GeometryPoint = GeometryPoint> =
   {
     points: TPoint[];
     curve?: LineCurve;
     connectNulls?: boolean;
+    decimation?: false | LinePathDecimationConfig | undefined;
   };
 
 export type BuildAreaPathOptions<TPoint extends GeometryPoint = GeometryPoint> =

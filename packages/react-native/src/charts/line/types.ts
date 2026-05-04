@@ -17,6 +17,7 @@ import type {
 import type { LineChartInteraction } from "./interaction";
 import type {
   LineChartCrosshairConfig,
+  LineChartDecimationConfig,
   LineChartDotConfig,
   LineChartStrokeLinecap,
   LineChartStrokeLinejoin,
@@ -45,12 +46,14 @@ export type {
   LineChartDotColor,
   LineChartDotConfig,
   LineChartDotShape,
+  LineChartDecimationConfig,
   LineChartStrokeLinecap,
   LineChartStrokeLinejoin,
   LineChartStrokeStyleConfig,
   LineChartThresholdStyleConfig,
   LineChartTooltipConfig,
   ResolvedLineChartCrosshairConfig,
+  ResolvedLineChartDecimationConfig,
   ResolvedLineChartDotConfig,
   ResolvedLineChartStrokeStyle,
   ResolvedLineChartThresholdStyle,
@@ -362,6 +365,7 @@ export type LineChartProps<TData extends Record<string, unknown>> = {
   onViewportChange?: (event: LineChartViewportChangeEvent) => void;
   viewportInteraction?: boolean | LineChartViewportInteractionConfig;
   rangeSelector?: boolean | LineChartRangeSelectorConfig;
+  decimation?: false | "auto" | number | LineChartDecimationConfig;
   curve?: LineCurve;
   connectNulls?: boolean;
   area?: boolean;

@@ -35,6 +35,9 @@ export type BuildLineSeriesGeometryOptions<TData = unknown> = {
   curve?: LineCurve;
   connectNulls?: boolean;
   dataIndexOffset?: number;
+  pathDecimation?: BuildAreaPathOptions<
+    ProjectedLinePoint<TData>
+  >["decimation"];
   areaBaselineY?: BuildAreaPathOptions<ProjectedLinePoint<TData>>["baselineY"];
 };
 
@@ -86,6 +89,7 @@ export const buildLineSeriesGeometry = <TData = unknown>({
   curve = "linear",
   connectNulls = false,
   dataIndexOffset = 0,
+  pathDecimation,
   areaBaselineY
 }: BuildLineSeriesGeometryOptions<TData>): LineSeriesGeometry<TData> => {
   const points = series.points.map((point) =>
@@ -94,7 +98,8 @@ export const buildLineSeriesGeometry = <TData = unknown>({
   const line = buildLinePath({
     points,
     curve,
-    connectNulls
+    connectNulls,
+    decimation: pathDecimation
   });
   const geometry: LineSeriesGeometry<TData> = {
     key: series.key,
@@ -112,6 +117,7 @@ export const buildLineSeriesGeometry = <TData = unknown>({
       points,
       curve,
       connectNulls,
+      decimation: pathDecimation,
       baselineY: areaBaselineY
     });
   }

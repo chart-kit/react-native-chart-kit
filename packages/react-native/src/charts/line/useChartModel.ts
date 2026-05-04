@@ -16,7 +16,8 @@ import {
   getLineChartCrosshairConfig,
   getLineChartDotConfig,
   getLineChartStrokeStyle,
-  getLineChartTooltipConfig
+  getLineChartTooltipConfig,
+  resolveLineChartDecimationConfig
 } from "./options";
 import { buildLineChartSeriesStyleMap } from "./seriesStyles";
 import { resolveLineChartYAxisModel } from "./yAxisModel";
@@ -71,6 +72,7 @@ export const useChartModel = <TData extends Record<string, unknown>>({
   height,
   theme,
   preset,
+  decimation = "auto",
   curve = "linear",
   connectNulls = false,
   area = false,
@@ -243,6 +245,10 @@ export const useChartModel = <TData extends Record<string, unknown>>({
       yScale
     });
     const xScale = buildLineChartXScale<TData>({ boxes, xValues });
+    const pathDecimation = resolveLineChartDecimationConfig({
+      decimation,
+      plotWidth: boxes.plot.width
+    });
     const baselineValue =
       yDomainResolved[0] < 0 && yDomainResolved[1] > 0 ? 0 : yDomainResolved[0];
     const baselineY = yScale.scale(baselineValue);
@@ -272,6 +278,7 @@ export const useChartModel = <TData extends Record<string, unknown>>({
           curve: style?.curve ?? curve,
           connectNulls,
           dataIndexOffset,
+          pathDecimation,
           ...(wantsArea ? { areaBaselineY: baselineY } : {})
         })
       };
@@ -452,6 +459,7 @@ export const useChartModel = <TData extends Record<string, unknown>>({
     crosshair,
     curve,
     data,
+    decimation,
     dataIndexOffset,
     dots,
     formatXLabel,
