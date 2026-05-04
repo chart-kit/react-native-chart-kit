@@ -1,4 +1,5 @@
 import { compatBarStories, compatLineStories } from "./stories/compatStories";
+import { barOverviewStories } from "./stories/barOverviewStories";
 import { lineInteractionStories } from "./stories/lineInteractionStories";
 import { lineOverviewStories } from "./stories/lineOverviewStories";
 import { lineQaStories } from "./stories/lineQaStories";
@@ -23,6 +24,11 @@ export const storySections: ShowcaseSection[] = [
       ...lineViewportStories,
       ...lineQaStories
     ]
+  },
+  {
+    id: "v2-bar",
+    title: "V2 Bar",
+    stories: barOverviewStories
   },
   {
     id: "legacy-line",
@@ -68,16 +74,8 @@ export const publicChartMode: ShowcaseMode = {
       id: "bar-charts",
       title: "Bar Charts",
       description:
-        "Bar chart previews for upgrade review while the v2 bar implementation is still being built.",
-      storyIds: [
-        "bar-basic",
-        "bar-long-labels",
-        "bar-dense-data",
-        "bar-negative-values",
-        "bar-empty-state",
-        "bar-dark-mode",
-        "bar-tiny-width"
-      ]
+        "Public v2 bar chart previews for grouped, negative, and stacked percentage bars.",
+      storyIds: ["v2-bar-grouped", "v2-bar-negative", "v2-bar-stacked-percent"]
     }
   ]
 };
@@ -119,6 +117,17 @@ export const showcaseModes: ShowcaseMode[] = [
           "v2-custom-legend",
           "v2-dot-styles",
           "v2-custom-typography"
+        ]
+      },
+      {
+        id: "bar",
+        title: "Bar",
+        description:
+          "Modern v2 bar chart examples across grouped, negative, and stacked percentage modes.",
+        storyIds: [
+          "v2-bar-grouped",
+          "v2-bar-negative",
+          "v2-bar-stacked-percent"
         ]
       },
       {
@@ -298,6 +307,9 @@ export const storyFeatureTags: Record<string, string[]> = {
   "v2-grid-lines": ["horizontal grid", "vertical grid", "opt-in"],
   "v2-hidden-labels": ["hidden labels", "minimal axis", "clean preview"],
   "v2-dark-mode": ["dark theme", "area fill", "multi-series"],
+  "v2-bar-grouped": ["grouped bars", "value labels", "analytics preset"],
+  "v2-bar-negative": ["negative values", "baseline", "value labels"],
+  "v2-bar-stacked-percent": ["stacked100", "percentage labels", "bar chart"],
   "line-basic": ["legacy data", "compat facade", "line chart"],
   "line-long-labels": ["long labels", "compat facade", "line chart"],
   "line-dense-data": ["dense data", "compat facade", "line chart"],

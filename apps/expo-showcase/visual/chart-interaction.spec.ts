@@ -23,7 +23,8 @@ test.describe("Expo showcase chart interactions", () => {
     await expect(
       page.getByTestId("preview-scroll").getByText("Bar Charts")
     ).toBeVisible();
-    await expect(page.getByText("Compat BarChart").first()).toBeVisible();
+    await expect(page.getByText("Grouped bars").first()).toBeVisible();
+    await expect(page.getByText("Acquisition mix").first()).toBeVisible();
   });
 
   test("scrubbing does not select chart text on web", async ({ page }) => {

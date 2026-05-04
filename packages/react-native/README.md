@@ -8,6 +8,7 @@ Current exports:
 
 - `LineChart`
 - `AreaChart`
+- `BarChart`
 
 Modern docs:
 
@@ -26,3 +27,4 @@ Current customization surface:
 - area fills, dashed lines, custom markers, threshold colors, and reference overlays
 - automatic path-only decimation for dense line charts
 - generated accessibility summaries and data table helpers
+- first modern vertical bar geometry for grouped, stacked, stacked100, and negative values

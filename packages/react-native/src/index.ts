@@ -1,3 +1,4 @@
+export { BarChart } from "./charts/bar/BarChart";
 export { AreaChart, LineChart } from "./charts/line/LineChart";
 export {
   builtInCartesianChartPresets,
@@ -23,6 +24,16 @@ export type {
   ResolvedCartesianChartTypography,
   ResolvedChartKitThemeMode
 } from "./theme";
+export type {
+  BarChartLabelStrategy,
+  BarChartMode,
+  BarChartModel,
+  BarChartProps,
+  BarChartSeries,
+  BarChartValueLabelModel,
+  BarChartXLabelModel,
+  BarChartYLabelModel
+} from "./charts/bar/BarChart";
 export type {
   LineChartCrosshairConfig,
   LineChartDotColor,
