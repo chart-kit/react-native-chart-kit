@@ -18,6 +18,8 @@ import {
   ShowcaseMode,
   ShowcasePage,
   ShowcaseStory,
+  getShowcasePageStoryGroups,
+  getShowcasePageStoryIds,
   publicChartMode,
   showcaseModes,
   stories,
@@ -90,7 +92,7 @@ const getPageSelectionForStory = (
 
   for (const mode of allShowcaseModes) {
     for (const page of mode.pages) {
-      if (page.storyIds.includes(storyId)) {
+      if (getShowcasePageStoryIds(page).includes(storyId)) {
         return { mode, page };
       }
     }
@@ -167,12 +169,15 @@ export default function App() {
     [chartPreset, themeMode]
   );
 
-  const pageStories = useMemo(
+  const pageStoryGroups = useMemo(
     () =>
-      pageSelection.page.storyIds
-        .map((storyId) => stories.find((story) => story.id === storyId))
-        .filter((story): story is ShowcaseStory => story !== undefined),
-    [pageSelection.page.storyIds]
+      getShowcasePageStoryGroups(pageSelection.page).map((group) => ({
+        ...group,
+        stories: group.storyIds
+          .map((storyId) => stories.find((story) => story.id === storyId))
+          .filter((story): story is ShowcaseStory => story !== undefined)
+      })),
+    [pageSelection.page]
   );
 
   const isWideLayout = width >= 860;
@@ -262,39 +267,65 @@ export default function App() {
                 </Text>
               </View>
 
-              <View style={styles.storyGrid}>
-                {pageStories.map((story) => {
-                  const StoryComponent = story.Component;
-                  const tags = storyFeatureTags[story.id] ?? [];
-
-                  return (
-                    <View
-                      key={story.id}
-                      style={[
-                        styles.storyBlock,
-                        { borderTopColor: appTheme.grid },
-                        { width: storyBlockWidth }
-                      ]}
-                    >
-                      <StoryComponent
-                        width={chartWidth}
-                        onScrubStart={() => setIsScrubbing(true)}
-                        onScrubEnd={() => setIsScrubbing(false)}
-                      />
-                      {tags.length > 0 ? (
+              {pageStoryGroups.map((group) => (
+                <View key={group.id} style={styles.storyGroup}>
+                  {group.title ? (
+                    <View style={styles.storyGroupHeader}>
+                      <Text
+                        style={[
+                          styles.storyGroupTitle,
+                          { color: appTheme.text }
+                        ]}
+                      >
+                        {group.title}
+                      </Text>
+                      {group.description ? (
                         <Text
                           style={[
-                            styles.featureTags,
+                            styles.storyGroupDescription,
                             { color: appTheme.mutedText }
                           ]}
                         >
-                          {tags.join(" / ")}
+                          {group.description}
                         </Text>
                       ) : null}
                     </View>
-                  );
-                })}
-              </View>
+                  ) : null}
+                  <View style={styles.storyGrid}>
+                    {group.stories.map((story) => {
+                      const StoryComponent = story.Component;
+                      const tags = storyFeatureTags[story.id] ?? [];
+
+                      return (
+                        <View
+                          key={story.id}
+                          style={[
+                            styles.storyBlock,
+                            { borderTopColor: appTheme.grid },
+                            { width: storyBlockWidth }
+                          ]}
+                        >
+                          <StoryComponent
+                            width={chartWidth}
+                            onScrubStart={() => setIsScrubbing(true)}
+                            onScrubEnd={() => setIsScrubbing(false)}
+                          />
+                          {tags.length > 0 ? (
+                            <Text
+                              style={[
+                                styles.featureTags,
+                                { color: appTheme.mutedText }
+                              ]}
+                            >
+                              {tags.join(" / ")}
+                            </Text>
+                          ) : null}
+                        </View>
+                      );
+                    })}
+                  </View>
+                </View>
+              ))}
             </View>
           </ChartKitProvider>
         </ScrollView>

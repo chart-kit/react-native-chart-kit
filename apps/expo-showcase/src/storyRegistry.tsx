@@ -4,15 +4,35 @@ import { lineInteractionStories } from "./stories/lineInteractionStories";
 import { lineOverviewStories } from "./stories/lineOverviewStories";
 import { lineQaStories } from "./stories/lineQaStories";
 import { lineViewportStories } from "./stories/lineViewportStories";
-import type { ShowcaseMode, ShowcaseSection } from "./stories/storyPrimitives";
+import type {
+  ShowcaseMode,
+  ShowcasePage,
+  ShowcaseSection,
+  ShowcaseStoryGroup
+} from "./stories/storyPrimitives";
 
 export type {
   NativeStoryProps,
   ShowcaseMode,
   ShowcasePage,
   ShowcaseSection,
+  ShowcaseStoryGroup,
   ShowcaseStory
 } from "./stories/storyPrimitives";
+
+export const getShowcasePageStoryIds = (page: ShowcasePage) =>
+  page.storyGroups?.flatMap((group) => group.storyIds) ?? page.storyIds ?? [];
+
+export const getShowcasePageStoryGroups = (
+  page: ShowcasePage
+): ShowcaseStoryGroup[] =>
+  page.storyGroups ?? [
+    {
+      id: `${page.id}-stories`,
+      title: "",
+      storyIds: page.storyIds ?? []
+    }
+  ];
 
 export const storySections: ShowcaseSection[] = [
   {
@@ -53,22 +73,46 @@ export const publicChartMode: ShowcaseMode = {
       title: "Line Charts",
       description:
         "Public v2 line and area chart previews with interaction, viewport, marker, tooltip, and theme examples.",
-      storyIds: [
-        "v2-revenue-card",
-        "v2-pro-animation",
-        "v2-range-selector",
-        "v2-scrollable-stock-comparison",
-        "v2-viewport-zoom-pan",
-        "v2-selected-tooltip",
-        "v2-custom-crosshair",
-        "v2-dot-styles",
-        "v2-area",
-        "v2-threshold-colors",
-        "v2-dashed-forecast",
-        "v2-multi-series",
-        "v2-reference-targets",
-        "v2-scrollable-price",
-        "v2-basic"
+      storyGroups: [
+        {
+          id: "line-showpieces",
+          title: "Showpieces",
+          description:
+            "The demos that should immediately sell motion, viewport control, and production polish.",
+          storyIds: [
+            "v2-pro-animation",
+            "v2-range-selector",
+            "v2-revenue-card",
+            "v2-viewport-zoom-pan"
+          ]
+        },
+        {
+          id: "line-interaction",
+          title: "Interaction",
+          description:
+            "Selection, tooltip, crosshair, scrolling, and multi-series inspection behavior.",
+          storyIds: [
+            "v2-selected-tooltip",
+            "v2-custom-crosshair",
+            "v2-scrollable-stock-comparison",
+            "v2-scrollable-price"
+          ]
+        },
+        {
+          id: "line-composition",
+          title: "Composition",
+          description:
+            "Area fills, thresholds, dashed lines, marker styles, references, and baseline multi-series charts.",
+          storyIds: [
+            "v2-area",
+            "v2-threshold-colors",
+            "v2-dashed-forecast",
+            "v2-dot-styles",
+            "v2-multi-series",
+            "v2-reference-targets",
+            "v2-basic"
+          ]
+        }
       ]
     },
     {
@@ -76,13 +120,25 @@ export const publicChartMode: ShowcaseMode = {
       title: "Bar Charts",
       description:
         "Public v2 bar chart previews for grouped, selectable, scrollable, horizontal, negative, and stacked percentage bars.",
-      storyIds: [
-        "v2-bar-grouped",
-        "v2-bar-selection",
-        "v2-bar-scrollable",
-        "v2-bar-horizontal",
-        "v2-bar-negative",
-        "v2-bar-stacked-percent"
+      storyGroups: [
+        {
+          id: "bar-showpieces",
+          title: "Showpieces",
+          description:
+            "The primary bar-chart demos for acquisition, selection, and ranked horizontal comparisons.",
+          storyIds: ["v2-bar-grouped", "v2-bar-selection", "v2-bar-horizontal"]
+        },
+        {
+          id: "bar-production-cases",
+          title: "Production Cases",
+          description:
+            "Long datasets, negative values, and percentage composition examples.",
+          storyIds: [
+            "v2-bar-scrollable",
+            "v2-bar-negative",
+            "v2-bar-stacked-percent"
+          ]
+        }
       ]
     }
   ]

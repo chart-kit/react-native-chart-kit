@@ -83,6 +83,26 @@ export const styles = StyleSheet.create({
     lineHeight: 20,
     marginTop: 5
   },
+  storyGroup: {
+    gap: 10,
+    marginTop: 20
+  },
+  storyGroupHeader: {
+    maxWidth: 620
+  },
+  storyGroupTitle: {
+    color: "#101828",
+    fontSize: 18,
+    fontWeight: "900",
+    letterSpacing: 0
+  },
+  storyGroupDescription: {
+    color: "#64748b",
+    fontSize: 13,
+    fontWeight: "600",
+    lineHeight: 18,
+    marginTop: 3
+  },
   storyGrid: {
     flexDirection: "row",
     flexWrap: "wrap",

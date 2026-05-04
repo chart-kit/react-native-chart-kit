@@ -8,6 +8,8 @@ test.describe("Expo showcase chart interactions", () => {
     });
 
     await expect(page.getByText("Line Charts")).toBeVisible();
+    await expect(page.getByText("Showpieces")).toBeVisible();
+    await expect(page.getByText("Portfolio growth")).toBeVisible();
     await expect(page.getByText("High Contrast")).toHaveCount(0);
     await expect(page.getByRole("button", { name: "QA" })).toHaveCount(0);
 

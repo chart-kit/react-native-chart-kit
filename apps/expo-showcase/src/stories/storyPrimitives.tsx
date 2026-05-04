@@ -32,6 +32,14 @@ export type ShowcasePage = {
   id: string;
   title: string;
   description: string;
+  storyGroups?: ShowcaseStoryGroup[];
+  storyIds?: string[];
+};
+
+export type ShowcaseStoryGroup = {
+  id: string;
+  title: string;
+  description?: string;
   storyIds: string[];
 };
 
