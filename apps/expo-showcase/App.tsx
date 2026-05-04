@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from "react";
 import {
   Platform,
-  Pressable,
   ScrollView,
   StatusBar,
   Text,
@@ -25,11 +24,10 @@ import {
 } from "./src/storyRegistry";
 import {
   showcaseCustomPresets,
-  showcaseModeOptions,
-  showcasePresetOptions,
   type ShowcasePresetId,
   type ShowcaseThemeMode
 } from "./src/showcaseTheme";
+import { ShowcaseMenu } from "./src/ShowcaseMenu";
 
 const defaultStory =
   stories.find((story) => story.id === "v2-basic") ?? stories[0];
@@ -136,7 +134,6 @@ export default function App() {
   );
   const [themeMode, setThemeMode] = useState<ShowcaseThemeMode>("light");
   const [chartPreset, setChartPreset] = useState<ShowcasePresetId>("default");
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isScrubbing, setIsScrubbing] = useState(false);
   const isDarkApp = themeMode === "dark";
   const appTheme = useMemo(
@@ -148,8 +145,6 @@ export default function App() {
       }),
     [chartPreset, themeMode]
   );
-  const selectedControlColor = appTheme.series[0] ?? appTheme.text;
-  const selectedControlTextColor = appTheme.background;
 
   const pageStories = useMemo(
     () =>
@@ -173,7 +168,6 @@ export default function App() {
 
   const selectPage = (selection: PageSelection) => {
     setIsScrubbing(false);
-    setIsSettingsOpen(false);
     setPageSelection(selection);
     updateShowcaseUrl(selection, isVisualMode);
   };
@@ -210,235 +204,18 @@ export default function App() {
               Showcase
             </Text>
           </View>
-          <Pressable
-            accessibilityLabel={
-              isSettingsOpen ? "Hide preview settings" : "Show preview settings"
-            }
-            accessibilityRole="button"
-            accessibilityState={{ expanded: isSettingsOpen }}
-            onPress={() => setIsSettingsOpen((current) => !current)}
-            style={({ pressed }) => [
-              styles.settingsButton,
-              {
-                backgroundColor: isSettingsOpen
-                  ? selectedControlColor
-                  : appTheme.text
-              },
-              pressed && styles.pressed
-            ]}
-          >
-            <Text
-              style={[
-                styles.settingsButtonIcon,
-                { color: selectedControlTextColor }
-              ]}
-            >
-              ⚙
-            </Text>
-          </Pressable>
+          <ShowcaseMenu
+            appTheme={appTheme}
+            chartPreset={chartPreset}
+            pageSelection={pageSelection}
+            selectMode={selectMode}
+            selectPage={selectPage}
+            setChartPreset={setChartPreset}
+            setThemeMode={setThemeMode}
+            showcaseModes={showcaseModes}
+            themeMode={themeMode}
+          />
         </View>
-
-        {isSettingsOpen ? (
-          <View
-            style={[
-              styles.settingsPanel,
-              {
-                backgroundColor: appTheme.plotBackground,
-                borderColor: appTheme.axis
-              }
-            ]}
-          >
-            <View style={styles.settingsGroup}>
-              <Text
-                style={[styles.settingsLabel, { color: appTheme.mutedText }]}
-              >
-                Browse
-              </Text>
-              <View style={styles.settingsOptions}>
-                {showcaseModes.map((mode) => {
-                  const isSelected = pageSelection.mode.id === mode.id;
-
-                  return (
-                    <Pressable
-                      key={mode.id}
-                      accessibilityRole="button"
-                      accessibilityState={{ selected: isSelected }}
-                      onPress={() => selectMode(mode)}
-                      style={({ pressed }) => [
-                        styles.settingsOption,
-                        {
-                          backgroundColor: isSelected
-                            ? selectedControlColor
-                            : appTheme.background,
-                          borderColor: isSelected
-                            ? selectedControlColor
-                            : appTheme.axis
-                        },
-                        pressed && styles.pressed
-                      ]}
-                    >
-                      <Text
-                        style={[
-                          styles.settingsOptionText,
-                          {
-                            color: isSelected
-                              ? selectedControlTextColor
-                              : appTheme.text
-                          }
-                        ]}
-                      >
-                        {mode.title}
-                      </Text>
-                    </Pressable>
-                  );
-                })}
-              </View>
-            </View>
-
-            <View style={styles.settingsGroup}>
-              <Text
-                style={[styles.settingsLabel, { color: appTheme.mutedText }]}
-              >
-                Page
-              </Text>
-              <View style={styles.settingsOptions}>
-                {pageSelection.mode.pages.map((page) => {
-                  const isSelected = pageSelection.page.id === page.id;
-
-                  return (
-                    <Pressable
-                      key={page.id}
-                      accessibilityRole="button"
-                      accessibilityState={{ selected: isSelected }}
-                      onPress={() =>
-                        selectPage({ mode: pageSelection.mode, page })
-                      }
-                      style={({ pressed }) => [
-                        styles.settingsOption,
-                        {
-                          backgroundColor: isSelected
-                            ? selectedControlColor
-                            : appTheme.background,
-                          borderColor: isSelected
-                            ? selectedControlColor
-                            : appTheme.axis
-                        },
-                        pressed && styles.pressed
-                      ]}
-                    >
-                      <Text
-                        style={[
-                          styles.settingsOptionText,
-                          {
-                            color: isSelected
-                              ? selectedControlTextColor
-                              : appTheme.text
-                          }
-                        ]}
-                      >
-                        {page.title}
-                      </Text>
-                    </Pressable>
-                  );
-                })}
-              </View>
-            </View>
-
-            <View style={styles.settingsGroup}>
-              <Text
-                style={[styles.settingsLabel, { color: appTheme.mutedText }]}
-              >
-                Appearance
-              </Text>
-              <View style={styles.settingsOptions}>
-                {showcaseModeOptions.map((option) => {
-                  const isSelected = themeMode === option.id;
-
-                  return (
-                    <Pressable
-                      key={option.id}
-                      accessibilityRole="button"
-                      accessibilityState={{ selected: isSelected }}
-                      onPress={() => setThemeMode(option.id)}
-                      style={({ pressed }) => [
-                        styles.settingsOption,
-                        {
-                          backgroundColor: isSelected
-                            ? selectedControlColor
-                            : appTheme.background,
-                          borderColor: isSelected
-                            ? selectedControlColor
-                            : appTheme.axis
-                        },
-                        pressed && styles.pressed
-                      ]}
-                    >
-                      <Text
-                        style={[
-                          styles.settingsOptionText,
-                          {
-                            color: isSelected
-                              ? selectedControlTextColor
-                              : appTheme.text
-                          }
-                        ]}
-                      >
-                        {option.title}
-                      </Text>
-                    </Pressable>
-                  );
-                })}
-              </View>
-            </View>
-
-            <View style={styles.settingsGroup}>
-              <Text
-                style={[styles.settingsLabel, { color: appTheme.mutedText }]}
-              >
-                Theme
-              </Text>
-              <View style={styles.settingsOptions}>
-                {showcasePresetOptions.map((option) => {
-                  const isSelected = chartPreset === option.id;
-
-                  return (
-                    <Pressable
-                      key={option.id}
-                      accessibilityRole="button"
-                      accessibilityState={{ selected: isSelected }}
-                      onPress={() => setChartPreset(option.id)}
-                      style={({ pressed }) => [
-                        styles.settingsOption,
-                        {
-                          backgroundColor: isSelected
-                            ? selectedControlColor
-                            : appTheme.background,
-                          borderColor: isSelected
-                            ? selectedControlColor
-                            : appTheme.axis
-                        },
-                        pressed && styles.pressed
-                      ]}
-                    >
-                      <Text
-                        style={[
-                          styles.settingsOptionText,
-                          {
-                            color: isSelected
-                              ? selectedControlTextColor
-                              : appTheme.text
-                          }
-                        ]}
-                      >
-                        {option.title}
-                      </Text>
-                    </Pressable>
-                  );
-                })}
-              </View>
-            </View>
-          </View>
-        ) : null}
 
         <ScrollView
           testID="preview-scroll"

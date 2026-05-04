@@ -1,9 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("Expo showcase chart interactions", () => {
-  test("showcase settings stay behind the settings button", async ({
-    page
-  }) => {
+  test("showcase menu opens compact selection sheets", async ({ page }) => {
     await page.goto("/");
     await page.evaluate(async () => {
       await document.fonts?.ready;
@@ -13,8 +11,12 @@ test.describe("Expo showcase chart interactions", () => {
     await expect(page.getByText("High Contrast")).toHaveCount(0);
     await expect(page.getByText("Scenarios")).toHaveCount(0);
 
-    await page.getByRole("button", { name: "Show preview settings" }).click();
+    await page.getByRole("button", { name: "Open preview menu" }).click();
+    await expect(page.getByText("Preview menu")).toBeVisible();
+    await page.getByText("Theme", { exact: true }).click();
     await expect(page.getByText("High Contrast")).toBeVisible();
+    await page.getByText("Back").click();
+    await page.getByText("Browse", { exact: true }).click();
     await expect(page.getByRole("button", { name: "QA" })).toBeVisible();
   });
 
@@ -175,8 +177,9 @@ test.describe("Expo showcase chart interactions", () => {
       await document.fonts?.ready;
     });
 
-    await page.getByRole("button", { name: "Show preview settings" }).click();
-    await page.getByRole("button", { name: "Dark" }).click();
+    await page.getByRole("button", { name: "Open preview menu" }).click();
+    await page.getByText("Appearance", { exact: true }).click();
+    await page.getByText("Dark", { exact: true }).click();
 
     const rangeSelector = page.getByTestId(
       "range-selector-chart-range-selector"

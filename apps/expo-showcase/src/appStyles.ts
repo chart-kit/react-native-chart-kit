@@ -47,60 +47,6 @@ export const styles = StyleSheet.create({
     letterSpacing: 0,
     marginTop: 2
   },
-  settingsButton: {
-    alignItems: "center",
-    backgroundColor: "#0f172a",
-    borderRadius: 20,
-    height: 40,
-    justifyContent: "center",
-    width: 44
-  },
-  settingsButtonIcon: {
-    color: "#ffffff",
-    fontSize: 21,
-    fontWeight: "900",
-    lineHeight: 24
-  },
-  settingsPanel: {
-    backgroundColor: "#ffffff",
-    borderColor: "#d9e2ef",
-    borderRadius: 10,
-    borderWidth: 1,
-    gap: 12,
-    marginBottom: 14,
-    padding: 12
-  },
-  settingsGroup: {
-    gap: 7
-  },
-  settingsLabel: {
-    color: "#526176",
-    fontSize: 11,
-    fontWeight: "900",
-    letterSpacing: 0,
-    textTransform: "uppercase"
-  },
-  settingsOptions: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 6
-  },
-  settingsOption: {
-    backgroundColor: "#f8fafc",
-    borderColor: "#d9e2ef",
-    borderRadius: 7,
-    borderWidth: 1,
-    paddingHorizontal: 10,
-    paddingVertical: 7
-  },
-  settingsOptionText: {
-    color: "#344054",
-    fontSize: 12,
-    fontWeight: "900"
-  },
-  pressed: {
-    opacity: 0.72
-  },
   previewScroll: {
     flex: 1,
     marginHorizontal: -16
