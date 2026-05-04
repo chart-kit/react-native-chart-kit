@@ -6,5 +6,6 @@ npm-debug.*
 .vscode
 yarn.lock
 dist
+packages/*/dist
 apps/expo-showcase/dist
 apps/expo-showcase/test-results

@@ -59,6 +59,7 @@ npm run test
 npm run test:unit
 npm run test:compat
 npm run test:visual
+npm run benchmark
 npm run build
 ```
 
@@ -77,7 +78,7 @@ Command status:
 | `npm run test:visual`        | Working alias for Expo showcase plus Playwright visual screenshots. |
 | `npm run test:compat`        | Working Vitest command for legacy compatibility fixtures.           |
 | `npm run test:e2e`           | Placeholder; native e2e tests not configured yet.                   |
-| `npm run benchmark`          | Placeholder; benchmark suite not configured yet.                    |
+| `npm run benchmark`          | Working core line geometry benchmark with dense/decimated cases.    |
 | `npm run example:ios`        | Placeholder; native iOS example not configured yet.                 |
 | `npm run example:android`    | Placeholder; native Android example not configured yet.             |
 | `npm run example:expo`       | Working Expo showcase app command for phone/device review.          |
