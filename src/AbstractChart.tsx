@@ -267,8 +267,7 @@ class AbstractChart<
             paddingTop;
       return (
         <Text
-          rotation={horizontalLabelRotation}
-          origin={`${x}, ${y}`}
+          transform={`rotate(${horizontalLabelRotation}, ${x}, ${y})`}
           key={`horizontal-label-${i}-${yLabel}`}
           x={x}
           textAnchor="end"
