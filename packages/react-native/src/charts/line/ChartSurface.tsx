@@ -286,19 +286,33 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
         </SvgLayer>
         <SvgLayer name="overlays">
           {selectionModel && crosshairConfig.visible ? (
-            <SvgLine
-              key="selection-crosshair"
-              x1={selectionModel.x}
-              x2={selectionModel.x}
-              y1={boxes.plot.y}
-              y2={boxes.plot.y + boxes.plot.height}
-              stroke={crosshairConfig.color}
-              strokeOpacity={crosshairConfig.opacity}
-              strokeWidth={crosshairConfig.strokeWidth}
-              {...(crosshairConfig.strokeDasharray
-                ? { strokeDasharray: crosshairConfig.strokeDasharray }
-                : {})}
-            />
+            props.renderCrosshair ? (
+              props.renderCrosshair({
+                chartHeight: mainHeight,
+                chartWidth,
+                config: crosshairConfig,
+                plot: boxes.plot,
+                series: selectionModel.series,
+                theme: resolvedTheme,
+                x: selectionModel.x,
+                xLabel: selectionModel.xLabel,
+                y: selectionModel.y
+              })
+            ) : (
+              <SvgLine
+                key="selection-crosshair"
+                x1={selectionModel.x}
+                x2={selectionModel.x}
+                y1={boxes.plot.y}
+                y2={boxes.plot.y + boxes.plot.height}
+                stroke={crosshairConfig.color}
+                strokeOpacity={crosshairConfig.opacity}
+                strokeWidth={crosshairConfig.strokeWidth}
+                {...(crosshairConfig.strokeDasharray
+                  ? { strokeDasharray: crosshairConfig.strokeDasharray }
+                  : {})}
+              />
+            )
           ) : null}
           {legendModel
             ? renderConfiguredLegend({

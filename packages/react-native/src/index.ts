@@ -45,6 +45,7 @@ export type {
 } from "./charts/bar/BarChart";
 export type {
   LineChartCrosshairConfig,
+  LineChartCrosshairRenderProps,
   LineChartDotColor,
   LineChartDotConfig,
   LineChartDotRenderProps,

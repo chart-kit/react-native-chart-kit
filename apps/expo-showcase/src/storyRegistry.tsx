@@ -60,6 +60,7 @@ export const publicChartMode: ShowcaseMode = {
         "v2-scrollable-stock-comparison",
         "v2-viewport-zoom-pan",
         "v2-selected-tooltip",
+        "v2-custom-crosshair",
         "v2-dot-styles",
         "v2-area",
         "v2-threshold-colors",
@@ -160,6 +161,7 @@ export const showcaseModes: ShowcaseMode[] = [
           "Controlled selection, persistent scrub, hold-to-inspect, and null-aware inspection.",
         storyIds: [
           "v2-selected-tooltip",
+          "v2-custom-crosshair",
           "v2-scrub",
           "v2-scrollable-stock-comparison",
           "v2-viewport-zoom-pan",
@@ -296,6 +298,7 @@ export const storyFeatureTags: Record<string, string[]> = {
     "controlled selection",
     "crosshair"
   ],
+  "v2-custom-crosshair": ["custom crosshair", "axis badges", "render prop"],
   "v2-scrub": ["scrub gesture", "persistent selection", "animated tooltip"],
   "v2-while-active": ["hold to inspect", "while-active", "scroll lock"],
   "v2-null-gaps": ["null gaps", "fixed domain", "selection"],

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import type {
+  ChartBoxes,
   ChartViewportInitialIndex,
   ChartXValue,
   LineCurve,
@@ -23,6 +24,7 @@ import type {
   LineChartStrokeLinejoin,
   LineChartThresholdStyleConfig,
   LineChartTooltipConfig,
+  ResolvedLineChartCrosshairConfig,
   ResolvedLineChartDotConfig
 } from "./options";
 import type { LineChartSelectedSeriesItem as BaseLineChartSelectedSeriesItem } from "./selection";
@@ -105,6 +107,18 @@ export type LineChartTooltipRenderProps<TData = unknown> =
     ProjectedLinePoint<TData>,
     ResolvedCartesianChartTheme
   >;
+
+export type LineChartCrosshairRenderProps<TData = unknown> = {
+  chartHeight: number;
+  chartWidth: number;
+  config: ResolvedLineChartCrosshairConfig;
+  plot: ChartBoxes["plot"];
+  series: Array<LineChartSelectedSeriesItem<TData>>;
+  theme: ResolvedCartesianChartTheme;
+  x: number;
+  xLabel: string;
+  y: number;
+};
 
 export type LineChartLegendPosition = "top" | "bottom";
 export type LineChartLegendAlign = "start" | "center" | "end";
@@ -378,6 +392,7 @@ export type LineChartProps<TData extends Record<string, unknown>> = {
   renderActiveDot?: (props: LineChartDotRenderProps<TData>) => ReactNode;
   interaction?: LineChartInteraction<TData>;
   crosshair?: boolean | LineChartCrosshairConfig;
+  renderCrosshair?: (props: LineChartCrosshairRenderProps<TData>) => ReactNode;
   tooltip?: boolean | LineChartTooltipConfig;
   renderTooltip?: (props: LineChartTooltipRenderProps<TData>) => ReactNode;
   referenceLines?: LineChartReferenceLineConfig[];

@@ -169,6 +169,37 @@ Selection persistence:
 - `whileActive`: clear selection on gesture end.
 - `none`: emit selection events without keeping internal selected state.
 
+## Custom Crosshair
+
+Use `renderCrosshair` when a product needs branded cursors, axis badges, or a custom inspection overlay. The render prop receives the selected x/y position, selected series, plot bounds, theme tokens, and resolved crosshair config.
+
+```tsx
+<LineChart
+  data={data}
+  xKey="month"
+  yKeys={["actual", "forecast"]}
+  selectedIndex={4}
+  crosshair={{ strokeDasharray: [3, 4] }}
+  renderCrosshair={({ config, plot, series, x, xLabel, y }) => (
+    <SvgGroup>
+      <SvgLine
+        x1={x}
+        x2={x}
+        y1={plot.y}
+        y2={plot.y + plot.height}
+        stroke={config.color}
+        strokeDasharray={config.strokeDasharray}
+      />
+      <SvgText x={x + 8} y={y - 8}>
+        {xLabel}: {series[0]?.formattedValue}
+      </SvgText>
+    </SvgGroup>
+  )}
+  width={360}
+  height={260}
+/>
+```
+
 ## Scroll, Pan, Zoom, and Range Selector
 
 Use simple horizontal scrolling for long categorical or time-series charts.
