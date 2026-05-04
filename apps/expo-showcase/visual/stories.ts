@@ -37,6 +37,8 @@ export const chartStories = [
   "v2-pie-acquisition",
   "v2-donut-revenue",
   "v2-donut-selection",
+  "v2-progress-activity",
+  "v2-progress-single",
   "line-basic",
   "line-long-labels",
   "line-dense-data",

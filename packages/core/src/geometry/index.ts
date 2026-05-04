@@ -6,4 +6,5 @@ export * from "./linePath";
 export * from "./lineSeries";
 export * from "./path";
 export * from "./pieArcs";
+export * from "./progressRings";
 export * from "./types";

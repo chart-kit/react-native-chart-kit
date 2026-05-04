@@ -5,6 +5,7 @@ import { lineOverviewStories } from "./stories/lineOverviewStories";
 import { lineQaStories } from "./stories/lineQaStories";
 import { lineViewportStories } from "./stories/lineViewportStories";
 import { pieOverviewStories } from "./stories/pieOverviewStories";
+import { progressOverviewStories } from "./stories/progressOverviewStories";
 import type {
   ShowcaseMode,
   ShowcasePage,
@@ -55,6 +56,11 @@ export const storySections: ShowcaseSection[] = [
     id: "v2-pie",
     title: "V2 Pie and Donut",
     stories: pieOverviewStories
+  },
+  {
+    id: "v2-progress",
+    title: "V2 Progress",
+    stories: progressOverviewStories
   },
   {
     id: "legacy-line",
@@ -165,6 +171,21 @@ export const publicChartMode: ShowcaseMode = {
           ]
         }
       ]
+    },
+    {
+      id: "progress",
+      title: "Progress",
+      description:
+        "Public v2 progress rings for health, onboarding, completion, and goal tracking surfaces.",
+      storyGroups: [
+        {
+          id: "progress-showpieces",
+          title: "Showpieces",
+          description:
+            "Modern concentric progress rings built on renderer-agnostic progress geometry.",
+          storyIds: ["v2-progress-activity", "v2-progress-single"]
+        }
+      ]
     }
   ]
 };
@@ -232,6 +253,13 @@ export const showcaseModes: ShowcaseMode[] = [
           "v2-donut-revenue",
           "v2-donut-selection"
         ]
+      },
+      {
+        id: "progress",
+        title: "Progress",
+        description:
+          "Modern progress chart examples for multi-ring and single-ring completion states.",
+        storyIds: ["v2-progress-activity", "v2-progress-single"]
       },
       {
         id: "compat",
@@ -421,6 +449,8 @@ export const storyFeatureTags: Record<string, string[]> = {
   "v2-pie-acquisition": ["pie chart", "bottom legend", "percentage labels"],
   "v2-donut-revenue": ["donut chart", "center label", "bottom legend"],
   "v2-donut-selection": ["tap selection", "active slice", "center label"],
+  "v2-progress-activity": ["progress rings", "health preset", "center label"],
+  "v2-progress-single": ["single ring", "completion", "center label"],
   "line-basic": ["legacy data", "compat facade", "line chart"],
   "line-long-labels": ["long labels", "compat facade", "line chart"],
   "line-dense-data": ["dense data", "compat facade", "line chart"],

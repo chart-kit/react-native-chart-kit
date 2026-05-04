@@ -20,7 +20,13 @@ Added:
 - theme/preset integration and bottom wrapped legends
 - donut center text
 - tap selection, typed slice select events, and active-slice highlighting
+- renderer-agnostic progress ring geometry in `@chart-kit/core`
+- modern `ProgressChart` and `ProgressRing` exports from `@chart-kit/react-native-v2`
+- progress object-row props with `valueKey`, `labelKey`, and optional `colorKey` / `colors`
+- legacy progress data shape support
+- progress center labels, legends, stroke width, ring gap, radius, and stroke cap customization
 - Expo showcase stories for acquisition share and revenue mix
+- Expo showcase stories for activity rings and single-ring completion
 - Expo interaction test for donut slice selection
 - visual baselines for pie and donut stories
 
@@ -33,6 +39,5 @@ The geometry builder accepts normalized slices instead of legacy props. Modern a
 ## Remaining Work
 
 - Add custom legend rendering and richer center label rendering.
-- Add ProgressChart/ProgressRing geometry and renderer.
 - Add ContributionGraph/CalendarHeatmap geometry and renderer.
-- Add visual stories and screenshots for long legends, zero slices, active slices, progress rings, and calendar heatmaps.
+- Add visual stories and screenshots for long legends, zero slices, active slices, and calendar heatmaps.

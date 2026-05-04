@@ -1,6 +1,7 @@
 export { BarChart } from "./charts/bar/BarChart";
 export { AreaChart, LineChart } from "./charts/line/LineChart";
 export { DonutChart, PieChart } from "./charts/pie/PieChart";
+export { ProgressChart, ProgressRing } from "./charts/progress/ProgressChart";
 export {
   builtInCartesianChartPresets,
   ChartKitProvider,
@@ -57,6 +58,17 @@ export type {
   PieChartProps,
   PieChartSelectEvent
 } from "./charts/pie/PieChart";
+export type {
+  ProgressChartCenterLabelRenderProps,
+  ProgressChartData,
+  ProgressChartLegendConfig,
+  ProgressChartLegendItem,
+  ProgressChartModel,
+  ProgressChartProps,
+  ProgressChartStrokeLinecap,
+  ProgressRingDatum,
+  ProgressRingProps
+} from "./charts/progress/ProgressChart";
 export type {
   LineChartAreaFillConfig,
   LineChartCrosshairConfig,
