@@ -40,6 +40,19 @@ export type XLabelLayout = {
   rows: number;
 };
 
+export const dedupeXLabelCandidates = (candidates: XLabelCandidate[]) => {
+  const seen = new Set<string>();
+
+  return candidates.filter((candidate) => {
+    if (seen.has(candidate.text)) {
+      return false;
+    }
+
+    seen.add(candidate.text);
+    return true;
+  });
+};
+
 export const getMaxSize = (sizes: Size[]) => {
   return sizes.reduce(
     (max, size) => ({

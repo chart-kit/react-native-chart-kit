@@ -6,8 +6,23 @@ import {
   resolveLineChartAxisLabelAnimationConfig,
   resolveLineChartYAxisLabelSizes
 } from "../src/charts/line/axisLabels";
+import { dedupeXLabelCandidates } from "../src/charts/line/xLabels";
 
 describe("LineChart axis labels", () => {
+  it("removes duplicate formatted x-axis label candidates", () => {
+    const size = { width: 24, height: 12 };
+
+    expect(
+      dedupeXLabelCandidates([
+        { index: 0, value: 0, text: "Jan", x: 0, size },
+        { index: 1, value: 1, text: "Jan", x: 50, size },
+        { index: 2, value: 2, text: "Feb", x: 100, size },
+        { index: 3, value: 3, text: "Feb", x: 150, size },
+        { index: 4, value: 4, text: "Mar", x: 200, size }
+      ]).map((candidate) => candidate.text)
+    ).toEqual(["Jan", "Feb", "Mar"]);
+  });
+
   it("keeps measured y-axis label widths by default", () => {
     const sizes = [
       { width: 18, height: 12 },

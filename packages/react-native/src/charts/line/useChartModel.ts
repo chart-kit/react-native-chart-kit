@@ -43,6 +43,7 @@ import type {
 } from "./types";
 import {
   defaultLabelRotation,
+  dedupeXLabelCandidates,
   getMaxSize,
   resolveXLabelLayout,
   xLabelBaselineOffset,
@@ -164,7 +165,7 @@ export const useChartModel = <TData extends Record<string, unknown>>({
       chartBoxes: ReturnType<typeof solveChartBoxes>,
       xScaleForBoxes: ProjectScale<TData>
     ): XLabelCandidate[] => {
-      return xValues.flatMap((value, index) => {
+      const candidates = xValues.flatMap((value, index) => {
         const point = normalized.series[0]?.points[index];
         const x = point ? xScaleForBoxes(value, point) : undefined;
         const text = xLabelTexts[index];
@@ -184,6 +185,12 @@ export const useChartModel = <TData extends Record<string, unknown>>({
           }
         ];
       });
+      const shouldDedupeLabels =
+        labelStrategy === "auto" || labelStrategy === "skip";
+
+      return shouldDedupeLabels
+        ? dedupeXLabelCandidates(candidates)
+        : candidates;
     };
     const baseAutoPaddingOptions = {
       base: { top: 16, right: 18, bottom: 12, left: 10 },

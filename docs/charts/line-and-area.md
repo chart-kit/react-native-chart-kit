@@ -271,6 +271,8 @@ Useful label props:
 - `axisLabelAnimation`: crossfade y-axis label changes during viewport changes.
 - `yAxisLabelWidth`: `auto`, `stable`, or a fixed number.
 
+When `labelStrategy` is `auto` or `skip`, duplicate formatted x-axis labels are collapsed before collision solving. Use `labelStrategy="show"` when repeated labels are intentional.
+
 ## Decimation
 
 LineChart uses automatic path-only min/max decimation by default. This reduces SVG path complexity for dense charts while preserving source points for selection, tooltips, labels, and custom dots.
