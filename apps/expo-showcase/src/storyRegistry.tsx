@@ -4,6 +4,7 @@ import { lineInteractionStories } from "./stories/lineInteractionStories";
 import { lineOverviewStories } from "./stories/lineOverviewStories";
 import { lineQaStories } from "./stories/lineQaStories";
 import { lineViewportStories } from "./stories/lineViewportStories";
+import { pieOverviewStories } from "./stories/pieOverviewStories";
 import type {
   ShowcaseMode,
   ShowcasePage,
@@ -49,6 +50,11 @@ export const storySections: ShowcaseSection[] = [
     id: "v2-bar",
     title: "V2 Bar",
     stories: barOverviewStories
+  },
+  {
+    id: "v2-pie",
+    title: "V2 Pie and Donut",
+    stories: pieOverviewStories
   },
   {
     id: "legacy-line",
@@ -140,6 +146,21 @@ export const publicChartMode: ShowcaseMode = {
           ]
         }
       ]
+    },
+    {
+      id: "pie-donut",
+      title: "Pie & Donut",
+      description:
+        "Public v2 slice charts for acquisition share, revenue mix, legends, and center labels.",
+      storyGroups: [
+        {
+          id: "pie-showpieces",
+          title: "Showpieces",
+          description:
+            "Modern pie and donut previews built on renderer-agnostic arc geometry.",
+          storyIds: ["v2-pie-acquisition", "v2-donut-revenue"]
+        }
+      ]
     }
   ]
 };
@@ -196,6 +217,13 @@ export const showcaseModes: ShowcaseMode[] = [
           "v2-bar-negative",
           "v2-bar-stacked-percent"
         ]
+      },
+      {
+        id: "pie-donut",
+        title: "Pie & Donut",
+        description:
+          "Modern pie and donut examples with legends and center labels.",
+        storyIds: ["v2-pie-acquisition", "v2-donut-revenue"]
       },
       {
         id: "compat",
@@ -382,6 +410,8 @@ export const storyFeatureTags: Record<string, string[]> = {
   "v2-bar-horizontal": ["horizontal bars", "category axis", "value labels"],
   "v2-bar-negative": ["negative values", "baseline", "value labels"],
   "v2-bar-stacked-percent": ["stacked100", "percentage labels", "bar chart"],
+  "v2-pie-acquisition": ["pie chart", "bottom legend", "percentage labels"],
+  "v2-donut-revenue": ["donut chart", "center label", "bottom legend"],
   "line-basic": ["legacy data", "compat facade", "line chart"],
   "line-long-labels": ["long labels", "compat facade", "line chart"],
   "line-dense-data": ["dense data", "compat facade", "line chart"],

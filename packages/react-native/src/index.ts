@@ -1,5 +1,6 @@
 export { BarChart } from "./charts/bar/BarChart";
 export { AreaChart, LineChart } from "./charts/line/LineChart";
+export { DonutChart, PieChart } from "./charts/pie/PieChart";
 export {
   builtInCartesianChartPresets,
   ChartKitProvider,
@@ -43,6 +44,13 @@ export type {
   BarChartXLabelModel,
   BarChartYLabelModel
 } from "./charts/bar/BarChart";
+export type {
+  PieChartCenterLabelRenderProps,
+  PieChartLegendConfig,
+  PieChartLegendItem,
+  PieChartModel,
+  PieChartProps
+} from "./charts/pie/PieChart";
 export type {
   LineChartAreaFillConfig,
   LineChartCrosshairConfig,

@@ -4,7 +4,7 @@ Date: May 4, 2026
 
 ## Current Slice
 
-Started the renderer-agnostic geometry foundation for PieChart and DonutChart.
+Started the renderer-agnostic geometry foundation and modern SVG component surface for PieChart and DonutChart.
 
 Added:
 
@@ -15,19 +15,23 @@ Added:
 - graceful zero, invalid, and negative value handling after normalization
 - arc centroid positions for future labels, press targets, and active slice states
 - unit tests for proportional sectors, donut paths, invalid slices, and single-slice full circles
+- modern `PieChart` and `DonutChart` exports from `@chart-kit/react-native-v2`
+- object-row props with `valueKey`, `labelKey`, and optional `colorKey` / `colors`
+- theme/preset integration and bottom wrapped legends
+- donut center text
+- Expo showcase stories for acquisition share and revenue mix
+- visual baselines for pie and donut stories
 
 ## Design Choices
 
-The first slice stays in `core` and does not add React Native rendering yet. That keeps the math testable without `react-native-svg` and matches the v2 architecture rule that rendering consumes a computed model.
+The arc math stays in `core` and the React Native component consumes that computed model. That keeps the geometry testable without `react-native-svg` and matches the v2 architecture rule that rendering consumes a computed model.
 
 The geometry builder accepts normalized slices instead of legacy props. Modern and compat components can both normalize into the same model before rendering.
 
 ## Remaining Work
 
-- Add SVG PieChart and DonutChart components.
-- Add wrapped/bottom legend support for pie and donut examples.
 - Add active slice and press event model.
-- Add percentage label formatting and center label support.
+- Add custom legend rendering and richer center label rendering.
 - Add ProgressChart/ProgressRing geometry and renderer.
 - Add ContributionGraph/CalendarHeatmap geometry and renderer.
 - Add visual stories and screenshots for long legends, zero slices, active slices, progress rings, and calendar heatmaps.
