@@ -31,6 +31,28 @@ const V2GroupedBar = ({ width }: NativeStoryProps) => (
   </ChartSection>
 );
 
+const V2SelectableBar = ({ width }: NativeStoryProps) => (
+  <ChartSection title="Paid acquisition" kicker="Tap selection">
+    <BarChart
+      data={acquisitionByChannel}
+      defaultSelectedBar={{ dataIndex: 3, seriesKey: "paid" }}
+      height={260}
+      interaction={{ mode: "tap", deselectOnOutsidePress: true }}
+      preset="analytics"
+      series={[
+        { yKey: "organic", label: "Organic" },
+        { yKey: "paid", label: "Paid" }
+      ]}
+      testID="selectable-bar-chart"
+      tooltip={{ width: 132 }}
+      width={width}
+      xKey="month"
+      yDomain={{ min: 0, max: "dataMax", nice: true }}
+      formatYLabel={formatThousands}
+    />
+  </ChartSection>
+);
+
 const V2NegativeBar = ({ width }: NativeStoryProps) => (
   <ChartSection title="Monthly profit" kicker="Negative values">
     <BarChart
@@ -69,6 +91,11 @@ export const barOverviewStories = [
     id: "v2-bar-grouped",
     title: "Grouped Bars",
     Component: V2GroupedBar
+  },
+  {
+    id: "v2-bar-selection",
+    title: "Tap Selection",
+    Component: V2SelectableBar
   },
   {
     id: "v2-bar-negative",

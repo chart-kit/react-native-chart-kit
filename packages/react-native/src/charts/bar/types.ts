@@ -22,6 +22,79 @@ export type BarChartSeries<TData extends Record<string, unknown>> = {
 };
 
 export type BarChartLabelStrategy = "auto" | "show" | "hide";
+export type BarChartInteractionMode = "none" | "tap";
+
+export type BarChartSelectedBar = {
+  dataIndex: number;
+  seriesKey: string;
+};
+
+export type BarChartSelectEvent<TData = unknown> = {
+  color: string;
+  dataIndex: number;
+  seriesKey: string;
+  seriesLabel: string;
+  value: number;
+  formattedValue: string;
+  x: ChartXValue;
+  xLabel: string;
+  position: {
+    x: number;
+    y: number;
+  };
+  raw: TData | undefined;
+};
+
+export type BarChartDeselectEvent = {
+  reason: "outsidePress" | "programmatic";
+};
+
+export type BarChartInteractionConfig<TData = unknown> = {
+  mode?: BarChartInteractionMode;
+  deselectOnOutsidePress?: boolean;
+  onSelect?: (event: BarChartSelectEvent<TData>) => void;
+  onDeselect?: (event: BarChartDeselectEvent) => void;
+};
+
+export type BarChartInteraction<TData = unknown> =
+  | BarChartInteractionMode
+  | BarChartInteractionConfig<TData>;
+
+export type BarChartTooltipConfig = {
+  visible?: boolean;
+  width?: number;
+  padding?: number;
+  borderRadius?: number;
+  backgroundColor?: string;
+  borderColor?: string;
+  textColor?: string;
+  labelColor?: string;
+  shadowColor?: string;
+  shadowOpacity?: number;
+  shadowOffsetX?: number;
+  shadowOffsetY?: number;
+  fontFamily?: string;
+  fontSize?: number;
+  labelFontSize?: number;
+};
+
+export type ResolvedBarChartTooltipConfig = {
+  visible: boolean;
+  width: number;
+  padding: number;
+  borderRadius: number;
+  backgroundColor: string;
+  borderColor: string;
+  textColor: string;
+  labelColor: string;
+  shadowColor: string;
+  shadowOpacity: number;
+  shadowOffsetX: number;
+  shadowOffsetY: number;
+  fontFamily: string | undefined;
+  fontSize: number;
+  labelFontSize: number;
+};
 
 export type BarChartProps<TData extends Record<string, unknown>> = {
   data: TData[];
@@ -41,6 +114,10 @@ export type BarChartProps<TData extends Record<string, unknown>> = {
   showValuesOnTopOfBars?: boolean;
   showHorizontalGridLines?: boolean;
   legend?: boolean;
+  interaction?: BarChartInteraction<TData>;
+  selectedBar?: BarChartSelectedBar;
+  defaultSelectedBar?: BarChartSelectedBar;
+  tooltip?: boolean | BarChartTooltipConfig;
   labelStrategy?: BarChartLabelStrategy;
   formatXLabel?: (value: ChartXValue, index: number) => string;
   formatYLabel?: (value: number) => string;
@@ -81,26 +158,32 @@ export type BarChartLegendItemModel = {
   labelY: number;
 };
 
+export type BarChartBarModel<TData = unknown> = {
+  key: string;
+  seriesKey: string;
+  seriesLabel: string;
+  seriesIndex: number;
+  dataIndex: number;
+  xValue: ChartXValue;
+  xLabel: string;
+  value: number;
+  formattedValue: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  baselineY: number;
+  color: string;
+  raw: TData | undefined;
+};
+
 export type BuildBarChartModelOptions<TData extends Record<string, unknown>> =
   BarChartProps<TData> & {
     chartKitTheme: ChartKitThemeContextValue;
   };
 
 export type BarChartModel<TData = unknown> = {
-  bars: Array<{
-    key: string;
-    seriesKey: string;
-    seriesLabel: string;
-    dataIndex: number;
-    value: number;
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-    baselineY: number;
-    color: string;
-    raw: TData | undefined;
-  }>;
+  bars: Array<BarChartBarModel<TData>>;
   boxes: ChartBoxes;
   mode: BarChartMode;
   resolvedTheme: ResolvedCartesianChartTheme;

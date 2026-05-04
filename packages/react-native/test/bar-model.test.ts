@@ -33,8 +33,10 @@ describe("BarChart model", () => {
     expect(model.yTicks.length).toBeGreaterThan(1);
     expect(model.bars[0]).toMatchObject({
       dataIndex: 0,
+      formattedValue: "20",
       seriesKey: "ios",
       value: 20,
+      xLabel: "Jan",
       color: "#2563eb"
     });
     expect(model.bars[1]).toMatchObject({

@@ -82,6 +82,31 @@ test.describe("Expo showcase chart interactions", () => {
     await expect(page.getByText("MSFT:")).toHaveCount(0);
   });
 
+  test("bar chart tap selection moves and clears tooltip", async ({ page }) => {
+    await page.goto("/?story=v2-bar-selection&visual=1");
+    await page.evaluate(async () => {
+      await document.fonts?.ready;
+    });
+
+    await expect(page.getByText("Paid acquisition")).toBeVisible();
+    await expect(page.getByText("Paid: 43k")).toBeVisible();
+
+    await page.getByTestId("bar-chart-bar.organic.1").click();
+    await expect(page.getByText("Organic: 48k")).toBeVisible();
+    await expect(page.getByText("Paid: 43k")).toHaveCount(0);
+
+    const chart = page.getByTestId("selectable-bar-chart");
+    const chartBox = await chart.boundingBox();
+    expect(chartBox).not.toBeNull();
+
+    if (!chartBox) {
+      return;
+    }
+
+    await page.mouse.click(chartBox.x + 12, chartBox.y + 12);
+    await expect(page.getByText("Organic: 48k")).toHaveCount(0);
+  });
+
   test("range selector overview changes the visible window", async ({
     page
   }) => {

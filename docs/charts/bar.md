@@ -1,6 +1,6 @@
 # Bar Charts
 
-`BarChart` is the modern v2 bar surface for object-row data. It supports vertical grouped bars, stacked bars, 100% stacked bars, negative values, automatic axis padding, theme presets, value labels, and a simple bottom legend.
+`BarChart` is the modern v2 bar surface for object-row data. It supports vertical grouped bars, stacked bars, 100% stacked bars, negative values, automatic axis padding, theme presets, value labels, tap selection, tooltips, and a simple bottom legend.
 
 Use this API for new apps. Legacy `BarChart` compatibility fixtures remain separate from the modern v2 API.
 
@@ -108,6 +108,36 @@ Set `mode="stacked100"` for percentage composition. The original values are pres
 />
 ```
 
+## Tap Selection And Tooltips
+
+Bar selection is opt-in. Use `interaction="tap"` for the simplest behavior, or pass an object when you need callbacks or outside-press dismissal.
+
+```tsx
+<BarChart
+  data={data}
+  xKey="month"
+  series={[
+    { yKey: "organic", label: "Organic" },
+    { yKey: "paid", label: "Paid" }
+  ]}
+  interaction={{
+    mode: "tap",
+    deselectOnOutsidePress: true,
+    onSelect: (event) => {
+      setSelectedChannel(event.seriesLabel);
+    }
+  }}
+  tooltip={{ width: 132 }}
+  defaultSelectedBar={{ dataIndex: 3, seriesKey: "paid" }}
+  width={360}
+  height={260}
+/>
+```
+
+The public select event includes `dataIndex`, `seriesKey`, `seriesLabel`, `value`, `formattedValue`, `x`, `xLabel`, `color`, `position`, and the original `raw` row.
+
+Tooltip styling follows the chart theme tooltip tokens by default and can be overridden per chart with `backgroundColor`, `borderColor`, `textColor`, `labelColor`, `padding`, `borderRadius`, `fontFamily`, `fontSize`, `labelFontSize`, and shadow props.
+
 ## Labels and Themes
 
 Useful label and theme props:
@@ -121,4 +151,4 @@ Useful label and theme props:
 
 ## Current Limitations
 
-This is the first modern BarChart slice. The current implementation does not yet include horizontal bars, scrollable bars, bar selection events, sticky axes, custom bar renderers, or legacy BarChart prop mapping. Those belong to the next CKV2-007 slices.
+This is still an early modern BarChart slice. The current implementation does not yet include horizontal bars, scrollable bars, sticky axes, custom bar renderers, or legacy BarChart prop mapping. Those belong to later CKV2-007 slices.

@@ -1,7 +1,9 @@
-import { useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { View } from "react-native";
+import type { GestureResponderEvent, ViewProps } from "react-native";
 
 import {
+  createSvgTestId,
   SvgLayer,
   SvgLine,
   SvgRect,
@@ -11,7 +13,19 @@ import {
 
 import { useChartKitTheme } from "../../theme";
 import { getFontFamilyProps } from "../line/text";
+import {
+  buildBarChartSelectEvent,
+  getBarChartBarAtPoint,
+  getBarChartBarKey,
+  getBarChartInteractionConfig,
+  isBarChartInteractionEnabled
+} from "./interaction";
 import { buildBarChartModel } from "./model";
+import { getBarChartTooltipConfig } from "./options";
+import {
+  getBarChartTooltipModel,
+  renderDefaultBarChartTooltip
+} from "./tooltip";
 import type { BarChartProps } from "./types";
 
 export type * from "./types";
@@ -20,6 +34,13 @@ export const BarChart = <TData extends Record<string, unknown>>(
   props: BarChartProps<TData>
 ) => {
   const chartKitTheme = useChartKitTheme();
+  const interactionConfig = useMemo(
+    () => getBarChartInteractionConfig(props.interaction),
+    [props.interaction]
+  );
+  const [gestureSelectedBarKey, setGestureSelectedBarKey] = useState<
+    string | undefined
+  >(() => getBarChartBarKey(props.defaultSelectedBar));
   const model = useMemo(
     () => buildBarChartModel({ ...props, chartKitTheme }),
     [chartKitTheme, props]
@@ -37,6 +58,73 @@ export const BarChart = <TData extends Record<string, unknown>>(
   } = model;
   const barRadius = Math.max(0, props.barRadius ?? 5);
   const fontProps = getFontFamilyProps(resolvedTheme.typography.fontFamily);
+  const controlledSelectedBarKey = getBarChartBarKey(props.selectedBar);
+  const selectedBarKey = controlledSelectedBarKey ?? gestureSelectedBarKey;
+  const selectedBar = bars.find((bar) => bar.key === selectedBarKey);
+  const hasSelectedBar = selectedBar !== undefined;
+  const tooltipConfig = useMemo(
+    () =>
+      getBarChartTooltipConfig({
+        themeTooltip: resolvedTheme.tooltip,
+        tooltip: props.tooltip
+      }),
+    [props.tooltip, resolvedTheme.tooltip]
+  );
+  const tooltipModel = useMemo(
+    () =>
+      getBarChartTooltipModel({
+        bar: selectedBar,
+        boxes,
+        config: tooltipConfig
+      }),
+    [boxes, selectedBar, tooltipConfig]
+  );
+  const isInteractionEnabled = isBarChartInteractionEnabled(interactionConfig);
+  const handleResponderRelease = useCallback(
+    (event: GestureResponderEvent) => {
+      event.preventDefault();
+
+      const { locationX, locationY } = event.nativeEvent;
+      const tappedBar = getBarChartBarAtPoint({
+        bars,
+        locationX,
+        locationY
+      });
+
+      if (!tappedBar) {
+        if (interactionConfig.deselectOnOutsidePress) {
+          if (props.selectedBar === undefined) {
+            setGestureSelectedBarKey(undefined);
+          }
+
+          interactionConfig.onDeselect?.({ reason: "outsidePress" });
+        }
+
+        return;
+      }
+
+      if (props.selectedBar === undefined) {
+        setGestureSelectedBarKey(tappedBar.key);
+      }
+
+      const selectEvent = buildBarChartSelectEvent(tappedBar);
+
+      if (selectEvent) {
+        interactionConfig.onSelect?.(selectEvent);
+      }
+    },
+    [bars, interactionConfig, props.selectedBar]
+  );
+  const responderProps: ViewProps = isInteractionEnabled
+    ? {
+        onStartShouldSetResponder: () => true,
+        onResponderGrant: (event: GestureResponderEvent) => {
+          event.preventDefault();
+        },
+        onResponderRelease: handleResponderRelease,
+        onResponderTerminationRequest: () => true
+      }
+    : {};
   const accessibilityLabel =
     props.accessibilityLabel ??
     `Bar chart with ${bars.length} bars across ${xLabels.length} visible x-axis labels.`;
@@ -45,8 +133,10 @@ export const BarChart = <TData extends Record<string, unknown>>(
     <View
       accessible
       accessibilityLabel={accessibilityLabel}
+      accessibilityRole="image"
       style={{ width: props.width, height: props.height }}
       testID={props.testID}
+      {...responderProps}
     >
       <SvgSurface width={props.width} height={props.height}>
         <SvgLayer name="background">
@@ -94,17 +184,34 @@ export const BarChart = <TData extends Record<string, unknown>>(
             : null}
         </SvgLayer>
         <SvgLayer name="data">
-          {bars.map((bar) => (
-            <SvgRect
-              key={bar.key}
-              x={bar.x}
-              y={bar.y}
-              width={bar.width}
-              height={bar.height}
-              rx={Math.min(barRadius, bar.width / 2, bar.height / 2)}
-              fill={bar.color}
-            />
-          ))}
+          {bars.map((bar) => {
+            const isSelected = selectedBarKey === bar.key;
+
+            return (
+              <SvgRect
+                key={bar.key}
+                x={bar.x}
+                y={bar.y}
+                width={bar.width}
+                height={bar.height}
+                rx={Math.min(barRadius, bar.width / 2, bar.height / 2)}
+                fill={bar.color}
+                opacity={hasSelectedBar && !isSelected ? 0.42 : 1}
+                {...(isSelected
+                  ? {
+                      stroke: resolvedTheme.text,
+                      strokeOpacity: 0.32,
+                      strokeWidth: 1.5
+                    }
+                  : {})}
+                testID={createSvgTestId(
+                  "bar-chart-bar",
+                  bar.seriesKey,
+                  bar.dataIndex
+                )}
+              />
+            );
+          })}
         </SvgLayer>
         <SvgLayer name="axes">
           {yLabels.map((label) => (
@@ -170,6 +277,14 @@ export const BarChart = <TData extends Record<string, unknown>>(
               {item.label}
             </SvgText>
           ))}
+        </SvgLayer>
+        <SvgLayer name="interaction">
+          {tooltipModel
+            ? renderDefaultBarChartTooltip({
+                ...tooltipModel,
+                config: tooltipConfig
+              })
+            : null}
         </SvgLayer>
       </SvgSurface>
     </View>

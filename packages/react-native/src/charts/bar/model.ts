@@ -15,6 +15,7 @@ import {
   type ResolvedCartesianChartTheme
 } from "../../theme/presets";
 import type {
+  BarChartBarModel,
   BarChartModel,
   BarChartProps,
   BarChartSeries,
@@ -311,12 +312,26 @@ export const buildBarChartModel = <TData extends Record<string, unknown>>({
     x: boxes.plot.x - 8,
     y: yScale.scale(tick) + resolvedTheme.typography.axisLabelSize / 2 - 2
   }));
-  const bars = barGeometry.bars.map((bar) => ({
-    ...bar,
+  const bars: Array<BarChartBarModel<TData>> = barGeometry.bars.map((bar) => ({
+    baselineY: bar.baselineY,
     color:
       normalized.series[bar.seriesIndex]?.color ??
       seriesInput[bar.seriesIndex]?.color ??
-      getSeriesColor(resolvedTheme, bar.seriesIndex)
+      getSeriesColor(resolvedTheme, bar.seriesIndex),
+    dataIndex: bar.dataIndex,
+    formattedValue: formatYLabel(bar.value),
+    height: bar.height,
+    key: bar.key,
+    raw: bar.raw,
+    seriesIndex: bar.seriesIndex,
+    seriesKey: bar.seriesKey,
+    seriesLabel: bar.seriesLabel,
+    value: bar.value,
+    width: bar.width,
+    x: bar.x,
+    xLabel: formatXLabel(bar.xValue, bar.dataIndex),
+    xValue: bar.xValue,
+    y: bar.y
   }));
   const valueLabels = showValuesOnTopOfBars
     ? bars.map((bar) => ({

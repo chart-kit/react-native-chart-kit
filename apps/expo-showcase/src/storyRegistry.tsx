@@ -74,8 +74,13 @@ export const publicChartMode: ShowcaseMode = {
       id: "bar-charts",
       title: "Bar Charts",
       description:
-        "Public v2 bar chart previews for grouped, negative, and stacked percentage bars.",
-      storyIds: ["v2-bar-grouped", "v2-bar-negative", "v2-bar-stacked-percent"]
+        "Public v2 bar chart previews for grouped, selectable, negative, and stacked percentage bars.",
+      storyIds: [
+        "v2-bar-grouped",
+        "v2-bar-selection",
+        "v2-bar-negative",
+        "v2-bar-stacked-percent"
+      ]
     }
   ]
 };
@@ -123,9 +128,10 @@ export const showcaseModes: ShowcaseMode[] = [
         id: "bar",
         title: "Bar",
         description:
-          "Modern v2 bar chart examples across grouped, negative, and stacked percentage modes.",
+          "Modern v2 bar chart examples across grouped, selectable, negative, and stacked percentage modes.",
         storyIds: [
           "v2-bar-grouped",
+          "v2-bar-selection",
           "v2-bar-negative",
           "v2-bar-stacked-percent"
         ]
@@ -308,6 +314,7 @@ export const storyFeatureTags: Record<string, string[]> = {
   "v2-hidden-labels": ["hidden labels", "minimal axis", "clean preview"],
   "v2-dark-mode": ["dark theme", "area fill", "multi-series"],
   "v2-bar-grouped": ["grouped bars", "value labels", "analytics preset"],
+  "v2-bar-selection": ["tap selection", "bar tooltip", "highlight state"],
   "v2-bar-negative": ["negative values", "baseline", "value labels"],
   "v2-bar-stacked-percent": ["stacked100", "percentage labels", "bar chart"],
   "line-basic": ["legacy data", "compat facade", "line chart"],
