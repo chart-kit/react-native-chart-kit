@@ -45,11 +45,17 @@ export type {
   BarChartYLabelModel
 } from "./charts/bar/BarChart";
 export type {
+  PieChartActiveSliceConfig,
   PieChartCenterLabelRenderProps,
+  PieChartDeselectEvent,
+  PieChartInteraction,
+  PieChartInteractionConfig,
+  PieChartInteractionMode,
   PieChartLegendConfig,
   PieChartLegendItem,
   PieChartModel,
-  PieChartProps
+  PieChartProps,
+  PieChartSelectEvent
 } from "./charts/pie/PieChart";
 export type {
   LineChartAreaFillConfig,

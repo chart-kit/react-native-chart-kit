@@ -19,7 +19,9 @@ Added:
 - object-row props with `valueKey`, `labelKey`, and optional `colorKey` / `colors`
 - theme/preset integration and bottom wrapped legends
 - donut center text
+- tap selection, typed slice select events, and active-slice highlighting
 - Expo showcase stories for acquisition share and revenue mix
+- Expo interaction test for donut slice selection
 - visual baselines for pie and donut stories
 
 ## Design Choices
@@ -30,7 +32,6 @@ The geometry builder accepts normalized slices instead of legacy props. Modern a
 
 ## Remaining Work
 
-- Add active slice and press event model.
 - Add custom legend rendering and richer center label rendering.
 - Add ProgressChart/ProgressRing geometry and renderer.
 - Add ContributionGraph/CalendarHeatmap geometry and renderer.

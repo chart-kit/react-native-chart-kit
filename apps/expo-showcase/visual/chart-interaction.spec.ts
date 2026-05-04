@@ -122,6 +122,21 @@ test.describe("Expo showcase chart interactions", () => {
     await expect(page.getByText("Community")).toBeVisible();
   });
 
+  test("donut chart tap selection updates the active center label", async ({
+    page
+  }) => {
+    await page.goto("/?story=v2-donut-selection&visual=1");
+    await page.evaluate(async () => {
+      await document.fonts?.ready;
+    });
+
+    const centerLabel = page.getByTestId("chart-layer.overlays");
+
+    await expect(centerLabel.getByText("Business")).toBeVisible();
+    await page.getByTestId("selectable-donut-chart-slice.3").click();
+    await expect(centerLabel.getByText("Starter")).toBeVisible();
+  });
+
   test("range selector overview changes the visible window", async ({
     page
   }) => {

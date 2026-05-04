@@ -56,6 +56,30 @@ The first v2 slice supports:
 - bottom wrapped legend
 - percentage labels in the legend
 - donut center text
+- tap selection with active-slice highlighting
 - zero and invalid slices without broken paths
 
-Press interactions, active slices, custom legend rendering, and advanced label renderers are planned for the next CKV2-008 slices.
+## Tap Selection
+
+Use `interaction="tap"` for uncontrolled selection, or pass `selectedIndex` with `interaction.onSelect` for controlled product UI.
+
+```tsx
+const [selectedIndex, setSelectedIndex] = useState(0);
+
+<DonutChart
+  data={revenueMix}
+  valueKey="revenue"
+  labelKey="plan"
+  selectedIndex={selectedIndex}
+  interaction={{
+    mode: "tap",
+    onSelect: (event) => setSelectedIndex(event.index)
+  }}
+  centerLabel={revenueMix[selectedIndex]?.plan}
+  activeSlice={{ inactiveOpacity: 0.36, strokeWidth: 4 }}
+  width={360}
+  height={260}
+/>;
+```
+
+Custom legend rendering and advanced label renderers are planned for the next CKV2-008 slices.

@@ -1,5 +1,6 @@
-import { useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import type { GestureResponderEvent, ViewProps } from "react-native";
 
 import {
   SvgLayer,
@@ -9,6 +10,13 @@ import {
 } from "@chart-kit/svg-renderer";
 
 import { useChartKitTheme } from "../../theme";
+import {
+  buildPieChartSelectEvent,
+  getPieChartInteractionConfig,
+  getPieChartSliceAtPoint,
+  isPieChartInteractionEnabled,
+  normalizePieChartSelectedIndex
+} from "./interaction";
 import { buildPieChartModel } from "./model";
 import type { PieChartProps } from "./types";
 
@@ -20,6 +28,15 @@ export const PieChart = <TData extends Record<string, unknown>>(
   props: PieChartProps<TData>
 ) => {
   const chartKitTheme = useChartKitTheme();
+  const interactionConfig = useMemo(
+    () => getPieChartInteractionConfig(props.interaction),
+    [props.interaction]
+  );
+  const [gestureSelectedIndex, setGestureSelectedIndex] = useState<
+    number | undefined
+  >(() => normalizePieChartSelectedIndex(props.defaultSelectedIndex));
+  const selectedIndex =
+    normalizePieChartSelectedIndex(props.selectedIndex) ?? gestureSelectedIndex;
   const model = useMemo(
     () => buildPieChartModel({ chartKitTheme, props }),
     [chartKitTheme, props]
@@ -32,8 +49,74 @@ export const PieChart = <TData extends Record<string, unknown>>(
     legendItems,
     legendVisible,
     resolvedTheme,
+    radius,
     total
   } = model;
+  const activeSlice = {
+    activeOpacity: props.activeSlice?.activeOpacity ?? 1,
+    inactiveOpacity: props.activeSlice?.inactiveOpacity ?? 0.42,
+    strokeColor: props.activeSlice?.strokeColor ?? resolvedTheme.background,
+    strokeWidth: props.activeSlice?.strokeWidth ?? 3
+  };
+  const isInteractionEnabled = isPieChartInteractionEnabled(interactionConfig);
+  const hasSelectedSlice = selectedIndex !== undefined;
+  const handleResponderRelease = useCallback(
+    (event: GestureResponderEvent) => {
+      event.preventDefault();
+
+      const { locationX, locationY } = event.nativeEvent;
+      const tappedSlice = getPieChartSliceAtPoint({
+        arcs,
+        centerX,
+        centerY,
+        innerRadius: model.innerRadius,
+        locationX,
+        locationY,
+        radius
+      });
+
+      if (!tappedSlice) {
+        if (interactionConfig.deselectOnOutsidePress) {
+          if (props.selectedIndex === undefined) {
+            setGestureSelectedIndex(undefined);
+          }
+
+          interactionConfig.onDeselect?.({ reason: "outsidePress" });
+        }
+
+        return;
+      }
+
+      if (props.selectedIndex === undefined) {
+        setGestureSelectedIndex(tappedSlice.index);
+      }
+
+      const selectEvent = buildPieChartSelectEvent(tappedSlice);
+
+      if (selectEvent) {
+        interactionConfig.onSelect?.(selectEvent);
+      }
+    },
+    [
+      arcs,
+      centerX,
+      centerY,
+      interactionConfig,
+      model.innerRadius,
+      props.selectedIndex,
+      radius
+    ]
+  );
+  const responderProps: ViewProps = isInteractionEnabled
+    ? {
+        onStartShouldSetResponder: () => true,
+        onResponderGrant: (event: GestureResponderEvent) => {
+          event.preventDefault();
+        },
+        onResponderRelease: handleResponderRelease,
+        onResponderTerminationRequest: () => true
+      }
+    : {};
   const centerLabel =
     typeof props.centerLabel === "function"
       ? props.centerLabel({ arcs, theme: resolvedTheme, total })
@@ -56,19 +139,38 @@ export const PieChart = <TData extends Record<string, unknown>>(
         }
       ]}
       testID={props.testID}
+      {...responderProps}
     >
       <SvgSurface width={props.width} height={chartHeight}>
         <SvgLayer name="background">
-          {arcs.map((arc) =>
-            arc.defined ? (
+          {arcs.map((arc) => {
+            if (!arc.defined) {
+              return null;
+            }
+
+            const isSelected = selectedIndex === arc.index;
+            const opacity = hasSelectedSlice
+              ? isSelected
+                ? activeSlice.activeOpacity
+                : activeSlice.inactiveOpacity
+              : 1;
+
+            return (
               <SvgPath
                 key={`pie-slice-${arc.index}`}
                 d={arc.path}
                 fill={arc.color ?? resolvedTheme.text}
+                opacity={opacity}
                 testID={`${props.testID ?? "pie-chart"}-slice.${arc.index}`}
+                {...(isSelected
+                  ? {
+                      stroke: activeSlice.strokeColor,
+                      strokeWidth: activeSlice.strokeWidth
+                    }
+                  : {})}
               />
-            ) : null
-          )}
+            );
+          })}
         </SvgLayer>
         {typeof centerLabel === "string" && centerLabel.length > 0 ? (
           <SvgLayer name="overlays">

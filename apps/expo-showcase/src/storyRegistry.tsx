@@ -158,7 +158,11 @@ export const publicChartMode: ShowcaseMode = {
           title: "Showpieces",
           description:
             "Modern pie and donut previews built on renderer-agnostic arc geometry.",
-          storyIds: ["v2-pie-acquisition", "v2-donut-revenue"]
+          storyIds: [
+            "v2-pie-acquisition",
+            "v2-donut-revenue",
+            "v2-donut-selection"
+          ]
         }
       ]
     }
@@ -223,7 +227,11 @@ export const showcaseModes: ShowcaseMode[] = [
         title: "Pie & Donut",
         description:
           "Modern pie and donut examples with legends and center labels.",
-        storyIds: ["v2-pie-acquisition", "v2-donut-revenue"]
+        storyIds: [
+          "v2-pie-acquisition",
+          "v2-donut-revenue",
+          "v2-donut-selection"
+        ]
       },
       {
         id: "compat",
@@ -412,6 +420,7 @@ export const storyFeatureTags: Record<string, string[]> = {
   "v2-bar-stacked-percent": ["stacked100", "percentage labels", "bar chart"],
   "v2-pie-acquisition": ["pie chart", "bottom legend", "percentage labels"],
   "v2-donut-revenue": ["donut chart", "center label", "bottom legend"],
+  "v2-donut-selection": ["tap selection", "active slice", "center label"],
   "line-basic": ["legacy data", "compat facade", "line chart"],
   "line-long-labels": ["long labels", "compat facade", "line chart"],
   "line-dense-data": ["dense data", "compat facade", "line chart"],

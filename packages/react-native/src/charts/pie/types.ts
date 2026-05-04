@@ -10,6 +10,39 @@ export type PieChartLegendConfig = {
   visible?: boolean;
 };
 
+export type PieChartDeselectEvent = {
+  reason: "outsidePress" | "programmatic";
+};
+
+export type PieChartSelectEvent<TData = unknown> = {
+  index: number;
+  label: string;
+  value: number | null;
+  percentage: number;
+  color?: string;
+  raw?: TData;
+};
+
+export type PieChartInteractionMode = "none" | "tap";
+
+export type PieChartInteractionConfig<TData = unknown> = {
+  mode?: PieChartInteractionMode;
+  deselectOnOutsidePress?: boolean;
+  onDeselect?: (event: PieChartDeselectEvent) => void;
+  onSelect?: (event: PieChartSelectEvent<TData>) => void;
+};
+
+export type PieChartInteraction<TData = unknown> =
+  | PieChartInteractionMode
+  | PieChartInteractionConfig<TData>;
+
+export type PieChartActiveSliceConfig = {
+  strokeColor?: string;
+  strokeWidth?: number;
+  activeOpacity?: number;
+  inactiveOpacity?: number;
+};
+
 export type PieChartCenterLabelRenderProps<TData = unknown> = {
   total: number;
   arcs: Array<PieArcModel<TData>>;
@@ -29,6 +62,10 @@ export type PieChartProps<TData extends Record<string, unknown>> = {
   innerRadius?: number;
   innerRadiusRatio?: number;
   legend?: boolean | PieChartLegendConfig;
+  selectedIndex?: number;
+  defaultSelectedIndex?: number;
+  activeSlice?: PieChartActiveSliceConfig;
+  interaction?: PieChartInteraction<TData>;
   centerLabel?:
     | string
     | ((props: PieChartCenterLabelRenderProps<TData>) => string);
