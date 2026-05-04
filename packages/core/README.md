@@ -31,6 +31,7 @@ Current exports:
 - `buildLinePath`
 - `buildAreaPath`
 - `buildLineSeriesGeometry`
+- `buildBarGeometry`
 - `getDecimatedLinePathSegments`
 - `splitDefinedSegments`
 - `resolveNumericDomain`

@@ -1,4 +1,5 @@
 export * from "./areaPath";
+export * from "./barRects";
 export * from "./lineDecimation";
 export * from "./linePath";
 export * from "./lineSeries";
