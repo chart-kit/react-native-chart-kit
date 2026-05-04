@@ -1,23 +1,29 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("Expo showcase chart interactions", () => {
-  test("showcase menu opens compact selection sheets", async ({ page }) => {
+  test("showcase menu opens a chart page picker", async ({ page }) => {
     await page.goto("/");
     await page.evaluate(async () => {
       await document.fonts?.ready;
     });
 
-    await expect(page.getByText("Line & Area")).toBeVisible();
+    await expect(page.getByText("Line Charts")).toBeVisible();
     await expect(page.getByText("High Contrast")).toHaveCount(0);
-    await expect(page.getByText("Scenarios")).toHaveCount(0);
+    await expect(page.getByRole("button", { name: "QA" })).toHaveCount(0);
 
-    await page.getByRole("button", { name: "Open preview menu" }).click();
-    await expect(page.getByText("Preview menu")).toBeVisible();
-    await page.getByText("Theme", { exact: true }).click();
-    await expect(page.getByText("High Contrast")).toBeVisible();
-    await page.getByText("Back").click();
-    await page.getByText("Browse", { exact: true }).click();
-    await expect(page.getByRole("button", { name: "QA" })).toBeVisible();
+    await page.getByRole("button", { name: "Open chart page menu" }).click();
+    await expect(page.getByText("Chart pages")).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Bar Charts" })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Line Charts" })
+    ).toBeVisible();
+    await page.getByRole("button", { name: "Bar Charts" }).click();
+    await expect(
+      page.getByTestId("preview-scroll").getByText("Bar Charts")
+    ).toBeVisible();
+    await expect(page.getByText("Compat BarChart").first()).toBeVisible();
   });
 
   test("scrubbing does not select chart text on web", async ({ page }) => {
@@ -172,14 +178,10 @@ test.describe("Expo showcase chart interactions", () => {
   test("range selector overview uses the dark mini-chart palette", async ({
     page
   }) => {
-    await page.goto("/?story=v2-range-selector");
+    await page.goto("/?story=v2-range-selector&theme=dark");
     await page.evaluate(async () => {
       await document.fonts?.ready;
     });
-
-    await page.getByRole("button", { name: "Open preview menu" }).click();
-    await page.getByText("Appearance", { exact: true }).click();
-    await page.getByText("Dark", { exact: true }).click();
 
     const rangeSelector = page.getByTestId(
       "range-selector-chart-range-selector"

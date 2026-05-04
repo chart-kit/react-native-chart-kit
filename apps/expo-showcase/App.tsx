@@ -18,6 +18,7 @@ import {
   ShowcaseMode,
   ShowcasePage,
   ShowcaseStory,
+  publicChartMode,
   showcaseModes,
   stories,
   storyFeatureTags
@@ -31,7 +32,8 @@ import { ShowcaseMenu } from "./src/ShowcaseMenu";
 
 const defaultStory =
   stories.find((story) => story.id === "v2-basic") ?? stories[0];
-const defaultMode = showcaseModes[0];
+const defaultMode = publicChartMode;
+const allShowcaseModes = [publicChartMode, ...showcaseModes];
 
 const isWebRuntime = Platform.OS === "web" && typeof window !== "undefined";
 
@@ -55,6 +57,25 @@ const getInitialVisualMode = () => {
   return params?.get("visual") === "1" || params?.get("mode") === "visual";
 };
 
+const getInitialThemeMode = (): ShowcaseThemeMode => {
+  const theme = getWebSearchParams()?.get("theme");
+
+  return theme === "dark" ? "dark" : "light";
+};
+
+const getInitialPreset = (): ShowcasePresetId => {
+  const preset = getWebSearchParams()?.get("preset");
+
+  return preset === "analytics" ||
+    preset === "fintech" ||
+    preset === "health" ||
+    preset === "minimal" ||
+    preset === "highContrast" ||
+    preset === "studio"
+    ? preset
+    : "default";
+};
+
 type PageSelection = {
   mode: ShowcaseMode;
   page: ShowcasePage;
@@ -67,7 +88,7 @@ const getPageSelectionForStory = (
     return undefined;
   }
 
-  for (const mode of showcaseModes) {
+  for (const mode of allShowcaseModes) {
     for (const page of mode.pages) {
       if (page.storyIds.includes(storyId)) {
         return { mode, page };
@@ -94,7 +115,7 @@ const getPageSelection = ({
   }
 
   const mode =
-    showcaseModes.find((currentMode) => currentMode.id === viewId) ??
+    allShowcaseModes.find((currentMode) => currentMode.id === viewId) ??
     defaultMode;
   const page =
     mode.pages.find((currentPage) => currentPage.id === pageId) ??
@@ -132,8 +153,8 @@ export default function App() {
   const [pageSelection, setPageSelection] = useState<PageSelection>(
     getInitialPageSelection
   );
-  const [themeMode, setThemeMode] = useState<ShowcaseThemeMode>("light");
-  const [chartPreset, setChartPreset] = useState<ShowcasePresetId>("default");
+  const [themeMode] = useState<ShowcaseThemeMode>(getInitialThemeMode);
+  const [chartPreset] = useState<ShowcasePresetId>(getInitialPreset);
   const [isScrubbing, setIsScrubbing] = useState(false);
   const isDarkApp = themeMode === "dark";
   const appTheme = useMemo(
@@ -172,10 +193,6 @@ export default function App() {
     updateShowcaseUrl(selection, isVisualMode);
   };
 
-  const selectMode = (mode: ShowcaseMode) => {
-    selectPage({ mode, page: mode.pages[0] });
-  };
-
   if (isVisualMode) {
     const visualWidth = Math.min(previewWidth, 430);
 
@@ -206,14 +223,10 @@ export default function App() {
           </View>
           <ShowcaseMenu
             appTheme={appTheme}
-            chartPreset={chartPreset}
-            pageSelection={pageSelection}
-            selectMode={selectMode}
-            selectPage={selectPage}
-            setChartPreset={setChartPreset}
-            setThemeMode={setThemeMode}
-            showcaseModes={showcaseModes}
-            themeMode={themeMode}
+            currentPageId={pageSelection.page.id}
+            isDark={isDarkApp}
+            onSelectPage={(page) => selectPage({ mode: publicChartMode, page })}
+            pages={publicChartMode.pages}
           />
         </View>
 

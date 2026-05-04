@@ -9,13 +9,7 @@ import {
   View
 } from "react-native";
 
-import type { ShowcaseMode, ShowcasePage } from "./stories/storyPrimitives";
-import {
-  showcaseModeOptions,
-  showcasePresetOptions,
-  type ShowcasePresetId,
-  type ShowcaseThemeMode
-} from "./showcaseTheme";
+import type { ShowcasePage } from "./stories/storyPrimitives";
 
 type ShowcaseMenuTheme = {
   axis: string;
@@ -26,45 +20,24 @@ type ShowcaseMenuTheme = {
   text: string;
 };
 
-type PageSelection = {
-  mode: ShowcaseMode;
-  page: ShowcasePage;
-};
-
-type MenuGroup = "browse" | "page" | "appearance" | "theme";
-
-type SelectOption<TId extends string> = {
-  id: TId;
-  title: string;
-};
-
-const rootOptions: Array<{ id: MenuGroup; title: string }> = [
-  { id: "browse", title: "Browse" },
-  { id: "page", title: "Page" },
-  { id: "appearance", title: "Appearance" },
-  { id: "theme", title: "Theme" }
-];
-
-const showIOSOptions = <TId extends string>({
-  currentId,
-  onSelect,
-  options,
-  title,
+const showIOSPagePicker = ({
+  currentPageId,
+  onSelectPage,
+  pages,
   userInterfaceStyle
 }: {
-  currentId: TId;
-  onSelect: (id: TId) => void;
-  options: Array<SelectOption<TId>>;
-  title: string;
+  currentPageId: string;
+  onSelectPage: (page: ShowcasePage) => void;
+  pages: ShowcasePage[];
   userInterfaceStyle: "dark" | "light";
 }) => {
-  const cancelButtonIndex = options.length;
+  const cancelButtonIndex = pages.length;
 
   ActionSheetIOS.showActionSheetWithOptions(
     {
       cancelButtonIndex,
-      options: [...options.map((option) => option.title), "Cancel"],
-      title,
+      options: [...pages.map((page) => page.title), "Cancel"],
+      title: "Chart pages",
       userInterfaceStyle
     },
     (selectedIndex) => {
@@ -72,10 +45,10 @@ const showIOSOptions = <TId extends string>({
         return;
       }
 
-      const selectedOption = options[selectedIndex];
+      const selectedPage = pages[selectedIndex];
 
-      if (selectedOption && selectedOption.id !== currentId) {
-        onSelect(selectedOption.id);
+      if (selectedPage && selectedPage.id !== currentPageId) {
+        onSelectPage(selectedPage);
       }
     }
   );
@@ -83,230 +56,42 @@ const showIOSOptions = <TId extends string>({
 
 export const ShowcaseMenu = ({
   appTheme,
-  chartPreset,
-  pageSelection,
-  selectMode,
-  selectPage,
-  setChartPreset,
-  setThemeMode,
-  showcaseModes,
-  themeMode
+  currentPageId,
+  isDark,
+  onSelectPage,
+  pages
 }: {
   appTheme: ShowcaseMenuTheme;
-  chartPreset: ShowcasePresetId;
-  pageSelection: PageSelection;
-  selectMode: (mode: ShowcaseMode) => void;
-  selectPage: (selection: PageSelection) => void;
-  setChartPreset: (preset: ShowcasePresetId) => void;
-  setThemeMode: (mode: ShowcaseThemeMode) => void;
-  showcaseModes: ShowcaseMode[];
-  themeMode: ShowcaseThemeMode;
+  currentPageId: string;
+  isDark: boolean;
+  onSelectPage: (page: ShowcasePage) => void;
+  pages: ShowcasePage[];
 }) => {
   const [isFallbackOpen, setIsFallbackOpen] = useState(false);
-  const [fallbackGroup, setFallbackGroup] = useState<MenuGroup | undefined>();
   const selectedControlColor = appTheme.series[0] ?? appTheme.text;
   const selectedControlTextColor = appTheme.background;
-  const userInterfaceStyle = themeMode === "dark" ? "dark" : "light";
-
-  const showIOSRootMenu = () => {
-    const cancelButtonIndex = rootOptions.length;
-
-    ActionSheetIOS.showActionSheetWithOptions(
-      {
-        cancelButtonIndex,
-        options: [
-          `Browse: ${pageSelection.mode.title}`,
-          `Page: ${pageSelection.page.title}`,
-          `Appearance: ${themeMode === "dark" ? "Dark" : "Light"}`,
-          `Theme: ${
-            showcasePresetOptions.find((option) => option.id === chartPreset)
-              ?.title ?? "Default"
-          }`,
-          "Cancel"
-        ],
-        title: "Preview menu",
-        userInterfaceStyle
-      },
-      (selectedIndex) => {
-        if (selectedIndex === cancelButtonIndex) {
-          return;
-        }
-
-        const selectedGroup = rootOptions[selectedIndex];
-
-        if (selectedGroup) {
-          showIOSGroup(selectedGroup.id);
-        }
-      }
-    );
-  };
-
-  const showIOSGroup = (group: MenuGroup) => {
-    if (group === "browse") {
-      showIOSOptions({
-        currentId: pageSelection.mode.id,
-        onSelect: (modeId) => {
-          const mode = showcaseModes.find((item) => item.id === modeId);
-
-          if (mode) {
-            selectMode(mode);
-          }
-        },
-        options: showcaseModes.map((mode) => ({
-          id: mode.id,
-          title: mode.title
-        })),
-        title: "Browse",
-        userInterfaceStyle
-      });
-      return;
-    }
-
-    if (group === "page") {
-      showIOSOptions({
-        currentId: pageSelection.page.id,
-        onSelect: (pageId) => {
-          const page = pageSelection.mode.pages.find(
-            (item) => item.id === pageId
-          );
-
-          if (page) {
-            selectPage({ mode: pageSelection.mode, page });
-          }
-        },
-        options: pageSelection.mode.pages.map((page) => ({
-          id: page.id,
-          title: page.title
-        })),
-        title: "Page",
-        userInterfaceStyle
-      });
-      return;
-    }
-
-    if (group === "appearance") {
-      showIOSOptions({
-        currentId: themeMode,
-        onSelect: setThemeMode,
-        options: showcaseModeOptions,
-        title: "Appearance",
-        userInterfaceStyle
-      });
-      return;
-    }
-
-    showIOSOptions({
-      currentId: chartPreset,
-      onSelect: setChartPreset,
-      options: showcasePresetOptions,
-      title: "Theme",
-      userInterfaceStyle
-    });
-  };
 
   const openMenu = () => {
     if (Platform.OS === "ios") {
-      showIOSRootMenu();
+      showIOSPagePicker({
+        currentPageId,
+        onSelectPage,
+        pages,
+        userInterfaceStyle: isDark ? "dark" : "light"
+      });
       return;
     }
 
-    setFallbackGroup(undefined);
     setIsFallbackOpen(true);
   };
-
   const closeFallback = () => {
     setIsFallbackOpen(false);
-    setFallbackGroup(undefined);
-  };
-
-  const renderFallbackRows = () => {
-    if (!fallbackGroup) {
-      return rootOptions.map((option) => (
-        <FallbackRow
-          key={option.id}
-          appTheme={appTheme}
-          label={option.title}
-          value={
-            option.id === "browse"
-              ? pageSelection.mode.title
-              : option.id === "page"
-                ? pageSelection.page.title
-                : option.id === "appearance"
-                  ? themeMode === "dark"
-                    ? "Dark"
-                    : "Light"
-                  : showcasePresetOptions.find(
-                      (item) => item.id === chartPreset
-                    )?.title
-          }
-          onPress={() => setFallbackGroup(option.id)}
-        />
-      ));
-    }
-
-    if (fallbackGroup === "browse") {
-      return showcaseModes.map((mode) => (
-        <FallbackRow
-          key={mode.id}
-          appTheme={appTheme}
-          isSelected={mode.id === pageSelection.mode.id}
-          label={mode.title}
-          onPress={() => {
-            selectMode(mode);
-            closeFallback();
-          }}
-        />
-      ));
-    }
-
-    if (fallbackGroup === "page") {
-      return pageSelection.mode.pages.map((page) => (
-        <FallbackRow
-          key={page.id}
-          appTheme={appTheme}
-          isSelected={page.id === pageSelection.page.id}
-          label={page.title}
-          onPress={() => {
-            selectPage({ mode: pageSelection.mode, page });
-            closeFallback();
-          }}
-        />
-      ));
-    }
-
-    if (fallbackGroup === "appearance") {
-      return showcaseModeOptions.map((option) => (
-        <FallbackRow
-          key={option.id}
-          appTheme={appTheme}
-          isSelected={option.id === themeMode}
-          label={option.title}
-          onPress={() => {
-            setThemeMode(option.id);
-            closeFallback();
-          }}
-        />
-      ));
-    }
-
-    return showcasePresetOptions.map((option) => (
-      <FallbackRow
-        key={option.id}
-        appTheme={appTheme}
-        isSelected={option.id === chartPreset}
-        label={option.title}
-        onPress={() => {
-          setChartPreset(option.id);
-          closeFallback();
-        }}
-      />
-    ));
   };
 
   return (
     <>
       <Pressable
-        accessibilityLabel="Open preview menu"
+        accessibilityLabel="Open chart page menu"
         accessibilityRole="button"
         onPress={openMenu}
         style={({ pressed }) => [
@@ -329,7 +114,7 @@ export const ShowcaseMenu = ({
       >
         <View style={styles.modalRoot}>
           <Pressable
-            accessibilityLabel="Close preview menu"
+            accessibilityLabel="Close chart page menu"
             style={StyleSheet.absoluteFill}
             onPress={closeFallback}
           />
@@ -344,36 +129,30 @@ export const ShowcaseMenu = ({
           >
             <View style={styles.sheetHeader}>
               <Text style={[styles.sheetTitle, { color: appTheme.text }]}>
-                {fallbackGroup
-                  ? rootOptions.find((option) => option.id === fallbackGroup)
-                      ?.title
-                  : "Preview menu"}
+                Chart pages
               </Text>
-              {fallbackGroup ? (
-                <Pressable onPress={() => setFallbackGroup(undefined)}>
-                  <Text
-                    style={[
-                      styles.sheetAction,
-                      { color: selectedControlColor }
-                    ]}
-                  >
-                    Back
-                  </Text>
-                </Pressable>
-              ) : (
-                <Pressable onPress={closeFallback}>
-                  <Text
-                    style={[
-                      styles.sheetAction,
-                      { color: selectedControlColor }
-                    ]}
-                  >
-                    Done
-                  </Text>
-                </Pressable>
-              )}
+              <Pressable onPress={closeFallback}>
+                <Text
+                  style={[styles.sheetAction, { color: selectedControlColor }]}
+                >
+                  Done
+                </Text>
+              </Pressable>
             </View>
-            <View style={styles.sheetRows}>{renderFallbackRows()}</View>
+            <View style={styles.sheetRows}>
+              {pages.map((page) => (
+                <FallbackRow
+                  key={page.id}
+                  appTheme={appTheme}
+                  isSelected={page.id === currentPageId}
+                  label={page.title}
+                  onPress={() => {
+                    onSelectPage(page);
+                    closeFallback();
+                  }}
+                />
+              ))}
+            </View>
           </View>
         </View>
       </Modal>
@@ -385,14 +164,12 @@ const FallbackRow = ({
   appTheme,
   isSelected = false,
   label,
-  onPress,
-  value
+  onPress
 }: {
   appTheme: ShowcaseMenuTheme;
   isSelected?: boolean;
   label: string;
   onPress: () => void;
-  value?: string;
 }) => (
   <Pressable
     accessibilityRole="button"
@@ -404,14 +181,7 @@ const FallbackRow = ({
       pressed && styles.pressed
     ]}
   >
-    <View style={styles.rowText}>
-      <Text style={[styles.rowLabel, { color: appTheme.text }]}>{label}</Text>
-      {value ? (
-        <Text style={[styles.rowValue, { color: appTheme.mutedText }]}>
-          {value}
-        </Text>
-      ) : null}
-    </View>
+    <Text style={[styles.rowLabel, { color: appTheme.text }]}>{label}</Text>
     {isSelected ? (
       <Text style={[styles.rowSelected, { color: appTheme.series[0] }]}>
         Selected
@@ -474,17 +244,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8
   },
-  rowText: {
-    flexShrink: 1,
-    gap: 2
-  },
   rowLabel: {
     fontSize: 15,
     fontWeight: "800"
-  },
-  rowValue: {
-    fontSize: 12,
-    fontWeight: "700"
   },
   rowSelected: {
     fontSize: 11,

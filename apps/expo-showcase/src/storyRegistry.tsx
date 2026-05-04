@@ -38,6 +38,46 @@ export const storySections: ShowcaseSection[] = [
 
 export const stories = storySections.flatMap((section) => section.stories);
 
+export const publicChartMode: ShowcaseMode = {
+  id: "preview",
+  title: "Charts",
+  pages: [
+    {
+      id: "line-charts",
+      title: "Line Charts",
+      description:
+        "Public v2 line and area chart previews with interaction, viewport, marker, tooltip, and theme examples.",
+      storyIds: [
+        "v2-basic",
+        "v2-revenue-card",
+        "v2-multi-series",
+        "v2-reference-targets",
+        "v2-dashed-forecast",
+        "v2-area",
+        "v2-scrollable-price",
+        "v2-scrollable-stock-comparison",
+        "v2-viewport-zoom-pan",
+        "v2-range-selector"
+      ]
+    },
+    {
+      id: "bar-charts",
+      title: "Bar Charts",
+      description:
+        "Bar chart previews for upgrade review while the v2 bar implementation is still being built.",
+      storyIds: [
+        "bar-basic",
+        "bar-long-labels",
+        "bar-dense-data",
+        "bar-negative-values",
+        "bar-empty-state",
+        "bar-dark-mode",
+        "bar-tiny-width"
+      ]
+    }
+  ]
+};
+
 export const showcaseModes: ShowcaseMode[] = [
   {
     id: "charts",

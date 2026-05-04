@@ -23,7 +23,7 @@ export type ShowcaseSection = {
 };
 
 export type ShowcaseMode = {
-  id: "charts" | "features" | "qa";
+  id: "preview" | "charts" | "features" | "qa";
   title: string;
   pages: ShowcasePage[];
 };
