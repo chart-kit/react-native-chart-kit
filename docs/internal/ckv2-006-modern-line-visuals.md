@@ -12,12 +12,15 @@ Added:
 - modern SVG `LineChart`
 - modern SVG `AreaChart`
 - Expo showcase fixtures for basic, multi-series, null gaps, area fill, dense labels, dark mode, label strategies, marker styles, custom legend, grid lines, and shared tooltip
+- public Expo showcase Line Charts page grouped into showpieces, interaction, and composition demos
 - visual regression story entries for the new v2 charts
 - configurable typography and legend render hooks
 - opt-in horizontal and vertical grid lines
 - renderer-level marker primitive for line dots, active dots, and legend markers
+- per-series stroke styles, dashed lines, custom area-fill gradients, threshold coloring, and reference overlays
 - explicit SVG layer groups for background, plot, grid, axes, area, data, markers, overlays, and interaction
-- controlled `selectedIndex` selection with crosshair, active markers, and shared or single tooltip content
+- controlled `selectedIndex` selection with crosshair, active markers, animated tooltips, and shared or single tooltip content
+- scrollable charts, controlled viewport windows, touch pan, pinch zoom, and range selector overview
 
 ## Design Choices
 
@@ -31,17 +34,20 @@ Marker and selection option resolution moved into small pure helpers so marker p
 
 - single and multi-series rendering: implemented
 - null/gap rendering: implemented and visually covered
-- area fill rendering: implemented and visually covered
+- area fill rendering: implemented, configurable, and visually covered
+- dashed and straight-line forecasts: implemented and visually covered
+- threshold and reference overlays: implemented and unit covered
 - label strategies: implemented for auto, skip, rotate, stagger, hide, and show
 - marker styles: implemented through shared renderer symbols
 - basic legend flexibility: implemented with sizing, spacing, alignment, render item, and render legend hooks
 - tooltip and crosshair: implemented for controlled and opt-in tap/scrub selection state
+- scroll, pan, pinch zoom, and range selector: implemented for controlled viewport workflows
 - dark mode example: implemented
 - unit coverage: added for marker config, crosshair/tooltip config, tooltip placement, and null-gap selection
+- visual coverage: includes line showpieces, interaction states, viewport/range selector, dense labels, dark mode, and compatibility fixtures
 
 ## Remaining Before CKV2-006 Close
 
 - Promote or rename the import path after API review.
-- Add user-facing docs examples for the modern Line/Area API.
 - Add legacy `LineChart` adapter work in the compatibility package slice.
-- Continue CKV2-010 with richer gesture adapters and native conflict testing.
+- Continue native-device verification for gesture conflict behavior once RN CLI examples exist.

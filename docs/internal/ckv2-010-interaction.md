@@ -28,7 +28,7 @@ The interaction baseline is opt-in. Charts do not claim responder ownership unle
 
 Selection lifecycle is named around selection, not tooltip. That allows Wealthsimple-style external consumers, such as a balance header, to respond through `onSelect` and `onDeselect` while keeping `tooltip={false}`.
 
-This first pass intentionally uses React Native responder events rather than adding Gesture Handler or Reanimated. That keeps the free baseline dependency-light while leaving room for a stronger adapter for pan, zoom, and high-frequency scrub later.
+Tap and scrub selection still use React Native responder events. Viewport pinch zoom now uses `react-native-gesture-handler` because native pinch recognition is worth the dependency for real portfolio/price-history workflows. Main-plot pan remains responder-based so one-finger drag works in the same controlled viewport model.
 
 ## Future Selection Scope
 
@@ -71,4 +71,4 @@ Candidate API names:
 - Add shared `ChartSelectionProvider` for screen-level selection, external selected-value UI, cross-chart dismissal, and future shared tooltips.
 - Add bar and pie press events.
 - Add gesture conflict tests once native example apps exist.
-- Defer pinch zoom and viewport pan to the scroll/zoom slice.
+- Keep pinch zoom opt-in through `viewportInteraction={{ pinchZoom: true }}` until native QA validates conflict behavior in scroll views, bottom sheets, and tab layouts.
