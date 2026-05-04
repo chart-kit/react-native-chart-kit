@@ -1,5 +1,6 @@
 import type {
   ChartBoxes,
+  ChartViewportInitialIndex,
   ChartXValue,
   NumericDomainInput
 } from "@chart-kit/core";
@@ -13,6 +14,7 @@ import type {
 } from "../../theme";
 
 export type BarChartMode = "grouped" | "stacked" | "stacked100";
+export type BarChartInitialIndex = ChartViewportInitialIndex;
 
 export type BarChartSeries<TData extends Record<string, unknown>> = {
   yKey: keyof TData & string;
@@ -106,6 +108,9 @@ export type BarChartProps<TData extends Record<string, unknown>> = {
   height: number;
   theme?: ChartKitThemeMode | CartesianChartTheme;
   preset?: CartesianChartPresetValue;
+  scrollable?: boolean;
+  visiblePoints?: number;
+  initialIndex?: ChartViewportInitialIndex;
   mode?: BarChartMode;
   yDomain?: NumericDomainInput;
   barRadius?: number;

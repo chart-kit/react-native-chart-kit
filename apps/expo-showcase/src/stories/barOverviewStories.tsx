@@ -2,6 +2,7 @@ import { BarChart } from "@chart-kit/react-native-v2";
 
 import {
   acquisitionByChannel,
+  campaignSpend,
   monthlyProfit,
   platformShare
 } from "../fixtures/v2Bar";
@@ -53,6 +54,24 @@ const V2SelectableBar = ({ width }: NativeStoryProps) => (
   </ChartSection>
 );
 
+const V2ScrollableBar = ({ width }: NativeStoryProps) => (
+  <ChartSection title="Campaign spend" kicker="Scrollable bars">
+    <BarChart
+      data={campaignSpend}
+      height={250}
+      initialIndex="end"
+      preset="analytics"
+      scrollable
+      series={[{ yKey: "spend", label: "Spend" }]}
+      visiblePoints={5}
+      width={width}
+      xKey="week"
+      yDomain={{ min: 0, max: "dataMax", nice: true }}
+      formatYLabel={(value) => `$${value}k`}
+    />
+  </ChartSection>
+);
+
 const V2NegativeBar = ({ width }: NativeStoryProps) => (
   <ChartSection title="Monthly profit" kicker="Negative values">
     <BarChart
@@ -96,6 +115,11 @@ export const barOverviewStories = [
     id: "v2-bar-selection",
     title: "Tap Selection",
     Component: V2SelectableBar
+  },
+  {
+    id: "v2-bar-scrollable",
+    title: "Scrollable Bars",
+    Component: V2ScrollableBar
   },
   {
     id: "v2-bar-negative",

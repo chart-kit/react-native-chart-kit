@@ -15,6 +15,11 @@ export type PlatformSharePoint = {
   android: number;
 };
 
+export type CampaignSpendPoint = {
+  week: string;
+  spend: number;
+};
+
 export const acquisitionByChannel: AcquisitionPoint[] = [
   { month: "Jan", organic: 42, paid: 28 },
   { month: "Feb", organic: 48, paid: 33 },
@@ -40,4 +45,25 @@ export const platformShare: PlatformSharePoint[] = [
   { month: "Apr", ios: 59, android: 41 },
   { month: "May", ios: 64, android: 36 },
   { month: "Jun", ios: 67, android: 33 }
+];
+
+export const campaignSpend: CampaignSpendPoint[] = [
+  { week: "W1", spend: 18 },
+  { week: "W2", spend: 22 },
+  { week: "W3", spend: 19 },
+  { week: "W4", spend: 28 },
+  { week: "W5", spend: 31 },
+  { week: "W6", spend: 27 },
+  { week: "W7", spend: 34 },
+  { week: "W8", spend: 39 },
+  { week: "W9", spend: 36 },
+  { week: "W10", spend: 42 },
+  { week: "W11", spend: 45 },
+  { week: "W12", spend: 48 },
+  { week: "W13", spend: 44 },
+  { week: "W14", spend: 52 },
+  { week: "W15", spend: 57 },
+  { week: "W16", spend: 54 },
+  { week: "W17", spend: 61 },
+  { week: "W18", spend: 65 }
 ];

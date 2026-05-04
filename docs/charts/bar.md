@@ -1,6 +1,6 @@
 # Bar Charts
 
-`BarChart` is the modern v2 bar surface for object-row data. It supports vertical grouped bars, stacked bars, 100% stacked bars, negative values, automatic axis padding, theme presets, value labels, tap selection, tooltips, and a simple bottom legend.
+`BarChart` is the modern v2 bar surface for object-row data. It supports vertical grouped bars, stacked bars, 100% stacked bars, negative values, horizontal scrolling, automatic axis padding, theme presets, value labels, tap selection, tooltips, and a simple bottom legend.
 
 Use this API for new apps. Legacy `BarChart` compatibility fixtures remain separate from the modern v2 API.
 
@@ -138,6 +138,26 @@ The public select event includes `dataIndex`, `seriesKey`, `seriesLabel`, `value
 
 Tooltip styling follows the chart theme tooltip tokens by default and can be overridden per chart with `backgroundColor`, `borderColor`, `textColor`, `labelColor`, `padding`, `borderRadius`, `fontFamily`, `fontSize`, `labelFontSize`, and shadow props.
 
+## Scrollable Bars
+
+Use `scrollable`, `visiblePoints`, and `initialIndex` for long categorical bar charts. For bars, `visiblePoints` maps to visible bar bands.
+
+```tsx
+<BarChart
+  data={weeklySpend}
+  xKey="week"
+  yKey="spend"
+  scrollable
+  visiblePoints={8}
+  initialIndex="end"
+  formatYLabel={(value) => `$${value}k`}
+  width={360}
+  height={250}
+/>
+```
+
+The y-axis labels stay pinned while the bars and x-axis labels scroll horizontally.
+
 ## Labels and Themes
 
 Useful label and theme props:
@@ -151,4 +171,4 @@ Useful label and theme props:
 
 ## Current Limitations
 
-This is still an early modern BarChart slice. The current implementation does not yet include horizontal bars, scrollable bars, sticky axes, custom bar renderers, or legacy BarChart prop mapping. Those belong to later CKV2-007 slices.
+This is still an early modern BarChart slice. The current implementation does not yet include horizontal bars, custom bar renderers, or legacy BarChart prop mapping. Those belong to later CKV2-007 slices.

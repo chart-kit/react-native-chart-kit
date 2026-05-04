@@ -25,11 +25,19 @@ export type {
   ResolvedChartKitThemeMode
 } from "./theme";
 export type {
+  BarChartDeselectEvent,
+  BarChartInitialIndex,
+  BarChartInteraction,
+  BarChartInteractionConfig,
+  BarChartInteractionMode,
   BarChartLabelStrategy,
   BarChartMode,
   BarChartModel,
   BarChartProps,
+  BarChartSelectEvent,
+  BarChartSelectedBar,
   BarChartSeries,
+  BarChartTooltipConfig,
   BarChartValueLabelModel,
   BarChartXLabelModel,
   BarChartYLabelModel
