@@ -462,10 +462,12 @@ export const normalizeLegacyStackedBarData = (
   };
 };
 
-export const normalizeLegacyContributionData = (
-  values: LegacyContributionValue[],
+export const normalizeLegacyContributionData = <
+  TData extends LegacyContributionValue = LegacyContributionValue
+>(
+  values: TData[],
   options: NormalizeLegacyContributionOptions
-): NormalizedContributionData<LegacyContributionValue> => {
+): NormalizedContributionData<TData> => {
   const collector = createWarningCollector(options);
   const accessor = options.accessor ?? "count";
   const endDate =
@@ -473,7 +475,7 @@ export const normalizeLegacyContributionData = (
     getBeginningTimeForDate(new Date(0));
   const startDate = shiftDate(endDate, -Math.max(options.numDays, 0) + 1);
   const emptyValue = "emptyValue" in options ? options.emptyValue : 0;
-  const valuesByIndex = new Map<number, LegacyContributionValue>();
+  const valuesByIndex = new Map<number, TData>();
 
   values.forEach((value, valueIndex) => {
     const date = normalizeDateValue(
@@ -503,31 +505,31 @@ export const normalizeLegacyContributionData = (
     valuesByIndex.set(dayIndex, value);
   });
 
-  const days = Array.from<
-    unknown,
-    NormalizedContributionDay<LegacyContributionValue>
-  >({ length: Math.max(options.numDays, 0) }, (_, dayIndex) => {
-    const raw = valuesByIndex.get(dayIndex);
-    const value = raw
-      ? normalizeNumberValue(
-          raw[accessor],
-          `valuesByDate[${dayIndex}].${accessor}`,
-          collector
-        )
-      : emptyValue;
-    const day: NormalizedContributionDay<LegacyContributionValue> = {
-      index: dayIndex,
-      date: shiftDate(startDate, dayIndex),
-      value,
-      defined: value !== null
-    };
+  const days = Array.from<unknown, NormalizedContributionDay<TData>>(
+    { length: Math.max(options.numDays, 0) },
+    (_, dayIndex) => {
+      const raw = valuesByIndex.get(dayIndex);
+      const value = raw
+        ? normalizeNumberValue(
+            raw[accessor],
+            `valuesByDate[${dayIndex}].${accessor}`,
+            collector
+          )
+        : emptyValue;
+      const day: NormalizedContributionDay<TData> = {
+        index: dayIndex,
+        date: shiftDate(startDate, dayIndex),
+        value,
+        defined: value !== null
+      };
 
-    if (raw !== undefined) {
-      day.raw = raw;
+      if (raw !== undefined) {
+        day.raw = raw;
+      }
+
+      return day;
     }
-
-    return day;
-  });
+  );
 
   return {
     kind: "contribution",

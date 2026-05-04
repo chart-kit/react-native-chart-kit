@@ -25,8 +25,12 @@ Added:
 - progress object-row props with `valueKey`, `labelKey`, and optional `colorKey` / `colors`
 - legacy progress data shape support
 - progress center labels, legends, stroke width, ring gap, radius, and stroke cap customization
+- renderer-agnostic contribution heatmap geometry in `@chart-kit/core`
+- modern `ContributionGraph` and `CalendarHeatmap` exports from `@chart-kit/react-native-v2`
+- heatmap month labels, weekday labels, Monday/Sunday week starts, theme-aware density, custom color scales, and day press events
 - Expo showcase stories for acquisition share and revenue mix
 - Expo showcase stories for activity rings and single-ring completion
+- Expo showcase story for product usage contribution heatmap
 - Expo interaction test for donut slice selection
 - visual baselines for pie and donut stories
 
@@ -39,5 +43,5 @@ The geometry builder accepts normalized slices instead of legacy props. Modern a
 ## Remaining Work
 
 - Add custom legend rendering and richer center label rendering.
-- Add ContributionGraph/CalendarHeatmap geometry and renderer.
-- Add visual stories and screenshots for long legends, zero slices, active slices, and calendar heatmaps.
+- Add custom legend rendering and richer center label rendering.
+- Add visual stories and screenshots for long legends, zero slices, and active slices.

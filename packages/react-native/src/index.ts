@@ -1,4 +1,8 @@
 export { BarChart } from "./charts/bar/BarChart";
+export {
+  CalendarHeatmap,
+  ContributionGraph
+} from "./charts/contribution/ContributionGraph";
 export { AreaChart, LineChart } from "./charts/line/LineChart";
 export { DonutChart, PieChart } from "./charts/pie/PieChart";
 export { ProgressChart, ProgressRing } from "./charts/progress/ProgressChart";
@@ -45,6 +49,13 @@ export type {
   BarChartXLabelModel,
   BarChartYLabelModel
 } from "./charts/bar/BarChart";
+export type {
+  ContributionGraphCellModel,
+  ContributionGraphColorRenderProps,
+  ContributionGraphDayPressEvent,
+  ContributionGraphModel,
+  ContributionGraphProps
+} from "./charts/contribution/ContributionGraph";
 export type {
   PieChartActiveSliceConfig,
   PieChartCenterLabelRenderProps,

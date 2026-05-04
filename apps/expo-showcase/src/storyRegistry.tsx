@@ -1,5 +1,6 @@
 import { compatBarStories, compatLineStories } from "./stories/compatStories";
 import { barOverviewStories } from "./stories/barOverviewStories";
+import { contributionOverviewStories } from "./stories/contributionOverviewStories";
 import { lineInteractionStories } from "./stories/lineInteractionStories";
 import { lineOverviewStories } from "./stories/lineOverviewStories";
 import { lineQaStories } from "./stories/lineQaStories";
@@ -61,6 +62,11 @@ export const storySections: ShowcaseSection[] = [
     id: "v2-progress",
     title: "V2 Progress",
     stories: progressOverviewStories
+  },
+  {
+    id: "v2-contribution",
+    title: "V2 Contribution",
+    stories: contributionOverviewStories
   },
   {
     id: "legacy-line",
@@ -186,6 +192,21 @@ export const publicChartMode: ShowcaseMode = {
           storyIds: ["v2-progress-activity", "v2-progress-single"]
         }
       ]
+    },
+    {
+      id: "heatmaps",
+      title: "Heatmaps",
+      description:
+        "Public v2 contribution heatmap previews for product usage and activity calendars.",
+      storyGroups: [
+        {
+          id: "heatmap-showpieces",
+          title: "Showpieces",
+          description:
+            "Calendar-style heatmaps with stable date mapping and theme-aware density.",
+          storyIds: ["v2-contribution-usage"]
+        }
+      ]
     }
   ]
 };
@@ -260,6 +281,13 @@ export const showcaseModes: ShowcaseMode[] = [
         description:
           "Modern progress chart examples for multi-ring and single-ring completion states.",
         storyIds: ["v2-progress-activity", "v2-progress-single"]
+      },
+      {
+        id: "heatmaps",
+        title: "Heatmaps",
+        description:
+          "Modern contribution heatmap examples with month labels, weekday labels, and stable date cells.",
+        storyIds: ["v2-contribution-usage"]
       },
       {
         id: "compat",
@@ -451,6 +479,7 @@ export const storyFeatureTags: Record<string, string[]> = {
   "v2-donut-selection": ["tap selection", "active slice", "center label"],
   "v2-progress-activity": ["progress rings", "health preset", "center label"],
   "v2-progress-single": ["single ring", "completion", "center label"],
+  "v2-contribution-usage": ["calendar heatmap", "month labels", "date cells"],
   "line-basic": ["legacy data", "compat facade", "line chart"],
   "line-long-labels": ["long labels", "compat facade", "line chart"],
   "line-dense-data": ["dense data", "compat facade", "line chart"],

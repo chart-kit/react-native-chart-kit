@@ -39,6 +39,7 @@ export const chartStories = [
   "v2-donut-selection",
   "v2-progress-activity",
   "v2-progress-single",
+  "v2-contribution-usage",
   "line-basic",
   "line-long-labels",
   "line-dense-data",
