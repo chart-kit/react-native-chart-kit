@@ -337,8 +337,7 @@ class AbstractChart<
 
       return (
         <Text
-          origin={`${x}, ${y}`}
-          rotation={verticalLabelRotation}
+          transform={`rotate(${verticalLabelRotation}, ${x}, ${y})`}
           key={`vertical-label-${i}-${label}`}
           x={x}
           y={y}
