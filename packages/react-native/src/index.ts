@@ -30,6 +30,9 @@ export type {
   LineChartDotRenderProps,
   LineChartDotShape,
   LineChartEdgeLabelPolicy,
+  LineChartDataTable,
+  LineChartDataTableColumn,
+  LineChartDataTableRow,
   LineChartInteraction,
   LineChartInteractionConfig,
   LineChartInteractionMode,
@@ -66,4 +69,8 @@ export type {
   ResolvedLineChartDotConfig,
   ResolvedLineChartStrokeStyle,
   ResolvedLineChartTooltipConfig
+} from "./charts/line/LineChart";
+export {
+  getLineChartAccessibilitySummary,
+  getLineChartDataTable
 } from "./charts/line/LineChart";

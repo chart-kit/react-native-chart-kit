@@ -22,6 +22,7 @@ import {
 import type { ProjectedLinePoint } from "@chart-kit/core";
 
 import { useChartKitTheme } from "../../theme";
+import { useLineChartAccessibilityLabel } from "./accessibility";
 import { LineChartSurface, StickyYAxis } from "./ChartSurface";
 import {
   buildLineChartSelectEvent,
@@ -51,6 +52,15 @@ import { clampLineChartTooltipToViewport } from "./tooltip";
 import type { LineChartProps } from "./types";
 
 export type * from "./types";
+export {
+  getLineChartAccessibilitySummary,
+  getLineChartDataTable
+} from "./accessibility";
+export type {
+  LineChartDataTable,
+  LineChartDataTableColumn,
+  LineChartDataTableRow
+} from "./accessibility";
 
 export const LineChart = <TData extends Record<string, unknown>>(
   props: LineChartProps<TData>
@@ -59,6 +69,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
   const chartKitTheme = useChartKitTheme();
   const { onViewportChange } = props;
   const dataLength = props.data.length;
+  const accessibilityLabel = useLineChartAccessibilityLabel(props);
   const scrollViewRef = useRef<ScrollView>(null);
   const interactionConfig = useMemo(
     () => getLineChartInteractionConfig(props.interaction),
@@ -388,6 +399,9 @@ export const LineChart = <TData extends Record<string, unknown>>(
 
   return (
     <View
+      accessible
+      accessibilityLabel={accessibilityLabel}
+      accessibilityRole="image"
       testID={props.testID}
       style={[styles.container, { width: props.width, height: props.height }]}
     >
