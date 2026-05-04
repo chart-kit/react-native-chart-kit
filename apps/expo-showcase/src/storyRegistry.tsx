@@ -48,16 +48,19 @@ export const publicChartMode: ShowcaseMode = {
       description:
         "Public v2 line and area chart previews with interaction, viewport, marker, tooltip, and theme examples.",
       storyIds: [
-        "v2-basic",
         "v2-revenue-card",
-        "v2-multi-series",
-        "v2-reference-targets",
-        "v2-dashed-forecast",
-        "v2-area",
-        "v2-scrollable-price",
+        "v2-pro-animation",
+        "v2-range-selector",
         "v2-scrollable-stock-comparison",
         "v2-viewport-zoom-pan",
-        "v2-range-selector"
+        "v2-selected-tooltip",
+        "v2-dot-styles",
+        "v2-area",
+        "v2-dashed-forecast",
+        "v2-multi-series",
+        "v2-reference-targets",
+        "v2-scrollable-price",
+        "v2-basic"
       ]
     },
     {
