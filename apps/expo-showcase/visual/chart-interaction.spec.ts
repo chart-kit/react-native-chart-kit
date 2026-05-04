@@ -15,6 +15,16 @@ test.describe("Expo showcase chart interactions", () => {
 
     await page.getByRole("button", { name: "Open chart page menu" }).click();
     await expect(page.getByText("Chart pages")).toBeVisible();
+    await expect(page.getByText("Appearance")).toBeVisible();
+    await expect(page.getByText("Theme preset")).toBeVisible();
+    await page.getByRole("button", { name: "Dark" }).click();
+    await expect(page).toHaveURL(/theme=dark/);
+
+    await page.getByRole("button", { name: "Open chart page menu" }).click();
+    await page.getByRole("button", { name: "Studio" }).click();
+    await expect(page).toHaveURL(/preset=studio/);
+
+    await page.getByRole("button", { name: "Open chart page menu" }).click();
     await expect(
       page.getByRole("button", { name: "Bar Charts" })
     ).toBeVisible();
@@ -25,6 +35,8 @@ test.describe("Expo showcase chart interactions", () => {
     await expect(
       page.getByTestId("preview-scroll").getByText("Bar Charts")
     ).toBeVisible();
+    await expect(page).toHaveURL(/theme=dark/);
+    await expect(page).toHaveURL(/preset=studio/);
     await expect(page.getByText("Grouped bars").first()).toBeVisible();
     await expect(page.getByText("Acquisition mix").first()).toBeVisible();
   });

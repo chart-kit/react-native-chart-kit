@@ -20,6 +20,11 @@ type ShowcaseMenuTheme = {
   text: string;
 };
 
+type ShowcaseMenuOption<TValue extends string> = {
+  id: TValue;
+  title: string;
+};
+
 const showIOSPagePicker = ({
   currentPageId,
   onSelectPage,
@@ -54,31 +59,125 @@ const showIOSPagePicker = ({
   );
 };
 
+const showIOSOptionPicker = <TValue extends string>({
+  currentValue,
+  onSelectValue,
+  options,
+  title,
+  userInterfaceStyle
+}: {
+  currentValue: TValue;
+  onSelectValue: (value: TValue) => void;
+  options: Array<ShowcaseMenuOption<TValue>>;
+  title: string;
+  userInterfaceStyle: "dark" | "light";
+}) => {
+  const cancelButtonIndex = options.length;
+
+  ActionSheetIOS.showActionSheetWithOptions(
+    {
+      cancelButtonIndex,
+      options: [...options.map((option) => option.title), "Cancel"],
+      title,
+      userInterfaceStyle
+    },
+    (selectedIndex) => {
+      if (selectedIndex === cancelButtonIndex) {
+        return;
+      }
+
+      const selectedOption = options[selectedIndex];
+
+      if (selectedOption && selectedOption.id !== currentValue) {
+        onSelectValue(selectedOption.id);
+      }
+    }
+  );
+};
+
 export const ShowcaseMenu = ({
   appTheme,
+  chartPreset,
   currentPageId,
   isDark,
+  onSelectChartPreset,
   onSelectPage,
-  pages
+  onSelectThemeMode,
+  pages,
+  presetOptions,
+  themeMode,
+  themeModeOptions
 }: {
   appTheme: ShowcaseMenuTheme;
+  chartPreset: string;
   currentPageId: string;
   isDark: boolean;
+  onSelectChartPreset: (preset: string) => void;
   onSelectPage: (page: ShowcasePage) => void;
+  onSelectThemeMode: (mode: "dark" | "light") => void;
   pages: ShowcasePage[];
+  presetOptions: Array<ShowcaseMenuOption<string>>;
+  themeMode: "dark" | "light";
+  themeModeOptions: Array<ShowcaseMenuOption<"dark" | "light">>;
 }) => {
   const [isFallbackOpen, setIsFallbackOpen] = useState(false);
   const selectedControlColor = appTheme.series[0] ?? appTheme.text;
   const selectedControlTextColor = appTheme.background;
+  const selectedPage = pages.find((page) => page.id === currentPageId);
+  const selectedThemeTitle =
+    themeModeOptions.find((option) => option.id === themeMode)?.title ??
+    themeMode;
+  const selectedPresetTitle =
+    presetOptions.find((option) => option.id === chartPreset)?.title ??
+    chartPreset;
 
   const openMenu = () => {
     if (Platform.OS === "ios") {
-      showIOSPagePicker({
-        currentPageId,
-        onSelectPage,
-        pages,
-        userInterfaceStyle: isDark ? "dark" : "light"
-      });
+      const userInterfaceStyle = isDark ? "dark" : "light";
+
+      ActionSheetIOS.showActionSheetWithOptions(
+        {
+          cancelButtonIndex: 3,
+          options: [
+            `Page: ${selectedPage?.title ?? "Charts"}`,
+            `Theme: ${selectedThemeTitle}`,
+            `Preset: ${selectedPresetTitle}`,
+            "Cancel"
+          ],
+          title: "Showcase menu",
+          userInterfaceStyle
+        },
+        (selectedIndex) => {
+          if (selectedIndex === 0) {
+            showIOSPagePicker({
+              currentPageId,
+              onSelectPage,
+              pages,
+              userInterfaceStyle
+            });
+          }
+
+          if (selectedIndex === 1) {
+            showIOSOptionPicker({
+              currentValue: themeMode,
+              onSelectValue: onSelectThemeMode,
+              options: themeModeOptions,
+              title: "Theme",
+              userInterfaceStyle
+            });
+          }
+
+          if (selectedIndex === 2) {
+            showIOSOptionPicker({
+              currentValue: chartPreset,
+              onSelectValue: onSelectChartPreset,
+              options: presetOptions,
+              title: "Theme preset",
+              userInterfaceStyle
+            });
+          }
+        }
+      );
       return;
     }
 
@@ -140,6 +239,11 @@ export const ShowcaseMenu = ({
               </Pressable>
             </View>
             <View style={styles.sheetRows}>
+              <Text
+                style={[styles.sectionTitle, { color: appTheme.mutedText }]}
+              >
+                Chart page
+              </Text>
               {pages.map((page) => (
                 <FallbackRow
                   key={page.id}
@@ -148,6 +252,40 @@ export const ShowcaseMenu = ({
                   label={page.title}
                   onPress={() => {
                     onSelectPage(page);
+                    closeFallback();
+                  }}
+                />
+              ))}
+              <Text
+                style={[styles.sectionTitle, { color: appTheme.mutedText }]}
+              >
+                Appearance
+              </Text>
+              {themeModeOptions.map((option) => (
+                <FallbackRow
+                  key={option.id}
+                  appTheme={appTheme}
+                  isSelected={option.id === themeMode}
+                  label={option.title}
+                  onPress={() => {
+                    onSelectThemeMode(option.id);
+                    closeFallback();
+                  }}
+                />
+              ))}
+              <Text
+                style={[styles.sectionTitle, { color: appTheme.mutedText }]}
+              >
+                Theme preset
+              </Text>
+              {presetOptions.map((option) => (
+                <FallbackRow
+                  key={option.id}
+                  appTheme={appTheme}
+                  isSelected={option.id === chartPreset}
+                  label={option.title}
+                  onPress={() => {
+                    onSelectChartPreset(option.id);
                     closeFallback();
                   }}
                 />
@@ -233,6 +371,13 @@ const styles = StyleSheet.create({
   },
   sheetRows: {
     gap: 8
+  },
+  sectionTitle: {
+    fontSize: 11,
+    fontWeight: "900",
+    letterSpacing: 0,
+    marginTop: 8,
+    textTransform: "uppercase"
   },
   row: {
     alignItems: "center",

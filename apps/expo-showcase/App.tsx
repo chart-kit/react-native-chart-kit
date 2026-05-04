@@ -27,6 +27,8 @@ import {
 } from "./src/storyRegistry";
 import {
   showcaseCustomPresets,
+  showcaseModeOptions,
+  showcasePresetOptions,
   type ShowcasePresetId,
   type ShowcaseThemeMode
 } from "./src/showcaseTheme";
@@ -136,7 +138,17 @@ const getInitialPageSelection = () => {
   });
 };
 
-const updateShowcaseUrl = (selection: PageSelection, isVisualMode: boolean) => {
+const updateShowcaseUrl = ({
+  chartPreset,
+  isVisualMode,
+  selection,
+  themeMode
+}: {
+  chartPreset: ShowcasePresetId;
+  isVisualMode: boolean;
+  selection: PageSelection;
+  themeMode: ShowcaseThemeMode;
+}) => {
   if (!isWebRuntime || isVisualMode) {
     return;
   }
@@ -144,6 +156,8 @@ const updateShowcaseUrl = (selection: PageSelection, isVisualMode: boolean) => {
   const params = new URLSearchParams(window.location.search);
   params.set("view", selection.mode.id);
   params.set("page", selection.page.id);
+  params.set("theme", themeMode);
+  params.set("preset", chartPreset);
   params.delete("story");
   window.history.replaceState(null, "", `?${params.toString()}`);
 };
@@ -155,8 +169,10 @@ export default function App() {
   const [pageSelection, setPageSelection] = useState<PageSelection>(
     getInitialPageSelection
   );
-  const [themeMode] = useState<ShowcaseThemeMode>(getInitialThemeMode);
-  const [chartPreset] = useState<ShowcasePresetId>(getInitialPreset);
+  const [themeMode, setThemeMode] =
+    useState<ShowcaseThemeMode>(getInitialThemeMode);
+  const [chartPreset, setChartPreset] =
+    useState<ShowcasePresetId>(getInitialPreset);
   const [isScrubbing, setIsScrubbing] = useState(false);
   const isDarkApp = themeMode === "dark";
   const appTheme = useMemo(
@@ -195,7 +211,34 @@ export default function App() {
   const selectPage = (selection: PageSelection) => {
     setIsScrubbing(false);
     setPageSelection(selection);
-    updateShowcaseUrl(selection, isVisualMode);
+    updateShowcaseUrl({
+      chartPreset,
+      isVisualMode,
+      selection,
+      themeMode
+    });
+  };
+  const selectThemeMode = (mode: ShowcaseThemeMode) => {
+    setThemeMode(mode);
+    updateShowcaseUrl({
+      chartPreset,
+      isVisualMode,
+      selection: pageSelection,
+      themeMode: mode
+    });
+  };
+  const selectChartPreset = (preset: string) => {
+    const nextPreset =
+      showcasePresetOptions.find((option) => option.id === preset)?.id ??
+      chartPreset;
+
+    setChartPreset(nextPreset);
+    updateShowcaseUrl({
+      chartPreset: nextPreset,
+      isVisualMode,
+      selection: pageSelection,
+      themeMode
+    });
   };
 
   if (isVisualMode) {
@@ -207,7 +250,13 @@ export default function App() {
           testID="visual-frame"
           style={[styles.visualFrame, { width: visualWidth }]}
         >
-          <VisualStoryComponent width={visualWidth} isVisualMode />
+          <ChartKitProvider
+            mode={themeMode}
+            preset={chartPreset}
+            presets={showcaseCustomPresets}
+          >
+            <VisualStoryComponent width={visualWidth} isVisualMode />
+          </ChartKitProvider>
         </View>
       </View>
     );
@@ -228,10 +277,16 @@ export default function App() {
           </View>
           <ShowcaseMenu
             appTheme={appTheme}
+            chartPreset={chartPreset}
             currentPageId={pageSelection.page.id}
             isDark={isDarkApp}
+            onSelectChartPreset={selectChartPreset}
             onSelectPage={(page) => selectPage({ mode: publicChartMode, page })}
+            onSelectThemeMode={selectThemeMode}
             pages={publicChartMode.pages}
+            presetOptions={showcasePresetOptions}
+            themeMode={themeMode}
+            themeModeOptions={showcaseModeOptions}
           />
         </View>
 
