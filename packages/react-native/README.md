@@ -13,6 +13,7 @@ Current exports:
 Modern docs:
 
 - [Line and area charts](../../docs/charts/line-and-area.md)
+- [Bar charts](../../docs/charts/bar.md)
 
 Current customization surface:
 
