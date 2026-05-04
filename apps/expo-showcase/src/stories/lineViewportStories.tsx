@@ -43,6 +43,7 @@ const V2AreaFill = ({ width }: NativeStoryProps) => (
       width={width}
       height={230}
       curve="monotone"
+      areaFill={{ fromOpacity: 0.32, toOpacity: 0.05 }}
       formatYLabel={(value) => `$${Math.round(value)}`}
     />
   </ChartSection>

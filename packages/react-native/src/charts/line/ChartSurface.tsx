@@ -104,8 +104,16 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
               y1="0%"
               y2="100%"
               stops={[
-                { offset: "0%", color: style.color, opacity: 0.22 },
-                { offset: "100%", color: style.color, opacity: 0.02 }
+                {
+                  offset: "0%",
+                  color: style.areaFill.fromColor,
+                  opacity: style.areaFill.fromOpacity
+                },
+                {
+                  offset: "100%",
+                  color: style.areaFill.toColor,
+                  opacity: style.areaFill.toOpacity
+                }
               ]}
             />
           ))}

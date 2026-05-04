@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   defaultLineChartTooltipPositionAnimationDuration,
   getLineChartActiveDotConfig,
+  getLineChartAreaFillConfig,
   getLineChartCrosshairConfig,
   getLineChartDotConfig,
   getLineChartStrokeStyle,
@@ -152,6 +153,37 @@ describe("LineChart marker and interaction options", () => {
         threshold: { y: Number.NaN }
       })
     ).toBeUndefined();
+  });
+
+  it("resolves area fill gradients with clamped opacities", () => {
+    expect(
+      getLineChartAreaFillConfig({
+        areaFill: undefined,
+        seriesColor: "#2563eb"
+      })
+    ).toEqual({
+      fromColor: "#2563eb",
+      toColor: "#2563eb",
+      fromOpacity: 0.22,
+      toOpacity: 0.02
+    });
+
+    expect(
+      getLineChartAreaFillConfig({
+        areaFill: {
+          fromColor: "#22c55e",
+          fromOpacity: 1.4,
+          toColor: "#ffffff",
+          toOpacity: -0.2
+        },
+        seriesColor: "#2563eb"
+      })
+    ).toEqual({
+      fromColor: "#22c55e",
+      toColor: "#ffffff",
+      fromOpacity: 1,
+      toOpacity: 0
+    });
   });
 
   it("resolves automatic and fixed path decimation configs", () => {

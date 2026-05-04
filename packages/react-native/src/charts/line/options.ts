@@ -58,6 +58,20 @@ export type ResolvedLineChartStrokeStyle = {
   strokeDasharray?: readonly number[] | undefined;
 };
 
+export type LineChartAreaFillConfig = {
+  fromColor?: string;
+  toColor?: string;
+  fromOpacity?: number;
+  toOpacity?: number;
+};
+
+export type ResolvedLineChartAreaFillConfig = {
+  fromColor: string;
+  toColor: string;
+  fromOpacity: number;
+  toOpacity: number;
+};
+
 export type LineChartThresholdStyleConfig = {
   y: number;
   aboveColor?: string;
@@ -171,6 +185,19 @@ export const getLineChartStrokeStyle = ({
 
   return resolved;
 };
+
+export const getLineChartAreaFillConfig = ({
+  areaFill,
+  seriesColor
+}: {
+  areaFill: LineChartAreaFillConfig | undefined;
+  seriesColor: string;
+}): ResolvedLineChartAreaFillConfig => ({
+  fromColor: areaFill?.fromColor ?? seriesColor,
+  toColor: areaFill?.toColor ?? areaFill?.fromColor ?? seriesColor,
+  fromOpacity: resolveOpacity(areaFill?.fromOpacity, 0.22),
+  toOpacity: resolveOpacity(areaFill?.toOpacity, 0.02)
+});
 
 export const resolveLineChartDecimationConfig = ({
   decimation,

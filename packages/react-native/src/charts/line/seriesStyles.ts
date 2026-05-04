@@ -1,8 +1,10 @@
 import type { ResolvedCartesianChartTheme } from "../../theme";
 import {
+  getLineChartAreaFillConfig,
   getLineChartDotConfig,
   getLineChartStrokeStyle,
   getLineChartThresholdStyle,
+  type LineChartAreaFillConfig,
   type LineChartDotConfig
 } from "./options";
 import type { LineChartSeries } from "./types";
@@ -11,11 +13,13 @@ import { getSeriesColor } from "./utils";
 export const buildLineChartSeriesStyleMap = <
   TData extends Record<string, unknown>
 >({
+  areaFill,
   dots,
   resolvedTheme,
   seriesInput,
   showDots
 }: {
+  areaFill: LineChartAreaFillConfig | undefined;
   dots: boolean | LineChartDotConfig | undefined;
   resolvedTheme: ResolvedCartesianChartTheme;
   seriesInput: Array<LineChartSeries<TData>>;
@@ -36,6 +40,10 @@ export const buildLineChartSeriesStyleMap = <
             strokeOpacity: item.strokeOpacity
           }),
           area: item.area,
+          areaFill: getLineChartAreaFillConfig({
+            areaFill: item.areaFill ?? areaFill,
+            seriesColor: color
+          }),
           curve: item.curve,
           color,
           threshold: getLineChartThresholdStyle({

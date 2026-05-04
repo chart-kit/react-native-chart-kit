@@ -44,6 +44,7 @@ export type {
   BarChartYLabelModel
 } from "./charts/bar/BarChart";
 export type {
+  LineChartAreaFillConfig,
   LineChartCrosshairConfig,
   LineChartCrosshairRenderProps,
   LineChartDotColor,
@@ -91,6 +92,7 @@ export type {
   LineChartViewportPanInteraction,
   LineChartYAxisLabelWidth,
   ResolvedLineChartCrosshairConfig,
+  ResolvedLineChartAreaFillConfig,
   ResolvedLineChartDecimationConfig,
   ResolvedLineChartDotConfig,
   ResolvedLineChartStrokeStyle,

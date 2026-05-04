@@ -6,13 +6,13 @@ import {
   createLinearScale,
   solveChartBoxes
 } from "@chart-kit/core";
-import type { ProjectScale } from "@chart-kit/core";
 
 import {
   resolveCartesianChartThemeConfig,
   type ChartKitThemeContextValue
 } from "../../theme";
 import {
+  getLineChartAreaFillConfig,
   getLineChartCrosshairConfig,
   getLineChartDotConfig,
   getLineChartStrokeStyle,
@@ -43,12 +43,11 @@ import type {
 } from "./types";
 import {
   defaultLabelRotation,
-  dedupeXLabelCandidates,
   getMaxSize,
   resolveXLabelLayout,
-  xLabelBaselineOffset,
-  type XLabelCandidate
+  xLabelBaselineOffset
 } from "./xLabels";
+import { buildXLabelCandidates } from "./xLabelCandidates";
 import {
   defaultFormatXLabel,
   defaultFormatYLabel,
@@ -77,6 +76,7 @@ export const useChartModel = <TData extends Record<string, unknown>>({
   curve = "linear",
   connectNulls = false,
   area = false,
+  areaFill,
   showDots = true,
   dots,
   selectedIndex,
@@ -145,6 +145,7 @@ export const useChartModel = <TData extends Record<string, unknown>>({
       measureLineChartText(text, axisTextOptions)
     );
     const styleByKey = buildLineChartSeriesStyleMap({
+      areaFill,
       dots,
       resolvedTheme,
       seriesInput,
@@ -161,37 +162,6 @@ export const useChartModel = <TData extends Record<string, unknown>>({
           measureText: measureLineChartText
         })
       : undefined;
-    const buildXLabelCandidates = (
-      chartBoxes: ReturnType<typeof solveChartBoxes>,
-      xScaleForBoxes: ProjectScale<TData>
-    ): XLabelCandidate[] => {
-      const candidates = xValues.flatMap((value, index) => {
-        const point = normalized.series[0]?.points[index];
-        const x = point ? xScaleForBoxes(value, point) : undefined;
-        const text = xLabelTexts[index];
-        const size = xLabelSizes[index];
-
-        if (x === undefined || text === undefined || size === undefined) {
-          return [];
-        }
-
-        return [
-          {
-            index: index + dataIndexOffset,
-            value,
-            text,
-            x,
-            size
-          }
-        ];
-      });
-      const shouldDedupeLabels =
-        labelStrategy === "auto" || labelStrategy === "skip";
-
-      return shouldDedupeLabels
-        ? dedupeXLabelCandidates(candidates)
-        : candidates;
-    };
     const baseAutoPaddingOptions = {
       base: { top: 16, right: 18, bottom: 12, left: 10 },
       leftLabels: yLabelSizes,
@@ -227,7 +197,15 @@ export const useChartModel = <TData extends Record<string, unknown>>({
       xValues
     });
     const initialXLabelLayout = resolveXLabelLayout({
-      candidates: buildXLabelCandidates(initialBoxes, initialXScale),
+      candidates: buildXLabelCandidates({
+        dataIndexOffset,
+        labelStrategy,
+        series: normalized.series[0],
+        xLabelSizes,
+        xLabelTexts,
+        xScale: initialXScale,
+        xValues
+      }),
       plotWidth: initialBoxes.plot.width,
       chartWidth: width,
       strategy: labelStrategy,
@@ -262,6 +240,8 @@ export const useChartModel = <TData extends Record<string, unknown>>({
     const geometries = normalized.series.map((item, index) => {
       const style = styleByKey.get(item.key);
       const wantsArea = style?.area ?? area;
+      const color =
+        item.color ?? style?.color ?? getSeriesColor(resolvedTheme, index);
 
       return {
         style: {
@@ -274,8 +254,10 @@ export const useChartModel = <TData extends Record<string, unknown>>({
               seriesDot: undefined,
               showDots
             }),
-          color:
-            item.color ?? style?.color ?? getSeriesColor(resolvedTheme, index),
+          color,
+          areaFill:
+            style?.areaFill ??
+            getLineChartAreaFillConfig({ areaFill, seriesColor: color }),
           threshold: style?.threshold
         },
         geometry: buildLineSeriesGeometry({
@@ -318,7 +300,15 @@ export const useChartModel = <TData extends Record<string, unknown>>({
           : [interactionPoint];
       }) ?? [];
     const xLabelLayout = resolveXLabelLayout({
-      candidates: buildXLabelCandidates(boxes, xScale),
+      candidates: buildXLabelCandidates({
+        dataIndexOffset,
+        labelStrategy,
+        series: normalized.series[0],
+        xLabelSizes,
+        xLabelTexts,
+        xScale,
+        xValues
+      }),
       plotWidth: boxes.plot.width,
       chartWidth: width,
       strategy: labelStrategy,
@@ -461,6 +451,7 @@ export const useChartModel = <TData extends Record<string, unknown>>({
     };
   }, [
     area,
+    areaFill,
     activeDot,
     connectNulls,
     crosshair,

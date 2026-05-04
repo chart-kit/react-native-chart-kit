@@ -60,6 +60,7 @@ Use `series` when each line needs its own label, color, marker, curve, or stroke
 ```tsx
 <LineChart
   area
+  areaFill={{ fromOpacity: 0.32, toOpacity: 0.05 }}
   data={data}
   xKey="date"
   yKey="price"
@@ -68,6 +69,8 @@ Use `series` when each line needs its own label, color, marker, curve, or stroke
   height={240}
 />
 ```
+
+Use `areaFill` on the chart for a shared fill style, or per series when each series needs its own gradient colors or opacity.
 
 ## Styling Lines and Dots
 

@@ -18,6 +18,7 @@ import type {
 import type { LineChartInteraction } from "./interaction";
 import type {
   LineChartCrosshairConfig,
+  LineChartAreaFillConfig,
   LineChartDecimationConfig,
   LineChartDotConfig,
   LineChartStrokeLinecap,
@@ -44,6 +45,7 @@ export type {
 } from "./interaction";
 
 export type {
+  LineChartAreaFillConfig,
   LineChartCrosshairConfig,
   LineChartDotColor,
   LineChartDotConfig,
@@ -55,6 +57,7 @@ export type {
   LineChartThresholdStyleConfig,
   LineChartTooltipConfig,
   ResolvedLineChartCrosshairConfig,
+  ResolvedLineChartAreaFillConfig,
   ResolvedLineChartDecimationConfig,
   ResolvedLineChartDotConfig,
   ResolvedLineChartStrokeStyle,
@@ -83,6 +86,7 @@ export type LineChartSeries<TData extends Record<string, unknown>> = {
   dot?: boolean | LineChartDotConfig;
   threshold?: LineChartThresholdStyleConfig;
   area?: boolean;
+  areaFill?: LineChartAreaFillConfig;
   curve?: LineCurve;
 };
 
@@ -396,6 +400,7 @@ export type LineChartProps<TData extends Record<string, unknown>> = {
   curve?: LineCurve;
   connectNulls?: boolean;
   area?: boolean;
+  areaFill?: LineChartAreaFillConfig;
   showDots?: boolean;
   dots?: boolean | LineChartDotConfig;
   renderDot?: (props: LineChartDotRenderProps<TData>) => ReactNode;
