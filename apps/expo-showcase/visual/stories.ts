@@ -30,6 +30,7 @@ export const chartStories = [
   "v2-bar-grouped",
   "v2-bar-selection",
   "v2-bar-scrollable",
+  "v2-bar-horizontal",
   "v2-bar-negative",
   "v2-bar-stacked-percent",
   "line-basic",

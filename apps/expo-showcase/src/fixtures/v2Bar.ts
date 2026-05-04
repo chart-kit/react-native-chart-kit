@@ -20,6 +20,11 @@ export type CampaignSpendPoint = {
   spend: number;
 };
 
+export type SupportVolumePoint = {
+  channel: string;
+  tickets: number;
+};
+
 export const acquisitionByChannel: AcquisitionPoint[] = [
   { month: "Jan", organic: 42, paid: 28 },
   { month: "Feb", organic: 48, paid: 33 },
@@ -66,4 +71,12 @@ export const campaignSpend: CampaignSpendPoint[] = [
   { week: "W16", spend: 54 },
   { week: "W17", spend: 61 },
   { week: "W18", spend: 65 }
+];
+
+export const supportVolume: SupportVolumePoint[] = [
+  { channel: "Chat", tickets: 62 },
+  { channel: "Email", tickets: 48 },
+  { channel: "Phone", tickets: 37 },
+  { channel: "Social", tickets: 28 },
+  { channel: "Community", tickets: 18 }
 ];

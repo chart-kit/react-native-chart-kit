@@ -91,4 +91,46 @@ describe("BarChart model", () => {
     expect(negative.y).toBe(negative.baselineY);
     expect(negative.height).toBeGreaterThan(0);
   });
+
+  it("builds horizontal bars with category y-axis labels", () => {
+    const model = buildBarChartModel({
+      chartKitTheme,
+      data: [
+        { channel: "Chat", tickets: 62 },
+        { channel: "Email", tickets: 48 },
+        { channel: "Phone", tickets: 37 },
+        { channel: "Social", tickets: 28 },
+        { channel: "Community", tickets: 18 }
+      ],
+      height: 260,
+      labelStrategy: "show",
+      orientation: "horizontal",
+      showValuesOnTopOfBars: true,
+      width: 360,
+      xKey: "channel",
+      yKey: "tickets"
+    });
+
+    expect(model.orientation).toBe("horizontal");
+    expect(model.bars).toHaveLength(5);
+    expect(model.xLabels.map((label) => label.text)).toContain("60");
+    expect(model.yLabels.map((label) => label.text)).toEqual([
+      "Chat",
+      "Email",
+      "Phone",
+      "Social",
+      "Community"
+    ]);
+    expect(model.bars[0]).toMatchObject({
+      baselineX: expect.any(Number),
+      seriesKey: "tickets",
+      value: 62,
+      xLabel: "Chat"
+    });
+    expect(model.bars[0]!.width).toBeGreaterThan(0);
+    expect(model.valueLabels[0]).toMatchObject({
+      text: "62",
+      textAnchor: "start"
+    });
+  });
 });

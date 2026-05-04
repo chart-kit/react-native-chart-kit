@@ -1,6 +1,6 @@
 # Bar Charts
 
-`BarChart` is the modern v2 bar surface for object-row data. It supports vertical grouped bars, stacked bars, 100% stacked bars, negative values, horizontal scrolling, automatic axis padding, theme presets, value labels, tap selection, tooltips, and a simple bottom legend.
+`BarChart` is the modern v2 bar surface for object-row data. It supports vertical and horizontal bars, grouped bars, stacked bars, 100% stacked bars, negative values, horizontal scrolling, automatic axis padding, theme presets, value labels, tap selection, tooltips, and a simple bottom legend.
 
 Use this API for new apps. Legacy `BarChart` compatibility fixtures remain separate from the modern v2 API.
 
@@ -70,6 +70,24 @@ Negative values render below the zero baseline. Keep `yDomain` on its default in
   height={250}
 />
 ```
+
+## Horizontal Bars
+
+Set `orientation="horizontal"` when category labels are easier to scan down the left axis.
+
+```tsx
+<BarChart
+  data={supportVolume}
+  xKey="channel"
+  yKey="tickets"
+  orientation="horizontal"
+  showValuesOnTopOfBars
+  width={360}
+  height={260}
+/>
+```
+
+Horizontal bars support grouped, stacked, 100% stacked, and negative values through the same `mode`, `series`, and `yDomain` props as vertical bars.
 
 ## Stacked Bars
 
@@ -171,4 +189,4 @@ Useful label and theme props:
 
 ## Current Limitations
 
-This is still an early modern BarChart slice. The current implementation does not yet include horizontal bars, custom bar renderers, or legacy BarChart prop mapping. Those belong to later CKV2-007 slices.
+This is still an early modern BarChart slice. The current implementation does not yet include custom bar renderers or legacy BarChart prop mapping. Those belong to later CKV2-007 slices.

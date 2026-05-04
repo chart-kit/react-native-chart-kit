@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   buildBarGeometry,
+  buildHorizontalBarGeometry,
   createBandScale,
   createLinearScale,
   normalizeCartesianData
@@ -171,5 +172,104 @@ describe("bar geometry", () => {
         stackEnd: 100
       }
     ]);
+  });
+
+  it("builds grouped horizontal bars with independent series slots", () => {
+    const normalized = buildNormalized();
+    const yScale = createBandScale<string>({
+      domain: ["Jan", "Feb", "Mar"],
+      range: [0, 300]
+    });
+    const xScale = createLinearScale({
+      domain: [-20, 40],
+      range: [0, 180]
+    });
+    const geometry = buildHorizontalBarGeometry({
+      series: normalized.series,
+      yBand: (value) =>
+        typeof value === "string"
+          ? { y: yScale.scale(value) ?? 0, height: yScale.bandwidth }
+          : undefined,
+      xScale: (value) => xScale.scale(value),
+      barWidthRatio: 0.8,
+      barGapRatio: 0.1
+    });
+
+    expect(geometry.mode).toBe("grouped");
+    expect(geometry.bars).toHaveLength(5);
+    expect(geometry.bars[0]).toMatchObject({
+      seriesKey: "android",
+      dataIndex: 0,
+      value: 20,
+      x: 60,
+      y: 10,
+      width: 60,
+      height: 36,
+      baselineX: 60
+    });
+    expect(geometry.bars[1]).toMatchObject({
+      seriesKey: "ios",
+      dataIndex: 0,
+      value: 30,
+      x: 60,
+      y: 54,
+      width: 90,
+      height: 36
+    });
+    expect(geometry.bars[2]).toMatchObject({
+      seriesKey: "android",
+      dataIndex: 1,
+      value: -10,
+      x: 30,
+      width: 30
+    });
+  });
+
+  it("stacks horizontal bars from the zero baseline", () => {
+    const normalized = buildNormalized();
+    const yScale = createBandScale<string>({
+      domain: ["Jan", "Feb", "Mar"],
+      range: [0, 300]
+    });
+    const xScale = createLinearScale({
+      domain: [-20, 60],
+      range: [0, 200]
+    });
+    const geometry = buildHorizontalBarGeometry({
+      series: normalized.series,
+      mode: "stacked",
+      yBand: (value) =>
+        typeof value === "string"
+          ? { y: yScale.scale(value) ?? 0, height: yScale.bandwidth }
+          : undefined,
+      xScale: (value) => xScale.scale(value),
+      barWidthRatio: 0.6
+    });
+
+    expect(geometry.bars).toHaveLength(5);
+    expect(geometry.bars[0]).toMatchObject({
+      seriesKey: "android",
+      value: 20,
+      stackStart: 0,
+      stackEnd: 20,
+      x: 50,
+      width: 50
+    });
+    expect(geometry.bars[1]).toMatchObject({
+      seriesKey: "ios",
+      value: 30,
+      stackStart: 20,
+      stackEnd: 50,
+      x: 100,
+      width: 75
+    });
+    expect(geometry.bars[2]).toMatchObject({
+      seriesKey: "android",
+      value: -10,
+      stackStart: 0,
+      stackEnd: -10,
+      x: 25,
+      width: 25
+    });
   });
 });

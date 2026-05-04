@@ -1,5 +1,6 @@
 import {
   buildBarGeometry,
+  buildHorizontalBarGeometry,
   calculateAutoPadding,
   createBandScale,
   createLinearScale,
@@ -8,12 +9,21 @@ import {
   resolveNumericDomain,
   solveChartBoxes
 } from "@chart-kit/core";
-import type { ChartXValue, NumericDomainInput, Size } from "@chart-kit/core";
+import type { NumericDomainInput } from "@chart-kit/core";
 
+import { resolveCartesianChartThemeConfig } from "../../theme/presets";
 import {
-  resolveCartesianChartThemeConfig,
-  type ResolvedCartesianChartTheme
-} from "../../theme/presets";
+  defaultFormatBarChartXLabel,
+  defaultFormatBarChartYLabel,
+  getBarChartFontTextOptions,
+  getBarChartSeriesColor,
+  getBarChartXKey,
+  getMaxBarChartTextSize,
+  getVisibleBarChartXLabelInterval,
+  getVisibleBarChartYLabelInterval,
+  labelBaselineOffset,
+  measureBarChartText
+} from "./modelUtils";
 import type {
   BarChartBarModel,
   BarChartModel,
@@ -23,52 +33,6 @@ import type {
 } from "./types";
 
 const defaultYDomain = { includeZero: true, nice: true } as const;
-const labelBaselineOffset = 20;
-const measureText = (
-  text: string,
-  options: { fontSize?: number } = {}
-): Size => {
-  const fontSize = options.fontSize ?? 12;
-
-  return {
-    width: text.length * fontSize * 0.56,
-    height: 14
-  };
-};
-
-const getFontTextOptions = (theme: ResolvedCartesianChartTheme) => ({
-  fontSize: theme.typography.axisLabelSize,
-  ...(theme.typography.fontFamily
-    ? { fontFamily: theme.typography.fontFamily }
-    : {})
-});
-
-const getSeriesColor = (theme: ResolvedCartesianChartTheme, index: number) =>
-  theme.series[index % theme.series.length] ?? "#2563eb";
-
-const defaultFormatXLabel = (value: ChartXValue) => {
-  if (value instanceof Date) {
-    return value.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric"
-    });
-  }
-
-  return String(value);
-};
-
-const defaultFormatYLabel = (value: number) => {
-  const absolute = Math.abs(value);
-
-  if (absolute >= 1000) {
-    return `${Number((value / 1000).toFixed(1))}k`;
-  }
-
-  return String(Number(value.toFixed(2)));
-};
-
-const getBarXKey = (value: ChartXValue) =>
-  value instanceof Date ? value.valueOf() : value;
 
 const resolveSeriesInput = <TData extends Record<string, unknown>>(
   yKey: BarChartProps<TData>["yKey"],
@@ -84,38 +48,6 @@ const resolveSeriesInput = <TData extends Record<string, unknown>>(
   }
 
   return yKey ? [{ yKey }] : [];
-};
-
-const getMaxSize = (sizes: Size[]) =>
-  sizes.reduce(
-    (max, size) => ({
-      width: Math.max(max.width, size.width),
-      height: Math.max(max.height, size.height)
-    }),
-    { width: 0, height: 0 }
-  );
-
-const getVisibleXLabelInterval = ({
-  labelStrategy,
-  labelSizes,
-  plotWidth
-}: {
-  labelStrategy: BarChartProps<Record<string, unknown>>["labelStrategy"];
-  labelSizes: Size[];
-  plotWidth: number;
-}) => {
-  if (labelStrategy === "hide" || labelSizes.length === 0) {
-    return Number.POSITIVE_INFINITY;
-  }
-
-  if (labelStrategy === "show") {
-    return 1;
-  }
-
-  const widest = getMaxSize(labelSizes).width;
-  const maxVisibleLabels = Math.max(1, Math.floor(plotWidth / (widest + 10)));
-
-  return Math.max(1, Math.ceil(labelSizes.length / maxVisibleLabels));
 };
 
 const getDomainValues = <TData extends Record<string, unknown>>({
@@ -177,6 +109,7 @@ export const buildBarChartModel = <TData extends Record<string, unknown>>({
   theme,
   preset,
   mode = "grouped",
+  orientation = "vertical",
   yDomain = defaultYDomain,
   barWidthRatio = 0.72,
   barGapRatio = 0.12,
@@ -184,8 +117,8 @@ export const buildBarChartModel = <TData extends Record<string, unknown>>({
   showHorizontalGridLines = true,
   legend,
   labelStrategy = "auto",
-  formatXLabel = defaultFormatXLabel,
-  formatYLabel = defaultFormatYLabel,
+  formatXLabel = defaultFormatBarChartXLabel,
+  formatYLabel = defaultFormatBarChartYLabel,
   chartKitTheme
 }: BuildBarChartModelOptions<TData>): BarChartModel<TData> => {
   const resolvedTheme = resolveCartesianChartThemeConfig({
@@ -205,10 +138,13 @@ export const buildBarChartModel = <TData extends Record<string, unknown>>({
     series: seriesInput
   });
   const xValues = normalized.series[0]?.points.map((point) => point.x) ?? [];
-  const xDomain = xValues.map(getBarXKey);
+  const xDomain = xValues.map(getBarChartXKey);
   const xLabelTexts = xValues.map((value, index) => formatXLabel(value, index));
-  const textOptions = getFontTextOptions(resolvedTheme);
-  const xLabelSizes = xLabelTexts.map((text) => measureText(text, textOptions));
+  const textOptions = getBarChartFontTextOptions(resolvedTheme);
+  const xLabelSizes = xLabelTexts.map((text) =>
+    measureBarChartText(text, textOptions)
+  );
+  const isHorizontal = orientation === "horizontal";
   const domainValues = getDomainValues({
     mode,
     series: normalized.series,
@@ -220,7 +156,7 @@ export const buildBarChartModel = <TData extends Record<string, unknown>>({
       : resolveNumericDomain(domainValues, yDomain);
   const yTicks = generateLinearTicks({ domain: resolvedYDomain, count: 5 });
   const yLabelSizes = yTicks.map((tick) =>
-    measureText(formatYLabel(tick), textOptions)
+    measureBarChartText(formatYLabel(tick), textOptions)
   );
   const legendFontSize = resolvedTheme.typography.legendLabelSize;
   const legendMarkerSize = 8;
@@ -228,19 +164,23 @@ export const buildBarChartModel = <TData extends Record<string, unknown>>({
   const legendItemsRaw = seriesInput.map((item, index) => ({
     key: item.key ?? item.yKey,
     label: item.label ?? item.key ?? item.yKey,
-    color: item.color ?? getSeriesColor(resolvedTheme, index),
+    color: item.color ?? getBarChartSeriesColor(resolvedTheme, index),
     width:
       legendMarkerSize +
       6 +
-      measureText(item.label ?? item.key ?? item.yKey, {
+      measureBarChartText(item.label ?? item.key ?? item.yKey, {
         fontSize: legendFontSize
       }).width
   }));
   const legendHeight = legendVisible && legendItemsRaw.length > 0 ? 18 : 0;
   const autoPaddingOptions = {
     base: { top: 18, right: 14, bottom: 12, left: 10 },
-    leftLabels: yLabelSizes,
-    bottomLabels: xLabelSizes.length > 0 ? [getMaxSize(xLabelSizes)] : [],
+    leftLabels: isHorizontal ? xLabelSizes : yLabelSizes,
+    bottomLabels: isHorizontal
+      ? yLabelSizes
+      : xLabelSizes.length > 0
+        ? [getMaxBarChartTextSize(xLabelSizes)]
+        : [],
     gap: 8
   };
   const basePadding = calculateAutoPadding(
@@ -266,11 +206,21 @@ export const buildBarChartModel = <TData extends Record<string, unknown>>({
     paddingInner: 0.12,
     paddingOuter: 0.08
   });
+  const horizontalXScale = createLinearScale({
+    domain: resolvedYDomain,
+    range: [boxes.plot.x, boxes.plot.x + boxes.plot.width]
+  });
+  const horizontalYScale = createBandScale<string | number>({
+    domain: xDomain,
+    range: [boxes.plot.y, boxes.plot.y + boxes.plot.height],
+    paddingInner: 0.12,
+    paddingOuter: 0.08
+  });
   const barGeometry = buildBarGeometry({
     series: normalized.series,
     mode,
     xBand: (value) => {
-      const key = getBarXKey(value);
+      const key = getBarChartXKey(value);
       const x = xScale.scale(key);
 
       return x !== undefined ? { x, width: xScale.bandwidth } : undefined;
@@ -279,13 +229,33 @@ export const buildBarChartModel = <TData extends Record<string, unknown>>({
     barWidthRatio,
     barGapRatio
   });
-  const interval = getVisibleXLabelInterval({
+  const horizontalBarGeometry = buildHorizontalBarGeometry({
+    series: normalized.series,
+    mode,
+    yBand: (value) => {
+      const key = getBarChartXKey(value);
+      const y = horizontalYScale.scale(key);
+
+      return y !== undefined
+        ? { y, height: horizontalYScale.bandwidth }
+        : undefined;
+    },
+    xScale: (value) => horizontalXScale.scale(value),
+    barWidthRatio,
+    barGapRatio
+  });
+  const verticalLabelInterval = getVisibleBarChartXLabelInterval({
     labelStrategy,
     labelSizes: xLabelSizes,
     plotWidth: boxes.plot.width
   });
-  const xLabels = xLabelTexts.flatMap((text, index) => {
-    if (index % interval !== 0) {
+  const horizontalLabelInterval = getVisibleBarChartYLabelInterval({
+    labelStrategy,
+    labelSizes: xLabelSizes,
+    plotHeight: boxes.plot.height
+  });
+  const verticalXLabels = xLabelTexts.flatMap((text, index) => {
+    if (index % verticalLabelInterval !== 0) {
       return [];
     }
 
@@ -306,47 +276,128 @@ export const buildBarChartModel = <TData extends Record<string, unknown>>({
       }
     ];
   });
-  const yLabels = yTicks.map((tick) => ({
+  const verticalYLabels = yTicks.map((tick) => ({
     key: `tick-${tick}`,
     text: formatYLabel(tick),
     x: boxes.plot.x - 8,
     y: yScale.scale(tick) + resolvedTheme.typography.axisLabelSize / 2 - 2
   }));
-  const bars: Array<BarChartBarModel<TData>> = barGeometry.bars.map((bar) => ({
-    baselineY: bar.baselineY,
-    color:
-      normalized.series[bar.seriesIndex]?.color ??
-      seriesInput[bar.seriesIndex]?.color ??
-      getSeriesColor(resolvedTheme, bar.seriesIndex),
-    dataIndex: bar.dataIndex,
-    formattedValue: formatYLabel(bar.value),
-    height: bar.height,
-    key: bar.key,
-    raw: bar.raw,
-    seriesIndex: bar.seriesIndex,
-    seriesKey: bar.seriesKey,
-    seriesLabel: bar.seriesLabel,
-    value: bar.value,
-    width: bar.width,
-    x: bar.x,
-    xLabel: formatXLabel(bar.xValue, bar.dataIndex),
-    xValue: bar.xValue,
-    y: bar.y
+  const horizontalXLabels = yTicks.map((tick, index) => ({
+    index,
+    text: formatYLabel(tick),
+    x: horizontalXScale.scale(tick),
+    y: boxes.plot.y + boxes.plot.height + labelBaselineOffset,
+    textAnchor: "middle" as const
   }));
-  const valueLabels = showValuesOnTopOfBars
-    ? bars.map((bar) => ({
-        key: `value-${bar.key}`,
-        text: formatYLabel(bar.value),
-        x: bar.x + bar.width / 2,
+  const horizontalYLabels = xLabelTexts.flatMap((text, index) => {
+    if (index % horizontalLabelInterval !== 0) {
+      return [];
+    }
+
+    const key = xDomain[index];
+    const bandY = key !== undefined ? horizontalYScale.scale(key) : undefined;
+
+    if (bandY === undefined) {
+      return [];
+    }
+
+    return [
+      {
+        key: `category-${index}`,
+        text,
+        x: boxes.plot.x - 8,
         y:
-          bar.value >= 0
-            ? Math.max(boxes.plot.y + 10, bar.y - 5)
-            : Math.min(
-                boxes.plot.y + boxes.plot.height - 2,
-                bar.y + bar.height + resolvedTheme.typography.axisLabelSize
-              ),
-        color: resolvedTheme.mutedText
-      }))
+          bandY +
+          horizontalYScale.bandwidth / 2 +
+          resolvedTheme.typography.axisLabelSize / 2 -
+          2
+      }
+    ];
+  });
+  const verticalBars: Array<BarChartBarModel<TData>> = barGeometry.bars.map(
+    (bar) => ({
+      baselineY: bar.baselineY,
+      color:
+        normalized.series[bar.seriesIndex]?.color ??
+        seriesInput[bar.seriesIndex]?.color ??
+        getBarChartSeriesColor(resolvedTheme, bar.seriesIndex),
+      dataIndex: bar.dataIndex,
+      formattedValue: formatYLabel(bar.value),
+      height: bar.height,
+      key: bar.key,
+      raw: bar.raw,
+      seriesIndex: bar.seriesIndex,
+      seriesKey: bar.seriesKey,
+      seriesLabel: bar.seriesLabel,
+      value: bar.value,
+      width: bar.width,
+      x: bar.x,
+      xLabel: formatXLabel(bar.xValue, bar.dataIndex),
+      xValue: bar.xValue,
+      y: bar.y
+    })
+  );
+  const horizontalBars: Array<BarChartBarModel<TData>> =
+    horizontalBarGeometry.bars.map((bar) => ({
+      baselineX: bar.baselineX,
+      baselineY: bar.baselineY,
+      color:
+        normalized.series[bar.seriesIndex]?.color ??
+        seriesInput[bar.seriesIndex]?.color ??
+        getBarChartSeriesColor(resolvedTheme, bar.seriesIndex),
+      dataIndex: bar.dataIndex,
+      formattedValue: formatYLabel(bar.value),
+      height: bar.height,
+      key: bar.key,
+      raw: bar.raw,
+      seriesIndex: bar.seriesIndex,
+      seriesKey: bar.seriesKey,
+      seriesLabel: bar.seriesLabel,
+      value: bar.value,
+      width: bar.width,
+      x: bar.x,
+      xLabel: formatXLabel(bar.xValue, bar.dataIndex),
+      xValue: bar.xValue,
+      y: bar.y
+    }));
+  const bars = isHorizontal ? horizontalBars : verticalBars;
+  const valueLabels = showValuesOnTopOfBars
+    ? bars.map((bar) =>
+        isHorizontal
+          ? {
+              key: `value-${bar.key}`,
+              text: formatYLabel(bar.value),
+              x:
+                bar.value >= 0
+                  ? Math.min(
+                      boxes.plot.x + boxes.plot.width - 2,
+                      bar.x + bar.width + 5
+                    )
+                  : Math.max(boxes.plot.x + 2, bar.x - 5),
+              y:
+                bar.y +
+                bar.height / 2 +
+                resolvedTheme.typography.axisLabelSize / 2 -
+                2,
+              color: resolvedTheme.mutedText,
+              textAnchor: bar.value >= 0 ? ("start" as const) : ("end" as const)
+            }
+          : {
+              key: `value-${bar.key}`,
+              text: formatYLabel(bar.value),
+              x: bar.x + bar.width / 2,
+              y:
+                bar.value >= 0
+                  ? Math.max(boxes.plot.y + 10, bar.y - 5)
+                  : Math.min(
+                      boxes.plot.y + boxes.plot.height - 2,
+                      bar.y +
+                        bar.height +
+                        resolvedTheme.typography.axisLabelSize
+                    ),
+              color: resolvedTheme.mutedText
+            }
+      )
     : [];
   const legendWidth =
     legendItemsRaw.reduce((sum, item) => sum + item.width, 0) +
@@ -377,12 +428,13 @@ export const buildBarChartModel = <TData extends Record<string, unknown>>({
     bars,
     boxes,
     mode,
+    orientation,
     resolvedTheme,
     legendItems,
     showHorizontalGridLines,
     valueLabels,
-    xLabels,
-    yLabels,
+    xLabels: isHorizontal ? horizontalXLabels : verticalXLabels,
+    yLabels: isHorizontal ? horizontalYLabels : verticalYLabels,
     yTicks
   };
 };

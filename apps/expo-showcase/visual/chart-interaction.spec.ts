@@ -107,6 +107,19 @@ test.describe("Expo showcase chart interactions", () => {
     await expect(page.getByText("Organic: 48k")).toHaveCount(0);
   });
 
+  test("horizontal bar chart shows every category label", async ({ page }) => {
+    await page.goto("/?story=v2-bar-horizontal&visual=1");
+    await page.evaluate(async () => {
+      await document.fonts?.ready;
+    });
+
+    await expect(page.getByText("Chat")).toBeVisible();
+    await expect(page.getByText("Email")).toBeVisible();
+    await expect(page.getByText("Phone")).toBeVisible();
+    await expect(page.getByText("Social")).toBeVisible();
+    await expect(page.getByText("Community")).toBeVisible();
+  });
+
   test("range selector overview changes the visible window", async ({
     page
   }) => {

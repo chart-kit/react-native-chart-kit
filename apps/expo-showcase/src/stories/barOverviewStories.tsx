@@ -4,7 +4,8 @@ import {
   acquisitionByChannel,
   campaignSpend,
   monthlyProfit,
-  platformShare
+  platformShare,
+  supportVolume
 } from "../fixtures/v2Bar";
 import { ChartSection, type NativeStoryProps } from "./storyPrimitives";
 
@@ -17,7 +18,7 @@ const V2GroupedBar = ({ width }: NativeStoryProps) => (
   <ChartSection title="Acquisition mix" kicker="Grouped bars">
     <BarChart
       data={acquisitionByChannel}
-      height={260}
+      height={300}
       preset="analytics"
       series={[
         { yKey: "organic", label: "Organic" },
@@ -72,6 +73,24 @@ const V2ScrollableBar = ({ width }: NativeStoryProps) => (
   </ChartSection>
 );
 
+const V2HorizontalBar = ({ width }: NativeStoryProps) => (
+  <ChartSection title="Support volume" kicker="Horizontal bars">
+    <BarChart
+      data={supportVolume}
+      height={260}
+      labelStrategy="show"
+      orientation="horizontal"
+      preset="analytics"
+      series={[{ yKey: "tickets", label: "Tickets" }]}
+      showValuesOnTopOfBars
+      width={width}
+      xKey="channel"
+      yDomain={{ min: 0, max: "dataMax", nice: true }}
+      formatYLabel={(value) => `${value}`}
+    />
+  </ChartSection>
+);
+
 const V2NegativeBar = ({ width }: NativeStoryProps) => (
   <ChartSection title="Monthly profit" kicker="Negative values">
     <BarChart
@@ -120,6 +139,11 @@ export const barOverviewStories = [
     id: "v2-bar-scrollable",
     title: "Scrollable Bars",
     Component: V2ScrollableBar
+  },
+  {
+    id: "v2-bar-horizontal",
+    title: "Horizontal Bars",
+    Component: V2HorizontalBar
   },
   {
     id: "v2-bar-negative",

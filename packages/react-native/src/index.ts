@@ -33,6 +33,7 @@ export type {
   BarChartLabelStrategy,
   BarChartMode,
   BarChartModel,
+  BarChartOrientation,
   BarChartProps,
   BarChartSelectEvent,
   BarChartSelectedBar,

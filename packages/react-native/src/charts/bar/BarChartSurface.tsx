@@ -44,6 +44,7 @@ export const BarChartSurface = <TData,>({
     bars,
     boxes,
     legendItems,
+    orientation,
     resolvedTheme,
     showHorizontalGridLines,
     valueLabels,
@@ -75,7 +76,21 @@ export const BarChartSurface = <TData,>({
           />
         </SvgLayer>
         <SvgLayer name="grid">
-          {showHorizontalGridLines
+          {showHorizontalGridLines && orientation === "horizontal"
+            ? xLabels.map((label) => (
+                <SvgLine
+                  key={`grid-x-${label.index}`}
+                  x1={label.x}
+                  x2={label.x}
+                  y1={boxes.plot.y}
+                  y2={boxes.plot.y + boxes.plot.height}
+                  stroke={resolvedTheme.grid}
+                  strokeOpacity={0.78}
+                  strokeWidth={1}
+                />
+              ))
+            : null}
+          {showHorizontalGridLines && orientation === "vertical"
             ? yTicks.map((tick) => {
                 const label = yLabels.find(
                   (item) => item.key === `tick-${tick}`
@@ -166,7 +181,7 @@ export const BarChartSurface = <TData,>({
               y={label.y}
               fill={label.color}
               fontSize={resolvedTheme.typography.axisLabelSize}
-              textAnchor="middle"
+              textAnchor={label.textAnchor ?? "middle"}
               {...fontProps}
             >
               {label.text}

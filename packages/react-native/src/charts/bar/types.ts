@@ -14,6 +14,7 @@ import type {
 } from "../../theme";
 
 export type BarChartMode = "grouped" | "stacked" | "stacked100";
+export type BarChartOrientation = "vertical" | "horizontal";
 export type BarChartInitialIndex = ChartViewportInitialIndex;
 
 export type BarChartSeries<TData extends Record<string, unknown>> = {
@@ -111,6 +112,7 @@ export type BarChartProps<TData extends Record<string, unknown>> = {
   scrollable?: boolean;
   visiblePoints?: number;
   initialIndex?: ChartViewportInitialIndex;
+  orientation?: BarChartOrientation;
   mode?: BarChartMode;
   yDomain?: NumericDomainInput;
   barRadius?: number;
@@ -151,6 +153,7 @@ export type BarChartValueLabelModel = {
   x: number;
   y: number;
   color: string;
+  textAnchor?: "start" | "middle" | "end";
 };
 
 export type BarChartLegendItemModel = {
@@ -178,6 +181,7 @@ export type BarChartBarModel<TData = unknown> = {
   width: number;
   height: number;
   baselineY: number;
+  baselineX?: number;
   color: string;
   raw: TData | undefined;
 };
@@ -191,6 +195,7 @@ export type BarChartModel<TData = unknown> = {
   bars: Array<BarChartBarModel<TData>>;
   boxes: ChartBoxes;
   mode: BarChartMode;
+  orientation: BarChartOrientation;
   resolvedTheme: ResolvedCartesianChartTheme;
   legendItems: BarChartLegendItemModel[];
   showHorizontalGridLines: boolean;
