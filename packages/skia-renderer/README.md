@@ -19,5 +19,5 @@ Status:
 - sticky-axis labels require a Skia font through `createSkiaRenderer({ skia, font })`
 - gradient capability is disabled for chart consumption until SVG-style gradient defs have Skia parity
 - no license gating
-- native install verification and renderer parity coverage are still pending
-- no renderer parity suite yet
+- local LineChart renderer contract coverage lives in `packages/react-native/test/line-renderer.test.ts`
+- native install verification and native renderer parity coverage are still pending

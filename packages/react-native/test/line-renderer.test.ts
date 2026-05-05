@@ -260,7 +260,7 @@ const debugLayoutModel: LayoutDebugModel = {
   ]
 };
 
-describe("LineChart renderer adapter", () => {
+describe("LineChart renderer parity contract", () => {
   it("uses the SVG renderer when no renderer is injected", () => {
     expect(getLineChartRenderer(undefined)).toBe(lineChartSvgRenderer);
     expect(lineChartSvgRenderer.capabilities).toMatchObject({
