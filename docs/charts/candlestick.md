@@ -3,7 +3,14 @@
 CandlestickChart renders OHLC price rows on a shared categorical x-axis. This CKV2-015 preview establishes renderer-agnostic candle geometry, a theme-aware SVG component, and tap inspection for OHLC values.
 
 ```tsx
-import { CandlestickChart } from "@chart-kit/react-native";
+import {
+  CandlestickChart,
+  getCandlestickEmergencyClosureSessions
+} from "@chart-kit/react-native";
+
+const emergencyClosures = getCandlestickEmergencyClosureSessions([
+  { date: "2026-11-26", reason: "Closed" }
+]);
 
 <CandlestickChart
   data={candles}
@@ -21,7 +28,7 @@ import { CandlestickChart } from "@chart-kit/react-native";
     earlyCloses: true,
     exchange: "nyse",
     label: true,
-    specialSessions: [{ date: "2026-11-26", kind: "closure", label: "Closed" }]
+    specialSessions: emergencyClosures
   }}
   tooltip={{ width: 154 }}
   viewport={{ visiblePoints: 20, initialIndex: "end" }}
@@ -47,6 +54,7 @@ Defaults:
 - use `sessionGaps.earlyCloses={true}` with a supported exchange to mark built-in US equities early closes
 - pass explicit dates to `sessionGaps.earlyCloses` when an app has its own shortened-session calendar
 - use `sessionGaps.specialSessions` to mark one-off emergency closures on or between dated candles
+- use `getCandlestickEmergencyClosureSessions()` to map an external closure feed into `specialSessions`
 - use `viewportInteraction` with `onViewportChange` for controlled pan and pinch-zoom windows
 - tap selection can show a vertical inspection line, close-price badge, and theme-aware OHLC tooltip
 - y-domain is based on lows and highs, not open and close only
@@ -54,4 +62,4 @@ Defaults:
 - `getCandlestickChartAccessibilitySummary()` reports latest close, highest high, and lowest low
 - `getCandlestickChartFinancialNarrative()` adds close change, percentage change, trading range, and up/down/flat candle counts for app-level financial summaries
 
-This foundation includes preview-grade range selection, controlled pan and pinch-zoom windows, opt-in calendar-aware market-session gap markers, early-close and emergency-closure session markers, and a financial narrative helper. Built-in exchange presets cover regular US equities full-day holidays and regular early-close dates based on the [NYSE published holiday calendar](https://www.nyse.com/markets/hours-calendars). Emergency closure feeds remain outside this preview.
+This foundation includes preview-grade range selection, controlled pan and pinch-zoom windows, opt-in calendar-aware market-session gap markers, early-close and emergency-closure session markers, and a financial narrative helper. Built-in exchange presets cover regular US equities full-day holidays and regular early-close dates based on the [NYSE published holiday calendar](https://www.nyse.com/markets/hours-calendars). Emergency closure feeds are supported through a pure adapter so apps can keep network and vendor-specific logic outside the chart renderer.

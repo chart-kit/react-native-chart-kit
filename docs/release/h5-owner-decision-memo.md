@@ -68,9 +68,9 @@ Rationale:
 - scrollable histories, controlled viewport gestures, and range selector integration exist in preview form
 - opt-in calendar-aware market-session gap markers exist for dated candles
 - opt-in early-close and emergency-closure session markers exist
+- an emergency-closure feed adapter maps external closure feeds into session markers
 - a financial narrative helper exists for close change, percentage change, range, and up/down/flat candle counts
 - named early-close calendars exist for US equities presets
-- emergency-closure feeds are not complete
 - including it as a preview helps owner review Pro/financial direction without overpromising
 
 ## Recommended H5 Outcome

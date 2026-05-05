@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { getCandlestickEmergencyClosureSessions } from "../src/charts/candlestick/emergencyClosures";
 import { buildCandlestickChartModel } from "../src/charts/candlestick/model";
 
 const chartKitTheme = {
@@ -484,6 +485,62 @@ describe("CandlestickChart model", () => {
     expect(model.sessionEvents[0]?.x).toBeLessThan(
       model.candles[1]?.wickX ?? 0
     );
+  });
+
+  it("maps emergency closure feed rows to session markers", () => {
+    const specialSessions = getCandlestickEmergencyClosureSessions(
+      [
+        {
+          date: "2026-09-11",
+          reason: "Exchange halt",
+          width: 8
+        }
+      ],
+      { fillOpacity: 0.2 }
+    );
+    const model = buildCandlestickChartModel({
+      chartKitTheme,
+      closeKey: "close",
+      data: [
+        {
+          day: "2026-09-10",
+          open: 100,
+          high: 112,
+          low: 96,
+          close: 108
+        },
+        {
+          day: "2026-09-14",
+          open: 108,
+          high: 114,
+          low: 104,
+          close: 111
+        }
+      ],
+      height: 260,
+      highKey: "high",
+      lowKey: "low",
+      openKey: "open",
+      sessionGaps: { specialSessions },
+      width: 360,
+      xKey: "day"
+    });
+
+    expect(specialSessions).toEqual([
+      {
+        date: "2026-09-11",
+        fillOpacity: 0.2,
+        kind: "closure",
+        label: "Exchange halt",
+        width: 8
+      }
+    ]);
+    expect(model.sessionEvents[0]).toMatchObject({
+      fillOpacity: 0.2,
+      kind: "closure",
+      label: "Exchange halt",
+      width: 8
+    });
   });
 
   it("keeps session gaps disabled by default", () => {

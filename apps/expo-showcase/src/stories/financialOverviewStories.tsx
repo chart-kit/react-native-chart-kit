@@ -1,6 +1,9 @@
 import { useCallback, useState } from "react";
 
-import { CandlestickChart } from "@chart-kit/react-native";
+import {
+  CandlestickChart,
+  getCandlestickEmergencyClosureSessions
+} from "@chart-kit/react-native";
 import type { CandlestickChartViewportConfig } from "@chart-kit/react-native";
 
 import { stockCandles } from "../fixtures/v2Finance";
@@ -52,6 +55,9 @@ const sessionEventCandles = [
   },
   { day: "2026-12-02", open: 227, high: 231, low: 220, close: 224, volume: 98 }
 ];
+const sessionEventClosures = getCandlestickEmergencyClosureSessions([
+  { date: "2026-11-26", reason: "Closed" }
+]);
 
 const V2CandlestickPriceAction = ({
   onScrubEnd,
@@ -157,9 +163,7 @@ const V2CandlestickSessionEvents = ({ width }: NativeStoryProps) => (
         earlyCloses: true,
         exchange: "nyse",
         label: true,
-        specialSessions: [
-          { date: "2026-11-26", kind: "closure", label: "Closed" }
-        ]
+        specialSessions: sessionEventClosures
       }}
       testID="session-events-candlestick-chart"
       tooltip={{ width: 154 }}

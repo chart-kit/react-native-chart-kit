@@ -44,9 +44,9 @@ Impact: benchmark regressions can be caught locally for core geometry and web sc
 
 ## Candlestick Scope
 
-`CandlestickChart` currently supports OHLC body and wick geometry, opt-in volume overlays, opt-in calendar-aware session-gap markers for dated candles, built-in US equities exchange presets for regular full-day holidays and early closes, opt-in emergency-closure session markers, scrollable long-history mode, viewport windowing with pan/pinch preview gestures, interactive range selector overview, baseline OHLC accessibility helpers, a financial narrative helper, and tap inspection with an OHLC tooltip plus close-price badge. It does not yet include emergency-closure feed integration.
+`CandlestickChart` currently supports OHLC body and wick geometry, opt-in volume overlays, opt-in calendar-aware session-gap markers for dated candles, built-in US equities exchange presets for regular full-day holidays and early closes, an emergency-closure feed adapter, scrollable long-history mode, viewport windowing with pan/pinch preview gestures, interactive range selector overview, baseline OHLC accessibility helpers, a financial narrative helper, and tap inspection with an OHLC tooltip plus close-price badge.
 
-Impact: keep it labeled as financial foundation or preview unless those gaps are acceptable for beta.
+Impact: keep it labeled as financial foundation or preview until H4 decides whether advanced financial charts belong in the free package, Pro package, or a separate preview channel.
 
 ## Docs Examples
 

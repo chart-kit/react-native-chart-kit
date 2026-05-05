@@ -43,6 +43,7 @@ export {
   getCandlestickChartDataTable,
   getCandlestickChartFinancialNarrative
 } from "./accessibility";
+export { getCandlestickEmergencyClosureSessions } from "./emergencyClosures";
 export type {
   CandlestickChartAccessibilityInput,
   CandlestickChartDataTable,
@@ -50,6 +51,10 @@ export type {
   CandlestickChartFinancialNarrative,
   CandlestickChartFinancialNarrativeInput
 } from "./accessibility";
+export type {
+  CandlestickChartEmergencyClosureInput,
+  CandlestickChartEmergencyClosureOptions
+} from "./emergencyClosures";
 
 export const CandlestickChart = <TData extends Record<string, unknown>>(
   props: CandlestickChartProps<TData>

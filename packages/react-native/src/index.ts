@@ -89,6 +89,8 @@ export type {
   CandlestickChartCandleModel,
   CandlestickChartDataTable,
   CandlestickChartDataTableRow,
+  CandlestickChartEmergencyClosureInput,
+  CandlestickChartEmergencyClosureOptions,
   CandlestickChartFinancialNarrative,
   CandlestickChartFinancialNarrativeInput,
   CandlestickChartInitialIndex,
@@ -248,7 +250,8 @@ export {
 export {
   getCandlestickChartAccessibilitySummary,
   getCandlestickChartDataTable,
-  getCandlestickChartFinancialNarrative
+  getCandlestickChartFinancialNarrative,
+  getCandlestickEmergencyClosureSessions
 } from "./charts/candlestick/CandlestickChart";
 export {
   getCombinedChartAccessibilitySummary,

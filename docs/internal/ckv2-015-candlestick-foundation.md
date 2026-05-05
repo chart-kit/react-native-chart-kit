@@ -18,6 +18,9 @@ Implemented in this slice:
 - controlled viewport pan and pinch-zoom gestures
 - interactive range selector overview
 - scrollable viewport mode with initial end positioning
+- US equities full-day and early-close exchange presets
+- emergency-closure feed adapter
+- financial narrative helper
 - unit coverage for candle body, wick, direction, and invalid-row handling
 
 Still pending for the broader financial module:
