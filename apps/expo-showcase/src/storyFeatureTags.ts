@@ -53,6 +53,7 @@ export const storyFeatureTags: Record<string, string[]> = {
   "v2-bar-horizontal": ["horizontal bars", "category axis", "value labels"],
   "v2-bar-negative": ["negative values", "baseline", "value labels"],
   "v2-bar-stacked-percent": ["stacked100", "percentage labels", "bar chart"],
+  "v2-combined-revenue-margin": ["combined chart", "dual axis", "bar + line"],
   "v2-pie-acquisition": ["pie chart", "bottom legend", "percentage labels"],
   "v2-pie-external-labels": [
     "external labels",

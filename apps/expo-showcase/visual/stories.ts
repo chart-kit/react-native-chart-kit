@@ -37,6 +37,7 @@ export const chartStories = [
   "v2-bar-horizontal",
   "v2-bar-negative",
   "v2-bar-stacked-percent",
+  "v2-combined-revenue-margin",
   "v2-pie-acquisition",
   "v2-pie-external-labels",
   "v2-donut-revenue",

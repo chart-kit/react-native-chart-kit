@@ -4,6 +4,7 @@ import {
   compatStackedBarStories
 } from "./stories/compatStories";
 import { barOverviewStories } from "./stories/barOverviewStories";
+import { combinedOverviewStories } from "./stories/combinedOverviewStories";
 import { contributionOverviewStories } from "./stories/contributionOverviewStories";
 import { lineInteractionStories } from "./stories/lineInteractionStories";
 import { lineOverviewStories } from "./stories/lineOverviewStories";
@@ -58,6 +59,11 @@ export const storySections: ShowcaseSection[] = [
     id: "v2-bar",
     title: "V2 Bar",
     stories: barOverviewStories
+  },
+  {
+    id: "v2-combined",
+    title: "V2 Combined",
+    stories: combinedOverviewStories
   },
   {
     id: "v2-pie",
@@ -169,6 +175,21 @@ export const publicChartMode: ShowcaseMode = {
             "v2-bar-negative",
             "v2-bar-stacked-percent"
           ]
+        }
+      ]
+    },
+    {
+      id: "combined-charts",
+      title: "Combined Charts",
+      description:
+        "Public v2 combined chart previews for revenue, margin, and dual-axis business reporting.",
+      storyGroups: [
+        {
+          id: "combined-showpieces",
+          title: "Showpieces",
+          description:
+            "Bar plus line charts with independent axis domains and synchronized labels.",
+          storyIds: ["v2-combined-revenue-margin"]
         }
       ]
     },
@@ -285,6 +306,13 @@ export const showcaseModes: ShowcaseMode[] = [
           "v2-bar-negative",
           "v2-bar-stacked-percent"
         ]
+      },
+      {
+        id: "combined",
+        title: "Combined",
+        description:
+          "Modern combined chart examples for bar plus line dashboards.",
+        storyIds: ["v2-combined-revenue-margin"]
       },
       {
         id: "pie-donut",

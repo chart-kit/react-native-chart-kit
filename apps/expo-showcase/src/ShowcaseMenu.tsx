@@ -4,6 +4,7 @@ import {
   Modal,
   Platform,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   View
@@ -238,7 +239,11 @@ export const ShowcaseMenu = ({
                 </Text>
               </Pressable>
             </View>
-            <View style={styles.sheetRows}>
+            <ScrollView
+              bounces={false}
+              contentContainerStyle={styles.sheetRows}
+              style={styles.sheetRowsScroll}
+            >
               <Text
                 style={[styles.sectionTitle, { color: appTheme.mutedText }]}
               >
@@ -290,7 +295,7 @@ export const ShowcaseMenu = ({
                   }}
                 />
               ))}
-            </View>
+            </ScrollView>
           </View>
         </View>
       </Modal>
@@ -351,6 +356,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 16,
     borderWidth: 1,
     gap: 10,
+    maxHeight: "86%",
     paddingBottom: 18,
     paddingHorizontal: 14,
     paddingTop: 12
@@ -370,6 +376,10 @@ const styles = StyleSheet.create({
     fontWeight: "800"
   },
   sheetRows: {
+    gap: 8,
+    paddingBottom: 2
+  },
+  sheetRowsScroll: {
     gap: 8
   },
   sectionTitle: {

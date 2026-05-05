@@ -4,6 +4,7 @@ export {
   CalendarHeatmap,
   ContributionGraph
 } from "./charts/contribution/ContributionGraph";
+export { CombinedChart } from "./charts/combined/CombinedChart";
 export { AreaChart, LineChart } from "./charts/line/LineChart";
 export { DonutChart, PieChart } from "./charts/pie/PieChart";
 export { ProgressChart, ProgressRing } from "./charts/progress/ProgressChart";
@@ -70,6 +71,18 @@ export type {
   ContributionGraphModel,
   ContributionGraphProps
 } from "./charts/contribution/ContributionGraph";
+export type {
+  CombinedChartAxisId,
+  CombinedChartBarMode,
+  CombinedChartBarSeries,
+  CombinedChartLegendItemModel,
+  CombinedChartLineModel,
+  CombinedChartLineSeries,
+  CombinedChartModel,
+  CombinedChartProps,
+  CombinedChartXLabelModel,
+  CombinedChartYLabelModel
+} from "./charts/combined/CombinedChart";
 export type {
   PieChartActiveSliceConfig,
   PieChartDataTable,
