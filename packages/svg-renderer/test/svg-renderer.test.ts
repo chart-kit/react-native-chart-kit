@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { createSvgRendererCapabilities } from "../src/capabilities";
 import { createClipPathRef } from "../src/clipPath";
 import {
   chartRenderLayerOrder,
@@ -76,5 +77,28 @@ describe("SVG renderer helpers", () => {
     expect(createSvgSymbolDiamondPath({ x: 10, y: 20, size: 8 })).toBe(
       "M 10 16 L 14 20 L 10 24 L 6 20 Z"
     );
+  });
+
+  it("exposes renderer capability flags", () => {
+    expect(createSvgRendererCapabilities()).toEqual({
+      animation: "reactNative",
+      clipPaths: true,
+      gradients: true,
+      hitRegions: false,
+      layers: true,
+      shadows: false,
+      symbols: true,
+      testIds: true,
+      textMeasurement: "fallback"
+    });
+    expect(
+      createSvgRendererCapabilities({
+        capabilities: { hitRegions: true },
+        measureText: () => ({ height: 10, width: 20 })
+      })
+    ).toMatchObject({
+      hitRegions: true,
+      textMeasurement: "custom"
+    });
   });
 });

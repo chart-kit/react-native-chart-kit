@@ -12,6 +12,7 @@ import { SvgClipRect, SvgLinearGradientDef } from "./defs";
 import { SvgLayer } from "./layers";
 import { SvgSymbol } from "./symbols";
 import { createSvgTextMeasurer } from "./textMeasurement";
+import { createSvgRendererCapabilities } from "./capabilities";
 import type { SvgRenderer, SvgRendererOptions } from "./types";
 
 export const createSvgRenderer = (
@@ -29,6 +30,7 @@ export const createSvgRenderer = (
   Defs: SvgDefs,
   ClipRect: SvgClipRect,
   LinearGradient: SvgLinearGradientDef,
+  capabilities: createSvgRendererCapabilities(options),
   measureText:
     options.measureText ?? createSvgTextMeasurer(options.textMeasurement)
 });

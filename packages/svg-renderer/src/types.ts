@@ -97,8 +97,21 @@ export type SvgLinearGradientDefProps = Omit<LinearGradientProps, "children"> &
   };
 
 export type SvgRendererOptions = {
+  capabilities?: Partial<SvgRendererCapabilities>;
   measureText?: SvgTextMeasurer;
   textMeasurement?: SvgTextMeasurementOptions;
+};
+
+export type SvgRendererCapabilities = {
+  animation: "none" | "reactNative";
+  clipPaths: boolean;
+  gradients: boolean;
+  hitRegions: boolean;
+  layers: boolean;
+  shadows: boolean;
+  symbols: boolean;
+  testIds: boolean;
+  textMeasurement: "fallback" | "custom";
 };
 
 export type SvgRenderer = {
@@ -114,5 +127,6 @@ export type SvgRenderer = {
   Defs: ComponentType<SvgDefsProps>;
   ClipRect: ComponentType<SvgClipRectProps>;
   LinearGradient: ComponentType<SvgLinearGradientDefProps>;
+  capabilities: SvgRendererCapabilities;
   measureText: SvgTextMeasurer;
 };

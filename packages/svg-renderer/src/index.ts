@@ -1,3 +1,4 @@
+export * from "./capabilities";
 export * from "./clipPath";
 export * from "./defs";
 export * from "./layerOrder";
