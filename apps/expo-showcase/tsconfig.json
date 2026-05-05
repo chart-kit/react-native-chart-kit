@@ -23,5 +23,12 @@
       "@chart-kit/svg-renderer": ["packages/svg-renderer/src/index.ts"]
     }
   },
-  "include": ["App.tsx", "src/**/*", "visual/**/*", "playwright.config.ts"]
+  "include": [
+    "App.tsx",
+    "src/**/*",
+    "visual/**/*",
+    "benchmarks/**/*",
+    "benchmark.config.ts",
+    "playwright.config.ts"
+  ]
 }

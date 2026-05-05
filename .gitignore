@@ -8,4 +8,5 @@ yarn.lock
 dist
 packages/*/dist
 apps/expo-showcase/dist
+apps/expo-showcase/benchmark-results
 apps/expo-showcase/test-results
