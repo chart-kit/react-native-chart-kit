@@ -61,6 +61,7 @@ npm run test:compat
 npm run test:e2e
 npm run test:visual
 npm run benchmark
+npm run surface:check
 npm run build
 ```
 
@@ -80,6 +81,7 @@ Command status:
 | `npm run test:compat`        | Working Vitest command for legacy compatibility fixtures.           |
 | `npm run test:e2e`           | Working Playwright command for showcase interaction flows.          |
 | `npm run benchmark`          | Working core geometry benchmark with line and bar scenarios.        |
+| `npm run surface:check`      | Working public export surface audit for root compat and v2 preview. |
 | `npm run example:ios`        | Placeholder; native iOS example not configured yet.                 |
 | `npm run example:android`    | Placeholder; native Android example not configured yet.             |
 | `npm run example:expo`       | Working Expo showcase app command for phone/device review.          |

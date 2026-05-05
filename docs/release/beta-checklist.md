@@ -21,6 +21,7 @@ npm run test
 npm run test:e2e
 npm run test:visual
 npm run benchmark
+npm run surface:check
 npm run docs:build
 npm run build
 ```

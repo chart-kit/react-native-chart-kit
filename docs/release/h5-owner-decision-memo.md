@@ -8,6 +8,8 @@ Do not publish the beta package yet. Approve the preview implementation for cont
 
 Reason: the implementation, showcase, docs, tests, visual coverage, benchmark, support workflow, and release checklist are in place, but the public package path is still unresolved. Publishing before resolving the package path would make migration docs and install instructions unstable.
 
+The current export surface is guarded by `npm run surface:check`. That check verifies the legacy root exports and the private v2 preview exports, but it does not decide the final public v2 import path.
+
 ## Decision 1: Publish Now Or Keep Iterating
 
 Recommendation: keep iterating before npm beta.

@@ -39,6 +39,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "surface:check": "node scripts/verify-public-surface.mjs",
     "test": "npm run typecheck && npm run test:unit && npm run test:compat",
     "test:unit": "vitest run --exclude \"packages/**/test/compat/**/*.test.ts\"",
     "test:visual": "npm run visual:test",

@@ -53,6 +53,9 @@ jobs:
       - name: E2E
         run: npm run test:e2e
 
+      - name: Surface
+        run: npm run surface:check
+
       - name: Docs
         run: npm run docs:build
 

@@ -18,16 +18,17 @@ Prepare the first public beta decision packet for Chart Kit v2:
 
 Commands refreshed on May 5, 2026. The `test:e2e` row was added after promoting the web-showcase interaction suite from a placeholder to a real command.
 
-| Requirement           | Evidence              | Result                                                                       |
-| --------------------- | --------------------- | ---------------------------------------------------------------------------- |
-| Lint                  | `npm run lint`        | Passed                                                                       |
-| TypeScript            | `npm run typecheck`   | Passed for root, core, SVG renderer, React Native package, and Expo showcase |
-| Unit and compat tests | `npm run test`        | Passed: 33 unit files, 196 unit tests, 1 compat file, 5 compat tests         |
-| Web e2e interactions  | `npm run test:e2e`    | Passed: Playwright showcase interaction flows                                |
-| Visual regression     | `npm run test:visual` | Passed: 87 Playwright tests                                                  |
-| Benchmark             | `npm run benchmark`   | Passed: core line and bar geometry scenarios                                 |
-| Docs verification     | `npm run docs:build`  | Passed: 48 markdown files                                                    |
-| Package build         | `npm run build`       | Passed                                                                       |
+| Requirement           | Evidence                | Result                                                                       |
+| --------------------- | ----------------------- | ---------------------------------------------------------------------------- |
+| Lint                  | `npm run lint`          | Passed                                                                       |
+| TypeScript            | `npm run typecheck`     | Passed for root, core, SVG renderer, React Native package, and Expo showcase |
+| Unit and compat tests | `npm run test`          | Passed: 33 unit files, 196 unit tests, 1 compat file, 5 compat tests         |
+| Web e2e interactions  | `npm run test:e2e`      | Passed: Playwright showcase interaction flows                                |
+| Visual regression     | `npm run test:visual`   | Passed: 87 Playwright tests                                                  |
+| Benchmark             | `npm run benchmark`     | Passed: core line and bar geometry scenarios                                 |
+| Public surface audit  | `npm run surface:check` | Passed: root compatibility and v2 preview exports                            |
+| Docs verification     | `npm run docs:build`    | Passed: 48 markdown files                                                    |
+| Package build         | `npm run build`         | Passed                                                                       |
 
 Latest benchmark highlights from `npm run benchmark`:
 
@@ -59,6 +60,7 @@ Benchmark scope is core geometry only. It does not measure native render time, g
 | Benchmark results      | `npm run benchmark`; this document                                                                       | Covered for core geometry only                                                 |
 | Changelog              | [Changelog](../../CHANGELOG.md)                                                                          | Covered for current v7 preview                                                 |
 | Support workflow       | `.github/ISSUE_TEMPLATE/*`                                                                               | Covered for layout, compatibility, and performance bugs                        |
+| Public export surface  | `scripts/verify-public-surface.mjs`; `npm run surface:check`                                             | Covered for current root compat exports and private v2 preview exports         |
 | Release command safety | `.github/workflows/publish.yml`                                                                          | Covered for branch, duplicate version, dist-tag, tests, docs, and build checks |
 | CI checks              | `.github/workflows/ci.yml`                                                                               | Covered for lint, typecheck, test, docs, benchmark, and build                  |
 
