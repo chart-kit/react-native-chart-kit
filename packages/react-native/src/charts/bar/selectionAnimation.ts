@@ -4,6 +4,8 @@ import type { BarChartSelectionAnimationConfig } from "./types";
 
 const defaultSelectionAnimationDuration = 180;
 const dimmedBarOpacity = 0.42;
+const defaultGridStrokeOpacity = 0.78;
+const selectedGridStrokeOpacity = 0.34;
 const selectedStrokeOpacity = 0.32;
 
 export type ResolvedBarChartSelectionAnimationConfig = {
@@ -153,6 +155,11 @@ const getStrokeOpacityForSelectionKey = ({
   selectedKey: string | undefined;
 }) => (selectedKey === barKey ? selectedStrokeOpacity : 0);
 
+const getGridOpacityForSelectionKey = (selectedKey: string | undefined) =>
+  selectedKey === undefined
+    ? defaultGridStrokeOpacity
+    : selectedGridStrokeOpacity;
+
 export const getAnimatedBarSelectionOpacity = ({
   barKey,
   state
@@ -194,6 +201,17 @@ export const getAnimatedBarSelectionStrokeOpacity = ({
   interpolate(
     getStrokeOpacityForSelectionKey({ barKey, selectedKey: state.fromKey }),
     getStrokeOpacityForSelectionKey({ barKey, selectedKey: state.toKey }),
+    state.progress
+  );
+
+export const getAnimatedBarSelectionGridOpacity = ({
+  state
+}: {
+  state: BarChartSelectionAnimationState;
+}) =>
+  interpolate(
+    getGridOpacityForSelectionKey(state.fromKey),
+    getGridOpacityForSelectionKey(state.toKey),
     state.progress
   );
 

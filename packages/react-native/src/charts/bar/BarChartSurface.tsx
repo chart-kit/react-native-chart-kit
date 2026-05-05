@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { StyleSheet, View } from "react-native";
 import type { ViewProps } from "react-native";
 
@@ -12,6 +13,7 @@ import {
 
 import { getFontFamilyProps } from "../line/text";
 import {
+  getAnimatedBarSelectionGridOpacity,
   getAnimatedBarSelectionFill,
   getAnimatedBarSelectionStrokeOpacity,
   useBarChartSelectionAnimation
@@ -63,6 +65,9 @@ export const BarChartSurface = <TData,>({
     animation: selectionAnimation,
     selectedBarKey
   });
+  const gridStrokeOpacity = getAnimatedBarSelectionGridOpacity({
+    state: selectionAnimationState
+  });
 
   return (
     <View collapsable={false} style={{ width, height }} {...responderProps}>
@@ -95,7 +100,7 @@ export const BarChartSurface = <TData,>({
                   y1={boxes.plot.y}
                   y2={boxes.plot.y + boxes.plot.height}
                   stroke={resolvedTheme.grid}
-                  strokeOpacity={0.78}
+                  strokeOpacity={gridStrokeOpacity}
                   strokeWidth={1}
                 />
               ))
@@ -118,7 +123,7 @@ export const BarChartSurface = <TData,>({
                       label.y - resolvedTheme.typography.axisLabelSize / 2 + 2
                     }
                     stroke={resolvedTheme.grid}
-                    strokeOpacity={0.78}
+                    strokeOpacity={gridStrokeOpacity}
                     strokeWidth={1}
                   />
                 ) : null;
@@ -131,34 +136,44 @@ export const BarChartSurface = <TData,>({
               barKey: bar.key,
               state: selectionAnimationState
             });
+            const radius = Math.min(barRadius, bar.width / 2, bar.height / 2);
 
             return (
-              <SvgRect
-                key={bar.key}
-                x={bar.x}
-                y={bar.y}
-                width={bar.width}
-                height={bar.height}
-                rx={Math.min(barRadius, bar.width / 2, bar.height / 2)}
-                fill={getAnimatedBarSelectionFill({
-                  backgroundColor: resolvedTheme.plotBackground,
-                  barKey: bar.key,
-                  color: bar.color,
-                  state: selectionAnimationState
-                })}
-                {...(strokeOpacity > 0
-                  ? {
-                      stroke: resolvedTheme.text,
-                      strokeOpacity,
-                      strokeWidth: 1.5
-                    }
-                  : {})}
-                testID={createSvgTestId(
-                  "bar-chart-bar",
-                  bar.seriesKey,
-                  bar.dataIndex
-                )}
-              />
+              <Fragment key={bar.key}>
+                <SvgRect
+                  x={bar.x}
+                  y={bar.y}
+                  width={bar.width}
+                  height={bar.height}
+                  rx={radius}
+                  fill={resolvedTheme.plotBackground}
+                />
+                <SvgRect
+                  x={bar.x}
+                  y={bar.y}
+                  width={bar.width}
+                  height={bar.height}
+                  rx={radius}
+                  fill={getAnimatedBarSelectionFill({
+                    backgroundColor: resolvedTheme.plotBackground,
+                    barKey: bar.key,
+                    color: bar.color,
+                    state: selectionAnimationState
+                  })}
+                  {...(strokeOpacity > 0
+                    ? {
+                        stroke: resolvedTheme.text,
+                        strokeOpacity,
+                        strokeWidth: 1.5
+                      }
+                    : {})}
+                  testID={createSvgTestId(
+                    "bar-chart-bar",
+                    bar.seriesKey,
+                    bar.dataIndex
+                  )}
+                />
+              </Fragment>
             );
           })}
         </SvgLayer>

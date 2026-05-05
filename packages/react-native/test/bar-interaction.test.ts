@@ -8,6 +8,7 @@ import {
 import { getBarChartTooltipConfig } from "../src/charts/bar/options";
 import {
   getAnimatedBarSelectionFill,
+  getAnimatedBarSelectionGridOpacity,
   getAnimatedBarSelectionOpacity,
   getAnimatedBarSelectionStrokeOpacity,
   resolveBarChartSelectionAnimationConfig
@@ -187,6 +188,17 @@ describe("BarChart interaction helpers", () => {
     expect(
       getAnimatedBarSelectionStrokeOpacity({ barKey: "organic-1", state })
     ).toBeCloseTo(0.16);
+
+    expect(
+      getAnimatedBarSelectionGridOpacity({
+        state: { fromKey: undefined, toKey: undefined, progress: 1 }
+      })
+    ).toBeCloseTo(0.78);
+    expect(
+      getAnimatedBarSelectionGridOpacity({
+        state: { fromKey: "paid-1", toKey: "paid-1", progress: 1 }
+      })
+    ).toBeCloseTo(0.34);
   });
 
   it("keeps overlay tooltips inside the visible viewport", () => {
