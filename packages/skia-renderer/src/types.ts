@@ -12,6 +12,7 @@ export type SkiaRendererCapabilities = {
   shadows: boolean;
   symbols: boolean;
   testIds: boolean;
+  text: boolean;
   textMeasurement: "skia" | "unavailable";
   viewportWindowing: boolean;
 };

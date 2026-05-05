@@ -7,16 +7,11 @@ import {
   resolveChartViewportWindowFromPosition,
   type ResolvedChartViewportWindow
 } from "@chart-kit/core";
-import {
-  SvgGroup,
-  SvgLayer,
-  SvgPath,
-  SvgRect,
-  SvgSurface
-} from "@chart-kit/svg-renderer";
 
+import { getLineChartRenderer } from "./renderer";
 import type { LineChartModel } from "./useChartModel";
 import type {
+  LineChartRenderer,
   LineChartRangeSelectorHandleRenderProps,
   LineChartRangeSelectorInteraction,
   LineChartRangeSelectorLineRenderProps,
@@ -33,6 +28,7 @@ export const LineChartRangeSelector = <TData extends Record<string, unknown>>({
   model,
   onViewportChange,
   preventBrowserSelection,
+  renderer: rendererProp,
   testID,
   viewportWindow,
   width
@@ -43,6 +39,7 @@ export const LineChartRangeSelector = <TData extends Record<string, unknown>>({
   model: LineChartModel<TData>;
   onViewportChange: LineChartProps<TData>["onViewportChange"];
   preventBrowserSelection: (event: GestureResponderEvent) => void;
+  renderer?: LineChartRenderer | undefined;
   testID?: string | undefined;
   viewportWindow: ResolvedChartViewportWindow;
   width: number;
@@ -189,6 +186,9 @@ export const LineChartRangeSelector = <TData extends Record<string, unknown>>({
   const handleWidth = config.handleWidth;
   const handleColor =
     config.handleColor ?? config.windowStroke ?? model.resolvedTheme.axis;
+  const renderer = getLineChartRenderer(rendererProp);
+  const { Group, Path, Rect, Surface } = renderer;
+  const Layer = renderer.Layer ?? Group;
   const handleMinX = model.boxes.plot.x;
   const handleMaxX = model.boxes.plot.x + model.boxes.plot.width - handleWidth;
   const startHandleX = clamp(windowX - handleWidth / 2, handleMinX, handleMaxX);
@@ -220,7 +220,7 @@ export const LineChartRangeSelector = <TData extends Record<string, unknown>>({
     config.renderWindow ? (
       config.renderWindow(windowProps)
     ) : (
-      <SvgRect
+      <Rect
         x={windowProps.x}
         y={windowProps.y}
         width={windowProps.width}
@@ -253,7 +253,7 @@ export const LineChartRangeSelector = <TData extends Record<string, unknown>>({
     return config.renderHandle ? (
       config.renderHandle(handleProps)
     ) : (
-      <SvgRect
+      <Rect
         x={handleProps.x}
         y={handleProps.y}
         width={handleProps.width}
@@ -266,11 +266,9 @@ export const LineChartRangeSelector = <TData extends Record<string, unknown>>({
   };
   const renderLine = (props: LineChartRangeSelectorLineRenderProps) =>
     config.renderLine ? (
-      <SvgGroup key={`range-line-${props.key}`}>
-        {config.renderLine(props)}
-      </SvgGroup>
+      <Group key={`range-line-${props.key}`}>{config.renderLine(props)}</Group>
     ) : (
-      <SvgPath
+      <Path
         key={`range-line-${props.key}`}
         d={props.path}
         fill="none"
@@ -297,9 +295,9 @@ export const LineChartRangeSelector = <TData extends Record<string, unknown>>({
       testID={testID ? `${testID}-range-selector` : undefined}
       {...responderProps}
     >
-      <SvgSurface width={width} height={config.height}>
-        <SvgLayer name="background">
-          <SvgRect
+      <Surface width={width} height={config.height}>
+        <Layer name="background">
+          <Rect
             x={0}
             y={0}
             width={width}
@@ -307,7 +305,7 @@ export const LineChartRangeSelector = <TData extends Record<string, unknown>>({
             rx={8}
             fill={config.backgroundFill ?? model.resolvedTheme.background}
           />
-          <SvgRect
+          <Rect
             x={plotX}
             y={plotY}
             width={plotWidth}
@@ -315,8 +313,8 @@ export const LineChartRangeSelector = <TData extends Record<string, unknown>>({
             rx={config.plotRadius}
             fill={config.plotFill ?? model.resolvedTheme.plotBackground}
           />
-        </SvgLayer>
-        <SvgLayer name="data">
+        </Layer>
+        <Layer name="data">
           {model.geometries.map(({ geometry, style }, index) => {
             const seriesStyle = config.series?.[geometry.key];
             const lineProps = {
@@ -339,11 +337,11 @@ export const LineChartRangeSelector = <TData extends Record<string, unknown>>({
 
             return renderLine(lineProps);
           })}
-        </SvgLayer>
-        <SvgLayer name="overlays">
+        </Layer>
+        <Layer name="overlays">
           {config.outsideOpacity > 0 ? (
-            <SvgGroup key="range-selector-outside">
-              <SvgRect
+            <Group key="range-selector-outside">
+              <Rect
                 key="range-selector-outside-start"
                 x={plotX}
                 y={plotY}
@@ -352,7 +350,7 @@ export const LineChartRangeSelector = <TData extends Record<string, unknown>>({
                 fill={config.outsideFill ?? model.resolvedTheme.background}
                 opacity={config.outsideOpacity}
               />
-              <SvgRect
+              <Rect
                 key="range-selector-outside-end"
                 x={windowEndX}
                 y={plotY}
@@ -361,17 +359,17 @@ export const LineChartRangeSelector = <TData extends Record<string, unknown>>({
                 fill={config.outsideFill ?? model.resolvedTheme.background}
                 opacity={config.outsideOpacity}
               />
-            </SvgGroup>
+            </Group>
           ) : null}
           {renderWindow()}
           {isInteractive ? (
-            <SvgGroup key="range-selector-handles">
+            <Group key="range-selector-handles">
               {renderHandle("start", startHandleX)}
               {renderHandle("end", endHandleX)}
-            </SvgGroup>
+            </Group>
           ) : null}
-        </SvgLayer>
-      </SvgSurface>
+        </Layer>
+      </Surface>
     </View>
   );
 };

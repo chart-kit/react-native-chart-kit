@@ -76,6 +76,21 @@ const ambientHandlers = [
   "setViewport"
 ];
 const ambientObjects = ["chartConfig", "viewport"];
+const optionalPeerDeclarations = `declare module "@shopify/react-native-skia" {
+  import type { ElementType } from "react";
+
+  export const Canvas: ElementType;
+  export const Circle: ElementType;
+  export const DashPathEffect: ElementType;
+  export const Group: ElementType;
+  export const Line: ElementType;
+  export const LinearGradient: ElementType;
+  export const Path: ElementType;
+  export const Rect: ElementType;
+  export const Text: ElementType;
+  export const vec: (x: number, y: number) => unknown;
+}
+`;
 
 const pathExists = async (filePath) => {
   try {
@@ -311,7 +326,10 @@ await mkdir(tempRoot, { recursive: true });
 const tempDir = await mkdtemp(path.join(tempRoot, "chartkit-docs-"));
 
 try {
-  const rootNames = [];
+  const ambientDeclarationsPath = path.join(tempDir, "optional-peers.d.ts");
+  await writeFile(ambientDeclarationsPath, optionalPeerDeclarations, "utf8");
+
+  const rootNames = [ambientDeclarationsPath];
   let checkedFenceCount = 0;
 
   for (const filePath of uniqueMarkdownFiles) {

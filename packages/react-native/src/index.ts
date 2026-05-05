@@ -207,6 +207,8 @@ export type {
   LineChartReferenceBandConfig,
   LineChartReferenceLabelPosition,
   LineChartReferenceLineConfig,
+  LineChartRenderer,
+  LineChartRendererComponent,
   LineChartResolvedLabelStrategy,
   LineChartSelectEvent,
   LineChartSeries,

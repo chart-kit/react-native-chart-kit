@@ -14,7 +14,8 @@ export const createSkiaRenderer = ({
   return {
     ...primitives,
     capabilities: createSkiaRendererCapabilities({
-      gradients: Boolean(skia.LinearGradient && skia.vec),
+      gradients: false,
+      text: Boolean(font && skia.Text),
       textMeasurement:
         measureText || font?.measureText ? "skia" : "unavailable",
       ...capabilities

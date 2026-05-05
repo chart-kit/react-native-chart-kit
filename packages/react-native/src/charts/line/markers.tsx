@@ -1,7 +1,7 @@
-import { SvgSymbol, createSvgTestId } from "@chart-kit/svg-renderer";
+import { createSvgTestId } from "@chart-kit/svg-renderer";
 
 import type { ResolvedCartesianChartTheme } from "../../theme";
-import type { LineChartDotRenderProps } from "./types";
+import type { LineChartDotRenderProps, LineChartRenderer } from "./types";
 import type { LineChartDotColor } from "./options";
 
 export const resolveDotColor = ({
@@ -26,12 +26,30 @@ export const resolveDotColor = ({
   return color || fallback;
 };
 
-export const renderDefaultDot = <TData,>({
-  color,
-  config,
-  point,
-  theme
-}: LineChartDotRenderProps<TData>) => {
+const createDiamondPath = ({
+  size,
+  x,
+  y
+}: {
+  size: number;
+  x: number;
+  y: number;
+}) => {
+  const radius = size / 2;
+
+  return [
+    `M ${x} ${y - radius}`,
+    `L ${x + radius} ${y}`,
+    `L ${x} ${y + radius}`,
+    `L ${x - radius} ${y}`,
+    "Z"
+  ].join(" ");
+};
+
+export const renderDefaultDot = <TData,>(
+  { color, config, point, theme }: LineChartDotRenderProps<TData>,
+  renderer: LineChartRenderer
+) => {
   const fill = resolveDotColor({
     color: config.fill,
     fallback: theme.background,
@@ -52,15 +70,39 @@ export const renderDefaultDot = <TData,>({
     stroke,
     strokeWidth: config.strokeWidth
   };
+  const { Circle, Path, Rect } = renderer;
+  const size = config.radius * 2;
+
+  if (config.shape === "square") {
+    return (
+      <Rect
+        key={dotKey}
+        x={point.x - size / 2}
+        y={point.y - size / 2}
+        width={size}
+        height={size}
+        rx={Math.min(3, config.radius * 0.45)}
+        {...commonProps}
+      />
+    );
+  }
+
+  if (config.shape === "diamond") {
+    return (
+      <Path
+        key={dotKey}
+        d={createDiamondPath({ x: point.x, y: point.y, size })}
+        {...commonProps}
+      />
+    );
+  }
 
   return (
-    <SvgSymbol
+    <Circle
       key={dotKey}
-      shape={config.shape}
-      x={point.x}
-      y={point.y}
-      size={config.radius * 2}
-      cornerRadius={Math.min(3, config.radius * 0.45)}
+      cx={point.x}
+      cy={point.y}
+      r={config.radius}
       {...commonProps}
     />
   );

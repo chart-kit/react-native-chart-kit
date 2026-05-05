@@ -115,9 +115,9 @@ const releaseBlockers = [
     id: "skia-backend",
     file: "packages/skia-renderer/README.md",
     pattern:
-      /no chart components consume this package yet|no renderer parity suite yet/i,
+      /native install verification, and renderer parity coverage are still pending|no renderer parity suite yet/i,
     message:
-      "Skia adapter exists, but chart integration and renderer parity evidence are still missing."
+      "Skia adapter and first LineChart hook exist, but native install and renderer parity evidence are still missing."
   }
 ];
 

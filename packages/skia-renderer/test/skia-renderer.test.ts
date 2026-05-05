@@ -44,6 +44,7 @@ describe("Skia renderer preview boundary", () => {
       shadows: false,
       symbols: false,
       testIds: true,
+      text: false,
       textMeasurement: "unavailable",
       viewportWindowing: true
     });
@@ -87,7 +88,8 @@ describe("Skia renderer preview boundary", () => {
     });
 
     expect(renderer.capabilities).toMatchObject({
-      gradients: true,
+      gradients: false,
+      text: true,
       textMeasurement: "skia"
     });
     expect(renderer.measureText("ABC")).toEqual({ height: 16.8, width: 21 });

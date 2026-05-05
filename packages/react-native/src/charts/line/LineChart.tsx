@@ -444,6 +444,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
             gradientId={scrollStartFadeId}
             mainHeight={mainHeight}
             model={model}
+            renderer={props.renderer}
             width={props.width}
             yAxisLabels={animatedYAxisLabels}
           />
@@ -471,6 +472,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
         model={overviewModel}
         onViewportChange={onViewportChange}
         preventBrowserSelection={preventBrowserSelection}
+        renderer={props.renderer}
         testID={props.testID}
         viewportWindow={viewportWindow}
         width={props.width}

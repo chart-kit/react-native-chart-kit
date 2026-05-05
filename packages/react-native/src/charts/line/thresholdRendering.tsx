@@ -1,10 +1,7 @@
-import {
-  createClipPathRef,
-  SvgClipRect,
-  SvgPath
-} from "@chart-kit/svg-renderer";
+import { createClipPathRef } from "@chart-kit/svg-renderer";
 
 import type { LineChartModel } from "./useChartModel";
+import type { LineChartRenderer } from "./types";
 
 type LineChartGeometryModel<TData extends Record<string, unknown>> =
   LineChartModel<TData>["geometries"][number];
@@ -29,13 +26,21 @@ export const LineChartThresholdClipDefs = <
   chartId,
   geometries,
   plot,
+  renderer,
   yScale
 }: {
   chartId: string;
   geometries: Array<LineChartGeometryModel<TData>>;
   plot: LineChartModel<TData>["boxes"]["plot"];
+  renderer: LineChartRenderer;
   yScale: LineChartModel<TData>["yScale"];
 }) => {
+  const ClipRect = renderer.ClipRect;
+
+  if (!ClipRect || renderer.capabilities?.clipPaths !== true) {
+    return null;
+  }
+
   const plotBottom = plot.y + plot.height;
   const getThresholdY = (y: number) =>
     Math.min(Math.max(yScale.scale(y), plot.y), plotBottom);
@@ -50,7 +55,7 @@ export const LineChartThresholdClipDefs = <
         const thresholdY = getThresholdY(style.threshold.y);
 
         return [
-          <SvgClipRect
+          <ClipRect
             key={`threshold-above-${index}`}
             id={getThresholdClipId(chartId, index, "above")}
             x={plot.x}
@@ -58,7 +63,7 @@ export const LineChartThresholdClipDefs = <
             width={plot.width}
             height={Math.max(0, thresholdY - plot.y)}
           />,
-          <SvgClipRect
+          <ClipRect
             key={`threshold-below-${index}`}
             id={getThresholdClipId(chartId, index, "below")}
             x={plot.x}
@@ -74,104 +79,124 @@ export const LineChartThresholdClipDefs = <
 
 export const LineChartAreaPaths = <TData extends Record<string, unknown>>({
   chartId,
-  geometries
+  geometries,
+  renderer
 }: {
   chartId: string;
   geometries: Array<LineChartGeometryModel<TData>>;
-}) => (
-  <>
-    {geometries.flatMap(({ geometry, style }, index) => {
-      if (!geometry.area) {
-        return [];
-      }
+  renderer: LineChartRenderer;
+}) => {
+  const Path = renderer.Path;
+  const supportsClipPaths = renderer.capabilities?.clipPaths === true;
+  const supportsGradients = renderer.capabilities?.gradients !== false;
 
-      const paths = [
-        <SvgPath
-          key={`area-${geometry.key}`}
-          d={geometry.area.path}
-          fill={getLineChartAreaGradientRef(chartId, index)}
-        />
-      ];
+  return (
+    <>
+      {geometries.flatMap(({ geometry, style }, index) => {
+        if (!geometry.area) {
+          return [];
+        }
 
-      if (style.threshold) {
-        paths.push(
-          <SvgPath
-            key={`area-${geometry.key}-above`}
+        const paths = [
+          <Path
+            key={`area-${geometry.key}`}
             d={geometry.area.path}
-            fill={style.threshold.areaAboveColor}
-            opacity={style.threshold.areaOpacity}
+            fill={
+              supportsGradients
+                ? getLineChartAreaGradientRef(chartId, index)
+                : style.areaFill.fromColor
+            }
+            opacity={supportsGradients ? undefined : style.areaFill.fromOpacity}
+          />
+        ];
+
+        if (style.threshold && supportsClipPaths) {
+          paths.push(
+            <Path
+              key={`area-${geometry.key}-above`}
+              d={geometry.area.path}
+              fill={style.threshold.areaAboveColor}
+              opacity={style.threshold.areaOpacity}
+              clipPath={createClipPathRef(
+                getThresholdClipId(chartId, index, "above")
+              )}
+            />,
+            <Path
+              key={`area-${geometry.key}-below`}
+              d={geometry.area.path}
+              fill={style.threshold.areaBelowColor}
+              opacity={style.threshold.areaOpacity}
+              clipPath={createClipPathRef(
+                getThresholdClipId(chartId, index, "below")
+              )}
+            />
+          );
+        }
+
+        return paths;
+      })}
+    </>
+  );
+};
+
+export const LineChartLinePaths = <TData extends Record<string, unknown>>({
+  chartId,
+  geometries,
+  renderer
+}: {
+  chartId: string;
+  geometries: Array<LineChartGeometryModel<TData>>;
+  renderer: LineChartRenderer;
+}) => {
+  const Path = renderer.Path;
+  const supportsClipPaths = renderer.capabilities?.clipPaths === true;
+
+  return (
+    <>
+      {geometries.flatMap(({ geometry, style }, index) => {
+        const commonLineProps = {
+          d: geometry.line.path,
+          fill: "none",
+          strokeWidth: style.strokeWidth,
+          strokeLinecap: style.strokeStyle.strokeLinecap,
+          strokeLinejoin: style.strokeStyle.strokeLinejoin,
+          ...(style.strokeStyle.strokeDasharray
+            ? { strokeDasharray: style.strokeStyle.strokeDasharray }
+            : {})
+        };
+
+        if (!style.threshold || !supportsClipPaths) {
+          return [
+            <Path
+              key={`line-${geometry.key}`}
+              {...commonLineProps}
+              stroke={style.color}
+              strokeOpacity={style.strokeStyle.strokeOpacity}
+            />
+          ];
+        }
+
+        return [
+          <Path
+            key={`line-${geometry.key}-above`}
+            {...commonLineProps}
+            stroke={style.threshold.aboveColor}
+            strokeOpacity={style.threshold.aboveOpacity}
             clipPath={createClipPathRef(
               getThresholdClipId(chartId, index, "above")
             )}
           />,
-          <SvgPath
-            key={`area-${geometry.key}-below`}
-            d={geometry.area.path}
-            fill={style.threshold.areaBelowColor}
-            opacity={style.threshold.areaOpacity}
+          <Path
+            key={`line-${geometry.key}-below`}
+            {...commonLineProps}
+            stroke={style.threshold.belowColor}
+            strokeOpacity={style.threshold.belowOpacity}
             clipPath={createClipPathRef(
               getThresholdClipId(chartId, index, "below")
             )}
           />
-        );
-      }
-
-      return paths;
-    })}
-  </>
-);
-
-export const LineChartLinePaths = <TData extends Record<string, unknown>>({
-  chartId,
-  geometries
-}: {
-  chartId: string;
-  geometries: Array<LineChartGeometryModel<TData>>;
-}) => (
-  <>
-    {geometries.flatMap(({ geometry, style }, index) => {
-      const commonLineProps = {
-        d: geometry.line.path,
-        fill: "none",
-        strokeWidth: style.strokeWidth,
-        strokeLinecap: style.strokeStyle.strokeLinecap,
-        strokeLinejoin: style.strokeStyle.strokeLinejoin,
-        ...(style.strokeStyle.strokeDasharray
-          ? { strokeDasharray: style.strokeStyle.strokeDasharray }
-          : {})
-      };
-
-      if (!style.threshold) {
-        return [
-          <SvgPath
-            key={`line-${geometry.key}`}
-            {...commonLineProps}
-            stroke={style.color}
-            strokeOpacity={style.strokeStyle.strokeOpacity}
-          />
         ];
-      }
-
-      return [
-        <SvgPath
-          key={`line-${geometry.key}-above`}
-          {...commonLineProps}
-          stroke={style.threshold.aboveColor}
-          strokeOpacity={style.threshold.aboveOpacity}
-          clipPath={createClipPathRef(
-            getThresholdClipId(chartId, index, "above")
-          )}
-        />,
-        <SvgPath
-          key={`line-${geometry.key}-below`}
-          {...commonLineProps}
-          stroke={style.threshold.belowColor}
-          strokeOpacity={style.threshold.belowOpacity}
-          clipPath={createClipPathRef(
-            getThresholdClipId(chartId, index, "below")
-          )}
-        />
-      ];
-    })}
-  </>
-);
+      })}
+    </>
+  );
+};

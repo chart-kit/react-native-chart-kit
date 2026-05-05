@@ -16,6 +16,7 @@ export const createSkiaRendererCapabilities = (
   shadows: false,
   symbols: false,
   testIds: true,
+  text: false,
   textMeasurement: "unavailable",
   viewportWindowing: true,
   ...overrides

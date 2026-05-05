@@ -4,6 +4,29 @@
 
 Use this API for new apps. The legacy `react-native-chart-kit` data shape is handled separately by the compatibility facade.
 
+## Renderer Preview
+
+SVG is the default renderer. The main `LineChart` plot surface also accepts an injected renderer through the experimental `renderer` prop, which lets apps try the preview Skia adapter without making Skia a required dependency for everyone.
+
+```tsx
+import { LineChart } from "@chart-kit/react-native";
+import { createSkiaRenderer } from "@chart-kit/skia-renderer";
+import * as Skia from "@shopify/react-native-skia";
+
+const renderer = createSkiaRenderer({ skia: Skia });
+
+<LineChart
+  data={data}
+  xKey="date"
+  yKey="price"
+  renderer={renderer}
+  width={360}
+  height={240}
+/>;
+```
+
+The Skia path is still preview-only: sticky axis labels require a Skia font, and gradient area fills, default SVG-only legends/tooltips, native install verification, and renderer parity tests are still pending.
+
 ## Basic Line
 
 ```tsx

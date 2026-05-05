@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ElementType, ReactNode } from "react";
 
 import type {
   ChartBoxes,
@@ -428,6 +428,7 @@ export type LineChartProps<TData extends Record<string, unknown>> = {
   axisLabelAnimation?: boolean | LineChartAxisLabelAnimationConfig;
   formatXLabel?: (value: ChartXValue, index: number) => string;
   formatYLabel?: (value: number) => string;
+  renderer?: LineChartRenderer;
   id?: string;
   debugLayout?: boolean;
   onLayoutDebug?: (model: LayoutDebugModel) => void;
@@ -437,6 +438,28 @@ export type LineChartProps<TData extends Record<string, unknown>> = {
 
 export type LineChartSelectedSeriesItem<TData = unknown> =
   BaseLineChartSelectedSeriesItem<ProjectedLinePoint<TData>>;
+
+export type LineChartRendererComponent = ElementType;
+
+export type LineChartRenderer = {
+  ClipRect?: LineChartRendererComponent | undefined;
+  Circle: LineChartRendererComponent;
+  Defs: LineChartRendererComponent;
+  Group: LineChartRendererComponent;
+  Layer?: LineChartRendererComponent | undefined;
+  Line: LineChartRendererComponent;
+  LinearGradient?: LineChartRendererComponent | undefined;
+  Path: LineChartRendererComponent;
+  Rect: LineChartRendererComponent;
+  Surface: LineChartRendererComponent;
+  Text: LineChartRendererComponent;
+  capabilities?: {
+    clipPaths?: boolean;
+    gradients?: boolean;
+    text?: boolean;
+  };
+  name?: string;
+};
 
 export type LineChartSelectionModel<TData = unknown> = {
   index: number;

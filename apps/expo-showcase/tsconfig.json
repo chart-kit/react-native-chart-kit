@@ -19,6 +19,7 @@
     "paths": {
       "@chart-kit/core": ["packages/core/src/index.ts"],
       "@chart-kit/react-native": ["packages/react-native/src/index.ts"],
+      "@chart-kit/skia-renderer": ["packages/skia-renderer/src/index.ts"],
       "react-native-chart-kit": ["src/index.ts"],
       "@chart-kit/svg-renderer": ["packages/svg-renderer/src/index.ts"]
     }

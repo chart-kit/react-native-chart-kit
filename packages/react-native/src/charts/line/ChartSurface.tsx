@@ -1,20 +1,9 @@
 import { View, type ViewProps } from "react-native";
-
-import {
-  SvgDefs,
-  SvgGroup,
-  SvgLayer,
-  SvgLine,
-  SvgLinearGradientDef,
-  SvgRect,
-  SvgSurface,
-  SvgText
-} from "@chart-kit/svg-renderer";
-
 import { renderDefaultTooltip } from "./defaultTooltip";
 import { renderLineChartDebugLayout } from "./debugOverlay";
 import { renderConfiguredLegend } from "./legend";
 import { renderDefaultDot } from "./markers";
+import { getLineChartRenderer } from "./renderer";
 import { getFontFamilyProps } from "./text";
 import {
   getLineChartAreaGradientId,
@@ -27,6 +16,7 @@ import type { LineChartModel } from "./useChartModel";
 import type {
   LineChartDotRenderProps,
   LineChartProps,
+  LineChartRenderer,
   LineChartYAxisLabelModel
 } from "./types";
 
@@ -76,6 +66,14 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
     tooltip: animatedTooltip,
     yAxisLabels
   });
+  const renderer = getLineChartRenderer(props.renderer);
+  const { Defs, Group, Line, Rect, Surface, Text } = renderer;
+  const Layer = renderer.Layer ?? Group;
+  const LinearGradient = renderer.LinearGradient;
+  const isSvgRenderer = renderer.name === "svg";
+  const canRenderText = renderer.capabilities?.text !== false;
+  const supportsGradients =
+    renderer.capabilities?.gradients !== false && Boolean(LinearGradient);
 
   return (
     <View
@@ -83,9 +81,9 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
       style={{ width: chartWidth, height: mainHeight }}
       {...responderProps}
     >
-      <SvgSurface width={chartWidth} height={mainHeight}>
-        <SvgLayer name="background">
-          <SvgRect
+      <Surface width={chartWidth} height={mainHeight}>
+        <Layer name="background">
+          <Rect
             x={0}
             y={0}
             width={chartWidth}
@@ -93,9 +91,9 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
             rx={8}
             fill={resolvedTheme.background}
           />
-        </SvgLayer>
-        <SvgLayer name="plot">
-          <SvgRect
+        </Layer>
+        <Layer name="plot">
+          <Rect
             x={boxes.plot.x}
             y={boxes.plot.y}
             width={boxes.plot.width}
@@ -103,41 +101,44 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
             rx={6}
             fill={resolvedTheme.plotBackground}
           />
-        </SvgLayer>
-        <SvgDefs>
-          {geometries.map(({ style }, index) => (
-            <SvgLinearGradientDef
-              key={`area-gradient-${index}`}
-              id={getLineChartAreaGradientId(chartId, index)}
-              x1="0%"
-              x2="0%"
-              y1="0%"
-              y2="100%"
-              stops={[
-                {
-                  offset: "0%",
-                  color: style.areaFill.fromColor,
-                  opacity: style.areaFill.fromOpacity
-                },
-                {
-                  offset: "100%",
-                  color: style.areaFill.toColor,
-                  opacity: style.areaFill.toOpacity
-                }
-              ]}
-            />
-          ))}
+        </Layer>
+        <Defs>
+          {supportsGradients && LinearGradient
+            ? geometries.map(({ style }, index) => (
+                <LinearGradient
+                  key={`area-gradient-${index}`}
+                  id={getLineChartAreaGradientId(chartId, index)}
+                  x1="0%"
+                  x2="0%"
+                  y1="0%"
+                  y2="100%"
+                  stops={[
+                    {
+                      offset: "0%",
+                      color: style.areaFill.fromColor,
+                      opacity: style.areaFill.fromOpacity
+                    },
+                    {
+                      offset: "100%",
+                      color: style.areaFill.toColor,
+                      opacity: style.areaFill.toOpacity
+                    }
+                  ]}
+                />
+              ))
+            : null}
           <LineChartThresholdClipDefs
             chartId={chartId}
             geometries={geometries}
             plot={boxes.plot}
+            renderer={renderer}
             yScale={yScale}
           />
-        </SvgDefs>
-        <SvgLayer name="grid">
+        </Defs>
+        <Layer name="grid">
           {showVerticalGridLines
             ? xLabelLayout.items.map((label) => (
-                <SvgLine
+                <Line
                   key={`grid-x-${label.index}`}
                   x1={label.gridX}
                   x2={label.gridX}
@@ -154,7 +155,7 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
                 const y = yScale.scale(tick);
 
                 return (
-                  <SvgLine
+                  <Line
                     key={`grid-y-${tick}`}
                     x1={boxes.plot.x}
                     x2={boxes.plot.x + boxes.plot.width}
@@ -167,15 +168,15 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
                 );
               })
             : null}
-        </SvgLayer>
-        <SvgLayer name="axes">
+        </Layer>
+        <Layer name="axes">
           {yAxisLabels.map((label) => {
-            if (isScrollable) {
+            if (isScrollable || !canRenderText) {
               return null;
             }
 
             return (
-              <SvgText
+              <Text
                 key={`label-y-${label.key}`}
                 x={boxes.plot.x - 8}
                 y={label.y}
@@ -186,35 +187,37 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
                 {...getFontFamilyProps(resolvedTheme.typography.fontFamily)}
               >
                 {label.text}
-              </SvgText>
+              </Text>
             );
           })}
-          {xLabelLayout.items.map((label) => (
-            <SvgGroup
-              key={`label-x-${label.index}`}
-              transform={
-                label.rotation !== 0
-                  ? `rotate(${label.rotation} ${label.x} ${label.y})`
-                  : undefined
-              }
-            >
-              <SvgText
-                x={label.x}
-                y={label.y}
-                fill={resolvedTheme.mutedText}
-                fontSize={resolvedTheme.typography.axisLabelSize}
-                textAnchor={label.textAnchor}
-                {...getFontFamilyProps(resolvedTheme.typography.fontFamily)}
-              >
-                {label.text}
-              </SvgText>
-            </SvgGroup>
-          ))}
-        </SvgLayer>
-        <SvgLayer name="referenceBands">
+          {canRenderText
+            ? xLabelLayout.items.map((label) => (
+                <Group
+                  key={`label-x-${label.index}`}
+                  transform={
+                    label.rotation !== 0
+                      ? `rotate(${label.rotation} ${label.x} ${label.y})`
+                      : undefined
+                  }
+                >
+                  <Text
+                    x={label.x}
+                    y={label.y}
+                    fill={resolvedTheme.mutedText}
+                    fontSize={resolvedTheme.typography.axisLabelSize}
+                    textAnchor={label.textAnchor}
+                    {...getFontFamilyProps(resolvedTheme.typography.fontFamily)}
+                  >
+                    {label.text}
+                  </Text>
+                </Group>
+              ))
+            : null}
+        </Layer>
+        <Layer name="referenceBands">
           {referenceBandModels.map((band) => (
-            <SvgGroup key={band.key}>
-              <SvgRect
+            <Group key={band.key}>
+              <Rect
                 x={band.x}
                 y={band.y}
                 width={band.width}
@@ -222,8 +225,8 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
                 fill={band.color}
                 opacity={band.opacity}
               />
-              {band.label ? (
-                <SvgText
+              {band.label && canRenderText ? (
+                <Text
                   x={band.label.x}
                   y={band.label.y}
                   fill={band.label.color}
@@ -232,21 +235,29 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
                   {...getFontFamilyProps(resolvedTheme.typography.fontFamily)}
                 >
                   {band.label.text}
-                </SvgText>
+                </Text>
               ) : null}
-            </SvgGroup>
+            </Group>
           ))}
-        </SvgLayer>
-        <SvgLayer name="dataArea">
-          <LineChartAreaPaths chartId={chartId} geometries={geometries} />
-        </SvgLayer>
-        <SvgLayer name="data">
-          <LineChartLinePaths chartId={chartId} geometries={geometries} />
-        </SvgLayer>
-        <SvgLayer name="referenceLines">
+        </Layer>
+        <Layer name="dataArea">
+          <LineChartAreaPaths
+            chartId={chartId}
+            geometries={geometries}
+            renderer={renderer}
+          />
+        </Layer>
+        <Layer name="data">
+          <LineChartLinePaths
+            chartId={chartId}
+            geometries={geometries}
+            renderer={renderer}
+          />
+        </Layer>
+        <Layer name="referenceLines">
           {referenceLineModels.map((line) => (
-            <SvgGroup key={line.key}>
-              <SvgLine
+            <Group key={line.key}>
+              <Line
                 x1={line.x1}
                 x2={line.x2}
                 y1={line.y}
@@ -258,8 +269,8 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
                   ? { strokeDasharray: line.strokeDasharray }
                   : {})}
               />
-              {line.label ? (
-                <SvgText
+              {line.label && canRenderText ? (
+                <Text
                   x={line.label.x}
                   y={line.label.y}
                   fill={line.label.color}
@@ -268,12 +279,12 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
                   {...getFontFamilyProps(resolvedTheme.typography.fontFamily)}
                 >
                   {line.label.text}
-                </SvgText>
+                </Text>
               ) : null}
-            </SvgGroup>
+            </Group>
           ))}
-        </SvgLayer>
-        <SvgLayer name="markers">
+        </Layer>
+        <Layer name="markers">
           {geometries.flatMap(({ geometry, style }) =>
             geometry.points
               .filter((point) => point.defined && style.dot.visible)
@@ -292,17 +303,17 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
                 };
                 const renderedDot = props.renderDot
                   ? props.renderDot(dotProps)
-                  : renderDefaultDot(dotProps);
+                  : renderDefaultDot(dotProps, renderer);
 
                 return renderedDot ? (
-                  <SvgGroup key={`dot-${geometry.key}-${point.index}`}>
+                  <Group key={`dot-${geometry.key}-${point.index}`}>
                     {renderedDot}
-                  </SvgGroup>
+                  </Group>
                 ) : null;
               })
           )}
-        </SvgLayer>
-        <SvgLayer name="overlays">
+        </Layer>
+        <Layer name="overlays">
           {selectionModel && crosshairConfig.visible ? (
             props.renderCrosshair ? (
               props.renderCrosshair({
@@ -317,7 +328,7 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
                 y: selectionModel.y
               })
             ) : (
-              <SvgLine
+              <Line
                 key="selection-crosshair"
                 x1={selectionModel.x}
                 x2={selectionModel.x}
@@ -332,14 +343,14 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
               />
             )
           ) : null}
-          {legendModel
+          {legendModel && isSvgRenderer
             ? renderConfiguredLegend({
                 legend: legendModel.renderProps,
                 config: legendModel.config
               })
             : null}
-        </SvgLayer>
-        <SvgLayer name="interaction">
+        </Layer>
+        <Layer name="interaction">
           {selectionModel
             ? selectionModel.series
                 .filter((item) => item.activeDot.visible)
@@ -358,30 +369,30 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
                   };
                   const renderedDot = props.renderActiveDot
                     ? props.renderActiveDot(dotProps)
-                    : renderDefaultDot(dotProps);
+                    : renderDefaultDot(dotProps, renderer);
 
                   return renderedDot ? (
-                    <SvgGroup key={`active-dot-${item.key}`}>
-                      {renderedDot}
-                    </SvgGroup>
+                    <Group key={`active-dot-${item.key}`}>{renderedDot}</Group>
                   ) : null;
                 })
             : null}
           {animatedTooltip
             ? props.renderTooltip
               ? props.renderTooltip(animatedTooltip)
-              : renderDefaultTooltip(animatedTooltip)
+              : isSvgRenderer
+                ? renderDefaultTooltip(animatedTooltip)
+                : null
             : null}
-        </SvgLayer>
-        {debugLayout && debugLayoutModel ? (
-          <SvgLayer name="debug">
+        </Layer>
+        {debugLayout && debugLayoutModel && isSvgRenderer ? (
+          <Layer name="debug">
             {renderLineChartDebugLayout({
               fontFamily: resolvedTheme.typography.fontFamily,
               model: debugLayoutModel
             })}
-          </SvgLayer>
+          </Layer>
         ) : null}
-      </SvgSurface>
+      </Surface>
     </View>
   );
 };
@@ -393,6 +404,7 @@ export const StickyYAxis = <TData extends Record<string, unknown>>({
   gradientId,
   mainHeight,
   model,
+  renderer: rendererProp,
   width,
   yAxisLabels
 }: {
@@ -402,10 +414,18 @@ export const StickyYAxis = <TData extends Record<string, unknown>>({
   gradientId: string;
   mainHeight: number;
   model: LineChartModel<TData>;
+  renderer?: LineChartRenderer | undefined;
   width: number;
   yAxisLabels: LineChartYAxisLabelModel[];
 }) => {
   const { boxes, resolvedTheme } = model;
+  const renderer = getLineChartRenderer(rendererProp);
+  const { Defs, Group, Rect, Surface, Text } = renderer;
+  const Layer = renderer.Layer ?? Group;
+  const LinearGradient = renderer.LinearGradient;
+  const canRenderText = renderer.capabilities?.text !== false;
+  const supportsGradients =
+    renderer.capabilities?.gradients !== false && Boolean(LinearGradient);
 
   return (
     <View
@@ -418,30 +438,32 @@ export const StickyYAxis = <TData extends Record<string, unknown>>({
         height: mainHeight
       }}
     >
-      <SvgSurface width={width} height={mainHeight}>
-        <SvgDefs>
-          <SvgLinearGradientDef
-            id={gradientId}
-            x1="0%"
-            x2="100%"
-            y1="0%"
-            y2="0%"
-            stops={[
-              { offset: "0%", color: resolvedTheme.background, opacity: 1 },
-              { offset: "100%", color: resolvedTheme.background, opacity: 0 }
-            ]}
-          />
-        </SvgDefs>
-        <SvgLayer name="background">
-          <SvgRect
+      <Surface width={width} height={mainHeight}>
+        <Defs>
+          {supportsGradients && LinearGradient ? (
+            <LinearGradient
+              id={gradientId}
+              x1="0%"
+              x2="100%"
+              y1="0%"
+              y2="0%"
+              stops={[
+                { offset: "0%", color: resolvedTheme.background, opacity: 1 },
+                { offset: "100%", color: resolvedTheme.background, opacity: 0 }
+              ]}
+            />
+          ) : null}
+        </Defs>
+        <Layer name="background">
+          <Rect
             x={0}
             y={0}
             width={boxes.plot.x}
             height={mainHeight}
             fill={resolvedTheme.background}
           />
-          {fadeWidth > 0 ? (
-            <SvgRect
+          {supportsGradients && fadeWidth > 0 ? (
+            <Rect
               x={boxes.plot.x}
               y={fadeY}
               width={fadeWidth}
@@ -449,24 +471,26 @@ export const StickyYAxis = <TData extends Record<string, unknown>>({
               fill={`url(#${gradientId})`}
             />
           ) : null}
-        </SvgLayer>
-        <SvgLayer name="axes">
-          {yAxisLabels.map((label) => (
-            <SvgText
-              key={`sticky-label-y-${label.key}`}
-              x={boxes.plot.x - 8}
-              y={label.y}
-              fill={resolvedTheme.mutedText}
-              fontSize={resolvedTheme.typography.axisLabelSize}
-              opacity={label.opacity}
-              textAnchor="end"
-              {...getFontFamilyProps(resolvedTheme.typography.fontFamily)}
-            >
-              {label.text}
-            </SvgText>
-          ))}
-        </SvgLayer>
-      </SvgSurface>
+        </Layer>
+        <Layer name="axes">
+          {canRenderText
+            ? yAxisLabels.map((label) => (
+                <Text
+                  key={`sticky-label-y-${label.key}`}
+                  x={boxes.plot.x - 8}
+                  y={label.y}
+                  fill={resolvedTheme.mutedText}
+                  fontSize={resolvedTheme.typography.axisLabelSize}
+                  opacity={label.opacity}
+                  textAnchor="end"
+                  {...getFontFamilyProps(resolvedTheme.typography.fontFamily)}
+                >
+                  {label.text}
+                </Text>
+              ))
+            : null}
+        </Layer>
+      </Surface>
     </View>
   );
 };
