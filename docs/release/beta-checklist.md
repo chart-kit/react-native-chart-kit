@@ -34,7 +34,7 @@ Manual example commands:
 
 The `test:e2e` command covers web showcase interaction flows. The example commands are not native release-build checks and must not be counted as passing automated native coverage.
 
-The `docs:build` command validates local links, balanced code fences, and JS/TS markdown fence syntax. Full typechecking still covers representative docs examples through `npm run rn:typecheck`.
+The `docs:build` command validates local links, balanced code fences, JS/TS markdown fence syntax, and public TS/TSX docs examples. Integrated docs example coverage still runs through `npm run rn:typecheck`.
 
 ## Manual Review
 

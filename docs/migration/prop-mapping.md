@@ -31,6 +31,14 @@ This table summarizes the current migration intent for common v1 props. It is a 
 Before:
 
 ```tsx
+import { LineChart } from "react-native-chart-kit";
+
+const chartConfig = {
+  backgroundGradientFrom: "#ffffff",
+  backgroundGradientTo: "#ffffff",
+  color: () => "#2563eb"
+};
+
 <LineChart
   data={{
     labels: ["Jan", "Feb"],
@@ -43,7 +51,7 @@ Before:
   width={360}
   height={220}
   chartConfig={chartConfig}
-/>
+/>;
 ```
 
 After:

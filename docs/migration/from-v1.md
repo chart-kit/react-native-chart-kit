@@ -15,6 +15,8 @@ The v2 migration strategy is intentionally partial compatibility. Existing apps 
 Common v1 data shapes remain the compatibility target:
 
 ```tsx
+import { LineChart } from "react-native-chart-kit";
+
 <LineChart
   data={{
     labels: ["Jan", "Feb", "Mar"],
@@ -28,7 +30,7 @@ Common v1 data shapes remain the compatibility target:
     backgroundGradientTo: "#ffffff",
     color: (opacity = 1) => `rgba(37, 99, 235, ${opacity})`
   }}
-/>
+/>;
 ```
 
 The compatibility promise covers the common public API, not undocumented internals, exact SVG node order, or layout bugs that made labels clip.

@@ -4,6 +4,7 @@ node_modules/
 npm-debug.*
 .idea
 .vscode
+.tmp/
 yarn.lock
 dist
 packages/*/dist

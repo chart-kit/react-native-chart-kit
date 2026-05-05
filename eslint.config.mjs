@@ -8,6 +8,7 @@ export default [
   {
     ignores: [
       "dist/**",
+      ".tmp/**",
       "packages/*/dist/**",
       "node_modules/**",
       "coverage/**",

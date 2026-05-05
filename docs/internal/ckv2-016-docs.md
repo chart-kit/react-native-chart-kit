@@ -10,6 +10,7 @@ This slice starts the public adoption documentation layer on top of the existing
 - added scenario-based production recipes
 - added troubleshooting guide for sizing, Expo Go, gestures, labels, tooltips, themes, visuals, and compatibility
 - added representative type-checked docs examples in `packages/react-native/test/docs-examples.typecheck.tsx`
+- added markdown fence extraction and typechecking for public TS/TSX docs examples in `npm run docs:build`
 
 ## Verification
 
@@ -20,5 +21,5 @@ This slice starts the public adoption documentation layer on top of the existing
 
 ## Limitations
 
-- Representative docs examples are type-checked, but markdown fences are not yet automatically extracted and compiled as standalone docs examples.
+- Internal audit snippets are syntax-checked as markdown fences, but only public docs examples are extracted and type-checked as standalone examples.
 - Final package names remain a beta gate. The docs call out the current private v2 workspace package and avoid presenting the public import path as finalized.

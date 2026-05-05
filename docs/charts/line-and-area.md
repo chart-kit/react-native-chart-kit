@@ -282,7 +282,7 @@ Use simple horizontal scrolling for long categorical or time-series charts.
 Use a controlled viewport for direct pan, pinch zoom, or a mini-chart range selector.
 
 ```tsx
-const [viewport, setViewport] = useState({
+const [viewport, setViewport] = useState<LineChartViewportConfig>({
   startIndex: 40,
   endIndex: 90
 });
