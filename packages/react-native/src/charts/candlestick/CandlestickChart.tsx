@@ -40,11 +40,15 @@ export type * from "./types";
 export { buildCandlestickChartModel } from "./model";
 export {
   getCandlestickChartAccessibilitySummary,
-  getCandlestickChartDataTable
+  getCandlestickChartDataTable,
+  getCandlestickChartFinancialNarrative
 } from "./accessibility";
 export type {
+  CandlestickChartAccessibilityInput,
   CandlestickChartDataTable,
-  CandlestickChartDataTableRow
+  CandlestickChartDataTableRow,
+  CandlestickChartFinancialNarrative,
+  CandlestickChartFinancialNarrativeInput
 } from "./accessibility";
 
 export const CandlestickChart = <TData extends Record<string, unknown>>(

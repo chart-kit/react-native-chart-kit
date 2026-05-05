@@ -6,7 +6,8 @@ import {
 } from "../src/charts/bar/accessibility";
 import {
   getCandlestickChartAccessibilitySummary,
-  getCandlestickChartDataTable
+  getCandlestickChartDataTable,
+  getCandlestickChartFinancialNarrative
 } from "../src/charts/candlestick/accessibility";
 import {
   getContributionGraphAccessibilitySummary,
@@ -182,6 +183,39 @@ describe("chart accessibility helpers", () => {
         xLabel: "Wed"
       }
     ]);
+  });
+
+  it("builds a candlestick financial narrative", () => {
+    const narrative = getCandlestickChartFinancialNarrative({
+      closeKey: "close",
+      data: [
+        { day: "Mon", open: 100, high: 112, low: 96, close: 108 },
+        { day: "Tue", open: 108, high: 110, low: 91, close: 94 },
+        { day: "Wed", open: 94, high: 102, low: 92, close: 94 },
+        { day: "Thu", open: 94, high: 118, low: 93, close: 112 }
+      ],
+      formatPercent: (value) => `${value.toFixed(0)}%`,
+      formatYLabel: (value) => `$${value}`,
+      highKey: "high",
+      lowKey: "low",
+      openKey: "open",
+      title: "Portfolio price action",
+      xKey: "day"
+    });
+
+    expect(narrative).toMatchObject({
+      candleCount: 4,
+      closeChange: 4,
+      closeChangePercent: 100 * (4 / 108),
+      direction: "up",
+      downCount: 1,
+      flatCount: 1,
+      range: 27,
+      upCount: 2
+    });
+    expect(narrative?.summary).toBe(
+      "Portfolio price action for 4 candles. Close rose $4 (4%) from $108 on Mon to $112 on Thu. Trading range spans $27 from $91 on Tue to $118 on Thu. Candle mix: 2 up, 1 down, 1 flat."
+    );
   });
 
   it("builds pie chart table rows and largest-slice summary", () => {

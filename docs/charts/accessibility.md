@@ -23,6 +23,7 @@ Summary helpers are also exported:
 - `getLineChartAccessibilitySummary()`
 - `getBarChartAccessibilitySummary()`
 - `getCandlestickChartAccessibilitySummary()`
+- `getCandlestickChartFinancialNarrative()`
 - `getCombinedChartAccessibilitySummary()`
 - `getPieChartAccessibilitySummary()`
 - `getProgressChartAccessibilitySummary()`
@@ -79,3 +80,25 @@ const RevenueChartDetails = ({ data, width }) => {
 ```
 
 For dual-axis charts, prefer `getCombinedChartDataTable()` and display values by series instead of ranking values across axes. A revenue bar and a margin line often use different units, so the default combined summary reports the latest category rather than comparing every value globally.
+
+## Financial Narrative Recipe
+
+Use `getCandlestickChartFinancialNarrative()` when a financial screen needs richer copy than the default chart label. The helper returns a plain object with the generated summary, first/latest/highest/lowest OHLC rows, close change, percentage change, range, and up/down/flat candle counts.
+
+```tsx
+import { getCandlestickChartFinancialNarrative } from "@chart-kit/react-native";
+
+const narrative = getCandlestickChartFinancialNarrative({
+  data: candles,
+  xKey: "day",
+  openKey: "open",
+  highKey: "high",
+  lowKey: "low",
+  closeKey: "close",
+  title: "Portfolio price action",
+  formatYLabel: (value) => `$${Math.round(value)}`,
+  formatPercent: (value) => `${value.toFixed(1)}%`
+});
+
+const summary = narrative?.summary;
+```

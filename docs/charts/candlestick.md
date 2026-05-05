@@ -44,5 +44,6 @@ Defaults:
 - y-domain is based on lows and highs, not open and close only
 - `getCandlestickChartDataTable()` returns exact OHLC rows for accessible detail panels and exports
 - `getCandlestickChartAccessibilitySummary()` reports latest close, highest high, and lowest low
+- `getCandlestickChartFinancialNarrative()` adds close change, percentage change, trading range, and up/down/flat candle counts for app-level financial summaries
 
-This foundation includes preview-grade range selection, controlled pan and pinch-zoom windows, and opt-in calendar-aware market-session gap markers. Built-in exchange presets cover regular US equities full-day holidays; early closes, emergency closures, and advanced financial narratives remain outside this preview.
+This foundation includes preview-grade range selection, controlled pan and pinch-zoom windows, opt-in calendar-aware market-session gap markers, and a financial narrative helper. Built-in exchange presets cover regular US equities full-day holidays; early closes and emergency closures remain outside this preview.

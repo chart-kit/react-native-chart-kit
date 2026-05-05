@@ -67,7 +67,8 @@ Rationale:
 - opt-in volume overlays exist
 - scrollable histories, controlled viewport gestures, and range selector integration exist in preview form
 - opt-in calendar-aware market-session gap markers exist for dated candles
-- advanced financial accessibility narratives are not complete
+- a financial narrative helper exists for close change, percentage change, range, and up/down/flat candle counts
+- early-close and emergency market-closure handling are not complete
 - including it as a preview helps owner review Pro/financial direction without overpromising
 
 ## Recommended H5 Outcome

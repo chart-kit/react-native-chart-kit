@@ -85,9 +85,12 @@ export type {
   ContributionGraphProps
 } from "./charts/contribution/ContributionGraph";
 export type {
+  CandlestickChartAccessibilityInput,
   CandlestickChartCandleModel,
   CandlestickChartDataTable,
   CandlestickChartDataTableRow,
+  CandlestickChartFinancialNarrative,
+  CandlestickChartFinancialNarrativeInput,
   CandlestickChartInitialIndex,
   CandlestickChartInteraction,
   CandlestickChartInteractionConfig,
@@ -240,7 +243,8 @@ export {
 } from "./charts/progress/ProgressChart";
 export {
   getCandlestickChartAccessibilitySummary,
-  getCandlestickChartDataTable
+  getCandlestickChartDataTable,
+  getCandlestickChartFinancialNarrative
 } from "./charts/candlestick/CandlestickChart";
 export {
   getCombinedChartAccessibilitySummary,
