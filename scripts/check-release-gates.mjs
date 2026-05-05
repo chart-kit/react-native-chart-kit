@@ -49,6 +49,7 @@ const requiredScripts = [
   "example:expo",
   "docs:build",
   "surface:check",
+  "skia:parity",
   "native:release:dry-run",
   "native:release:android",
   "native:release:ios",

@@ -22,4 +22,5 @@ Status:
 - threshold line and area overlays use path-level rect clips when `skia.rect` is available; SVG URL clip-path refs remain disabled for Skia
 - no license gating
 - local LineChart renderer contract coverage lives in `packages/react-native/test/line-renderer.test.ts`
+- `npm run skia:parity` runs the local Skia primitive tests and LineChart renderer contract tests together
 - native install verification and native renderer parity coverage are still pending
