@@ -4,9 +4,9 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import {
   ChartSelectionProvider,
   LineChart,
-  useChartKitTheme,
   useDismissChartSelection
-} from "@chart-kit/react-native";
+} from "@chart-kit/react-native/pro-preview";
+import { useChartKitTheme } from "@chart-kit/react-native";
 import { SvgGroup, SvgLine, SvgRect, SvgText } from "@chart-kit/svg-renderer";
 
 import { multiSeriesRevenue, revenueWithGaps } from "../fixtures/v2Line";

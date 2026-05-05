@@ -8,7 +8,7 @@ Status: CandlestickChart is a Financial Preview and Pro candidate until H4 final
 import {
   CandlestickChart,
   getCandlestickEmergencyClosureSessions
-} from "@chart-kit/react-native";
+} from "@chart-kit/react-native/pro-preview";
 
 const emergencyClosures = getCandlestickEmergencyClosureSessions([
   { date: "2026-11-26", reason: "Closed" }

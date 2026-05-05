@@ -10,12 +10,14 @@ import {
 } from "@chart-kit/core";
 import {
   AreaChart,
-  LineChart,
   resolveCartesianChartThemeConfig,
-  type LineChartViewportChangeEvent,
-  type LineChartViewportConfig,
   useChartKitTheme
 } from "@chart-kit/react-native";
+import {
+  LineChart,
+  type LineChartViewportChangeEvent,
+  type LineChartViewportConfig
+} from "@chart-kit/react-native/pro-preview";
 
 import {
   denseRevenue,

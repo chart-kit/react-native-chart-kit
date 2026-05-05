@@ -5,7 +5,7 @@ CombinedChart overlays bar and line series on a shared x-axis. The first v2 slic
 Status: CombinedChart is a Pro-candidate preview until H4 finalizes the free-vs-Pro boundary. The docs stay visible so the API can be reviewed, but dual-axis and shared-inspection workflows should not be treated as final free-beta scope yet.
 
 ```tsx
-import { CombinedChart } from "@chart-kit/react-native";
+import { CombinedChart } from "@chart-kit/react-native/pro-preview";
 
 <CombinedChart
   data={rows}

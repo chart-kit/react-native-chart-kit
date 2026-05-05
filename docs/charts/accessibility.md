@@ -7,13 +7,15 @@ For richer app-level fallbacks, export table models with the helper matching the
 ```tsx
 import {
   getBarChartDataTable,
-  getCandlestickChartDataTable,
-  getCombinedChartDataTable,
   getLineChartDataTable,
   getPieChartDataTable,
   getProgressChartDataTable,
   getContributionGraphDataTable
 } from "@chart-kit/react-native";
+import {
+  getCandlestickChartDataTable,
+  getCombinedChartDataTable
+} from "@chart-kit/react-native/pro-preview";
 ```
 
 These helpers return normalized rows and formatted values that can back a hidden native table, a visible details panel, export flow, or enterprise accessibility report.
@@ -86,7 +88,7 @@ For dual-axis charts, prefer `getCombinedChartDataTable()` and display values by
 Use `getCandlestickChartFinancialNarrative()` when a financial screen needs richer copy than the default chart label. The helper returns a plain object with the generated summary, first/latest/highest/lowest OHLC rows, close change, percentage change, range, and up/down/flat candle counts.
 
 ```tsx
-import { getCandlestickChartFinancialNarrative } from "@chart-kit/react-native";
+import { getCandlestickChartFinancialNarrative } from "@chart-kit/react-native/pro-preview";
 
 const narrative = getCandlestickChartFinancialNarrative({
   data: candles,

@@ -65,6 +65,8 @@ Features used: grouped bars, horizontal scrolling, selected bar tooltip, outside
 Use this for SaaS dashboards, finance dashboards, or marketplace business reporting.
 
 ```tsx
+import { CombinedChart } from "@chart-kit/react-native/pro-preview";
+
 <CombinedChart
   data={monthlyRevenue}
   xKey="month"
@@ -78,7 +80,7 @@ Use this for SaaS dashboards, finance dashboards, or marketplace business report
   tooltip={{ shared: true }}
   width={360}
   height={280}
-/>
+/>;
 ```
 
 Features used: combined bar plus line, dual y-axis domains, shared tooltip, synchronized series labels, negative value support where needed.
@@ -126,6 +128,8 @@ Features used: stable date-to-cell mapping, month labels, weekday labels, color 
 Use this for the first financial-chart review surface. The current candlestick foundation includes tap inspection, a volume overlay, scrollable histories, controlled viewport gestures, and a compact range selector overview.
 
 ```tsx
+import { CandlestickChart } from "@chart-kit/react-native/pro-preview";
+
 <CandlestickChart
   data={candles}
   xKey="day"
@@ -143,7 +147,7 @@ Use this for the first financial-chart review surface. The current candlestick f
   formatYLabel={(value) => `$${Math.round(value)}`}
   width={360}
   height={280}
-/>
+/>;
 ```
 
 Features used: OHLC normalization, candle body geometry, wick geometry, volume overlay, viewport windowing, scrollable long-history mode, range selector overview, pan/pinch viewport gestures, up/down/flat theming, skipped invalid rows, tap selection, OHLC tooltip, close-price badge.

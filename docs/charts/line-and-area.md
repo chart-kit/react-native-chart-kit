@@ -204,7 +204,7 @@ import {
   ChartSelectionProvider,
   LineChart,
   useDismissChartSelection
-} from "@chart-kit/react-native";
+} from "@chart-kit/react-native/pro-preview";
 
 function RangeButton() {
   const dismissChartSelection = useDismissChartSelection();

@@ -3,8 +3,8 @@ import { useCallback, useState } from "react";
 import {
   CandlestickChart,
   getCandlestickEmergencyClosureSessions
-} from "@chart-kit/react-native";
-import type { CandlestickChartViewportConfig } from "@chart-kit/react-native";
+} from "@chart-kit/react-native/pro-preview";
+import type { CandlestickChartViewportConfig } from "@chart-kit/react-native/pro-preview";
 
 import { stockCandles } from "../fixtures/v2Finance";
 import { ChartSection, type NativeStoryProps } from "./storyPrimitives";

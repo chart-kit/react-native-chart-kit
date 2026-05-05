@@ -19,6 +19,10 @@ config.resolver.extraNodeModules = {
     repoRoot,
     "packages/react-native/src/index.ts"
   ),
+  "@chart-kit/react-native/pro-preview": path.resolve(
+    repoRoot,
+    "packages/react-native/src/proPreview.ts"
+  ),
   "react-native-chart-kit": path.resolve(repoRoot, "src/index.ts"),
   "@chart-kit/svg-renderer": path.resolve(
     repoRoot,
