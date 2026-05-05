@@ -2,6 +2,7 @@ import type { CandlestickChartSessionGapExchange } from "./types";
 
 const dayMs = 24 * 60 * 60 * 1000;
 const usEquityHolidayCache = new Map<string, Set<string>>();
+const usEquityEarlyCloseCache = new Map<string, Set<string>>();
 
 const getUtcDateKey = (timestamp: number) =>
   new Date(timestamp).toISOString().slice(0, 10);
@@ -43,7 +44,7 @@ const addObservedFixedHoliday = ({
   holidays.add(getUtcDateKey(timestamp));
 };
 
-const getNthWeekdayOfMonthKey = ({
+const getNthWeekdayOfMonthTimestamp = ({
   month,
   nth,
   weekday,
@@ -58,6 +59,24 @@ const getNthWeekdayOfMonthKey = ({
   const firstWeekday = new Date(first).getUTCDay();
   const offset = (weekday - firstWeekday + 7) % 7;
   const day = 1 + offset + (nth - 1) * 7;
+
+  return getUtcTimestamp(year, month, day);
+};
+
+const getNthWeekdayOfMonthKey = ({
+  month,
+  nth,
+  weekday,
+  year
+}: {
+  month: number;
+  nth: number;
+  weekday: number;
+  year: number;
+}) => {
+  const day = new Date(
+    getNthWeekdayOfMonthTimestamp({ month, nth, weekday, year })
+  ).getUTCDate();
 
   return getDateKey(year, month, day);
 };
@@ -135,6 +154,73 @@ export const getCandlestickExchangeHolidayKeys = (
   usEquityHolidayCache.set(cacheKey, holidays);
 
   return holidays;
+};
+
+const addEarlyCloseCandidate = ({
+  earlyCloses,
+  exchange,
+  timestamp,
+  year
+}: {
+  earlyCloses: Set<string>;
+  exchange: CandlestickChartSessionGapExchange;
+  timestamp: number;
+  year: number;
+}) => {
+  const weekday = new Date(timestamp).getUTCDay();
+
+  if (weekday === 0 || weekday === 6) {
+    return;
+  }
+
+  const key = getUtcDateKey(timestamp);
+
+  if (!getCandlestickExchangeHolidayKeys(exchange, year).has(key)) {
+    earlyCloses.add(key);
+  }
+};
+
+export const getCandlestickExchangeEarlyCloseKeys = (
+  exchange: CandlestickChartSessionGapExchange,
+  year: number
+) => {
+  const cacheKey = `${exchange}:${year}`;
+  const cached = usEquityEarlyCloseCache.get(cacheKey);
+
+  if (cached) {
+    return cached;
+  }
+
+  const earlyCloses = new Set<string>();
+
+  addEarlyCloseCandidate({
+    earlyCloses,
+    exchange,
+    timestamp: getUtcTimestamp(year, 6, 3),
+    year
+  });
+  addEarlyCloseCandidate({
+    earlyCloses,
+    exchange,
+    timestamp:
+      getNthWeekdayOfMonthTimestamp({
+        month: 10,
+        nth: 4,
+        weekday: 4,
+        year
+      }) + dayMs,
+    year
+  });
+  addEarlyCloseCandidate({
+    earlyCloses,
+    exchange,
+    timestamp: getUtcTimestamp(year, 11, 24),
+    year
+  });
+
+  usEquityEarlyCloseCache.set(cacheKey, earlyCloses);
+
+  return earlyCloses;
 };
 
 export const isCandlestickExchangeHoliday = ({

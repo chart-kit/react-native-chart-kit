@@ -332,6 +332,107 @@ describe("CandlestickChart model", () => {
     );
   });
 
+  it("marks exchange early-close preset sessions", () => {
+    const model = buildCandlestickChartModel({
+      chartKitTheme,
+      closeKey: "close",
+      data: [
+        {
+          day: "2026-11-25",
+          open: 100,
+          high: 112,
+          low: 96,
+          close: 108
+        },
+        {
+          day: "2026-11-27",
+          open: 108,
+          high: 114,
+          low: 104,
+          close: 111
+        },
+        {
+          day: "2026-12-24",
+          open: 111,
+          high: 118,
+          low: 109,
+          close: 116
+        },
+        {
+          day: "2026-12-28",
+          open: 116,
+          high: 120,
+          low: 110,
+          close: 112
+        }
+      ],
+      height: 260,
+      highKey: "high",
+      lowKey: "low",
+      openKey: "open",
+      sessionGaps: {
+        earlyCloses: true,
+        exchange: "nyse"
+      },
+      width: 360,
+      xKey: "day"
+    });
+
+    expect(model.sessionEvents).toHaveLength(2);
+    expect(
+      model.sessionEvents.map(({ kind, label, previousIndex }) => ({
+        kind,
+        label,
+        previousIndex
+      }))
+    ).toEqual([
+      { kind: "earlyClose", label: "Early close", previousIndex: 1 },
+      { kind: "earlyClose", label: "Early close", previousIndex: 2 }
+    ]);
+  });
+
+  it("does not mark full exchange holidays as early closes", () => {
+    const model = buildCandlestickChartModel({
+      chartKitTheme,
+      closeKey: "close",
+      data: [
+        {
+          day: "2026-07-02",
+          open: 100,
+          high: 112,
+          low: 96,
+          close: 108
+        },
+        {
+          day: "2026-07-03",
+          open: 108,
+          high: 114,
+          low: 104,
+          close: 111
+        },
+        {
+          day: "2026-07-06",
+          open: 111,
+          high: 116,
+          low: 109,
+          close: 113
+        }
+      ],
+      height: 260,
+      highKey: "high",
+      lowKey: "low",
+      openKey: "open",
+      sessionGaps: {
+        earlyCloses: true,
+        exchange: "nyse"
+      },
+      width: 360,
+      xKey: "day"
+    });
+
+    expect(model.sessionEvents).toEqual([]);
+  });
+
   it("marks emergency closures between dated candles", () => {
     const model = buildCandlestickChartModel({
       chartKitTheme,

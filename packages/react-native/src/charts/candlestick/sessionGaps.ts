@@ -1,6 +1,9 @@
 import type { ChartXValue } from "@chart-kit/core";
 
-import { isCandlestickExchangeHoliday } from "./exchangeCalendars";
+import {
+  getCandlestickExchangeEarlyCloseKeys,
+  isCandlestickExchangeHoliday
+} from "./exchangeCalendars";
 import type {
   CandlestickChartModel,
   CandlestickChartSessionEventModel,
@@ -145,6 +148,77 @@ const getDefaultSpecialSessionLabel = <TData>(
   return session.kind === "earlyClose" ? "Early close" : "Closed";
 };
 
+const getSpecialSessionYears = <TData extends Record<string, unknown>>(
+  candles: CandlestickChartModel<TData>["candles"]
+) => {
+  const years = new Set<number>();
+
+  candles.forEach((candle) => {
+    const timestamp = getTimestamp(candle.xValue);
+
+    if (timestamp !== undefined) {
+      years.add(new Date(timestamp).getUTCFullYear());
+    }
+  });
+
+  return [...years].sort();
+};
+
+const getConfiguredEarlyCloseSessions = <
+  TData extends Record<string, unknown>
+>({
+  candles,
+  config
+}: {
+  candles: CandlestickChartModel<TData>["candles"];
+  config: CandlestickChartSessionGapConfig<TData> & { visible: boolean };
+}): Array<CandlestickChartSpecialSessionConfig<TData>> => {
+  if (!config.visible || !config.earlyCloses) {
+    return [];
+  }
+
+  const exchange = config.exchange;
+  const dates = Array.isArray(config.earlyCloses)
+    ? config.earlyCloses
+    : exchange
+      ? getSpecialSessionYears(candles).flatMap((year) => [
+          ...getCandlestickExchangeEarlyCloseKeys(exchange, year)
+        ])
+      : [];
+
+  return dates.map((date) => ({
+    date,
+    kind: "earlyClose",
+    label: config.earlyCloseLabel ?? true
+  }));
+};
+
+const getResolvedSpecialSessions = <TData extends Record<string, unknown>>({
+  candles,
+  config
+}: {
+  candles: CandlestickChartModel<TData>["candles"];
+  config: CandlestickChartSessionGapConfig<TData> & { visible: boolean };
+}) => {
+  const sessionsByKey = new Map<
+    string,
+    CandlestickChartSpecialSessionConfig<TData>
+  >();
+
+  [
+    ...getConfiguredEarlyCloseSessions({ candles, config }),
+    ...(config.specialSessions ?? [])
+  ].forEach((session) => {
+    const key = getSpecialSessionKey(session);
+
+    if (key) {
+      sessionsByKey.set(key, session);
+    }
+  });
+
+  return [...sessionsByKey.values()];
+};
+
 const findSpecialSessionAnchor = <TData extends Record<string, unknown>>({
   candles,
   timestamp
@@ -218,11 +292,13 @@ export const buildCandlestickSessionEventModels = <
   config: CandlestickChartSessionGapConfig<TData> & { visible: boolean };
   resolvedTheme: CandlestickChartModel<TData>["resolvedTheme"];
 }): Array<CandlestickChartSessionEventModel<TData>> => {
-  if (!config.visible || !config.specialSessions?.length) {
+  const sessions = getResolvedSpecialSessions({ candles, config });
+
+  if (!config.visible || !sessions.length) {
     return [];
   }
 
-  return config.specialSessions.flatMap((session) => {
+  return sessions.flatMap((session) => {
     const timestamp = getTimestamp(session.date);
     const key = getSpecialSessionKey(session);
 

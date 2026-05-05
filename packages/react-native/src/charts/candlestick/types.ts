@@ -208,6 +208,8 @@ export type CandlestickChartSessionGapExchange =
 
 export type CandlestickChartSessionGapConfig<TData = unknown> = {
   calendar?: CandlestickChartSessionGapCalendar;
+  earlyCloseLabel?: CandlestickChartSpecialSessionConfig<TData>["label"];
+  earlyCloses?: boolean | readonly (Date | string)[];
   exchange?: CandlestickChartSessionGapExchange;
   fill?: string;
   fillOpacity?: number;

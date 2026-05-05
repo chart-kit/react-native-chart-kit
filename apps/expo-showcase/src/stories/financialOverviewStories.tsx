@@ -154,11 +154,11 @@ const V2CandlestickSessionEvents = ({ width }: NativeStoryProps) => (
       lowKey="low"
       openKey="open"
       sessionGaps={{
+        earlyCloses: true,
         exchange: "nyse",
         label: true,
         specialSessions: [
-          { date: "2026-11-26", kind: "closure", label: "Closed" },
-          { date: "2026-11-27", kind: "earlyClose", label: "Early" }
+          { date: "2026-11-26", kind: "closure", label: "Closed" }
         ]
       }}
       testID="session-events-candlestick-chart"
