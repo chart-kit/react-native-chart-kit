@@ -84,30 +84,23 @@ const releaseBlockers = [
 const releaseEvidenceManifests = [
   {
     id: "native-workflow-evidence",
-    file: "docs/release/evidence/native-release-workflow.json",
-    message: "Green native release workflow evidence is still missing."
+    file: "docs/release/evidence/native-release-workflow.json"
   },
   {
     id: "skia-backend",
-    file: "docs/release/evidence/skia-renderer-evidence.json",
-    message:
-      "Skia adapter and first LineChart hook exist, but native install and native renderer parity evidence are still missing."
+    file: "docs/release/evidence/skia-renderer-evidence.json"
   },
   {
     id: "native-runtime-qa",
-    file: "docs/release/evidence/native-runtime-qa.json",
-    message:
-      "Native runtime QA manifest is not complete for the required device matrix."
+    file: "docs/release/evidence/native-runtime-qa.json"
   },
   {
     id: "native-accessibility-qa",
-    file: "docs/release/evidence/native-accessibility-qa.json",
-    message: "Native VoiceOver/TalkBack evidence manifest is not complete."
+    file: "docs/release/evidence/native-accessibility-qa.json"
   },
   {
     id: "native-performance",
-    file: "docs/release/evidence/native-performance-benchmark.json",
-    message: "Release-device native performance manifest is not complete."
+    file: "docs/release/evidence/native-performance-benchmark.json"
   }
 ];
 
@@ -274,7 +267,9 @@ for (const manifestConfig of releaseEvidenceManifests) {
       : "",
     evidence: manifestConfig.file,
     id: `blocker:${manifestConfig.id}`,
-    message: manifestConfig.message,
+    message:
+      manifest.summary ??
+      `${manifestConfig.id} evidence manifest is not complete.`,
     status: status === "complete" ? "pass" : "block"
   });
 }
