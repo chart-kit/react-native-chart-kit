@@ -138,7 +138,11 @@ export const publicChartMode: ShowcaseMode = {
           title: "Showpieces",
           description:
             "Candlestick chart foundation for stock and trading interfaces.",
-          storyIds: ["v2-candlestick-price-action", "v2-candlestick-scrollable"]
+          storyIds: [
+            "v2-candlestick-price-action",
+            "v2-candlestick-scrollable",
+            "v2-candlestick-session-events"
+          ]
         }
       ]
     },

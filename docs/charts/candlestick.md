@@ -17,7 +17,11 @@ import { CandlestickChart } from "@chart-kit/react-native";
   height={280}
   interaction="tap"
   rangeSelector={{ interactive: true, minVisiblePoints: 8 }}
-  sessionGaps={{ exchange: "nyse", label: true }}
+  sessionGaps={{
+    exchange: "nyse",
+    label: true,
+    specialSessions: [{ date: "2026-11-27", kind: "earlyClose", label: true }]
+  }}
   tooltip={{ width: 154 }}
   viewport={{ visiblePoints: 20, initialIndex: "end" }}
   viewportInteraction={{ pan: true, pinchZoom: true, minVisiblePoints: 8 }}
@@ -39,6 +43,7 @@ Defaults:
 - enable `sessionGaps` to mark weekend or market-closure gaps when `xKey` contains `Date` values or parseable date strings
 - use `sessionGaps.calendar="tradingDays"` with `holidays` or custom `tradingWeekdays` for exchange-calendar-aware closures
 - use `sessionGaps.exchange="nyse"`, `"nasdaq"`, or `"usEquities"` for built-in US equities full-day holidays
+- use `sessionGaps.specialSessions` to mark early closes and one-off emergency closures on or between dated candles
 - use `viewportInteraction` with `onViewportChange` for controlled pan and pinch-zoom windows
 - tap selection can show a vertical inspection line, close-price badge, and theme-aware OHLC tooltip
 - y-domain is based on lows and highs, not open and close only
@@ -46,4 +51,4 @@ Defaults:
 - `getCandlestickChartAccessibilitySummary()` reports latest close, highest high, and lowest low
 - `getCandlestickChartFinancialNarrative()` adds close change, percentage change, trading range, and up/down/flat candle counts for app-level financial summaries
 
-This foundation includes preview-grade range selection, controlled pan and pinch-zoom windows, opt-in calendar-aware market-session gap markers, and a financial narrative helper. Built-in exchange presets cover regular US equities full-day holidays; early closes and emergency closures remain outside this preview.
+This foundation includes preview-grade range selection, controlled pan and pinch-zoom windows, opt-in calendar-aware market-session gap markers, early-close and emergency-closure session markers, and a financial narrative helper. Built-in exchange presets cover regular US equities full-day holidays; named early-close calendars and emergency closure feeds remain outside this preview.

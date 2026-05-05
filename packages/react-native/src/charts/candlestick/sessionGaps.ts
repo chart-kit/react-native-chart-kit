@@ -3,9 +3,11 @@ import type { ChartXValue } from "@chart-kit/core";
 import { isCandlestickExchangeHoliday } from "./exchangeCalendars";
 import type {
   CandlestickChartModel,
+  CandlestickChartSessionEventModel,
   CandlestickChartSessionGapCalendar,
   CandlestickChartSessionGapConfig,
-  CandlestickChartSessionGapModel
+  CandlestickChartSessionGapModel,
+  CandlestickChartSpecialSessionConfig
 } from "./types";
 
 const dayMs = 24 * 60 * 60 * 1000;
@@ -116,6 +118,168 @@ const getDefaultSessionGapLabel = ({
   }
 
   return gapDays >= 2 ? `${Math.round(gapDays)}d gap` : "";
+};
+
+const getSpecialSessionKey = (session: {
+  date: Date | string;
+  kind: string;
+}) => {
+  const timestamp = getTimestamp(session.date);
+
+  return timestamp === undefined
+    ? undefined
+    : `${session.kind}-${getUtcDateKey(timestamp)}`;
+};
+
+const getDefaultSpecialSessionLabel = <TData>(
+  session: CandlestickChartSpecialSessionConfig<TData>
+) => {
+  if (typeof session.label === "string") {
+    return session.label;
+  }
+
+  if (session.label !== true) {
+    return undefined;
+  }
+
+  return session.kind === "earlyClose" ? "Early close" : "Closed";
+};
+
+const findSpecialSessionAnchor = <TData extends Record<string, unknown>>({
+  candles,
+  timestamp
+}: {
+  candles: CandlestickChartModel<TData>["candles"];
+  timestamp: number;
+}) => {
+  const targetDay = getUtcDayStart(timestamp);
+  const exactCandle = candles.find((candle) => {
+    const candleTimestamp = getTimestamp(candle.xValue);
+
+    return (
+      candleTimestamp !== undefined &&
+      getUtcDayStart(candleTimestamp) === targetDay
+    );
+  });
+
+  if (exactCandle) {
+    return {
+      candle: exactCandle,
+      next: exactCandle.raw,
+      nextIndex: exactCandle.dataIndex,
+      previous: exactCandle.raw,
+      previousIndex: exactCandle.dataIndex,
+      x: exactCandle.wickX
+    };
+  }
+
+  for (let index = 0; index < candles.length - 1; index += 1) {
+    const previous = candles[index];
+    const next = candles[index + 1];
+    const previousTimestamp = previous
+      ? getTimestamp(previous.xValue)
+      : undefined;
+    const nextTimestamp = next ? getTimestamp(next.xValue) : undefined;
+
+    if (
+      previous &&
+      next &&
+      previousTimestamp !== undefined &&
+      nextTimestamp !== undefined &&
+      previousTimestamp < timestamp &&
+      timestamp < nextTimestamp
+    ) {
+      const ratio =
+        (timestamp - previousTimestamp) / (nextTimestamp - previousTimestamp);
+
+      return {
+        next: next.raw,
+        nextIndex: next.dataIndex,
+        previous: previous.raw,
+        previousIndex: previous.dataIndex,
+        x: previous.wickX + (next.wickX - previous.wickX) * ratio
+      };
+    }
+  }
+
+  return undefined;
+};
+
+export const buildCandlestickSessionEventModels = <
+  TData extends Record<string, unknown>
+>({
+  boxes,
+  candles,
+  config,
+  resolvedTheme
+}: {
+  boxes: CandlestickChartModel<TData>["boxes"];
+  candles: CandlestickChartModel<TData>["candles"];
+  config: CandlestickChartSessionGapConfig<TData> & { visible: boolean };
+  resolvedTheme: CandlestickChartModel<TData>["resolvedTheme"];
+}): Array<CandlestickChartSessionEventModel<TData>> => {
+  if (!config.visible || !config.specialSessions?.length) {
+    return [];
+  }
+
+  return config.specialSessions.flatMap((session) => {
+    const timestamp = getTimestamp(session.date);
+    const key = getSpecialSessionKey(session);
+
+    if (timestamp === undefined || key === undefined) {
+      return [];
+    }
+
+    const anchor = findSpecialSessionAnchor({ candles, timestamp });
+
+    if (!anchor) {
+      return [];
+    }
+
+    const width = Math.max(2, Math.min(18, session.width ?? 6));
+    const label =
+      typeof session.label === "function"
+        ? session.label({
+            candle: anchor.candle,
+            date: session.date,
+            kind: session.kind,
+            next: anchor.next,
+            nextIndex: anchor.nextIndex,
+            previous: anchor.previous,
+            previousIndex: anchor.previousIndex
+          })
+        : getDefaultSpecialSessionLabel(session);
+
+    return [
+      {
+        fill: session.fill ?? resolvedTheme.grid,
+        fillOpacity:
+          session.fillOpacity ?? (session.kind === "closure" ? 0.12 : 0.08),
+        height: boxes.plot.height,
+        key: `session-event-${key}`,
+        kind: session.kind,
+        label,
+        labelX: anchor.x,
+        labelY: boxes.plot.y + boxes.plot.height - 4,
+        next: anchor.next,
+        nextIndex: anchor.nextIndex,
+        previous: anchor.previous,
+        previousIndex: anchor.previousIndex,
+        stroke:
+          session.stroke ??
+          (session.kind === "closure"
+            ? (resolvedTheme.series[3] ?? resolvedTheme.axis)
+            : resolvedTheme.axis),
+        strokeDasharray: session.strokeDasharray ?? [2, 3],
+        strokeOpacity:
+          session.strokeOpacity ?? (session.kind === "closure" ? 0.42 : 0.3),
+        strokeWidth: session.strokeWidth ?? 1,
+        width,
+        x: anchor.x - width / 2,
+        y: boxes.plot.y
+      }
+    ];
+  });
 };
 
 export const buildCandlestickSessionGapModels = <

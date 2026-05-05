@@ -95,5 +95,5 @@ Recommended answers:
 1. Yes, separate package.
 2. Separate optional package, with Pro docs and examples depending on it.
 3. Keep basic animation, tap/scrub, tooltips, simple viewport controls, and scrollable charts free.
-4. Yes, but only as Financial Preview until native performance, early-close handling, and emergency-closure handling are proven.
+4. Yes, but only as Financial Preview until native performance, named early-close calendars, and emergency-closure feeds are proven.
 5. Yes. Add license enforcement only after API feedback and package boundaries settle.

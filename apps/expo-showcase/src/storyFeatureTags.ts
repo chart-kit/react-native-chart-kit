@@ -89,6 +89,12 @@ export const storyFeatureTags: Record<string, string[]> = {
     "volume overlay",
     "session gaps"
   ],
+  "v2-candlestick-session-events": [
+    "OHLC",
+    "early close",
+    "emergency closure",
+    "session markers"
+  ],
   "v2-pie-acquisition": ["pie chart", "bottom legend", "percentage labels"],
   "v2-pie-external-labels": [
     "external labels",

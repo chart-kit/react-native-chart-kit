@@ -282,6 +282,109 @@ describe("CandlestickChart model", () => {
     });
   });
 
+  it("marks early-close sessions on matching dated candles", () => {
+    const model = buildCandlestickChartModel({
+      chartKitTheme,
+      closeKey: "close",
+      data: [
+        {
+          day: "2026-11-27",
+          open: 100,
+          high: 112,
+          low: 96,
+          close: 108
+        },
+        {
+          day: "2026-11-30",
+          open: 108,
+          high: 114,
+          low: 104,
+          close: 111
+        }
+      ],
+      height: 260,
+      highKey: "high",
+      lowKey: "low",
+      openKey: "open",
+      sessionGaps: {
+        exchange: "nyse",
+        specialSessions: [
+          {
+            date: "2026-11-27",
+            kind: "earlyClose",
+            label: true
+          }
+        ]
+      },
+      width: 360,
+      xKey: "day"
+    });
+
+    expect(model.sessionEvents).toHaveLength(1);
+    expect(model.sessionEvents[0]).toMatchObject({
+      kind: "earlyClose",
+      label: "Early close",
+      nextIndex: 0,
+      previousIndex: 0
+    });
+    expect(model.sessionEvents[0]?.x).toBeCloseTo(
+      (model.candles[0]?.wickX ?? 0) - 3
+    );
+  });
+
+  it("marks emergency closures between dated candles", () => {
+    const model = buildCandlestickChartModel({
+      chartKitTheme,
+      closeKey: "close",
+      data: [
+        {
+          day: "2026-09-10",
+          open: 100,
+          high: 112,
+          low: 96,
+          close: 108
+        },
+        {
+          day: "2026-09-14",
+          open: 108,
+          high: 114,
+          low: 104,
+          close: 111
+        }
+      ],
+      height: 260,
+      highKey: "high",
+      lowKey: "low",
+      openKey: "open",
+      sessionGaps: {
+        specialSessions: [
+          {
+            date: "2026-09-11",
+            kind: "closure",
+            label: ({ kind, previousIndex, nextIndex }) =>
+              `${kind}:${previousIndex}-${nextIndex}`
+          }
+        ]
+      },
+      width: 360,
+      xKey: "day"
+    });
+
+    expect(model.sessionEvents).toHaveLength(1);
+    expect(model.sessionEvents[0]).toMatchObject({
+      kind: "closure",
+      label: "closure:0-1",
+      nextIndex: 1,
+      previousIndex: 0
+    });
+    expect(model.sessionEvents[0]?.x).toBeGreaterThan(
+      model.candles[0]?.wickX ?? 0
+    );
+    expect(model.sessionEvents[0]?.x).toBeLessThan(
+      model.candles[1]?.wickX ?? 0
+    );
+  });
+
   it("keeps session gaps disabled by default", () => {
     const model = buildCandlestickChartModel({
       chartKitTheme,

@@ -39,6 +39,7 @@ export const CandlestickChartSurface = <TData,>({
     boxes,
     candles,
     resolvedTheme,
+    sessionEvents,
     sessionGaps,
     showHorizontalGridLines,
     showXAxisLabels,
@@ -91,6 +92,30 @@ export const CandlestickChartSurface = <TData,>({
               y2={gap.y + gap.height}
               {...(gap.strokeDasharray
                 ? { strokeDasharray: gap.strokeDasharray }
+                : {})}
+            />
+          </SvgGroup>
+        ))}
+        {sessionEvents.map((event) => (
+          <SvgGroup key={event.key}>
+            <SvgRect
+              fill={event.fill}
+              height={event.height}
+              opacity={event.fillOpacity}
+              width={event.width}
+              x={event.x}
+              y={event.y}
+            />
+            <SvgLine
+              stroke={event.stroke}
+              strokeOpacity={event.strokeOpacity}
+              strokeWidth={event.strokeWidth}
+              x1={event.x + event.width / 2}
+              x2={event.x + event.width / 2}
+              y1={event.y}
+              y2={event.y + event.height}
+              {...(event.strokeDasharray
+                ? { strokeDasharray: event.strokeDasharray }
                 : {})}
             />
           </SvgGroup>
@@ -204,6 +229,21 @@ export const CandlestickChartSurface = <TData,>({
               {...fontProps}
             >
               {gap.label}
+            </SvgText>
+          ) : null
+        )}
+        {sessionEvents.map((event) =>
+          event.label ? (
+            <SvgText
+              key={`label-${event.key}`}
+              fill={resolvedTheme.mutedText}
+              fontSize={Math.max(9, resolvedTheme.typography.axisLabelSize - 1)}
+              textAnchor="middle"
+              x={event.labelX}
+              y={event.labelY}
+              {...fontProps}
+            >
+              {event.label}
             </SvgText>
           ) : null
         )}

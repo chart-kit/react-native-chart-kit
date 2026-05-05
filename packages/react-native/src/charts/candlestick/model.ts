@@ -24,6 +24,7 @@ import {
   measureBarChartText
 } from "../bar/modelUtils";
 import {
+  buildCandlestickSessionEventModels,
   buildCandlestickSessionGapModels,
   resolveCandlestickSessionGapConfig
 } from "./sessionGaps";
@@ -212,10 +213,18 @@ export const buildCandlestickChartModel = <
       upColor: resolvedUpColor
     })
   }));
+  const resolvedSessionGapConfig =
+    resolveCandlestickSessionGapConfig(sessionGaps);
   const sessionGapsModel = buildCandlestickSessionGapModels({
     boxes,
     candles,
-    config: resolveCandlestickSessionGapConfig(sessionGaps),
+    config: resolvedSessionGapConfig,
+    resolvedTheme
+  });
+  const sessionEventsModel = buildCandlestickSessionEventModels({
+    boxes,
+    candles,
+    config: resolvedSessionGapConfig,
     resolvedTheme
   });
   const volumeValues: number[] = volumeKey
@@ -299,6 +308,7 @@ export const buildCandlestickChartModel = <
     downColor: resolvedDownColor,
     flatColor: resolvedFlatColor,
     resolvedTheme,
+    sessionEvents: sessionEventsModel,
     sessionGaps: sessionGapsModel,
     showHorizontalGridLines,
     showXAxisLabels,

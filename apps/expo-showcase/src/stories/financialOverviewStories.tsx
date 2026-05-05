@@ -38,6 +38,20 @@ const getInitialCandlestickViewport = (): CandlestickChartViewportConfig => ({
   visiblePoints: 6,
   initialIndex: "end"
 });
+const sessionEventCandles = [
+  { day: "2026-11-25", open: 212, high: 219, low: 208, close: 216, volume: 86 },
+  { day: "2026-11-27", open: 216, high: 224, low: 213, close: 222, volume: 58 },
+  { day: "2026-11-30", open: 222, high: 225, low: 214, close: 217, volume: 94 },
+  {
+    day: "2026-12-01",
+    open: 217,
+    high: 229,
+    low: 216,
+    close: 227,
+    volume: 104
+  },
+  { day: "2026-12-02", open: 227, high: 231, low: 220, close: 224, volume: 98 }
+];
 
 const V2CandlestickPriceAction = ({
   onScrubEnd,
@@ -126,6 +140,38 @@ const V2CandlestickScrollable = ({ width }: NativeStoryProps) => (
   </ChartSection>
 );
 
+const V2CandlestickSessionEvents = ({ width }: NativeStoryProps) => (
+  <ChartSection title="Market sessions" kicker="Candlestick">
+    <CandlestickChart
+      closeKey="close"
+      data={sessionEventCandles}
+      downColor="#ef4444"
+      formatXLabel={formatTradingDay}
+      formatYLabel={formatPrice}
+      height={278}
+      highKey="high"
+      interaction="tap"
+      lowKey="low"
+      openKey="open"
+      sessionGaps={{
+        exchange: "nyse",
+        label: true,
+        specialSessions: [
+          { date: "2026-11-26", kind: "closure", label: "Closed" },
+          { date: "2026-11-27", kind: "earlyClose", label: "Early" }
+        ]
+      }}
+      testID="session-events-candlestick-chart"
+      tooltip={{ width: 154 }}
+      upColor="#16a34a"
+      volumeKey="volume"
+      width={width}
+      xKey="day"
+      yDomain={{ min: "dataMin", max: "dataMax", nice: true }}
+    />
+  </ChartSection>
+);
+
 export const financialOverviewStories = [
   {
     id: "v2-candlestick-price-action",
@@ -136,5 +182,10 @@ export const financialOverviewStories = [
     id: "v2-candlestick-scrollable",
     title: "Scrollable Candles",
     Component: V2CandlestickScrollable
+  },
+  {
+    id: "v2-candlestick-session-events",
+    title: "Market Sessions",
+    Component: V2CandlestickSessionEvents
   }
 ];

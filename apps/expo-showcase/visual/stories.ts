@@ -46,6 +46,7 @@ export const chartStories = [
   "v2-combined-negative-values",
   "v2-candlestick-price-action",
   "v2-candlestick-scrollable",
+  "v2-candlestick-session-events",
   "v2-pie-acquisition",
   "v2-pie-external-labels",
   "v2-donut-revenue",

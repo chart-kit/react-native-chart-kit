@@ -169,6 +169,36 @@ export type CandlestickChartSessionGapLabelRenderProps<TData = unknown> = {
   weekendCount: number;
 };
 
+export type CandlestickChartSpecialSessionKind = "closure" | "earlyClose";
+
+export type CandlestickChartSpecialSessionLabelRenderProps<TData = unknown> = {
+  candle?: CandlestickChartCandleModel<TData> | undefined;
+  date: Date | string;
+  kind: CandlestickChartSpecialSessionKind;
+  next?: TData | undefined;
+  nextIndex?: number | undefined;
+  previous?: TData | undefined;
+  previousIndex?: number | undefined;
+};
+
+export type CandlestickChartSpecialSessionConfig<TData = unknown> = {
+  date: Date | string;
+  fill?: string;
+  fillOpacity?: number;
+  kind: CandlestickChartSpecialSessionKind;
+  label?:
+    | boolean
+    | string
+    | ((
+        props: CandlestickChartSpecialSessionLabelRenderProps<TData>
+      ) => string);
+  stroke?: string;
+  strokeDasharray?: readonly number[];
+  strokeOpacity?: number;
+  strokeWidth?: number;
+  width?: number;
+};
+
 export type CandlestickChartSessionGapCalendar = "calendarDays" | "tradingDays";
 
 export type CandlestickChartSessionGapExchange =
@@ -188,6 +218,7 @@ export type CandlestickChartSessionGapConfig<TData = unknown> = {
   minClosedDays?: number;
   minGapDays?: number;
   minGapMs?: number;
+  specialSessions?: readonly CandlestickChartSpecialSessionConfig<TData>[];
   stroke?: string;
   strokeDasharray?: readonly number[];
   strokeOpacity?: number;
@@ -261,12 +292,35 @@ export type CandlestickChartSessionGapModel<TData = unknown> = {
   y: number;
 };
 
+export type CandlestickChartSessionEventModel<TData = unknown> = {
+  fill: string;
+  fillOpacity: number;
+  height: number;
+  key: string;
+  kind: CandlestickChartSpecialSessionKind;
+  label?: string | undefined;
+  labelX: number;
+  labelY: number;
+  next?: TData | undefined;
+  nextIndex?: number | undefined;
+  previous?: TData | undefined;
+  previousIndex?: number | undefined;
+  stroke: string;
+  strokeDasharray?: readonly number[];
+  strokeOpacity: number;
+  strokeWidth: number;
+  width: number;
+  x: number;
+  y: number;
+};
+
 export type CandlestickChartModel<TData = unknown> = {
   boxes: ChartBoxes;
   candles: Array<CandlestickChartCandleModel<TData>>;
   downColor: string;
   flatColor: string;
   resolvedTheme: ResolvedCartesianChartTheme;
+  sessionEvents: Array<CandlestickChartSessionEventModel<TData>>;
   sessionGaps: Array<CandlestickChartSessionGapModel<TData>>;
   showHorizontalGridLines: boolean;
   showXAxisLabels: boolean;
