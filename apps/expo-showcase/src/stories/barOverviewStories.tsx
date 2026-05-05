@@ -167,7 +167,6 @@ const V2GroupedBar = ({ width }: NativeStoryProps) => (
     <BarChart
       data={acquisitionByChannel}
       height={300}
-      preset="analytics"
       series={[
         { yKey: "organic", label: "Organic" },
         { yKey: "paid", label: "Paid" }
@@ -188,7 +187,6 @@ const V2SelectableBar = ({ width }: NativeStoryProps) => (
       defaultSelectedBar={{ dataIndex: 0, seriesKey: "paid" }}
       height={260}
       interaction={{ mode: "tap", deselectOnOutsidePress: true }}
-      preset="analytics"
       series={[
         { yKey: "organic", label: "Organic" },
         { yKey: "paid", label: "Paid" }
@@ -216,7 +214,6 @@ const V2AnimatedBar = ({ isVisualMode, width }: NativeStoryProps) => {
       <BarChart
         data={data}
         height={250}
-        preset="analytics"
         series={[{ yKey: "accounts", label: "Accounts" }]}
         width={width}
         xKey="stage"
@@ -242,7 +239,6 @@ const V2AnimatedGroupedBar = ({ isVisualMode, width }: NativeStoryProps) => {
         data={data}
         height={276}
         mode="grouped"
-        preset="analytics"
         series={[
           { yKey: "organic", label: "Organic" },
           { yKey: "paid", label: "Paid" }
@@ -263,7 +259,6 @@ const V2ScrollableBar = ({ width }: NativeStoryProps) => (
       data={campaignSpend}
       height={250}
       initialIndex="end"
-      preset="analytics"
       scrollable
       series={[{ yKey: "spend", label: "Spend" }]}
       visiblePoints={5}
@@ -283,7 +278,6 @@ const V2ScrollableSelectableBar = ({ width }: NativeStoryProps) => (
       height={260}
       initialIndex="end"
       interaction={{ mode: "tap", deselectOnOutsidePress: true }}
-      preset="analytics"
       scrollable
       selectionAnimation={{ duration: 220 }}
       series={[{ yKey: "spend", label: "Spend" }]}
@@ -305,7 +299,6 @@ const V2HorizontalBar = ({ width }: NativeStoryProps) => (
       height={260}
       labelStrategy="show"
       orientation="horizontal"
-      preset="analytics"
       series={[{ yKey: "tickets", label: "Tickets" }]}
       showValuesOnTopOfBars
       width={width}
@@ -321,8 +314,7 @@ const V2NegativeBar = ({ width }: NativeStoryProps) => (
     <BarChart
       data={monthlyProfit}
       height={250}
-      preset="fintech"
-      series={[{ yKey: "profit", label: "Profit", color: "#0284c7" }]}
+      series={[{ yKey: "profit", label: "Profit" }]}
       showValuesOnTopOfBars
       width={width}
       xKey="month"
@@ -337,7 +329,6 @@ const V2StackedPercentBar = ({ width }: NativeStoryProps) => (
       data={platformShare}
       height={250}
       mode="stacked100"
-      preset="analytics"
       series={[
         { yKey: "ios", label: "iOS" },
         { yKey: "android", label: "Android" }

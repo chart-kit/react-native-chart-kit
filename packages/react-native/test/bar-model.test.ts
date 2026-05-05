@@ -47,6 +47,27 @@ describe("BarChart model", () => {
     });
   });
 
+  it("inherits colors from the app-level chart preset", () => {
+    const model = buildBarChartModel({
+      chartKitTheme: {
+        ...chartKitTheme,
+        preset: "minimal"
+      },
+      data: [
+        { month: "Jan", organic: 42, paid: 28 },
+        { month: "Feb", organic: 48, paid: 33 }
+      ],
+      height: 220,
+      width: 320,
+      xKey: "month",
+      yKeys: ["organic", "paid"]
+    });
+
+    expect(model.bars[0]).toMatchObject({ color: "#111827" });
+    expect(model.bars[1]).toMatchObject({ color: "#64748b" });
+    expect(model.resolvedTheme.grid).toBe("#eceff3");
+  });
+
   it("stacks bars and supports top value labels", () => {
     const model = buildBarChartModel({
       chartKitTheme,

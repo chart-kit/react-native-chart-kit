@@ -135,6 +135,25 @@ test.describe("Expo showcase chart interactions", () => {
     await expect(page.getByText("Spend: $54k")).toHaveCount(0);
   });
 
+  test("bar chart stories inherit the app-level theme preset", async ({
+    page
+  }) => {
+    await page.goto("/?story=v2-bar-grouped&visual=1&preset=minimal");
+    await page.evaluate(async () => {
+      await document.fonts?.ready;
+    });
+
+    await expect(page.getByText("Acquisition mix")).toBeVisible();
+    await expect(page.getByTestId("bar-chart-bar.organic.0")).toHaveAttribute(
+      "fill",
+      "#111827"
+    );
+    await expect(page.getByTestId("bar-chart-bar.paid.0")).toHaveAttribute(
+      "fill",
+      "#64748b"
+    );
+  });
+
   test("horizontal bar chart shows every category label", async ({ page }) => {
     await page.goto("/?story=v2-bar-horizontal&visual=1");
     await page.evaluate(async () => {

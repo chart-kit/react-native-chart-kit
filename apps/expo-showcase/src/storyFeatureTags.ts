@@ -36,7 +36,7 @@ export const storyFeatureTags: Record<string, string[]> = {
   "v2-grid-lines": ["horizontal grid", "vertical grid", "opt-in"],
   "v2-hidden-labels": ["hidden labels", "minimal axis", "clean preview"],
   "v2-dark-mode": ["dark theme", "area fill", "multi-series"],
-  "v2-bar-grouped": ["grouped bars", "value labels", "analytics preset"],
+  "v2-bar-grouped": ["grouped bars", "value labels", "theme preset"],
   "v2-bar-selection": ["tap selection", "bar tooltip", "highlight state"],
   "v2-bar-animation": ["animated data", "single series", "bar chart"],
   "v2-bar-grouped-animation": [
