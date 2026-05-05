@@ -10,7 +10,7 @@ These results document local native release-build attempts for the Expo showcase
 | -------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | `npm run native:release:dry-run` | Passed. Printed Expo prebuild, Android Gradle release, CocoaPods, and iOS Xcode release-build commands. |
 | `npm run native:release:ios`     | Passed locally outside the sandbox after CocoaPods downloaded native dependencies.                      |
-| `npm run native:release:android` | Blocked locally. Expo prebuild succeeded, then Gradle stopped because this machine has no Java runtime. |
+| `npm run native:release:android` | Blocked locally. The preflight now stops before prebuild because this machine has no Java runtime.      |
 
 ## iOS Evidence
 
@@ -35,10 +35,14 @@ Command:
 npm run native:release:android
 ```
 
-Observed steps:
+Observed steps before the preflight was added:
 
 - `expo prebuild --platform android --clean --no-install` completed.
 - `android/gradlew assembleRelease` did not start a Gradle build because Java is not installed in the local environment.
+
+Current local behavior:
+
+- the native release script fails before prebuild if Java is missing
 
 Local blocker:
 

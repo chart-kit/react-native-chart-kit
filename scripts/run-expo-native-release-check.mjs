@@ -80,6 +80,49 @@ const commandText = (command, args) =>
     " "
   );
 
+const assertCommandAvailable = ({ args, command, hint }) => {
+  const result = spawnSync(command, args, {
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "pipe"]
+  });
+
+  if (result.status !== 0) {
+    const detail = (result.stderr || result.stdout || "").trim();
+    const suffix = detail ? `\n\n${detail}` : "";
+
+    throw new Error(`${hint}${suffix}`);
+  }
+};
+
+const assertAndroidToolchain = ({ dryRun }) => {
+  if (dryRun) {
+    return;
+  }
+
+  assertCommandAvailable({
+    args: ["-version"],
+    command: "java",
+    hint: "Android release checks require a Java runtime. Install JDK 17 or run the Native Release Checks GitHub workflow."
+  });
+};
+
+const assertIosToolchain = ({ dryRun }) => {
+  if (dryRun) {
+    return;
+  }
+
+  assertCommandAvailable({
+    args: ["-version"],
+    command: "xcodebuild",
+    hint: "iOS release checks require Xcode command line tools."
+  });
+  assertCommandAvailable({
+    args: ["--version"],
+    command: "pod",
+    hint: "iOS release checks require CocoaPods."
+  });
+};
+
 const run = ({ args, command, cwd, dryRun }) => {
   const relativeCwd = path.relative(repoRoot, cwd) || ".";
   process.stdout.write(
@@ -338,6 +381,12 @@ const platforms =
   options.platform === "all" ? ["android", "ios"] : [options.platform];
 
 for (const platform of platforms) {
+  if (platform === "android") {
+    assertAndroidToolchain({ dryRun: options.dryRun });
+  } else {
+    assertIosToolchain({ dryRun: options.dryRun });
+  }
+
   if (!options.skipPrebuild) {
     runExpoPrebuild({ appDir, dryRun: options.dryRun, platform });
   }

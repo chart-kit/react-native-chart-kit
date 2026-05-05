@@ -28,6 +28,8 @@ These commands use `apps/expo-showcase` as the native smoke app. They run `expo 
 - Android: `android/gradlew assembleRelease`
 - iOS: `pod install`, then `xcodebuild` with code signing disabled
 
+Non-dry-run checks fail before prebuild if the required native toolchain is unavailable. Android requires Java, while iOS requires Xcode command line tools and CocoaPods.
+
 Generated `apps/expo-showcase/android` and `apps/expo-showcase/ios` folders are intentionally ignored. They are build artifacts for verification, not source-owned app projects.
 
 The release-check script restores `apps/expo-showcase/app.json` and `apps/expo-showcase/package.json` after prebuild so generated native checks do not rewrite the Expo Go review scripts.

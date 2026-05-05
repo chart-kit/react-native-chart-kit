@@ -6,7 +6,7 @@ These are allowed only as explicit beta caveats. Anything in this file should ei
 
 Android and iOS release-build checks are configured in `.github/workflows/native-release.yml` and can be run locally with `npm run native:release:android` and `npm run native:release:ios`. The Expo showcase also verifies web screenshots and can run on device through Expo Go or Expo dev targets.
 
-The iOS release build passed locally on May 5, 2026. Android prebuild passed locally, but Gradle could not run because the local machine has no Java runtime. The remaining gap is CI evidence: H5/H6 should not count native release-build coverage as complete until the native workflow has a green run on the release candidate commit.
+The iOS release build passed locally on May 5, 2026. Android cannot run locally because the machine has no Java runtime; the release script now fails before prebuild in that case. The remaining gap is CI evidence: H5/H6 should not count native release-build coverage as complete until the native workflow has a green run on the release candidate commit.
 
 Impact: beta can be used for preview and API feedback, but production users should wait for native release-build verification before treating v2 as stable.
 

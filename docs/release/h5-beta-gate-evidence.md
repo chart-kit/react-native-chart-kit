@@ -31,7 +31,7 @@ Commands refreshed on May 5, 2026. The `test:e2e` row was added after promoting 
 | RN CLI example source  | `npm run example:rn-cli:typecheck` | Passed: non-Expo app source and local package aliases type-check                                    |
 | Native release dry-run | `npm run native:release:dry-run`   | Passed: prints Expo prebuild, Android Gradle release, CocoaPods, and iOS xcodebuild commands        |
 | iOS release build      | `npm run native:release:ios`       | Passed locally outside the sandbox; green CI workflow artifact still required for H5/H6             |
-| Android release build  | `npm run native:release:android`   | Blocked locally by missing Java after Expo prebuild; CI workflow configures Java and needs a run    |
+| Android release build  | `npm run native:release:android`   | Blocked locally by missing Java preflight; CI workflow configures Java and needs a run              |
 | Package build          | `npm run build`                    | Passed                                                                                              |
 
 Latest benchmark highlights from `npm run benchmark`:
