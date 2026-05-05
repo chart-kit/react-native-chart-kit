@@ -17,44 +17,45 @@ Concrete success criteria:
 
 ## Evidence Snapshot
 
-| Area                            | Evidence                                                                                                               | Status                                                         |
-| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| Repository audit                | `docs/internal/repo-audit.md`, `docs/internal/current-api-inventory.md`, `docs/internal/compatibility-matrix-draft.md` | Covered                                                        |
-| H0/H1 decisions                 | `docs/internal/h0-h1-decisions.md`                                                                                     | Covered for initial package and compatibility direction        |
-| Monorepo foundation             | `packages/core`, `packages/svg-renderer`, `packages/react-native`, `apps/expo-showcase`                                | Covered                                                        |
-| Required commands               | `package.json` scripts for lint, typecheck, test, visual, compat, e2e, benchmark, examples, docs                       | Covered, except native example commands are manual dev targets |
-| Core model/scales/layout        | `packages/core/src`, unit tests under `packages/core/test`                                                             | Covered for current chart scope                                |
-| SVG renderer                    | `packages/svg-renderer/src`, renderer tests                                                                            | Covered                                                        |
-| Line/area                       | modern API, range selector, pan/pinch preview, tooltips, markers, references, decimation, visual stories               | Covered for current free preview                               |
-| Bar/stacked bar                 | grouped, stacked, stacked100, negative, horizontal, scrollable, selection, tooltip, `renderBar`, visual stories        | Covered for modern API and stacked compat                      |
-| Pie/donut/progress/contribution | modern components, theming, interaction where applicable, docs, visual stories                                         | Covered for baseline                                           |
-| Combined chart                  | dual-axis bar + line, shared tooltip, visible-series toggles, negative visual coverage                                 | Covered for baseline                                           |
-| Candlestick                     | OHLC geometry, volume, tap tooltip, viewport gestures, range selector, scrollable preview                              | Covered as financial preview                                   |
-| Theme system                    | provider, presets, app-level mode/preset switching, tooltip theme tokens                                               | Covered                                                        |
-| Interaction                     | selection provider, tap/scrub, tooltips, crosshair, bar/pie/donut/candlestick interactions                             | Covered on web showcase; native QA still missing               |
-| Accessibility baseline          | summary/table helpers across major chart families                                                                      | Covered for helpers; native screen-reader QA missing           |
-| Benchmark                       | `npm run benchmark`, `docs/release/h5-beta-gate-evidence.md`                                                           | Covered for core geometry and web scrub timing                 |
-| Docs and recipes                | `docs/README.md`, chart docs, migration, prop mapping, recipes, troubleshooting                                        | Covered                                                        |
-| Docs verification               | `npm run docs:build` validates links, fences, and public TS/TSX examples                                               | Covered                                                        |
-| Codemod                         | `scripts/chartkit-codemod.mjs`, `chartkit-codemod v1-to-v2`                                                            | Covered for conservative compatibility-prop insertion          |
-| Visual baseline                 | `apps/expo-showcase/visual/__screenshots__`, `npm run test:visual`                                                     | Covered for current web showcase                               |
-| Release packet                  | beta checklist, H5 evidence, owner decision memo, known issues, changelog                                              | Covered for owner review                                       |
+| Area                            | Evidence                                                                                                               | Status                                                              |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| Repository audit                | `docs/internal/repo-audit.md`, `docs/internal/current-api-inventory.md`, `docs/internal/compatibility-matrix-draft.md` | Covered                                                             |
+| H0/H1 decisions                 | `docs/internal/h0-h1-decisions.md`                                                                                     | Covered for initial package and compatibility direction             |
+| Monorepo foundation             | `packages/core`, `packages/svg-renderer`, `packages/react-native`, `apps/expo-showcase`                                | Covered                                                             |
+| Required commands               | `package.json` scripts for lint, typecheck, test, visual, compat, e2e, benchmark, examples, docs                       | Covered, except native example commands are manual dev targets      |
+| Core model/scales/layout        | `packages/core/src`, unit tests under `packages/core/test`                                                             | Covered for current chart scope                                     |
+| SVG renderer                    | `packages/svg-renderer/src`, renderer tests                                                                            | Covered                                                             |
+| Line/area                       | modern API, range selector, pan/pinch preview, tooltips, markers, references, decimation, visual stories               | Covered for current free preview                                    |
+| Bar/stacked bar                 | grouped, stacked, stacked100, negative, horizontal, scrollable, selection, tooltip, `renderBar`, visual stories        | Covered for modern API and stacked compat                           |
+| Pie/donut/progress/contribution | modern components, theming, interaction where applicable, docs, visual stories                                         | Covered for baseline                                                |
+| Combined chart                  | dual-axis bar + line, shared tooltip, visible-series toggles, negative visual coverage                                 | Covered for baseline                                                |
+| Candlestick                     | OHLC geometry, volume, tap tooltip, viewport gestures, range selector, scrollable preview                              | Covered as financial preview                                        |
+| Theme system                    | provider, presets, app-level mode/preset switching, tooltip theme tokens                                               | Covered                                                             |
+| Interaction                     | selection provider, tap/scrub, tooltips, crosshair, bar/pie/donut/candlestick interactions                             | Covered on web showcase; native QA still missing                    |
+| Accessibility baseline          | summary/table helpers across major chart families                                                                      | Covered for helpers; native screen-reader QA missing                |
+| Benchmark                       | `npm run benchmark`, `docs/release/h5-beta-gate-evidence.md`                                                           | Covered for core geometry and web scrub timing                      |
+| Docs and recipes                | `docs/README.md`, chart docs, migration, prop mapping, recipes, troubleshooting                                        | Covered                                                             |
+| Docs verification               | `npm run docs:build` validates links, fences, and public TS/TSX examples                                               | Covered                                                             |
+| Codemod                         | `scripts/chartkit-codemod.mjs`, `chartkit-codemod v1-to-v2`                                                            | Covered for conservative compatibility-prop insertion               |
+| Visual baseline                 | `apps/expo-showcase/visual/__screenshots__`, `npm run test:visual`                                                     | Covered for current web showcase                                    |
+| RN CLI example source           | `examples/rn-cli-basic`, `npm run example:rn-cli:typecheck`                                                            | Covered for source and typecheck; generated native projects missing |
+| Release packet                  | beta checklist, H5 evidence, owner decision memo, known issues, changelog                                              | Covered for owner review                                            |
 
 ## Missing Or Not Fully Verified
 
-| Requirement                  | Missing evidence                                                       | Why it matters                                                                        |
-| ---------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| Native iOS release build     | No automated release build or artifact                                 | Required before production beta/RC confidence                                         |
-| Native Android release build | No automated release build or artifact                                 | Required before production beta/RC confidence                                         |
-| Native e2e/runtime QA        | Only web Playwright e2e is automated                                   | Gestures, scroll conflicts, text rendering, and release behavior can differ on device |
-| React Native CLI example     | No separate RN CLI app exists                                          | Spec requested Expo and RN CLI examples; current example surface is Expo showcase     |
-| H4 Pro scope                 | No owner-approved Pro/free boundary or package/license implementation  | Required before labeling animation/range/zoom/financial/Skia features as free or Pro  |
-| Skia renderer                | No `packages/skia-renderer` implementation                             | Spec lists this as Pro/performance scope                                              |
-| Native performance benchmark | No release-device timing/FPS/memory data                               | Current benchmark is core geometry plus web scrub timing                              |
-| Screen-reader QA             | No iOS VoiceOver/Android TalkBack evidence                             | Accessibility helpers exist, but native assistive-tech behavior is not verified       |
-| Candlestick market sessions  | No market-session gap handling                                         | Financial chart remains preview, not a complete Pro financial chart                   |
-| H5 approval                  | Owner has not approved beta publication                                | Beta cannot be claimed published/approved                                             |
-| H6 approval                  | No RC approval, final semver, final release notes, final visual freeze | Release candidate cannot be claimed                                                   |
+| Requirement                  | Missing evidence                                                       | Why it matters                                                                                |
+| ---------------------------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Native iOS release build     | No automated release build or artifact                                 | Required before production beta/RC confidence                                                 |
+| Native Android release build | No automated release build or artifact                                 | Required before production beta/RC confidence                                                 |
+| Native e2e/runtime QA        | Only web Playwright e2e is automated                                   | Gestures, scroll conflicts, text rendering, and release behavior can differ on device         |
+| RN CLI native projects       | No generated RN CLI `ios/` or `android/` projects are checked in       | Source-level RN CLI example exists, but release-build evidence still requires native projects |
+| H4 Pro scope                 | No owner-approved Pro/free boundary or package/license implementation  | Required before labeling animation/range/zoom/financial/Skia features as free or Pro          |
+| Skia renderer                | No `packages/skia-renderer` implementation                             | Spec lists this as Pro/performance scope                                                      |
+| Native performance benchmark | No release-device timing/FPS/memory data                               | Current benchmark is core geometry plus web scrub timing                                      |
+| Screen-reader QA             | No iOS VoiceOver/Android TalkBack evidence                             | Accessibility helpers exist, but native assistive-tech behavior is not verified               |
+| Candlestick market sessions  | No market-session gap handling                                         | Financial chart remains preview, not a complete Pro financial chart                           |
+| H5 approval                  | Owner has not approved beta publication                                | Beta cannot be claimed published/approved                                                     |
+| H6 approval                  | No RC approval, final semver, final release notes, final visual freeze | Release candidate cannot be claimed                                                           |
 
 ## Current Gate Position
 

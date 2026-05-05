@@ -474,7 +474,7 @@ export const normalizeLegacyContributionData = <
     normalizeDateValue(options.endDate, "endDate", collector) ??
     getBeginningTimeForDate(new Date(0));
   const startDate = shiftDate(endDate, -Math.max(options.numDays, 0) + 1);
-  const emptyValue = "emptyValue" in options ? options.emptyValue : 0;
+  const emptyValue = options.emptyValue === undefined ? 0 : options.emptyValue;
   const valuesByIndex = new Map<number, TData>();
 
   values.forEach((value, valueIndex) => {

@@ -70,6 +70,7 @@
     "example:ios": "npm --workspace @chart-kit/expo-showcase run ios --",
     "example:android": "npm --workspace @chart-kit/expo-showcase run android --",
     "example:expo": "npm --workspace @chart-kit/expo-showcase run start --",
+    "example:rn-cli:typecheck": "tsc -p examples/rn-cli-basic/tsconfig.json --noEmit",
     "docs:build": "node scripts/docs-build.mjs && node scripts/typecheck-doc-examples.mjs",
     "codemod:v1-to-v2": "node scripts/chartkit-codemod.mjs v1-to-v2",
     "clean": "node scripts/clean-dist.mjs",

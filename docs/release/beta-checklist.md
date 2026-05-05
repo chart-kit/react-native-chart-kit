@@ -23,6 +23,7 @@ npm run test:visual
 npm run benchmark
 npm run surface:check
 npm run docs:build
+npm run example:rn-cli:typecheck
 npm run build
 ```
 
@@ -31,6 +32,7 @@ Manual example commands:
 - `npm run example:expo` starts the Expo showcase for phone/device review.
 - `npm run example:ios` starts the Expo showcase with the iOS dev target. It requires local iOS tooling.
 - `npm run example:android` starts the Expo showcase with the Android dev target. It requires local Android tooling.
+- `npm run example:rn-cli:typecheck` verifies the non-Expo RN CLI app source and Metro import aliases.
 
 The `test:e2e` command covers web showcase interaction flows. The example commands are not native release-build checks and must not be counted as passing automated native coverage.
 

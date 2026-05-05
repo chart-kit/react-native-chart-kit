@@ -95,3 +95,11 @@ If Expo Go cannot discover the LAN server, use tunnel mode:
 ```sh
 npm run example:expo -- --tunnel
 ```
+
+The repo also includes a React Native CLI smoke surface for non-Expo import and peer-dependency checks:
+
+```sh
+npm run example:rn-cli:typecheck
+```
+
+See `examples/rn-cli-basic` for the app source and Metro aliases. Native iOS and Android release-build projects are still tracked as release-gate work rather than covered by this typecheck.

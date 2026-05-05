@@ -47,6 +47,12 @@ Run the Expo showcase when you need to review the same chart stories used by vis
 npm run example:expo
 ```
 
+Type-check the React Native CLI example surface when changing package imports or peer setup:
+
+```sh
+npm run example:rn-cli:typecheck
+```
+
 Run the web visual suite before changing default layout, theme, or renderer behavior:
 
 ```sh

@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "noErrorTruncation": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "types": ["node", "react", "react-native"],
+    "baseUrl": "../..",
+    "paths": {
+      "@chart-kit/core": ["packages/core/src/index.ts"],
+      "@chart-kit/react-native": ["packages/react-native/src/index.ts"],
+      "@chart-kit/svg-renderer": ["packages/svg-renderer/src/index.ts"],
+      "react-native-chart-kit": ["src/index.ts"]
+    }
+  },
+  "include": ["App.tsx", "index.js"]
+}

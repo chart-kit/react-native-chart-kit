@@ -41,6 +41,9 @@ jobs:
       - name: Docs
         run: npm run docs:build
 
+      - name: React Native CLI example
+        run: npm run example:rn-cli:typecheck
+
       - name: Benchmark
         run: npm run benchmark
 
