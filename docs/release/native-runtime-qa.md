@@ -96,8 +96,8 @@ Review these showcase pages:
 
 - Line Charts
 - Bar Charts
-- Combined Charts
-- Financial Charts
+- Combined Preview
+- Financial Preview
 - Pie & Donut
 - Progress
 - Heatmaps
@@ -134,7 +134,7 @@ For Bar Charts:
 - Tooltips for first and last bars are not clipped by axes or labels.
 - Gridlines stay behind inactive, dimmed, selected, and custom-rendered bars.
 
-For Combined and Financial Charts:
+For Combined Preview and Financial Preview:
 
 - Shared tooltip values match the selected x value across visible series.
 - Legend toggles update visible series without stale tooltip content.

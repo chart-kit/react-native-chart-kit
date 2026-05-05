@@ -4,6 +4,8 @@
 
 Use this API for new apps. The v2 package also exports a `StackedBarChart` compatibility facade for legacy stacked-bar data during migration.
 
+Status: basic vertical bars and legacy stacked-bar compatibility are free v2 baseline work. Grouped bars, horizontal stacked bars, production tap/tooltip workflows, scrollable fixed-axis workflows, and animated bar variants are Pro candidates until H4 finalizes the package boundary.
+
 ## Basic Bars
 
 ```tsx

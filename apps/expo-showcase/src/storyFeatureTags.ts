@@ -10,30 +10,63 @@ export const storyFeatureTags: Record<string, string[]> = {
   "v2-dashed-forecast": ["dashed line", "linear curve", "forecast style"],
   "v2-dot-styles": ["marker styles", "series dots", "diamond marker"],
   "v2-selected-tooltip": [
+    "pro candidate",
     "shared tooltip",
     "controlled selection",
     "crosshair"
   ],
   "v2-selection-scope": [
+    "pro candidate",
     "selection provider",
     "cross-chart dismissal",
     "external value"
   ],
-  "v2-custom-crosshair": ["custom crosshair", "axis badges", "render prop"],
-  "v2-scrub": ["scrub gesture", "persistent selection", "animated tooltip"],
-  "v2-while-active": ["hold to inspect", "while-active", "scroll lock"],
+  "v2-custom-crosshair": [
+    "pro candidate",
+    "custom crosshair",
+    "axis badges",
+    "render prop"
+  ],
+  "v2-scrub": [
+    "pro candidate",
+    "scrub gesture",
+    "persistent selection",
+    "animated tooltip"
+  ],
+  "v2-while-active": [
+    "pro candidate",
+    "hold to inspect",
+    "while-active",
+    "scroll lock"
+  ],
   "v2-null-gaps": ["null gaps", "fixed domain", "selection"],
   "v2-area": ["area fill", "time scale", "price labels"],
   "v2-scrollable-price": ["scrollable", "visible points", "initial end"],
   "v2-scrollable-dense": ["scrollable", "visible points", "dense labels"],
   "v2-scrollable-stock-comparison": [
+    "pro candidate",
     "scrollable",
     "two series",
     "marker styles"
   ],
-  "v2-viewport-zoom-pan": ["controlled viewport", "pinch zoom", "touch pan"],
-  "v2-range-selector": ["viewport", "overview", "range selector"],
-  "v2-pro-animation": ["animated data", "fixed domain", "dark theme"],
+  "v2-viewport-zoom-pan": [
+    "pro candidate",
+    "controlled viewport",
+    "pinch zoom",
+    "touch pan"
+  ],
+  "v2-range-selector": [
+    "pro candidate",
+    "viewport",
+    "overview",
+    "range selector"
+  ],
+  "v2-pro-animation": [
+    "pro candidate",
+    "animated data",
+    "fixed domain",
+    "dark theme"
+  ],
   "v2-dense-labels": ["dense labels", "auto strategy", "linear curve"],
   "v2-rotated-labels": ["rotated labels", "edge fit", "long range"],
   "v2-six-labels": ["six ticks", "rotation", "edge labels"],
@@ -42,41 +75,82 @@ export const storyFeatureTags: Record<string, string[]> = {
   "v2-debug-layout": ["debug overlay", "layout boxes", "visual QA"],
   "v2-hidden-labels": ["hidden labels", "minimal axis", "clean preview"],
   "v2-dark-mode": ["dark theme", "area fill", "multi-series"],
-  "v2-bar-grouped": ["grouped bars", "value labels", "theme preset"],
-  "v2-bar-selection": ["tap selection", "bar tooltip", "highlight state"],
-  "v2-bar-animation": ["animated data", "single series", "bar chart"],
+  "v2-bar-grouped": [
+    "pro candidate",
+    "grouped bars",
+    "value labels",
+    "theme preset"
+  ],
+  "v2-bar-selection": [
+    "pro candidate",
+    "tap selection",
+    "bar tooltip",
+    "highlight state"
+  ],
+  "v2-bar-animation": [
+    "pro candidate",
+    "animated data",
+    "single series",
+    "bar chart"
+  ],
   "v2-bar-grouped-animation": [
+    "pro candidate",
     "animated data",
     "grouped bars",
     "vertical bars"
   ],
   "v2-bar-scrollable": ["scrollable", "visible points", "sticky y-axis"],
   "v2-bar-scrollable-selection": [
+    "pro candidate",
     "scrollable",
     "tap selection",
     "animated tooltip"
   ],
-  "v2-bar-custom-renderer": ["renderBar", "custom styling", "built-in layout"],
-  "v2-bar-horizontal": ["horizontal bars", "category axis", "value labels"],
+  "v2-bar-custom-renderer": [
+    "pro candidate",
+    "renderBar",
+    "custom styling",
+    "built-in layout"
+  ],
+  "v2-bar-horizontal": [
+    "pro candidate",
+    "horizontal bars",
+    "category axis",
+    "value labels"
+  ],
   "v2-bar-negative": ["negative values", "baseline", "value labels"],
-  "v2-bar-stacked-percent": ["stacked100", "percentage labels", "bar chart"],
-  "v2-combined-revenue-margin": ["combined chart", "dual axis", "bar + line"],
+  "v2-bar-stacked-percent": [
+    "pro candidate",
+    "stacked100",
+    "percentage labels",
+    "bar chart"
+  ],
+  "v2-combined-revenue-margin": [
+    "pro candidate",
+    "combined chart",
+    "dual axis",
+    "bar + line"
+  ],
   "v2-combined-shared-tooltip": [
+    "pro candidate",
     "shared tooltip",
     "tap selection",
     "dual axis"
   ],
   "v2-combined-legend-toggles": [
+    "pro candidate",
     "series visibility",
     "legend toggles",
     "domain updates"
   ],
   "v2-combined-negative-values": [
+    "pro candidate",
     "negative values",
     "zero baseline",
     "dual axis"
   ],
   "v2-candlestick-price-action": [
+    "pro candidate",
     "OHLC",
     "candlesticks",
     "range selector",
@@ -84,12 +158,14 @@ export const storyFeatureTags: Record<string, string[]> = {
     "session gaps"
   ],
   "v2-candlestick-scrollable": [
+    "pro candidate",
     "OHLC",
     "scrollable",
     "volume overlay",
     "session gaps"
   ],
   "v2-candlestick-session-events": [
+    "pro candidate",
     "OHLC",
     "early close",
     "emergency closure",

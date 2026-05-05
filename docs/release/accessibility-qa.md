@@ -39,8 +39,8 @@ Review these showcase pages:
 
 - Line Charts
 - Bar Charts
-- Combined Charts
-- Financial Charts
+- Combined Preview
+- Financial Preview
 - Pie & Donut
 - Progress
 - Heatmaps

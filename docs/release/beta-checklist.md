@@ -46,10 +46,10 @@ The `docs:build` command validates local links, balanced code fences, JS/TS mark
 ## Manual Review
 
 - Expo showcase opens on a phone with `npm run example:expo`.
-- Line Charts page covers animation, range selector, viewport pan/zoom, scrub tooltip, markers, references, and multi-series examples.
-- Bar Charts page covers grouped, selectable, animated, scrollable, horizontal, negative, and stacked percentage examples.
-- Combined Charts page covers dual-axis revenue/margin, shared tooltip, legend toggles, and negative values.
-- Pie & Donut, Progress, Heatmaps, and Financial Charts pages render with app-level theme switching.
+- Line Charts page covers free baseline examples plus Pro-candidate animation, range selector, viewport pan/zoom, scrub tooltip, markers, references, and multi-series examples.
+- Bar Charts page covers free baseline examples plus Pro-candidate grouped, selectable, animated, scrollable, horizontal, negative, and stacked percentage examples.
+- Combined Preview page covers Pro-candidate dual-axis revenue/margin, shared tooltip, legend toggles, and negative values.
+- Pie & Donut, Progress, Heatmaps, and Financial Preview pages render with app-level theme switching.
 - Compatibility page still shows line, bar, and stacked-bar fixtures.
 
 ## Release Artifacts

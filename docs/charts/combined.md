@@ -2,6 +2,8 @@
 
 CombinedChart overlays bar and line series on a shared x-axis. The first v2 slice supports vertical grouped or stacked bars plus line series with independent left and right y-axis domains.
 
+Status: CombinedChart is a Pro-candidate preview until H4 finalizes the free-vs-Pro boundary. The docs stay visible so the API can be reviewed, but dual-axis and shared-inspection workflows should not be treated as final free-beta scope yet.
+
 ```tsx
 import { CombinedChart } from "@chart-kit/react-native";
 

@@ -112,7 +112,7 @@ export const showcaseModes: ShowcaseMode[] = [
         id: "line-area",
         title: "Line & Area",
         description:
-          "Core v2 line and area chart examples across single-series, multi-series, dark mode, and gaps.",
+          "Core v2 line and area examples plus Pro-candidate motion, viewport, and range-selector previews.",
         storyIds: [
           "v2-basic",
           "v2-revenue-card",
@@ -146,7 +146,7 @@ export const showcaseModes: ShowcaseMode[] = [
         id: "bar",
         title: "Bar",
         description:
-          "Modern v2 bar chart examples across grouped, selectable, scrollable, horizontal, negative, and stacked percentage modes.",
+          "Modern v2 bar examples across baseline bars and Pro-candidate grouped, selectable, scrollable, horizontal, and stacked modes.",
         storyIds: [
           "v2-bar-grouped",
           "v2-bar-selection",
@@ -162,9 +162,9 @@ export const showcaseModes: ShowcaseMode[] = [
       },
       {
         id: "combined",
-        title: "Combined",
+        title: "Combined Preview",
         description:
-          "Modern combined chart examples for bar plus line dashboards.",
+          "Pro-candidate combined chart examples for bar plus line dashboards.",
         storyIds: [
           "v2-combined-revenue-margin",
           "v2-combined-shared-tooltip",
@@ -174,8 +174,9 @@ export const showcaseModes: ShowcaseMode[] = [
       },
       {
         id: "financial",
-        title: "Financial",
-        description: "Modern financial chart examples for OHLC price action.",
+        title: "Financial Preview",
+        description:
+          "Pro-candidate financial chart examples for OHLC price action.",
         storyIds: [
           "v2-candlestick-price-action",
           "v2-candlestick-scrollable",
@@ -234,9 +235,9 @@ export const showcaseModes: ShowcaseMode[] = [
     pages: [
       {
         id: "selection-tooltips",
-        title: "Selection & Tooltips",
+        title: "Selection & Tooltip Preview",
         description:
-          "Controlled selection, persistent scrub, hold-to-inspect, and null-aware inspection.",
+          "Pro-candidate controlled selection, persistent scrub, hold-to-inspect, and null-aware inspection.",
         storyIds: [
           "v2-selected-tooltip",
           "v2-selection-scope",
@@ -278,9 +279,9 @@ export const showcaseModes: ShowcaseMode[] = [
       },
       {
         id: "motion-markers",
-        title: "Motion & Markers",
+        title: "Motion & Marker Preview",
         description:
-          "Animation preview, marker styling, active dots, and smoothed tooltip movement.",
+          "Pro-candidate animation, marker styling, active dots, and smoothed tooltip movement.",
         storyIds: [
           "v2-pro-animation",
           "v2-scrollable-price",
