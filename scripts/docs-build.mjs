@@ -5,7 +5,7 @@ import process from "node:process";
 const repoRoot = process.cwd();
 const markdownRoots = [
   "README.md",
-  "contributing.md",
+  "CONTRIBUTING.md",
   "docs",
   "packages/core/README.md",
   "packages/react-native/README.md",

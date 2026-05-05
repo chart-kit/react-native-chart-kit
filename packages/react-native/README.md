@@ -9,11 +9,30 @@ Current exports:
 - `LineChart`
 - `AreaChart`
 - `BarChart`
+- `StackedBarChart`
+- `CombinedChart`
+- `PieChart`
+- `DonutChart`
+- `ProgressChart`
+- `ProgressRing`
+- `ContributionGraph`
+- `CalendarHeatmap`
+- `CandlestickChart`
+- `ChartKitProvider`
 
 Modern docs:
 
+- [Docs home](../../docs/README.md)
+- [Installation](../../docs/getting-started/installation.md)
 - [Line and area charts](../../docs/charts/line-and-area.md)
 - [Bar charts](../../docs/charts/bar.md)
+- [Pie and donut charts](../../docs/charts/pie-and-donut.md)
+- [Progress charts](../../docs/charts/progress.md)
+- [Contribution heatmap](../../docs/charts/contribution-heatmap.md)
+- [Combined charts](../../docs/charts/combined.md)
+- [Candlestick charts](../../docs/charts/candlestick.md)
+- [Migration from v1](../../docs/migration/from-v1.md)
+- [Production recipes](../../docs/recipes/README.md)
 
 Current customization surface:
 
