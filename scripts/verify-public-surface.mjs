@@ -148,6 +148,18 @@ const assertSourceContains = ({ expected, label, source }) => {
 };
 
 const packageJson = JSON.parse(await readRepoFile("package.json"));
+const corePackageJson = JSON.parse(
+  await readRepoFile("packages/core/package.json")
+);
+const svgPackageJson = JSON.parse(
+  await readRepoFile("packages/svg-renderer/package.json")
+);
+const skiaPackageJson = JSON.parse(
+  await readRepoFile("packages/skia-renderer/package.json")
+);
+const proPackageJson = JSON.parse(
+  await readRepoFile("packages/pro/package.json")
+);
 const v2PackageJson = JSON.parse(
   await readRepoFile("packages/react-native/package.json")
 );
@@ -174,6 +186,23 @@ if (v2PackageJson.private === true) {
 
 if (!v2PackageJson.exports?.["./pro-preview"]) {
   throw new Error("@chart-kit/react-native must expose ./pro-preview");
+}
+
+for (const workspacePackageJson of [
+  corePackageJson,
+  svgPackageJson,
+  skiaPackageJson,
+  proPackageJson,
+  v2PackageJson
+]) {
+  if (
+    !workspacePackageJson.exports?.["."] ||
+    !workspacePackageJson.exports?.["./package.json"]
+  ) {
+    throw new Error(
+      `${workspacePackageJson.name} must expose explicit public package paths`
+    );
+  }
 }
 
 if (packageJson.main !== "./dist/index.js") {
