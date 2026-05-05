@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "lastUpdated": "2026-05-05",
+  "gates": [
+    {
+      "id": "h4",
+      "name": "Pro/free boundary approval",
+      "status": "open",
+      "requiredFor": ["H5", "H6"],
+      "evidence": ["docs/release/h4-pro-scope.md"],
+      "pendingDecisions": [
+        "final free-vs-Pro feature boundary",
+        "@chart-kit/pro package split",
+        "@chart-kit/skia-renderer packaging",
+        "license enforcement timing",
+        "which preview interactions remain free at beta",
+        "CandlestickChart beta visibility"
+      ]
+    },
+    {
+      "id": "h5",
+      "name": "Beta release approval",
+      "status": "open",
+      "requiredFor": ["H5"],
+      "evidence": [
+        "docs/release/h5-beta-gate-evidence.md",
+        "docs/release/h5-owner-decision-memo.md"
+      ],
+      "pendingDecisions": [
+        "publish beta now or keep iterating",
+        "whether native evidence gaps are acceptable for API-preview beta",
+        "beta known-issues acceptance",
+        "beta package tag and release date"
+      ]
+    },
+    {
+      "id": "h6",
+      "name": "Release-candidate approval",
+      "status": "not-started",
+      "requiredFor": ["H6"],
+      "evidence": ["docs/internal/completion-audit.md"],
+      "pendingDecisions": [
+        "release candidate approval",
+        "final semver",
+        "final changelog",
+        "docs freeze",
+        "visual baseline freeze",
+        "deprecation policy"
+      ]
+    }
+  ]
+}

@@ -27,6 +27,7 @@ const requiredFiles = [
   "docs/release/evidence/native-accessibility-qa.json",
   "docs/release/evidence/native-performance-benchmark.json",
   "docs/release/evidence/native-runtime-qa.json",
+  "docs/release/evidence/owner-gates.json",
   ".github/workflows/native-release.yml",
   "packages/core/package.json",
   "packages/react-native/package.json",
@@ -66,24 +67,6 @@ const releaseBlockers = [
     file: "docs/internal/completion-audit.md",
     pattern: /Status on .*: not complete\./,
     message: "Completion audit still says the v2/v2 Pro plan is not complete."
-  },
-  {
-    id: "h4-owner-approval",
-    file: "docs/internal/completion-audit.md",
-    pattern: /H4: open\./,
-    message: "H4 Pro/free boundary approval is still open."
-  },
-  {
-    id: "h5-owner-approval",
-    file: "docs/internal/completion-audit.md",
-    pattern: /H5: open\./,
-    message: "H5 beta approval is still open."
-  },
-  {
-    id: "h6-owner-approval",
-    file: "docs/internal/completion-audit.md",
-    pattern: /H6: not started\./,
-    message: "H6 release-candidate approval is not started."
   },
   {
     id: "native-android-release",
@@ -126,6 +109,12 @@ const releaseEvidenceManifests = [
     message: "Release-device native performance manifest is not complete."
   }
 ];
+
+const ownerGateMessages = {
+  h4: "H4 Pro/free boundary approval is still open.",
+  h5: "H5 beta approval is still open.",
+  h6: "H6 release-candidate approval is not started."
+};
 
 const checks = [];
 
@@ -251,6 +240,26 @@ for (const blocker of releaseBlockers) {
     id: `blocker:${blocker.id}`,
     message: blocker.message,
     status: isBlocked ? "block" : "pass"
+  });
+}
+
+const ownerGatesManifest = await readRepoJson(
+  "docs/release/evidence/owner-gates.json"
+);
+
+for (const gate of ownerGatesManifest.gates ?? []) {
+  const normalizedStatus = gate.status ?? "open";
+
+  addCheck({
+    detail: Array.isArray(gate.pendingDecisions)
+      ? gate.pendingDecisions.join("; ")
+      : "",
+    evidence: "docs/release/evidence/owner-gates.json",
+    id: `blocker:${gate.id}-owner-approval`,
+    message:
+      ownerGateMessages[gate.id] ??
+      `${gate.name ?? gate.id} owner approval is not complete.`,
+    status: normalizedStatus === "approved" ? "pass" : "block"
   });
 }
 
