@@ -13,7 +13,10 @@ export type ChartKitSurfaceKind =
 export type ChartKitSurfaceExport = {
   exportName: string;
   kind: ChartKitSurfaceKind;
-  packageName: "@chart-kit/react-native" | "react-native-chart-kit";
+  packageName:
+    | "@chart-kit/react-native"
+    | "@chart-kit/react-native/pro-preview"
+    | "react-native-chart-kit";
   status: ChartKitSurfaceStatus;
 };
 
@@ -87,7 +90,7 @@ export const chartKitProCandidateSurface = [
       : exportName.includes("Provider")
         ? "provider"
         : "component",
-    packageName: "@chart-kit/react-native",
+    packageName: "@chart-kit/react-native/pro-preview",
     status: "pro-candidate"
   })
 );

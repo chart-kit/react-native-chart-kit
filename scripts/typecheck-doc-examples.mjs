@@ -24,21 +24,26 @@ const publicMarkdownRoots = [
 const checkedFenceLanguages = new Set(["ts", "tsx"]);
 const chartKitNames = [
   "BarChart",
-  "CandlestickChart",
   "ChartKitProvider",
-  "ChartSelectionProvider",
-  "CombinedChart",
   "ContributionGraph",
   "DonutChart",
   "LineChart",
-  "LineChartViewportConfig",
   "PieChart",
   "ProgressChart",
   "ProgressRing",
   "StackedBarChart",
   "createChartPreset",
   "getLineChartAccessibilitySummary",
-  "getLineChartDataTable",
+  "getLineChartDataTable"
+];
+const chartKitProPreviewNames = [
+  "CandlestickChart",
+  "ChartSelectionProvider",
+  "CombinedChart",
+  "LineChartViewportConfig",
+  "getCandlestickChartDataTable",
+  "getCandlestickChartFinancialNarrative",
+  "getCombinedChartDataTable",
   "useDismissChartSelection"
 ];
 const reactNames = ["useMemo", "useState"];
@@ -245,6 +250,10 @@ const buildExampleSource = ({ code, relativePath, line }) => {
     buildImportLine(
       "@chart-kit/react-native",
       getMissingImports(code, importedNames, chartKitNames)
+    ),
+    buildImportLine(
+      "@chart-kit/react-native/pro-preview",
+      getMissingImports(code, importedNames, chartKitProPreviewNames)
     ),
     buildImportLine(
       "react",

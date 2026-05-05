@@ -31,7 +31,7 @@ Status:
 - no license gating
 - no runtime activation
 - no chart components consume this package yet
-- package-boundary metadata classifies current free baseline, compatibility, and Pro-candidate surfaces without moving runtime exports
+- package-boundary metadata classifies current free baseline, compatibility, and Pro-candidate surfaces without moving chart implementations
 - React Native preview composition is injection-based, so `@chart-kit/pro` can expose Pro-candidate workflows without statically importing the free runtime package before H4
 - `@chart-kit/react-native/pro-preview` exists as the package-local preview entrypoint for current Pro-candidate components, hooks, and advanced interaction types
 

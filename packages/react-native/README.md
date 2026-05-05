@@ -4,7 +4,7 @@ Modern Chart Kit v2 React Native components.
 
 This package is the scoped modern API for new adopters. The root `react-native-chart-kit` package remains the legacy-compatible migration bridge.
 
-The `@chart-kit/react-native/pro-preview` subpath exposes the current Pro-candidate preview surface while H4 finalizes the free-vs-Pro boundary. Root exports remain available during the preview period so existing demos and beta review code keep working.
+The `@chart-kit/react-native/pro-preview` subpath exposes the current Pro-candidate preview surface while H4 finalizes the free-vs-Pro boundary. The main package barrel is reserved for the free/baseline API; demos that review Pro-candidate workflows import the preview subpath explicitly.
 
 Current exports:
 
@@ -12,14 +12,12 @@ Current exports:
 - `AreaChart`
 - `BarChart`
 - `StackedBarChart`
-- `CombinedChart`
 - `PieChart`
 - `DonutChart`
 - `ProgressChart`
 - `ProgressRing`
 - `ContributionGraph`
 - `CalendarHeatmap`
-- `CandlestickChart`
 - `ChartKitProvider`
 
 Pro preview subpath exports:

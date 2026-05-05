@@ -18,10 +18,7 @@ const expectedV2ValueExports = [
   "AreaChart",
   "BarChart",
   "CalendarHeatmap",
-  "CandlestickChart",
   "ChartKitProvider",
-  "ChartSelectionProvider",
-  "CombinedChart",
   "ContributionGraph",
   "DonutChart",
   "LineChart",
@@ -32,20 +29,12 @@ const expectedV2ValueExports = [
   "builtInCartesianChartPresets",
   "createChartPreset",
   "resolveCartesianChartThemeConfig",
-  "useChartSelection",
-  "useDismissChartSelection",
   "useChartKitTheme"
 ];
 
 const expectedV2TypeExports = [
   "BarChartProps",
-  "CandlestickChartProps",
   "ChartKitProviderProps",
-  "ChartSelectionClearReason",
-  "ChartSelectionContextValue",
-  "ChartSelectionDismissReason",
-  "ChartSelectionProviderProps",
-  "CombinedChartProps",
   "ContributionGraphProps",
   "LineChartProps",
   "PieChartProps",

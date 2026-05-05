@@ -1,14 +1,17 @@
 import {
   BarChart,
-  CandlestickChart,
   ChartKitProvider,
-  CombinedChart,
   ContributionGraph,
   DonutChart,
   LineChart,
   ProgressRing,
   createChartPreset
 } from "../src";
+import {
+  CandlestickChart,
+  CombinedChart,
+  LineChart as ProLineChart
+} from "../src/proPreview";
 
 type PortfolioPoint = {
   date: string;
@@ -109,7 +112,7 @@ export const docsExampleElements = [
       preset="analytics"
     />
   </ChartKitProvider>,
-  <LineChart
+  <ProLineChart
     key="portfolio"
     data={portfolioHistory}
     xKey="date"

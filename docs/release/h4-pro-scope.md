@@ -2,7 +2,7 @@
 
 Status on May 5, 2026: owner monetization direction captured, package separation not approved for release yet.
 
-This packet defines the recommended free-vs-Pro boundary for the v2 beta path. It does not add license checks or move exports. The implementation should keep the current preview surface intact until the owner approves the final package split and release timing.
+This packet defines the recommended free-vs-Pro boundary for the v2 beta path. It does not add license checks. The implementation now keeps the main modern package barrel focused on the free/baseline API and exposes current Pro-candidate workflows through an explicit preview subpath until the owner approves the final package split and release timing.
 
 ## Recommended H4 Decision
 
@@ -61,9 +61,9 @@ react-native-chart-kit          # compatibility package and migration bridge
 
 `packages/skia-renderer` currently exposes capability metadata, install guidance, and an injected Skia primitive adapter. `LineChart` can accept the injected renderer for its main plot, range selector, sticky-axis, path-local area gradients, threshold rect clips, measured text anchors, default marker, default legend, default tooltip, and debug-layout surfaces. `npm run skia:parity` covers the local Skia primitive tests plus the LineChart renderer contract. Sticky-axis labels require a Skia font, and native install evidence plus native renderer parity evidence remain pending. The package does not add license gating until H4 approves the Pro/package split.
 
-`packages/pro` currently exists only as a preview feature-registry, surface-boundary, and injected composition package. It has no license checks, no runtime activation, and no gated chart implementations. Its registry now mirrors the owner-proposed commercial buckets: `pro-layout-engine`, `pro-interactions`, `pro-chart-types`, `pro-export`, `pro-theme-templates`, `pro-performance`, `skia-renderer`, and `accessibility-reports`. Its package-boundary metadata classifies current exports as compatibility, free baseline, or Pro candidate so the final split can be reviewed before moving runtime code. Its React Native preview helper accepts an injected `@chart-kit/react-native` module and selects Pro-candidate exports without statically importing the free runtime package.
+`packages/pro` currently exists only as a preview feature-registry, surface-boundary, and injected composition package. It has no license checks, no runtime activation, and no gated chart implementations. Its registry now mirrors the owner-proposed commercial buckets: `pro-layout-engine`, `pro-interactions`, `pro-chart-types`, `pro-export`, `pro-theme-templates`, `pro-performance`, `skia-renderer`, and `accessibility-reports`. Its package-boundary metadata classifies current exports as compatibility, free baseline, or Pro candidate so the final split can be reviewed before moving runtime code. Its React Native preview helper accepts an injected `@chart-kit/react-native/pro-preview` module and selects Pro-candidate exports without statically importing the free runtime package.
 
-`@chart-kit/react-native/pro-preview` now exists as an explicit preview entrypoint for current Pro-candidate workflows. It exposes the current advanced LineChart, BarChart, DonutChart, CombinedChart, CandlestickChart, and chart-selection surface while keeping the root package stable during H4 review. This is not license gating and does not decide the final paid boundary; it gives demos, docs, and `@chart-kit/pro` a clean target before runtime code moves.
+`@chart-kit/react-native/pro-preview` now exists as an explicit preview entrypoint for current Pro-candidate workflows. It exposes the current advanced LineChart, BarChart, DonutChart, CombinedChart, CandlestickChart, and chart-selection surface while the main `@chart-kit/react-native` barrel stays focused on the free/baseline API. This is not license gating and does not decide the final paid boundary; it gives demos, docs, and `@chart-kit/pro` a clean target before runtime code moves.
 
 Implementation principles:
 

@@ -56,6 +56,7 @@ describe("Chart Kit Pro preview boundary", () => {
       "useDismissChartSelection"
     ]);
     expect(getChartKitSurfaceExport("CombinedChart")).toMatchObject({
+      packageName: "@chart-kit/react-native/pro-preview",
       status: "pro-candidate"
     });
   });

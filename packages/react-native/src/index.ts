@@ -4,8 +4,6 @@ export {
   CalendarHeatmap,
   ContributionGraph
 } from "./charts/contribution/ContributionGraph";
-export { CandlestickChart } from "./charts/candlestick/CandlestickChart";
-export { CombinedChart } from "./charts/combined/CombinedChart";
 export { AreaChart } from "./charts/line/AreaChart";
 export { LineChart } from "./charts/line/LineChart";
 export { DonutChart, PieChart } from "./charts/pie/PieChart";
@@ -17,17 +15,6 @@ export {
   resolveCartesianChartThemeConfig,
   useChartKitTheme
 } from "./theme";
-export {
-  ChartSelectionProvider,
-  useChartSelection,
-  useDismissChartSelection
-} from "./selection";
-export type {
-  ChartSelectionContextValue,
-  ChartSelectionClearReason,
-  ChartSelectionDismissReason,
-  ChartSelectionProviderProps
-} from "./selection";
 export type {
   CartesianChartPreset,
   CartesianChartPresetInput,
@@ -85,69 +72,6 @@ export type {
   ContributionGraphModel,
   ContributionGraphProps
 } from "./charts/contribution/ContributionGraph";
-export type {
-  CandlestickChartAccessibilityInput,
-  CandlestickChartCandleModel,
-  CandlestickChartDataTable,
-  CandlestickChartDataTableRow,
-  CandlestickChartEmergencyClosureInput,
-  CandlestickChartEmergencyClosureOptions,
-  CandlestickChartFinancialNarrative,
-  CandlestickChartFinancialNarrativeInput,
-  CandlestickChartInitialIndex,
-  CandlestickChartInteraction,
-  CandlestickChartInteractionConfig,
-  CandlestickChartInteractionMode,
-  CandlestickChartModel,
-  CandlestickChartPriceKeys,
-  CandlestickChartProps,
-  CandlestickChartRangeSelectorConfig,
-  CandlestickChartRangeSelectorGestureEvent,
-  CandlestickChartRangeSelectorInteraction,
-  CandlestickChartSelectEvent,
-  CandlestickChartSessionGapConfig,
-  CandlestickChartSessionGapExchange,
-  CandlestickChartSessionGapLabelRenderProps,
-  CandlestickChartSessionGapModel,
-  CandlestickChartSessionEventModel,
-  CandlestickChartSpecialSessionConfig,
-  CandlestickChartSpecialSessionKind,
-  CandlestickChartSpecialSessionLabelRenderProps,
-  CandlestickChartTooltipConfig,
-  CandlestickChartViewportChangeEvent,
-  CandlestickChartViewportConfig,
-  CandlestickChartViewportInteractionConfig,
-  CandlestickChartXLabelModel,
-  CandlestickChartYLabelModel
-} from "./charts/candlestick/CandlestickChart";
-export type {
-  CombinedChartAxisId,
-  CombinedChartBarModel,
-  CombinedChartBarMode,
-  CombinedChartBarSeries,
-  CombinedChartDataTable,
-  CombinedChartDataTableColumn,
-  CombinedChartDataTableRow,
-  CombinedChartDeselectEvent,
-  CombinedChartInteraction,
-  CombinedChartInteractionConfig,
-  CombinedChartInteractionMode,
-  CombinedChartInteractionPoint,
-  CombinedChartLegendItemModel,
-  CombinedChartLineModel,
-  CombinedChartLinePoint,
-  CombinedChartLineSeries,
-  CombinedChartModel,
-  CombinedChartProps,
-  CombinedChartSelectEvent,
-  CombinedChartSeriesModel,
-  CombinedChartTooltipConfig,
-  CombinedChartTooltipPoint,
-  CombinedChartTooltipRenderProps,
-  CombinedChartTooltipSeriesItem,
-  CombinedChartXLabelModel,
-  CombinedChartYLabelModel
-} from "./charts/combined/CombinedChart";
 export type {
   PieChartActiveSliceConfig,
   PieChartDataTable,
@@ -250,16 +174,6 @@ export {
   getProgressChartAccessibilitySummary,
   getProgressChartDataTable
 } from "./charts/progress/ProgressChart";
-export {
-  getCandlestickChartAccessibilitySummary,
-  getCandlestickChartDataTable,
-  getCandlestickChartFinancialNarrative,
-  getCandlestickEmergencyClosureSessions
-} from "./charts/candlestick/CandlestickChart";
-export {
-  getCombinedChartAccessibilitySummary,
-  getCombinedChartDataTable
-} from "./charts/combined/CombinedChart";
 export {
   getLineChartAccessibilitySummary,
   getLineChartDataTable
