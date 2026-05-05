@@ -47,6 +47,9 @@ export type CandlestickChartProps<TData extends Record<string, unknown>> =
     interaction?: CandlestickChartInteraction<TData>;
     selectedIndex?: number;
     tooltip?: boolean | CandlestickChartTooltipConfig;
+    volumeHeightRatio?: number;
+    volumeKey?: keyof TData & string;
+    volumeOpacity?: number;
     accessibilityLabel?: string;
     testID?: string;
   };
@@ -107,6 +110,16 @@ export type CandlestickChartCandleModel<TData = unknown> =
     color: string;
   };
 
+export type CandlestickChartVolumeBarModel = {
+  color: string;
+  height: number;
+  key: string;
+  opacity: number;
+  width: number;
+  x: number;
+  y: number;
+};
+
 export type CandlestickChartModel<TData = unknown> = {
   boxes: ChartBoxes;
   candles: Array<CandlestickChartCandleModel<TData>>;
@@ -117,6 +130,7 @@ export type CandlestickChartModel<TData = unknown> = {
   showXAxisLabels: boolean;
   showYAxisLabels: boolean;
   upColor: string;
+  volumeBars: CandlestickChartVolumeBarModel[];
   xLabels: CandlestickChartXLabelModel[];
   yLabels: CandlestickChartYLabelModel[];
   yTicks: number[];

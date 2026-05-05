@@ -110,6 +110,9 @@ export const buildCandlestickChartModel = <
   showYAxisLabels = true,
   theme,
   upColor,
+  volumeHeightRatio = 0.22,
+  volumeKey,
+  volumeOpacity = 0.18,
   width,
   xKey,
   yDomain = defaultYDomain,
@@ -189,6 +192,47 @@ export const buildCandlestickChartModel = <
       upColor: resolvedUpColor
     })
   }));
+  const volumeValues: number[] = volumeKey
+    ? candles.flatMap((candle) => {
+        const volume = candle.raw[volumeKey];
+
+        return isFiniteNumber(volume) ? [volume] : [];
+      })
+    : [];
+  const volumeScale =
+    volumeValues.length > 0
+      ? createLinearScale({
+          domain: [0, Math.max(...volumeValues)],
+          range: [
+            boxes.plot.y + boxes.plot.height,
+            boxes.plot.y +
+              boxes.plot.height *
+                (1 - Math.max(0.08, Math.min(0.5, volumeHeightRatio)))
+          ]
+        })
+      : undefined;
+  const volumeBars = volumeScale
+    ? candles.flatMap((candle) => {
+        const volume = volumeKey ? candle.raw[volumeKey] : undefined;
+        const y = isFiniteNumber(volume)
+          ? volumeScale.scale(volume)
+          : undefined;
+
+        return y === undefined
+          ? []
+          : [
+              {
+                color: candle.color,
+                height: boxes.plot.y + boxes.plot.height - y,
+                key: `volume-${candle.dataIndex}`,
+                opacity: Math.max(0, Math.min(1, volumeOpacity)),
+                width: candle.bodyWidth,
+                x: candle.bodyX,
+                y
+              }
+            ];
+      })
+    : [];
   const xLabelInterval =
     showXAxisLabels && xLabelSizes.length > 0
       ? getVisibleBarChartXLabelInterval({
@@ -233,6 +277,7 @@ export const buildCandlestickChartModel = <
     showXAxisLabels,
     showYAxisLabels,
     upColor: resolvedUpColor,
+    volumeBars,
     xLabels,
     yLabels,
     yTicks

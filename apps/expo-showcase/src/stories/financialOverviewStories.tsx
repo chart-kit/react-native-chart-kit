@@ -21,6 +21,7 @@ const V2CandlestickPriceAction = ({ width }: NativeStoryProps) => (
       testID="stock-candlestick-chart"
       tooltip={{ width: 154 }}
       upColor="#16a34a"
+      volumeKey="volume"
       width={width}
       xKey="day"
       yDomain={{ min: "dataMin", max: "dataMax", nice: true }}

@@ -12,6 +12,7 @@ import { CandlestickChart } from "@chart-kit/react-native";
   highKey="high"
   lowKey="low"
   closeKey="close"
+  volumeKey="volume"
   width={360}
   height={280}
   interaction="tap"
@@ -27,9 +28,10 @@ Defaults:
 - red candles represent close below open
 - flat candles use muted theme text
 - invalid OHLC rows are skipped
+- pass `volumeKey` to render a subtle volume overlay behind the candles
 - tap selection can show a vertical inspection line, close-price badge, and theme-aware OHLC tooltip
 - y-domain is based on lows and highs, not open and close only
 - `getCandlestickChartDataTable()` returns exact OHLC rows for accessible detail panels and exports
 - `getCandlestickChartAccessibilitySummary()` reports latest close, highest high, and lowest low
 
-This foundation does not yet include volume bars, range selector controls, market-session gaps, or pinch zoom. Those remain in the next financial-chart slices.
+This foundation does not yet include range selector controls, market-session gaps, or pinch zoom. Those remain in the next financial-chart slices.

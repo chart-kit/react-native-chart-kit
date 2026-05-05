@@ -60,6 +60,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
     showHorizontalGridLines,
     showXAxisLabels,
     showYAxisLabels,
+    volumeBars,
     xLabels,
     yLabels,
     yTicks
@@ -226,6 +227,17 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
             : null}
         </SvgLayer>
         <SvgLayer name="data">
+          {volumeBars.map((bar) => (
+            <SvgRect
+              key={bar.key}
+              fill={bar.color}
+              height={bar.height}
+              opacity={bar.opacity}
+              width={bar.width}
+              x={bar.x}
+              y={bar.y}
+            />
+          ))}
           {candles.map((candle) => (
             <SvgLine
               key={`wick-${candle.key}`}
