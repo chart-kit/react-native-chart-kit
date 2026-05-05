@@ -1,6 +1,6 @@
 # Native Runtime QA Protocol
 
-Status on May 5, 2026: protocol ready, partial iOS simulator smoke evidence captured; full native runtime evidence incomplete.
+Status on May 5, 2026: protocol ready, partial iOS and Android simulator/emulator smoke evidence captured; full native runtime evidence incomplete.
 
 This protocol covers the manual iOS and Android runtime checks required before H5/H6 can claim native interaction confidence. Web Playwright tests, visual screenshots, and native release-build checks are useful, but they do not prove device gesture behavior, nested scrolling, text rendering, tooltip stacking, or release-mode runtime behavior.
 
@@ -43,12 +43,31 @@ Artifact:
 
 - [iOS runtime smoke screenshot](artifacts/ios-runtime-smoke.png)
 
-This is useful launch/render evidence, but it is not a completed manual runtime QA pass. It does not cover all required pages, gestures, rotation, Android runtime behavior, or physical-device behavior.
+This is useful launch/render evidence, but it is not a completed manual runtime QA pass. It does not cover all required pages, gestures, rotation, or physical-device behavior.
 
-Android local status:
+The Android release APK was installed and launched on a local Android emulator as a release-build smoke check:
 
-- `adb devices -l` started the adb daemon successfully.
-- No Android device or emulator was attached, so Android runtime QA evidence is still missing.
+```sh
+JAVA_HOME=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home sdkmanager --sdk_root=/opt/homebrew/share/android-commandlinetools --install emulator "system-images;android-36;google_apis;arm64-v8a"
+ANDROID_HOME=/opt/homebrew/share/android-commandlinetools /opt/homebrew/share/android-commandlinetools/cmdline-tools/latest/bin/avdmanager create avd -n chartkit_api36 -k "system-images;android-36;google_apis;arm64-v8a" --device pixel_7 --force
+ANDROID_HOME=/opt/homebrew/share/android-commandlinetools /opt/homebrew/share/android-commandlinetools/emulator/emulator -avd chartkit_api36 -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect
+ANDROID_HOME=/opt/homebrew/share/android-commandlinetools adb install -r apps/expo-showcase/android/app/build/outputs/apk/release/app-release.apk
+ANDROID_HOME=/opt/homebrew/share/android-commandlinetools adb shell am start -n io.chartkit.showcase/.MainActivity
+```
+
+Observed result:
+
+- Android emulator 36.5.11.0 booted `chartkit_api36` with Android 36 Google APIs ARM64.
+- `adb install -r` installed the release APK successfully.
+- `adb shell am start -n io.chartkit.showcase/.MainActivity` launched the showcase.
+- The app launched to the Line Charts page without a red-screen error.
+- The first line-chart content rendered with visible axes, labels, legend, line/area fills, and controls.
+
+Artifact:
+
+- [Android runtime smoke screenshot](artifacts/android-runtime-smoke.png)
+
+This is useful release-build launch/render evidence, but it is not a completed Android runtime QA pass. It does not cover all required pages, gestures, rotation, TalkBack, or physical-device behavior.
 
 ## Device Matrix
 
@@ -134,10 +153,10 @@ For Pie, Donut, Progress, and Heatmaps:
 
 Before H5/H6, capture a completed log:
 
-| Date        | Commit    | Platform | Device/OS                      | Build surface           | Result       | Notes                                                                                              |
-| ----------- | --------- | -------- | ------------------------------ | ----------------------- | ------------ | -------------------------------------------------------------------------------------------------- |
-| May 5, 2026 | `d54e599` | iOS      | iPhone 17 simulator / iOS 26.0 | Release simulator build | Partial pass | App launched and Line Charts rendered; screenshot captured. Full interaction matrix still pending. |
-| May 5, 2026 | `d54e599` | Android  | No attached device/emulator    | N/A                     | Pending      | `adb devices -l` found no devices.                                                                 |
+| Date        | Commit    | Platform | Device/OS                                     | Build surface           | Result       | Notes                                                                                                                                 |
+| ----------- | --------- | -------- | --------------------------------------------- | ----------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
+| May 5, 2026 | `d54e599` | iOS      | iPhone 17 simulator / iOS 26.0                | Release simulator build | Partial pass | App launched and Line Charts rendered; screenshot captured. Full interaction matrix still pending.                                    |
+| May 5, 2026 | `e0b46ae` | Android  | `chartkit_api36` emulator / Android 36, ARM64 | Release APK             | Partial pass | App launched from a freshly rebuilt release APK and Line Charts rendered; screenshot captured. Full interaction matrix still pending. |
 
 For any failure, file or link an issue with:
 

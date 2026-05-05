@@ -51,7 +51,7 @@ Current local behavior:
 Observed successful result:
 
 ```text
-BUILD SUCCESSFUL in 1m 22s
+BUILD SUCCESSFUL in 1m 14s
 357 actionable tasks: 333 executed, 24 up-to-date
 ```
 
