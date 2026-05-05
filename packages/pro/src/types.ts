@@ -2,12 +2,15 @@ export type ChartKitProFeatureStatus = "planned" | "preview" | "available";
 
 export type ChartKitProFeatureCategory =
   | "accessibility"
+  | "charts"
   | "export"
   | "finance"
   | "interaction"
+  | "layout"
   | "performance"
   | "renderer"
-  | "theming";
+  | "theming"
+  | "templates";
 
 export type ChartKitProFeature = {
   category: ChartKitProFeatureCategory;

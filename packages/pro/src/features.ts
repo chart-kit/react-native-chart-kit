@@ -2,45 +2,58 @@ import type { ChartKitProFeature, ChartKitProFeatureRegistry } from "./types";
 
 export const chartKitProPreviewFeatures = [
   {
-    category: "renderer",
-    description: "Optional Skia renderer and renderer parity checks.",
-    id: "skia-renderer",
-    status: "preview"
-  },
-  {
-    category: "performance",
-    description: "Large dataset decimation, windowing, and native benchmarks.",
-    id: "large-data",
+    category: "layout",
+    description:
+      "Production layout engine: measured axes, dense labels, smart tick density, safe small-screen plotting, and advanced formatting.",
+    id: "pro-layout-engine",
     status: "preview"
   },
   {
     category: "interaction",
-    description: "Advanced pan, pinch zoom, shared cursors, and haptics.",
-    id: "advanced-interactions",
+    description:
+      "Production touch workflows: crosshair, scrub, nearest-point selection, long press, highlight states, zoom, pan, sticky axes, and range selection.",
+    id: "pro-interactions",
     status: "preview"
   },
   {
-    category: "finance",
-    description: "Financial workflows, exchange sessions, and OHLC overlays.",
-    id: "financial-charts",
+    category: "charts",
+    description:
+      "Commercial chart families: candlestick/OHLC, financial presets, combo and dual-axis charts, grouped bars, horizontal stacked bars, gauges, radar, treemap, and advanced donut/heatmap workflows.",
+    id: "pro-chart-types",
     status: "preview"
+  },
+  {
+    category: "export",
+    description:
+      "Chart export workflows: PNG/SVG export, snapshot API, share sheet integration, and future headless image generation.",
+    id: "pro-export",
+    status: "planned"
+  },
+  {
+    category: "templates",
+    description:
+      "Premium presets and templates: Apple Health, Linear-style, fintech dark, analytics dashboard, minimal SaaS, fitness, crypto, accessibility-safe palettes, and animated transitions.",
+    id: "pro-theme-templates",
+    status: "planned"
+  },
+  {
+    category: "performance",
+    description:
+      "Large dataset mode: decimation, downsampling, virtualized rendering, memoized paths, native benchmarks, and optional Skia acceleration.",
+    id: "pro-performance",
+    status: "planned"
+  },
+  {
+    category: "renderer",
+    description:
+      "Optional Skia renderer package with native install guidance, renderer parity tests, and renderer-specific performance tuning.",
+    id: "skia-renderer",
+    status: "planned"
   },
   {
     category: "accessibility",
     description: "Enterprise accessibility reports and exportable narratives.",
     id: "accessibility-reports",
-    status: "planned"
-  },
-  {
-    category: "theming",
-    description: "Design-system token adapters and preset governance.",
-    id: "design-system-tokens",
-    status: "planned"
-  },
-  {
-    category: "export",
-    description: "PNG/SVG export helpers where platform support is reliable.",
-    id: "chart-export",
     status: "planned"
   }
 ] as const satisfies readonly ChartKitProFeature[];

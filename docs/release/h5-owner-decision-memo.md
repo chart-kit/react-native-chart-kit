@@ -6,7 +6,7 @@ This memo converts the H5 beta gate into explicit choices. It is a recommendatio
 
 Do not publish the beta package yet. Approve the preview implementation for continued beta preparation, then finish the remaining native and Pro-scope caveats before publishing.
 
-Reason: the implementation, showcase, docs, tests, visual coverage, benchmark, support workflow, release checklist, local native release builds, and package path are in place, but remote native workflow evidence and the free-vs-Pro feature boundary are not final.
+Reason: the implementation, showcase, docs, tests, visual coverage, benchmark, support workflow, release checklist, local native release builds, and package path are in place, but remote native workflow evidence and the final free-vs-Pro package boundary are not complete.
 
 The current export surface is guarded by `npm run surface:check`. That check verifies the legacy `react-native-chart-kit` root exports and the modern `@chart-kit/react-native` exports.
 
@@ -18,7 +18,7 @@ Rationale:
 
 - verification is strong for web showcase and TypeScript surfaces
 - native release-build checks are configured and iOS/Android passed locally, but no green native workflow artifact is recorded yet
-- the [H4 Pro scope decision packet](h4-pro-scope.md) is ready for owner review, but not approved
+- the [H4 Pro scope decision packet](h4-pro-scope.md) now captures the owner monetization direction, but final package separation, license timing, and beta labels are not approved
 
 Acceptable owner override: publish a limited preview beta only if the beta is clearly labeled as API-preview and not production-ready.
 
@@ -51,7 +51,7 @@ Beta label requirement:
 Recommendation for beta preview:
 
 - Keep current line interactions visible in the showcase.
-- Label animation, range selector, pan/zoom, and future Skia/large-dataset work as preview features until H4 finalizes Pro scope.
+- Label production layout depth, production touch workflows, range selector, pan/zoom, commercial chart types, export, premium templates, and future Skia/large-dataset work as preview or Pro-candidate features until H4 finalizes package scope.
 - Do not add license gating before the free v2 architecture and public API are stable.
 
 Rationale: hiding the best line-chart interactions before beta weakens visual review, but hard-gating them now would confuse API feedback.

@@ -13,19 +13,20 @@ describe("Chart Kit Pro preview boundary", () => {
       status: "preview"
     });
     expect(chartKitProPreviewFeatures.map((feature) => feature.id)).toEqual([
+      "pro-layout-engine",
+      "pro-interactions",
+      "pro-chart-types",
+      "pro-export",
+      "pro-theme-templates",
+      "pro-performance",
       "skia-renderer",
-      "large-data",
-      "advanced-interactions",
-      "financial-charts",
-      "accessibility-reports",
-      "design-system-tokens",
-      "chart-export"
+      "accessibility-reports"
     ]);
   });
 
   it("looks up features by id", () => {
-    expect(getChartKitProFeature("financial-charts")).toMatchObject({
-      category: "finance",
+    expect(getChartKitProFeature("pro-chart-types")).toMatchObject({
+      category: "charts",
       status: "preview"
     });
     expect(getChartKitProFeature("missing")).toBeUndefined();
