@@ -17,7 +17,7 @@ Recommendation: keep iterating before npm beta.
 Rationale:
 
 - verification is strong for web showcase and TypeScript surfaces
-- native iOS/Android release-build coverage is not configured
+- native iOS/Android release-build checks are configured, but no green release-build workflow artifact is recorded yet
 - Pro/free feature boundary is not final
 
 Acceptable owner override: publish a limited preview beta only if the beta is clearly labeled as API-preview and not production-ready.
@@ -44,6 +44,7 @@ Beta label requirement:
 
 - docs and release notes must say web-showcase e2e passes, but native release builds are not yet proven
 - `example:ios` and `example:android` launch the Expo showcase through dev tooling only; they must not be counted as release-build or native e2e coverage
+- `native:release:android` and `native:release:ios` are the release-build checks to run before production beta or RC
 
 ## Decision 4: Free Vs Pro Visibility
 
@@ -75,5 +76,5 @@ Approve continued beta preparation with these next tasks:
 1. Verify the public package/import path in CI and release docs.
 2. Keep the chosen path wired into docs and typechecked examples.
 3. Decide whether the first beta is API-preview or production-beta.
-4. Keep native release-build gaps in known issues unless native examples are implemented first.
+4. Keep native release-build gaps in known issues until the native workflow is green on the release commit.
 5. Keep candlestick labeled Financial Preview.

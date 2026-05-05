@@ -27,3 +27,12 @@ npm --workspace @chart-kit/expo-showcase run start -- --clear
 npm --workspace @chart-kit/expo-showcase run android
 npm --workspace @chart-kit/expo-showcase run ios
 ```
+
+Release-build checks are intentionally run from the repository root:
+
+```bash
+npm run native:release:android
+npm run native:release:ios
+```
+
+Those commands generate temporary native projects with Expo prebuild. The generated `android/` and `ios/` folders are ignored by git.

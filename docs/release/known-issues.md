@@ -4,7 +4,9 @@ These are allowed only as explicit beta caveats. Anything in this file should ei
 
 ## Native Release-Build Coverage
 
-Android and iOS release-build tests are not configured yet. The Expo showcase verifies web screenshots and can run on device through Expo Go or Expo dev targets, but that does not prove native release-build behavior.
+Android and iOS release-build checks are configured in `.github/workflows/native-release.yml` and can be run locally with `npm run native:release:android` and `npm run native:release:ios`. The Expo showcase also verifies web screenshots and can run on device through Expo Go or Expo dev targets.
+
+The remaining gap is evidence: H5/H6 should not count native release-build coverage as complete until the native workflow has a green run on the release candidate commit.
 
 Impact: beta can be used for preview and API feedback, but production users should wait for native release-build verification before treating v2 as stable.
 
@@ -14,7 +16,7 @@ Impact: beta can be used for preview and API feedback, but production users shou
 
 `npm run example:ios` and `npm run example:android` launch the Expo showcase for manual simulator or emulator review. They are tracked as manual example commands, not passing native e2e or release-build checks.
 
-`examples/rn-cli-basic` provides a non-Expo app source and Metro alias smoke surface. `npm run example:rn-cli:typecheck` verifies its TypeScript imports, but generated `ios/` and `android/` projects are not checked in or release-built yet.
+`examples/rn-cli-basic` provides a non-Expo app source and Metro alias smoke surface. `npm run example:rn-cli:typecheck` verifies its TypeScript imports, but generated RN CLI `ios/` and `android/` projects are not checked in or release-built yet.
 
 Impact: CI can validate web showcase interactions, but cannot yet validate native navigation, release builds, or platform-specific gesture conflicts.
 

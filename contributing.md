@@ -62,29 +62,35 @@ npm run test:e2e
 npm run test:visual
 npm run benchmark
 npm run surface:check
+npm run native:release:dry-run
 npm run build
 ```
 
 Command status:
 
-| Command                      | Current status                                                       |
-| ---------------------------- | -------------------------------------------------------------------- |
-| `npm run lint`               | Working ESLint check.                                                |
-| `npm run typecheck`          | Working TypeScript check for library and showcase.                   |
-| `npm run core:typecheck`     | Working TypeScript check for the v2 core scaffold.                   |
-| `npm run svg:typecheck`      | Working TypeScript check for the v2 SVG renderer package.            |
-| `npm run rn:typecheck`       | Working TypeScript check for the v2 React Native package.            |
-| `npm run showcase:typecheck` | Working TypeScript check for the showcase stories.                   |
-| `npm run test`               | Working typecheck, unit, and compatibility test command.             |
-| `npm run test:unit`          | Working Vitest unit test command.                                    |
-| `npm run test:visual`        | Working alias for Expo showcase plus Playwright visual screenshots.  |
-| `npm run test:compat`        | Working Vitest command for legacy compatibility fixtures.            |
-| `npm run test:e2e`           | Working Playwright command for showcase interaction flows.           |
-| `npm run benchmark`          | Working core geometry benchmark with line and bar scenarios.         |
-| `npm run surface:check`      | Working public export surface audit for root compat and v2 preview.  |
-| `npm run example:ios`        | Working Expo showcase iOS dev command. Requires local iOS tooling.   |
-| `npm run example:android`    | Working Expo showcase Android dev command. Requires Android tooling. |
-| `npm run example:expo`       | Working Expo showcase app command for phone/device review.           |
-| `npm run docs:build`         | Working markdown docs verifier for local links and code fences.      |
+| Command                          | Current status                                                        |
+| -------------------------------- | --------------------------------------------------------------------- |
+| `npm run lint`                   | Working ESLint check.                                                 |
+| `npm run typecheck`              | Working TypeScript check for library and showcase.                    |
+| `npm run core:typecheck`         | Working TypeScript check for the v2 core scaffold.                    |
+| `npm run svg:typecheck`          | Working TypeScript check for the v2 SVG renderer package.             |
+| `npm run rn:typecheck`           | Working TypeScript check for the v2 React Native package.             |
+| `npm run showcase:typecheck`     | Working TypeScript check for the showcase stories.                    |
+| `npm run test`                   | Working typecheck, unit, and compatibility test command.              |
+| `npm run test:unit`              | Working Vitest unit test command.                                     |
+| `npm run test:visual`            | Working alias for Expo showcase plus Playwright visual screenshots.   |
+| `npm run test:compat`            | Working Vitest command for legacy compatibility fixtures.             |
+| `npm run test:e2e`               | Working Playwright command for showcase interaction flows.            |
+| `npm run benchmark`              | Working core geometry benchmark with line and bar scenarios.          |
+| `npm run surface:check`          | Working public export surface audit for root compat and v2 preview.   |
+| `npm run example:ios`            | Working Expo showcase iOS dev command. Requires local iOS tooling.    |
+| `npm run example:android`        | Working Expo showcase Android dev command. Requires Android tooling.  |
+| `npm run example:expo`           | Working Expo showcase app command for phone/device review.            |
+| `npm run native:release:dry-run` | Working native release-build command preview.                         |
+| `npm run native:release:ios`     | Native iOS release-build check. Requires macOS, Xcode, and CocoaPods. |
+| `npm run native:release:android` | Native Android release-build check. Requires Android tooling.         |
+| `npm run docs:build`             | Working markdown docs verifier for local links and code fences.       |
 
 The iOS and Android example commands launch the Expo showcase for manual device or simulator review. They are not native release-build checks and should not be counted as automated native e2e coverage.
+
+Use [Native release checks](docs/release/native-release-checks.md) before production beta or release-candidate review.

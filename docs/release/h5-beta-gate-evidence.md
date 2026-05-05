@@ -16,20 +16,21 @@ Prepare the first public beta decision packet for Chart Kit v2:
 
 ## Verification Evidence
 
-Commands refreshed on May 5, 2026. The `test:e2e` row was added after promoting the web-showcase interaction suite from a placeholder to a real command.
+Commands refreshed on May 5, 2026. The `test:e2e` row was added after promoting the web-showcase interaction suite from a placeholder to a real command. The native release-build dry-run row verifies the command path and generated build commands, not a native build artifact.
 
-| Requirement           | Evidence                           | Result                                                                                              |
-| --------------------- | ---------------------------------- | --------------------------------------------------------------------------------------------------- |
-| Lint                  | `npm run lint`                     | Passed                                                                                              |
-| TypeScript            | `npm run typecheck`                | Passed for root, core, SVG renderer, React Native package, and Expo showcase                        |
-| Unit and compat tests | `npm run test`                     | Passed: 37 unit files, 215 unit tests, 1 compat file, 5 compat tests                                |
-| Web e2e interactions  | `npm run test:e2e`                 | Passed: 21 Playwright showcase interaction flows                                                    |
-| Visual regression     | `npm run test:visual`              | Passed: 94 Playwright tests                                                                         |
-| Benchmark             | `npm run benchmark`                | Passed: core geometry scenarios plus web showcase scrub timing                                      |
-| Public surface audit  | `npm run surface:check`            | Passed: `react-native-chart-kit` compatibility exports and `@chart-kit/react-native` modern exports |
-| Docs verification     | `npm run docs:build`               | Passed: 50 markdown files, 102 JS/TS code fences, and 59 public TS/TSX examples                     |
-| RN CLI example source | `npm run example:rn-cli:typecheck` | Passed: non-Expo app source and local package aliases type-check                                    |
-| Package build         | `npm run build`                    | Passed                                                                                              |
+| Requirement            | Evidence                           | Result                                                                                              |
+| ---------------------- | ---------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Lint                   | `npm run lint`                     | Passed                                                                                              |
+| TypeScript             | `npm run typecheck`                | Passed for root, core, SVG renderer, React Native package, and Expo showcase                        |
+| Unit and compat tests  | `npm run test`                     | Passed: 37 unit files, 215 unit tests, 1 compat file, 5 compat tests                                |
+| Web e2e interactions   | `npm run test:e2e`                 | Passed: 21 Playwright showcase interaction flows                                                    |
+| Visual regression      | `npm run test:visual`              | Passed: 94 Playwright tests                                                                         |
+| Benchmark              | `npm run benchmark`                | Passed: core geometry scenarios plus web showcase scrub timing                                      |
+| Public surface audit   | `npm run surface:check`            | Passed: `react-native-chart-kit` compatibility exports and `@chart-kit/react-native` modern exports |
+| Docs verification      | `npm run docs:build`               | Passed: markdown, JS/TS fence, and public TS/TSX example validation                                 |
+| RN CLI example source  | `npm run example:rn-cli:typecheck` | Passed: non-Expo app source and local package aliases type-check                                    |
+| Native release dry-run | `npm run native:release:dry-run`   | Passed: prints Expo prebuild, Android Gradle release, CocoaPods, and iOS xcodebuild commands        |
+| Package build          | `npm run build`                    | Passed                                                                                              |
 
 Latest benchmark highlights from `npm run benchmark`:
 
@@ -50,25 +51,26 @@ Benchmark scope covers core geometry plus one web showcase scrub timing scenario
 
 ## Prompt-To-Artifact Checklist
 
-| Spec requirement       | Artifact or evidence                                                                                                                                        | Coverage status                                                                                                       |
-| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| Passing test suite     | `npm run test`; unit tests under `packages/core/test` and `packages/react-native/test`                                                                      | Covered for current unit and compatibility scope                                                                      |
-| E2E command            | `npm run test:e2e`; `apps/expo-showcase/visual/chart-interaction.spec.ts`                                                                                   | Covered for web showcase interactions; not native runtime                                                             |
-| Visual baseline        | `apps/expo-showcase/visual/__screenshots__`; `npm run test:visual`                                                                                          | Covered for 73 chart-story screenshots plus 21 interaction tests                                                      |
-| Example apps           | `apps/expo-showcase`; `examples/rn-cli-basic`; `npm run example:expo`; `npm run example:ios`; `npm run example:android`; `npm run example:rn-cli:typecheck` | Expo showcase is available for manual review; RN CLI source type-checks; neither is automated native release coverage |
-| Migration guide        | [From v1](../migration/from-v1.md)                                                                                                                          | Covered                                                                                                               |
-| Codemod                | `scripts/chartkit-codemod.mjs`; `npx chartkit-codemod v1-to-v2 ./src`                                                                                       | Covered for conservative compatibility-prop insertion and migration warnings                                          |
-| Prop mapping           | [Prop mapping](../migration/prop-mapping.md)                                                                                                                | Covered for common props                                                                                              |
-| Install docs           | [Installation](../getting-started/installation.md)                                                                                                          | Covered for compatibility and modern package paths                                                                    |
-| Recipes                | [Production recipes](../recipes/README.md)                                                                                                                  | Covered                                                                                                               |
-| Docs example checks    | `npm run docs:build`; `packages/react-native/test/docs-examples.typecheck.tsx`; `npm run rn:typecheck`                                                      | Syntax-covered for every JS/TS markdown fence; type-covered for public docs and representative integrated examples    |
-| Issue list             | [Known issues](known-issues.md)                                                                                                                             | Covered                                                                                                               |
-| Benchmark results      | `npm run benchmark`; this document                                                                                                                          | Covered for core geometry and web scrub timing                                                                        |
-| Changelog              | [Changelog](../../CHANGELOG.md)                                                                                                                             | Covered for current v7 preview                                                                                        |
-| Support workflow       | `.github/ISSUE_TEMPLATE/*`                                                                                                                                  | Covered for layout, compatibility, and performance bugs                                                               |
-| Public export surface  | `scripts/verify-public-surface.mjs`; `npm run surface:check`                                                                                                | Covered for root compatibility exports and modern v2 exports                                                          |
-| Release command safety | `.github/workflows/publish.yml`                                                                                                                             | Covered for branch, duplicate version, dist-tag, tests, docs, and build checks                                        |
-| CI checks              | `.github/workflows/ci.yml`                                                                                                                                  | Covered for lint, typecheck, test, docs, RN CLI example typecheck, benchmark, and build                               |
+| Spec requirement        | Artifact or evidence                                                                                                                                        | Coverage status                                                                                                     |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Passing test suite      | `npm run test`; unit tests under `packages/core/test` and `packages/react-native/test`                                                                      | Covered for current unit and compatibility scope                                                                    |
+| E2E command             | `npm run test:e2e`; `apps/expo-showcase/visual/chart-interaction.spec.ts`                                                                                   | Covered for web showcase interactions; not native runtime                                                           |
+| Visual baseline         | `apps/expo-showcase/visual/__screenshots__`; `npm run test:visual`                                                                                          | Covered for 73 chart-story screenshots plus 21 interaction tests                                                    |
+| Example apps            | `apps/expo-showcase`; `examples/rn-cli-basic`; `npm run example:expo`; `npm run example:ios`; `npm run example:android`; `npm run example:rn-cli:typecheck` | Expo showcase is available for manual review; RN CLI source type-checks; neither is a native release-build artifact |
+| Native release workflow | `.github/workflows/native-release.yml`; [Native release checks](native-release-checks.md); `scripts/run-expo-native-release-check.mjs`                      | Configured for Android/iOS release-build verification; still requires a green workflow run before RC                |
+| Migration guide         | [From v1](../migration/from-v1.md)                                                                                                                          | Covered                                                                                                             |
+| Codemod                 | `scripts/chartkit-codemod.mjs`; `npx chartkit-codemod v1-to-v2 ./src`                                                                                       | Covered for conservative compatibility-prop insertion and migration warnings                                        |
+| Prop mapping            | [Prop mapping](../migration/prop-mapping.md)                                                                                                                | Covered for common props                                                                                            |
+| Install docs            | [Installation](../getting-started/installation.md)                                                                                                          | Covered for compatibility and modern package paths                                                                  |
+| Recipes                 | [Production recipes](../recipes/README.md)                                                                                                                  | Covered                                                                                                             |
+| Docs example checks     | `npm run docs:build`; `packages/react-native/test/docs-examples.typecheck.tsx`; `npm run rn:typecheck`                                                      | Syntax-covered for every JS/TS markdown fence; type-covered for public docs and representative integrated examples  |
+| Issue list              | [Known issues](known-issues.md)                                                                                                                             | Covered                                                                                                             |
+| Benchmark results       | `npm run benchmark`; this document                                                                                                                          | Covered for core geometry and web scrub timing                                                                      |
+| Changelog               | [Changelog](../../CHANGELOG.md)                                                                                                                             | Covered for current v7 preview                                                                                      |
+| Support workflow        | `.github/ISSUE_TEMPLATE/*`                                                                                                                                  | Covered for layout, compatibility, and performance bugs                                                             |
+| Public export surface   | `scripts/verify-public-surface.mjs`; `npm run surface:check`                                                                                                | Covered for root compatibility exports and modern v2 exports                                                        |
+| Release command safety  | `.github/workflows/publish.yml`                                                                                                                             | Covered for branch, duplicate version, dist-tag, tests, docs, and build checks                                      |
+| CI checks               | `.github/workflows/ci.yml`; `.github/workflows/native-release.yml`                                                                                          | Covered for fast checks and native release-build workflow definition; native workflow result still pending          |
 
 ## Visual Coverage Summary
 
@@ -88,8 +90,8 @@ Notable covered cases:
 
 These are not covered by the green checks:
 
-- native iOS release build
-- native Android release build
+- green native iOS release-build workflow artifact
+- green native Android release-build workflow artifact
 - native e2e tests beyond the web showcase interaction suite
 - generated native RN CLI `ios/` and `android/` release-build projects
 - Skia renderer and Pro package split

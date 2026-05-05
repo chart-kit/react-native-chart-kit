@@ -24,6 +24,7 @@ npm run benchmark
 npm run surface:check
 npm run docs:build
 npm run example:rn-cli:typecheck
+npm run native:release:dry-run
 npm run build
 ```
 
@@ -33,6 +34,8 @@ Manual example commands:
 - `npm run example:ios` starts the Expo showcase with the iOS dev target. It requires local iOS tooling.
 - `npm run example:android` starts the Expo showcase with the Android dev target. It requires local Android tooling.
 - `npm run example:rn-cli:typecheck` verifies the non-Expo RN CLI app source and Metro import aliases.
+- `npm run native:release:dry-run` prints the generated native release-build commands without requiring local native projects.
+- `npm run native:release:android` and `npm run native:release:ios` run the release-build checks documented in [Native release checks](native-release-checks.md).
 
 The `test:e2e` command covers web showcase interaction flows. The example commands are not native release-build checks and must not be counted as passing automated native coverage.
 
