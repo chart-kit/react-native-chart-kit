@@ -26,12 +26,13 @@ npm run docs:build
 npm run build
 ```
 
-Expected known exceptions:
+Manual example commands:
 
-- `npm run example:ios` is still a placeholder.
-- `npm run example:android` is still a placeholder.
+- `npm run example:expo` starts the Expo showcase for phone/device review.
+- `npm run example:ios` starts the Expo showcase with the iOS dev target. It requires local iOS tooling.
+- `npm run example:android` starts the Expo showcase with the Android dev target. It requires local Android tooling.
 
-The `test:e2e` command covers web showcase interaction flows. It must not be counted as passing native release-build coverage.
+The `test:e2e` command covers web showcase interaction flows. The example commands are not native release-build checks and must not be counted as passing automated native coverage.
 
 ## Manual Review
 

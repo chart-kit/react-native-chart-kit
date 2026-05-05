@@ -4,7 +4,7 @@ These are allowed only as explicit beta caveats. Anything in this file should ei
 
 ## Native Release-Build Coverage
 
-Android and iOS release-build tests are not configured yet. The Expo showcase verifies web screenshots and can run on device through Expo Go, but that does not prove native release-build behavior.
+Android and iOS release-build tests are not configured yet. The Expo showcase verifies web screenshots and can run on device through Expo Go or Expo dev targets, but that does not prove native release-build behavior.
 
 Impact: beta can be used for preview and API feedback, but production users should wait for native release-build verification before treating v2 as stable.
 
@@ -12,7 +12,7 @@ Impact: beta can be used for preview and API feedback, but production users shou
 
 `npm run test:e2e` covers web showcase interaction flows through Playwright. It does not cover native iOS or Android runtime behavior.
 
-`npm run example:ios` and `npm run example:android` intentionally fail through placeholder commands. They are tracked gaps, not passing checks.
+`npm run example:ios` and `npm run example:android` launch the Expo showcase for manual simulator or emulator review. They are tracked as manual example commands, not passing native e2e or release-build checks.
 
 Impact: CI can validate web showcase interactions, but cannot yet validate native navigation, release builds, or platform-specific gesture conflicts.
 

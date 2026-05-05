@@ -44,7 +44,7 @@ Recommendation: acceptable for an API-preview beta, not acceptable for RC.
 Beta label requirement:
 
 - docs and release notes must say web-showcase e2e passes, but native release builds are not yet proven
-- `example:ios` and `example:android` should remain non-passing placeholders until real native examples exist
+- `example:ios` and `example:android` launch the Expo showcase through dev tooling only; they must not be counted as release-build or native e2e coverage
 
 ## Decision 4: Free Vs Pro Visibility
 

@@ -45,24 +45,24 @@ Benchmark scope is core geometry only. It does not measure native render time, g
 
 ## Prompt-To-Artifact Checklist
 
-| Spec requirement       | Artifact or evidence                                                                                     | Coverage status                                                                |
-| ---------------------- | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Passing test suite     | `npm run test`; unit tests under `packages/core/test` and `packages/react-native/test`                   | Covered for current unit and compatibility scope                               |
-| E2E command            | `npm run test:e2e`; `apps/expo-showcase/visual/chart-interaction.spec.ts`                                | Covered for web showcase interactions; not native runtime                      |
-| Visual baseline        | `apps/expo-showcase/visual/__screenshots__`; `npm run test:visual`                                       | Covered for 69 chart-story screenshots plus interaction tests                  |
-| Example app            | `apps/expo-showcase`; `npm run example:expo`; [Expo showcase README](../../apps/expo-showcase/README.md) | Available for manual phone review; not automated native release coverage       |
-| Migration guide        | [From v1](../migration/from-v1.md)                                                                       | Covered                                                                        |
-| Prop mapping           | [Prop mapping](../migration/prop-mapping.md)                                                             | Covered for common props                                                       |
-| Install docs           | [Installation](../getting-started/installation.md)                                                       | Covered with package-path caveat                                               |
-| Recipes                | [Production recipes](../recipes/README.md)                                                               | Covered                                                                        |
-| Docs example types     | `packages/react-native/test/docs-examples.typecheck.tsx`; `npm run rn:typecheck`                         | Covered for representative examples; not every markdown fence                  |
-| Issue list             | [Known issues](known-issues.md)                                                                          | Covered                                                                        |
-| Benchmark results      | `npm run benchmark`; this document                                                                       | Covered for core geometry only                                                 |
-| Changelog              | [Changelog](../../CHANGELOG.md)                                                                          | Covered for current v7 preview                                                 |
-| Support workflow       | `.github/ISSUE_TEMPLATE/*`                                                                               | Covered for layout, compatibility, and performance bugs                        |
-| Public export surface  | `scripts/verify-public-surface.mjs`; `npm run surface:check`                                             | Covered for current root compat exports and private v2 preview exports         |
-| Release command safety | `.github/workflows/publish.yml`                                                                          | Covered for branch, duplicate version, dist-tag, tests, docs, and build checks |
-| CI checks              | `.github/workflows/ci.yml`                                                                               | Covered for lint, typecheck, test, docs, benchmark, and build                  |
+| Spec requirement       | Artifact or evidence                                                                                                                                       | Coverage status                                                                                   |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Passing test suite     | `npm run test`; unit tests under `packages/core/test` and `packages/react-native/test`                                                                     | Covered for current unit and compatibility scope                                                  |
+| E2E command            | `npm run test:e2e`; `apps/expo-showcase/visual/chart-interaction.spec.ts`                                                                                  | Covered for web showcase interactions; not native runtime                                         |
+| Visual baseline        | `apps/expo-showcase/visual/__screenshots__`; `npm run test:visual`                                                                                         | Covered for 69 chart-story screenshots plus interaction tests                                     |
+| Example app            | `apps/expo-showcase`; `npm run example:expo`; `npm run example:ios`; `npm run example:android`; [Expo showcase README](../../apps/expo-showcase/README.md) | Available for manual phone, simulator, and emulator review; not automated native release coverage |
+| Migration guide        | [From v1](../migration/from-v1.md)                                                                                                                         | Covered                                                                                           |
+| Prop mapping           | [Prop mapping](../migration/prop-mapping.md)                                                                                                               | Covered for common props                                                                          |
+| Install docs           | [Installation](../getting-started/installation.md)                                                                                                         | Covered with package-path caveat                                                                  |
+| Recipes                | [Production recipes](../recipes/README.md)                                                                                                                 | Covered                                                                                           |
+| Docs example types     | `packages/react-native/test/docs-examples.typecheck.tsx`; `npm run rn:typecheck`                                                                           | Covered for representative examples; not every markdown fence                                     |
+| Issue list             | [Known issues](known-issues.md)                                                                                                                            | Covered                                                                                           |
+| Benchmark results      | `npm run benchmark`; this document                                                                                                                         | Covered for core geometry only                                                                    |
+| Changelog              | [Changelog](../../CHANGELOG.md)                                                                                                                            | Covered for current v7 preview                                                                    |
+| Support workflow       | `.github/ISSUE_TEMPLATE/*`                                                                                                                                 | Covered for layout, compatibility, and performance bugs                                           |
+| Public export surface  | `scripts/verify-public-surface.mjs`; `npm run surface:check`                                                                                               | Covered for current root compat exports and private v2 preview exports                            |
+| Release command safety | `.github/workflows/publish.yml`                                                                                                                            | Covered for branch, duplicate version, dist-tag, tests, docs, and build checks                    |
+| CI checks              | `.github/workflows/ci.yml`                                                                                                                                 | Covered for lint, typecheck, test, docs, benchmark, and build                                     |
 
 ## Visual Coverage Summary
 
@@ -91,7 +91,7 @@ These are not covered by the green checks:
 - final public package/import path
 - final free-vs-Pro boundary for animation, range selector, zoom, and financial features
 
-The placeholder commands `npm run example:ios` and `npm run example:android` intentionally fail and must not be counted as passing native checks.
+The example commands `npm run example:ios` and `npm run example:android` launch the Expo showcase through Expo dev tooling. They are manual review commands and must not be counted as passing native release-build or native e2e checks.
 
 ## Owner Decisions Required
 
