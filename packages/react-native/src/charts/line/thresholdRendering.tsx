@@ -88,7 +88,10 @@ export const LineChartAreaPaths = <TData extends Record<string, unknown>>({
 }) => {
   const Path = renderer.Path;
   const supportsClipPaths = renderer.capabilities?.clipPaths === true;
-  const supportsGradients = renderer.capabilities?.gradients !== false;
+  const supportsGradientDefs =
+    renderer.capabilities?.gradients !== false &&
+    renderer.capabilities?.pathGradients !== true;
+  const supportsPathGradients = renderer.capabilities?.pathGradients === true;
 
   return (
     <>
@@ -102,11 +105,35 @@ export const LineChartAreaPaths = <TData extends Record<string, unknown>>({
             key={`area-${geometry.key}`}
             d={geometry.area.path}
             fill={
-              supportsGradients
+              supportsGradientDefs
                 ? getLineChartAreaGradientRef(chartId, index)
                 : style.areaFill.fromColor
             }
-            opacity={supportsGradients ? undefined : style.areaFill.fromOpacity}
+            {...(supportsPathGradients
+              ? {
+                  fillGradient: {
+                    x1: "0%",
+                    x2: "0%",
+                    y1: "0%",
+                    y2: "100%",
+                    stops: [
+                      {
+                        offset: "0%",
+                        color: style.areaFill.fromColor,
+                        opacity: style.areaFill.fromOpacity
+                      },
+                      {
+                        offset: "100%",
+                        color: style.areaFill.toColor,
+                        opacity: style.areaFill.toOpacity
+                      }
+                    ]
+                  }
+                }
+              : {})}
+            {...(!supportsGradientDefs && !supportsPathGradients
+              ? { opacity: style.areaFill.fromOpacity }
+              : {})}
           />
         ];
 

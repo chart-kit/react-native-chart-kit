@@ -9,6 +9,7 @@ export type SkiaRendererCapabilities = {
   gradients: boolean;
   hitRegions: boolean;
   layers: boolean;
+  pathGradients: boolean;
   shadows: boolean;
   symbols: boolean;
   testIds: boolean;
@@ -97,6 +98,7 @@ export type SkiaPaintProps = SkiaTestableProps & {
 
 export type SkiaPathProps = SkiaPaintProps & {
   d?: string;
+  fillGradient?: SkiaLinearGradientProps;
   path?: string;
 };
 

@@ -135,6 +135,7 @@ const skiaLikeRenderer: LineChartRenderer = {
   capabilities: {
     clipPaths: false,
     gradients: false,
+    pathGradients: false,
     text: true
   },
   name: "skia-test"
@@ -266,6 +267,7 @@ describe("LineChart renderer parity contract", () => {
     expect(lineChartSvgRenderer.capabilities).toMatchObject({
       clipPaths: true,
       gradients: true,
+      pathGradients: false,
       text: true
     });
   });
@@ -283,6 +285,7 @@ describe("LineChart renderer parity contract", () => {
       capabilities: {
         clipPaths: false,
         gradients: false,
+        pathGradients: false,
         text: false
       },
       name: "test-renderer"
@@ -331,6 +334,41 @@ describe("LineChart renderer parity contract", () => {
       strokeWidth: 3
     });
     expect(clipDefs).toBeNull();
+  });
+
+  it("passes area fills as path-local gradients when the renderer supports them", () => {
+    const areaChildren = getFragmentChildren(
+      LineChartAreaPaths({
+        chartId: "chart",
+        geometries,
+        renderer: {
+          ...skiaLikeRenderer,
+          capabilities: {
+            ...skiaLikeRenderer.capabilities,
+            pathGradients: true
+          }
+        }
+      })
+    );
+
+    expect(areaChildren).toHaveLength(1);
+    expect(areaChildren[0]?.props).toMatchObject({
+      d: "M 0 12 L 10 8 L 20 14 L 20 20 L 0 20 Z",
+      fill: "#2563eb",
+      fillGradient: {
+        stops: [
+          { color: "#2563eb", offset: "0%", opacity: 0.2 },
+          { color: "#2563eb", offset: "100%", opacity: 0 }
+        ],
+        x1: "0%",
+        x2: "0%",
+        y1: "0%",
+        y2: "100%"
+      }
+    });
+    expect(
+      (areaChildren[0]?.props as { opacity?: number }).opacity
+    ).toBeUndefined();
   });
 
   it("renders default markers through injected primitives", () => {

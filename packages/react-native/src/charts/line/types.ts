@@ -456,6 +456,7 @@ export type LineChartRenderer = {
   capabilities?: {
     clipPaths?: boolean;
     gradients?: boolean;
+    pathGradients?: boolean;
     text?: boolean;
   };
   name?: string;

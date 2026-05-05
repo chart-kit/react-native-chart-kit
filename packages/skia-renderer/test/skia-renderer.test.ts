@@ -41,6 +41,7 @@ describe("Skia renderer preview boundary", () => {
       gradients: true,
       hitRegions: false,
       layers: true,
+      pathGradients: false,
       shadows: false,
       symbols: false,
       testIds: true,
@@ -89,6 +90,7 @@ describe("Skia renderer preview boundary", () => {
 
     expect(renderer.capabilities).toMatchObject({
       gradients: false,
+      pathGradients: true,
       text: true,
       textMeasurement: "skia"
     });
@@ -131,5 +133,51 @@ describe("Skia renderer preview boundary", () => {
     expect(isValidElement(rect)).toBe(true);
     expect(rectElement?.type).toBe("Group");
     expect(Children.count(rectElement?.props.children)).toBe(2);
+  });
+
+  it("renders path-local gradient fills when Skia gradient primitives exist", () => {
+    const renderer = createSkiaRenderer({ skia: fakeSkia });
+    const path = renderComponent(renderer.Path, {
+      d: "M 0 10 L 10 0 L 10 20 Z",
+      fill: "#2563eb",
+      fillGradient: {
+        stops: [
+          { color: "#2563eb", offset: "0%", opacity: 0.2 },
+          { color: "#2563eb", offset: "100%", opacity: 0 }
+        ],
+        x1: "0%",
+        x2: "0%",
+        y1: "0%",
+        y2: "100%"
+      }
+    });
+    const pathElement = isValidElement<{ children?: ReactNode }>(path)
+      ? path
+      : undefined;
+    const gradient = Children.toArray(pathElement?.props.children).find(
+      isValidElement
+    );
+    const renderedGradient = isValidElement(gradient)
+      ? renderComponent(
+          gradient.type as ComponentType<typeof gradient.props>,
+          gradient.props
+        )
+      : undefined;
+
+    expect(pathElement?.type).toBe("Path");
+    expect(pathElement?.props).toMatchObject({
+      color: "#2563eb",
+      path: "M 0 10 L 10 0 L 10 20 Z",
+      style: "fill"
+    });
+    expect(renderedGradient).toMatchObject({
+      props: {
+        colors: ["rgba(37, 99, 235, 0.2)", "rgba(37, 99, 235, 0)"],
+        positions: [0, 1],
+        start: { x: 0, y: 0 },
+        end: { x: 0, y: 1 }
+      },
+      type: "LinearGradient"
+    });
   });
 });

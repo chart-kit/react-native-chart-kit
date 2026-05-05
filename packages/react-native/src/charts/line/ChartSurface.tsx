@@ -71,8 +71,10 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
   const Layer = renderer.Layer ?? Group;
   const LinearGradient = renderer.LinearGradient;
   const canRenderText = renderer.capabilities?.text !== false;
-  const supportsGradients =
-    renderer.capabilities?.gradients !== false && Boolean(LinearGradient);
+  const supportsGradientDefs =
+    renderer.capabilities?.gradients !== false &&
+    renderer.capabilities?.pathGradients !== true &&
+    Boolean(LinearGradient);
 
   return (
     <View
@@ -102,7 +104,7 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
           />
         </Layer>
         <Defs>
-          {supportsGradients && LinearGradient
+          {supportsGradientDefs && LinearGradient
             ? geometries.map(({ style }, index) => (
                 <LinearGradient
                   key={`area-gradient-${index}`}

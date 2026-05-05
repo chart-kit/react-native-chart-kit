@@ -13,6 +13,7 @@ export const createSkiaRendererCapabilities = (
   gradients: true,
   hitRegions: false,
   layers: true,
+  pathGradients: false,
   shadows: false,
   symbols: false,
   testIds: true,

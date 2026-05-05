@@ -15,9 +15,9 @@ Current exports:
 Status:
 
 - injected Skia primitive adapter for Canvas, Group, Path, Rect, Circle, Line, Text, and LinearGradient
-- `LineChart` can accept the injected renderer through its experimental `renderer` prop for the main plot, range selector, sticky-axis, default marker, default legend, default tooltip, and debug-layout surfaces
+- `LineChart` can accept the injected renderer through its experimental `renderer` prop for the main plot, range selector, sticky-axis, path-local area gradients, default marker, default legend, default tooltip, and debug-layout surfaces
 - sticky-axis labels require a Skia font through `createSkiaRenderer({ skia, font })`
-- gradient capability is disabled for chart consumption until SVG-style gradient defs have Skia parity
+- path-local area gradients are used when `skia.LinearGradient` and `skia.vec` are available; SVG-style gradient defs remain disabled for Skia
 - no license gating
 - local LineChart renderer contract coverage lives in `packages/react-native/test/line-renderer.test.ts`
 - native install verification and native renderer parity coverage are still pending

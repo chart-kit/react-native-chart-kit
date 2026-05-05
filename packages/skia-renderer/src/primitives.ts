@@ -62,6 +62,38 @@ const percentToUnit = (
   return fallback;
 };
 
+const clampOpacity = (opacity: number) => Math.max(0, Math.min(1, opacity));
+
+const applyOpacityToColor = ({
+  color,
+  opacity
+}: {
+  color: string;
+  opacity?: number | undefined;
+}) => {
+  if (opacity === undefined) {
+    return color;
+  }
+
+  const clampedOpacity = clampOpacity(opacity);
+  const expandedHex =
+    color.startsWith("#") && color.length === 4
+      ? `#${color[1]}${color[1]}${color[2]}${color[2]}${color[3]}${color[3]}`
+      : color;
+
+  if (expandedHex.startsWith("#") && expandedHex.length === 7) {
+    const red = Number.parseInt(expandedHex.slice(1, 3), 16);
+    const green = Number.parseInt(expandedHex.slice(3, 5), 16);
+    const blue = Number.parseInt(expandedHex.slice(5, 7), 16);
+
+    if ([red, green, blue].every(Number.isFinite)) {
+      return `rgba(${red}, ${green}, ${blue}, ${clampedOpacity})`;
+    }
+  }
+
+  return color;
+};
+
 export const createSkiaPrimitives = ({
   font,
   skia
@@ -88,20 +120,51 @@ export const createSkiaPrimitives = ({
   const Group = ({ children, ...props }: SkiaGroupProps) =>
     createElement(skia.Group, props, children);
 
-  const Path = ({ d, path, testID, ...paint }: SkiaPathProps) => {
+  const LinearGradient = ({
+    stops,
+    testID,
+    x1,
+    x2,
+    y1,
+    y2
+  }: SkiaLinearGradientProps): ReactNode => {
+    if (!skia.LinearGradient || !skia.vec) {
+      return null;
+    }
+
+    return createElement(skia.LinearGradient, {
+      colors: stops.map((stop) =>
+        applyOpacityToColor({ color: stop.color, opacity: stop.opacity })
+      ),
+      end: skia.vec(percentToUnit(x2, 1), percentToUnit(y2, 0)),
+      positions: stops.map((stop) => percentToUnit(stop.offset, 0)),
+      start: skia.vec(percentToUnit(x1, 0), percentToUnit(y1, 0)),
+      testID
+    });
+  };
+
+  const Path = ({ d, fillGradient, path, testID, ...paint }: SkiaPathProps) => {
     const skiaPath = path ?? d ?? "";
     const dashEffect = getSkiaDashEffect({ paint, skia });
     const fillPaint = getSkiaFillPaintProps(paint);
     const strokePaint = getSkiaStrokePaintProps(paint);
+    const gradientElement = fillGradient
+      ? createElement(LinearGradient, fillGradient)
+      : undefined;
 
     return renderSkiaPaintPair({
-      fillElement: fillPaint
-        ? createElement(skia.Path, {
-            path: skiaPath,
-            testID,
-            ...fillPaint
-          })
-        : undefined,
+      fillElement:
+        fillPaint || gradientElement
+          ? createElement(
+              skia.Path,
+              {
+                path: skiaPath,
+                testID,
+                ...(fillPaint ?? { style: "fill" as const })
+              },
+              gradientElement
+            )
+          : undefined,
       skia,
       strokeElement: strokePaint
         ? createElement(
@@ -240,27 +303,6 @@ export const createSkiaPrimitives = ({
     createElement(Group, {}, children);
 
   const ClipRect = (_props: SkiaClipRectProps) => null;
-
-  const LinearGradient = ({
-    stops,
-    testID,
-    x1,
-    x2,
-    y1,
-    y2
-  }: SkiaLinearGradientProps): ReactNode => {
-    if (!skia.LinearGradient || !skia.vec) {
-      return null;
-    }
-
-    return createElement(skia.LinearGradient, {
-      colors: stops.map((stop) => stop.color),
-      end: skia.vec(percentToUnit(x2, 1), percentToUnit(y2, 0)),
-      positions: stops.map((stop) => percentToUnit(stop.offset, 0)),
-      start: skia.vec(percentToUnit(x1, 0), percentToUnit(y1, 0)),
-      testID
-    });
-  };
 
   return {
     Circle,
