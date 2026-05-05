@@ -101,4 +101,6 @@ H5 can proceed only after the owner decides:
 - whether advanced line interactions visible in the showcase remain free, move to Pro, or stay labeled preview
 - whether `CandlestickChart` is included in public beta or remains financial preview
 
+See [H5 owner decision memo](h5-owner-decision-memo.md) for recommended defaults.
+
 If any answer is negative, keep iterating against [known issues](known-issues.md) before publishing.

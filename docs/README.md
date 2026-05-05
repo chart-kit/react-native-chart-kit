@@ -35,6 +35,7 @@ These docs describe the current v2 preview implementation in this repository. Th
 
 - [Beta checklist](release/beta-checklist.md)
 - [H5 beta gate evidence](release/h5-beta-gate-evidence.md)
+- [H5 owner decision memo](release/h5-owner-decision-memo.md)
 - [Known issues](release/known-issues.md)
 
 ## Local Preview

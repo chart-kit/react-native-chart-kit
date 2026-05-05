@@ -50,6 +50,7 @@ The `test:e2e` command covers web showcase interaction flows. It must not be cou
 - [Troubleshooting guide](../troubleshooting.md)
 - [Known issues](known-issues.md)
 - [H5 beta gate evidence](h5-beta-gate-evidence.md)
+- [H5 owner decision memo](h5-owner-decision-memo.md)
 - [Changelog](../../CHANGELOG.md)
 
 ## H5 Owner Decision
