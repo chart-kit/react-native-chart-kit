@@ -61,6 +61,7 @@ npm run test:compat
 npm run test:e2e
 npm run test:visual
 npm run benchmark
+npm run boundaries:check
 npm run surface:check
 npm run native:release:dry-run
 npm run build
@@ -82,7 +83,8 @@ Command status:
 | `npm run test:compat`            | Working Vitest command for legacy compatibility fixtures.             |
 | `npm run test:e2e`               | Working Playwright command for showcase interaction flows.            |
 | `npm run benchmark`              | Working core geometry benchmark with line and bar scenarios.          |
-| `npm run surface:check`          | Working public export surface audit for root compat and v2 preview.   |
+| `npm run boundaries:check`       | Working package-boundary audit for free, Pro, and Skia separation.    |
+| `npm run surface:check`          | Working public export and package-boundary audit.                     |
 | `npm run example:ios`            | Working Expo showcase iOS dev command. Requires local iOS tooling.    |
 | `npm run example:android`        | Working Expo showcase Android dev command. Requires Android tooling.  |
 | `npm run example:expo`           | Working Expo showcase app command for phone/device review.            |

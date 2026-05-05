@@ -43,6 +43,7 @@ const requiredScripts = [
   "test:compat",
   "test:e2e",
   "benchmark",
+  "boundaries:check",
   "example:ios",
   "example:android",
   "example:expo",
