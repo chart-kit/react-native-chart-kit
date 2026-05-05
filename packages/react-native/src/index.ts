@@ -4,6 +4,7 @@ export {
   CalendarHeatmap,
   ContributionGraph
 } from "./charts/contribution/ContributionGraph";
+export { CandlestickChart } from "./charts/candlestick/CandlestickChart";
 export { CombinedChart } from "./charts/combined/CombinedChart";
 export { AreaChart, LineChart } from "./charts/line/LineChart";
 export { DonutChart, PieChart } from "./charts/pie/PieChart";
@@ -71,6 +72,14 @@ export type {
   ContributionGraphModel,
   ContributionGraphProps
 } from "./charts/contribution/ContributionGraph";
+export type {
+  CandlestickChartCandleModel,
+  CandlestickChartModel,
+  CandlestickChartPriceKeys,
+  CandlestickChartProps,
+  CandlestickChartXLabelModel,
+  CandlestickChartYLabelModel
+} from "./charts/candlestick/CandlestickChart";
 export type {
   CombinedChartAxisId,
   CombinedChartBarModel,

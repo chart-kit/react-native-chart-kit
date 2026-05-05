@@ -69,6 +69,7 @@ export const storyFeatureTags: Record<string, string[]> = {
     "zero baseline",
     "dual axis"
   ],
+  "v2-candlestick-price-action": ["OHLC", "candlesticks", "financial chart"],
   "v2-pie-acquisition": ["pie chart", "bottom legend", "percentage labels"],
   "v2-pie-external-labels": [
     "external labels",

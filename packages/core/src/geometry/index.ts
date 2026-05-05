@@ -1,5 +1,6 @@
 export * from "./areaPath";
 export * from "./barRects";
+export * from "./candlesticks";
 export * from "./contributionHeatmap";
 export * from "./horizontalBarRects";
 export * from "./lineDecimation";
