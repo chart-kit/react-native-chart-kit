@@ -96,6 +96,9 @@ export type {
   CombinedChartBarModel,
   CombinedChartBarMode,
   CombinedChartBarSeries,
+  CombinedChartDataTable,
+  CombinedChartDataTableColumn,
+  CombinedChartDataTableRow,
   CombinedChartDeselectEvent,
   CombinedChartInteraction,
   CombinedChartInteractionConfig,
@@ -216,6 +219,10 @@ export {
   getProgressChartAccessibilitySummary,
   getProgressChartDataTable
 } from "./charts/progress/ProgressChart";
+export {
+  getCombinedChartAccessibilitySummary,
+  getCombinedChartDataTable
+} from "./charts/combined/CombinedChart";
 export {
   getLineChartAccessibilitySummary,
   getLineChartDataTable

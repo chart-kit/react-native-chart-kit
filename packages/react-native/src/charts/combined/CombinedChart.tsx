@@ -18,6 +18,7 @@ import { getLineChartTooltipConfig } from "../line/options";
 import { getLineChartTooltipModel } from "../line/tooltip";
 import { getFontFamilyProps } from "../line/text";
 import { measureBarChartText } from "../bar/modelUtils";
+import { getCombinedChartAccessibilitySummary } from "./accessibility";
 import {
   buildCombinedChartSelectEvent,
   getCombinedChartInteractionConfig,
@@ -40,6 +41,15 @@ import type {
 
 export type * from "./types";
 export { buildCombinedChartModel } from "./model";
+export {
+  getCombinedChartAccessibilitySummary,
+  getCombinedChartDataTable
+} from "./accessibility";
+export type {
+  CombinedChartDataTable,
+  CombinedChartDataTableColumn,
+  CombinedChartDataTableRow
+} from "./accessibility";
 export {
   buildCombinedChartSelectEvent,
   getNearestCombinedChartInteractionIndex,
@@ -232,7 +242,16 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
     : {};
   const accessibilityLabel =
     props.accessibilityLabel ??
-    `Combined chart with ${bars.length} bars and ${lines.length} line series.`;
+    getCombinedChartAccessibilitySummary({
+      bars: props.bars,
+      data: props.data,
+      formatLeftYLabel: props.formatLeftYLabel,
+      formatRightYLabel: props.formatRightYLabel,
+      formatXLabel: props.formatXLabel,
+      lines: props.lines,
+      visibleSeriesKeys: props.visibleSeriesKeys,
+      xKey: props.xKey
+    });
 
   return (
     <View

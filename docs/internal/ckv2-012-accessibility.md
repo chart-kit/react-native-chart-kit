@@ -7,6 +7,7 @@ Date: May 4, 2026
 Added reusable accessibility summary and table fallback helpers beyond LineChart:
 
 - BarChart summary and data table helpers
+- CombinedChart summary and data table helpers
 - PieChart and DonutChart summary and data table helpers
 - ProgressChart and ProgressRing summary and data table helpers
 - ContributionGraph and CalendarHeatmap summary and data table helpers
@@ -17,5 +18,4 @@ Added reusable accessibility summary and table fallback helpers beyond LineChart
 ## Remaining Work
 
 - Add screen-reader QA on real iOS and Android devices.
-- Add docs recipes for presenting table fallbacks in product screens.
 - Add Pro-level configurable narrative summaries once Pro accessibility scope is approved.

@@ -62,6 +62,5 @@ const [viewport, setViewport] = useState({ startIndex: 40, endIndex: 90 });
 ## Remaining Work
 
 - Native iOS and Android QA for pinch zoom and nested scroll conflict behavior.
-- Shared selection scope for screen-level outside-press dismissal and cross-chart selection coordination.
 - Optional future gesture adapter for high-frequency scrub if responder-based scrub shows native jank.
 - Performance benchmark coverage for very large viewport windows and range-selector overview paths.

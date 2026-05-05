@@ -9,6 +9,10 @@ import {
   getContributionGraphDataTable
 } from "../src/charts/contribution/accessibility";
 import {
+  getCombinedChartAccessibilitySummary,
+  getCombinedChartDataTable
+} from "../src/charts/combined/accessibility";
+import {
   getPieChartAccessibilitySummary,
   getPieChartDataTable
 } from "../src/charts/pie/accessibility";
@@ -50,6 +54,70 @@ describe("chart accessibility helpers", () => {
       values: { paid: 34, organic: 18 },
       x: "Feb",
       xLabel: "Feb"
+    });
+  });
+
+  it("builds combined chart rows without comparing dual-axis units", () => {
+    const data = [
+      { month: "Jan", revenue: 120, margin: 18 },
+      { month: "Feb", revenue: 160, margin: 22 },
+      { month: "Mar", revenue: 210, margin: 24 }
+    ];
+
+    expect(
+      getCombinedChartAccessibilitySummary({
+        data,
+        xKey: "month",
+        bars: [{ yKey: "revenue", label: "Revenue" }],
+        lines: [{ yKey: "margin", label: "Margin" }],
+        formatLeftYLabel: (value) => `$${value}k`,
+        formatRightYLabel: (value) => `${value}%`
+      })
+    ).toBe(
+      "Combined chart with 1 bar series and 1 line series across 3 categories. Latest category Mar: Revenue $210k, Margin 24%."
+    );
+
+    expect(
+      getCombinedChartDataTable({
+        data,
+        xKey: "month",
+        bars: [{ yKey: "revenue", label: "Revenue" }],
+        lines: [{ yKey: "margin", label: "Margin" }],
+        formatLeftYLabel: (value) => `$${value}k`,
+        formatRightYLabel: (value) => `${value}%`
+      }).rows[1]
+    ).toMatchObject({
+      formattedValues: { "bar-revenue": "$160k", "line-margin": "22%" },
+      values: { "bar-revenue": 160, "line-margin": 22 },
+      x: "Feb",
+      xLabel: "Feb"
+    });
+  });
+
+  it("respects visible combined chart series in table fallbacks", () => {
+    const data = [
+      { month: "Jan", revenue: 120, services: 60, margin: 18 },
+      { month: "Feb", revenue: 160, services: 80, margin: 22 }
+    ];
+
+    const table = getCombinedChartDataTable({
+      data,
+      xKey: "month",
+      bars: [
+        { yKey: "revenue", label: "Revenue" },
+        { yKey: "services", label: "Services" }
+      ],
+      lines: [{ yKey: "margin", label: "Margin" }],
+      visibleSeriesKeys: ["bar-services", "line-margin"]
+    });
+
+    expect(table.columns.map((column) => column.key)).toEqual([
+      "bar-services",
+      "line-margin"
+    ]);
+    expect(table.rows[0]?.values).toEqual({
+      "bar-services": 60,
+      "line-margin": 18
     });
   });
 
