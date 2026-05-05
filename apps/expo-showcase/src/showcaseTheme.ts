@@ -24,8 +24,11 @@ export const showcasePresetOptions: Array<{
   { id: "analytics", title: "Analytics" },
   { id: "fintech", title: "Fintech" },
   { id: "health", title: "Health" },
+  { id: "ios", title: "iOS" },
+  { id: "material", title: "Material" },
   { id: "minimal", title: "Minimal" },
   { id: "highContrast", title: "High Contrast" },
+  { id: "darkFintech", title: "Dark Fintech" },
   { id: "studio", title: "Studio" }
 ];
 

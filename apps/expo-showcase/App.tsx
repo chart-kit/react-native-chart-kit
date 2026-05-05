@@ -73,8 +73,11 @@ const getInitialPreset = (): ShowcasePresetId => {
   return preset === "analytics" ||
     preset === "fintech" ||
     preset === "health" ||
+    preset === "ios" ||
+    preset === "material" ||
     preset === "minimal" ||
     preset === "highContrast" ||
+    preset === "darkFintech" ||
     preset === "studio"
     ? preset
     : "default";

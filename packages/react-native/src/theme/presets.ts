@@ -84,8 +84,11 @@ export type CartesianChartPresetName =
   | "analytics"
   | "fintech"
   | "health"
+  | "ios"
+  | "material"
   | "minimal"
-  | "highContrast";
+  | "highContrast"
+  | "darkFintech";
 
 export type CartesianChartPresetValue =
   | CartesianChartPresetName
@@ -232,6 +235,50 @@ export const builtInCartesianChartPresets: Record<
       typography: defaultCartesianChartTypography
     }
   },
+  ios: {
+    light: {
+      background: "#f9f9fb",
+      plotBackground: "#ffffff",
+      grid: "#e5e5ea",
+      axis: "#d1d1d6",
+      text: "#1c1c1e",
+      mutedText: "#6e6e73",
+      series: ["#007aff", "#34c759", "#ff9500", "#ff2d55"],
+      typography: defaultCartesianChartTypography
+    },
+    dark: {
+      background: "#000000",
+      plotBackground: "#1c1c1e",
+      grid: "#38383a",
+      axis: "#48484a",
+      text: "#f5f5f7",
+      mutedText: "#aeaeb2",
+      series: ["#0a84ff", "#30d158", "#ff9f0a", "#ff375f"],
+      typography: defaultCartesianChartTypography
+    }
+  },
+  material: {
+    light: {
+      background: "#fffbfe",
+      plotBackground: "#ffffff",
+      grid: "#e7e0ec",
+      axis: "#cac4d0",
+      text: "#1d1b20",
+      mutedText: "#625b71",
+      series: ["#6750a4", "#006a6a", "#b3261e", "#7d5260"],
+      typography: defaultCartesianChartTypography
+    },
+    dark: {
+      background: "#141218",
+      plotBackground: "#1d1b20",
+      grid: "#49454f",
+      axis: "#5d5668",
+      text: "#e6e0e9",
+      mutedText: "#cac4d0",
+      series: ["#d0bcff", "#4fd8d8", "#ffb4ab", "#efb8c8"],
+      typography: defaultCartesianChartTypography
+    }
+  },
   minimal: {
     light: {
       background: "#ffffff",
@@ -281,7 +328,37 @@ export const builtInCartesianChartPresets: Record<
         legendLabelSize: 12
       }
     }
+  },
+  darkFintech: {
+    light: {
+      background: "#f6f8fb",
+      plotBackground: "#ffffff",
+      grid: "#d8e0eb",
+      axis: "#c7d2df",
+      text: "#0b1220",
+      mutedText: "#53657a",
+      series: ["#0f766e", "#2563eb", "#9333ea", "#ea580c"],
+      typography: defaultCartesianChartTypography
+    },
+    dark: {
+      background: "#020617",
+      plotBackground: "#07111f",
+      grid: "#1e293b",
+      axis: "#334155",
+      text: "#e2e8f0",
+      mutedText: "#94a3b8",
+      series: ["#22d3ee", "#34d399", "#f59e0b", "#f472b6"],
+      typography: defaultCartesianChartTypography
+    }
   }
+};
+
+const builtInCartesianChartPresetAliases: Record<
+  string,
+  CartesianChartPresetName
+> = {
+  "dark-fintech": "darkFintech",
+  "high-contrast": "highContrast"
 };
 
 export const createChartPreset = (
@@ -303,7 +380,9 @@ const getPresetTheme = ({
 }) => {
   const presetInput =
     typeof preset === "string"
-      ? (registry[preset] ?? builtInCartesianChartPresets.default)
+      ? (registry[preset] ??
+        registry[builtInCartesianChartPresetAliases[preset] ?? preset] ??
+        builtInCartesianChartPresets.default)
       : preset;
 
   if (!presetInput) {

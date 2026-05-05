@@ -17,7 +17,7 @@ test.describe("Expo showcase chart interactions", () => {
     await expect(page.getByText("Chart pages")).toBeVisible();
     await expect(page.getByText("Appearance")).toBeVisible();
     await expect(page.getByText("Theme preset")).toBeVisible();
-    await page.getByRole("button", { name: "Dark" }).click();
+    await page.getByRole("button", { name: "Dark", exact: true }).click();
     await expect(page).toHaveURL(/theme=dark/);
 
     await page.getByRole("button", { name: "Open chart page menu" }).click();

@@ -38,6 +38,52 @@ describe("Cartesian chart theme presets", () => {
       },
       series: ["#059669", "#e11d48", "#0ea5e9", "#84cc16"]
     });
+
+    expect(
+      resolveCartesianChartThemeConfig({
+        mode: "light",
+        preset: "ios"
+      })
+    ).toMatchObject({
+      background: "#f9f9fb",
+      axis: "#d1d1d6",
+      series: ["#007aff", "#34c759", "#ff9500", "#ff2d55"]
+    });
+
+    expect(
+      resolveCartesianChartThemeConfig({
+        mode: "dark",
+        preset: "material"
+      })
+    ).toMatchObject({
+      background: "#141218",
+      axis: "#5d5668",
+      series: ["#d0bcff", "#4fd8d8", "#ffb4ab", "#efb8c8"]
+    });
+  });
+
+  it("resolves spec-style built-in preset aliases", () => {
+    expect(
+      resolveCartesianChartThemeConfig({
+        mode: "dark",
+        preset: "dark-fintech"
+      })
+    ).toMatchObject({
+      background: "#020617",
+      plotBackground: "#07111f",
+      series: ["#22d3ee", "#34d399", "#f59e0b", "#f472b6"]
+    });
+
+    expect(
+      resolveCartesianChartThemeConfig({
+        mode: "light",
+        preset: "high-contrast"
+      })
+    ).toMatchObject({
+      background: "#ffffff",
+      grid: "#111827",
+      text: "#000000"
+    });
   });
 
   it("supports provider-registered custom preset names", () => {
