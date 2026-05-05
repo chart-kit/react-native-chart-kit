@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 
-import { SvgCircle, SvgGroup, SvgRect, SvgText } from "@chart-kit/svg-renderer";
-
 import { getFontFamilyProps } from "../line/text";
 import {
   interpolateLineChartTooltipPosition,
   lineChartTooltipLineHeight
 } from "../line/tooltip";
-import type { CombinedChartTooltipRenderProps } from "./types";
+import type {
+  CombinedChartRenderer,
+  CombinedChartTooltipRenderProps
+} from "./types";
 
 const tooltipPositionThreshold = 0.5;
 
@@ -114,24 +115,32 @@ export const useAnimatedCombinedChartTooltipModel = <TData,>(
   };
 };
 
-export const renderDefaultCombinedChartTooltip = <TData,>({
-  config,
-  height,
-  series,
-  width,
-  x,
-  xLabel,
-  y
-}: CombinedChartTooltipRenderProps<TData>) => {
+export const renderDefaultCombinedChartTooltip = <TData,>(
+  {
+    config,
+    height,
+    series,
+    width,
+    x,
+    xLabel,
+    y
+  }: CombinedChartTooltipRenderProps<TData>,
+  renderer: CombinedChartRenderer
+) => {
+  if (renderer.capabilities?.text === false) {
+    return null;
+  }
+
   const contentX = x + config.padding;
   const labelY = y + config.padding + config.labelFontSize;
   const firstItemY = labelY + lineChartTooltipLineHeight;
   const hasShadow = config.shadowOpacity > 0;
+  const { Circle, Group, Rect, Text } = renderer;
 
   return (
-    <SvgGroup>
+    <Group>
       {hasShadow ? (
-        <SvgRect
+        <Rect
           fill={config.shadowColor}
           height={height}
           opacity={config.shadowOpacity}
@@ -141,7 +150,7 @@ export const renderDefaultCombinedChartTooltip = <TData,>({
           y={y + config.shadowOffsetY}
         />
       ) : null}
-      <SvgRect
+      <Rect
         fill={config.backgroundColor}
         height={height}
         rx={config.borderRadius}
@@ -152,39 +161,42 @@ export const renderDefaultCombinedChartTooltip = <TData,>({
         x={x}
         y={y}
       />
-      <SvgText
+      <Text
         fill={config.labelColor}
         fontSize={config.labelFontSize}
         fontWeight="600"
+        text={xLabel}
         x={contentX}
         y={labelY}
         {...getFontFamilyProps(config.fontFamily)}
       >
         {xLabel}
-      </SvgText>
+      </Text>
       {series.map((item, index) => {
         const itemY = firstItemY + index * lineChartTooltipLineHeight;
+        const valueText = `${item.label}: ${item.formattedValue}`;
 
         return (
-          <SvgGroup key={`combined-tooltip-${item.key}`}>
-            <SvgCircle
+          <Group key={`combined-tooltip-${item.key}`}>
+            <Circle
               cx={contentX + 3}
               cy={itemY - config.fontSize * 0.32}
               fill={item.color}
               r={3}
             />
-            <SvgText
+            <Text
               fill={config.textColor}
               fontSize={config.fontSize}
+              text={valueText}
               x={contentX + 12}
               y={itemY}
               {...getFontFamilyProps(config.fontFamily)}
             >
-              {`${item.label}: ${item.formattedValue}`}
-            </SvgText>
-          </SvgGroup>
+              {valueText}
+            </Text>
+          </Group>
         );
       })}
-    </SvgGroup>
+    </Group>
   );
 };

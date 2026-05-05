@@ -66,6 +66,7 @@ export type {
   CombinedChartInteractionMode,
   CombinedChartLineSeries,
   CombinedChartProps,
+  CombinedChartRenderer,
   CombinedChartSelectEvent,
   CombinedChartTooltipConfig,
   CombinedChartTooltipRenderProps

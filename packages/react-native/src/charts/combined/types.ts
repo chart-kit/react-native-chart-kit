@@ -20,9 +20,11 @@ import type {
   LineChartTooltipRenderProps,
   LineChartTooltipSeriesItem
 } from "../line/tooltip";
+import type { LineChartRenderer } from "../line/types";
 
 export type CombinedChartAxisId = "left" | "right";
 export type CombinedChartBarMode = "grouped" | "stacked" | "stacked100";
+export type CombinedChartRenderer = LineChartRenderer;
 
 export type CombinedChartBarSeries<TData extends Record<string, unknown>> = {
   yKey: keyof TData & string;
@@ -128,6 +130,7 @@ export type CombinedChartProps<TData extends Record<string, unknown>> = {
   defaultSelectedIndex?: number;
   tooltip?: boolean | CombinedChartTooltipConfig;
   renderTooltip?: (props: CombinedChartTooltipRenderProps<TData>) => ReactNode;
+  renderer?: CombinedChartRenderer;
   formatXLabel?: (value: ChartXValue, index: number) => string;
   formatLeftYLabel?: (value: number) => string;
   formatRightYLabel?: (value: number) => string;

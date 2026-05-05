@@ -1,19 +1,11 @@
 import { useCallback, useId, useMemo, useState } from "react";
+import type { ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 import type { GestureResponderEvent, ViewProps } from "react-native";
 
-import {
-  SvgCircle,
-  SvgLayer,
-  SvgLine,
-  SvgPath,
-  SvgRect,
-  SvgSurface,
-  SvgText
-} from "@chart-kit/svg-renderer";
-
 import { useChartKitTheme } from "../../theme";
 import { useScopedChartSelection } from "../../selection/ChartSelectionProvider";
+import { getLineChartRenderer as getCombinedChartRenderer } from "../line/renderer";
 import { getLineChartTooltipConfig } from "../line/options";
 import { getLineChartTooltipModel } from "../line/tooltip";
 import { getFontFamilyProps } from "../line/text";
@@ -55,6 +47,13 @@ export {
   getNearestCombinedChartInteractionIndex,
   getSelectedCombinedSeries
 } from "./interaction";
+
+const RendererLayer = ({
+  children
+}: {
+  children?: ReactNode;
+  name?: string;
+}) => <>{children}</>;
 
 export const CombinedChart = <TData extends Record<string, unknown>>(
   props: CombinedChartProps<TData>
@@ -131,6 +130,15 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
     yLabels
   } = model;
   const fontProps = getFontFamilyProps(resolvedTheme.typography.fontFamily);
+  const renderer = getCombinedChartRenderer(props.renderer);
+  const Circle = renderer.Circle;
+  const Layer = renderer.Layer ?? RendererLayer;
+  const Line = renderer.Line;
+  const Path = renderer.Path;
+  const Rect = renderer.Rect;
+  const Surface = renderer.Surface;
+  const SvgText = renderer.Text;
+  const canRenderText = renderer.capabilities?.text !== false;
   const barRadius = Math.max(0, props.barRadius ?? 5);
   const selectedPoint = interactionPoints.find(
     (point) => point.dataIndex === selectedIndex
@@ -269,9 +277,9 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
       testID={props.testID}
       {...responderProps}
     >
-      <SvgSurface width={props.width} height={props.height}>
-        <SvgLayer name="background">
-          <SvgRect
+      <Surface width={props.width} height={props.height}>
+        <Layer name="background">
+          <Rect
             fill={resolvedTheme.background}
             height={props.height}
             rx={8}
@@ -279,7 +287,7 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
             x={0}
             y={0}
           />
-          <SvgRect
+          <Rect
             fill={resolvedTheme.plotBackground}
             height={boxes.plot.height}
             rx={6}
@@ -287,8 +295,8 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
             x={boxes.plot.x}
             y={boxes.plot.y}
           />
-        </SvgLayer>
-        <SvgLayer name="grid">
+        </Layer>
+        <Layer name="grid">
           {showHorizontalGridLines
             ? leftTicks.map((tick) => {
                 const label = yLabels.find(
@@ -296,7 +304,7 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
                 );
 
                 return label ? (
-                  <SvgLine
+                  <Line
                     key={`grid-y-${tick}`}
                     stroke={resolvedTheme.grid}
                     strokeOpacity={0.72}
@@ -313,13 +321,13 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
                 ) : null;
               })
             : null}
-        </SvgLayer>
-        <SvgLayer name="data">
+        </Layer>
+        <Layer name="data">
           {bars.map((bar) => {
             const radius = Math.min(barRadius, bar.width / 2, bar.height / 2);
 
             return (
-              <SvgRect
+              <Rect
                 key={bar.key}
                 fill={bar.color}
                 height={bar.height}
@@ -333,10 +341,10 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
               />
             );
           })}
-        </SvgLayer>
-        <SvgLayer name="overlays">
+        </Layer>
+        <Layer name="overlays">
           {lines.map((line) => (
-            <SvgPath
+            <Path
               key={line.key}
               d={line.geometry.path}
               fill="none"
@@ -349,14 +357,15 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
                 : {})}
             />
           ))}
-        </SvgLayer>
-        <SvgLayer name="axes">
-          {showYAxisLabels
+        </Layer>
+        <Layer name="axes">
+          {showYAxisLabels && canRenderText
             ? yLabels.map((label) => (
                 <SvgText
                   key={`label-y-${label.key}`}
                   fill={resolvedTheme.mutedText}
                   fontSize={resolvedTheme.typography.axisLabelSize}
+                  text={label.text}
                   textAnchor={label.side === "left" ? "end" : "start"}
                   x={label.x}
                   y={label.y}
@@ -366,12 +375,13 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
                 </SvgText>
               ))
             : null}
-          {showXAxisLabels
+          {showXAxisLabels && canRenderText
             ? xLabels.map((label) => (
                 <SvgText
                   key={`label-x-${label.index}`}
                   fill={resolvedTheme.mutedText}
                   fontSize={resolvedTheme.typography.axisLabelSize}
+                  text={label.text}
                   textAnchor="middle"
                   x={label.x}
                   y={label.y}
@@ -383,7 +393,7 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
             : null}
           {legendItems.map((item) =>
             item.kind === "line" ? (
-              <SvgLine
+              <Line
                 key={`legend-marker-${item.key}`}
                 opacity={item.active ? 1 : 0.36}
                 stroke={item.color}
@@ -397,7 +407,7 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
                   : {})}
               />
             ) : (
-              <SvgRect
+              <Rect
                 key={`legend-marker-${item.key}`}
                 fill={item.color}
                 height={8}
@@ -409,24 +419,27 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
               />
             )
           )}
-          {legendItems.map((item) => (
-            <SvgText
-              key={`legend-label-${item.key}`}
-              fill={resolvedTheme.mutedText}
-              fontSize={resolvedTheme.typography.legendLabelSize}
-              opacity={item.active ? 1 : 0.45}
-              textAnchor="start"
-              x={item.labelX}
-              y={item.labelY}
-              {...fontProps}
-            >
-              {item.label}
-            </SvgText>
-          ))}
-        </SvgLayer>
-        <SvgLayer name="interaction">
+          {canRenderText
+            ? legendItems.map((item) => (
+                <SvgText
+                  key={`legend-label-${item.key}`}
+                  fill={resolvedTheme.mutedText}
+                  fontSize={resolvedTheme.typography.legendLabelSize}
+                  opacity={item.active ? 1 : 0.45}
+                  text={item.label}
+                  textAnchor="start"
+                  x={item.labelX}
+                  y={item.labelY}
+                  {...fontProps}
+                >
+                  {item.label}
+                </SvgText>
+              ))
+            : null}
+        </Layer>
+        <Layer name="interaction">
           {selectedPoint && selectedSeries.length > 0 ? (
-            <SvgLine
+            <Line
               key="combined-selection-line"
               stroke={resolvedTheme.axis}
               strokeOpacity={0.72}
@@ -439,7 +452,7 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
           ) : null}
           {selectedSeries.map((item) =>
             item.point.kind === "line" ? (
-              <SvgCircle
+              <Circle
                 key={`combined-selection-dot-${item.key}`}
                 cx={item.point.x}
                 cy={item.point.y}
@@ -453,10 +466,10 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
           {animatedTooltip
             ? props.renderTooltip
               ? props.renderTooltip(animatedTooltip)
-              : renderDefaultCombinedChartTooltip(animatedTooltip)
+              : renderDefaultCombinedChartTooltip(animatedTooltip, renderer)
             : null}
-        </SvgLayer>
-      </SvgSurface>
+        </Layer>
+      </Surface>
     </View>
   );
 };

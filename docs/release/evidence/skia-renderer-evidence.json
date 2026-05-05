@@ -20,7 +20,7 @@
         "packages/skia-renderer/test/skia-renderer.test.ts",
         "packages/react-native/test/line-renderer.test.ts"
       ],
-      "notes": "Local primitive tests plus LineChart, BarChart, PieChart, ProgressChart, and ContributionGraph renderer contract tests run through npm run skia:parity."
+      "notes": "Local primitive tests plus LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, and CombinedChart renderer contract tests run through npm run skia:parity."
     }
   ],
   "coveredSurfaces": [
@@ -52,6 +52,10 @@
     "ProgressChart SVG text labels",
     "ContributionGraph and CalendarHeatmap cells",
     "ContributionGraph and CalendarHeatmap SVG text labels",
+    "CombinedChart bars and lines",
+    "CombinedChart axes and legend",
+    "CombinedChart selection overlay",
+    "CombinedChart default tooltip",
     "debug-layout surfaces"
   ],
   "missingEvidence": [
@@ -59,6 +63,6 @@
     "native renderer parity coverage",
     "sticky-axis font configuration evidence",
     "native Skia benchmark comparison",
-    "remaining Pro-preview chart integration for CombinedChart and CandlestickChart"
+    "remaining Pro-preview chart integration for CandlestickChart"
   ]
 }

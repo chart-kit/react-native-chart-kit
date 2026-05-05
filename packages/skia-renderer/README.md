@@ -20,6 +20,7 @@ Status:
 - `BarChart` can accept the injected renderer through its experimental `renderer` prop for its chart body, sticky Y-axis, and default tooltip overlay
 - `PieChart` and `DonutChart` can accept the injected renderer through their experimental `renderer` prop for slices, connector lines, and SVG text labels
 - `ProgressChart`, `ProgressRing`, `ContributionGraph`, and `CalendarHeatmap` can accept the injected renderer through their experimental `renderer` prop for their chart primitives and SVG text labels
+- `CombinedChart` can accept the injected renderer through its experimental `renderer` prop for its bars, lines, axes, legend, selection overlay, and default tooltip
 - sticky-axis labels require a Skia font through `createSkiaRenderer({ skia, font })`
 - text primitives support measured `textAnchor` alignment when the supplied Skia font exposes `measureText`
 - path-local area gradients are used when `skia.LinearGradient` and `skia.vec` are available; SVG-style gradient defs remain disabled for Skia
@@ -30,5 +31,6 @@ Status:
 - local PieChart renderer contract coverage lives in `packages/react-native/test/pie-renderer.test.ts`
 - local ProgressChart renderer contract coverage lives in `packages/react-native/test/progress-renderer.test.ts`
 - local ContributionGraph renderer contract coverage lives in `packages/react-native/test/contribution-renderer.test.ts`
-- `npm run skia:parity` runs the local Skia primitive tests plus LineChart, BarChart, PieChart, ProgressChart, and ContributionGraph renderer contract tests together
+- local CombinedChart renderer contract coverage lives in `packages/react-native/test/combined-renderer.test.ts`
+- `npm run skia:parity` runs the local Skia primitive tests plus LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, and CombinedChart renderer contract tests together
 - native install verification and native renderer parity coverage are still pending
