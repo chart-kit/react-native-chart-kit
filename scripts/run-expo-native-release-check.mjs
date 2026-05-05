@@ -94,16 +94,83 @@ const assertCommandAvailable = ({ args, command, hint }) => {
   }
 };
 
+const candidateJavaHomes = [
+  process.env.JAVA_HOME,
+  "/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home",
+  "/usr/local/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home",
+  "/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home",
+  "/usr/local/opt/openjdk/libexec/openjdk.jdk/Contents/Home"
+].filter(Boolean);
+
+const withPathPrefix = (directory) =>
+  [directory, process.env.PATH].filter(Boolean).join(path.delimiter);
+
+const assertJavaAvailable = () => {
+  const pathResult = spawnSync("java", ["-version"], {
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "pipe"]
+  });
+
+  if (pathResult.status === 0) {
+    return;
+  }
+
+  for (const javaHome of candidateJavaHomes) {
+    const javaCommand = path.join(javaHome, "bin", "java");
+
+    if (!existsSync(javaCommand)) {
+      continue;
+    }
+
+    const homeResult = spawnSync(javaCommand, ["-version"], {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"]
+    });
+
+    if (homeResult.status === 0) {
+      process.env.JAVA_HOME = javaHome;
+      process.env.PATH = withPathPrefix(path.dirname(javaCommand));
+      return;
+    }
+  }
+
+  const detail = (pathResult.stderr || pathResult.stdout || "").trim();
+  const suffix = detail ? `\n\n${detail}` : "";
+
+  throw new Error(
+    `Android release checks require a Java runtime. Install JDK 17 or run the Native Release Checks GitHub workflow.${suffix}`
+  );
+};
+
+const candidateAndroidSdkPaths = [
+  process.env.ANDROID_HOME,
+  process.env.ANDROID_SDK_ROOT,
+  path.join(process.env.HOME ?? "", "Library", "Android", "sdk")
+].filter(Boolean);
+
+const assertAndroidSdkAvailable = () => {
+  const sdkPath = candidateAndroidSdkPaths.find((candidate) =>
+    existsSync(candidate)
+  );
+
+  if (sdkPath) {
+    process.env.ANDROID_HOME = process.env.ANDROID_HOME ?? sdkPath;
+    process.env.ANDROID_SDK_ROOT = process.env.ANDROID_SDK_ROOT ?? sdkPath;
+    return;
+  }
+
+  throw new Error(
+    "Android release checks require an Android SDK. Set ANDROID_HOME or ANDROID_SDK_ROOT, install the Android SDK, or run the Native Release Checks GitHub workflow."
+  );
+};
+
 const assertAndroidToolchain = ({ dryRun }) => {
   if (dryRun) {
     return;
   }
 
-  assertCommandAvailable({
-    args: ["-version"],
-    command: "java",
-    hint: "Android release checks require a Java runtime. Install JDK 17 or run the Native Release Checks GitHub workflow."
-  });
+  assertJavaAvailable();
+  assertAndroidSdkAvailable();
 };
 
 const assertIosToolchain = ({ dryRun }) => {

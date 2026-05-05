@@ -17,7 +17,7 @@ Recommendation: keep iterating before npm beta.
 Rationale:
 
 - verification is strong for web showcase and TypeScript surfaces
-- native release-build checks are configured and iOS passed locally, but Android still needs a successful Java-backed build and no green native workflow artifact is recorded yet
+- native release-build checks are configured and iOS passed locally, but Android still needs a successful SDK-backed release build and no green native workflow artifact is recorded yet
 - the [H4 Pro scope decision packet](h4-pro-scope.md) is ready for owner review, but not approved
 
 Acceptable owner override: publish a limited preview beta only if the beta is clearly labeled as API-preview and not production-ready.

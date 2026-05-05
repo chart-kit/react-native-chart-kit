@@ -10,7 +10,7 @@ These results document local native release-build attempts for the Expo showcase
 | -------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | `npm run native:release:dry-run` | Passed. Printed Expo prebuild, Android Gradle release, CocoaPods, and iOS Xcode release-build commands. |
 | `npm run native:release:ios`     | Passed locally outside the sandbox after CocoaPods downloaded native dependencies.                      |
-| `npm run native:release:android` | Blocked locally. The preflight now stops before prebuild because this machine has no Java runtime.      |
+| `npm run native:release:android` | Blocked locally. OpenJDK 17 is available, but this machine has no configured Android SDK.               |
 
 ## iOS Evidence
 
@@ -38,16 +38,18 @@ npm run native:release:android
 Observed steps before the preflight was added:
 
 - `expo prebuild --platform android --clean --no-install` completed.
-- `android/gradlew assembleRelease` did not start a Gradle build because Java is not installed in the local environment.
+- `android/gradlew assembleRelease` initially did not start a Gradle build because Java was not installed in the local environment.
 
 Current local behavior:
 
-- the native release script fails before prebuild if Java is missing
+- the native release script resolves a keg-only Homebrew OpenJDK 17 install when available
+- the native release script fails before prebuild if Java or the Android SDK is missing
+- after OpenJDK 17 was installed locally, Gradle reached project configuration and failed because no Android SDK path was configured
 
 Local blocker:
 
 ```text
-Unable to locate a Java Runtime.
+SDK location not found. Define a valid SDK location with an ANDROID_HOME environment variable or by setting the sdk.dir path in local.properties.
 ```
 
-The GitHub `Native Release Checks` workflow configures Java before running the Android release build, so the next evidence step is a green workflow run.
+The GitHub `Native Release Checks` workflow configures Java and runs on an Android-capable hosted runner, so the next evidence step is either a local Android SDK install or a green workflow run.

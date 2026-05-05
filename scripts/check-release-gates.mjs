@@ -1,4 +1,5 @@
 import { access, readFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import path from "node:path";
 import process from "node:process";
@@ -82,9 +83,9 @@ const releaseBlockers = [
   {
     id: "native-android-release",
     file: "docs/release/known-issues.md",
-    pattern:
-      /Android cannot run locally because the machine has no Java runtime/,
-    message: "Android release-build evidence is still blocked locally by Java."
+    pattern: /Android .*blocked locally by missing Android SDK/i,
+    message:
+      "Android release-build evidence is still blocked locally by Android SDK configuration."
   },
   {
     id: "native-workflow-evidence",
@@ -160,16 +161,75 @@ for (const scriptName of requiredScripts) {
   });
 }
 
-const javaResult = spawnSync("java", ["-version"], {
-  encoding: "utf8"
-});
+const candidateJavaHomes = [
+  process.env.JAVA_HOME,
+  "/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home",
+  "/usr/local/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home",
+  "/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home",
+  "/usr/local/opt/openjdk/libexec/openjdk.jdk/Contents/Home"
+].filter(Boolean);
+
+const resolveJavaStatus = () => {
+  const javaResult = spawnSync("java", ["-version"], {
+    encoding: "utf8"
+  });
+
+  if (javaResult.status === 0) {
+    return { detail: "", status: "pass" };
+  }
+
+  for (const javaHome of candidateJavaHomes) {
+    const javaCommand = path.join(javaHome, "bin", "java");
+
+    if (!existsSync(javaCommand)) {
+      continue;
+    }
+
+    const homeResult = spawnSync(javaCommand, ["-version"], {
+      encoding: "utf8"
+    });
+
+    if (homeResult.status === 0) {
+      return {
+        detail: `Found JDK at ${javaHome}; export JAVA_HOME or let the native release script resolve it.`,
+        status: "pass"
+      };
+    }
+  }
+
+  return {
+    detail: (javaResult.stderr ?? "").trim(),
+    status: "block"
+  };
+};
+
+const javaStatus = resolveJavaStatus();
 
 addCheck({
-  detail: javaResult.status === 0 ? "" : (javaResult.stderr ?? "").trim(),
-  evidence: "local java -version",
+  detail: javaStatus.detail,
+  evidence: "local java -version, JAVA_HOME, or Homebrew OpenJDK",
   id: "toolchain:java",
   message: "Java runtime is available for local Android release checks",
-  status: javaResult.status === 0 ? "pass" : "block"
+  status: javaStatus.status
+});
+
+const candidateAndroidSdkPaths = [
+  process.env.ANDROID_HOME,
+  process.env.ANDROID_SDK_ROOT,
+  path.join(process.env.HOME ?? "", "Library", "Android", "sdk")
+].filter(Boolean);
+const androidSdkPath = candidateAndroidSdkPaths.find((candidate) =>
+  existsSync(candidate)
+);
+
+addCheck({
+  detail: androidSdkPath
+    ? ""
+    : "Set ANDROID_HOME or ANDROID_SDK_ROOT to a valid Android SDK path.",
+  evidence: "ANDROID_HOME, ANDROID_SDK_ROOT, or ~/Library/Android/sdk",
+  id: "toolchain:android-sdk",
+  message: "Android SDK is available for local Android release checks",
+  status: androidSdkPath ? "pass" : "block"
 });
 
 for (const blocker of releaseBlockers) {
