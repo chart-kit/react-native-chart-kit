@@ -26,7 +26,7 @@ Impact: CI can validate web showcase interactions, but cannot yet validate nativ
 
 Some advanced line-chart experiences, such as animation preview and range-selector/zoom workflows, are visible in the showcase before the final free-vs-Pro boundary is locked.
 
-The [H4 Pro scope decision packet](h4-pro-scope.md) proposes the package boundary and recommended feature split, but owner approval is still pending.
+The [H4 Pro scope decision packet](h4-pro-scope.md) proposes the package boundary and recommended feature split, and `packages/pro` now provides a preview feature-registry boundary. Owner approval is still pending before any license checks, runtime activation, or paid implementations are added.
 
 Impact: H4/H5 must decide which features stay free, which move to Pro, and how to avoid making the free library feel intentionally limited.
 
