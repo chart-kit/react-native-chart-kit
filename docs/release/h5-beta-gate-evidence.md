@@ -22,26 +22,30 @@ Commands refreshed on May 5, 2026. The `test:e2e` row was added after promoting 
 | --------------------- | ----------------------- | --------------------------------------------------------------------------------------------------- |
 | Lint                  | `npm run lint`          | Passed                                                                                              |
 | TypeScript            | `npm run typecheck`     | Passed for root, core, SVG renderer, React Native package, and Expo showcase                        |
-| Unit and compat tests | `npm run test`          | Passed: 33 unit files, 196 unit tests, 1 compat file, 5 compat tests                                |
-| Web e2e interactions  | `npm run test:e2e`      | Passed: Playwright showcase interaction flows                                                       |
-| Visual regression     | `npm run test:visual`   | Passed: 87 Playwright tests                                                                         |
-| Benchmark             | `npm run benchmark`     | Passed: core line and bar geometry scenarios                                                        |
+| Unit and compat tests | `npm run test`          | Passed: 36 unit files, 211 unit tests, 1 compat file, 5 compat tests                                |
+| Web e2e interactions  | `npm run test:e2e`      | Passed: 21 Playwright showcase interaction flows                                                    |
+| Visual regression     | `npm run test:visual`   | Passed: 93 Playwright tests                                                                         |
+| Benchmark             | `npm run benchmark`     | Passed: core geometry scenarios plus web showcase scrub timing                                      |
 | Public surface audit  | `npm run surface:check` | Passed: `react-native-chart-kit` compatibility exports and `@chart-kit/react-native` modern exports |
-| Docs verification     | `npm run docs:build`    | Passed: 49 markdown files and 98 JS/TS code fences                                                  |
+| Docs verification     | `npm run docs:build`    | Passed: 49 markdown files and 101 JS/TS code fences                                                 |
 | Package build         | `npm run build`         | Passed                                                                                              |
 
 Latest benchmark highlights from `npm run benchmark`:
 
-| Scenario                      |  Median |     p95 |
-| ----------------------------- | ------: | ------: |
-| `line-100`                    | 0.06 ms | 0.22 ms |
-| `line-1000`                   | 0.43 ms | 1.55 ms |
-| `line-10000-decimated`        | 1.56 ms | 2.67 ms |
-| `multi-line-5x1000-decimated` | 1.52 ms | 2.36 ms |
-| `bar-500-scrollable-grouped`  | 0.19 ms | 0.36 ms |
-| `bar-500-scrollable-stacked`  | 0.22 ms | 0.59 ms |
+| Scenario                           |  Median |     p95 |
+| ---------------------------------- | ------: | ------: |
+| `line-100`                         | 0.06 ms | 0.17 ms |
+| `line-1000`                        | 0.42 ms | 0.75 ms |
+| `line-10000-decimated`             | 1.43 ms | 3.11 ms |
+| `multi-line-5x1000-decimated`      | 1.46 ms | 1.83 ms |
+| `line-10000-window-2000`           | 0.71 ms | 1.16 ms |
+| `range-selector-2x10000-overview`  | 2.56 ms | 3.31 ms |
+| `bar-500-scrollable-grouped`       | 0.17 ms | 0.31 ms |
+| `bar-500-scrollable-stacked`       | 0.25 ms | 0.33 ms |
+| `candlestick-1000`                 | 0.23 ms | 0.32 ms |
+| `line-scrub-v2-scrub`, frame times | 8.20 ms | 9.60 ms |
 
-Benchmark scope is core geometry only. It does not measure native render time, gesture FPS, or release-build memory.
+Benchmark scope covers core geometry plus one web showcase scrub timing scenario. It does not measure native render time, native gesture FPS, or release-build memory.
 
 ## Prompt-To-Artifact Checklist
 
@@ -49,7 +53,7 @@ Benchmark scope is core geometry only. It does not measure native render time, g
 | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
 | Passing test suite     | `npm run test`; unit tests under `packages/core/test` and `packages/react-native/test`                                                                     | Covered for current unit and compatibility scope                                                  |
 | E2E command            | `npm run test:e2e`; `apps/expo-showcase/visual/chart-interaction.spec.ts`                                                                                  | Covered for web showcase interactions; not native runtime                                         |
-| Visual baseline        | `apps/expo-showcase/visual/__screenshots__`; `npm run test:visual`                                                                                         | Covered for 69 chart-story screenshots plus interaction tests                                     |
+| Visual baseline        | `apps/expo-showcase/visual/__screenshots__`; `npm run test:visual`                                                                                         | Covered for 72 chart-story screenshots plus 21 interaction tests                                  |
 | Example app            | `apps/expo-showcase`; `npm run example:expo`; `npm run example:ios`; `npm run example:android`; [Expo showcase README](../../apps/expo-showcase/README.md) | Available for manual phone, simulator, and emulator review; not automated native release coverage |
 | Migration guide        | [From v1](../migration/from-v1.md)                                                                                                                         | Covered                                                                                           |
 | Prop mapping           | [Prop mapping](../migration/prop-mapping.md)                                                                                                               | Covered for common props                                                                          |
@@ -75,7 +79,7 @@ Notable covered cases:
 - combined dual-axis, shared tooltip, legend toggles, negative values
 - pie/donut external labels, custom legend, active slice selection
 - progress and contribution theme inheritance
-- candlestick price-action preview
+- candlestick price-action preview, range selector, and scrollable long-history preview
 - legacy line, bar, and stacked-bar fixtures
 
 ## Known Gaps
