@@ -1,5 +1,6 @@
-import { useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
+import type { GestureResponderEvent, ViewProps } from "react-native";
 
 import {
   SvgLayer,
@@ -10,9 +11,24 @@ import {
 } from "@chart-kit/svg-renderer";
 
 import { useChartKitTheme } from "../../theme";
+import {
+  defaultFormatBarChartXLabel,
+  defaultFormatBarChartYLabel
+} from "../bar/modelUtils";
 import { getFontFamilyProps } from "../line/text";
 import { getCandlestickChartAccessibilitySummary } from "./accessibility";
+import {
+  buildCandlestickChartSelectEvent,
+  getCandlestickAtPoint,
+  getCandlestickChartInteractionConfig,
+  isCandlestickChartInteractionEnabled
+} from "./interaction";
 import { buildCandlestickChartModel } from "./model";
+import {
+  getCandlestickChartTooltipConfig,
+  getCandlestickChartTooltipModel
+} from "./tooltipModel";
+import { renderDefaultCandlestickTooltip } from "./tooltip";
 import type { CandlestickChartProps } from "./types";
 
 export type * from "./types";
@@ -30,6 +46,9 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
   props: CandlestickChartProps<TData>
 ) => {
   const chartKitTheme = useChartKitTheme();
+  const [gestureSelectedIndex, setGestureSelectedIndex] = useState<
+    number | undefined
+  >(props.defaultSelectedIndex);
   const model = useMemo(
     () => buildCandlestickChartModel({ ...props, chartKitTheme }),
     [chartKitTheme, props]
@@ -46,6 +65,91 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
     yTicks
   } = model;
   const fontProps = getFontFamilyProps(resolvedTheme.typography.fontFamily);
+  const formatXLabel = props.formatXLabel ?? defaultFormatBarChartXLabel;
+  const formatYLabel = props.formatYLabel ?? defaultFormatBarChartYLabel;
+  const interactionConfig = useMemo(
+    () => getCandlestickChartInteractionConfig(props.interaction),
+    [props.interaction]
+  );
+  const selectedIndex = props.selectedIndex ?? gestureSelectedIndex;
+  const selectedCandle = candles.find(
+    (candle) => candle.dataIndex === selectedIndex
+  );
+  const tooltipConfig = useMemo(
+    () =>
+      getCandlestickChartTooltipConfig({
+        themeTooltip: resolvedTheme.tooltip,
+        tooltip: props.tooltip
+      }),
+    [props.tooltip, resolvedTheme.tooltip]
+  );
+  const tooltipModel = useMemo(
+    () =>
+      getCandlestickChartTooltipModel({
+        boxes,
+        candle: selectedCandle,
+        config: tooltipConfig,
+        formatXLabel,
+        formatYLabel
+      }),
+    [boxes, formatXLabel, formatYLabel, selectedCandle, tooltipConfig]
+  );
+  const handleResponderRelease = useCallback(
+    (event: GestureResponderEvent) => {
+      event.preventDefault();
+
+      const { locationX, locationY } = event.nativeEvent;
+      const tappedCandle = getCandlestickAtPoint({
+        candles,
+        locationX,
+        locationY
+      });
+
+      if (!tappedCandle) {
+        if (
+          props.selectedIndex === undefined &&
+          interactionConfig.deselectOnOutsidePress
+        ) {
+          setGestureSelectedIndex(undefined);
+        }
+
+        return;
+      }
+
+      if (props.selectedIndex === undefined) {
+        setGestureSelectedIndex(tappedCandle.dataIndex);
+      }
+
+      const selectEvent = buildCandlestickChartSelectEvent({
+        candle: tappedCandle,
+        formatXLabel,
+        formatYLabel
+      });
+
+      if (selectEvent) {
+        interactionConfig.onSelect?.(selectEvent);
+      }
+    },
+    [
+      candles,
+      formatXLabel,
+      formatYLabel,
+      interactionConfig,
+      props.selectedIndex
+    ]
+  );
+  const responderProps: ViewProps = isCandlestickChartInteractionEnabled(
+    interactionConfig
+  )
+    ? {
+        onStartShouldSetResponder: () => true,
+        onResponderGrant: (event: GestureResponderEvent) => {
+          event.preventDefault();
+        },
+        onResponderRelease: handleResponderRelease,
+        onResponderTerminationRequest: () => true
+      }
+    : {};
   const accessibilityLabel =
     props.accessibilityLabel ??
     getCandlestickChartAccessibilitySummary({
@@ -64,6 +168,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
       accessible
       accessibilityLabel={accessibilityLabel}
       accessibilityRole="image"
+      collapsable={false}
       style={[
         styles.container,
         {
@@ -73,6 +178,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
         }
       ]}
       testID={props.testID}
+      {...responderProps}
     >
       <SvgSurface height={props.height} width={props.width}>
         <SvgLayer name="background">
@@ -147,6 +253,13 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
               width={candle.bodyWidth}
               x={candle.bodyX}
               y={candle.bodyY}
+              {...(selectedCandle?.dataIndex === candle.dataIndex
+                ? {
+                    stroke: resolvedTheme.text,
+                    strokeOpacity: 0.36,
+                    strokeWidth: 1.5
+                  }
+                : {})}
             />
           ))}
         </SvgLayer>
@@ -180,6 +293,60 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
                   {label.text}
                 </SvgText>
               ))
+            : null}
+        </SvgLayer>
+        <SvgLayer name="interaction">
+          {selectedCandle ? (
+            <>
+              <SvgLine
+                key="candlestick-selection-line"
+                stroke={resolvedTheme.axis}
+                strokeDasharray={[4, 4]}
+                strokeOpacity={0.42}
+                strokeWidth={1}
+                x1={selectedCandle.wickX}
+                x2={selectedCandle.wickX}
+                y1={boxes.plot.y}
+                y2={boxes.plot.y + boxes.plot.height}
+              />
+              <SvgRect
+                fill={selectedCandle.color}
+                height={20}
+                rx={5}
+                width={58}
+                x={boxes.plot.x + boxes.plot.width - 58}
+                y={Math.max(
+                  boxes.plot.y + 2,
+                  Math.min(
+                    boxes.plot.y + boxes.plot.height - 22,
+                    selectedCandle.closeY - 10
+                  )
+                )}
+              />
+              <SvgText
+                fill={resolvedTheme.background}
+                fontSize={resolvedTheme.typography.axisLabelSize}
+                fontWeight="600"
+                textAnchor="middle"
+                x={boxes.plot.x + boxes.plot.width - 29}
+                y={Math.max(
+                  boxes.plot.y + 16,
+                  Math.min(
+                    boxes.plot.y + boxes.plot.height - 8,
+                    selectedCandle.closeY + 4
+                  )
+                )}
+                {...fontProps}
+              >
+                {formatYLabel(selectedCandle.close)}
+              </SvgText>
+            </>
+          ) : null}
+          {tooltipModel
+            ? renderDefaultCandlestickTooltip({
+                ...tooltipModel,
+                config: tooltipConfig
+              })
             : null}
         </SvgLayer>
       </SvgSurface>

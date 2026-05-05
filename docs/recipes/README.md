@@ -121,7 +121,7 @@ Features used: stable date-to-cell mapping, month labels, weekday labels, color 
 
 ## OHLC Price Action
 
-Use this for the first financial-chart review surface. The current candlestick foundation does not yet include volume or crosshair range controls.
+Use this for the first financial-chart review surface. The current candlestick foundation includes tap inspection, but does not yet include volume or range controls.
 
 ```tsx
 <CandlestickChart
@@ -131,6 +131,8 @@ Use this for the first financial-chart review surface. The current candlestick f
   highKey="high"
   lowKey="low"
   closeKey="close"
+  interaction="tap"
+  tooltip={{ width: 154 }}
   yDomain={{ min: "dataMin", max: "dataMax", nice: true }}
   formatYLabel={(value) => `$${Math.round(value)}`}
   width={360}
@@ -138,4 +140,4 @@ Use this for the first financial-chart review surface. The current candlestick f
 />
 ```
 
-Features used: OHLC normalization, candle body geometry, wick geometry, up/down/flat theming, skipped invalid rows.
+Features used: OHLC normalization, candle body geometry, wick geometry, up/down/flat theming, skipped invalid rows, tap selection, OHLC tooltip, close-price badge.

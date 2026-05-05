@@ -14,9 +14,12 @@ const V2CandlestickPriceAction = ({ width }: NativeStoryProps) => (
       formatYLabel={formatPrice}
       height={278}
       highKey="high"
+      interaction="tap"
       lowKey="low"
       openKey="open"
+      defaultSelectedIndex={stockCandles.length - 2}
       testID="stock-candlestick-chart"
+      tooltip={{ width: 154 }}
       upColor="#16a34a"
       width={width}
       xKey="day"

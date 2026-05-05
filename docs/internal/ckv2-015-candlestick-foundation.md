@@ -10,13 +10,14 @@ Implemented in this slice:
 - up, down, and flat candle colors
 - Expo showcase price-action story
 - OHLC accessibility summary and data table helpers
+- tap selection events
+- theme-aware OHLC tooltip
+- vertical inspection line and close-price badge
 - unit coverage for candle body, wick, direction, and invalid-row handling
 
 Still pending for the broader financial module:
 
 - volume overlay
-- crosshair and price labels
 - range selector integration
 - scroll, pan, and pinch zoom
-- tooltip and selection events
 - Pro packaging and licensing decision

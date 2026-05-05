@@ -62,7 +62,8 @@ Recommendation: keep `CandlestickChart` in the showcase as Financial Preview, no
 Rationale:
 
 - OHLC body and wick geometry exist
-- volume overlay, market gaps, crosshair price labels, range selector integration, and financial accessibility summaries are not complete
+- tap inspection, an OHLC tooltip, and a close-price badge exist
+- volume overlay, market gaps, range selector integration, and advanced financial accessibility narratives are not complete
 - including it as a preview helps owner review Pro/financial direction without overpromising
 
 ## Recommended H5 Outcome

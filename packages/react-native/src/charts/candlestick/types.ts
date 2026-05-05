@@ -12,6 +12,10 @@ import type {
   ChartKitThemeMode,
   ResolvedCartesianChartTheme
 } from "../../theme";
+import type {
+  BarChartTooltipConfig,
+  ResolvedBarChartTooltipConfig
+} from "../bar/types";
 
 export type CandlestickChartPriceKeys<TData extends Record<string, unknown>> = {
   closeKey: keyof TData & string;
@@ -39,9 +43,44 @@ export type CandlestickChartProps<TData extends Record<string, unknown>> =
     yTickCount?: number;
     formatXLabel?: (value: ChartXValue, index: number) => string;
     formatYLabel?: (value: number) => string;
+    defaultSelectedIndex?: number;
+    interaction?: CandlestickChartInteraction<TData>;
+    selectedIndex?: number;
+    tooltip?: boolean | CandlestickChartTooltipConfig;
     accessibilityLabel?: string;
     testID?: string;
   };
+
+export type CandlestickChartInteractionMode = "none" | "tap";
+
+export type CandlestickChartInteraction<TData = unknown> =
+  | CandlestickChartInteractionMode
+  | {
+      deselectOnOutsidePress?: boolean;
+      mode?: CandlestickChartInteractionMode;
+      onSelect?: (event: CandlestickChartSelectEvent<TData>) => void;
+    };
+
+export type CandlestickChartSelectEvent<TData = unknown> = {
+  close: number;
+  dataIndex: number;
+  direction: ProjectedCandlestick<TData>["direction"];
+  formattedClose: string;
+  formattedHigh: string;
+  formattedLow: string;
+  formattedOpen: string;
+  high: number;
+  low: number;
+  open: number;
+  position: { x: number; y: number };
+  raw: TData;
+  x: ChartXValue;
+  xLabel: string;
+};
+
+export type CandlestickChartTooltipConfig = BarChartTooltipConfig;
+export type ResolvedCandlestickChartTooltipConfig =
+  ResolvedBarChartTooltipConfig;
 
 export type BuildCandlestickChartModelOptions<
   TData extends Record<string, unknown>
