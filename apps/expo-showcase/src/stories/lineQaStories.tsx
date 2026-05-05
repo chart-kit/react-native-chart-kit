@@ -230,6 +230,29 @@ const V2GridLines = ({ width }: NativeStoryProps) => (
   </ChartSection>
 );
 
+const V2DebugLayout = ({ width }: NativeStoryProps) => (
+  <ChartSection
+    title="Layout debug"
+    kicker="Plot, label, legend, tooltip boxes"
+  >
+    <LineChart
+      data={multiSeriesRevenue}
+      xKey="month"
+      width={width}
+      height={260}
+      curve="monotone"
+      defaultSelectedIndex={3}
+      debugLayout
+      legend={{ position: "bottom" }}
+      tooltip={{ shared: true }}
+      series={[
+        { yKey: "actual", label: "Actual", strokeWidth: 3 },
+        { yKey: "forecast", label: "Target", strokeWidth: 2 }
+      ]}
+    />
+  </ChartSection>
+);
+
 const V2HiddenLabels = ({ width }: NativeStoryProps) => (
   <ChartSection title="Spark trend" kicker="Hidden labels">
     <LineChart
@@ -278,6 +301,7 @@ export const lineQaStories: ShowcaseStory[] = [
     Component: V2StaggeredLabels
   },
   { id: "v2-grid-lines", title: "Grid Lines", Component: V2GridLines },
+  { id: "v2-debug-layout", title: "Debug Layout", Component: V2DebugLayout },
   { id: "v2-hidden-labels", title: "Hidden Labels", Component: V2HiddenLabels },
   { id: "v2-dark-mode", title: "Dark Mode", Component: V2DarkMode }
 ];

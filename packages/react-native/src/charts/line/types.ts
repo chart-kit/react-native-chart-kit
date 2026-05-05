@@ -4,6 +4,7 @@ import type {
   ChartBoxes,
   ChartViewportInitialIndex,
   ChartXValue,
+  LayoutDebugModel,
   LineCurve,
   NumericDomainInput,
   ProjectedLinePoint
@@ -428,6 +429,8 @@ export type LineChartProps<TData extends Record<string, unknown>> = {
   formatXLabel?: (value: ChartXValue, index: number) => string;
   formatYLabel?: (value: number) => string;
   id?: string;
+  debugLayout?: boolean;
+  onLayoutDebug?: (model: LayoutDebugModel) => void;
   accessibilityLabel?: string;
   testID?: string;
 };

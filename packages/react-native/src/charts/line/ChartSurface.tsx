@@ -12,6 +12,7 @@ import {
 } from "@chart-kit/svg-renderer";
 
 import { renderDefaultTooltip } from "./defaultTooltip";
+import { renderLineChartDebugLayout } from "./debugOverlay";
 import { renderConfiguredLegend } from "./legend";
 import { renderDefaultDot } from "./markers";
 import { getFontFamilyProps } from "./text";
@@ -21,6 +22,7 @@ import {
   LineChartLinePaths,
   LineChartThresholdClipDefs
 } from "./thresholdRendering";
+import { useLineChartDebugLayout } from "./useDebugLayout";
 import type { LineChartModel } from "./useChartModel";
 import type {
   LineChartDotRenderProps,
@@ -66,6 +68,14 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
     yScale,
     yTicks
   } = model;
+  const { debugLayout, onLayoutDebug } = props;
+  const debugLayoutModel = useLineChartDebugLayout({
+    enabled: Boolean(debugLayout || onLayoutDebug),
+    model,
+    onLayoutDebug,
+    tooltip: animatedTooltip,
+    yAxisLabels
+  });
 
   return (
     <View
@@ -363,6 +373,14 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
               : renderDefaultTooltip(animatedTooltip)
             : null}
         </SvgLayer>
+        {debugLayout && debugLayoutModel ? (
+          <SvgLayer name="debug">
+            {renderLineChartDebugLayout({
+              fontFamily: resolvedTheme.typography.fontFamily,
+              model: debugLayoutModel
+            })}
+          </SvgLayer>
+        ) : null}
       </SvgSurface>
     </View>
   );

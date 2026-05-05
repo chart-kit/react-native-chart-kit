@@ -18,7 +18,9 @@ Added:
 
 ## Design Choices
 
-The layout package deals only in plain rectangles, sizes, and decisions. It does not measure text directly and does not render debug overlays yet. The debug model is a plain rectangle collection that renderers can later draw however they need.
+The layout package deals only in plain rectangles, sizes, and decisions. It does not measure text directly. The debug model is a plain rectangle collection that renderers can draw however they need.
+
+The modern LineChart now exposes the first React Native debug overlay through `debugLayout` and `onLayoutDebug`, using the core rectangle model plus renderer-measured label, legend, and tooltip boxes.
 
 Text measurement stays a renderer/platform concern for now. Renderers can pass measured label and legend sizes into core layout.
 

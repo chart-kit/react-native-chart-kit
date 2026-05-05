@@ -255,6 +255,7 @@ export const showcaseModes: ShowcaseMode[] = [
           "v2-scrollable-dense",
           "v2-staggered-labels",
           "v2-grid-lines",
+          "v2-debug-layout",
           "v2-hidden-labels"
         ]
       },
@@ -304,6 +305,7 @@ export const showcaseModes: ShowcaseMode[] = [
           "v2-scrollable-dense",
           "v2-staggered-labels",
           "v2-null-gaps",
+          "v2-debug-layout",
           "v2-hidden-labels",
           "v2-dark-mode"
         ]

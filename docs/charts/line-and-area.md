@@ -323,6 +323,26 @@ Reference lines and bands are clipped to the plot bounds. Line labels default to
 
 Set `labelPlacement="above"` or `labelPlacement="below"` only when you need a fixed position.
 
+## Layout Debug
+
+Use `debugLayout` in development when a chart clips labels, legends, or tooltips. The overlay draws the outer bounds, plot bounds, visible label boxes, legend boxes, and tooltip box.
+
+```tsx
+<LineChart
+  data={data}
+  xKey="month"
+  yKey="revenue"
+  debugLayout
+  onLayoutDebug={(model) => {
+    console.log(model.rects);
+  }}
+  width={360}
+  height={240}
+/>
+```
+
+`onLayoutDebug` receives the same rectangle model that the overlay renders, so bug reports can include structured layout evidence alongside screenshots.
+
 ## Labels and Axes
 
 Useful label props:

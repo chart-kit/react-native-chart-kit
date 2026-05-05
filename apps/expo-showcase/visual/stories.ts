@@ -27,6 +27,7 @@ export const chartStories = [
   "v2-six-labels",
   "v2-staggered-labels",
   "v2-grid-lines",
+  "v2-debug-layout",
   "v2-hidden-labels",
   "v2-dark-mode",
   "v2-bar-grouped",

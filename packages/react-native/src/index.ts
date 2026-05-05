@@ -233,3 +233,4 @@ export {
   getLineChartAccessibilitySummary,
   getLineChartDataTable
 } from "./charts/line/LineChart";
+export type { LayoutDebugModel, LayoutDebugRect } from "@chart-kit/core";

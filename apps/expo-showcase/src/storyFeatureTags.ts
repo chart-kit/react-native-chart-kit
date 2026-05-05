@@ -39,6 +39,7 @@ export const storyFeatureTags: Record<string, string[]> = {
   "v2-six-labels": ["six ticks", "rotation", "edge labels"],
   "v2-staggered-labels": ["staggered labels", "collision policy", "dense axis"],
   "v2-grid-lines": ["horizontal grid", "vertical grid", "opt-in"],
+  "v2-debug-layout": ["debug overlay", "layout boxes", "visual QA"],
   "v2-hidden-labels": ["hidden labels", "minimal axis", "clean preview"],
   "v2-dark-mode": ["dark theme", "area fill", "multi-series"],
   "v2-bar-grouped": ["grouped bars", "value labels", "theme preset"],
