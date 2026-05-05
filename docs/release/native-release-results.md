@@ -10,7 +10,7 @@ These results document local native release-build attempts for the Expo showcase
 | -------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | `npm run native:release:dry-run` | Passed. Printed Expo prebuild, Android Gradle release, CocoaPods, and iOS Xcode release-build commands. |
 | `npm run native:release:ios`     | Passed locally outside the sandbox after CocoaPods downloaded native dependencies.                      |
-| `npm run native:release:android` | Blocked locally. OpenJDK 17 is available, but this machine has no configured Android SDK.               |
+| `npm run native:release:android` | Passed locally outside the sandbox with OpenJDK 17 and the Homebrew Android command-line tools SDK.     |
 
 ## iOS Evidence
 
@@ -43,13 +43,22 @@ Observed steps before the preflight was added:
 Current local behavior:
 
 - the native release script resolves a keg-only Homebrew OpenJDK 17 install when available
+- the native release script resolves the Homebrew Android command-line tools SDK path when available
 - the native release script fails before prebuild if Java or the Android SDK is missing
-- after OpenJDK 17 was installed locally, Gradle reached project configuration and failed because no Android SDK path was configured
+- `expo prebuild --platform android --clean --no-install` completed
+- `android/gradlew assembleRelease` completed
 
-Local blocker:
+Observed successful result:
 
 ```text
-SDK location not found. Define a valid SDK location with an ANDROID_HOME environment variable or by setting the sdk.dir path in local.properties.
+BUILD SUCCESSFUL in 1m 22s
+357 actionable tasks: 333 executed, 24 up-to-date
 ```
 
-The GitHub `Native Release Checks` workflow configures Java and runs on an Android-capable hosted runner, so the next evidence step is either a local Android SDK install or a green workflow run.
+Non-blocking warnings observed:
+
+- Expo prebuild warned that `expo-system-ui` is required to enable `userInterfaceStyle`.
+- Gradle emitted Expo/React Native deprecation warnings from generated native dependencies.
+- Gradle warned that the daemon would stop after running out of JVM metaspace; the release build still completed successfully.
+
+The GitHub `Native Release Checks` workflow configures Java and runs on an Android-capable hosted runner, so the next evidence step is a green workflow run.

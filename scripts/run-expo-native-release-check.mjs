@@ -145,7 +145,9 @@ const assertJavaAvailable = () => {
 const candidateAndroidSdkPaths = [
   process.env.ANDROID_HOME,
   process.env.ANDROID_SDK_ROOT,
-  path.join(process.env.HOME ?? "", "Library", "Android", "sdk")
+  path.join(process.env.HOME ?? "", "Library", "Android", "sdk"),
+  "/opt/homebrew/share/android-commandlinetools",
+  "/usr/local/share/android-commandlinetools"
 ].filter(Boolean);
 
 const assertAndroidSdkAvailable = () => {

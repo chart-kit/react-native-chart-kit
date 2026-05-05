@@ -28,7 +28,7 @@ These commands use `apps/expo-showcase` as the native smoke app. They run `expo 
 - Android: `android/gradlew assembleRelease`
 - iOS: `pod install`, then `xcodebuild` with code signing disabled
 
-Non-dry-run checks fail before prebuild if the required native toolchain is unavailable. Android requires Java plus an Android SDK path from `ANDROID_HOME`, `ANDROID_SDK_ROOT`, or the default macOS `~/Library/Android/sdk` location. The script can resolve a keg-only Homebrew OpenJDK 17 install automatically. iOS requires Xcode command line tools and CocoaPods.
+Non-dry-run checks fail before prebuild if the required native toolchain is unavailable. Android requires Java plus an Android SDK path from `ANDROID_HOME`, `ANDROID_SDK_ROOT`, the default macOS `~/Library/Android/sdk` location, or the Homebrew command-line tools SDK path. The script can resolve a keg-only Homebrew OpenJDK 17 install automatically. iOS requires Xcode command line tools and CocoaPods.
 
 Generated `apps/expo-showcase/android` and `apps/expo-showcase/ios` folders are intentionally ignored. They are build artifacts for verification, not source-owned app projects.
 
