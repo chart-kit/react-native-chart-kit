@@ -96,9 +96,9 @@ const releaseBlockers = [
   {
     id: "native-runtime-qa",
     file: "docs/release/native-runtime-qa.md",
-    pattern: /native runtime evidence missing/i,
+    pattern: /full native runtime evidence incomplete/i,
     message:
-      "Native runtime QA protocol exists, but device evidence is missing."
+      "Native runtime QA protocol exists, but full device evidence is incomplete."
   },
   {
     id: "native-accessibility-qa",

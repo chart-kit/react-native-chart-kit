@@ -1,6 +1,6 @@
 # Native Runtime QA Protocol
 
-Status on May 5, 2026: protocol ready, native runtime evidence missing.
+Status on May 5, 2026: protocol ready, partial iOS simulator smoke evidence captured; full native runtime evidence incomplete.
 
 This protocol covers the manual iOS and Android runtime checks required before H5/H6 can claim native interaction confidence. Web Playwright tests, visual screenshots, and native release-build checks are useful, but they do not prove device gesture behavior, nested scrolling, text rendering, tooltip stacking, or release-mode runtime behavior.
 
@@ -21,6 +21,34 @@ Current automated coverage:
 - native release command generation for Expo prebuild, Android release, CocoaPods, and iOS release
 
 This baseline does not replace the manual device pass below.
+
+## Local Smoke Evidence
+
+The Expo showcase was built and launched on the local iOS simulator as a release-configuration smoke check:
+
+```sh
+npm --workspace @chart-kit/expo-showcase exec expo -- run:ios --configuration Release --device A706C6A5-26A2-499F-B24A-A9FB574888B0 --no-bundler
+```
+
+Observed result:
+
+- Expo prebuild completed.
+- CocoaPods install completed.
+- Xcode build completed with `Build Succeeded`.
+- The `ChartKitShowcase.app` release simulator build installed on iPhone 17, iOS 26.0.
+- The app launched to the Line Charts page without a red-screen error.
+- The first line-chart content rendered with visible axes, labels, legend, line/area fills, and controls.
+
+Artifact:
+
+- [iOS runtime smoke screenshot](artifacts/ios-runtime-smoke.png)
+
+This is useful launch/render evidence, but it is not a completed manual runtime QA pass. It does not cover all required pages, gestures, rotation, Android runtime behavior, or physical-device behavior.
+
+Android local status:
+
+- `adb devices -l` started the adb daemon successfully.
+- No Android device or emulator was attached, so Android runtime QA evidence is still missing.
 
 ## Device Matrix
 
@@ -106,10 +134,10 @@ For Pie, Donut, Progress, and Heatmaps:
 
 Before H5/H6, capture a completed log:
 
-| Date | Commit | Platform | Device/OS | Build surface | Result  | Notes |
-| ---- | ------ | -------- | --------- | ------------- | ------- | ----- |
-| TBD  | TBD    | iOS      | TBD       | TBD           | Pending |       |
-| TBD  | TBD    | Android  | TBD       | TBD           | Pending |       |
+| Date        | Commit    | Platform | Device/OS                      | Build surface           | Result       | Notes                                                                                              |
+| ----------- | --------- | -------- | ------------------------------ | ----------------------- | ------------ | -------------------------------------------------------------------------------------------------- |
+| May 5, 2026 | `d54e599` | iOS      | iPhone 17 simulator / iOS 26.0 | Release simulator build | Partial pass | App launched and Line Charts rendered; screenshot captured. Full interaction matrix still pending. |
+| May 5, 2026 | `d54e599` | Android  | No attached device/emulator    | N/A                     | Pending      | `adb devices -l` found no devices.                                                                 |
 
 For any failure, file or link an issue with:
 
