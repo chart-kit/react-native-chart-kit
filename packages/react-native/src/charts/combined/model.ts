@@ -139,6 +139,26 @@ const resolveAxisDomain = ({
   values: number[];
 }) => resolveNumericDomain(values, input ?? fallbackDomain);
 
+const getFormattedSeriesValue = ({
+  axisId,
+  formatLeftYLabel,
+  formatRightYLabel,
+  value
+}: {
+  axisId: CombinedChartAxisId;
+  formatLeftYLabel: (value: number) => string;
+  formatRightYLabel: (value: number) => string;
+  value: number | null | undefined;
+}) => {
+  if (typeof value !== "number") {
+    return "No data";
+  }
+
+  return axisId === "right"
+    ? formatRightYLabel(value)
+    : formatLeftYLabel(value);
+};
+
 const getLegendItemsRaw = <TData extends Record<string, unknown>>(
   resolvedSeries: Array<ResolvedCombinedSeries<TData>>
 ) =>
@@ -305,9 +325,16 @@ export const buildCombinedChartModel = <TData extends Record<string, unknown>>({
   });
   const chartBars = barGeometry.bars.map((bar) => ({
     ...bar,
+    axisId: seriesByKey.get(bar.seriesKey)?.axisId ?? "left",
     color:
       seriesByKey.get(bar.seriesKey)?.color ??
-      getBarChartSeriesColor(resolvedTheme, bar.seriesIndex)
+      getBarChartSeriesColor(resolvedTheme, bar.seriesIndex),
+    formattedValue: getFormattedSeriesValue({
+      axisId: seriesByKey.get(bar.seriesKey)?.axisId ?? "left",
+      formatLeftYLabel,
+      formatRightYLabel,
+      value: bar.value
+    })
   }));
   const chartLines = lineNormalizedSeries.map((series) => {
     const resolved = seriesByKey.get(series.key);
@@ -329,8 +356,10 @@ export const buildCombinedChartModel = <TData extends Record<string, unknown>>({
       yScale,
       curve: lineConfig?.curve ?? "linear"
     });
+    const axisId = resolved?.axisId ?? "right";
 
     return {
+      axisId,
       key: series.key,
       label: series.label,
       color: resolved?.color ?? getBarChartSeriesColor(resolvedTheme, 0),
@@ -339,7 +368,15 @@ export const buildCombinedChartModel = <TData extends Record<string, unknown>>({
         ? { strokeDasharray: lineConfig.strokeDasharray }
         : {}),
       geometry: {
-        points: geometry.points,
+        points: geometry.points.map((point) => ({
+          ...point,
+          formattedValue: getFormattedSeriesValue({
+            axisId,
+            formatLeftYLabel,
+            formatRightYLabel,
+            value: point.value
+          })
+        })),
         path: geometry.line.path
       }
     };
@@ -417,10 +454,33 @@ export const buildCombinedChartModel = <TData extends Record<string, unknown>>({
           };
         })
       : [];
+  const interactionPoints = xDomain.flatMap((key, index) => {
+    const x = xScale.scale(key);
+    if (x === undefined) {
+      return [];
+    }
+    const point = {
+      dataIndex: index,
+      x: x + xScale.bandwidth / 2,
+      xLabel: xLabelTexts[index] ?? String(key),
+      xValue: xValues[index] ?? key
+    };
+    const raw = data[index];
+
+    return raw === undefined ? [point] : [{ ...point, raw }];
+  });
+  const seriesModels = resolvedSeries.map((item) => ({
+    axisId: item.axisId,
+    color: item.color,
+    key: item.key,
+    kind: item.kind,
+    label: item.label
+  }));
 
   return {
     bars: chartBars,
     boxes,
+    interactionPoints,
     legendItems,
     lines: chartLines,
     leftDomain,
@@ -428,6 +488,7 @@ export const buildCombinedChartModel = <TData extends Record<string, unknown>>({
     leftTicks,
     rightTicks,
     resolvedTheme,
+    series: seriesModels,
     showHorizontalGridLines,
     showXAxisLabels,
     showYAxisLabels,

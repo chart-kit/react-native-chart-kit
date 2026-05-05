@@ -189,7 +189,7 @@ export const publicChartMode: ShowcaseMode = {
           title: "Showpieces",
           description:
             "Bar plus line charts with independent axis domains and synchronized labels.",
-          storyIds: ["v2-combined-revenue-margin"]
+          storyIds: ["v2-combined-revenue-margin", "v2-combined-shared-tooltip"]
         }
       ]
     },

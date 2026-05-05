@@ -73,13 +73,26 @@ export type {
 } from "./charts/contribution/ContributionGraph";
 export type {
   CombinedChartAxisId,
+  CombinedChartBarModel,
   CombinedChartBarMode,
   CombinedChartBarSeries,
+  CombinedChartDeselectEvent,
+  CombinedChartInteraction,
+  CombinedChartInteractionConfig,
+  CombinedChartInteractionMode,
+  CombinedChartInteractionPoint,
   CombinedChartLegendItemModel,
   CombinedChartLineModel,
+  CombinedChartLinePoint,
   CombinedChartLineSeries,
   CombinedChartModel,
   CombinedChartProps,
+  CombinedChartSelectEvent,
+  CombinedChartSeriesModel,
+  CombinedChartTooltipConfig,
+  CombinedChartTooltipPoint,
+  CombinedChartTooltipRenderProps,
+  CombinedChartTooltipSeriesItem,
   CombinedChartXLabelModel,
   CombinedChartYLabelModel
 } from "./charts/combined/CombinedChart";

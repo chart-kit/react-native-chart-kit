@@ -147,6 +147,26 @@ test.describe("Expo showcase chart interactions", () => {
     await expect(page.getByText("Spend: $54k")).toHaveCount(0);
   });
 
+  test("combined chart shows a shared tooltip for bars and lines", async ({
+    page
+  }) => {
+    await page.goto("/?story=v2-combined-shared-tooltip&visual=1");
+    await page.evaluate(async () => {
+      await document.fonts?.ready;
+    });
+
+    await expect(page.getByText("Pipeline inspection")).toBeVisible();
+    await expect(page.getByText("Revenue: $208k")).toBeVisible();
+    await expect(page.getByText("Margin: 26%")).toBeVisible();
+
+    await page
+      .getByTestId("combined-shared-tooltip-chart-bar.bar-revenue.1")
+      .click();
+    await expect(page.getByText("Revenue: $146k")).toBeVisible();
+    await expect(page.getByText("Margin: 21%")).toBeVisible();
+    await expect(page.getByText("Revenue: $208k")).toHaveCount(0);
+  });
+
   test("bar chart stories inherit the app-level theme preset", async ({
     page
   }) => {

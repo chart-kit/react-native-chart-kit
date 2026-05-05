@@ -29,4 +29,22 @@ Defaults:
 
 Use `barMode="stacked"` or `barMode="stacked100"` for composition-style bars under a line. Per-series `yAxisId` can move either kind of series onto the opposite axis.
 
-This foundation intentionally does not include tooltip synchronization or legend toggling yet. Those belong to the next interaction slice for combined charts.
+Tap selection can show a shared tooltip across visible bar and line series:
+
+```tsx
+<CombinedChart
+  data={rows}
+  xKey="month"
+  bars={[{ yKey: "revenue", label: "Revenue" }]}
+  lines={[{ yKey: "margin", label: "Margin", curve: "monotone" }]}
+  interaction="tap"
+  tooltip
+  defaultSelectedIndex={3}
+  width={360}
+  height={280}
+/>
+```
+
+The default tooltip is theme-aware and uses the same tooltip styling contract as line charts. Pass `renderTooltip` for a custom SVG tooltip renderer.
+
+Legend toggling is still intentionally left for the next combined-chart slice.

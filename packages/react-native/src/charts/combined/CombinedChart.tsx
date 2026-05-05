@@ -1,7 +1,9 @@
-import { useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
+import type { GestureResponderEvent, ViewProps } from "react-native";
 
 import {
+  SvgCircle,
   SvgLayer,
   SvgLine,
   SvgPath,
@@ -11,12 +13,37 @@ import {
 } from "@chart-kit/svg-renderer";
 
 import { useChartKitTheme } from "../../theme";
+import { getLineChartTooltipConfig } from "../line/options";
+import { getLineChartTooltipModel } from "../line/tooltip";
 import { getFontFamilyProps } from "../line/text";
+import { measureBarChartText } from "../bar/modelUtils";
+import {
+  buildCombinedChartSelectEvent,
+  getCombinedChartInteractionConfig,
+  getNearestCombinedChartInteractionIndex,
+  getSelectedCombinedSeries,
+  isCombinedChartInteractionEnabled,
+  isCombinedChartInteractionInBounds,
+  normalizeCombinedChartSelectedIndex
+} from "./interaction";
 import { buildCombinedChartModel } from "./model";
-import type { CombinedChartProps } from "./types";
+import {
+  renderDefaultCombinedChartTooltip,
+  useAnimatedCombinedChartTooltipModel
+} from "./tooltip";
+import type {
+  CombinedChartProps,
+  CombinedChartTooltipPoint,
+  CombinedChartTooltipRenderProps
+} from "./types";
 
 export type * from "./types";
 export { buildCombinedChartModel } from "./model";
+export {
+  buildCombinedChartSelectEvent,
+  getNearestCombinedChartInteractionIndex,
+  getSelectedCombinedSeries
+} from "./interaction";
 
 export const CombinedChart = <TData extends Record<string, unknown>>(
   props: CombinedChartProps<TData>
@@ -26,9 +53,20 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
     () => buildCombinedChartModel({ ...props, chartKitTheme }),
     [chartKitTheme, props]
   );
+  const interactionConfig = useMemo(
+    () => getCombinedChartInteractionConfig(props.interaction),
+    [props.interaction]
+  );
+  const [gestureSelectedIndex, setGestureSelectedIndex] = useState<
+    number | undefined
+  >(() => normalizeCombinedChartSelectedIndex(props.defaultSelectedIndex));
+  const selectedIndex =
+    normalizeCombinedChartSelectedIndex(props.selectedIndex) ??
+    gestureSelectedIndex;
   const {
     bars,
     boxes,
+    interactionPoints,
     legendItems,
     lines,
     leftTicks,
@@ -41,6 +79,115 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
   } = model;
   const fontProps = getFontFamilyProps(resolvedTheme.typography.fontFamily);
   const barRadius = Math.max(0, props.barRadius ?? 5);
+  const selectedPoint = interactionPoints.find(
+    (point) => point.dataIndex === selectedIndex
+  );
+  const selectedSeries = useMemo(
+    () => getSelectedCombinedSeries({ model, selectedIndex }),
+    [model, selectedIndex]
+  );
+  const tooltipConfig = useMemo(
+    () =>
+      getLineChartTooltipConfig({
+        themeFontFamily: resolvedTheme.typography.fontFamily,
+        themeTooltip: resolvedTheme.tooltip,
+        tooltip: props.tooltip
+      }),
+    [props.tooltip, resolvedTheme.tooltip, resolvedTheme.typography.fontFamily]
+  );
+  const tooltipModel: CombinedChartTooltipRenderProps<TData> | undefined =
+    selectedPoint && selectedSeries.length > 0
+      ? getLineChartTooltipModel<
+          CombinedChartTooltipPoint<TData>,
+          typeof resolvedTheme
+        >({
+          chartHeight: props.height,
+          chartWidth: props.width,
+          config: tooltipConfig,
+          measureText: measureBarChartText,
+          plotX: boxes.plot.x,
+          plotY: boxes.plot.y,
+          selection: {
+            index: selectedPoint.dataIndex,
+            x: selectedPoint.x,
+            y: Math.min(...selectedSeries.map((item) => item.point.y)),
+            xLabel: selectedPoint.xLabel,
+            series: selectedSeries
+          },
+          theme: resolvedTheme
+        })
+      : undefined;
+  const animatedTooltip = useAnimatedCombinedChartTooltipModel(tooltipModel);
+  const handleResponderRelease = useCallback(
+    (event: GestureResponderEvent) => {
+      event.preventDefault();
+
+      const { locationX, locationY } = event.nativeEvent;
+
+      if (
+        !isCombinedChartInteractionInBounds({
+          bounds: boxes.plot,
+          locationX,
+          locationY
+        })
+      ) {
+        if (interactionConfig.deselectOnOutsidePress) {
+          if (props.selectedIndex === undefined) {
+            setGestureSelectedIndex(undefined);
+          }
+
+          interactionConfig.onDeselect?.({ reason: "outsidePress" });
+        }
+
+        return;
+      }
+
+      const nextSelectedIndex = getNearestCombinedChartInteractionIndex({
+        locationX,
+        points: interactionPoints
+      });
+
+      if (nextSelectedIndex === undefined) {
+        return;
+      }
+
+      if (props.selectedIndex === undefined) {
+        setGestureSelectedIndex(nextSelectedIndex);
+      }
+
+      const eventModel = buildCombinedChartSelectEvent({
+        interactionPoints,
+        selectedIndex: nextSelectedIndex,
+        selectedSeries: getSelectedCombinedSeries({
+          model,
+          selectedIndex: nextSelectedIndex
+        })
+      });
+
+      if (eventModel) {
+        interactionConfig.onSelect?.(eventModel);
+      }
+    },
+    [
+      boxes.plot,
+      interactionConfig,
+      interactionPoints,
+      model,
+      props.selectedIndex
+    ]
+  );
+  const responderProps: ViewProps = isCombinedChartInteractionEnabled(
+    interactionConfig
+  )
+    ? {
+        onStartShouldSetResponder: () => true,
+        onResponderGrant: (event: GestureResponderEvent) => {
+          event.preventDefault();
+        },
+        onResponderRelease: handleResponderRelease,
+        onResponderTerminationRequest: () => true
+      }
+    : {};
   const accessibilityLabel =
     props.accessibilityLabel ??
     `Combined chart with ${bars.length} bars and ${lines.length} line series.`;
@@ -59,6 +206,7 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
         }
       ]}
       testID={props.testID}
+      {...responderProps}
     >
       <SvgSurface width={props.width} height={props.height}>
         <SvgLayer name="background">
@@ -211,6 +359,38 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
               {item.label}
             </SvgText>
           ))}
+        </SvgLayer>
+        <SvgLayer name="interaction">
+          {selectedPoint && selectedSeries.length > 0 ? (
+            <SvgLine
+              key="combined-selection-line"
+              stroke={resolvedTheme.axis}
+              strokeOpacity={0.72}
+              strokeWidth={1}
+              x1={selectedPoint.x}
+              x2={selectedPoint.x}
+              y1={boxes.plot.y}
+              y2={boxes.plot.y + boxes.plot.height}
+            />
+          ) : null}
+          {selectedSeries.map((item) =>
+            item.point.kind === "line" ? (
+              <SvgCircle
+                key={`combined-selection-dot-${item.key}`}
+                cx={item.point.x}
+                cy={item.point.y}
+                fill={resolvedTheme.plotBackground}
+                r={4.5}
+                stroke={item.color}
+                strokeWidth={2}
+              />
+            ) : null
+          )}
+          {animatedTooltip
+            ? props.renderTooltip
+              ? props.renderTooltip(animatedTooltip)
+              : renderDefaultCombinedChartTooltip(animatedTooltip)
+            : null}
         </SvgLayer>
       </SvgSurface>
     </View>
