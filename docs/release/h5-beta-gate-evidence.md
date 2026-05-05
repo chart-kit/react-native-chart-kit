@@ -22,7 +22,7 @@ Commands refreshed on May 5, 2026. The `test:e2e` row was added after promoting 
 | ---------------------- | ---------------------------------- | --------------------------------------------------------------------------------------------------- |
 | Lint                   | `npm run lint`                     | Passed                                                                                              |
 | TypeScript             | `npm run typecheck`                | Passed for root, core, SVG renderer, React Native package, and Expo showcase                        |
-| Unit and compat tests  | `npm run test`                     | Passed: 37 unit files, 215 unit tests, 1 compat file, 5 compat tests                                |
+| Unit and compat tests  | `npm run test`                     | Passed: 40 unit files, 249 unit tests, 1 compat file, 5 compat tests                                |
 | Web e2e interactions   | `npm run test:e2e`                 | Passed: 21 Playwright showcase interaction flows                                                    |
 | Visual regression      | `npm run test:visual`              | Passed: 95 Playwright tests                                                                         |
 | Benchmark              | `npm run benchmark`                | Passed: core geometry scenarios plus web showcase scrub timing                                      |
@@ -37,18 +37,18 @@ Commands refreshed on May 5, 2026. The `test:e2e` row was added after promoting 
 
 Latest benchmark highlights from `npm run benchmark`:
 
-| Scenario                           |  Median |     p95 |
-| ---------------------------------- | ------: | ------: |
-| `line-100`                         | 0.06 ms | 0.17 ms |
-| `line-1000`                        | 0.42 ms | 0.75 ms |
-| `line-10000-decimated`             | 1.43 ms | 3.11 ms |
-| `multi-line-5x1000-decimated`      | 1.46 ms | 1.83 ms |
-| `line-10000-window-2000`           | 0.71 ms | 1.16 ms |
-| `range-selector-2x10000-overview`  | 2.56 ms | 3.31 ms |
-| `bar-500-scrollable-grouped`       | 0.17 ms | 0.31 ms |
-| `bar-500-scrollable-stacked`       | 0.25 ms | 0.33 ms |
-| `candlestick-1000`                 | 0.23 ms | 0.32 ms |
-| `line-scrub-v2-scrub`, frame times | 8.20 ms | 9.60 ms |
+| Scenario                           |  Median |      p95 |
+| ---------------------------------- | ------: | -------: |
+| `line-100`                         | 0.04 ms |  0.15 ms |
+| `line-1000`                        | 0.37 ms |  0.71 ms |
+| `line-10000-decimated`             | 1.32 ms |  3.18 ms |
+| `multi-line-5x1000-decimated`      | 1.38 ms |  1.82 ms |
+| `line-10000-window-2000`           | 0.70 ms |  1.15 ms |
+| `range-selector-2x10000-overview`  | 2.57 ms |  3.56 ms |
+| `bar-500-scrollable-grouped`       | 0.17 ms |  0.31 ms |
+| `bar-500-scrollable-stacked`       | 0.22 ms |  0.36 ms |
+| `candlestick-1000`                 | 0.23 ms |  0.30 ms |
+| `line-scrub-v2-scrub`, frame times | 8.30 ms | 10.10 ms |
 
 Benchmark scope covers core geometry plus one web showcase scrub timing scenario. It does not measure native render time, native gesture FPS, or release-build memory.
 

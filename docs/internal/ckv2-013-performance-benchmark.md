@@ -1,6 +1,6 @@
 # CKV2-013 Performance Benchmark Notes
 
-Date: May 4, 2026
+Date: May 5, 2026
 
 ## Current Slice
 
@@ -20,6 +20,13 @@ Covered by `npm run benchmark`:
 - candlestick chart, 1,000 OHLC candles
 
 The core geometry benchmark reports Node version, platform, iteration count, total point counts, geometry point counts, visible viewport counts, rendered path point counts, bar counts, path string size, median runtime, p95 runtime, RSS, and heap usage. The browser interaction benchmark reports frame sample count, median frame interval, p95 frame interval, and max frame interval for a synthetic scrub.
+
+Latest local run:
+
+- Node `v24.10.0`, macOS arm64, 40 core iterations
+- core geometry median range: `0.04ms` for 100-point line to `2.57ms` for 2 x 10,000 range-selector overview
+- web scrub frame timing: 118 frames, `8.30ms` median, `10.10ms` p95, `17.50ms` max
+- memory at end of core run: `205.06 MB` RSS, `38.27 MB` heap used
 
 ## Remaining Work
 
