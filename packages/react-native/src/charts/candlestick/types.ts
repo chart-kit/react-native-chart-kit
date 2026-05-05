@@ -156,26 +156,36 @@ export type CandlestickChartRangeSelectorConfig = {
 };
 
 export type CandlestickChartSessionGapLabelRenderProps<TData = unknown> = {
+  calendar: CandlestickChartSessionGapCalendar;
+  closedDays: number;
   gapDays: number;
   gapMs: number;
+  holidayCount: number;
   next: TData;
   nextIndex: number;
   previous: TData;
   previousIndex: number;
+  weekendCount: number;
 };
 
+export type CandlestickChartSessionGapCalendar = "calendarDays" | "tradingDays";
+
 export type CandlestickChartSessionGapConfig<TData = unknown> = {
+  calendar?: CandlestickChartSessionGapCalendar;
   fill?: string;
   fillOpacity?: number;
+  holidays?: readonly (Date | string)[];
   label?:
     | boolean
     | ((props: CandlestickChartSessionGapLabelRenderProps<TData>) => string);
+  minClosedDays?: number;
   minGapDays?: number;
   minGapMs?: number;
   stroke?: string;
   strokeDasharray?: readonly number[];
   strokeOpacity?: number;
   strokeWidth?: number;
+  tradingWeekdays?: readonly number[];
   visible?: boolean;
   width?: number;
 };
@@ -217,11 +227,14 @@ export type CandlestickChartVolumeBarModel = {
 };
 
 export type CandlestickChartSessionGapModel<TData = unknown> = {
+  calendar: CandlestickChartSessionGapCalendar;
+  closedDays: number;
   fill: string;
   fillOpacity: number;
   gapDays: number;
   gapMs: number;
   height: number;
+  holidayCount: number;
   key: string;
   label?: string | undefined;
   labelX: number;
@@ -234,6 +247,7 @@ export type CandlestickChartSessionGapModel<TData = unknown> = {
   strokeDasharray?: readonly number[];
   strokeOpacity: number;
   strokeWidth: number;
+  weekendCount: number;
   width: number;
   x: number;
   y: number;

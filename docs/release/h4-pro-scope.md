@@ -36,16 +36,16 @@ These should remain free because they are baseline production expectations for a
 
 These are reasonable Pro candidates because they are deeper product workflows, performance layers, or specialized domains.
 
-| Area              | Pro candidate scope                                                                                         |
-| ----------------- | ----------------------------------------------------------------------------------------------------------- |
-| Renderer          | Skia renderer adapter, renderer parity tests, renderer-specific performance tuning                          |
-| Large data        | viewport windowing beyond baseline, LTTB/advanced decimation policies, native frame metrics                 |
-| Gestures          | production pinch zoom, inertial pan, axis-locking, bottom-sheet/ScrollView conflict recipes                 |
-| Cross-chart UX    | shared tooltips across charts, synchronized cursors, linked chart groups                                    |
-| Finance           | finished candlestick/financial module, exchange calendars, advanced session handling, range selector polish |
-| Advanced overlays | annotations, reference bands, event markers, custom label placement solvers                                 |
-| Export            | PNG/SVG export helpers where platform support is reliable                                                   |
-| Enterprise        | accessibility reports, design-system token adapters, support matrices                                       |
+| Area              | Pro candidate scope                                                                                               |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Renderer          | Skia renderer adapter, renderer parity tests, renderer-specific performance tuning                                |
+| Large data        | viewport windowing beyond baseline, LTTB/advanced decimation policies, native frame metrics                       |
+| Gestures          | production pinch zoom, inertial pan, axis-locking, bottom-sheet/ScrollView conflict recipes                       |
+| Cross-chart UX    | shared tooltips across charts, synchronized cursors, linked chart groups                                          |
+| Finance           | finished candlestick/financial module, named exchange calendars, advanced session handling, range selector polish |
+| Advanced overlays | annotations, reference bands, event markers, custom label placement solvers                                       |
+| Export            | PNG/SVG export helpers where platform support is reliable                                                         |
+| Enterprise        | accessibility reports, design-system token adapters, support matrices                                             |
 
 ## Package Architecture
 
@@ -91,5 +91,5 @@ Recommended answers:
 1. Yes, separate package.
 2. Separate optional package, with Pro docs and examples depending on it.
 3. Keep basic animation, tap/scrub, tooltips, simple viewport controls, and scrollable charts free.
-4. Yes, but only as Financial Preview until exchange calendar behavior and native performance are proven.
+4. Yes, but only as Financial Preview until named exchange presets and native performance are proven.
 5. Yes. Add license enforcement only after API feedback and package boundaries settle.

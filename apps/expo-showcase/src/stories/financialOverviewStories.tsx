@@ -77,7 +77,7 @@ const V2CandlestickPriceAction = ({
           onGestureEnd: onScrubEnd,
           onGestureStart: onScrubStart
         }}
-        sessionGaps={{ label: true }}
+        sessionGaps={{ calendar: "tradingDays", label: true }}
         testID="stock-candlestick-chart"
         tooltip={{ width: 154 }}
         upColor="#16a34a"
@@ -113,7 +113,7 @@ const V2CandlestickScrollable = ({ width }: NativeStoryProps) => (
       lowKey="low"
       openKey="open"
       scrollable
-      sessionGaps
+      sessionGaps={{ calendar: "tradingDays" }}
       testID="scrollable-candlestick-chart"
       tooltip={{ width: 154 }}
       upColor="#16a34a"

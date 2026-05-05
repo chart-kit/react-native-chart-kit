@@ -137,16 +137,65 @@ describe("CandlestickChart model", () => {
 
     expect(model.sessionGaps).toHaveLength(1);
     expect(model.sessionGaps[0]).toMatchObject({
+      calendar: "calendarDays",
+      closedDays: 2,
       gapDays: 3,
+      holidayCount: 0,
       key: "session-gap-0-1",
       label: "3d gap",
       nextIndex: 1,
-      previousIndex: 0
+      previousIndex: 0,
+      weekendCount: 2
     });
     expect(model.sessionGaps[0]?.x).toBeGreaterThan(
       model.candles[0]?.wickX ?? 0
     );
     expect(model.sessionGaps[0]?.x).toBeLessThan(model.candles[1]?.wickX ?? 0);
+  });
+
+  it("supports holiday-aware trading calendars for session gaps", () => {
+    const model = buildCandlestickChartModel({
+      chartKitTheme,
+      closeKey: "close",
+      data: [
+        {
+          day: "2026-06-18",
+          open: 100,
+          high: 112,
+          low: 96,
+          close: 108
+        },
+        {
+          day: "2026-06-22",
+          open: 108,
+          high: 114,
+          low: 104,
+          close: 111
+        }
+      ],
+      height: 260,
+      highKey: "high",
+      lowKey: "low",
+      openKey: "open",
+      sessionGaps: {
+        calendar: "tradingDays",
+        holidays: ["2026-06-19"],
+        label: ({ closedDays, holidayCount }) =>
+          `${closedDays} closed / ${holidayCount} holiday`
+      },
+      width: 360,
+      xKey: "day"
+    });
+
+    expect(model.sessionGaps).toHaveLength(1);
+    expect(model.sessionGaps[0]).toMatchObject({
+      calendar: "tradingDays",
+      closedDays: 3,
+      gapDays: 4,
+      holidayCount: 1,
+      label: "3 closed / 1 holiday",
+      weekendCount: 2
+    });
   });
 
   it("keeps session gaps disabled by default", () => {
