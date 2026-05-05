@@ -16,6 +16,7 @@ import {
   getAnimatedBarSelectionFill,
   getAnimatedBarSelectionStrokeOpacity,
   getBarChartSelectionGridOpacity,
+  shouldRenderBarChartGridLines,
   useBarChartSelectionAnimation
 } from "./selectionAnimation";
 import { renderDefaultBarChartTooltip } from "./tooltip";
@@ -69,6 +70,10 @@ export const BarChartSurface = <TData,>({
     selectedBarKey,
     state: selectionAnimationState
   });
+  const shouldRenderGridLines = shouldRenderBarChartGridLines({
+    selectedBarKey,
+    state: selectionAnimationState
+  });
 
   return (
     <View collapsable={false} style={{ width, height }} {...responderProps}>
@@ -92,7 +97,9 @@ export const BarChartSurface = <TData,>({
           />
         </SvgLayer>
         <SvgLayer name="grid">
-          {showHorizontalGridLines && orientation === "horizontal"
+          {shouldRenderGridLines &&
+          showHorizontalGridLines &&
+          orientation === "horizontal"
             ? xLabels.map((label) => (
                 <SvgLine
                   key={`grid-x-${label.index}`}
@@ -106,7 +113,9 @@ export const BarChartSurface = <TData,>({
                 />
               ))
             : null}
-          {showHorizontalGridLines && orientation === "vertical"
+          {shouldRenderGridLines &&
+          showHorizontalGridLines &&
+          orientation === "vertical"
             ? yTicks.map((tick) => {
                 const label = yLabels.find(
                   (item) => item.key === `tick-${tick}`

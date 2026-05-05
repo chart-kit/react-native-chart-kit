@@ -234,6 +234,7 @@ export const showcaseModes: ShowcaseMode[] = [
           "Controlled selection, persistent scrub, hold-to-inspect, and null-aware inspection.",
         storyIds: [
           "v2-selected-tooltip",
+          "v2-selection-scope",
           "v2-custom-crosshair",
           "v2-scrub",
           "v2-scrollable-stock-comparison",

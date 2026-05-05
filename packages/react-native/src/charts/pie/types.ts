@@ -108,6 +108,7 @@ export type PieChartProps<TData extends Record<string, unknown>> = {
     | ReactNode
     | ((props: PieChartCenterLabelRenderProps<TData>) => ReactNode);
   accessibilityLabel?: string;
+  id?: string;
   testID?: string;
   formatValue?: (value: number) => string;
   formatPercentage?: (percentage: number) => string;

@@ -19,6 +19,14 @@ export type BarChartSelectionAnimationState = {
   progress: number;
 };
 
+export const getSettledBarChartSelectionAnimationState = (
+  selectedBarKey: string | undefined
+): BarChartSelectionAnimationState => ({
+  fromKey: selectedBarKey,
+  toKey: selectedBarKey,
+  progress: 1
+});
+
 export const resolveBarChartSelectionAnimationConfig = (
   animation: boolean | BarChartSelectionAnimationConfig | undefined
 ): ResolvedBarChartSelectionAnimationConfig => {
@@ -225,6 +233,17 @@ export const getBarChartSelectionGridOpacity = ({
   return getAnimatedBarSelectionGridOpacity({ state });
 };
 
+export const shouldRenderBarChartGridLines = ({
+  selectedBarKey,
+  state
+}: {
+  selectedBarKey: string | undefined;
+  state: BarChartSelectionAnimationState;
+}) =>
+  selectedBarKey === undefined &&
+  state.fromKey === undefined &&
+  state.toKey === undefined;
+
 export const useBarChartSelectionAnimation = ({
   animation,
   selectedBarKey
@@ -275,11 +294,15 @@ export const useBarChartSelectionAnimation = ({
       );
       const progress = easeOutCubic(rawProgress);
 
-      setState({
-        fromKey,
-        toKey: selectedBarKey,
-        progress
-      });
+      setState(
+        rawProgress >= 1
+          ? getSettledBarChartSelectionAnimationState(selectedBarKey)
+          : {
+              fromKey,
+              toKey: selectedBarKey,
+              progress
+            }
+      );
 
       if (rawProgress < 1) {
         animationFrame = requestAnimationFrame(tick);

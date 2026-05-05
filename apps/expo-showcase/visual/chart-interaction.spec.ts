@@ -105,11 +105,8 @@ test.describe("Expo showcase chart interactions", () => {
     await expect(page.getByText("Paid acquisition")).toBeVisible();
     await expect(page.getByText("Paid: 28k")).toBeVisible();
 
-    const gridLine = page
-      .getByTestId("chart-layer.grid")
-      .locator("line")
-      .first();
-    await expect(gridLine).toHaveAttribute("stroke-opacity", "0");
+    const gridLines = page.getByTestId("chart-layer.grid").locator("line");
+    await expect(gridLines).toHaveCount(0);
 
     await page.getByTestId("bar-chart-bar.organic.1").click();
     await expect(page.getByText("Organic: 48k")).toBeVisible();
@@ -130,7 +127,7 @@ test.describe("Expo showcase chart interactions", () => {
 
     await page.mouse.click(chartBox.x + 12, chartBox.y + 12);
     await expect(page.getByText("Organic: 48k")).toHaveCount(0);
-    await expect(gridLine).toHaveAttribute("stroke-opacity", "0.78");
+    await expect(gridLines.first()).toHaveAttribute("stroke-opacity", "0.78");
   });
 
   test("scrollable bar chart supports tap selection", async ({ page }) => {

@@ -12,7 +12,9 @@ import {
   getAnimatedBarSelectionGridOpacity,
   getAnimatedBarSelectionOpacity,
   getAnimatedBarSelectionStrokeOpacity,
-  resolveBarChartSelectionAnimationConfig
+  getSettledBarChartSelectionAnimationState,
+  resolveBarChartSelectionAnimationConfig,
+  shouldRenderBarChartGridLines
 } from "../src/charts/bar/selectionAnimation";
 import { offsetBarChartTooltipForViewport } from "../src/charts/bar/tooltipPlacement";
 import type { BarChartBarModel } from "../src/charts/bar/types";
@@ -216,6 +218,29 @@ describe("BarChart interaction helpers", () => {
         state: { fromKey: undefined, toKey: undefined, progress: 1 }
       })
     ).toBeCloseTo(0);
+    expect(
+      getAnimatedBarSelectionGridOpacity({
+        state: getSettledBarChartSelectionAnimationState(undefined)
+      })
+    ).toBeCloseTo(0.78);
+    expect(
+      shouldRenderBarChartGridLines({
+        selectedBarKey: undefined,
+        state: getSettledBarChartSelectionAnimationState(undefined)
+      })
+    ).toBe(true);
+    expect(
+      shouldRenderBarChartGridLines({
+        selectedBarKey: "paid-1",
+        state: getSettledBarChartSelectionAnimationState("paid-1")
+      })
+    ).toBe(false);
+    expect(
+      shouldRenderBarChartGridLines({
+        selectedBarKey: undefined,
+        state: { fromKey: "paid-1", toKey: undefined, progress: 0.5 }
+      })
+    ).toBe(false);
   });
 
   it("keeps overlay tooltips inside the visible viewport", () => {

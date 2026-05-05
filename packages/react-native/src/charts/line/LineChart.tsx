@@ -35,6 +35,7 @@ import {
   type LineChartDeselectEvent
 } from "./interaction";
 import { getSelectedLineSeries } from "./selection";
+import { getLineChartOutsidePressSurfaces } from "./outsidePressSurfaces";
 import { useLineChartResponderProps } from "./responders";
 import { LineChartRangeSelector } from "./rangeSelector";
 import { getRangeSelectorConfig } from "./rangeSelectorConfig";
@@ -47,6 +48,7 @@ import {
   useLineChartViewportPinchZoom
 } from "./viewportPinchZoom";
 import { clampLineChartTooltipToViewport } from "./tooltip";
+import { useScopedChartSelection } from "../../selection/ChartSelectionProvider";
 import type { LineChartProps } from "./types";
 
 export type * from "./types";
@@ -64,6 +66,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
   props: LineChartProps<TData>
 ) => {
   const chartId = useId().replace(/:/g, "");
+  const scopedChartId = props.id ?? chartId;
   const chartKitTheme = useChartKitTheme();
   const { onViewportChange } = props;
   const dataLength = props.data.length;
@@ -263,6 +266,38 @@ export const LineChart = <TData extends Record<string, unknown>>(
     },
     [interactionConfig, props.selectedIndex]
   );
+  const clearSelectionFromScope = useCallback(
+    (reason: "outsidePress" | "programmatic" | "scopeChange") => {
+      if (reason === "scopeChange") {
+        if (props.selectedIndex === undefined) {
+          setGestureSelectedIndex(undefined);
+        }
+
+        return;
+      }
+
+      clearGestureSelection({ reason });
+    },
+    [clearGestureSelection, props.selectedIndex]
+  );
+  const scopedSelection = useScopedChartSelection({
+    chartId: scopedChartId,
+    controlled: props.selectedIndex !== undefined,
+    hasSelection: effectiveSelectedIndex !== undefined,
+    onClear: clearSelectionFromScope
+  });
+  const clearScopedGestureSelection = useCallback(
+    (event: LineChartDeselectEvent) => {
+      clearGestureSelection(event);
+
+      if (event.reason === "outsidePress") {
+        scopedSelection.dismissSelection?.("outsidePress");
+      } else if (event.reason === "gestureEnd") {
+        scopedSelection.dismissSelection?.("programmatic");
+      }
+    },
+    [clearGestureSelection, scopedSelection]
+  );
   const handleInteractionEvent = useCallback(
     (event: GestureResponderEvent) => {
       preventBrowserSelection(event);
@@ -303,6 +338,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
         setGestureSelectedIndex(selectedDataIndex);
       }
 
+      scopedSelection.selectChart();
       interactionConfig.onSelect?.(selectEvent);
     },
     [
@@ -312,11 +348,12 @@ export const LineChart = <TData extends Record<string, unknown>>(
       interactionPoints,
       props.activeDot,
       props.selectedIndex,
-      preventBrowserSelection
+      preventBrowserSelection,
+      scopedSelection
     ]
   );
   const responderProps = useLineChartResponderProps({
-    clearGestureSelection,
+    clearGestureSelection: clearScopedGestureSelection,
     handleInteractionEvent,
     interactionConfig,
     isInteractionEnabled,
@@ -330,47 +367,16 @@ export const LineChart = <TData extends Record<string, unknown>>(
           onStartShouldSetResponder: () => true,
           onResponderGrant: (event: GestureResponderEvent) => {
             preventBrowserSelection(event);
-            clearGestureSelection({ reason: "outsidePress" });
+            clearScopedGestureSelection({ reason: "outsidePress" });
           }
         }
       : {};
-  const outsidePressSurfaces =
-    isInteractionEnabled && interactionConfig.deselectOnOutsidePress
-      ? [
-          {
-            key: "top",
-            height: visibleInteractionBounds.y,
-            left: 0,
-            top: 0,
-            width: props.width
-          },
-          {
-            key: "left",
-            height: visibleInteractionBounds.height,
-            left: 0,
-            top: visibleInteractionBounds.y,
-            width: visibleInteractionBounds.x
-          },
-          {
-            key: "right",
-            height: visibleInteractionBounds.height,
-            left: visibleInteractionBounds.x + visibleInteractionBounds.width,
-            top: visibleInteractionBounds.y,
-            width:
-              props.width -
-              (visibleInteractionBounds.x + visibleInteractionBounds.width)
-          },
-          {
-            key: "bottom",
-            height:
-              mainHeight -
-              (visibleInteractionBounds.y + visibleInteractionBounds.height),
-            left: 0,
-            top: visibleInteractionBounds.y + visibleInteractionBounds.height,
-            width: props.width
-          }
-        ].filter((surface) => surface.width > 0 && surface.height > 0)
-      : [];
+  const outsidePressSurfaces = getLineChartOutsidePressSurfaces({
+    enabled: isInteractionEnabled && interactionConfig.deselectOnOutsidePress,
+    mainHeight,
+    visibleInteractionBounds,
+    width: props.width
+  });
   const animatedTooltip = useAnimatedTooltipModel(selectionModel?.tooltip);
   const displayTooltip =
     animatedTooltip && viewport.scrollable

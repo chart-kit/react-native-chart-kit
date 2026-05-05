@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useId, useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import type { GestureResponderEvent, ViewProps } from "react-native";
 
@@ -13,6 +13,7 @@ import {
 } from "@chart-kit/svg-renderer";
 
 import { useChartKitTheme } from "../../theme";
+import { useScopedChartSelection } from "../../selection/ChartSelectionProvider";
 import { getLineChartTooltipConfig } from "../line/options";
 import { getLineChartTooltipModel } from "../line/tooltip";
 import { getFontFamilyProps } from "../line/text";
@@ -48,6 +49,8 @@ export {
 export const CombinedChart = <TData extends Record<string, unknown>>(
   props: CombinedChartProps<TData>
 ) => {
+  const generatedChartId = useId().replace(/:/g, "");
+  const scopedChartId = props.id ?? generatedChartId;
   const chartKitTheme = useChartKitTheme();
   const model = useMemo(
     () => buildCombinedChartModel({ ...props, chartKitTheme }),
@@ -63,6 +66,46 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
   const selectedIndex =
     normalizeCombinedChartSelectedIndex(props.selectedIndex) ??
     gestureSelectedIndex;
+  const clearGestureSelection = useCallback(
+    (reason: "outsidePress" | "programmatic") => {
+      if (props.selectedIndex === undefined) {
+        setGestureSelectedIndex(undefined);
+      }
+
+      interactionConfig.onDeselect?.({ reason });
+    },
+    [interactionConfig, props.selectedIndex]
+  );
+  const clearSelectionFromScope = useCallback(
+    (reason: "outsidePress" | "programmatic" | "scopeChange") => {
+      if (reason === "scopeChange") {
+        if (props.selectedIndex === undefined) {
+          setGestureSelectedIndex(undefined);
+        }
+
+        return;
+      }
+
+      clearGestureSelection(reason);
+    },
+    [clearGestureSelection, props.selectedIndex]
+  );
+  const scopedSelection = useScopedChartSelection({
+    chartId: scopedChartId,
+    controlled: props.selectedIndex !== undefined,
+    hasSelection: selectedIndex !== undefined,
+    onClear: clearSelectionFromScope
+  });
+  const clearScopedGestureSelection = useCallback(
+    (reason: "outsidePress" | "programmatic") => {
+      clearGestureSelection(reason);
+
+      if (reason !== "programmatic") {
+        scopedSelection.dismissSelection?.(reason);
+      }
+    },
+    [clearGestureSelection, scopedSelection]
+  );
   const {
     bars,
     boxes,
@@ -132,11 +175,7 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
         })
       ) {
         if (interactionConfig.deselectOnOutsidePress) {
-          if (props.selectedIndex === undefined) {
-            setGestureSelectedIndex(undefined);
-          }
-
-          interactionConfig.onDeselect?.({ reason: "outsidePress" });
+          clearScopedGestureSelection("outsidePress");
         }
 
         return;
@@ -155,6 +194,7 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
         setGestureSelectedIndex(nextSelectedIndex);
       }
 
+      scopedSelection.selectChart();
       const eventModel = buildCombinedChartSelectEvent({
         interactionPoints,
         selectedIndex: nextSelectedIndex,
@@ -170,10 +210,12 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
     },
     [
       boxes.plot,
+      clearScopedGestureSelection,
       interactionConfig,
       interactionPoints,
       model,
-      props.selectedIndex
+      props.selectedIndex,
+      scopedSelection
     ]
   );
   const responderProps: ViewProps = isCombinedChartInteractionEnabled(

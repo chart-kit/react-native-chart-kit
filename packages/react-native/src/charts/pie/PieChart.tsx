@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useId, useMemo, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import type { GestureResponderEvent, ViewProps } from "react-native";
 
@@ -11,6 +11,7 @@ import {
 } from "@chart-kit/svg-renderer";
 
 import { useChartKitTheme } from "../../theme";
+import { useScopedChartSelection } from "../../selection/ChartSelectionProvider";
 import { getPieChartAccessibilitySummary } from "./accessibility";
 import {
   buildPieChartSelectEvent,
@@ -35,6 +36,8 @@ const defaultPieLegendGap = 8;
 export const PieChart = <TData extends Record<string, unknown>>(
   props: PieChartProps<TData>
 ) => {
+  const generatedChartId = useId().replace(/:/g, "");
+  const scopedChartId = props.id ?? generatedChartId;
   const chartKitTheme = useChartKitTheme();
   const interactionConfig = useMemo(
     () => getPieChartInteractionConfig(props.interaction),
@@ -70,6 +73,46 @@ export const PieChart = <TData extends Record<string, unknown>>(
   };
   const isInteractionEnabled = isPieChartInteractionEnabled(interactionConfig);
   const hasSelectedSlice = selectedIndex !== undefined;
+  const clearGestureSelection = useCallback(
+    (reason: "outsidePress" | "programmatic") => {
+      if (props.selectedIndex === undefined) {
+        setGestureSelectedIndex(undefined);
+      }
+
+      interactionConfig.onDeselect?.({ reason });
+    },
+    [interactionConfig, props.selectedIndex]
+  );
+  const clearSelectionFromScope = useCallback(
+    (reason: "outsidePress" | "programmatic" | "scopeChange") => {
+      if (reason === "scopeChange") {
+        if (props.selectedIndex === undefined) {
+          setGestureSelectedIndex(undefined);
+        }
+
+        return;
+      }
+
+      clearGestureSelection(reason);
+    },
+    [clearGestureSelection, props.selectedIndex]
+  );
+  const scopedSelection = useScopedChartSelection({
+    chartId: scopedChartId,
+    controlled: props.selectedIndex !== undefined,
+    hasSelection: hasSelectedSlice,
+    onClear: clearSelectionFromScope
+  });
+  const clearScopedGestureSelection = useCallback(
+    (reason: "outsidePress" | "programmatic") => {
+      clearGestureSelection(reason);
+
+      if (reason !== "programmatic") {
+        scopedSelection.dismissSelection?.(reason);
+      }
+    },
+    [clearGestureSelection, scopedSelection]
+  );
   const handleResponderRelease = useCallback(
     (event: GestureResponderEvent) => {
       event.preventDefault();
@@ -87,11 +130,7 @@ export const PieChart = <TData extends Record<string, unknown>>(
 
       if (!tappedSlice) {
         if (interactionConfig.deselectOnOutsidePress) {
-          if (props.selectedIndex === undefined) {
-            setGestureSelectedIndex(undefined);
-          }
-
-          interactionConfig.onDeselect?.({ reason: "outsidePress" });
+          clearScopedGestureSelection("outsidePress");
         }
 
         return;
@@ -101,6 +140,7 @@ export const PieChart = <TData extends Record<string, unknown>>(
         setGestureSelectedIndex(tappedSlice.index);
       }
 
+      scopedSelection.selectChart();
       const selectEvent = buildPieChartSelectEvent(tappedSlice);
 
       if (selectEvent) {
@@ -111,10 +151,12 @@ export const PieChart = <TData extends Record<string, unknown>>(
       arcs,
       centerX,
       centerY,
+      clearScopedGestureSelection,
       interactionConfig,
       model.innerRadius,
       props.selectedIndex,
-      radius
+      radius,
+      scopedSelection
     ]
   );
   const responderProps: ViewProps = isInteractionEnabled

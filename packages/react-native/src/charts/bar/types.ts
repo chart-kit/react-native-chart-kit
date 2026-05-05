@@ -138,6 +138,7 @@ export type BarChartProps<TData extends Record<string, unknown>> = {
   labelStrategy?: BarChartLabelStrategy;
   formatXLabel?: (value: ChartXValue, index: number) => string;
   formatYLabel?: (value: number) => string;
+  id?: string;
   accessibilityLabel?: string;
   testID?: string;
 };

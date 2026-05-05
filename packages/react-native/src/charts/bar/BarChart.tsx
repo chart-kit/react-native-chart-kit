@@ -1,8 +1,16 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState
+} from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import type { GestureResponderEvent, ViewProps } from "react-native";
 
 import { useChartKitTheme } from "../../theme";
+import { useScopedChartSelection } from "../../selection/ChartSelectionProvider";
 import { getBarChartAccessibilitySummary } from "./accessibility";
 import {
   BarChartSurface,
@@ -39,6 +47,8 @@ export type {
 export const BarChart = <TData extends Record<string, unknown>>(
   props: BarChartProps<TData>
 ) => {
+  const generatedChartId = useId().replace(/:/g, "");
+  const scopedChartId = props.id ?? generatedChartId;
   const chartKitTheme = useChartKitTheme();
   const scrollViewRef = useRef<ScrollView>(null);
   const interactionConfig = useMemo(
@@ -84,6 +94,46 @@ export const BarChart = <TData extends Record<string, unknown>>(
   const barRadius = Math.max(0, props.barRadius ?? 5);
   const controlledSelectedBarKey = getBarChartBarKey(props.selectedBar);
   const selectedBarKey = controlledSelectedBarKey ?? gestureSelectedBarKey;
+  const clearGestureSelection = useCallback(
+    (reason: "outsidePress" | "programmatic") => {
+      if (props.selectedBar === undefined) {
+        setGestureSelectedBarKey(undefined);
+      }
+
+      interactionConfig.onDeselect?.({ reason });
+    },
+    [interactionConfig, props.selectedBar]
+  );
+  const clearSelectionFromScope = useCallback(
+    (reason: "outsidePress" | "programmatic" | "scopeChange") => {
+      if (reason === "scopeChange") {
+        if (props.selectedBar === undefined) {
+          setGestureSelectedBarKey(undefined);
+        }
+
+        return;
+      }
+
+      clearGestureSelection(reason);
+    },
+    [clearGestureSelection, props.selectedBar]
+  );
+  const scopedSelection = useScopedChartSelection({
+    chartId: scopedChartId,
+    controlled: props.selectedBar !== undefined,
+    hasSelection: selectedBarKey !== undefined,
+    onClear: clearSelectionFromScope
+  });
+  const clearScopedGestureSelection = useCallback(
+    (reason: "outsidePress" | "programmatic") => {
+      clearGestureSelection(reason);
+
+      if (reason !== "programmatic") {
+        scopedSelection.dismissSelection?.(reason);
+      }
+    },
+    [clearGestureSelection, scopedSelection]
+  );
   const selectedBar = bars.find((bar) => bar.key === selectedBarKey);
   const tooltipConfig = useMemo(
     () =>
@@ -116,11 +166,7 @@ export const BarChart = <TData extends Record<string, unknown>>(
 
       if (!tappedBar) {
         if (interactionConfig.deselectOnOutsidePress) {
-          if (props.selectedBar === undefined) {
-            setGestureSelectedBarKey(undefined);
-          }
-
-          interactionConfig.onDeselect?.({ reason: "outsidePress" });
+          clearScopedGestureSelection("outsidePress");
         }
 
         return;
@@ -130,13 +176,20 @@ export const BarChart = <TData extends Record<string, unknown>>(
         setGestureSelectedBarKey(tappedBar.key);
       }
 
+      scopedSelection.selectChart();
       const selectEvent = buildBarChartSelectEvent(tappedBar);
 
       if (selectEvent) {
         interactionConfig.onSelect?.(selectEvent);
       }
     },
-    [bars, interactionConfig, props.selectedBar]
+    [
+      bars,
+      clearScopedGestureSelection,
+      interactionConfig,
+      props.selectedBar,
+      scopedSelection
+    ]
   );
   const responderProps: ViewProps = isInteractionEnabled
     ? {

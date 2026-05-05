@@ -132,6 +132,7 @@ export type CombinedChartProps<TData extends Record<string, unknown>> = {
   formatLeftYLabel?: (value: number) => string;
   formatRightYLabel?: (value: number) => string;
   accessibilityLabel?: string;
+  id?: string;
   testID?: string;
 };
 

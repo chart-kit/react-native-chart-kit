@@ -14,6 +14,11 @@ export const storyFeatureTags: Record<string, string[]> = {
     "controlled selection",
     "crosshair"
   ],
+  "v2-selection-scope": [
+    "selection provider",
+    "cross-chart dismissal",
+    "external value"
+  ],
   "v2-custom-crosshair": ["custom crosshair", "axis badges", "render prop"],
   "v2-scrub": ["scrub gesture", "persistent selection", "animated tooltip"],
   "v2-while-active": ["hold to inspect", "while-active", "scroll lock"],

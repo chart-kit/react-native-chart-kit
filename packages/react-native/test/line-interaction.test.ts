@@ -10,6 +10,7 @@ import {
   normalizeLineChartSelectedIndex,
   type LineChartInteractionPoint
 } from "../src/charts/line/interaction";
+import { getLineChartOutsidePressSurfaces } from "../src/charts/line/outsidePressSurfaces";
 import type { LineChartSelectedSeriesItem } from "../src/charts/line/selection";
 
 const interactionPoints: Array<LineChartInteractionPoint<{ month: string }>> = [
@@ -154,6 +155,27 @@ describe("LineChart interaction helpers", () => {
         viewportWidth: 360
       })
     ).toEqual(bounds);
+  });
+
+  it("builds outside-press surfaces around the visible plot", () => {
+    expect(
+      getLineChartOutsidePressSurfaces({
+        enabled: true,
+        mainHeight: 220,
+        visibleInteractionBounds: {
+          height: 140,
+          width: 240,
+          x: 48,
+          y: 40
+        },
+        width: 320
+      })
+    ).toEqual([
+      { height: 40, key: "top", left: 0, top: 0, width: 320 },
+      { height: 140, key: "left", left: 0, top: 40, width: 48 },
+      { height: 140, key: "right", left: 288, top: 40, width: 32 },
+      { height: 40, key: "bottom", left: 0, top: 180, width: 320 }
+    ]);
   });
 
   it("maps touch x position to nearest data index", () => {

@@ -11,6 +11,7 @@ export type StackedBarChartFixture = {
     backgroundColor?: string;
     backgroundGradientFrom: string;
     backgroundGradientTo: string;
+    color?: (opacity?: number) => string;
     decimalPlaces?: number;
     labelColor?: (opacity?: number) => string;
     barPercentage?: number;
@@ -37,6 +38,7 @@ const chartConfig: StackedBarChartFixture["chartConfig"] = {
   backgroundGradientTo: "#ffffff",
   barPercentage: 0.68,
   barRadius: 5,
+  color: () => "#2563eb",
   decimalPlaces: 0,
   labelColor: () => "#475569",
   propsForBackgroundLines: {

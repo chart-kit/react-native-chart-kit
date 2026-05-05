@@ -10,6 +10,7 @@ export const chartStories = [
   "v2-dashed-forecast",
   "v2-dot-styles",
   "v2-selected-tooltip",
+  "v2-selection-scope",
   "v2-custom-crosshair",
   "v2-scrub",
   "v2-while-active",

@@ -29,6 +29,7 @@ export const publicChartMode: ShowcaseMode = {
             "Selection, tooltip, crosshair, scrolling, and multi-series inspection behavior.",
           storyIds: [
             "v2-selected-tooltip",
+            "v2-selection-scope",
             "v2-custom-crosshair",
             "v2-scrollable-stock-comparison",
             "v2-scrollable-price"

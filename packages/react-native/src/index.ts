@@ -16,6 +16,17 @@ export {
   resolveCartesianChartThemeConfig,
   useChartKitTheme
 } from "./theme";
+export {
+  ChartSelectionProvider,
+  useChartSelection,
+  useDismissChartSelection
+} from "./selection";
+export type {
+  ChartSelectionContextValue,
+  ChartSelectionClearReason,
+  ChartSelectionDismissReason,
+  ChartSelectionProviderProps
+} from "./selection";
 export type {
   CartesianChartPreset,
   CartesianChartPresetInput,

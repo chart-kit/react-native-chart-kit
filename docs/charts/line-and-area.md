@@ -172,6 +172,64 @@ Selection persistence:
 - `whileActive`: clear selection on gesture end.
 - `none`: emit selection events without keeping internal selected state.
 
+## Selection Scopes
+
+Use `ChartSelectionProvider` when a screen needs cross-chart dismissal, external selected-value UI, or controls that clear chart selection before running their own action. The provider is opt-in and screen-local; it does not install a global touch listener.
+
+```tsx
+import {
+  ChartSelectionProvider,
+  LineChart,
+  useDismissChartSelection
+} from "@chart-kit/react-native";
+
+function RangeButton() {
+  const dismissChartSelection = useDismissChartSelection();
+
+  return (
+    <Pressable
+      onPress={() => {
+        dismissChartSelection();
+        setRange("1M");
+      }}
+    >
+      <Text>1M</Text>
+    </Pressable>
+  );
+}
+
+export function PortfolioScreen() {
+  return (
+    <ChartSelectionProvider dismissOnPressOutside>
+      <PortfolioHeader />
+      <LineChart
+        id="portfolio"
+        data={portfolioData}
+        xKey="date"
+        yKey="value"
+        interaction="scrub"
+        tooltip
+        width={360}
+        height={240}
+      />
+      <LineChart
+        id="benchmark"
+        data={benchmarkData}
+        xKey="date"
+        yKey="value"
+        interaction="tap"
+        tooltip
+        width={360}
+        height={220}
+      />
+      <RangeButton />
+    </ChartSelectionProvider>
+  );
+}
+```
+
+Selecting one chart clears other uncontrolled selections in the same provider. Tapping inside the provider but outside a chart dismisses selection when `dismissOnPressOutside` is enabled. Controlled charts still own their own `selectedIndex` state.
+
 ## Custom Crosshair
 
 Use `renderCrosshair` when a product needs branded cursors, axis badges, or a custom inspection overlay. The render prop receives the selected x/y position, selected series, plot bounds, theme tokens, and resolved crosshair config.

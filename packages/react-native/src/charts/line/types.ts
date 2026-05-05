@@ -427,6 +427,7 @@ export type LineChartProps<TData extends Record<string, unknown>> = {
   axisLabelAnimation?: boolean | LineChartAxisLabelAnimationConfig;
   formatXLabel?: (value: ChartXValue, index: number) => string;
   formatYLabel?: (value: number) => string;
+  id?: string;
   accessibilityLabel?: string;
   testID?: string;
 };
