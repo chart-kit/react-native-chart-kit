@@ -34,9 +34,45 @@ describe("Chart Kit Pro preview boundary", () => {
   it("looks up features by id", () => {
     expect(getChartKitProFeature("pro-chart-types")).toMatchObject({
       category: "charts",
+      includes: expect.arrayContaining([
+        "candlestick and OHLC",
+        "combo bar plus line",
+        "dual-axis charts"
+      ]),
       status: "preview"
     });
     expect(getChartKitProFeature("missing")).toBeUndefined();
+  });
+
+  it("documents the monetizable scope and free guardrail for each feature", () => {
+    for (const feature of chartKitProPreviewFeatures) {
+      expect(feature.commercialRationale.length).toBeGreaterThan(20);
+      expect(feature.freeGuardrail.length).toBeGreaterThan(20);
+      expect(feature.includes.length).toBeGreaterThan(0);
+    }
+
+    expect(getChartKitProFeature("pro-layout-engine")).toMatchObject({
+      includes: expect.arrayContaining([
+        "smart Y-axis width measurement",
+        "auto tick density",
+        "currency, percent, and compact formatting"
+      ])
+    });
+    expect(getChartKitProFeature("pro-interactions")).toMatchObject({
+      includes: expect.arrayContaining([
+        "tooltips",
+        "scrubbing",
+        "zoom and pan",
+        "scrollable charts with fixed Y-axis"
+      ])
+    });
+    expect(getChartKitProFeature("pro-export")).toMatchObject({
+      includes: expect.arrayContaining([
+        "export chart as PNG",
+        "share sheet integration",
+        "snapshot API"
+      ])
+    });
   });
 
   it("classifies free baseline and pro-candidate public surfaces", () => {
@@ -62,6 +98,14 @@ describe("Chart Kit Pro preview boundary", () => {
   });
 
   it("maps pro-candidate capabilities to current preview exports", () => {
+    const featureIds = new Set(
+      chartKitProPreviewFeatures.map((feature) => feature.id)
+    );
+
+    for (const capability of chartKitProCandidateCapabilities) {
+      expect(featureIds.has(capability.featureId)).toBe(true);
+    }
+
     expect(
       chartKitProCandidateCapabilities.map(
         (capability) => capability.exportName

@@ -44,6 +44,12 @@ Preview feature buckets:
 - `pro-theme-templates`: premium app-style presets and animated transitions
 - `pro-performance`: large dataset mode, decimation, virtualized rendering, memoized paths, native benchmarks, and optional Skia acceleration
 
+Each registry entry also carries:
+
+- `includes`: the concrete capabilities currently scoped to that bucket
+- `commercialRationale`: why this belongs in paid production workflows
+- `freeGuardrail`: what must stay free so v2 does not feel intentionally limited
+
 The surface-boundary metadata is intentionally descriptive. It lets release docs, tests, and future package refactors agree that current preview features such as `CombinedChart`, `CandlestickChart`, advanced `LineChart` interactions, grouped/scrollable/selectable bars, and active donut selection are Pro candidates until H4 is finalized.
 
 React Native preview composition:

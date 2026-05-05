@@ -14,8 +14,11 @@ export type ChartKitProFeatureCategory =
 
 export type ChartKitProFeature = {
   category: ChartKitProFeatureCategory;
+  commercialRationale: string;
   description: string;
+  freeGuardrail: string;
   id: string;
+  includes: readonly string[];
   status: ChartKitProFeatureStatus;
 };
 
