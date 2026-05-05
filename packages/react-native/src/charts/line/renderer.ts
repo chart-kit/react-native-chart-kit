@@ -30,6 +30,7 @@ export const lineChartSvgRenderer: LineChartRenderer = {
     clipPaths: true,
     gradients: true,
     pathGradients: false,
+    rectClips: false,
     text: true
   },
   name: "svg"

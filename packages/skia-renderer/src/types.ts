@@ -10,6 +10,7 @@ export type SkiaRendererCapabilities = {
   hitRegions: boolean;
   layers: boolean;
   pathGradients: boolean;
+  rectClips: boolean;
   shadows: boolean;
   symbols: boolean;
   testIds: boolean;
@@ -42,6 +43,9 @@ export type SkiaComponentModule = {
   DashPathEffect?: ElementType | undefined;
   Line?: ElementType | undefined;
   LinearGradient?: ElementType | undefined;
+  rect?:
+    | ((x: number, y: number, width: number, height: number) => unknown)
+    | undefined;
   vec?: ((x: number, y: number) => unknown) | undefined;
 };
 
@@ -97,9 +101,17 @@ export type SkiaPaintProps = SkiaTestableProps & {
 };
 
 export type SkiaPathProps = SkiaPaintProps & {
+  clipRect?: SkiaClipRectShape;
   d?: string;
   fillGradient?: SkiaLinearGradientProps;
   path?: string;
+};
+
+export type SkiaClipRectShape = {
+  height: number;
+  width: number;
+  x: number;
+  y: number;
 };
 
 export type SkiaRectProps = SkiaPaintProps & {

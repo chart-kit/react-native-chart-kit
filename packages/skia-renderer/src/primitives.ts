@@ -143,7 +143,14 @@ export const createSkiaPrimitives = ({
     });
   };
 
-  const Path = ({ d, fillGradient, path, testID, ...paint }: SkiaPathProps) => {
+  const Path = ({
+    clipRect,
+    d,
+    fillGradient,
+    path,
+    testID,
+    ...paint
+  }: SkiaPathProps) => {
     const skiaPath = path ?? d ?? "";
     const dashEffect = getSkiaDashEffect({ paint, skia });
     const fillPaint = getSkiaFillPaintProps(paint);
@@ -151,8 +158,7 @@ export const createSkiaPrimitives = ({
     const gradientElement = fillGradient
       ? createElement(LinearGradient, fillGradient)
       : undefined;
-
-    return renderSkiaPaintPair({
+    const pathElement = renderSkiaPaintPair({
       fillElement:
         fillPaint || gradientElement
           ? createElement(
@@ -179,6 +185,24 @@ export const createSkiaPrimitives = ({
         : undefined,
       testID
     });
+
+    if (!clipRect || !skia.rect) {
+      return pathElement;
+    }
+
+    return createElement(
+      skia.Group,
+      {
+        clip: skia.rect(
+          clipRect.x,
+          clipRect.y,
+          clipRect.width,
+          clipRect.height
+        ),
+        ...(testID ? { testID: `${testID}-clip-group` } : {})
+      },
+      pathElement
+    );
   };
 
   const Rect = ({

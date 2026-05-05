@@ -136,6 +136,7 @@ const skiaLikeRenderer: LineChartRenderer = {
     clipPaths: false,
     gradients: false,
     pathGradients: false,
+    rectClips: false,
     text: true
   },
   name: "skia-test"
@@ -268,6 +269,7 @@ describe("LineChart renderer parity contract", () => {
       clipPaths: true,
       gradients: true,
       pathGradients: false,
+      rectClips: false,
       text: true
     });
   });
@@ -286,6 +288,7 @@ describe("LineChart renderer parity contract", () => {
         clipPaths: false,
         gradients: false,
         pathGradients: false,
+        rectClips: false,
         text: false
       },
       name: "test-renderer"
@@ -369,6 +372,59 @@ describe("LineChart renderer parity contract", () => {
     expect(
       (areaChildren[0]?.props as { opacity?: number }).opacity
     ).toBeUndefined();
+  });
+
+  it("passes threshold paths as rect-clipped overlays when the renderer supports rect clips", () => {
+    const rectClipRenderer: LineChartRenderer = {
+      ...skiaLikeRenderer,
+      capabilities: {
+        ...skiaLikeRenderer.capabilities,
+        rectClips: true
+      }
+    };
+    const plot = { height: 100, width: 200, x: 4, y: 8 };
+    const yScale = { scale: (value: number) => 18 + value } as LineChartModel<
+      Record<string, unknown>
+    >["yScale"];
+    const areaChildren = getFragmentChildren(
+      LineChartAreaPaths({
+        chartId: "chart",
+        geometries,
+        plot,
+        renderer: rectClipRenderer,
+        yScale
+      })
+    );
+    const lineChildren = getFragmentChildren(
+      LineChartLinePaths({
+        chartId: "chart",
+        geometries,
+        plot,
+        renderer: rectClipRenderer,
+        yScale
+      })
+    );
+
+    expect(areaChildren).toHaveLength(3);
+    expect(areaChildren[1]?.props).toMatchObject({
+      clipRect: { height: 20, width: 200, x: 4, y: 8 },
+      fill: "#16a34a",
+      opacity: 0.18
+    });
+    expect(areaChildren[2]?.props).toMatchObject({
+      clipRect: { height: 80, width: 200, x: 4, y: 28 },
+      fill: "#dc2626",
+      opacity: 0.18
+    });
+    expect(lineChildren).toHaveLength(2);
+    expect(lineChildren[0]?.props).toMatchObject({
+      clipRect: { height: 20, width: 200, x: 4, y: 8 },
+      stroke: "#16a34a"
+    });
+    expect(lineChildren[1]?.props).toMatchObject({
+      clipRect: { height: 80, width: 200, x: 4, y: 28 },
+      stroke: "#dc2626"
+    });
   });
 
   it("renders default markers through injected primitives", () => {

@@ -6,6 +6,24 @@ import type { LineChartRenderer } from "./types";
 type LineChartGeometryModel<TData extends Record<string, unknown>> =
   LineChartModel<TData>["geometries"][number];
 
+type RectClip = {
+  height: number;
+  width: number;
+  x: number;
+  y: number;
+};
+
+type PlotBox = {
+  height: number;
+  width: number;
+  x: number;
+  y: number;
+};
+
+type NumericScaleLike = {
+  scale: (value: number) => number;
+};
+
 const getAreaGradientId = (chartId: string, index: number) =>
   `${chartId}-area-gradient-${index}`;
 
@@ -19,6 +37,45 @@ export const getLineChartAreaGradientRef = (chartId: string, index: number) =>
   `url(#${getAreaGradientId(chartId, index)})`;
 
 export const getLineChartAreaGradientId = getAreaGradientId;
+
+const getThresholdRectClips = ({
+  plot,
+  thresholdY
+}: {
+  plot: PlotBox;
+  thresholdY: number;
+}): { above: RectClip; below: RectClip } => {
+  const plotBottom = plot.y + plot.height;
+
+  return {
+    above: {
+      height: Math.max(0, thresholdY - plot.y),
+      width: plot.width,
+      x: plot.x,
+      y: plot.y
+    },
+    below: {
+      height: Math.max(0, plotBottom - thresholdY),
+      width: plot.width,
+      x: plot.x,
+      y: thresholdY
+    }
+  };
+};
+
+const getThresholdY = ({
+  plot,
+  threshold,
+  yScale
+}: {
+  plot: PlotBox;
+  threshold: number;
+  yScale: NumericScaleLike;
+}) => {
+  const plotBottom = plot.y + plot.height;
+
+  return Math.min(Math.max(yScale.scale(threshold), plot.y), plotBottom);
+};
 
 export const LineChartThresholdClipDefs = <
   TData extends Record<string, unknown>
@@ -41,10 +98,6 @@ export const LineChartThresholdClipDefs = <
     return null;
   }
 
-  const plotBottom = plot.y + plot.height;
-  const getThresholdY = (y: number) =>
-    Math.min(Math.max(yScale.scale(y), plot.y), plotBottom);
-
   return (
     <>
       {geometries.flatMap(({ style }, index) => {
@@ -52,24 +105,23 @@ export const LineChartThresholdClipDefs = <
           return [];
         }
 
-        const thresholdY = getThresholdY(style.threshold.y);
+        const thresholdY = getThresholdY({
+          plot,
+          threshold: style.threshold.y,
+          yScale
+        });
+        const rectClips = getThresholdRectClips({ plot, thresholdY });
 
         return [
           <ClipRect
             key={`threshold-above-${index}`}
             id={getThresholdClipId(chartId, index, "above")}
-            x={plot.x}
-            y={plot.y}
-            width={plot.width}
-            height={Math.max(0, thresholdY - plot.y)}
+            {...rectClips.above}
           />,
           <ClipRect
             key={`threshold-below-${index}`}
             id={getThresholdClipId(chartId, index, "below")}
-            x={plot.x}
-            y={thresholdY}
-            width={plot.width}
-            height={Math.max(0, plotBottom - thresholdY)}
+            {...rectClips.below}
           />
         ];
       })}
@@ -80,11 +132,15 @@ export const LineChartThresholdClipDefs = <
 export const LineChartAreaPaths = <TData extends Record<string, unknown>>({
   chartId,
   geometries,
+  plot,
+  yScale,
   renderer
 }: {
   chartId: string;
   geometries: Array<LineChartGeometryModel<TData>>;
+  plot?: LineChartModel<TData>["boxes"]["plot"] | undefined;
   renderer: LineChartRenderer;
+  yScale?: LineChartModel<TData>["yScale"] | undefined;
 }) => {
   const Path = renderer.Path;
   const supportsClipPaths = renderer.capabilities?.clipPaths === true;
@@ -92,6 +148,7 @@ export const LineChartAreaPaths = <TData extends Record<string, unknown>>({
     renderer.capabilities?.gradients !== false &&
     renderer.capabilities?.pathGradients !== true;
   const supportsPathGradients = renderer.capabilities?.pathGradients === true;
+  const supportsRectClips = renderer.capabilities?.rectClips === true;
 
   return (
     <>
@@ -158,6 +215,30 @@ export const LineChartAreaPaths = <TData extends Record<string, unknown>>({
               )}
             />
           );
+        } else if (style.threshold && supportsRectClips && plot && yScale) {
+          const thresholdY = getThresholdY({
+            plot,
+            threshold: style.threshold.y,
+            yScale
+          });
+          const rectClips = getThresholdRectClips({ plot, thresholdY });
+
+          paths.push(
+            <Path
+              key={`area-${geometry.key}-above`}
+              d={geometry.area.path}
+              fill={style.threshold.areaAboveColor}
+              opacity={style.threshold.areaOpacity}
+              clipRect={rectClips.above}
+            />,
+            <Path
+              key={`area-${geometry.key}-below`}
+              d={geometry.area.path}
+              fill={style.threshold.areaBelowColor}
+              opacity={style.threshold.areaOpacity}
+              clipRect={rectClips.below}
+            />
+          );
         }
 
         return paths;
@@ -169,14 +250,19 @@ export const LineChartAreaPaths = <TData extends Record<string, unknown>>({
 export const LineChartLinePaths = <TData extends Record<string, unknown>>({
   chartId,
   geometries,
+  plot,
+  yScale,
   renderer
 }: {
   chartId: string;
   geometries: Array<LineChartGeometryModel<TData>>;
+  plot?: LineChartModel<TData>["boxes"]["plot"] | undefined;
   renderer: LineChartRenderer;
+  yScale?: LineChartModel<TData>["yScale"] | undefined;
 }) => {
   const Path = renderer.Path;
   const supportsClipPaths = renderer.capabilities?.clipPaths === true;
+  const supportsRectClips = renderer.capabilities?.rectClips === true;
 
   return (
     <>
@@ -192,7 +278,44 @@ export const LineChartLinePaths = <TData extends Record<string, unknown>>({
             : {})
         };
 
-        if (!style.threshold || !supportsClipPaths) {
+        if (!style.threshold) {
+          return [
+            <Path
+              key={`line-${geometry.key}`}
+              {...commonLineProps}
+              stroke={style.color}
+              strokeOpacity={style.strokeStyle.strokeOpacity}
+            />
+          ];
+        }
+
+        if (supportsRectClips && plot && yScale) {
+          const thresholdY = getThresholdY({
+            plot,
+            threshold: style.threshold.y,
+            yScale
+          });
+          const rectClips = getThresholdRectClips({ plot, thresholdY });
+
+          return [
+            <Path
+              key={`line-${geometry.key}-above`}
+              {...commonLineProps}
+              stroke={style.threshold.aboveColor}
+              strokeOpacity={style.threshold.aboveOpacity}
+              clipRect={rectClips.above}
+            />,
+            <Path
+              key={`line-${geometry.key}-below`}
+              {...commonLineProps}
+              stroke={style.threshold.belowColor}
+              strokeOpacity={style.threshold.belowOpacity}
+              clipRect={rectClips.below}
+            />
+          ];
+        }
+
+        if (!supportsClipPaths) {
           return [
             <Path
               key={`line-${geometry.key}`}

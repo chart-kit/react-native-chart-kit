@@ -245,14 +245,18 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
           <LineChartAreaPaths
             chartId={chartId}
             geometries={geometries}
+            plot={boxes.plot}
             renderer={renderer}
+            yScale={yScale}
           />
         </Layer>
         <Layer name="data">
           <LineChartLinePaths
             chartId={chartId}
             geometries={geometries}
+            plot={boxes.plot}
             renderer={renderer}
+            yScale={yScale}
           />
         </Layer>
         <Layer name="referenceLines">

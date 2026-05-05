@@ -24,6 +24,12 @@ const fakeSkia = {
   Path: "Path",
   Rect: "Rect",
   Text: "Text",
+  rect: (x: number, y: number, width: number, height: number) => ({
+    height,
+    width,
+    x,
+    y
+  }),
   vec: (x: number, y: number) => ({ x, y })
 } as unknown as SkiaComponentModule;
 
@@ -42,6 +48,7 @@ describe("Skia renderer preview boundary", () => {
       hitRegions: false,
       layers: true,
       pathGradients: false,
+      rectClips: false,
       shadows: false,
       symbols: false,
       testIds: true,
@@ -91,6 +98,7 @@ describe("Skia renderer preview boundary", () => {
     expect(renderer.capabilities).toMatchObject({
       gradients: false,
       pathGradients: true,
+      rectClips: true,
       text: true,
       textMeasurement: "skia"
     });
@@ -112,6 +120,38 @@ describe("Skia renderer preview boundary", () => {
         y: 12
       },
       type: "Text"
+    });
+  });
+
+  it("wraps paths in Skia rect clips when requested", () => {
+    const renderer = createSkiaRenderer({ skia: fakeSkia });
+    const clippedPath = renderComponent(renderer.Path, {
+      clipRect: { height: 16, width: 40, x: 4, y: 8 },
+      d: "M 0 0 L 10 10",
+      stroke: "#2563eb",
+      strokeWidth: 2,
+      testID: "threshold-line"
+    });
+    const clippedElement = isValidElement<{ children?: ReactNode }>(clippedPath)
+      ? clippedPath
+      : undefined;
+    const path = Children.toArray(clippedElement?.props.children).find(
+      isValidElement
+    );
+
+    expect(clippedElement?.type).toBe("Group");
+    expect(clippedElement?.props).toMatchObject({
+      clip: { height: 16, width: 40, x: 4, y: 8 },
+      testID: "threshold-line-clip-group"
+    });
+    expect(path).toMatchObject({
+      props: {
+        color: "#2563eb",
+        path: "M 0 0 L 10 10",
+        strokeWidth: 2,
+        style: "stroke"
+      },
+      type: "Path"
     });
   });
 
