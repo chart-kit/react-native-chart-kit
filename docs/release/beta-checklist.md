@@ -49,6 +49,7 @@ Those placeholders must not be counted as passing native release-build coverage.
 - [Production recipes](../recipes/README.md)
 - [Troubleshooting guide](../troubleshooting.md)
 - [Known issues](known-issues.md)
+- [H5 beta gate evidence](h5-beta-gate-evidence.md)
 - [Changelog](../../CHANGELOG.md)
 
 ## H5 Owner Decision
