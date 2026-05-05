@@ -36,6 +36,6 @@ Impact: keep it labeled as financial foundation or preview unless those gaps are
 
 ## Docs Examples
 
-Markdown docs validate local links and fenced code blocks, but snippets are not yet compiled as standalone examples.
+Representative docs examples are type-checked in `packages/react-native/test/docs-examples.typecheck.tsx`, but markdown snippets are not yet automatically extracted and compiled as standalone examples.
 
-Impact: chart docs should be reviewed alongside showcase stories until docs-snippet compilation is added.
+Impact: chart docs should still be reviewed alongside showcase stories until automatic docs-snippet extraction is added.

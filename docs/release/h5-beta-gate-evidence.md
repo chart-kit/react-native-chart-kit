@@ -54,6 +54,7 @@ Benchmark scope is core geometry only. It does not measure native render time, g
 | Prop mapping           | [Prop mapping](../migration/prop-mapping.md)                                                             | Covered for common props                                                       |
 | Install docs           | [Installation](../getting-started/installation.md)                                                       | Covered with package-path caveat                                               |
 | Recipes                | [Production recipes](../recipes/README.md)                                                               | Covered                                                                        |
+| Docs example types     | `packages/react-native/test/docs-examples.typecheck.tsx`; `npm run rn:typecheck`                         | Covered for representative examples; not every markdown fence                  |
 | Issue list             | [Known issues](known-issues.md)                                                                          | Covered                                                                        |
 | Benchmark results      | `npm run benchmark`; this document                                                                       | Covered for core geometry only                                                 |
 | Changelog              | [Changelog](../../CHANGELOG.md)                                                                          | Covered for current v7 preview                                                 |
@@ -83,7 +84,7 @@ These are not covered by the green checks:
 - native Android release build
 - native e2e tests beyond the web showcase interaction suite
 - React Native CLI example apps
-- standalone compiled docs snippets
+- automatic extraction and compilation of every docs snippet
 - Skia renderer and Pro package split
 - final public package/import path
 - final free-vs-Pro boundary for animation, range selector, zoom, and financial features
