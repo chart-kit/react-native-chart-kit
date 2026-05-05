@@ -122,6 +122,7 @@ export type CombinedChartProps<TData extends Record<string, unknown>> = {
   showXAxisLabels?: boolean;
   showYAxisLabels?: boolean;
   legend?: boolean;
+  visibleSeriesKeys?: string[];
   interaction?: CombinedChartInteraction<TData>;
   selectedIndex?: number;
   defaultSelectedIndex?: number;
@@ -135,6 +136,7 @@ export type CombinedChartProps<TData extends Record<string, unknown>> = {
 };
 
 export type CombinedChartLegendItemModel = {
+  active: boolean;
   key: string;
   label: string;
   color: string;

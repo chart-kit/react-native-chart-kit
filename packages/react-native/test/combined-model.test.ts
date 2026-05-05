@@ -87,4 +87,50 @@ describe("CombinedChart model", () => {
     expect(model.bars.map((bar) => bar.stackStart)).toEqual([0, 40, 0, 55]);
     expect(model.lines[0]?.label).toBe("Conversion");
   });
+
+  it("filters visible series and recomputes domains", () => {
+    const allVisible = buildCombinedChartModel({
+      chartKitTheme,
+      data: [
+        { month: "Jan", direct: 40, enterprise: 180, margin: 12 },
+        { month: "Feb", direct: 55, enterprise: 220, margin: 14 }
+      ],
+      xKey: "month",
+      bars: [
+        { yKey: "direct", label: "Direct" },
+        { yKey: "enterprise", label: "Enterprise" }
+      ],
+      lines: [{ yKey: "margin", label: "Margin" }],
+      width: 360,
+      height: 260
+    });
+    const directOnly = buildCombinedChartModel({
+      chartKitTheme,
+      data: [
+        { month: "Jan", direct: 40, enterprise: 180, margin: 12 },
+        { month: "Feb", direct: 55, enterprise: 220, margin: 14 }
+      ],
+      xKey: "month",
+      bars: [
+        { yKey: "direct", label: "Direct" },
+        { yKey: "enterprise", label: "Enterprise" }
+      ],
+      lines: [{ yKey: "margin", label: "Margin" }],
+      visibleSeriesKeys: ["bar-direct", "line-margin"],
+      width: 360,
+      height: 260
+    });
+
+    expect(allVisible.leftDomain[1]).toBeGreaterThan(200);
+    expect(directOnly.leftDomain[1]).toBeLessThan(100);
+    expect(directOnly.bars.map((bar) => bar.seriesKey)).toEqual([
+      "bar-direct",
+      "bar-direct"
+    ]);
+    const enterpriseLegend = directOnly.legendItems.find(
+      (item) => item.key === "bar-enterprise"
+    );
+
+    expect(enterpriseLegend?.active).toBe(false);
+  });
 });

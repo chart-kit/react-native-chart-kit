@@ -167,6 +167,28 @@ test.describe("Expo showcase chart interactions", () => {
     await expect(page.getByText("Revenue: $208k")).toHaveCount(0);
   });
 
+  test("combined chart external legend toggles visible series", async ({
+    page
+  }) => {
+    await page.goto("/?story=v2-combined-legend-toggles&visual=1");
+    await page.evaluate(async () => {
+      await document.fonts?.ready;
+    });
+
+    await expect(page.getByText("Channel plan")).toBeVisible();
+    await expect(
+      page.getByTestId("combined-legend-toggle-chart-bar.bar-enterprise.0")
+    ).toBeVisible();
+
+    await page.getByRole("button", { name: "Enterprise" }).click();
+    await expect(
+      page.getByTestId("combined-legend-toggle-chart-bar.bar-enterprise.0")
+    ).toHaveCount(0);
+    await expect(
+      page.getByTestId("combined-legend-toggle-chart-bar.bar-direct.0")
+    ).toBeVisible();
+  });
+
   test("bar chart stories inherit the app-level theme preset", async ({
     page
   }) => {

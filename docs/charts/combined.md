@@ -47,4 +47,21 @@ Tap selection can show a shared tooltip across visible bar and line series:
 
 The default tooltip is theme-aware and uses the same tooltip styling contract as line charts. Pass `renderTooltip` for a custom SVG tooltip renderer.
 
-Legend toggling is still intentionally left for the next combined-chart slice.
+For custom legends or external controls, pass `visibleSeriesKeys` with the resolved series keys. Domains, geometry, legends, and shared tooltip contents are recomputed from the visible series:
+
+```tsx
+<CombinedChart
+  data={rows}
+  xKey="month"
+  bars={[
+    { yKey: "direct", label: "Direct" },
+    { yKey: "enterprise", label: "Enterprise" }
+  ]}
+  lines={[{ yKey: "margin", label: "Margin" }]}
+  visibleSeriesKeys={["bar-direct", "line-margin"]}
+  width={360}
+  height={280}
+/>
+```
+
+Default generated keys are `bar-${yKey}` for bars and `line-${yKey}` for lines unless a series `key` is supplied.

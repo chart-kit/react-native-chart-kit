@@ -32,6 +32,7 @@ import {
   labelBaselineOffset,
   measureBarChartText
 } from "../bar/modelUtils";
+import { getFormattedCombinedSeriesValue } from "./format";
 import type {
   CombinedChartAxisId,
   CombinedChartBarSeries,
@@ -139,30 +140,12 @@ const resolveAxisDomain = ({
   values: number[];
 }) => resolveNumericDomain(values, input ?? fallbackDomain);
 
-const getFormattedSeriesValue = ({
-  axisId,
-  formatLeftYLabel,
-  formatRightYLabel,
-  value
-}: {
-  axisId: CombinedChartAxisId;
-  formatLeftYLabel: (value: number) => string;
-  formatRightYLabel: (value: number) => string;
-  value: number | null | undefined;
-}) => {
-  if (typeof value !== "number") {
-    return "No data";
-  }
-
-  return axisId === "right"
-    ? formatRightYLabel(value)
-    : formatLeftYLabel(value);
-};
-
 const getLegendItemsRaw = <TData extends Record<string, unknown>>(
-  resolvedSeries: Array<ResolvedCombinedSeries<TData>>
+  resolvedSeries: Array<ResolvedCombinedSeries<TData>>,
+  activeKeys: Set<string>
 ) =>
   resolvedSeries.map((item) => ({
+    active: activeKeys.has(item.key),
     key: item.key,
     label: item.label,
     color: item.color,
@@ -196,6 +179,7 @@ export const buildCombinedChartModel = <TData extends Record<string, unknown>>({
   showXAxisLabels = true,
   showYAxisLabels = true,
   legend,
+  visibleSeriesKeys,
   formatXLabel = defaultFormatBarChartXLabel,
   formatLeftYLabel = defaultFormatBarChartYLabel,
   formatRightYLabel = defaultFormatBarChartYLabel,
@@ -211,10 +195,19 @@ export const buildCombinedChartModel = <TData extends Record<string, unknown>>({
     theme: typeof theme === "object" ? theme : chartKitTheme.theme
   });
   const resolvedSeries = resolveSeries({ bars, lines, theme: resolvedTheme });
+  const visibleKeySet =
+    visibleSeriesKeys === undefined ? undefined : new Set(visibleSeriesKeys);
+  const visibleResolvedSeries =
+    visibleKeySet === undefined
+      ? resolvedSeries
+      : resolvedSeries.filter((item) => visibleKeySet.has(item.key));
+  const activeResolvedSeries =
+    visibleResolvedSeries.length > 0 ? visibleResolvedSeries : resolvedSeries;
+  const activeKeys = new Set(activeResolvedSeries.map((item) => item.key));
   const normalized = normalizeCartesianData({
     data,
     xKey,
-    series: resolvedSeries.map((item) => ({
+    series: activeResolvedSeries.map((item) => ({
       yKey: item.series.yKey,
       key: item.key,
       label: item.label,
@@ -230,10 +223,14 @@ export const buildCombinedChartModel = <TData extends Record<string, unknown>>({
   const xLabelSizes = xLabelTexts.map((text) =>
     measureBarChartText(text, axisTextOptions)
   );
-  const leftValues = getDomainValues(normalized.series, resolvedSeries, "left");
+  const leftValues = getDomainValues(
+    normalized.series,
+    activeResolvedSeries,
+    "left"
+  );
   const rightValues = getDomainValues(
     normalized.series,
-    resolvedSeries,
+    activeResolvedSeries,
     "right"
   );
   const leftDomain = resolveAxisDomain({
@@ -261,7 +258,7 @@ export const buildCombinedChartModel = <TData extends Record<string, unknown>>({
     measureBarChartText(formatRightYLabel(tick), axisTextOptions)
   );
   const legendVisible = legend ?? resolvedSeries.length > 1;
-  const legendItemsRaw = getLegendItemsRaw(resolvedSeries);
+  const legendItemsRaw = getLegendItemsRaw(resolvedSeries, activeKeys);
   const legendHeight = legendVisible && legendItemsRaw.length > 0 ? 18 : 0;
   const padding = calculateAutoPadding({
     base: { top: 16, right: 10, bottom: 12, left: 10 },
@@ -296,10 +293,12 @@ export const buildCombinedChartModel = <TData extends Record<string, unknown>>({
     paddingOuter: 0.08
   });
   const barKeySet = new Set(
-    resolvedSeries.filter((item) => item.kind === "bar").map((item) => item.key)
+    activeResolvedSeries
+      .filter((item) => item.kind === "bar")
+      .map((item) => item.key)
   );
   const lineKeySet = new Set(
-    resolvedSeries
+    activeResolvedSeries
       .filter((item) => item.kind === "line")
       .map((item) => item.key)
   );
@@ -329,7 +328,7 @@ export const buildCombinedChartModel = <TData extends Record<string, unknown>>({
     color:
       seriesByKey.get(bar.seriesKey)?.color ??
       getBarChartSeriesColor(resolvedTheme, bar.seriesIndex),
-    formattedValue: getFormattedSeriesValue({
+    formattedValue: getFormattedCombinedSeriesValue({
       axisId: seriesByKey.get(bar.seriesKey)?.axisId ?? "left",
       formatLeftYLabel,
       formatRightYLabel,
@@ -370,7 +369,7 @@ export const buildCombinedChartModel = <TData extends Record<string, unknown>>({
       geometry: {
         points: geometry.points.map((point) => ({
           ...point,
-          formattedValue: getFormattedSeriesValue({
+          formattedValue: getFormattedCombinedSeriesValue({
             axisId,
             formatLeftYLabel,
             formatRightYLabel,
@@ -440,6 +439,7 @@ export const buildCombinedChartModel = <TData extends Record<string, unknown>>({
               .reduce((sum, previous) => sum + previous.width + legendGap, 0);
 
           return {
+            active: item.active,
             key: item.key,
             label: item.label,
             color: item.color,
@@ -469,7 +469,7 @@ export const buildCombinedChartModel = <TData extends Record<string, unknown>>({
 
     return raw === undefined ? [point] : [{ ...point, raw }];
   });
-  const seriesModels = resolvedSeries.map((item) => ({
+  const seriesModels = activeResolvedSeries.map((item) => ({
     axisId: item.axisId,
     color: item.color,
     key: item.key,

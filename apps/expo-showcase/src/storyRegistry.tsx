@@ -189,7 +189,11 @@ export const publicChartMode: ShowcaseMode = {
           title: "Showpieces",
           description:
             "Bar plus line charts with independent axis domains and synchronized labels.",
-          storyIds: ["v2-combined-revenue-margin", "v2-combined-shared-tooltip"]
+          storyIds: [
+            "v2-combined-revenue-margin",
+            "v2-combined-shared-tooltip",
+            "v2-combined-legend-toggles"
+          ]
         }
       ]
     },
@@ -312,7 +316,11 @@ export const showcaseModes: ShowcaseMode[] = [
         title: "Combined",
         description:
           "Modern combined chart examples for bar plus line dashboards.",
-        storyIds: ["v2-combined-revenue-margin"]
+        storyIds: [
+          "v2-combined-revenue-margin",
+          "v2-combined-shared-tooltip",
+          "v2-combined-legend-toggles"
+        ]
       },
       {
         id: "pie-donut",

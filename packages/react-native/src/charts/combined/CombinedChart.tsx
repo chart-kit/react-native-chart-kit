@@ -324,6 +324,7 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
             item.kind === "line" ? (
               <SvgLine
                 key={`legend-marker-${item.key}`}
+                opacity={item.active ? 1 : 0.36}
                 stroke={item.color}
                 strokeWidth={3}
                 x1={item.markerX}
@@ -339,6 +340,7 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
                 key={`legend-marker-${item.key}`}
                 fill={item.color}
                 height={8}
+                opacity={item.active ? 1 : 0.36}
                 rx={2}
                 width={8}
                 x={item.markerX}
@@ -351,6 +353,7 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
               key={`legend-label-${item.key}`}
               fill={resolvedTheme.mutedText}
               fontSize={resolvedTheme.typography.legendLabelSize}
+              opacity={item.active ? 1 : 0.45}
               textAnchor="start"
               x={item.labelX}
               y={item.labelY}
