@@ -23,7 +23,8 @@ import type { ProjectedLinePoint } from "@chart-kit/core";
 
 import { useChartKitTheme } from "../../theme";
 import { useLineChartAccessibilityLabel } from "./accessibility";
-import { LineChartSurface, StickyYAxis } from "./ChartSurface";
+import { LineChartSurface } from "./ChartSurface";
+import { StickyYAxis } from "./StickyYAxis";
 import {
   buildLineChartSelectEvent,
   getLineChartInteractionConfig,
@@ -480,10 +481,6 @@ export const LineChart = <TData extends Record<string, unknown>>(
     </View>
   );
 };
-
-export const AreaChart = <TData extends Record<string, unknown>>(
-  props: LineChartProps<TData>
-) => <LineChart {...props} area />;
 
 const styles = StyleSheet.create({
   container: {

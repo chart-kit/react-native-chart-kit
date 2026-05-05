@@ -6,7 +6,8 @@ export {
 } from "./charts/contribution/ContributionGraph";
 export { CandlestickChart } from "./charts/candlestick/CandlestickChart";
 export { CombinedChart } from "./charts/combined/CombinedChart";
-export { AreaChart, LineChart } from "./charts/line/LineChart";
+export { AreaChart } from "./charts/line/AreaChart";
+export { LineChart } from "./charts/line/LineChart";
 export { DonutChart, PieChart } from "./charts/pie/PieChart";
 export { ProgressChart, ProgressRing } from "./charts/progress/ProgressChart";
 export {
