@@ -30,6 +30,12 @@ The [H4 Pro scope decision packet](h4-pro-scope.md) proposes the package boundar
 
 Impact: H4/H5 must decide which features stay free, which move to Pro, and how to avoid making the free library feel intentionally limited.
 
+## Skia Renderer
+
+`packages/skia-renderer` now provides a preview package boundary with capability metadata and install guidance. It does not import `@shopify/react-native-skia`, render charts, or provide renderer parity tests yet.
+
+Impact: the optional package boundary exists for H4 review, but Skia must stay labeled as preview until the actual drawing backend, install matrix, native benchmarks, and parity tests are implemented.
+
 ## Native Performance Evidence
 
 `npm run benchmark` covers core geometry and web showcase scrub timing. The [Native performance benchmark protocol](native-performance-benchmark.md) defines the release-device measurements needed for iOS and Android, including frame timing, memory, renderer, data size, and gesture scenarios.

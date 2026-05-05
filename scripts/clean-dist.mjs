@@ -7,6 +7,7 @@ const distDirs = [
   "dist",
   "packages/core/dist",
   "packages/svg-renderer/dist",
+  "packages/skia-renderer/dist",
   "packages/react-native/dist"
 ];
 

@@ -1,0 +1,30 @@
+{
+  "name": "@chart-kit/skia-renderer",
+  "version": "7.0.0-next.0",
+  "description": "Preview Skia renderer boundary for Chart Kit v2 Pro experiments.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit"
+  },
+  "peerDependencies": {
+    "react": ">=19.2.0 <20",
+    "react-native": ">=0.83 <1"
+  },
+  "peerDependenciesMeta": {
+    "@shopify/react-native-skia": {
+      "optional": true
+    }
+  },
+  "license": "MIT"
+}
