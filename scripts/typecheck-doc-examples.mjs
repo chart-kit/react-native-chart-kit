@@ -44,7 +44,7 @@ const chartKitNames = [
 const reactNames = ["useMemo", "useState"];
 const reactNativeNames = ["Pressable", "Text", "View"];
 const ambientComponents = ["App", "Dashboard", "PortfolioHeader", "Root"];
-const svgNames = ["SvgGroup", "SvgLine", "SvgText"];
+const svgNames = ["SvgGroup", "SvgLine", "SvgRect", "SvgText"];
 const ambientArrays = [
   "acquisitionShare",
   "benchmarkData",

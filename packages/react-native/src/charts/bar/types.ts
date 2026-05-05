@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 import type {
   ChartBoxes,
   ChartViewportInitialIndex,
@@ -105,6 +107,17 @@ export type BarChartSelectionAnimationConfig = {
   duration?: number;
 };
 
+export type BarChartRenderBarProps<TData = unknown> = {
+  bar: BarChartBarModel<TData>;
+  fill: string;
+  radius: number;
+  selected: boolean;
+  strokeColor: string;
+  strokeOpacity: number;
+  strokeWidth: number;
+  theme: ResolvedCartesianChartTheme;
+};
+
 export type BarChartProps<TData extends Record<string, unknown>> = {
   data: TData[];
   xKey: keyof TData & string;
@@ -135,6 +148,7 @@ export type BarChartProps<TData extends Record<string, unknown>> = {
   defaultSelectedBar?: BarChartSelectedBar;
   selectionAnimation?: boolean | BarChartSelectionAnimationConfig;
   tooltip?: boolean | BarChartTooltipConfig;
+  renderBar?: (props: BarChartRenderBarProps<TData>) => ReactNode;
   labelStrategy?: BarChartLabelStrategy;
   formatXLabel?: (value: ChartXValue, index: number) => string;
   formatYLabel?: (value: number) => string;

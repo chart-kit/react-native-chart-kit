@@ -208,6 +208,33 @@ Use `scrollable`, `visiblePoints`, and `initialIndex` for long categorical bar c
 
 The y-axis labels stay pinned while the bars and x-axis labels scroll horizontally.
 
+## Custom Bar Rendering
+
+Use `renderBar` when bars need product-specific styling while keeping the built-in layout, selection, hit testing, labels, sticky axes, and tooltips.
+
+```tsx
+<BarChart
+  data={weeklySpend}
+  xKey="week"
+  yKey="spend"
+  width={360}
+  height={250}
+  renderBar={({ bar, fill, radius, strokeColor, strokeOpacity }) => (
+    <SvgRect
+      x={bar.x}
+      y={bar.y}
+      width={bar.width}
+      height={bar.height}
+      rx={radius}
+      fill={fill}
+      stroke={strokeColor}
+      strokeOpacity={strokeOpacity}
+      strokeWidth={strokeOpacity > 0 ? 1.5 : 0}
+    />
+  )}
+/>
+```
+
 ## Labels and Themes
 
 Useful label and theme props:
@@ -223,4 +250,4 @@ Useful label and theme props:
 
 ## Current Limitations
 
-This is still an early modern BarChart slice. The current implementation does not yet include custom bar renderers or full legacy `BarChart` prop mapping. Those belong to later CKV2-007 slices.
+This is still an early modern BarChart slice. Full legacy `BarChart` prop mapping belongs to the root compatibility facade rather than the modern object-row API.

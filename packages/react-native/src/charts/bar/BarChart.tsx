@@ -218,6 +218,7 @@ export const BarChart = <TData extends Record<string, unknown>>(
       height={props.height}
       model={model}
       responderProps={responderProps}
+      renderBar={props.renderBar}
       selectedBarKey={selectedBarKey}
       selectionAnimation={props.selectionAnimation}
       showYAxis={!viewport.scrollable}

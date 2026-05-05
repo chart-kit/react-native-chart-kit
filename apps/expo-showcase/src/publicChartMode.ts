@@ -68,6 +68,7 @@ export const publicChartMode: ShowcaseMode = {
             "v2-bar-selection",
             "v2-bar-animation",
             "v2-bar-grouped-animation",
+            "v2-bar-custom-renderer",
             "v2-bar-horizontal"
           ]
         },

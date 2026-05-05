@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import type { ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 import type { ViewProps } from "react-native";
 
@@ -22,7 +23,11 @@ import {
 import { renderDefaultBarChartTooltip } from "./tooltip";
 import { offsetBarChartTooltipForViewport } from "./tooltipPlacement";
 import { useAnimatedBarChartTooltipModel } from "./useAnimatedTooltipModel";
-import type { BarChartModel, ResolvedBarChartTooltipConfig } from "./types";
+import type {
+  BarChartModel,
+  BarChartRenderBarProps,
+  ResolvedBarChartTooltipConfig
+} from "./types";
 import type { BarChartTooltipModel } from "./tooltip";
 import type { BarChartSelectionAnimationConfig } from "./types";
 
@@ -31,6 +36,7 @@ export type BarChartSurfaceProps<TData = unknown> = {
   height: number;
   model: BarChartModel<TData>;
   responderProps: ViewProps;
+  renderBar?: ((props: BarChartRenderBarProps<TData>) => ReactNode) | undefined;
   selectedBarKey: string | undefined;
   selectionAnimation: boolean | BarChartSelectionAnimationConfig | undefined;
   showYAxis: boolean;
@@ -42,6 +48,7 @@ export const BarChartSurface = <TData,>({
   height,
   model,
   responderProps,
+  renderBar,
   selectedBarKey,
   selectionAnimation,
   showYAxis,
@@ -154,11 +161,27 @@ export const BarChartSurface = <TData,>({
             />
           ) : null}
           {bars.map((bar) => {
+            const fill = getAnimatedBarSelectionFill({
+              backgroundColor: resolvedTheme.plotBackground,
+              barKey: bar.key,
+              color: bar.color,
+              state: selectionAnimationState
+            });
             const strokeOpacity = getAnimatedBarSelectionStrokeOpacity({
               barKey: bar.key,
               state: selectionAnimationState
             });
             const radius = Math.min(barRadius, bar.width / 2, bar.height / 2);
+            const barNode = renderBar?.({
+              bar,
+              fill,
+              radius,
+              selected: selectedBarKey === bar.key,
+              strokeColor: resolvedTheme.text,
+              strokeOpacity,
+              strokeWidth: 1.5,
+              theme: resolvedTheme
+            });
 
             return (
               <Fragment key={bar.key}>
@@ -170,31 +193,28 @@ export const BarChartSurface = <TData,>({
                   rx={0}
                   fill={resolvedTheme.plotBackground}
                 />
-                <SvgRect
-                  x={bar.x}
-                  y={bar.y}
-                  width={bar.width}
-                  height={bar.height}
-                  rx={radius}
-                  fill={getAnimatedBarSelectionFill({
-                    backgroundColor: resolvedTheme.plotBackground,
-                    barKey: bar.key,
-                    color: bar.color,
-                    state: selectionAnimationState
-                  })}
-                  {...(strokeOpacity > 0
-                    ? {
-                        stroke: resolvedTheme.text,
-                        strokeOpacity,
-                        strokeWidth: 1.5
-                      }
-                    : {})}
-                  testID={createSvgTestId(
-                    "bar-chart-bar",
-                    bar.seriesKey,
-                    bar.dataIndex
-                  )}
-                />
+                {barNode ?? (
+                  <SvgRect
+                    x={bar.x}
+                    y={bar.y}
+                    width={bar.width}
+                    height={bar.height}
+                    rx={radius}
+                    fill={fill}
+                    {...(strokeOpacity > 0
+                      ? {
+                          stroke: resolvedTheme.text,
+                          strokeOpacity,
+                          strokeWidth: 1.5
+                        }
+                      : {})}
+                    testID={createSvgTestId(
+                      "bar-chart-bar",
+                      bar.seriesKey,
+                      bar.dataIndex
+                    )}
+                  />
+                )}
               </Fragment>
             );
           })}

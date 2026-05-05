@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Pressable, Text } from "react-native";
 
 import { BarChart } from "@chart-kit/react-native";
+import { SvgRect } from "@chart-kit/svg-renderer";
 
 import {
   acquisitionByChannel,
@@ -292,6 +293,41 @@ const V2ScrollableSelectableBar = ({ width }: NativeStoryProps) => (
   </ChartSection>
 );
 
+const V2CustomBarRenderer = ({ width }: NativeStoryProps) => (
+  <ChartSection title="Weekly spend" kicker="Custom bars">
+    <BarChart
+      data={campaignSpend.slice(10, 16)}
+      height={250}
+      renderBar={({ bar, fill, radius, theme }) => (
+        <>
+          <SvgRect
+            x={bar.x}
+            y={bar.y}
+            width={bar.width}
+            height={bar.height}
+            rx={radius}
+            fill={fill}
+          />
+          <SvgRect
+            x={bar.x + bar.width * 0.18}
+            y={bar.y + 4}
+            width={bar.width * 0.64}
+            height={Math.max(0, bar.height - 8)}
+            rx={Math.max(1, radius - 1)}
+            fill={theme.background}
+            opacity={0.18}
+          />
+        </>
+      )}
+      series={[{ yKey: "spend", label: "Spend" }]}
+      width={width}
+      xKey="week"
+      yDomain={{ min: 0, max: "dataMax", nice: true }}
+      formatYLabel={(value) => `$${value}k`}
+    />
+  </ChartSection>
+);
+
 const V2HorizontalBar = ({ width }: NativeStoryProps) => (
   <ChartSection title="Support volume" kicker="Horizontal bars">
     <BarChart
@@ -370,6 +406,11 @@ export const barOverviewStories = [
     id: "v2-bar-scrollable-selection",
     title: "Scrollable Selection",
     Component: V2ScrollableSelectableBar
+  },
+  {
+    id: "v2-bar-custom-renderer",
+    title: "Custom Renderer",
+    Component: V2CustomBarRenderer
   },
   {
     id: "v2-bar-horizontal",

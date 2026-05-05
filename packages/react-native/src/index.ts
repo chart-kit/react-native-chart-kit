@@ -58,6 +58,7 @@ export type {
   BarChartModel,
   BarChartOrientation,
   BarChartProps,
+  BarChartRenderBarProps,
   BarChartSelectEvent,
   BarChartSelectedBar,
   BarChartSelectionAnimationConfig,

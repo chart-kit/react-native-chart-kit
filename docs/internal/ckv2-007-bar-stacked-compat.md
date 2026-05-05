@@ -21,10 +21,11 @@ This slice adds a v2 `StackedBarChart` compatibility facade on top of the modern
   - `yAxisLabel`
   - `yAxisSuffix`
 - Axis label visibility and tick count controls on modern `BarChart`.
+- Modern `BarChart.renderBar` hook for custom bar rendering without replacing layout, labels, sticky axes, hit testing, or tooltips.
 - QA showcase stories for basic and percentile legacy stacked bars.
 
 ## Remaining
 
 - Full legacy `BarChart` prop mapping for the root compatibility facade.
-- Custom bar renderers and custom stacked segment labels.
+- Custom stacked segment labels.
 - Exact legacy SVG node order remains out of scope per the compatibility matrix.

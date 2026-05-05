@@ -154,6 +154,7 @@ export const showcaseModes: ShowcaseMode[] = [
           "v2-bar-grouped-animation",
           "v2-bar-scrollable",
           "v2-bar-scrollable-selection",
+          "v2-bar-custom-renderer",
           "v2-bar-horizontal",
           "v2-bar-negative",
           "v2-bar-stacked-percent"

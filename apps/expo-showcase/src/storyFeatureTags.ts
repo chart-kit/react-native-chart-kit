@@ -56,6 +56,7 @@ export const storyFeatureTags: Record<string, string[]> = {
     "tap selection",
     "animated tooltip"
   ],
+  "v2-bar-custom-renderer": ["renderBar", "custom styling", "built-in layout"],
   "v2-bar-horizontal": ["horizontal bars", "category axis", "value labels"],
   "v2-bar-negative": ["negative values", "baseline", "value labels"],
   "v2-bar-stacked-percent": ["stacked100", "percentage labels", "bar chart"],

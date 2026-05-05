@@ -24,10 +24,10 @@ Commands refreshed on May 5, 2026. The `test:e2e` row was added after promoting 
 | TypeScript            | `npm run typecheck`     | Passed for root, core, SVG renderer, React Native package, and Expo showcase                        |
 | Unit and compat tests | `npm run test`          | Passed: 37 unit files, 215 unit tests, 1 compat file, 5 compat tests                                |
 | Web e2e interactions  | `npm run test:e2e`      | Passed: 21 Playwright showcase interaction flows                                                    |
-| Visual regression     | `npm run test:visual`   | Passed: 93 Playwright tests                                                                         |
+| Visual regression     | `npm run test:visual`   | Passed: 94 Playwright tests                                                                         |
 | Benchmark             | `npm run benchmark`     | Passed: core geometry scenarios plus web showcase scrub timing                                      |
 | Public surface audit  | `npm run surface:check` | Passed: `react-native-chart-kit` compatibility exports and `@chart-kit/react-native` modern exports |
-| Docs verification     | `npm run docs:build`    | Passed: 49 markdown files, 101 JS/TS code fences, and 58 public TS/TSX examples                     |
+| Docs verification     | `npm run docs:build`    | Passed: 49 markdown files, 102 JS/TS code fences, and 59 public TS/TSX examples                     |
 | Package build         | `npm run build`         | Passed                                                                                              |
 
 Latest benchmark highlights from `npm run benchmark`:
@@ -53,7 +53,7 @@ Benchmark scope covers core geometry plus one web showcase scrub timing scenario
 | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | Passing test suite     | `npm run test`; unit tests under `packages/core/test` and `packages/react-native/test`                                                                     | Covered for current unit and compatibility scope                                                                   |
 | E2E command            | `npm run test:e2e`; `apps/expo-showcase/visual/chart-interaction.spec.ts`                                                                                  | Covered for web showcase interactions; not native runtime                                                          |
-| Visual baseline        | `apps/expo-showcase/visual/__screenshots__`; `npm run test:visual`                                                                                         | Covered for 72 chart-story screenshots plus 21 interaction tests                                                   |
+| Visual baseline        | `apps/expo-showcase/visual/__screenshots__`; `npm run test:visual`                                                                                         | Covered for 73 chart-story screenshots plus 21 interaction tests                                                   |
 | Example app            | `apps/expo-showcase`; `npm run example:expo`; `npm run example:ios`; `npm run example:android`; [Expo showcase README](../../apps/expo-showcase/README.md) | Available for manual phone, simulator, and emulator review; not automated native release coverage                  |
 | Migration guide        | [From v1](../migration/from-v1.md)                                                                                                                         | Covered                                                                                                            |
 | Codemod                | `scripts/chartkit-codemod.mjs`; `npx chartkit-codemod v1-to-v2 ./src`                                                                                      | Covered for conservative compatibility-prop insertion and migration warnings                                       |
@@ -76,7 +76,7 @@ The visual suite includes modern line/area, bar, combined, financial, pie/donut,
 Notable covered cases:
 
 - line animation, range selector, viewport pan/zoom, scrollable datasets, dense labels, rotated labels, staggered labels, null gaps, custom markers, custom crosshair, reference overlays, thresholds, themes
-- bar grouped, selectable, animated, scrollable, scrollable selectable, horizontal, negative, stacked percentage, themed behavior
+- bar grouped, selectable, animated, scrollable, scrollable selectable, custom renderer, horizontal, negative, stacked percentage, themed behavior
 - combined dual-axis, shared tooltip, legend toggles, negative values
 - pie/donut external labels, custom legend, active slice selection
 - progress and contribution theme inheritance
