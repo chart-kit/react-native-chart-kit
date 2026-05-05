@@ -1,8 +1,13 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  chartKitFreeBaselineSurface,
+  chartKitProCandidateCapabilities,
+  chartKitProCandidateSurface,
   chartKitProPreviewFeatures,
   createChartKitProFeatureRegistry,
+  getChartKitProCandidateCapabilities,
+  getChartKitSurfaceExport,
   getChartKitProFeature
 } from "../src";
 
@@ -30,5 +35,43 @@ describe("Chart Kit Pro preview boundary", () => {
       status: "preview"
     });
     expect(getChartKitProFeature("missing")).toBeUndefined();
+  });
+
+  it("classifies free baseline and pro-candidate public surfaces", () => {
+    expect(
+      chartKitFreeBaselineSurface.map((surface) => surface.exportName)
+    ).toContain("LineChart");
+    expect(
+      chartKitFreeBaselineSurface.map((surface) => surface.exportName)
+    ).toContain("BarChart");
+    expect(
+      chartKitProCandidateSurface.map((surface) => surface.exportName)
+    ).toEqual([
+      "CandlestickChart",
+      "CombinedChart",
+      "ChartSelectionProvider",
+      "useChartSelection",
+      "useDismissChartSelection"
+    ]);
+    expect(getChartKitSurfaceExport("CombinedChart")).toMatchObject({
+      status: "pro-candidate"
+    });
+  });
+
+  it("maps pro-candidate capabilities to current preview exports", () => {
+    expect(
+      chartKitProCandidateCapabilities.map(
+        (capability) => capability.exportName
+      )
+    ).toEqual([
+      "LineChart",
+      "BarChart",
+      "CombinedChart",
+      "CandlestickChart",
+      "DonutChart"
+    ]);
+    expect(getChartKitProCandidateCapabilities("LineChart")[0]).toMatchObject({
+      featureId: "pro-interactions"
+    });
   });
 });

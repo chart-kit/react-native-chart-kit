@@ -13,7 +13,14 @@ The current monetization thesis is:
 Current exports:
 
 - `chartKitProPreviewFeatures`
+- `chartKitCompatibilitySurface`
+- `chartKitFreeBaselineSurface`
+- `chartKitPackageBoundarySurface`
+- `chartKitProCandidateCapabilities`
+- `chartKitProCandidateSurface`
 - `createChartKitProFeatureRegistry`
+- `getChartKitProCandidateCapabilities`
+- `getChartKitSurfaceExport`
 - `getChartKitProFeature`
 
 Status:
@@ -22,6 +29,7 @@ Status:
 - no license gating
 - no runtime activation
 - no chart components consume this package yet
+- package-boundary metadata classifies current free baseline, compatibility, and Pro-candidate surfaces without moving runtime exports
 
 Preview feature buckets:
 
@@ -31,3 +39,5 @@ Preview feature buckets:
 - `pro-export`: PNG/SVG export, snapshot API, share sheet integration, and future headless image generation
 - `pro-theme-templates`: premium app-style presets and animated transitions
 - `pro-performance`: large dataset mode, decimation, virtualized rendering, memoized paths, native benchmarks, and optional Skia acceleration
+
+The surface-boundary metadata is intentionally descriptive. It lets release docs, tests, and future package refactors agree that current preview features such as `CombinedChart`, `CandlestickChart`, advanced `LineChart` interactions, grouped/scrollable/selectable bars, and active donut selection are Pro candidates until H4 is finalized.

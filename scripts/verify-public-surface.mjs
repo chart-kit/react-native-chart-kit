@@ -53,6 +53,22 @@ const expectedV2TypeExports = [
   "StackedBarChartProps"
 ];
 
+const expectedProCandidateSurfaceExports = [
+  "CandlestickChart",
+  "CombinedChart",
+  "ChartSelectionProvider",
+  "useChartSelection",
+  "useDismissChartSelection"
+];
+
+const expectedProCandidateCapabilityExports = [
+  "LineChart",
+  "BarChart",
+  "CombinedChart",
+  "CandlestickChart",
+  "DonutChart"
+];
+
 const readRepoFile = (relativePath) =>
   readFile(path.join(repoRoot, relativePath), "utf8");
 
@@ -96,12 +112,23 @@ const assertMissing = ({ actual, expected, label }) => {
   }
 };
 
+const assertSourceContains = ({ expected, label, source }) => {
+  const missing = expected.filter((name) => !source.includes(`"${name}"`));
+
+  if (missing.length > 0) {
+    throw new Error(`${label} missing metadata: ${missing.join(", ")}`);
+  }
+};
+
 const packageJson = JSON.parse(await readRepoFile("package.json"));
 const v2PackageJson = JSON.parse(
   await readRepoFile("packages/react-native/package.json")
 );
 const rootSource = await readRepoFile("src/index.ts");
 const v2Source = await readRepoFile("packages/react-native/src/index.ts");
+const proBoundarySource = await readRepoFile(
+  "packages/pro/src/surfaceBoundary.ts"
+);
 
 if (packageJson.name !== "react-native-chart-kit") {
   throw new Error(`Unexpected package name: ${packageJson.name}`);
@@ -141,7 +168,25 @@ assertMissing({
   label: "Modern v2 type surface"
 });
 
+assertSourceContains({
+  expected: expectedProCandidateSurfaceExports,
+  label: "Pro candidate surface boundary",
+  source: proBoundarySource
+});
+
+assertSourceContains({
+  expected: expectedProCandidateCapabilityExports,
+  label: "Pro candidate capability boundary",
+  source: proBoundarySource
+});
+
 console.log("Public surface check passed.");
 console.log(`Root compatibility exports: ${expectedRootExports.length}`);
 console.log(`Modern v2 value exports: ${expectedV2ValueExports.length}`);
 console.log(`Modern v2 type exports: ${expectedV2TypeExports.length}`);
+console.log(
+  `Pro candidate surface exports: ${expectedProCandidateSurfaceExports.length}`
+);
+console.log(
+  `Pro candidate capability exports: ${expectedProCandidateCapabilityExports.length}`
+);
