@@ -17,6 +17,7 @@ Covered by `npm run benchmark`:
 - scrollable grouped bar chart, 500 x-axis groups
 - scrollable stacked bar chart, 500 x-axis groups
 - browser showcase line-chart scrub frame timing
+- candlestick chart, 1,000 OHLC candles
 
 The core geometry benchmark reports Node version, platform, iteration count, total point counts, geometry point counts, visible viewport counts, rendered path point counts, bar counts, path string size, median runtime, p95 runtime, RSS, and heap usage. The browser interaction benchmark reports frame sample count, median frame interval, p95 frame interval, and max frame interval for a synthetic scrub.
 
@@ -24,4 +25,3 @@ The core geometry benchmark reports Node version, platform, iteration count, tot
 
 - Add native release-build timing once iOS and Android example apps are available.
 - Add Skia renderer benchmark coverage after the optional renderer/pro package is introduced.
-- Add candlestick benchmark scenarios once the financial chart visual implementation is deeper than the current foundation slice.

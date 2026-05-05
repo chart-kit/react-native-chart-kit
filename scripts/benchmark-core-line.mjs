@@ -73,6 +73,7 @@ process.once("exit", cleanupBenchmarkBuild);
 const requireBenchmarkBuild = createRequire(import.meta.url);
 const {
   buildBarGeometry,
+  buildCandlestickGeometry,
   buildLineSeriesGeometry,
   createBandScale,
   createLinearScale,
@@ -178,6 +179,37 @@ const runBarGeometryBuild = ({ mode, rows, seriesKeys }) => {
   });
 };
 
+const runCandlestickGeometryBuild = ({ rows }) => {
+  const data = rows.map((row, index) => {
+    const open = row.y0;
+    const close = row.y0 + Math.sin(index / 5) * 8;
+    const high = Math.max(open, close) + 4 + Math.cos(index / 9) * 2;
+    const low = Math.min(open, close) - 4 - Math.sin(index / 7) * 2;
+
+    return { close, high, index, low, open, raw: row, x: row.x };
+  });
+  const yScale = createLinearScale({
+    values: data.flatMap((candle) => [candle.low, candle.high]),
+    range: [plotHeight, 0]
+  });
+  const xScale = createBandScale({
+    domain: rows.map((row) => row.x),
+    range: [0, Math.max(plotWidth, rows.length * 10)],
+    paddingInner: 0.18,
+    paddingOuter: 0.12
+  });
+
+  return buildCandlestickGeometry({
+    data,
+    xBand: (value) => {
+      const x = xScale.scale(value);
+
+      return x === undefined ? undefined : { x, width: xScale.bandwidth };
+    },
+    yScale: (value) => yScale.scale(value)
+  });
+};
+
 const runViewportLineGeometryBuild = ({
   rows,
   seriesKeys,
@@ -266,6 +298,13 @@ const summarizeBarGeometry = (geometry, rows, seriesKeys) => ({
   sourcePoints: rows.length * seriesKeys.length
 });
 
+const summarizeCandlestickGeometry = (geometry, rows) => ({
+  bars: geometry.candles.length,
+  pathChars: 0,
+  pathPoints: 0,
+  sourcePoints: rows.length
+});
+
 const buildSeriesKeys = (series) =>
   Array.from({ length: series }, (_, index) => `y${index}`);
 
@@ -328,6 +367,16 @@ const runBarScenario = (scenario) =>
     }),
     summarize: ({ result, rows, seriesKeys }) =>
       summarizeBarGeometry(result.geometry, rows, seriesKeys)
+  });
+
+const runCandlestickScenario = (scenario) =>
+  runTimedScenario({
+    scenario: { kind: "candlestick", ...scenario },
+    build: ({ rows }) => ({
+      geometry: runCandlestickGeometryBuild({ rows })
+    }),
+    summarize: ({ result, rows }) =>
+      summarizeCandlestickGeometry(result.geometry, rows)
   });
 
 const runViewportLineScenario = (scenario) => {
@@ -430,11 +479,16 @@ const barScenarios = [
   }
 ];
 
+const candlestickScenarios = [
+  { name: "candlestick-1000", points: 1000, series: 1 }
+];
+
 const results = [
   ...lineScenarios.map(runLineScenario),
   ...viewportLineScenarios.map(runViewportLineScenario),
   ...rangeSelectorScenarios.map(runRangeSelectorScenario),
-  ...barScenarios.map(runBarScenario)
+  ...barScenarios.map(runBarScenario),
+  ...candlestickScenarios.map(runCandlestickScenario)
 ];
 const memory = process.memoryUsage();
 
