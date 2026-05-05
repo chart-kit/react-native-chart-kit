@@ -87,9 +87,17 @@ export type {
   CandlestickChartCandleModel,
   CandlestickChartDataTable,
   CandlestickChartDataTableRow,
+  CandlestickChartInteraction,
+  CandlestickChartInteractionConfig,
+  CandlestickChartInteractionMode,
   CandlestickChartModel,
   CandlestickChartPriceKeys,
   CandlestickChartProps,
+  CandlestickChartSelectEvent,
+  CandlestickChartTooltipConfig,
+  CandlestickChartViewportChangeEvent,
+  CandlestickChartViewportConfig,
+  CandlestickChartViewportInteractionConfig,
   CandlestickChartXLabelModel,
   CandlestickChartYLabelModel
 } from "./charts/candlestick/CandlestickChart";

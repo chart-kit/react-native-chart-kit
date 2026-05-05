@@ -220,6 +220,8 @@ export const docsExampleElements = [
     lowKey="low"
     closeKey="close"
     viewport={{ visiblePoints: 2, initialIndex: "end" }}
+    viewportInteraction={{ pan: true, pinchZoom: true, minVisiblePoints: 2 }}
+    onViewportChange={() => undefined}
     yDomain={{ min: "dataMin", max: "dataMax", nice: true }}
     formatYLabel={(value) => `$${Math.round(value)}`}
     width={360}

@@ -1,6 +1,5 @@
 import type {
   ChartBoxes,
-  ChartViewportInitialIndex,
   ChartXValue,
   NumericDomainInput,
   ProjectedCandlestick
@@ -17,6 +16,11 @@ import type {
   BarChartTooltipConfig,
   ResolvedBarChartTooltipConfig
 } from "../bar/types";
+import type {
+  ChartViewportChangeEvent,
+  ChartViewportConfig,
+  ChartViewportInteractionConfig
+} from "../../viewport/types";
 
 export type CandlestickChartPriceKeys<TData extends Record<string, unknown>> = {
   closeKey: keyof TData & string;
@@ -48,7 +52,9 @@ export type CandlestickChartProps<TData extends Record<string, unknown>> =
     interaction?: CandlestickChartInteraction<TData>;
     selectedIndex?: number;
     tooltip?: boolean | CandlestickChartTooltipConfig;
+    onViewportChange?: (event: CandlestickChartViewportChangeEvent) => void;
     viewport?: CandlestickChartViewportConfig;
+    viewportInteraction?: boolean | CandlestickChartViewportInteractionConfig;
     volumeHeightRatio?: number;
     volumeKey?: keyof TData & string;
     volumeOpacity?: number;
@@ -60,11 +66,13 @@ export type CandlestickChartInteractionMode = "none" | "tap";
 
 export type CandlestickChartInteraction<TData = unknown> =
   | CandlestickChartInteractionMode
-  | {
-      deselectOnOutsidePress?: boolean;
-      mode?: CandlestickChartInteractionMode;
-      onSelect?: (event: CandlestickChartSelectEvent<TData>) => void;
-    };
+  | CandlestickChartInteractionConfig<TData>;
+
+export type CandlestickChartInteractionConfig<TData = unknown> = {
+  deselectOnOutsidePress?: boolean;
+  mode?: CandlestickChartInteractionMode;
+  onSelect?: (event: CandlestickChartSelectEvent<TData>) => void;
+};
 
 export type CandlestickChartSelectEvent<TData = unknown> = {
   close: number;
@@ -87,12 +95,10 @@ export type CandlestickChartTooltipConfig = BarChartTooltipConfig;
 export type ResolvedCandlestickChartTooltipConfig =
   ResolvedBarChartTooltipConfig;
 
-export type CandlestickChartViewportConfig = {
-  endIndex?: number;
-  initialIndex?: ChartViewportInitialIndex;
-  startIndex?: number;
-  visiblePoints?: number;
-};
+export type CandlestickChartViewportConfig = ChartViewportConfig;
+export type CandlestickChartViewportInteractionConfig =
+  ChartViewportInteractionConfig;
+export type CandlestickChartViewportChangeEvent = ChartViewportChangeEvent;
 
 export type BuildCandlestickChartModelOptions<
   TData extends Record<string, unknown>

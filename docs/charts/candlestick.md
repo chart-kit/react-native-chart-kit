@@ -18,6 +18,7 @@ import { CandlestickChart } from "@chart-kit/react-native";
   interaction="tap"
   tooltip={{ width: 154 }}
   viewport={{ visiblePoints: 20, initialIndex: "end" }}
+  viewportInteraction={{ pan: true, pinchZoom: true, minVisiblePoints: 8 }}
   yDomain={{ min: "dataMin", max: "dataMax", nice: true }}
   formatYLabel={(value) => `$${Math.round(value)}`}
 />;
@@ -31,6 +32,7 @@ Defaults:
 - invalid OHLC rows are skipped
 - pass `volumeKey` to render a subtle volume overlay behind the candles
 - use `viewport` to render a focused window from a larger OHLC dataset
+- use `viewportInteraction` with `onViewportChange` for controlled pan and pinch-zoom windows
 - tap selection can show a vertical inspection line, close-price badge, and theme-aware OHLC tooltip
 - y-domain is based on lows and highs, not open and close only
 - `getCandlestickChartDataTable()` returns exact OHLC rows for accessible detail panels and exports
