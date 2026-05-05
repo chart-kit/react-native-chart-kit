@@ -69,10 +69,41 @@ const V2CandlestickPriceAction = ({
   );
 };
 
+const V2CandlestickScrollable = ({ width }: NativeStoryProps) => (
+  <ChartSection title="Scrollable candles" kicker="Candlestick">
+    <CandlestickChart
+      closeKey="close"
+      data={stockCandles}
+      downColor="#ef4444"
+      formatYLabel={formatPrice}
+      height={278}
+      highKey="high"
+      initialIndex="end"
+      interaction="tap"
+      lowKey="low"
+      openKey="open"
+      scrollable
+      testID="scrollable-candlestick-chart"
+      tooltip={{ width: 154 }}
+      upColor="#16a34a"
+      visiblePoints={5}
+      volumeKey="volume"
+      width={width}
+      xKey="day"
+      yDomain={{ min: "dataMin", max: "dataMax", nice: true }}
+    />
+  </ChartSection>
+);
+
 export const financialOverviewStories = [
   {
     id: "v2-candlestick-price-action",
     title: "Candlestick",
     Component: V2CandlestickPriceAction
+  },
+  {
+    id: "v2-candlestick-scrollable",
+    title: "Scrollable Candles",
+    Component: V2CandlestickScrollable
   }
 ];

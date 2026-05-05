@@ -175,7 +175,7 @@ export const showcaseModes: ShowcaseMode[] = [
         id: "financial",
         title: "Financial",
         description: "Modern financial chart examples for OHLC price action.",
-        storyIds: ["v2-candlestick-price-action"]
+        storyIds: ["v2-candlestick-price-action", "v2-candlestick-scrollable"]
       },
       {
         id: "pie-donut",

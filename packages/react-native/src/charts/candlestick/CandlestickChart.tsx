@@ -1,18 +1,13 @@
-import { useCallback, useMemo, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ScrollView, StyleSheet, View } from "react-native";
 import type { GestureResponderEvent, ViewProps } from "react-native";
 
 import {
+  resolveChartViewport,
+  resolveChartViewportInitialOffset,
   resolveChartViewportWindow,
   sliceChartViewportData
 } from "@chart-kit/core";
-import {
-  SvgLayer,
-  SvgLine,
-  SvgRect,
-  SvgSurface,
-  SvgText
-} from "@chart-kit/svg-renderer";
 
 import { useChartKitTheme } from "../../theme";
 import { useChartViewportPanResponder } from "../../viewport/panResponder";
@@ -24,7 +19,6 @@ import {
   defaultFormatBarChartXLabel,
   defaultFormatBarChartYLabel
 } from "../bar/modelUtils";
-import { getFontFamilyProps } from "../line/text";
 import { getCandlestickChartAccessibilitySummary } from "./accessibility";
 import {
   buildCandlestickChartSelectEvent,
@@ -39,7 +33,7 @@ import {
 } from "./tooltipModel";
 import { CandlestickChartRangeSelector } from "./rangeSelector";
 import { getCandlestickChartRangeSelectorConfig } from "./rangeSelectorConfig";
-import { renderDefaultCandlestickTooltip } from "./tooltip";
+import { CandlestickChartSurface } from "./surface";
 import type { CandlestickChartProps } from "./types";
 
 export type * from "./types";
@@ -57,6 +51,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
   props: CandlestickChartProps<TData>
 ) => {
   const chartKitTheme = useChartKitTheme();
+  const scrollViewRef = useRef<ScrollView>(null);
   const [gestureSelectedIndex, setGestureSelectedIndex] = useState<
     number | undefined
   >(props.defaultSelectedIndex);
@@ -93,6 +88,26 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
     () => sliceChartViewportData(props.data, viewportWindow),
     [props.data, viewportWindow]
   );
+  const isMainScrollable = props.scrollable === true && !isRangeSelectorVisible;
+  const scrollViewport = useMemo(
+    () =>
+      resolveChartViewport({
+        itemCount: visibleData.length,
+        scrollable: isMainScrollable,
+        viewportWidth: props.width,
+        visiblePoints: props.visiblePoints
+      }),
+    [isMainScrollable, props.visiblePoints, props.width, visibleData.length]
+  );
+  const initialScrollOffset = useMemo(
+    () =>
+      resolveChartViewportInitialOffset({
+        initialIndex: props.initialIndex,
+        viewport: scrollViewport
+      }),
+    [props.initialIndex, scrollViewport]
+  );
+  const chartWidth = scrollViewport.contentWidth;
   const model = useMemo(
     () =>
       buildCandlestickChartModel({
@@ -100,9 +115,17 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
         chartKitTheme,
         data: visibleData,
         height: mainHeight,
-        dataIndexOffset: viewportWindow.startIndex
+        dataIndexOffset: viewportWindow.startIndex,
+        width: chartWidth
       }),
-    [chartKitTheme, mainHeight, props, viewportWindow.startIndex, visibleData]
+    [
+      chartKitTheme,
+      chartWidth,
+      mainHeight,
+      props,
+      viewportWindow.startIndex,
+      visibleData
+    ]
   );
   const overviewModel = useMemo(
     () =>
@@ -117,19 +140,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
       }),
     [chartKitTheme, props, rangeSelectorConfig.height]
   );
-  const {
-    boxes,
-    candles,
-    resolvedTheme,
-    showHorizontalGridLines,
-    showXAxisLabels,
-    showYAxisLabels,
-    volumeBars,
-    xLabels,
-    yLabels,
-    yTicks
-  } = model;
-  const fontProps = getFontFamilyProps(resolvedTheme.typography.fontFamily);
+  const { boxes, candles, resolvedTheme } = model;
   const formatXLabel = props.formatXLabel ?? defaultFormatBarChartXLabel;
   const formatYLabel = props.formatYLabel ?? defaultFormatBarChartYLabel;
   const preventBrowserSelection = useCallback(
@@ -140,7 +151,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
   );
   const viewportPinchZoom = useChartViewportPinchZoom({
     dataLength: props.data.length,
-    enabled: true,
+    enabled: !scrollViewport.scrollable,
     onViewportChange: props.onViewportChange,
     plotBounds: boxes.plot,
     viewportInteraction: props.viewportInteraction,
@@ -222,7 +233,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
     isCandlestickChartInteractionEnabled(interactionConfig);
   const viewportPanResponder = useChartViewportPanResponder({
     dataLength: props.data.length,
-    enabled: true,
+    enabled: !scrollViewport.scrollable,
     onPress: isInteractionEnabled ? handleResponderRelease : undefined,
     onViewportChange: props.onViewportChange,
     plotBounds: boxes.plot,
@@ -243,6 +254,43 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
       openKey: props.openKey,
       xKey: props.xKey
     });
+  const mainSurface = (
+    <View
+      collapsable={false}
+      style={{ height: mainHeight, width: chartWidth }}
+      {...responderProps}
+    >
+      <ChartViewportGesture gesture={viewportPinchZoom}>
+        <CandlestickChartSurface
+          chartHeight={mainHeight}
+          chartWidth={chartWidth}
+          formatYLabel={formatYLabel}
+          model={model}
+          selectedCandle={selectedCandle}
+          testID={props.testID}
+          tooltipConfig={tooltipConfig}
+          tooltipModel={tooltipModel}
+        />
+      </ChartViewportGesture>
+    </View>
+  );
+
+  useEffect(() => {
+    if (!scrollViewport.scrollable) {
+      return;
+    }
+
+    const frame = requestAnimationFrame(() => {
+      scrollViewRef.current?.scrollTo({
+        animated: false,
+        x: initialScrollOffset
+      });
+    });
+
+    return () => {
+      cancelAnimationFrame(frame);
+    };
+  }, [initialScrollOffset, scrollViewport.scrollable]);
 
   return (
     <View
@@ -260,199 +308,24 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
       ]}
       testID={props.testID}
     >
-      <View
-        collapsable={false}
-        style={{ height: mainHeight, width: props.width }}
-        {...responderProps}
-      >
-        <ChartViewportGesture gesture={viewportPinchZoom}>
-          <SvgSurface height={mainHeight} width={props.width}>
-            <SvgLayer name="background">
-              <SvgRect
-                fill={resolvedTheme.background}
-                height={mainHeight}
-                rx={8}
-                width={props.width}
-                x={0}
-                y={0}
-              />
-              <SvgRect
-                fill={resolvedTheme.plotBackground}
-                height={boxes.plot.height}
-                rx={6}
-                width={boxes.plot.width}
-                x={boxes.plot.x}
-                y={boxes.plot.y}
-              />
-            </SvgLayer>
-            <SvgLayer name="grid">
-              {showHorizontalGridLines
-                ? yTicks.map((tick) => {
-                    const label = yLabels.find(
-                      (item) => item.key === `tick-${tick}`
-                    );
-
-                    return label ? (
-                      <SvgLine
-                        key={`grid-y-${tick}`}
-                        stroke={resolvedTheme.grid}
-                        strokeOpacity={0.64}
-                        strokeWidth={1}
-                        x1={boxes.plot.x}
-                        x2={boxes.plot.x + boxes.plot.width}
-                        y1={
-                          label.y -
-                          resolvedTheme.typography.axisLabelSize / 2 +
-                          2
-                        }
-                        y2={
-                          label.y -
-                          resolvedTheme.typography.axisLabelSize / 2 +
-                          2
-                        }
-                      />
-                    ) : null;
-                  })
-                : null}
-            </SvgLayer>
-            <SvgLayer name="data">
-              {volumeBars.map((bar) => (
-                <SvgRect
-                  key={bar.key}
-                  fill={bar.color}
-                  height={bar.height}
-                  opacity={bar.opacity}
-                  width={bar.width}
-                  x={bar.x}
-                  y={bar.y}
-                />
-              ))}
-              {candles.map((candle) => (
-                <SvgLine
-                  key={`wick-${candle.key}`}
-                  stroke={candle.color}
-                  strokeLinecap="round"
-                  strokeWidth={1.5}
-                  testID={`${props.testID ?? "candlestick-chart"}-wick.${
-                    candle.dataIndex
-                  }`}
-                  x1={candle.wickX}
-                  x2={candle.wickX}
-                  y1={candle.highY}
-                  y2={candle.lowY}
-                />
-              ))}
-              {candles.map((candle) => (
-                <SvgRect
-                  key={`body-${candle.key}`}
-                  fill={candle.color}
-                  height={candle.bodyHeight}
-                  rx={Math.min(2, candle.bodyWidth / 4)}
-                  testID={`${props.testID ?? "candlestick-chart"}-candle.${
-                    candle.dataIndex
-                  }`}
-                  width={candle.bodyWidth}
-                  x={candle.bodyX}
-                  y={candle.bodyY}
-                  {...(selectedCandle?.dataIndex === candle.dataIndex
-                    ? {
-                        stroke: resolvedTheme.text,
-                        strokeOpacity: 0.36,
-                        strokeWidth: 1.5
-                      }
-                    : {})}
-                />
-              ))}
-            </SvgLayer>
-            <SvgLayer name="axes">
-              {showYAxisLabels
-                ? yLabels.map((label) => (
-                    <SvgText
-                      key={`label-y-${label.key}`}
-                      fill={resolvedTheme.mutedText}
-                      fontSize={resolvedTheme.typography.axisLabelSize}
-                      textAnchor="end"
-                      x={label.x}
-                      y={label.y}
-                      {...fontProps}
-                    >
-                      {label.text}
-                    </SvgText>
-                  ))
-                : null}
-              {showXAxisLabels
-                ? xLabels.map((label) => (
-                    <SvgText
-                      key={`label-x-${label.index}`}
-                      fill={resolvedTheme.mutedText}
-                      fontSize={resolvedTheme.typography.axisLabelSize}
-                      textAnchor="middle"
-                      x={label.x}
-                      y={label.y}
-                      {...fontProps}
-                    >
-                      {label.text}
-                    </SvgText>
-                  ))
-                : null}
-            </SvgLayer>
-            <SvgLayer name="interaction">
-              {selectedCandle ? (
-                <>
-                  <SvgLine
-                    key="candlestick-selection-line"
-                    stroke={resolvedTheme.axis}
-                    strokeDasharray={[4, 4]}
-                    strokeOpacity={0.42}
-                    strokeWidth={1}
-                    x1={selectedCandle.wickX}
-                    x2={selectedCandle.wickX}
-                    y1={boxes.plot.y}
-                    y2={boxes.plot.y + boxes.plot.height}
-                  />
-                  <SvgRect
-                    fill={selectedCandle.color}
-                    height={20}
-                    rx={5}
-                    width={58}
-                    x={boxes.plot.x + boxes.plot.width - 58}
-                    y={Math.max(
-                      boxes.plot.y + 2,
-                      Math.min(
-                        boxes.plot.y + boxes.plot.height - 22,
-                        selectedCandle.closeY - 10
-                      )
-                    )}
-                  />
-                  <SvgText
-                    fill={resolvedTheme.background}
-                    fontSize={resolvedTheme.typography.axisLabelSize}
-                    fontWeight="600"
-                    textAnchor="middle"
-                    x={boxes.plot.x + boxes.plot.width - 29}
-                    y={Math.max(
-                      boxes.plot.y + 16,
-                      Math.min(
-                        boxes.plot.y + boxes.plot.height - 8,
-                        selectedCandle.closeY + 4
-                      )
-                    )}
-                    {...fontProps}
-                  >
-                    {formatYLabel(selectedCandle.close)}
-                  </SvgText>
-                </>
-              ) : null}
-              {tooltipModel
-                ? renderDefaultCandlestickTooltip({
-                    ...tooltipModel,
-                    config: tooltipConfig
-                  })
-                : null}
-            </SvgLayer>
-          </SvgSurface>
-        </ChartViewportGesture>
-      </View>
+      {scrollViewport.scrollable ? (
+        <ScrollView
+          ref={scrollViewRef}
+          horizontal
+          bounces={false}
+          showsHorizontalScrollIndicator
+          style={[styles.scroller, { height: mainHeight, width: props.width }]}
+          contentContainerStyle={[
+            styles.scrollerContent,
+            { height: mainHeight, width: chartWidth }
+          ]}
+          scrollEventThrottle={16}
+        >
+          {mainSurface}
+        </ScrollView>
+      ) : (
+        mainSurface
+      )}
       <CandlestickChartRangeSelector
         config={rangeSelectorConfig}
         dataLength={props.data.length}
@@ -472,5 +345,11 @@ const styles = StyleSheet.create({
   container: {
     overflow: "hidden",
     userSelect: "none"
+  },
+  scroller: {
+    overflow: "hidden"
+  },
+  scrollerContent: {
+    flexGrow: 0
   }
 });

@@ -87,6 +87,7 @@ export type {
   CandlestickChartCandleModel,
   CandlestickChartDataTable,
   CandlestickChartDataTableRow,
+  CandlestickChartInitialIndex,
   CandlestickChartInteraction,
   CandlestickChartInteractionConfig,
   CandlestickChartInteractionMode,

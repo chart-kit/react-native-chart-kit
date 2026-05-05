@@ -1,5 +1,6 @@
 import type {
   ChartBoxes,
+  ChartViewportInitialIndex,
   ChartXValue,
   NumericDomainInput,
   ProjectedCandlestick
@@ -49,6 +50,9 @@ export type CandlestickChartProps<TData extends Record<string, unknown>> =
     yTickCount?: number;
     formatXLabel?: (value: ChartXValue, index: number) => string;
     formatYLabel?: (value: number) => string;
+    initialIndex?: ChartViewportInitialIndex;
+    scrollable?: boolean;
+    visiblePoints?: number;
     defaultSelectedIndex?: number;
     interaction?: CandlestickChartInteraction<TData>;
     selectedIndex?: number;
@@ -63,6 +67,8 @@ export type CandlestickChartProps<TData extends Record<string, unknown>> =
     accessibilityLabel?: string;
     testID?: string;
   };
+
+export type CandlestickChartInitialIndex = ChartViewportInitialIndex;
 
 export type CandlestickChartInteractionMode = "none" | "tap";
 

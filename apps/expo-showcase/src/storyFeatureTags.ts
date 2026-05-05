@@ -81,6 +81,7 @@ export const storyFeatureTags: Record<string, string[]> = {
     "range selector",
     "viewport pan"
   ],
+  "v2-candlestick-scrollable": ["OHLC", "scrollable", "volume overlay"],
   "v2-pie-acquisition": ["pie chart", "bottom legend", "percentage labels"],
   "v2-pie-external-labels": [
     "external labels",

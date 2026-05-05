@@ -227,5 +227,19 @@ export const docsExampleElements = [
     formatYLabel={(value) => `$${Math.round(value)}`}
     width={360}
     height={280}
+  />,
+  <CandlestickChart
+    key="candlestick-scrollable"
+    data={candles}
+    xKey="day"
+    openKey="open"
+    highKey="high"
+    lowKey="low"
+    closeKey="close"
+    scrollable
+    visiblePoints={2}
+    initialIndex="end"
+    width={360}
+    height={260}
   />
 ];

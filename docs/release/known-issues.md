@@ -24,7 +24,7 @@ Impact: H4/H5 must decide which features stay free, which move to Pro, and how t
 
 ## Candlestick Scope
 
-`CandlestickChart` currently supports OHLC body and wick geometry, opt-in volume overlays, viewport windowing with pan/pinch preview gestures, interactive range selector overview, baseline OHLC accessibility helpers, and tap inspection with an OHLC tooltip plus close-price badge. It does not yet include market-session gaps or advanced financial narratives.
+`CandlestickChart` currently supports OHLC body and wick geometry, opt-in volume overlays, scrollable long-history mode, viewport windowing with pan/pinch preview gestures, interactive range selector overview, baseline OHLC accessibility helpers, and tap inspection with an OHLC tooltip plus close-price badge. It does not yet include market-session gaps or advanced financial narratives.
 
 Impact: keep it labeled as financial foundation or preview unless those gaps are acceptable for beta.
 

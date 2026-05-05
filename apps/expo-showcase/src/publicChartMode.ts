@@ -130,14 +130,14 @@ export const publicChartMode: ShowcaseMode = {
       id: "financial-charts",
       title: "Financial Charts",
       description:
-        "Public v2 financial chart previews for OHLC price action and future range-selector workflows.",
+        "Public v2 financial chart previews for OHLC price action, scrolling, and range-selector workflows.",
       storyGroups: [
         {
           id: "financial-showpieces",
           title: "Showpieces",
           description:
             "Candlestick chart foundation for stock and trading interfaces.",
-          storyIds: ["v2-candlestick-price-action"]
+          storyIds: ["v2-candlestick-price-action", "v2-candlestick-scrollable"]
         }
       ]
     },

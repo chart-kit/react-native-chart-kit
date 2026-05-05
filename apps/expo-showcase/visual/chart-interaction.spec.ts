@@ -354,6 +354,36 @@ test.describe("Expo showcase chart interactions", () => {
     ).toBeVisible();
   });
 
+  test("scrollable candlestick starts at the latest candles", async ({
+    page
+  }) => {
+    await page.goto("/?story=v2-candlestick-scrollable&visual=1");
+    await page.evaluate(async () => {
+      await document.fonts?.ready;
+    });
+
+    const chart = page.getByTestId("scrollable-candlestick-chart");
+
+    await expect(page.getByText("Scrollable candles")).toBeVisible();
+    await expect(
+      page.getByTestId("scrollable-candlestick-chart-candle.7")
+    ).toBeVisible();
+
+    const chartBox = await chart.boundingBox();
+    const firstCandleBox = await page
+      .getByTestId("scrollable-candlestick-chart-candle.0")
+      .boundingBox();
+
+    expect(chartBox).not.toBeNull();
+    expect(firstCandleBox).not.toBeNull();
+
+    if (!chartBox || !firstCandleBox) {
+      return;
+    }
+
+    expect(firstCandleBox.x).toBeLessThan(chartBox.x);
+  });
+
   test("range selector overview changes the visible window", async ({
     page
   }) => {

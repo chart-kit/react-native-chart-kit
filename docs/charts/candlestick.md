@@ -33,6 +33,7 @@ Defaults:
 - invalid OHLC rows are skipped
 - pass `volumeKey` to render a subtle volume overlay behind the candles
 - use `viewport` to render a focused window from a larger OHLC dataset
+- use `scrollable`, `visiblePoints`, and `initialIndex="end"` for simple long OHLC histories
 - enable `rangeSelector` for a compact interactive OHLC overview below the main chart
 - use `viewportInteraction` with `onViewportChange` for controlled pan and pinch-zoom windows
 - tap selection can show a vertical inspection line, close-price badge, and theme-aware OHLC tooltip

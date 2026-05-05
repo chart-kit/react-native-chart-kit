@@ -144,4 +144,4 @@ Use this for the first financial-chart review surface. The current candlestick f
 />
 ```
 
-Features used: OHLC normalization, candle body geometry, wick geometry, volume overlay, viewport windowing, range selector overview, pan/pinch viewport gestures, up/down/flat theming, skipped invalid rows, tap selection, OHLC tooltip, close-price badge.
+Features used: OHLC normalization, candle body geometry, wick geometry, volume overlay, viewport windowing, scrollable long-history mode, range selector overview, pan/pinch viewport gestures, up/down/flat theming, skipped invalid rows, tap selection, OHLC tooltip, close-price badge.

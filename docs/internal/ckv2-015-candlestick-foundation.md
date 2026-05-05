@@ -17,9 +17,9 @@ Implemented in this slice:
 - viewport windowing with source data indexes preserved
 - controlled viewport pan and pinch-zoom gestures
 - interactive range selector overview
+- scrollable viewport mode with initial end positioning
 - unit coverage for candle body, wick, direction, and invalid-row handling
 
 Still pending for the broader financial module:
 
-- scrollable viewport mode
 - Pro packaging and licensing decision
