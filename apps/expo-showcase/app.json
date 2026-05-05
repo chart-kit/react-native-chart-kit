@@ -7,10 +7,12 @@
     "scheme": "chartkitshowcase",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "io.chartkit.showcase"
     },
     "android": {
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "io.chartkit.showcase"
     }
   }
 }

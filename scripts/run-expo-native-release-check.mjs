@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import process from "node:process";
@@ -114,22 +114,50 @@ const run = ({ args, command, cwd, dryRun }) => {
 };
 
 const runExpoPrebuild = ({ appDir, dryRun, platform }) => {
-  run({
-    args: [
-      "exec",
-      "expo",
-      "--",
-      "prebuild",
-      ".",
-      "--platform",
-      platform,
-      "--clean",
-      "--no-install"
-    ],
-    command: "npm",
-    cwd: appDir,
-    dryRun
+  const manifestSnapshot = snapshotAppManifests(appDir);
+
+  try {
+    run({
+      args: [
+        "exec",
+        "expo",
+        "--",
+        "prebuild",
+        ".",
+        "--platform",
+        platform,
+        "--clean",
+        "--no-install"
+      ],
+      command: "npm",
+      cwd: appDir,
+      dryRun
+    });
+  } finally {
+    if (!dryRun) {
+      restoreAppManifests(manifestSnapshot);
+    }
+  }
+};
+
+const snapshotAppManifests = (appDir) =>
+  ["app.json", "package.json"].map((fileName) => {
+    const filePath = path.join(appDir, fileName);
+
+    return {
+      contents: existsSync(filePath)
+        ? readFileSync(filePath, "utf8")
+        : undefined,
+      filePath
+    };
   });
+
+const restoreAppManifests = (snapshot) => {
+  for (const file of snapshot) {
+    if (file.contents !== undefined) {
+      writeFileSync(file.filePath, file.contents);
+    }
+  }
 };
 
 const requireDirectory = (directory, hint) => {
