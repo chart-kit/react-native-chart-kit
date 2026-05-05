@@ -6,9 +6,17 @@ The v2 migration strategy is intentionally partial compatibility. Existing apps 
 
 1. Upgrade the package and peer dependencies.
 2. Keep existing `LineChart`, `BarChart`, `StackedBarChart`, `PieChart`, `ProgressChart`, and `ContributionGraph` imports working through the compatibility surface.
-3. Run the app and fix any documented compatibility warnings.
-4. Move new screens to the modern API instead of copying old `chartConfig` patterns.
-5. Migrate old charts gradually when you need better layout, selection, scrolling, or theming.
+3. Run the codemod in check mode to find files that need explicit migration props.
+4. Run the app and fix any documented compatibility warnings.
+5. Move new screens to the modern API instead of copying old `chartConfig` patterns.
+6. Migrate old charts gradually when you need better layout, selection, scrolling, or theming.
+
+```sh
+npx chartkit-codemod v1-to-v2 ./src --check
+npx chartkit-codemod v1-to-v2 ./src
+```
+
+The first codemod pass is intentionally conservative. It detects imports from `react-native-chart-kit`, adds `compatibility="v1"` to common legacy chart JSX, and prints warnings for escape-hatch props that should be reviewed manually.
 
 ## What Should Keep Working
 

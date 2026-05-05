@@ -48,6 +48,7 @@ The `docs:build` command validates local links, balanced code fences, JS/TS mark
 ## Release Artifacts
 
 - [Migration guide](../migration/from-v1.md)
+- `chartkit-codemod v1-to-v2`
 - [Prop mapping](../migration/prop-mapping.md)
 - [Installation guide](../getting-started/installation.md)
 - [Production recipes](../recipes/README.md)

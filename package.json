@@ -29,8 +29,12 @@
   "types": "./dist/index.d.ts",
   "typings": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "scripts/chartkit-codemod.mjs"
   ],
+  "bin": {
+    "chartkit-codemod": "./scripts/chartkit-codemod.mjs"
+  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
@@ -67,6 +71,7 @@
     "example:android": "npm --workspace @chart-kit/expo-showcase run android --",
     "example:expo": "npm --workspace @chart-kit/expo-showcase run start --",
     "docs:build": "node scripts/docs-build.mjs && node scripts/typecheck-doc-examples.mjs",
+    "codemod:v1-to-v2": "node scripts/chartkit-codemod.mjs v1-to-v2",
     "clean": "node scripts/clean-dist.mjs",
     "build": "npm run clean && npm run core:build && npm run svg:build && npm run rn:build && tsc",
     "dev": "tsc --watch",

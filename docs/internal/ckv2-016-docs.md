@@ -7,6 +7,7 @@ This slice starts the public adoption documentation layer on top of the existing
 - added docs navigation in `docs/README.md`
 - added installation and first-chart guidance
 - added v1 migration guide and public prop mapping
+- added conservative `chartkit-codemod v1-to-v2` migration helper
 - added scenario-based production recipes
 - added troubleshooting guide for sizing, Expo Go, gestures, labels, tooltips, themes, visuals, and compatibility
 - added representative type-checked docs examples in `packages/react-native/test/docs-examples.typecheck.tsx`
