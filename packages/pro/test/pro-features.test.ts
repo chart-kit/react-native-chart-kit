@@ -81,8 +81,10 @@ describe("Chart Kit Pro preview boundary", () => {
     const missingExports: string[] = [];
     const preview = createChartKitProReactNativePreview(
       {
+        BarChart: "BarChart",
         CandlestickChart: "CandlestickChart",
         CombinedChart: "CombinedChart",
+        DonutChart: "DonutChart",
         LineChart: "LineChart"
       },
       {
@@ -93,15 +95,21 @@ describe("Chart Kit Pro preview boundary", () => {
     );
 
     expect(chartKitProReactNativePreviewExports).toEqual([
+      "BarChart",
       "CandlestickChart",
       "ChartSelectionProvider",
       "CombinedChart",
+      "DonutChart",
+      "LineChart",
       "useChartSelection",
       "useDismissChartSelection"
     ]);
     expect(preview).toEqual({
+      BarChart: "BarChart",
       CandlestickChart: "CandlestickChart",
-      CombinedChart: "CombinedChart"
+      CombinedChart: "CombinedChart",
+      DonutChart: "DonutChart",
+      LineChart: "LineChart"
     });
     expect(missingExports).toEqual([
       "ChartSelectionProvider",

@@ -1,7 +1,10 @@
 export const chartKitProReactNativePreviewExports = [
+  "BarChart",
   "CandlestickChart",
   "ChartSelectionProvider",
   "CombinedChart",
+  "DonutChart",
+  "LineChart",
   "useChartSelection",
   "useDismissChartSelection"
 ] as const;

@@ -33,6 +33,7 @@ Status:
 - no chart components consume this package yet
 - package-boundary metadata classifies current free baseline, compatibility, and Pro-candidate surfaces without moving runtime exports
 - React Native preview composition is injection-based, so `@chart-kit/pro` can expose Pro-candidate workflows without statically importing the free runtime package before H4
+- `@chart-kit/react-native/pro-preview` exists as the package-local preview entrypoint for current Pro-candidate components, hooks, and advanced interaction types
 
 Preview feature buckets:
 
@@ -48,11 +49,13 @@ The surface-boundary metadata is intentionally descriptive. It lets release docs
 React Native preview composition:
 
 ```ts
-import * as ChartKit from "@chart-kit/react-native";
+import * as ChartKit from "@chart-kit/react-native/pro-preview";
 import { createChartKitProReactNativePreview } from "@chart-kit/pro";
 
 const ProPreview = createChartKitProReactNativePreview(ChartKit);
 
+ProPreview.LineChart;
+ProPreview.BarChart;
 ProPreview.CombinedChart;
 ProPreview.CandlestickChart;
 ```

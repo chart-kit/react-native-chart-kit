@@ -8,7 +8,7 @@ Do not publish the beta package yet. Approve the preview implementation for cont
 
 Reason: the implementation, showcase, docs, tests, visual coverage, benchmark, support workflow, release checklist, local native release builds, and package path are in place, but remote native workflow evidence and the final free-vs-Pro package boundary are not complete.
 
-The current export surface is guarded by `npm run surface:check`. That check verifies the legacy `react-native-chart-kit` root exports and the modern `@chart-kit/react-native` exports.
+The current export surface is guarded by `npm run surface:check`. That check verifies the legacy `react-native-chart-kit` root exports, the modern `@chart-kit/react-native` exports, and the temporary `@chart-kit/react-native/pro-preview` subpath for H4 review.
 
 ## Decision 1: Publish Now Or Keep Iterating
 

@@ -63,6 +63,8 @@ react-native-chart-kit          # compatibility package and migration bridge
 
 `packages/pro` currently exists only as a preview feature-registry, surface-boundary, and injected composition package. It has no license checks, no runtime activation, and no gated chart implementations. Its registry now mirrors the owner-proposed commercial buckets: `pro-layout-engine`, `pro-interactions`, `pro-chart-types`, `pro-export`, `pro-theme-templates`, `pro-performance`, `skia-renderer`, and `accessibility-reports`. Its package-boundary metadata classifies current exports as compatibility, free baseline, or Pro candidate so the final split can be reviewed before moving runtime code. Its React Native preview helper accepts an injected `@chart-kit/react-native` module and selects Pro-candidate exports without statically importing the free runtime package.
 
+`@chart-kit/react-native/pro-preview` now exists as an explicit preview entrypoint for current Pro-candidate workflows. It exposes the current advanced LineChart, BarChart, DonutChart, CombinedChart, CandlestickChart, and chart-selection surface while keeping the root package stable during H4 review. This is not license gating and does not decide the final paid boundary; it gives demos, docs, and `@chart-kit/pro` a clean target before runtime code moves.
+
 Implementation principles:
 
 - keep free components free of license checks

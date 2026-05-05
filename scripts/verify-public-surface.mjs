@@ -69,6 +69,44 @@ const expectedProCandidateCapabilityExports = [
   "DonutChart"
 ];
 
+const expectedReactNativeProPreviewValueExports = [
+  "BarChart",
+  "CandlestickChart",
+  "ChartSelectionProvider",
+  "CombinedChart",
+  "DonutChart",
+  "LineChart",
+  "getCandlestickChartAccessibilitySummary",
+  "getCandlestickChartDataTable",
+  "getCandlestickChartFinancialNarrative",
+  "getCandlestickEmergencyClosureSessions",
+  "getCombinedChartAccessibilitySummary",
+  "getCombinedChartDataTable",
+  "useChartSelection",
+  "useDismissChartSelection"
+];
+
+const expectedReactNativeProPreviewTypeExports = [
+  "BarChartInteractionConfig",
+  "BarChartProps",
+  "BarChartSelectionAnimationConfig",
+  "BarChartTooltipConfig",
+  "CandlestickChartProps",
+  "CandlestickChartRangeSelectorConfig",
+  "CandlestickChartTooltipConfig",
+  "CandlestickChartViewportConfig",
+  "ChartSelectionProviderProps",
+  "CombinedChartInteractionConfig",
+  "CombinedChartProps",
+  "CombinedChartTooltipConfig",
+  "LineChartCrosshairConfig",
+  "LineChartInteractionConfig",
+  "LineChartRangeSelectorConfig",
+  "LineChartTooltipConfig",
+  "LineChartViewportConfig",
+  "PieChartActiveSliceConfig"
+];
+
 const readRepoFile = (relativePath) =>
   readFile(path.join(repoRoot, relativePath), "utf8");
 
@@ -126,6 +164,9 @@ const v2PackageJson = JSON.parse(
 );
 const rootSource = await readRepoFile("src/index.ts");
 const v2Source = await readRepoFile("packages/react-native/src/index.ts");
+const v2ProPreviewSource = await readRepoFile(
+  "packages/react-native/src/proPreview.ts"
+);
 const proBoundarySource = await readRepoFile(
   "packages/pro/src/surfaceBoundary.ts"
 );
@@ -140,6 +181,10 @@ if (v2PackageJson.name !== "@chart-kit/react-native") {
 
 if (v2PackageJson.private === true) {
   throw new Error("@chart-kit/react-native must not be private");
+}
+
+if (!v2PackageJson.exports?.["./pro-preview"]) {
+  throw new Error("@chart-kit/react-native must expose ./pro-preview");
 }
 
 if (packageJson.main !== "./dist/index.js") {
@@ -168,6 +213,18 @@ assertMissing({
   label: "Modern v2 type surface"
 });
 
+assertMissing({
+  actual: extractNamedExports(v2ProPreviewSource),
+  expected: expectedReactNativeProPreviewValueExports,
+  label: "React Native Pro preview value surface"
+});
+
+assertMissing({
+  actual: extractNamedExports(v2ProPreviewSource, "type"),
+  expected: expectedReactNativeProPreviewTypeExports,
+  label: "React Native Pro preview type surface"
+});
+
 assertSourceContains({
   expected: expectedProCandidateSurfaceExports,
   label: "Pro candidate surface boundary",
@@ -189,4 +246,10 @@ console.log(
 );
 console.log(
   `Pro candidate capability exports: ${expectedProCandidateCapabilityExports.length}`
+);
+console.log(
+  `React Native Pro preview value exports: ${expectedReactNativeProPreviewValueExports.length}`
+);
+console.log(
+  `React Native Pro preview type exports: ${expectedReactNativeProPreviewTypeExports.length}`
 );
