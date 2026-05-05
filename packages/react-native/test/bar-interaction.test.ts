@@ -196,9 +196,19 @@ describe("BarChart interaction helpers", () => {
     ).toBeCloseTo(0.78);
     expect(
       getAnimatedBarSelectionGridOpacity({
+        state: { fromKey: undefined, toKey: "paid-1", progress: 0 }
+      })
+    ).toBeCloseTo(0);
+    expect(
+      getAnimatedBarSelectionGridOpacity({
         state: { fromKey: "paid-1", toKey: "paid-1", progress: 1 }
       })
     ).toBeCloseTo(0);
+    expect(
+      getAnimatedBarSelectionGridOpacity({
+        state: { fromKey: "paid-1", toKey: undefined, progress: 0.5 }
+      })
+    ).toBeCloseTo(0.39);
   });
 
   it("keeps overlay tooltips inside the visible viewport", () => {
