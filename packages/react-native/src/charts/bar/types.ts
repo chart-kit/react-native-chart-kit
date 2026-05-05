@@ -14,10 +14,12 @@ import type {
   ChartKitThemeMode,
   ResolvedCartesianChartTheme
 } from "../../theme";
+import type { LineChartRenderer } from "../line/types";
 
 export type BarChartMode = "grouped" | "stacked" | "stacked100";
 export type BarChartOrientation = "vertical" | "horizontal";
 export type BarChartInitialIndex = ChartViewportInitialIndex;
+export type BarChartRenderer = LineChartRenderer;
 
 export type BarChartSeries<TData extends Record<string, unknown>> = {
   yKey: keyof TData & string;
@@ -149,6 +151,7 @@ export type BarChartProps<TData extends Record<string, unknown>> = {
   selectionAnimation?: boolean | BarChartSelectionAnimationConfig;
   tooltip?: boolean | BarChartTooltipConfig;
   renderBar?: (props: BarChartRenderBarProps<TData>) => ReactNode;
+  renderer?: BarChartRenderer;
   labelStrategy?: BarChartLabelStrategy;
   formatXLabel?: (value: ChartXValue, index: number) => string;
   formatYLabel?: (value: number) => string;

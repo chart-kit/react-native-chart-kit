@@ -20,7 +20,7 @@
         "packages/skia-renderer/test/skia-renderer.test.ts",
         "packages/react-native/test/line-renderer.test.ts"
       ],
-      "notes": "Local primitive tests and LineChart renderer contract tests run through npm run skia:parity."
+      "notes": "Local primitive tests plus LineChart and BarChart renderer contract tests run through npm run skia:parity."
     }
   ],
   "coveredSurfaces": [
@@ -42,6 +42,9 @@
     "default marker",
     "default legend",
     "default tooltip",
+    "BarChart chart body",
+    "BarChart sticky Y-axis",
+    "BarChart default tooltip overlay",
     "debug-layout surfaces"
   ],
   "missingEvidence": [
@@ -49,6 +52,6 @@
     "native renderer parity coverage",
     "sticky-axis font configuration evidence",
     "native Skia benchmark comparison",
-    "remaining chart integration beyond LineChart surfaces"
+    "remaining chart integration beyond LineChart and BarChart surfaces"
   ]
 }

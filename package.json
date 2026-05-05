@@ -58,7 +58,7 @@
     "svg:build": "tsc -p packages/svg-renderer/tsconfig.json",
     "skia:typecheck": "tsc -p packages/skia-renderer/tsconfig.json --noEmit && tsc -p packages/skia-renderer/tsconfig.test.json --noEmit",
     "skia:build": "tsc -p packages/skia-renderer/tsconfig.json",
-    "skia:parity": "vitest run packages/skia-renderer/test/skia-renderer.test.ts packages/react-native/test/line-renderer.test.ts",
+    "skia:parity": "vitest run packages/skia-renderer/test/skia-renderer.test.ts packages/react-native/test/line-renderer.test.ts packages/react-native/test/bar-renderer.test.ts",
     "pro:typecheck": "tsc -p packages/pro/tsconfig.json --noEmit && tsc -p packages/pro/tsconfig.test.json --noEmit",
     "pro:build": "tsc -p packages/pro/tsconfig.json",
     "rn:typecheck": "tsc -p packages/react-native/tsconfig.json --noEmit && tsc -p packages/react-native/tsconfig.test.json --noEmit",

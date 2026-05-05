@@ -219,6 +219,7 @@ export const BarChart = <TData extends Record<string, unknown>>(
       model={model}
       responderProps={responderProps}
       renderBar={props.renderBar}
+      renderer={props.renderer}
       selectedBarKey={selectedBarKey}
       selectionAnimation={props.selectionAnimation}
       showYAxis={!viewport.scrollable}
@@ -233,6 +234,7 @@ export const BarChart = <TData extends Record<string, unknown>>(
       tooltipModel={tooltipModel}
       viewportOffsetX={viewport.scrollable ? scrollOffsetX : 0}
       width={props.width}
+      renderer={props.renderer}
     />
   );
 
@@ -293,6 +295,7 @@ export const BarChart = <TData extends Record<string, unknown>>(
           <StickyBarChartYAxis
             height={props.height}
             model={model}
+            renderer={props.renderer}
             width={props.width}
           />
           {tooltipOverlay}
