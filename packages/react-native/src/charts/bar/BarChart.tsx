@@ -62,11 +62,14 @@ export const BarChart = <TData extends Record<string, unknown>>(
     [chartKitTheme, props, viewport.contentWidth]
   );
   const { bars, boxes, resolvedTheme, xLabels } = model;
+  const scrollInitialOffset =
+    viewport.scrollable && props.initialIndex === "end"
+      ? Math.max(0, initialScrollOffset - boxes.plot.x * 0.66)
+      : initialScrollOffset;
   const barRadius = Math.max(0, props.barRadius ?? 5);
   const controlledSelectedBarKey = getBarChartBarKey(props.selectedBar);
   const selectedBarKey = controlledSelectedBarKey ?? gestureSelectedBarKey;
   const selectedBar = bars.find((bar) => bar.key === selectedBarKey);
-  const hasSelectedBar = selectedBar !== undefined;
   const tooltipConfig = useMemo(
     () =>
       getBarChartTooltipConfig({
@@ -137,10 +140,10 @@ export const BarChart = <TData extends Record<string, unknown>>(
     <BarChartSurface
       barRadius={barRadius}
       height={props.height}
-      hasSelectedBar={hasSelectedBar}
       model={model}
       responderProps={responderProps}
       selectedBarKey={selectedBarKey}
+      selectionAnimation={props.selectionAnimation}
       showYAxis={!viewport.scrollable}
       tooltipConfig={tooltipConfig}
       tooltipModel={tooltipModel}
@@ -156,14 +159,14 @@ export const BarChart = <TData extends Record<string, unknown>>(
     const frame = requestAnimationFrame(() => {
       scrollViewRef.current?.scrollTo({
         animated: false,
-        x: initialScrollOffset
+        x: scrollInitialOffset
       });
     });
 
     return () => {
       cancelAnimationFrame(frame);
     };
-  }, [initialScrollOffset, viewport.scrollable]);
+  }, [scrollInitialOffset, viewport.scrollable]);
 
   return (
     <View

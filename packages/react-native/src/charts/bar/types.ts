@@ -66,6 +66,7 @@ export type BarChartInteraction<TData = unknown> =
 export type BarChartTooltipConfig = {
   visible?: boolean;
   width?: number;
+  positionAnimationDuration?: number;
   padding?: number;
   borderRadius?: number;
   backgroundColor?: string;
@@ -84,6 +85,7 @@ export type BarChartTooltipConfig = {
 export type ResolvedBarChartTooltipConfig = {
   visible: boolean;
   width: number;
+  positionAnimationDuration: number;
   padding: number;
   borderRadius: number;
   backgroundColor: string;
@@ -97,6 +99,10 @@ export type ResolvedBarChartTooltipConfig = {
   fontFamily: string | undefined;
   fontSize: number;
   labelFontSize: number;
+};
+
+export type BarChartSelectionAnimationConfig = {
+  duration?: number;
 };
 
 export type BarChartProps<TData extends Record<string, unknown>> = {
@@ -124,6 +130,7 @@ export type BarChartProps<TData extends Record<string, unknown>> = {
   interaction?: BarChartInteraction<TData>;
   selectedBar?: BarChartSelectedBar;
   defaultSelectedBar?: BarChartSelectedBar;
+  selectionAnimation?: boolean | BarChartSelectionAnimationConfig;
   tooltip?: boolean | BarChartTooltipConfig;
   labelStrategy?: BarChartLabelStrategy;
   formatXLabel?: (value: ChartXValue, index: number) => string;

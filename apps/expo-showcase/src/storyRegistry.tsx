@@ -153,6 +153,7 @@ export const publicChartMode: ShowcaseMode = {
             "Long datasets, negative values, and percentage composition examples.",
           storyIds: [
             "v2-bar-scrollable",
+            "v2-bar-scrollable-selection",
             "v2-bar-negative",
             "v2-bar-stacked-percent"
           ]
@@ -259,6 +260,7 @@ export const showcaseModes: ShowcaseMode[] = [
           "v2-bar-grouped",
           "v2-bar-selection",
           "v2-bar-scrollable",
+          "v2-bar-scrollable-selection",
           "v2-bar-horizontal",
           "v2-bar-negative",
           "v2-bar-stacked-percent"
@@ -471,6 +473,11 @@ export const storyFeatureTags: Record<string, string[]> = {
   "v2-bar-grouped": ["grouped bars", "value labels", "analytics preset"],
   "v2-bar-selection": ["tap selection", "bar tooltip", "highlight state"],
   "v2-bar-scrollable": ["scrollable", "visible points", "sticky y-axis"],
+  "v2-bar-scrollable-selection": [
+    "scrollable",
+    "tap selection",
+    "animated tooltip"
+  ],
   "v2-bar-horizontal": ["horizontal bars", "category axis", "value labels"],
   "v2-bar-negative": ["negative values", "baseline", "value labels"],
   "v2-bar-stacked-percent": ["stacked100", "percentage labels", "bar chart"],

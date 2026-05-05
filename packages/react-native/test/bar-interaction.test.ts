@@ -6,6 +6,11 @@ import {
   getBarChartInteractionConfig
 } from "../src/charts/bar/interaction";
 import { getBarChartTooltipConfig } from "../src/charts/bar/options";
+import {
+  getAnimatedBarSelectionOpacity,
+  getAnimatedBarSelectionStrokeOpacity,
+  resolveBarChartSelectionAnimationConfig
+} from "../src/charts/bar/selectionAnimation";
 import type { BarChartBarModel } from "../src/charts/bar/types";
 
 const bars: Array<BarChartBarModel<{ month: string; paid: number }>> = [
@@ -127,14 +132,50 @@ describe("BarChart interaction helpers", () => {
     expect(
       getBarChartTooltipConfig({
         themeTooltip,
-        tooltip: { backgroundColor: "#111827", visible: true, width: 150 }
+        tooltip: {
+          backgroundColor: "#111827",
+          positionAnimationDuration: 240,
+          visible: true,
+          width: 150
+        }
       })
     ).toMatchObject({
       backgroundColor: "#111827",
       borderColor: "#e5e7eb",
+      positionAnimationDuration: 240,
       textColor: "#0f172a",
       visible: true,
       width: 150
     });
+  });
+
+  it("resolves animated selection style transitions", () => {
+    expect(resolveBarChartSelectionAnimationConfig(false)).toEqual({
+      duration: 0,
+      enabled: false
+    });
+    expect(resolveBarChartSelectionAnimationConfig({ duration: 240 })).toEqual({
+      duration: 240,
+      enabled: true
+    });
+
+    const state = {
+      fromKey: "paid-1",
+      toKey: "organic-1",
+      progress: 0.5
+    };
+
+    expect(
+      getAnimatedBarSelectionOpacity({ barKey: "paid-1", state })
+    ).toBeCloseTo(0.71);
+    expect(
+      getAnimatedBarSelectionOpacity({ barKey: "organic-1", state })
+    ).toBeCloseTo(0.71);
+    expect(
+      getAnimatedBarSelectionStrokeOpacity({ barKey: "paid-1", state })
+    ).toBeCloseTo(0.16);
+    expect(
+      getAnimatedBarSelectionStrokeOpacity({ barKey: "organic-1", state })
+    ).toBeCloseTo(0.16);
   });
 });

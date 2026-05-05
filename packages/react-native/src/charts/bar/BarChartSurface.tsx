@@ -11,17 +11,24 @@ import {
 } from "@chart-kit/svg-renderer";
 
 import { getFontFamilyProps } from "../line/text";
+import {
+  getAnimatedBarSelectionOpacity,
+  getAnimatedBarSelectionStrokeOpacity,
+  useBarChartSelectionAnimation
+} from "./selectionAnimation";
 import { renderDefaultBarChartTooltip } from "./tooltip";
+import { useAnimatedBarChartTooltipModel } from "./useAnimatedTooltipModel";
 import type { BarChartModel, ResolvedBarChartTooltipConfig } from "./types";
 import type { BarChartTooltipModel } from "./tooltip";
+import type { BarChartSelectionAnimationConfig } from "./types";
 
 export type BarChartSurfaceProps<TData = unknown> = {
   barRadius: number;
   height: number;
-  hasSelectedBar: boolean;
   model: BarChartModel<TData>;
   responderProps: ViewProps;
   selectedBarKey: string | undefined;
+  selectionAnimation: boolean | BarChartSelectionAnimationConfig | undefined;
   showYAxis: boolean;
   tooltipConfig: ResolvedBarChartTooltipConfig;
   tooltipModel: BarChartTooltipModel<TData> | undefined;
@@ -31,10 +38,10 @@ export type BarChartSurfaceProps<TData = unknown> = {
 export const BarChartSurface = <TData,>({
   barRadius,
   height,
-  hasSelectedBar,
   model,
   responderProps,
   selectedBarKey,
+  selectionAnimation,
   showYAxis,
   tooltipConfig,
   tooltipModel,
@@ -53,6 +60,14 @@ export const BarChartSurface = <TData,>({
     yTicks
   } = model;
   const fontProps = getFontFamilyProps(resolvedTheme.typography.fontFamily);
+  const selectionAnimationState = useBarChartSelectionAnimation({
+    animation: selectionAnimation,
+    selectedBarKey
+  });
+  const animatedTooltipModel = useAnimatedBarChartTooltipModel(
+    tooltipModel,
+    tooltipConfig.positionAnimationDuration
+  );
 
   return (
     <View collapsable={false} style={{ width, height }} {...responderProps}>
@@ -117,7 +132,10 @@ export const BarChartSurface = <TData,>({
         </SvgLayer>
         <SvgLayer name="data">
           {bars.map((bar) => {
-            const isSelected = selectedBarKey === bar.key;
+            const strokeOpacity = getAnimatedBarSelectionStrokeOpacity({
+              barKey: bar.key,
+              state: selectionAnimationState
+            });
 
             return (
               <SvgRect
@@ -128,11 +146,14 @@ export const BarChartSurface = <TData,>({
                 height={bar.height}
                 rx={Math.min(barRadius, bar.width / 2, bar.height / 2)}
                 fill={bar.color}
-                opacity={hasSelectedBar && !isSelected ? 0.42 : 1}
-                {...(isSelected
+                opacity={getAnimatedBarSelectionOpacity({
+                  barKey: bar.key,
+                  state: selectionAnimationState
+                })}
+                {...(strokeOpacity > 0
                   ? {
                       stroke: resolvedTheme.text,
-                      strokeOpacity: 0.32,
+                      strokeOpacity,
                       strokeWidth: 1.5
                     }
                   : {})}
@@ -213,9 +234,9 @@ export const BarChartSurface = <TData,>({
           ))}
         </SvgLayer>
         <SvgLayer name="interaction">
-          {tooltipModel
+          {animatedTooltipModel
             ? renderDefaultBarChartTooltip({
-                ...tooltipModel,
+                ...animatedTooltipModel,
                 config: tooltipConfig
               })
             : null}
@@ -247,13 +268,13 @@ export const StickyBarChartYAxis = <TData,>({
             x={0}
             y={0}
             width={Math.max(0, boxes.plot.x)}
-            height={height}
+            height={boxes.plot.y + boxes.plot.height}
             fill={resolvedTheme.background}
           />
           <SvgRect
             x={0}
             y={boxes.plot.y + boxes.plot.height}
-            width={Math.max(0, boxes.plot.x + 56)}
+            width={Math.max(0, boxes.plot.x)}
             height={Math.max(0, height - (boxes.plot.y + boxes.plot.height))}
             fill={resolvedTheme.background}
           />

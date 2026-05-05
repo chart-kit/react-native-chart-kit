@@ -73,6 +73,29 @@ const V2ScrollableBar = ({ width }: NativeStoryProps) => (
   </ChartSection>
 );
 
+const V2ScrollableSelectableBar = ({ width }: NativeStoryProps) => (
+  <ChartSection title="Spend inspection" kicker="Scrollable selection">
+    <BarChart
+      data={campaignSpend}
+      defaultSelectedBar={{ dataIndex: 15, seriesKey: "spend" }}
+      height={260}
+      initialIndex="end"
+      interaction={{ mode: "tap", deselectOnOutsidePress: true }}
+      preset="analytics"
+      scrollable
+      selectionAnimation={{ duration: 220 }}
+      series={[{ yKey: "spend", label: "Spend" }]}
+      testID="scrollable-selectable-bar-chart"
+      tooltip={{ positionAnimationDuration: 260, width: 128 }}
+      visiblePoints={5}
+      width={width}
+      xKey="week"
+      yDomain={{ min: 0, max: "dataMax", nice: true }}
+      formatYLabel={(value) => `$${value}k`}
+    />
+  </ChartSection>
+);
+
 const V2HorizontalBar = ({ width }: NativeStoryProps) => (
   <ChartSection title="Support volume" kicker="Horizontal bars">
     <BarChart
@@ -139,6 +162,11 @@ export const barOverviewStories = [
     id: "v2-bar-scrollable",
     title: "Scrollable Bars",
     Component: V2ScrollableBar
+  },
+  {
+    id: "v2-bar-scrollable-selection",
+    title: "Scrollable Selection",
+    Component: V2ScrollableSelectableBar
   },
   {
     id: "v2-bar-horizontal",

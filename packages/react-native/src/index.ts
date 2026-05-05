@@ -43,6 +43,7 @@ export type {
   BarChartProps,
   BarChartSelectEvent,
   BarChartSelectedBar,
+  BarChartSelectionAnimationConfig,
   BarChartSeries,
   BarChartTooltipConfig,
   BarChartValueLabelModel,

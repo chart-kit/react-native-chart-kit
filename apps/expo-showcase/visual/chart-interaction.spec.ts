@@ -121,6 +121,20 @@ test.describe("Expo showcase chart interactions", () => {
     await expect(page.getByText("Organic: 48k")).toHaveCount(0);
   });
 
+  test("scrollable bar chart supports tap selection", async ({ page }) => {
+    await page.goto("/?story=v2-bar-scrollable-selection&visual=1");
+    await page.evaluate(async () => {
+      await document.fonts?.ready;
+    });
+
+    await expect(page.getByText("Spend inspection")).toBeVisible();
+    await expect(page.getByText("Spend: $54k")).toBeVisible();
+
+    await page.getByTestId("bar-chart-bar.spend.16").click();
+    await expect(page.getByText("Spend: $61k")).toBeVisible();
+    await expect(page.getByText("Spend: $54k")).toHaveCount(0);
+  });
+
   test("horizontal bar chart shows every category label", async ({ page }) => {
     await page.goto("/?story=v2-bar-horizontal&visual=1");
     await page.evaluate(async () => {
