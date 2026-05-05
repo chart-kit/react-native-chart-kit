@@ -26,5 +26,7 @@ Defaults:
 - flat candles use muted theme text
 - invalid OHLC rows are skipped
 - y-domain is based on lows and highs, not open and close only
+- `getCandlestickChartDataTable()` returns exact OHLC rows for accessible detail panels and exports
+- `getCandlestickChartAccessibilitySummary()` reports latest close, highest high, and lowest low
 
 This foundation does not yet include volume bars, crosshair labels, range selector controls, or pinch zoom. Those remain in the next financial-chart slices.

@@ -7,6 +7,7 @@ For richer app-level fallbacks, export table models with the helper matching the
 ```tsx
 import {
   getBarChartDataTable,
+  getCandlestickChartDataTable,
   getCombinedChartDataTable,
   getLineChartDataTable,
   getPieChartDataTable,
@@ -21,6 +22,7 @@ Summary helpers are also exported:
 
 - `getLineChartAccessibilitySummary()`
 - `getBarChartAccessibilitySummary()`
+- `getCandlestickChartAccessibilitySummary()`
 - `getCombinedChartAccessibilitySummary()`
 - `getPieChartAccessibilitySummary()`
 - `getProgressChartAccessibilitySummary()`

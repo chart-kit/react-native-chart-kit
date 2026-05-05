@@ -34,7 +34,9 @@ const defaultYDomain = { nice: true } as const;
 const isFiniteNumber = (value: unknown): value is number =>
   typeof value === "number" && Number.isFinite(value);
 
-const normalizeCandlestickRows = <TData extends Record<string, unknown>>({
+export const normalizeCandlestickRows = <
+  TData extends Record<string, unknown>
+>({
   closeKey,
   data,
   highKey,

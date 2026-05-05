@@ -11,11 +11,20 @@ import {
 
 import { useChartKitTheme } from "../../theme";
 import { getFontFamilyProps } from "../line/text";
+import { getCandlestickChartAccessibilitySummary } from "./accessibility";
 import { buildCandlestickChartModel } from "./model";
 import type { CandlestickChartProps } from "./types";
 
 export type * from "./types";
 export { buildCandlestickChartModel } from "./model";
+export {
+  getCandlestickChartAccessibilitySummary,
+  getCandlestickChartDataTable
+} from "./accessibility";
+export type {
+  CandlestickChartDataTable,
+  CandlestickChartDataTableRow
+} from "./accessibility";
 
 export const CandlestickChart = <TData extends Record<string, unknown>>(
   props: CandlestickChartProps<TData>
@@ -39,7 +48,16 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
   const fontProps = getFontFamilyProps(resolvedTheme.typography.fontFamily);
   const accessibilityLabel =
     props.accessibilityLabel ??
-    `Candlestick chart with ${candles.length} candles.`;
+    getCandlestickChartAccessibilitySummary({
+      closeKey: props.closeKey,
+      data: props.data,
+      formatXLabel: props.formatXLabel,
+      formatYLabel: props.formatYLabel,
+      highKey: props.highKey,
+      lowKey: props.lowKey,
+      openKey: props.openKey,
+      xKey: props.xKey
+    });
 
   return (
     <View

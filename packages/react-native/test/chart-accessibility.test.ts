@@ -5,6 +5,10 @@ import {
   getBarChartDataTable
 } from "../src/charts/bar/accessibility";
 import {
+  getCandlestickChartAccessibilitySummary,
+  getCandlestickChartDataTable
+} from "../src/charts/candlestick/accessibility";
+import {
   getContributionGraphAccessibilitySummary,
   getContributionGraphDataTable
 } from "../src/charts/contribution/accessibility";
@@ -119,6 +123,65 @@ describe("chart accessibility helpers", () => {
       "bar-services": 60,
       "line-margin": 18
     });
+  });
+
+  it("builds candlestick chart OHLC table rows and summary", () => {
+    const data = [
+      { day: "Mon", open: 100, high: 112, low: 96, close: 108 },
+      { day: "Tue", open: 108, high: 110, low: 91, close: 94 },
+      { day: "Wed", open: 94, high: 102, low: 92, close: 94 },
+      { day: "Bad", open: Number.NaN, high: 130, low: 90, close: 95 }
+    ];
+
+    expect(
+      getCandlestickChartAccessibilitySummary({
+        closeKey: "close",
+        data,
+        highKey: "high",
+        lowKey: "low",
+        openKey: "open",
+        xKey: "day",
+        formatYLabel: (value) => `$${value}`
+      })
+    ).toBe(
+      "Candlestick chart with 3 candles. Latest close is $94 on Wed. Highest high is $112 on Mon. Lowest low is $91 on Tue."
+    );
+
+    expect(
+      getCandlestickChartDataTable({
+        closeKey: "close",
+        data,
+        highKey: "high",
+        lowKey: "low",
+        openKey: "open",
+        xKey: "day",
+        formatYLabel: (value) => `$${value}`
+      }).rows.map((row) => ({
+        close: row.close,
+        direction: row.direction,
+        formattedHigh: row.formattedHigh,
+        xLabel: row.xLabel
+      }))
+    ).toEqual([
+      {
+        close: 108,
+        direction: "up",
+        formattedHigh: "$112",
+        xLabel: "Mon"
+      },
+      {
+        close: 94,
+        direction: "down",
+        formattedHigh: "$110",
+        xLabel: "Tue"
+      },
+      {
+        close: 94,
+        direction: "flat",
+        formattedHigh: "$102",
+        xLabel: "Wed"
+      }
+    ]);
   });
 
   it("builds pie chart table rows and largest-slice summary", () => {

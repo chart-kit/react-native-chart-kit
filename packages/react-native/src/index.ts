@@ -85,6 +85,8 @@ export type {
 } from "./charts/contribution/ContributionGraph";
 export type {
   CandlestickChartCandleModel,
+  CandlestickChartDataTable,
+  CandlestickChartDataTableRow,
   CandlestickChartModel,
   CandlestickChartPriceKeys,
   CandlestickChartProps,
@@ -219,6 +221,10 @@ export {
   getProgressChartAccessibilitySummary,
   getProgressChartDataTable
 } from "./charts/progress/ProgressChart";
+export {
+  getCandlestickChartAccessibilitySummary,
+  getCandlestickChartDataTable
+} from "./charts/candlestick/CandlestickChart";
 export {
   getCombinedChartAccessibilitySummary,
   getCombinedChartDataTable

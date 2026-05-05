@@ -9,6 +9,7 @@ Implemented in this slice:
 - OHLC row projection with high/low domain calculation
 - up, down, and flat candle colors
 - Expo showcase price-action story
+- OHLC accessibility summary and data table helpers
 - unit coverage for candle body, wick, direction, and invalid-row handling
 
 Still pending for the broader financial module:
