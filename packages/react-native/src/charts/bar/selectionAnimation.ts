@@ -155,11 +155,6 @@ const getStrokeOpacityForSelectionKey = ({
   selectedKey: string | undefined;
 }) => (selectedKey === barKey ? selectedStrokeOpacity : 0);
 
-const getGridOpacityForSelectionKey = (selectedKey: string | undefined) =>
-  selectedKey === undefined
-    ? defaultGridStrokeOpacity
-    : selectedGridStrokeOpacity;
-
 export const getAnimatedBarSelectionOpacity = ({
   barKey,
   state
@@ -209,15 +204,11 @@ export const getAnimatedBarSelectionGridOpacity = ({
 }: {
   state: BarChartSelectionAnimationState;
 }) => {
-  if (state.toKey !== undefined) {
+  if (state.fromKey !== undefined || state.toKey !== undefined) {
     return selectedGridStrokeOpacity;
   }
 
-  return interpolate(
-    getGridOpacityForSelectionKey(state.fromKey),
-    defaultGridStrokeOpacity,
-    state.progress
-  );
+  return defaultGridStrokeOpacity;
 };
 
 export const useBarChartSelectionAnimation = ({
