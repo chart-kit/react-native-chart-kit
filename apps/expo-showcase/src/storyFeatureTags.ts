@@ -80,9 +80,15 @@ export const storyFeatureTags: Record<string, string[]> = {
     "OHLC",
     "candlesticks",
     "range selector",
-    "viewport pan"
+    "viewport pan",
+    "session gaps"
   ],
-  "v2-candlestick-scrollable": ["OHLC", "scrollable", "volume overlay"],
+  "v2-candlestick-scrollable": [
+    "OHLC",
+    "scrollable",
+    "volume overlay",
+    "session gaps"
+  ],
   "v2-pie-acquisition": ["pie chart", "bottom legend", "percentage labels"],
   "v2-pie-external-labels": [
     "external labels",

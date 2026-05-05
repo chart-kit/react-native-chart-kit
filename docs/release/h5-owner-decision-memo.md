@@ -66,7 +66,8 @@ Rationale:
 - tap inspection, an OHLC tooltip, and a close-price badge exist
 - opt-in volume overlays exist
 - scrollable histories, controlled viewport gestures, and range selector integration exist in preview form
-- market gaps and advanced financial accessibility narratives are not complete
+- opt-in market-session gap markers exist for dated candles
+- exchange calendar support and advanced financial accessibility narratives are not complete
 - including it as a preview helps owner review Pro/financial direction without overpromising
 
 ## Recommended H5 Outcome

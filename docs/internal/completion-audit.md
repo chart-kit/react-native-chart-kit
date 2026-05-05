@@ -30,7 +30,7 @@ Concrete success criteria:
 | Bar/stacked bar                 | grouped, stacked, stacked100, negative, horizontal, scrollable, selection, tooltip, `renderBar`, visual stories                                                        | Covered for modern API and stacked compat                                                                       |
 | Pie/donut/progress/contribution | modern components, theming, interaction where applicable, docs, visual stories                                                                                         | Covered for baseline                                                                                            |
 | Combined chart                  | dual-axis bar + line, shared tooltip, visible-series toggles, negative visual coverage                                                                                 | Covered for baseline                                                                                            |
-| Candlestick                     | OHLC geometry, volume, tap tooltip, viewport gestures, range selector, scrollable preview                                                                              | Covered as financial preview                                                                                    |
+| Candlestick                     | OHLC geometry, volume, tap tooltip, session-gap markers, viewport gestures, range selector, scrollable preview                                                         | Covered as financial preview                                                                                    |
 | Theme system                    | provider, presets, app-level mode/preset switching, tooltip theme tokens                                                                                               | Covered                                                                                                         |
 | Interaction                     | selection provider, tap/scrub, tooltips, crosshair, bar/pie/donut/candlestick interactions                                                                             | Covered on web showcase; native QA still missing                                                                |
 | Accessibility baseline          | summary/table helpers across major chart families                                                                                                                      | Covered for helpers; native screen-reader QA missing                                                            |
@@ -45,19 +45,19 @@ Concrete success criteria:
 
 ## Missing Or Not Fully Verified
 
-| Requirement                  | Missing evidence                                                                        | Why it matters                                                                                |
-| ---------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| Native iOS release build     | Local release build passed, but no green native workflow artifact                       | Required before production beta/RC confidence                                                 |
-| Native Android release build | No successful Gradle release build artifact                                             | Required before production beta/RC confidence                                                 |
-| Native e2e/runtime QA        | Only web Playwright e2e is automated                                                    | Gestures, scroll conflicts, text rendering, and release behavior can differ on device         |
-| RN CLI native projects       | No generated RN CLI `ios/` or `android/` projects are checked in                        | Source-level RN CLI example exists, but release-build evidence still requires native projects |
-| H4 Pro scope                 | Draft exists, but no owner-approved Pro/free boundary or package/license implementation | Required before labeling animation/range/zoom/financial/Skia features as free or Pro          |
-| Skia renderer                | No `packages/skia-renderer` implementation                                              | Spec lists this as Pro/performance scope                                                      |
-| Native performance benchmark | No release-device timing/FPS/memory data                                                | Current benchmark is core geometry plus web scrub timing                                      |
-| Screen-reader QA             | No iOS VoiceOver/Android TalkBack evidence                                              | Accessibility helpers exist, but native assistive-tech behavior is not verified               |
-| Candlestick market sessions  | No market-session gap handling                                                          | Financial chart remains preview, not a complete Pro financial chart                           |
-| H5 approval                  | Owner has not approved beta publication                                                 | Beta cannot be claimed published/approved                                                     |
-| H6 approval                  | No RC approval, final semver, final release notes, final visual freeze                  | Release candidate cannot be claimed                                                           |
+| Requirement                    | Missing evidence                                                                        | Why it matters                                                                                |
+| ------------------------------ | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Native iOS release build       | Local release build passed, but no green native workflow artifact                       | Required before production beta/RC confidence                                                 |
+| Native Android release build   | No successful Gradle release build artifact                                             | Required before production beta/RC confidence                                                 |
+| Native e2e/runtime QA          | Only web Playwright e2e is automated                                                    | Gestures, scroll conflicts, text rendering, and release behavior can differ on device         |
+| RN CLI native projects         | No generated RN CLI `ios/` or `android/` projects are checked in                        | Source-level RN CLI example exists, but release-build evidence still requires native projects |
+| H4 Pro scope                   | Draft exists, but no owner-approved Pro/free boundary or package/license implementation | Required before labeling animation/range/zoom/financial/Skia features as free or Pro          |
+| Skia renderer                  | No `packages/skia-renderer` implementation                                              | Spec lists this as Pro/performance scope                                                      |
+| Native performance benchmark   | No release-device timing/FPS/memory data                                                | Current benchmark is core geometry plus web scrub timing                                      |
+| Screen-reader QA               | No iOS VoiceOver/Android TalkBack evidence                                              | Accessibility helpers exist, but native assistive-tech behavior is not verified               |
+| Candlestick exchange calendars | No exchange calendar or holiday-session rules                                           | Financial chart remains preview, not a complete Pro financial chart                           |
+| H5 approval                    | Owner has not approved beta publication                                                 | Beta cannot be claimed published/approved                                                     |
+| H6 approval                    | No RC approval, final semver, final release notes, final visual freeze                  | Release candidate cannot be claimed                                                           |
 
 ## Current Gate Position
 
@@ -69,7 +69,7 @@ Concrete success criteria:
 
 ## Recommended Next Decisions
 
-1. Decide whether to build RN CLI/native release infrastructure now, or label the next beta as web/Expo API preview.
+1. Run the Android native release workflow or install Java locally to get a successful Gradle release-build artifact.
 2. Decide H4 Pro boundary for range selector, pan/zoom, animation, candlestick, Skia, and large-data features.
 3. Decide whether `CandlestickChart` remains in public preview or moves behind a financial/Pro preview label.
-4. If production beta is the target, prioritize native release builds and device QA before adding more chart features.
+4. If production beta is the target, prioritize native device QA and accessibility QA before adding more chart features.

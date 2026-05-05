@@ -59,6 +59,7 @@ export type CandlestickChartProps<TData extends Record<string, unknown>> =
     tooltip?: boolean | CandlestickChartTooltipConfig;
     onViewportChange?: (event: CandlestickChartViewportChangeEvent) => void;
     rangeSelector?: boolean | CandlestickChartRangeSelectorConfig;
+    sessionGaps?: boolean | CandlestickChartSessionGapConfig<TData>;
     viewport?: CandlestickChartViewportConfig;
     viewportInteraction?: boolean | CandlestickChartViewportInteractionConfig;
     volumeHeightRatio?: number;
@@ -154,6 +155,31 @@ export type CandlestickChartRangeSelectorConfig = {
   windowStrokeWidth?: number;
 };
 
+export type CandlestickChartSessionGapLabelRenderProps<TData = unknown> = {
+  gapDays: number;
+  gapMs: number;
+  next: TData;
+  nextIndex: number;
+  previous: TData;
+  previousIndex: number;
+};
+
+export type CandlestickChartSessionGapConfig<TData = unknown> = {
+  fill?: string;
+  fillOpacity?: number;
+  label?:
+    | boolean
+    | ((props: CandlestickChartSessionGapLabelRenderProps<TData>) => string);
+  minGapDays?: number;
+  minGapMs?: number;
+  stroke?: string;
+  strokeDasharray?: readonly number[];
+  strokeOpacity?: number;
+  strokeWidth?: number;
+  visible?: boolean;
+  width?: number;
+};
+
 export type BuildCandlestickChartModelOptions<
   TData extends Record<string, unknown>
 > = CandlestickChartProps<TData> & {
@@ -190,12 +216,36 @@ export type CandlestickChartVolumeBarModel = {
   y: number;
 };
 
+export type CandlestickChartSessionGapModel<TData = unknown> = {
+  fill: string;
+  fillOpacity: number;
+  gapDays: number;
+  gapMs: number;
+  height: number;
+  key: string;
+  label?: string | undefined;
+  labelX: number;
+  labelY: number;
+  next: TData;
+  nextIndex: number;
+  previous: TData;
+  previousIndex: number;
+  stroke: string;
+  strokeDasharray?: readonly number[];
+  strokeOpacity: number;
+  strokeWidth: number;
+  width: number;
+  x: number;
+  y: number;
+};
+
 export type CandlestickChartModel<TData = unknown> = {
   boxes: ChartBoxes;
   candles: Array<CandlestickChartCandleModel<TData>>;
   downColor: string;
   flatColor: string;
   resolvedTheme: ResolvedCartesianChartTheme;
+  sessionGaps: Array<CandlestickChartSessionGapModel<TData>>;
   showHorizontalGridLines: boolean;
   showXAxisLabels: boolean;
   showYAxisLabels: boolean;

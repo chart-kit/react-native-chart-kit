@@ -105,4 +105,78 @@ describe("CandlestickChart model", () => {
     expect(model.candles.map((candle) => candle.dataIndex)).toEqual([1, 2]);
     expect(model.xLabels.map((label) => label.index)).toEqual([1, 2]);
   });
+
+  it("marks opt-in market session gaps between dated candles", () => {
+    const model = buildCandlestickChartModel({
+      chartKitTheme,
+      closeKey: "close",
+      data: [
+        {
+          day: "2026-06-05",
+          open: 100,
+          high: 112,
+          low: 96,
+          close: 108
+        },
+        {
+          day: "2026-06-08",
+          open: 108,
+          high: 114,
+          low: 104,
+          close: 111
+        }
+      ],
+      height: 260,
+      highKey: "high",
+      lowKey: "low",
+      openKey: "open",
+      sessionGaps: { label: true },
+      width: 360,
+      xKey: "day"
+    });
+
+    expect(model.sessionGaps).toHaveLength(1);
+    expect(model.sessionGaps[0]).toMatchObject({
+      gapDays: 3,
+      key: "session-gap-0-1",
+      label: "3d gap",
+      nextIndex: 1,
+      previousIndex: 0
+    });
+    expect(model.sessionGaps[0]?.x).toBeGreaterThan(
+      model.candles[0]?.wickX ?? 0
+    );
+    expect(model.sessionGaps[0]?.x).toBeLessThan(model.candles[1]?.wickX ?? 0);
+  });
+
+  it("keeps session gaps disabled by default", () => {
+    const model = buildCandlestickChartModel({
+      chartKitTheme,
+      closeKey: "close",
+      data: [
+        {
+          day: "2026-06-05",
+          open: 100,
+          high: 112,
+          low: 96,
+          close: 108
+        },
+        {
+          day: "2026-06-08",
+          open: 108,
+          high: 114,
+          low: 104,
+          close: 111
+        }
+      ],
+      height: 260,
+      highKey: "high",
+      lowKey: "low",
+      openKey: "open",
+      width: 360,
+      xKey: "day"
+    });
+
+    expect(model.sessionGaps).toEqual([]);
+  });
 });

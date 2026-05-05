@@ -39,6 +39,7 @@ export const CandlestickChartSurface = <TData,>({
     boxes,
     candles,
     resolvedTheme,
+    sessionGaps,
     showHorizontalGridLines,
     showXAxisLabels,
     showYAxisLabels,
@@ -70,6 +71,30 @@ export const CandlestickChartSurface = <TData,>({
         />
       </SvgLayer>
       <SvgLayer name="grid">
+        {sessionGaps.map((gap) => (
+          <SvgGroup key={gap.key}>
+            <SvgRect
+              fill={gap.fill}
+              height={gap.height}
+              opacity={gap.fillOpacity}
+              width={gap.width}
+              x={gap.x}
+              y={gap.y}
+            />
+            <SvgLine
+              stroke={gap.stroke}
+              strokeOpacity={gap.strokeOpacity}
+              strokeWidth={gap.strokeWidth}
+              x1={gap.x + gap.width / 2}
+              x2={gap.x + gap.width / 2}
+              y1={gap.y}
+              y2={gap.y + gap.height}
+              {...(gap.strokeDasharray
+                ? { strokeDasharray: gap.strokeDasharray }
+                : {})}
+            />
+          </SvgGroup>
+        ))}
         {showHorizontalGridLines
           ? yTicks.map((tick) => {
               const label = yLabels.find((item) => item.key === `tick-${tick}`);
@@ -167,6 +192,21 @@ export const CandlestickChartSurface = <TData,>({
               </SvgText>
             ))
           : null}
+        {sessionGaps.map((gap) =>
+          gap.label ? (
+            <SvgText
+              key={`label-${gap.key}`}
+              fill={resolvedTheme.mutedText}
+              fontSize={Math.max(9, resolvedTheme.typography.axisLabelSize - 1)}
+              textAnchor="middle"
+              x={gap.labelX}
+              y={gap.labelY}
+              {...fontProps}
+            >
+              {gap.label}
+            </SvgText>
+          ) : null
+        )}
       </SvgLayer>
       <SvgLayer name="interaction">
         {selectedCandle ? (

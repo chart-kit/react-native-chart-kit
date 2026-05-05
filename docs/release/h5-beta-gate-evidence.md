@@ -87,7 +87,7 @@ Notable covered cases:
 - combined dual-axis, shared tooltip, legend toggles, negative values
 - pie/donut external labels, custom legend, active slice selection
 - progress and contribution theme inheritance
-- candlestick price-action preview, range selector, and scrollable long-history preview
+- candlestick price-action preview, session-gap markers, range selector, and scrollable long-history preview
 - legacy line, bar, and stacked-bar fixtures
 
 ## Known Gaps

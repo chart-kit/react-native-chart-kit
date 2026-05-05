@@ -17,6 +17,7 @@ import { CandlestickChart } from "@chart-kit/react-native";
   height={280}
   interaction="tap"
   rangeSelector={{ interactive: true, minVisiblePoints: 8 }}
+  sessionGaps={{ label: true }}
   tooltip={{ width: 154 }}
   viewport={{ visiblePoints: 20, initialIndex: "end" }}
   viewportInteraction={{ pan: true, pinchZoom: true, minVisiblePoints: 8 }}
@@ -35,10 +36,11 @@ Defaults:
 - use `viewport` to render a focused window from a larger OHLC dataset
 - use `scrollable`, `visiblePoints`, and `initialIndex="end"` for simple long OHLC histories
 - enable `rangeSelector` for a compact interactive OHLC overview below the main chart
+- enable `sessionGaps` to mark weekend or market-closure gaps when `xKey` contains `Date` values or parseable date strings
 - use `viewportInteraction` with `onViewportChange` for controlled pan and pinch-zoom windows
 - tap selection can show a vertical inspection line, close-price badge, and theme-aware OHLC tooltip
 - y-domain is based on lows and highs, not open and close only
 - `getCandlestickChartDataTable()` returns exact OHLC rows for accessible detail panels and exports
 - `getCandlestickChartAccessibilitySummary()` reports latest close, highest high, and lowest low
 
-This foundation includes preview-grade range selection plus controlled pan and pinch-zoom windows. It does not yet include market-session gap handling or advanced financial narratives.
+This foundation includes preview-grade range selection, controlled pan and pinch-zoom windows, and opt-in market-session gap markers. It does not yet include advanced financial narratives.

@@ -7,6 +7,33 @@ import { stockCandles } from "../fixtures/v2Finance";
 import { ChartSection, type NativeStoryProps } from "./storyPrimitives";
 
 const formatPrice = (value: number) => `$${Math.round(value)}`;
+const monthNames = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec"
+];
+const formatTradingDay = (value: unknown) => {
+  if (typeof value !== "string") {
+    return `${value}`;
+  }
+
+  const date = new Date(`${value}T00:00:00Z`);
+
+  if (!Number.isFinite(date.getTime())) {
+    return value;
+  }
+
+  return `${monthNames[date.getUTCMonth()]} ${date.getUTCDate()}`;
+};
 const getInitialCandlestickViewport = (): CandlestickChartViewportConfig => ({
   visiblePoints: 6,
   initialIndex: "end"
@@ -33,6 +60,7 @@ const V2CandlestickPriceAction = ({
         closeKey="close"
         data={stockCandles}
         downColor="#ef4444"
+        formatXLabel={formatTradingDay}
         formatYLabel={formatPrice}
         height={336}
         highKey="high"
@@ -49,6 +77,7 @@ const V2CandlestickPriceAction = ({
           onGestureEnd: onScrubEnd,
           onGestureStart: onScrubStart
         }}
+        sessionGaps={{ label: true }}
         testID="stock-candlestick-chart"
         tooltip={{ width: 154 }}
         upColor="#16a34a"
@@ -75,6 +104,7 @@ const V2CandlestickScrollable = ({ width }: NativeStoryProps) => (
       closeKey="close"
       data={stockCandles}
       downColor="#ef4444"
+      formatXLabel={formatTradingDay}
       formatYLabel={formatPrice}
       height={278}
       highKey="high"
@@ -83,6 +113,7 @@ const V2CandlestickScrollable = ({ width }: NativeStoryProps) => (
       lowKey="low"
       openKey="open"
       scrollable
+      sessionGaps
       testID="scrollable-candlestick-chart"
       tooltip={{ width: 154 }}
       upColor="#16a34a"
