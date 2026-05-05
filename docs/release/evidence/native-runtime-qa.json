@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "status": "partial",
+  "requiredFor": ["H5", "H6"],
+  "lastUpdated": "2026-05-05",
+  "summary": "Release simulator/emulator smoke evidence exists for iOS and Android, but the full gesture/runtime device matrix is incomplete.",
+  "completedEntries": [
+    {
+      "date": "2026-05-05",
+      "commit": "d54e599",
+      "platform": "ios",
+      "device": "iPhone 17 simulator / iOS 26.0",
+      "build": "Release simulator build",
+      "result": "partial-pass",
+      "artifacts": ["docs/release/artifacts/ios-runtime-smoke.png"],
+      "notes": "App launched and Line Charts rendered; full interaction matrix still pending."
+    },
+    {
+      "date": "2026-05-05",
+      "commit": "e0b46ae",
+      "platform": "android",
+      "device": "chartkit_api36 emulator / Android 36, ARM64",
+      "build": "Release APK",
+      "result": "partial-pass",
+      "artifacts": ["docs/release/artifacts/android-runtime-smoke.png"],
+      "notes": "App launched from release APK and Line Charts rendered; full interaction matrix still pending."
+    }
+  ],
+  "requiredPages": [
+    "Line Charts",
+    "Bar Charts",
+    "Combined Preview",
+    "Financial Preview",
+    "Pie & Donut",
+    "Progress",
+    "Heatmaps",
+    "Compatibility"
+  ],
+  "missingEvidence": [
+    "completed iOS gesture/runtime matrix",
+    "completed Android gesture/runtime matrix",
+    "tooltip stacking checks on every required page",
+    "nested scroll conflict checks for scrub, pan, pinch, and range selector",
+    "rotation or width-change checks",
+    "physical-device behavior or explicitly accepted simulator/emulator substitute"
+  ]
+}

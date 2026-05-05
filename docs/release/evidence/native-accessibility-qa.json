@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "status": "missing",
+  "requiredFor": ["H5", "H6"],
+  "lastUpdated": "2026-05-05",
+  "summary": "Automated summary and data-table helper coverage exists, but native VoiceOver and TalkBack evidence has not been captured.",
+  "completedEntries": [],
+  "requiredAssistiveTech": [
+    {
+      "platform": "ios",
+      "assistiveTech": "VoiceOver",
+      "build": "Expo showcase or native release app",
+      "result": "pending"
+    },
+    {
+      "platform": "android",
+      "assistiveTech": "TalkBack",
+      "build": "Expo showcase or native release app",
+      "result": "pending"
+    }
+  ],
+  "missingEvidence": [
+    "iOS VoiceOver pass across required pages",
+    "Android TalkBack pass across required pages",
+    "screen-reader focus order evidence",
+    "chart summary announcement evidence",
+    "selection, tooltip, range selector, and legend focus-trap checks",
+    "table fallback announcement checks"
+  ]
+}

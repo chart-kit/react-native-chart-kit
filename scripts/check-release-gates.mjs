@@ -24,6 +24,9 @@ const requiredFiles = [
   "docs/release/native-release-results.md",
   "docs/release/native-runtime-qa.md",
   "docs/release/accessibility-qa.md",
+  "docs/release/evidence/native-accessibility-qa.json",
+  "docs/release/evidence/native-performance-benchmark.json",
+  "docs/release/evidence/native-runtime-qa.json",
   ".github/workflows/native-release.yml",
   "packages/core/package.json",
   "packages/react-native/package.json",
@@ -96,31 +99,31 @@ const releaseBlockers = [
     message: "Green native release workflow evidence is still missing."
   },
   {
-    id: "native-runtime-qa",
-    file: "docs/release/native-runtime-qa.md",
-    pattern: /full native runtime evidence incomplete/i,
-    message:
-      "Native runtime QA protocol exists, but full device evidence is incomplete."
-  },
-  {
-    id: "native-accessibility-qa",
-    file: "docs/release/accessibility-qa.md",
-    pattern: /native screen-reader evidence missing/i,
-    message: "Native VoiceOver/TalkBack evidence is missing."
-  },
-  {
-    id: "native-performance",
-    file: "docs/release/native-performance-benchmark.md",
-    pattern: /release-device performance evidence missing/i,
-    message: "Release-device native performance evidence is missing."
-  },
-  {
     id: "skia-backend",
     file: "packages/skia-renderer/README.md",
     pattern:
       /native install verification and native renderer parity coverage are still pending/i,
     message:
       "Skia adapter and first LineChart hook exist, but native install and native renderer parity evidence are still missing."
+  }
+];
+
+const releaseEvidenceManifests = [
+  {
+    id: "native-runtime-qa",
+    file: "docs/release/evidence/native-runtime-qa.json",
+    message:
+      "Native runtime QA manifest is not complete for the required device matrix."
+  },
+  {
+    id: "native-accessibility-qa",
+    file: "docs/release/evidence/native-accessibility-qa.json",
+    message: "Native VoiceOver/TalkBack evidence manifest is not complete."
+  },
+  {
+    id: "native-performance",
+    file: "docs/release/evidence/native-performance-benchmark.json",
+    message: "Release-device native performance manifest is not complete."
   }
 ];
 
@@ -132,6 +135,9 @@ const addCheck = ({ detail = "", evidence = "", id, message, status }) => {
 
 const readRepoFile = (relativePath) =>
   readFile(path.join(repoRoot, relativePath), "utf8");
+
+const readRepoJson = async (relativePath) =>
+  JSON.parse(await readRepoFile(relativePath));
 
 const pathExists = async (relativePath) => {
   try {
@@ -245,6 +251,21 @@ for (const blocker of releaseBlockers) {
     id: `blocker:${blocker.id}`,
     message: blocker.message,
     status: isBlocked ? "block" : "pass"
+  });
+}
+
+for (const manifestConfig of releaseEvidenceManifests) {
+  const manifest = await readRepoJson(manifestConfig.file);
+  const status = manifest.status ?? "missing";
+
+  addCheck({
+    detail: Array.isArray(manifest.missingEvidence)
+      ? manifest.missingEvidence.join("; ")
+      : "",
+    evidence: manifestConfig.file,
+    id: `blocker:${manifestConfig.id}`,
+    message: manifestConfig.message,
+    status: status === "complete" ? "pass" : "block"
   });
 }
 

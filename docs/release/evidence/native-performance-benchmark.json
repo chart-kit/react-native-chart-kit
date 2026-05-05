@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "status": "partial",
+  "requiredFor": ["H5", "H6"],
+  "lastUpdated": "2026-05-05",
+  "summary": "One Android release-emulator line-animation sample exists, but the full release-device performance matrix is incomplete.",
+  "completedEntries": [
+    {
+      "date": "2026-05-05",
+      "commit": "4dd219e",
+      "platform": "android",
+      "device": "chartkit_api36 emulator / Android 36 ARM64",
+      "build": "Release APK",
+      "renderer": "svg",
+      "scenario": "Line animation Replay",
+      "p50Frame": "16 ms",
+      "p95Frame": "18 ms",
+      "memory": "277137 KB PSS",
+      "result": "partial-pass",
+      "artifacts": [
+        "docs/release/artifacts/android-line-animation-performance.md"
+      ],
+      "notes": "Single visible animation sample only; full matrix still pending."
+    }
+  ],
+  "requiredScenarios": [
+    "small line initial render",
+    "standard line scrub",
+    "dense line decimated overview",
+    "multi-line shared tooltip scrub",
+    "scrollable line one-finger pan",
+    "range selector drag and thumb resize",
+    "scrollable bar horizontal scroll and selection",
+    "combined chart shared tooltip and legend",
+    "candlestick pan, pinch, and tap inspection"
+  ],
+  "missingEvidence": [
+    "iOS release-device or accepted simulator performance matrix",
+    "Android release-device or accepted emulator performance matrix beyond one sample",
+    "gesture-heavy frame timing",
+    "memory before and after each required scenario",
+    "Skia renderer parity/performance where supported"
+  ]
+}
