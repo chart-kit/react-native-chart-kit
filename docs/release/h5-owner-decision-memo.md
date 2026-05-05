@@ -17,7 +17,7 @@ Recommendation: keep iterating before npm beta.
 Rationale:
 
 - verification is strong for web showcase and TypeScript surfaces
-- native iOS/Android release-build checks are configured, but no green release-build workflow artifact is recorded yet
+- native release-build checks are configured and iOS passed locally, but Android still needs a successful Java-backed build and no green native workflow artifact is recorded yet
 - Pro/free feature boundary is not final
 
 Acceptable owner override: publish a limited preview beta only if the beta is clearly labeled as API-preview and not production-ready.

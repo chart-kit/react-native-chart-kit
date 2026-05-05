@@ -30,6 +30,8 @@ Commands refreshed on May 5, 2026. The `test:e2e` row was added after promoting 
 | Docs verification      | `npm run docs:build`               | Passed: markdown, JS/TS fence, and public TS/TSX example validation                                 |
 | RN CLI example source  | `npm run example:rn-cli:typecheck` | Passed: non-Expo app source and local package aliases type-check                                    |
 | Native release dry-run | `npm run native:release:dry-run`   | Passed: prints Expo prebuild, Android Gradle release, CocoaPods, and iOS xcodebuild commands        |
+| iOS release build      | `npm run native:release:ios`       | Passed locally outside the sandbox; green CI workflow artifact still required for H5/H6             |
+| Android release build  | `npm run native:release:android`   | Blocked locally by missing Java after Expo prebuild; CI workflow configures Java and needs a run    |
 | Package build          | `npm run build`                    | Passed                                                                                              |
 
 Latest benchmark highlights from `npm run benchmark`:
@@ -66,6 +68,7 @@ Benchmark scope covers core geometry plus one web showcase scrub timing scenario
 | Docs example checks     | `npm run docs:build`; `packages/react-native/test/docs-examples.typecheck.tsx`; `npm run rn:typecheck`                                                      | Syntax-covered for every JS/TS markdown fence; type-covered for public docs and representative integrated examples  |
 | Issue list              | [Known issues](known-issues.md)                                                                                                                             | Covered                                                                                                             |
 | Benchmark results       | `npm run benchmark`; this document                                                                                                                          | Covered for core geometry and web scrub timing                                                                      |
+| Native release results  | [Native release results](native-release-results.md)                                                                                                         | Partial: iOS passed locally; Android still needs Java-backed CI/local evidence                                      |
 | Changelog               | [Changelog](../../CHANGELOG.md)                                                                                                                             | Covered for current v7 preview                                                                                      |
 | Support workflow        | `.github/ISSUE_TEMPLATE/*`                                                                                                                                  | Covered for layout, compatibility, and performance bugs                                                             |
 | Public export surface   | `scripts/verify-public-surface.mjs`; `npm run surface:check`                                                                                                | Covered for root compatibility exports and modern v2 exports                                                        |
@@ -90,7 +93,7 @@ Notable covered cases:
 
 These are not covered by the green checks:
 
-- green native iOS release-build workflow artifact
+- green native iOS release-build workflow artifact, despite local iOS release-build success
 - green native Android release-build workflow artifact
 - native e2e tests beyond the web showcase interaction suite
 - generated native RN CLI `ios/` and `android/` release-build projects

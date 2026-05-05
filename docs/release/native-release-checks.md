@@ -30,6 +30,8 @@ These commands use `apps/expo-showcase` as the native smoke app. They run `expo 
 
 Generated `apps/expo-showcase/android` and `apps/expo-showcase/ios` folders are intentionally ignored. They are build artifacts for verification, not source-owned app projects.
 
+The release-check script restores `apps/expo-showcase/app.json` and `apps/expo-showcase/package.json` after prebuild so generated native checks do not rewrite the Expo Go review scripts.
+
 ## CI
 
 The `Native Release Checks` workflow runs Android and iOS release-build jobs separately. It is available through `workflow_dispatch` and also runs on pull requests that touch package source, the showcase app, package manifests, or the native-release script.

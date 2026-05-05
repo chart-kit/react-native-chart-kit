@@ -182,6 +182,28 @@ const findFirstFileWithExtension = (directory, extension) => {
   return undefined;
 };
 
+const resolveXcodeBuildTarget = (iosDir) => {
+  const workspacePath = findFirstFileWithExtension(iosDir, ".xcworkspace");
+
+  if (workspacePath) {
+    return {
+      args: ["-workspace", path.basename(workspacePath)],
+      path: workspacePath
+    };
+  }
+
+  const projectPath = findFirstFileWithExtension(iosDir, ".xcodeproj");
+
+  if (projectPath) {
+    return {
+      args: ["-project", path.basename(projectPath)],
+      path: projectPath
+    };
+  }
+
+  return undefined;
+};
+
 const resolveIosSchemeFromAppConfig = (appDir) => {
   try {
     const appConfig = JSON.parse(
@@ -195,7 +217,7 @@ const resolveIosSchemeFromAppConfig = (appDir) => {
   }
 };
 
-const discoverIosScheme = ({ appDir, dryRun, iosDir, workspacePath }) => {
+const discoverIosScheme = ({ appDir, dryRun, iosDir, xcodeTargetArgs }) => {
   const configuredScheme = process.env.CK_IOS_SCHEME;
 
   if (configuredScheme) {
@@ -207,13 +229,13 @@ const discoverIosScheme = ({ appDir, dryRun, iosDir, workspacePath }) => {
   }
 
   const output = run({
-    args: ["-list", "-json", "-workspace", path.basename(workspacePath)],
+    args: ["-list", "-json", ...xcodeTargetArgs],
     command: "xcodebuild",
     cwd: iosDir,
     dryRun: false
   });
   const parsed = JSON.parse(output);
-  const schemes = parsed.workspace?.schemes ?? [];
+  const schemes = parsed.workspace?.schemes ?? parsed.project?.schemes ?? [];
   const firstScheme = schemes.find(
     (scheme) => typeof scheme === "string" && !scheme.includes("Pods")
   );
@@ -247,17 +269,12 @@ const runAndroidReleaseBuild = ({ appDir, dryRun }) => {
 
 const runIosReleaseBuild = ({ appDir, dryRun, iosScheme }) => {
   const iosDir = path.join(appDir, "ios");
-
+  const dryRunWorkspacePath = path.join(
+    iosDir,
+    `${resolveIosSchemeFromAppConfig(appDir)}.xcworkspace`
+  );
   if (!dryRun) {
     requireDirectory(iosDir, "iOS project is missing; run prebuild first");
-  }
-
-  const workspacePath = dryRun
-    ? path.join(iosDir, `${resolveIosSchemeFromAppConfig(appDir)}.xcworkspace`)
-    : findFirstFileWithExtension(iosDir, ".xcworkspace");
-
-  if (!workspacePath) {
-    throw new Error(`No .xcworkspace found in ${iosDir}`);
   }
 
   if (dryRun || existsSync(path.join(iosDir, "Podfile"))) {
@@ -269,19 +286,29 @@ const runIosReleaseBuild = ({ appDir, dryRun, iosScheme }) => {
     });
   }
 
+  const xcodeTarget = dryRun
+    ? {
+        args: ["-workspace", path.basename(dryRunWorkspacePath)],
+        path: dryRunWorkspacePath
+      }
+    : resolveXcodeBuildTarget(iosDir);
+
+  if (!xcodeTarget) {
+    throw new Error(`No .xcworkspace or .xcodeproj found in ${iosDir}`);
+  }
+
   const scheme =
     iosScheme ??
     discoverIosScheme({
       appDir,
       dryRun,
       iosDir,
-      workspacePath
+      xcodeTargetArgs: xcodeTarget.args
     });
 
   run({
     args: [
-      "-workspace",
-      path.basename(workspacePath),
+      ...xcodeTarget.args,
       "-scheme",
       scheme,
       "-configuration",
