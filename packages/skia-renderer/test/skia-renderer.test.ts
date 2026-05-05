@@ -155,6 +155,44 @@ describe("Skia renderer preview boundary", () => {
     });
   });
 
+  it("honors textAnchor by offsetting measured Skia text", () => {
+    const renderer = createSkiaRenderer({
+      font: {
+        measureText: (text) => ({ width: text.length * 10 })
+      },
+      skia: fakeSkia
+    });
+    const middleText = renderComponent(renderer.Text, {
+      fill: "#0f172a",
+      text: "Axis",
+      textAnchor: "middle",
+      x: 100,
+      y: 20
+    });
+    const endText = renderComponent(renderer.Text, {
+      fill: "#0f172a",
+      text: "Axis",
+      textAnchor: "end",
+      x: 100,
+      y: 20
+    });
+
+    expect(middleText).toMatchObject({
+      props: {
+        text: "Axis",
+        x: 80
+      },
+      type: "Text"
+    });
+    expect(endText).toMatchObject({
+      props: {
+        text: "Axis",
+        x: 60
+      },
+      type: "Text"
+    });
+  });
+
   it("renders fill and stroke pairs without losing either paint", () => {
     const renderer = createSkiaRenderer({ skia: fakeSkia });
     const rect = renderComponent(renderer.Rect, {

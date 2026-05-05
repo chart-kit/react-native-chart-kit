@@ -32,7 +32,7 @@ Impact: H4/H5 must decide which features stay free, which move to Pro, and how t
 
 ## Skia Renderer
 
-`packages/skia-renderer` now provides a preview package boundary, capability metadata, install guidance, and an injected Skia primitive adapter. `LineChart` can accept the injected renderer for its main plot, range selector, sticky-axis, path-local area gradients, threshold rect clips, default marker, default legend, default tooltip, and debug-layout surfaces. Local renderer contract coverage exists, but sticky-axis labels require a Skia font, and native install verification plus native renderer parity tests are not complete yet.
+`packages/skia-renderer` now provides a preview package boundary, capability metadata, install guidance, and an injected Skia primitive adapter. `LineChart` can accept the injected renderer for its main plot, range selector, sticky-axis, path-local area gradients, threshold rect clips, measured text anchors, default marker, default legend, default tooltip, and debug-layout surfaces. Local renderer contract coverage exists, but sticky-axis labels require a Skia font, and native install verification plus native renderer parity tests are not complete yet.
 
 Impact: the optional package boundary exists for H4 review, but Skia must stay labeled as preview until the remaining chart integration, install matrix, native benchmarks, and native parity tests are implemented.
 

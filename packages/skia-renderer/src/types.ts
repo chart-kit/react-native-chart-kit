@@ -143,6 +143,7 @@ export type SkiaTextProps = SkiaTestableProps & {
   fontSize?: number;
   opacity?: number;
   text?: string;
+  textAnchor?: "start" | "middle" | "end";
   x: number;
   y: number;
 };

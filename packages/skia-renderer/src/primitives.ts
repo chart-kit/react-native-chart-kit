@@ -39,6 +39,30 @@ const getTextValue = ({
     .join("");
 };
 
+const getAnchoredTextX = ({
+  font,
+  text,
+  textAnchor,
+  x
+}: {
+  font: SkiaTextProps["font"];
+  text: string;
+  textAnchor?: SkiaTextProps["textAnchor"] | undefined;
+  x: number;
+}) => {
+  if (textAnchor === undefined || textAnchor === "start") {
+    return x;
+  }
+
+  const width = font?.measureText?.(text).width;
+
+  if (width === undefined) {
+    return x;
+  }
+
+  return textAnchor === "middle" ? x - width / 2 : x - width;
+};
+
 const percentToUnit = (
   value: number | string | undefined,
   fallback: number
@@ -302,6 +326,7 @@ export const createSkiaPrimitives = ({
     opacity,
     testID,
     text,
+    textAnchor,
     x,
     y
   }: SkiaTextProps) => {
@@ -318,7 +343,12 @@ export const createSkiaPrimitives = ({
       opacity,
       testID,
       text: resolvedText,
-      x,
+      x: getAnchoredTextX({
+        font: resolvedFont,
+        text: resolvedText,
+        textAnchor,
+        x
+      }),
       y
     });
   };

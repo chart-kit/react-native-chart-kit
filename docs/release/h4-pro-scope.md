@@ -58,7 +58,7 @@ react-native-chart-kit          # compatibility package and migration bridge
 @chart-kit/pro                  # paid workflow package that composes free primitives
 ```
 
-`packages/skia-renderer` currently exposes capability metadata, install guidance, and an injected Skia primitive adapter. `LineChart` can accept the injected renderer for its main plot, range selector, sticky-axis, path-local area gradients, threshold rect clips, default marker, default legend, default tooltip, and debug-layout surfaces, with local renderer contract coverage in `packages/react-native/test/line-renderer.test.ts`. Sticky-axis labels require a Skia font, and native install evidence plus native renderer parity tests remain pending. The package does not add license gating until H4 approves the Pro/package split.
+`packages/skia-renderer` currently exposes capability metadata, install guidance, and an injected Skia primitive adapter. `LineChart` can accept the injected renderer for its main plot, range selector, sticky-axis, path-local area gradients, threshold rect clips, measured text anchors, default marker, default legend, default tooltip, and debug-layout surfaces, with local renderer contract coverage in `packages/react-native/test/line-renderer.test.ts`. Sticky-axis labels require a Skia font, and native install evidence plus native renderer parity tests remain pending. The package does not add license gating until H4 approves the Pro/package split.
 
 `packages/pro` currently exists only as a preview feature-registry boundary. It has no license checks, no runtime activation, and no gated chart implementations.
 
