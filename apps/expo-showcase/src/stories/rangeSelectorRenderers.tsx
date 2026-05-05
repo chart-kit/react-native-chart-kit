@@ -11,13 +11,15 @@ export type RangeSelectorRendererPalette = {
 export const createRangeSelectorLineRenderer = () => {
   const RangeSelectorLine = ({
     color,
+    key: seriesKey,
     opacity,
     path,
     strokeDasharray,
     strokeWidth
   }: LineChartRangeSelectorLineRenderProps) => (
-    <SvgGroup>
+    <SvgGroup key={`range-selector-line-${seriesKey}`}>
       <SvgPath
+        key="halo"
         d={path}
         fill="none"
         stroke={color}
@@ -27,6 +29,7 @@ export const createRangeSelectorLineRenderer = () => {
         strokeWidth={strokeWidth + 3}
       />
       <SvgPath
+        key="line"
         d={path}
         fill="none"
         stroke={color}
@@ -50,12 +53,14 @@ export const createRangeSelectorHandleRenderer = ({
     height,
     opacity,
     radius,
+    side,
     width,
     x,
     y
   }: LineChartRangeSelectorHandleRenderProps) => (
-    <SvgGroup>
+    <SvgGroup key={`range-selector-handle-${side}`}>
       <SvgRect
+        key="track"
         x={x}
         y={y}
         width={width}
@@ -65,6 +70,7 @@ export const createRangeSelectorHandleRenderer = ({
         opacity={opacity}
       />
       <SvgRect
+        key="grip"
         x={x + width / 2 - 0.75}
         y={y + 7}
         width={1.5}

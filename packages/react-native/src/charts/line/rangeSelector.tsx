@@ -342,8 +342,9 @@ export const LineChartRangeSelector = <TData extends Record<string, unknown>>({
         </SvgLayer>
         <SvgLayer name="overlays">
           {config.outsideOpacity > 0 ? (
-            <>
+            <SvgGroup key="range-selector-outside">
               <SvgRect
+                key="range-selector-outside-start"
                 x={plotX}
                 y={plotY}
                 width={Math.max(0, windowX - plotX)}
@@ -352,6 +353,7 @@ export const LineChartRangeSelector = <TData extends Record<string, unknown>>({
                 opacity={config.outsideOpacity}
               />
               <SvgRect
+                key="range-selector-outside-end"
                 x={windowEndX}
                 y={plotY}
                 width={Math.max(0, plotX + plotWidth - windowEndX)}
@@ -359,14 +361,14 @@ export const LineChartRangeSelector = <TData extends Record<string, unknown>>({
                 fill={config.outsideFill ?? model.resolvedTheme.background}
                 opacity={config.outsideOpacity}
               />
-            </>
+            </SvgGroup>
           ) : null}
           {renderWindow()}
           {isInteractive ? (
-            <>
+            <SvgGroup key="range-selector-handles">
               {renderHandle("start", startHandleX)}
               {renderHandle("end", endHandleX)}
-            </>
+            </SvgGroup>
           ) : null}
         </SvgLayer>
       </SvgSurface>
