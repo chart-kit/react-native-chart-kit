@@ -94,6 +94,37 @@ export type SvgClipRectProps = SvgTestableProps & {
   height: number;
 };
 
+export type SvgSpacing =
+  | number
+  | {
+      bottom?: number;
+      left?: number;
+      right?: number;
+      top?: number;
+    };
+
+export type SvgClipPolicyInput = {
+  enabled?: boolean;
+  height: number;
+  id: string;
+  inset?: SvgSpacing;
+  width: number;
+  x: number;
+  y: number;
+};
+
+export type SvgClipPolicy =
+  | {
+      clipPath: string;
+      clipRect: SvgClipRectProps;
+      enabled: true;
+    }
+  | {
+      clipPath?: undefined;
+      clipRect?: undefined;
+      enabled: false;
+    };
+
 export type SvgGradientStop = {
   offset: NonNullable<StopProps["offset"]>;
   color: string;

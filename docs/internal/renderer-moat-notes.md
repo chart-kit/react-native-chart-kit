@@ -7,15 +7,15 @@
 - Line chart normal dots, active dots, and default legend markers now render through the same symbol primitive.
 - SVG render layers are explicit: background, plot, grid, axes, data area, data, markers, overlays, interaction, and debug.
 - SVG renderer exposes capability flags for animation, clip paths, gradients, hit regions, layers, shadows, symbols, test IDs, and text measurement quality.
+- SVG clipping now has a pure policy helper that returns both the clip-path reference and the clip-rect model for backend consumers.
 - SVG renderer includes an invisible hit-region primitive for future touch targets that should not change visual output.
 - Layer and symbol geometry helpers are pure enough to unit test without loading native SVG components.
 
 ## Recommended Next Renderer Work
 
-1. Move clipping policy into renderer helpers so large paths, area fills, and markers can be clipped consistently per backend.
-2. Add measured text parity tests so SVG, web, and future Skia text produce predictable layout decisions.
-3. Add visual pixel checks for blank canvas, clipped labels, clipped markers, and missing gradients.
-4. Add Skia parity notes once a second renderer exists.
+1. Add measured text parity tests so SVG, web, and future Skia text produce predictable layout decisions.
+2. Add visual pixel checks for blank canvas, clipped labels, clipped markers, and missing gradients.
+3. Add Skia parity notes once a second renderer exists.
 
 ## Product Moat
 

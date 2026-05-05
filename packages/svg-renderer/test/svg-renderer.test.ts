@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { createSvgRendererCapabilities } from "../src/capabilities";
-import { createClipPathRef } from "../src/clipPath";
+import { createClipPathRef, resolveSvgClipPolicy } from "../src/clipPath";
 import { createSvgHitRegionProps } from "../src/hitRegions";
 import {
   chartRenderLayerOrder,
@@ -48,6 +48,39 @@ describe("SVG renderer helpers", () => {
 
   it("creates clip path references", () => {
     expect(createClipPathRef("plot-area")).toBe("url(#plot-area)");
+  });
+
+  it("resolves clip policy models for renderer consumers", () => {
+    expect(
+      resolveSvgClipPolicy({
+        height: 120,
+        id: "plot-area",
+        inset: { bottom: 8, left: 4, right: 6, top: 2 },
+        width: 200,
+        x: 10,
+        y: 20
+      })
+    ).toEqual({
+      clipPath: "url(#plot-area)",
+      clipRect: {
+        height: 110,
+        id: "plot-area",
+        width: 190,
+        x: 14,
+        y: 22
+      },
+      enabled: true
+    });
+    expect(
+      resolveSvgClipPolicy({
+        enabled: false,
+        height: 120,
+        id: "plot-area",
+        width: 200,
+        x: 10,
+        y: 20
+      })
+    ).toEqual({ enabled: false });
   });
 
   it("defines stable render layer ordering", () => {
