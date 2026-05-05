@@ -4,7 +4,9 @@ import {
   chartKitFreeBaselineSurface,
   chartKitProCandidateCapabilities,
   chartKitProCandidateSurface,
+  chartKitProReactNativePreviewExports,
   chartKitProPreviewFeatures,
+  createChartKitProReactNativePreview,
   createChartKitProFeatureRegistry,
   getChartKitProCandidateCapabilities,
   getChartKitSurfaceExport,
@@ -73,5 +75,38 @@ describe("Chart Kit Pro preview boundary", () => {
     expect(getChartKitProCandidateCapabilities("LineChart")[0]).toMatchObject({
       featureId: "pro-interactions"
     });
+  });
+
+  it("creates an injected React Native preview surface without static imports", () => {
+    const missingExports: string[] = [];
+    const preview = createChartKitProReactNativePreview(
+      {
+        CandlestickChart: "CandlestickChart",
+        CombinedChart: "CombinedChart",
+        LineChart: "LineChart"
+      },
+      {
+        onMissingExport: (exportName) => {
+          missingExports.push(exportName);
+        }
+      }
+    );
+
+    expect(chartKitProReactNativePreviewExports).toEqual([
+      "CandlestickChart",
+      "ChartSelectionProvider",
+      "CombinedChart",
+      "useChartSelection",
+      "useDismissChartSelection"
+    ]);
+    expect(preview).toEqual({
+      CandlestickChart: "CandlestickChart",
+      CombinedChart: "CombinedChart"
+    });
+    expect(missingExports).toEqual([
+      "ChartSelectionProvider",
+      "useChartSelection",
+      "useDismissChartSelection"
+    ]);
   });
 });

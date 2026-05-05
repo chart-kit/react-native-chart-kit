@@ -13,11 +13,13 @@ The current monetization thesis is:
 Current exports:
 
 - `chartKitProPreviewFeatures`
+- `chartKitProReactNativePreviewExports`
 - `chartKitCompatibilitySurface`
 - `chartKitFreeBaselineSurface`
 - `chartKitPackageBoundarySurface`
 - `chartKitProCandidateCapabilities`
 - `chartKitProCandidateSurface`
+- `createChartKitProReactNativePreview`
 - `createChartKitProFeatureRegistry`
 - `getChartKitProCandidateCapabilities`
 - `getChartKitSurfaceExport`
@@ -30,6 +32,7 @@ Status:
 - no runtime activation
 - no chart components consume this package yet
 - package-boundary metadata classifies current free baseline, compatibility, and Pro-candidate surfaces without moving runtime exports
+- React Native preview composition is injection-based, so `@chart-kit/pro` can expose Pro-candidate workflows without statically importing the free runtime package before H4
 
 Preview feature buckets:
 
@@ -41,3 +44,17 @@ Preview feature buckets:
 - `pro-performance`: large dataset mode, decimation, virtualized rendering, memoized paths, native benchmarks, and optional Skia acceleration
 
 The surface-boundary metadata is intentionally descriptive. It lets release docs, tests, and future package refactors agree that current preview features such as `CombinedChart`, `CandlestickChart`, advanced `LineChart` interactions, grouped/scrollable/selectable bars, and active donut selection are Pro candidates until H4 is finalized.
+
+React Native preview composition:
+
+```ts
+import * as ChartKit from "@chart-kit/react-native";
+import { createChartKitProReactNativePreview } from "@chart-kit/pro";
+
+const ProPreview = createChartKitProReactNativePreview(ChartKit);
+
+ProPreview.CombinedChart;
+ProPreview.CandlestickChart;
+```
+
+This is not license gating. It is a temporary package-boundary review aid until H4 decides which current previews move into final free exports, Pro exports, or separate packages.

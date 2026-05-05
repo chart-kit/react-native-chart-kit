@@ -65,6 +65,8 @@ const rules = [
   },
   {
     forbidden: [
+      /from\s+["']@chart-kit\/react-native["']/,
+      /require\(["']@chart-kit\/react-native["']\)/,
       /fetch\s*\(/,
       /XMLHttpRequest/,
       /licenseKey/,
