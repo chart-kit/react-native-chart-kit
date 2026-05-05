@@ -103,11 +103,11 @@ test.describe("Expo showcase chart interactions", () => {
     });
 
     await expect(page.getByText("Paid acquisition")).toBeVisible();
-    await expect(page.getByText("Paid: 43k")).toBeVisible();
+    await expect(page.getByText("Paid: 28k")).toBeVisible();
 
     await page.getByTestId("bar-chart-bar.organic.1").click();
     await expect(page.getByText("Organic: 48k")).toBeVisible();
-    await expect(page.getByText("Paid: 43k")).toHaveCount(0);
+    await expect(page.getByText("Paid: 28k")).toHaveCount(0);
 
     const chart = page.getByTestId("selectable-bar-chart");
     const chartBox = await chart.boundingBox();

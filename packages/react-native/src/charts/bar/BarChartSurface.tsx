@@ -17,6 +17,7 @@ import {
   useBarChartSelectionAnimation
 } from "./selectionAnimation";
 import { renderDefaultBarChartTooltip } from "./tooltip";
+import { offsetBarChartTooltipForViewport } from "./tooltipPlacement";
 import { useAnimatedBarChartTooltipModel } from "./useAnimatedTooltipModel";
 import type { BarChartModel, ResolvedBarChartTooltipConfig } from "./types";
 import type { BarChartTooltipModel } from "./tooltip";
@@ -30,8 +31,6 @@ export type BarChartSurfaceProps<TData = unknown> = {
   selectedBarKey: string | undefined;
   selectionAnimation: boolean | BarChartSelectionAnimationConfig | undefined;
   showYAxis: boolean;
-  tooltipConfig: ResolvedBarChartTooltipConfig;
-  tooltipModel: BarChartTooltipModel<TData> | undefined;
   width: number;
 };
 
@@ -43,8 +42,6 @@ export const BarChartSurface = <TData,>({
   selectedBarKey,
   selectionAnimation,
   showYAxis,
-  tooltipConfig,
-  tooltipModel,
   width
 }: BarChartSurfaceProps<TData>) => {
   const {
@@ -64,10 +61,6 @@ export const BarChartSurface = <TData,>({
     animation: selectionAnimation,
     selectedBarKey
   });
-  const animatedTooltipModel = useAnimatedBarChartTooltipModel(
-    tooltipModel,
-    tooltipConfig.positionAnimationDuration
-  );
 
   return (
     <View collapsable={false} style={{ width, height }} {...responderProps}>
@@ -233,10 +226,51 @@ export const BarChartSurface = <TData,>({
             </SvgText>
           ))}
         </SvgLayer>
+      </SvgSurface>
+    </View>
+  );
+};
+
+export type BarChartTooltipOverlayProps<TData = unknown> = {
+  height: number;
+  model: BarChartModel<TData>;
+  tooltipConfig: ResolvedBarChartTooltipConfig;
+  tooltipModel: BarChartTooltipModel<TData> | undefined;
+  viewportOffsetX: number;
+  width: number;
+};
+
+export const BarChartTooltipOverlay = <TData,>({
+  height,
+  model,
+  tooltipConfig,
+  tooltipModel,
+  viewportOffsetX,
+  width
+}: BarChartTooltipOverlayProps<TData>) => {
+  const animatedTooltipModel = useAnimatedBarChartTooltipModel(
+    tooltipModel,
+    tooltipConfig.positionAnimationDuration
+  );
+  const viewportTooltipModel = animatedTooltipModel
+    ? offsetBarChartTooltipForViewport({
+        leftInset: model.boxes.plot.x + 4,
+        tooltip: animatedTooltipModel,
+        viewportOffsetX,
+        viewportWidth: width
+      })
+    : undefined;
+
+  return (
+    <View
+      pointerEvents="none"
+      style={[styles.tooltipOverlay, { width, height }]}
+    >
+      <SvgSurface width={width} height={height}>
         <SvgLayer name="interaction">
-          {animatedTooltipModel
+          {viewportTooltipModel
             ? renderDefaultBarChartTooltip({
-                ...animatedTooltipModel,
+                ...viewportTooltipModel,
                 config: tooltipConfig
               })
             : null}
@@ -303,5 +337,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     zIndex: 1
+  },
+  tooltipOverlay: {
+    left: 0,
+    position: "absolute",
+    top: 0,
+    zIndex: 2
   }
 });

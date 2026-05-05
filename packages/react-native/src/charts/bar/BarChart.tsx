@@ -3,7 +3,11 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import type { GestureResponderEvent, ViewProps } from "react-native";
 
 import { useChartKitTheme } from "../../theme";
-import { BarChartSurface, StickyBarChartYAxis } from "./BarChartSurface";
+import {
+  BarChartSurface,
+  BarChartTooltipOverlay,
+  StickyBarChartYAxis
+} from "./BarChartSurface";
 import {
   buildBarChartSelectEvent,
   getBarChartBarAtPoint,
@@ -34,6 +38,7 @@ export const BarChart = <TData extends Record<string, unknown>>(
   const [gestureSelectedBarKey, setGestureSelectedBarKey] = useState<
     string | undefined
   >(() => getBarChartBarKey(props.defaultSelectedBar));
+  const [scrollOffsetX, setScrollOffsetX] = useState(0);
   const viewport = useMemo(
     () =>
       resolveBarChartViewport({
@@ -145,18 +150,33 @@ export const BarChart = <TData extends Record<string, unknown>>(
       selectedBarKey={selectedBarKey}
       selectionAnimation={props.selectionAnimation}
       showYAxis={!viewport.scrollable}
+      width={viewport.contentWidth}
+    />
+  );
+  const tooltipOverlay = (
+    <BarChartTooltipOverlay
+      height={props.height}
+      model={model}
       tooltipConfig={tooltipConfig}
       tooltipModel={tooltipModel}
-      width={viewport.contentWidth}
+      viewportOffsetX={viewport.scrollable ? scrollOffsetX : 0}
+      width={props.width}
     />
   );
 
   useEffect(() => {
     if (!viewport.scrollable) {
-      return;
+      const frame = requestAnimationFrame(() => {
+        setScrollOffsetX(0);
+      });
+
+      return () => {
+        cancelAnimationFrame(frame);
+      };
     }
 
     const frame = requestAnimationFrame(() => {
+      setScrollOffsetX(scrollInitialOffset);
       scrollViewRef.current?.scrollTo({
         animated: false,
         x: scrollInitialOffset
@@ -191,6 +211,10 @@ export const BarChart = <TData extends Record<string, unknown>>(
               styles.scrollerContent,
               { width: viewport.contentWidth, height: props.height }
             ]}
+            onScroll={(event) => {
+              setScrollOffsetX(event.nativeEvent.contentOffset.x);
+            }}
+            scrollEventThrottle={16}
           >
             {chartSurface}
           </ScrollView>
@@ -199,9 +223,13 @@ export const BarChart = <TData extends Record<string, unknown>>(
             model={model}
             width={props.width}
           />
+          {tooltipOverlay}
         </>
       ) : (
-        chartSurface
+        <>
+          {chartSurface}
+          {tooltipOverlay}
+        </>
       )}
     </View>
   );

@@ -11,6 +11,7 @@ import {
   getAnimatedBarSelectionStrokeOpacity,
   resolveBarChartSelectionAnimationConfig
 } from "../src/charts/bar/selectionAnimation";
+import { offsetBarChartTooltipForViewport } from "../src/charts/bar/tooltipPlacement";
 import type { BarChartBarModel } from "../src/charts/bar/types";
 
 const bars: Array<BarChartBarModel<{ month: string; paid: number }>> = [
@@ -177,5 +178,33 @@ describe("BarChart interaction helpers", () => {
     expect(
       getAnimatedBarSelectionStrokeOpacity({ barKey: "organic-1", state })
     ).toBeCloseTo(0.16);
+  });
+
+  it("keeps overlay tooltips inside the visible viewport", () => {
+    const tooltip = {
+      bar: bars[0]!,
+      height: 54,
+      width: 132,
+      x: 18,
+      y: 42
+    };
+
+    expect(
+      offsetBarChartTooltipForViewport({
+        leftInset: 56,
+        tooltip,
+        viewportOffsetX: 0,
+        viewportWidth: 320
+      })
+    ).toMatchObject({ x: 56, y: 42 });
+
+    expect(
+      offsetBarChartTooltipForViewport({
+        leftInset: 56,
+        tooltip: { ...tooltip, x: 420 },
+        viewportOffsetX: 180,
+        viewportWidth: 320
+      })
+    ).toMatchObject({ x: 184, y: 42 });
   });
 });

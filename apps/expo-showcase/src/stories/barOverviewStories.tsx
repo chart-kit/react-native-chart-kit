@@ -37,7 +37,7 @@ const V2SelectableBar = ({ width }: NativeStoryProps) => (
   <ChartSection title="Paid acquisition" kicker="Tap selection">
     <BarChart
       data={acquisitionByChannel}
-      defaultSelectedBar={{ dataIndex: 3, seriesKey: "paid" }}
+      defaultSelectedBar={{ dataIndex: 0, seriesKey: "paid" }}
       height={260}
       interaction={{ mode: "tap", deselectOnOutsidePress: true }}
       preset="analytics"
