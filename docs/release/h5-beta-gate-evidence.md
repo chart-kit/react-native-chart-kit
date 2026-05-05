@@ -27,7 +27,7 @@ Commands refreshed on May 5, 2026. The `test:e2e` row was added after promoting 
 | Visual regression     | `npm run test:visual`   | Passed: 87 Playwright tests                                                  |
 | Benchmark             | `npm run benchmark`     | Passed: core line and bar geometry scenarios                                 |
 | Public surface audit  | `npm run surface:check` | Passed: root compatibility and v2 preview exports                            |
-| Docs verification     | `npm run docs:build`    | Passed: 48 markdown files                                                    |
+| Docs verification     | `npm run docs:build`    | Passed: 49 markdown files and 98 JS/TS code fences                           |
 | Package build         | `npm run build`         | Passed                                                                       |
 
 Latest benchmark highlights from `npm run benchmark`:
@@ -55,7 +55,7 @@ Benchmark scope is core geometry only. It does not measure native render time, g
 | Prop mapping           | [Prop mapping](../migration/prop-mapping.md)                                                                                                               | Covered for common props                                                                          |
 | Install docs           | [Installation](../getting-started/installation.md)                                                                                                         | Covered with package-path caveat                                                                  |
 | Recipes                | [Production recipes](../recipes/README.md)                                                                                                                 | Covered                                                                                           |
-| Docs example types     | `packages/react-native/test/docs-examples.typecheck.tsx`; `npm run rn:typecheck`                                                                           | Covered for representative examples; not every markdown fence                                     |
+| Docs example checks    | `npm run docs:build`; `packages/react-native/test/docs-examples.typecheck.tsx`; `npm run rn:typecheck`                                                     | Syntax-covered for every JS/TS markdown fence; type-covered for representative examples           |
 | Issue list             | [Known issues](known-issues.md)                                                                                                                            | Covered                                                                                           |
 | Benchmark results      | `npm run benchmark`; this document                                                                                                                         | Covered for core geometry only                                                                    |
 | Changelog              | [Changelog](../../CHANGELOG.md)                                                                                                                            | Covered for current v7 preview                                                                    |
@@ -86,7 +86,7 @@ These are not covered by the green checks:
 - native Android release build
 - native e2e tests beyond the web showcase interaction suite
 - React Native CLI example apps
-- automatic extraction and compilation of every docs snippet
+- full typechecking of every markdown snippet as a standalone app example
 - Skia renderer and Pro package split
 - final public package/import path
 - final free-vs-Pro boundary for animation, range selector, zoom, and financial features

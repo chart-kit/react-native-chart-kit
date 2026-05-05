@@ -36,6 +36,6 @@ Impact: keep it labeled as financial foundation or preview unless those gaps are
 
 ## Docs Examples
 
-Representative docs examples are type-checked in `packages/react-native/test/docs-examples.typecheck.tsx`, but markdown snippets are not yet automatically extracted and compiled as standalone examples.
+`npm run docs:build` extracts every JS/TS markdown fence and runs it through the TypeScript transpiler for syntax diagnostics. Representative docs examples are also type-checked in `packages/react-native/test/docs-examples.typecheck.tsx`.
 
-Impact: chart docs should still be reviewed alongside showcase stories until automatic docs-snippet extraction is added.
+Impact: chart docs should still be reviewed alongside showcase stories until every markdown snippet is type-checked as a standalone app example.

@@ -1,6 +1,7 @@
 import { access, readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
+import ts from "typescript";
 
 const repoRoot = process.cwd();
 const markdownRoots = [
@@ -20,6 +21,13 @@ const ignoredLinkPrefixes = [
   "tel:",
   "exp://"
 ];
+const checkedFenceLanguages = new Set(["js", "jsx", "ts", "tsx"]);
+const fenceLanguageExtensions = {
+  js: "js",
+  jsx: "jsx",
+  ts: "ts",
+  tsx: "tsx"
+};
 
 const pathExists = async (filePath) => {
   try {
@@ -93,14 +101,93 @@ const countFenceMarkers = (content) => {
   return matches?.length ?? 0;
 };
 
+const extractCodeFences = (content) => {
+  const fences = [];
+  const fencePattern = /^```([^\s`]*)[^\n]*\n([\s\S]*?)^```/gm;
+  let match;
+
+  while ((match = fencePattern.exec(content)) !== null) {
+    const language = match[1]?.trim().toLowerCase() ?? "";
+    const code = match[2] ?? "";
+
+    if (checkedFenceLanguages.has(language)) {
+      fences.push({
+        code,
+        language,
+        line: getLineNumber(content, match.index)
+      });
+    }
+  }
+
+  return fences;
+};
+
+const getLineNumber = (content, index) =>
+  content.slice(0, index).split("\n").length;
+
+const formatDiagnosticMessage = (message) =>
+  ts.flattenDiagnosticMessageText(message, "\n");
+
+const getParsableFenceCode = (code) =>
+  code.trimStart().startsWith("{") ? `(${code})` : code;
+
+const validateCodeFence = ({ code, language, line, relativePath }) => {
+  const extension = fenceLanguageExtensions[language] ?? "tsx";
+  const parsableCode = getParsableFenceCode(code);
+  const result = ts.transpileModule(parsableCode, {
+    compilerOptions: {
+      jsx: ts.JsxEmit.ReactJSX,
+      module: ts.ModuleKind.ESNext,
+      target: ts.ScriptTarget.ES2020
+    },
+    fileName: `${relativePath}:${line}.${extension}`,
+    reportDiagnostics: true
+  });
+  const diagnostics =
+    result.diagnostics?.filter(
+      (diagnostic) => diagnostic.category === ts.DiagnosticCategory.Error
+    ) ?? [];
+
+  return diagnostics.map((diagnostic) => {
+    const position =
+      diagnostic.start !== undefined
+        ? ts.getLineAndCharacterOfPosition(
+            ts.createSourceFile(
+              `${relativePath}:${line}.${extension}`,
+              parsableCode,
+              ts.ScriptTarget.ES2020,
+              false,
+              extension === "tsx" || extension === "jsx"
+                ? ts.ScriptKind.TSX
+                : extension === "ts"
+                  ? ts.ScriptKind.TS
+                  : ts.ScriptKind.JS
+            ),
+            diagnostic.start
+          )
+        : undefined;
+    const localLine =
+      position !== undefined ? `:${line + position.line}` : `:${line}`;
+
+    return `${relativePath}${localLine}: ${formatDiagnosticMessage(
+      diagnostic.messageText
+    )}`;
+  });
+};
+
 const validateMarkdownFile = async (filePath) => {
   const content = await readFile(filePath, "utf8");
   const relativePath = path.relative(repoRoot, filePath);
   const errors = [];
   const fenceMarkers = countFenceMarkers(content);
+  const codeFences = extractCodeFences(content);
 
   if (fenceMarkers % 2 !== 0) {
     errors.push(`${relativePath}: unbalanced fenced code block markers`);
+  }
+
+  for (const fence of codeFences) {
+    errors.push(...validateCodeFence({ ...fence, relativePath }));
   }
 
   for (const href of extractMarkdownLinks(content)) {
@@ -117,16 +204,24 @@ const validateMarkdownFile = async (filePath) => {
     }
   }
 
-  return errors;
+  return {
+    checkedCodeFenceCount: codeFences.length,
+    errors
+  };
 };
 
 const markdownFiles = (
   await Promise.all(markdownRoots.map(collectMarkdownFiles))
 ).flat();
 const uniqueMarkdownFiles = [...new Set(markdownFiles)].sort();
-const allErrors = (
-  await Promise.all(uniqueMarkdownFiles.map(validateMarkdownFile))
-).flat();
+const validationResults = await Promise.all(
+  uniqueMarkdownFiles.map(validateMarkdownFile)
+);
+const allErrors = validationResults.flatMap((result) => result.errors);
+const checkedCodeFenceCount = validationResults.reduce(
+  (sum, result) => sum + result.checkedCodeFenceCount,
+  0
+);
 
 if (allErrors.length > 0) {
   console.error("Docs build failed:");
@@ -135,5 +230,5 @@ if (allErrors.length > 0) {
 }
 
 console.log(
-  `Docs build passed: validated ${uniqueMarkdownFiles.length} markdown files.`
+  `Docs build passed: validated ${uniqueMarkdownFiles.length} markdown files and ${checkedCodeFenceCount} JS/TS code fences.`
 );
