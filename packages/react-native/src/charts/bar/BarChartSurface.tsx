@@ -12,7 +12,7 @@ import {
 
 import { getFontFamilyProps } from "../line/text";
 import {
-  getAnimatedBarSelectionOpacity,
+  getAnimatedBarSelectionFill,
   getAnimatedBarSelectionStrokeOpacity,
   useBarChartSelectionAnimation
 } from "./selectionAnimation";
@@ -138,9 +138,10 @@ export const BarChartSurface = <TData,>({
                 width={bar.width}
                 height={bar.height}
                 rx={Math.min(barRadius, bar.width / 2, bar.height / 2)}
-                fill={bar.color}
-                opacity={getAnimatedBarSelectionOpacity({
+                fill={getAnimatedBarSelectionFill({
+                  backgroundColor: resolvedTheme.plotBackground,
                   barKey: bar.key,
+                  color: bar.color,
                   state: selectionAnimationState
                 })}
                 {...(strokeOpacity > 0

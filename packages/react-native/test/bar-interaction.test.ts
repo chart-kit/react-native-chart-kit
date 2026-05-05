@@ -7,6 +7,7 @@ import {
 } from "../src/charts/bar/interaction";
 import { getBarChartTooltipConfig } from "../src/charts/bar/options";
 import {
+  getAnimatedBarSelectionFill,
   getAnimatedBarSelectionOpacity,
   getAnimatedBarSelectionStrokeOpacity,
   resolveBarChartSelectionAnimationConfig
@@ -172,6 +173,14 @@ describe("BarChart interaction helpers", () => {
     expect(
       getAnimatedBarSelectionOpacity({ barKey: "organic-1", state })
     ).toBeCloseTo(0.71);
+    expect(
+      getAnimatedBarSelectionFill({
+        backgroundColor: "#ffffff",
+        barKey: "paid-1",
+        color: "#2563eb",
+        state
+      })
+    ).toBe("#6490f1");
     expect(
       getAnimatedBarSelectionStrokeOpacity({ barKey: "paid-1", state })
     ).toBeCloseTo(0.16);

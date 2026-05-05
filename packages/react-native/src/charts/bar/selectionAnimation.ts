@@ -45,6 +45,97 @@ const easeOutCubic = (progress: number) => {
 const interpolate = (from: number, to: number, progress: number) =>
   from + (to - from) * progress;
 
+type RgbColor = {
+  b: number;
+  g: number;
+  r: number;
+};
+
+const parseHexColor = (color: string): RgbColor | undefined => {
+  const normalized = color.trim();
+  const hex = normalized.startsWith("#") ? normalized.slice(1) : "";
+
+  if (!/^[\da-f]+$/i.test(hex)) {
+    return undefined;
+  }
+
+  if (hex.length === 3 || hex.length === 4) {
+    const [r, g, b] = hex.split("");
+
+    if (!r || !g || !b) {
+      return undefined;
+    }
+
+    return {
+      b: Number.parseInt(`${b}${b}`, 16),
+      g: Number.parseInt(`${g}${g}`, 16),
+      r: Number.parseInt(`${r}${r}`, 16)
+    };
+  }
+
+  if (hex.length === 6 || hex.length === 8) {
+    return {
+      b: Number.parseInt(hex.slice(4, 6), 16),
+      g: Number.parseInt(hex.slice(2, 4), 16),
+      r: Number.parseInt(hex.slice(0, 2), 16)
+    };
+  }
+
+  return undefined;
+};
+
+const parseRgbColor = (color: string): RgbColor | undefined => {
+  const match = color
+    .trim()
+    .match(/^rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)/i);
+
+  if (!match) {
+    return undefined;
+  }
+
+  return {
+    b: Number(match[3]),
+    g: Number(match[2]),
+    r: Number(match[1])
+  };
+};
+
+const parseColor = (color: string): RgbColor | undefined =>
+  parseHexColor(color) ?? parseRgbColor(color);
+
+const clampChannel = (channel: number) =>
+  Math.max(0, Math.min(255, Math.round(channel)));
+
+const toHexChannel = (channel: number) =>
+  clampChannel(channel).toString(16).padStart(2, "0");
+
+const blendOpaqueColor = ({
+  backgroundColor,
+  color,
+  opacity
+}: {
+  backgroundColor: string;
+  color: string;
+  opacity: number;
+}) => {
+  const foreground = parseColor(color);
+  const background = parseColor(backgroundColor);
+
+  if (!foreground || !background) {
+    return color;
+  }
+
+  const clampedOpacity = Math.max(0, Math.min(1, opacity));
+
+  return `#${toHexChannel(
+    foreground.r * clampedOpacity + background.r * (1 - clampedOpacity)
+  )}${toHexChannel(
+    foreground.g * clampedOpacity + background.g * (1 - clampedOpacity)
+  )}${toHexChannel(
+    foreground.b * clampedOpacity + background.b * (1 - clampedOpacity)
+  )}`;
+};
+
 const getOpacityForSelectionKey = ({
   barKey,
   selectedKey
@@ -74,6 +165,24 @@ export const getAnimatedBarSelectionOpacity = ({
     getOpacityForSelectionKey({ barKey, selectedKey: state.toKey }),
     state.progress
   );
+
+export const getAnimatedBarSelectionFill = ({
+  backgroundColor,
+  barKey,
+  color,
+  state
+}: {
+  backgroundColor: string;
+  barKey: string;
+  color: string;
+  state: BarChartSelectionAnimationState;
+}) => {
+  const opacity = getAnimatedBarSelectionOpacity({ barKey, state });
+
+  return opacity >= 0.999
+    ? color
+    : blendOpaqueColor({ backgroundColor, color, opacity });
+};
 
 export const getAnimatedBarSelectionStrokeOpacity = ({
   barKey,

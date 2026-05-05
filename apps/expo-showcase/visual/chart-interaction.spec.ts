@@ -109,6 +109,11 @@ test.describe("Expo showcase chart interactions", () => {
     await expect(page.getByText("Organic: 48k")).toBeVisible();
     await expect(page.getByText("Paid: 28k")).toHaveCount(0);
 
+    const inactiveBar = page.getByTestId("bar-chart-bar.paid.1");
+
+    await expect(inactiveBar).not.toHaveAttribute("opacity", /0\./);
+    await expect(inactiveBar).not.toHaveAttribute("fill", "#0891b2");
+
     const chart = page.getByTestId("selectable-bar-chart");
     const chartBox = await chart.boundingBox();
     expect(chartBox).not.toBeNull();
