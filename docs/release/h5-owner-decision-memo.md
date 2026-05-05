@@ -67,7 +67,7 @@ Rationale:
 - opt-in volume overlays exist
 - scrollable histories, controlled viewport gestures, and range selector integration exist in preview form
 - opt-in calendar-aware market-session gap markers exist for dated candles
-- named exchange calendar presets and advanced financial accessibility narratives are not complete
+- advanced financial accessibility narratives are not complete
 - including it as a preview helps owner review Pro/financial direction without overpromising
 
 ## Recommended H5 Outcome
@@ -77,5 +77,5 @@ Approve continued beta preparation with these next tasks:
 1. Verify the public package/import path in CI and release docs.
 2. Keep the chosen path wired into docs and typechecked examples.
 3. Decide whether the first beta is API-preview or production-beta.
-4. Keep native release-build gaps in known issues until the native workflow is green on the release commit.
+4. Keep native release-build and native performance gaps in known issues until the native workflow and device benchmark evidence are green on the release commit.
 5. Keep candlestick labeled Financial Preview.

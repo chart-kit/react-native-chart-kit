@@ -198,6 +198,90 @@ describe("CandlestickChart model", () => {
     });
   });
 
+  it("supports NYSE exchange-calendar session gaps", () => {
+    const model = buildCandlestickChartModel({
+      chartKitTheme,
+      closeKey: "close",
+      data: [
+        {
+          day: "2026-04-02",
+          open: 100,
+          high: 112,
+          low: 96,
+          close: 108
+        },
+        {
+          day: "2026-04-06",
+          open: 108,
+          high: 114,
+          low: 104,
+          close: 111
+        }
+      ],
+      height: 260,
+      highKey: "high",
+      lowKey: "low",
+      openKey: "open",
+      sessionGaps: { exchange: "nyse", label: true },
+      width: 360,
+      xKey: "day"
+    });
+
+    expect(model.sessionGaps).toHaveLength(1);
+    expect(model.sessionGaps[0]).toMatchObject({
+      calendar: "tradingDays",
+      closedDays: 3,
+      exchange: "nyse",
+      holidayCount: 1,
+      label: "3 closed",
+      weekendCount: 2
+    });
+  });
+
+  it("supports NASDAQ exchange-calendar observed holidays", () => {
+    const model = buildCandlestickChartModel({
+      chartKitTheme,
+      closeKey: "close",
+      data: [
+        {
+          day: "2026-07-02",
+          open: 100,
+          high: 112,
+          low: 96,
+          close: 108
+        },
+        {
+          day: "2026-07-06",
+          open: 108,
+          high: 114,
+          low: 104,
+          close: 111
+        }
+      ],
+      height: 260,
+      highKey: "high",
+      lowKey: "low",
+      openKey: "open",
+      sessionGaps: {
+        exchange: "nasdaq",
+        label: ({ exchange, holidayCount }) =>
+          `${exchange ?? "market"} / ${holidayCount} holiday`
+      },
+      width: 360,
+      xKey: "day"
+    });
+
+    expect(model.sessionGaps).toHaveLength(1);
+    expect(model.sessionGaps[0]).toMatchObject({
+      calendar: "tradingDays",
+      closedDays: 3,
+      exchange: "nasdaq",
+      holidayCount: 1,
+      label: "nasdaq / 1 holiday",
+      weekendCount: 2
+    });
+  });
+
   it("keeps session gaps disabled by default", () => {
     const model = buildCandlestickChartModel({
       chartKitTheme,

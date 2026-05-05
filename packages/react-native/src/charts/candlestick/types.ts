@@ -158,6 +158,7 @@ export type CandlestickChartRangeSelectorConfig = {
 export type CandlestickChartSessionGapLabelRenderProps<TData = unknown> = {
   calendar: CandlestickChartSessionGapCalendar;
   closedDays: number;
+  exchange?: CandlestickChartSessionGapExchange | undefined;
   gapDays: number;
   gapMs: number;
   holidayCount: number;
@@ -170,8 +171,14 @@ export type CandlestickChartSessionGapLabelRenderProps<TData = unknown> = {
 
 export type CandlestickChartSessionGapCalendar = "calendarDays" | "tradingDays";
 
+export type CandlestickChartSessionGapExchange =
+  | "nyse"
+  | "nasdaq"
+  | "usEquities";
+
 export type CandlestickChartSessionGapConfig<TData = unknown> = {
   calendar?: CandlestickChartSessionGapCalendar;
+  exchange?: CandlestickChartSessionGapExchange;
   fill?: string;
   fillOpacity?: number;
   holidays?: readonly (Date | string)[];
@@ -229,6 +236,7 @@ export type CandlestickChartVolumeBarModel = {
 export type CandlestickChartSessionGapModel<TData = unknown> = {
   calendar: CandlestickChartSessionGapCalendar;
   closedDays: number;
+  exchange?: CandlestickChartSessionGapExchange | undefined;
   fill: string;
   fillOpacity: number;
   gapDays: number;

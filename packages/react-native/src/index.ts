@@ -100,6 +100,7 @@ export type {
   CandlestickChartRangeSelectorInteraction,
   CandlestickChartSelectEvent,
   CandlestickChartSessionGapConfig,
+  CandlestickChartSessionGapExchange,
   CandlestickChartSessionGapLabelRenderProps,
   CandlestickChartSessionGapModel,
   CandlestickChartTooltipConfig,

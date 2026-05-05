@@ -1,5 +1,6 @@
 import type { ChartXValue } from "@chart-kit/core";
 
+import { isCandlestickExchangeHoliday } from "./exchangeCalendars";
 import type {
   CandlestickChartModel,
   CandlestickChartSessionGapCalendar,
@@ -69,7 +70,12 @@ const getClosedDayStats = <TData>({
     day += dayMs
   ) {
     const weekday = new Date(day).getUTCDay();
-    const isHoliday = holidaySet.has(getUtcDateKey(day));
+    const isHoliday =
+      holidaySet.has(getUtcDateKey(day)) ||
+      isCandlestickExchangeHoliday({
+        exchange: config.exchange,
+        timestamp: day
+      });
     const isTradingWeekday = tradingWeekdays.has(weekday);
 
     if (!isTradingWeekday || isHoliday) {
@@ -132,7 +138,8 @@ export const buildCandlestickSessionGapModels = <
   const minGapMs =
     config.minGapMs ??
     Math.max(0, config.minGapDays ?? defaultSessionGapMinDays) * dayMs;
-  const calendar = config.calendar ?? "calendarDays";
+  const calendar =
+    config.calendar ?? (config.exchange ? "tradingDays" : "calendarDays");
   const minClosedDays = Math.max(0, config.minClosedDays ?? 1);
 
   return candles.flatMap((previous, index) => {
@@ -171,6 +178,7 @@ export const buildCandlestickSessionGapModels = <
         ? config.label({
             calendar,
             closedDays,
+            exchange: config.exchange,
             gapDays,
             gapMs,
             holidayCount,
@@ -189,6 +197,7 @@ export const buildCandlestickSessionGapModels = <
       {
         calendar,
         closedDays,
+        exchange: config.exchange,
         fill: config.fill ?? resolvedTheme.grid,
         fillOpacity: config.fillOpacity ?? 0.08,
         gapDays,
