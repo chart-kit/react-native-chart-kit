@@ -186,7 +186,8 @@ export const publicChartMode: ShowcaseMode = {
           storyIds: [
             "v2-pie-acquisition",
             "v2-donut-revenue",
-            "v2-donut-selection"
+            "v2-donut-selection",
+            "v2-donut-custom-legend"
           ]
         }
       ]
@@ -288,7 +289,8 @@ export const showcaseModes: ShowcaseMode[] = [
         storyIds: [
           "v2-pie-acquisition",
           "v2-donut-revenue",
-          "v2-donut-selection"
+          "v2-donut-selection",
+          "v2-donut-custom-legend"
         ]
       },
       {

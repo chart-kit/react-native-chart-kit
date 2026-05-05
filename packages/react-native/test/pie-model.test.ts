@@ -86,4 +86,33 @@ describe("PieChart model", () => {
     expect(model.arcs[0]?.path).toContain(`A ${model.radius}`);
     expect(model.arcs[0]?.path).toContain(`A ${model.innerRadius}`);
   });
+
+  it("keeps zero-value slices from drawing broken arcs", () => {
+    const model = buildPieChartModel({
+      chartKitTheme,
+      props: {
+        data: [
+          { status: "Active", accounts: 70 },
+          { status: "Paused", accounts: 30 },
+          { status: "Migrated", accounts: 0 }
+        ],
+        valueKey: "accounts",
+        labelKey: "status",
+        width: 320,
+        height: 260
+      }
+    });
+
+    expect(model.total).toBe(100);
+    expect(model.arcs[2]).toMatchObject({
+      defined: false,
+      label: "Migrated",
+      percentage: 0,
+      value: null
+    });
+    expect(model.legendItems.map((item) => item.label)).toEqual([
+      "Active",
+      "Paused"
+    ]);
+  });
 });

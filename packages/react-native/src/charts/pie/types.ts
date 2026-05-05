@@ -1,3 +1,6 @@
+import type { ReactNode } from "react";
+import type { ViewStyle } from "react-native";
+
 import type { PieArcModel } from "@chart-kit/core";
 
 import type {
@@ -5,10 +8,6 @@ import type {
   CartesianChartTheme,
   ResolvedCartesianChartTheme
 } from "../../theme";
-
-export type PieChartLegendConfig = {
-  visible?: boolean;
-};
 
 export type PieChartDeselectEvent = {
   reason: "outsidePress" | "programmatic";
@@ -47,6 +46,22 @@ export type PieChartCenterLabelRenderProps<TData = unknown> = {
   total: number;
   arcs: Array<PieArcModel<TData>>;
   theme: ResolvedCartesianChartTheme;
+  selectedArc?: PieArcModel<TData>;
+  selectedIndex?: number;
+};
+
+export type PieChartLegendRenderProps<TData = unknown> = {
+  index: number;
+  item: PieChartLegendItem<TData>;
+  selected: boolean;
+  theme: ResolvedCartesianChartTheme;
+};
+
+export type PieChartLegendConfig<TData = unknown> = {
+  visible?: boolean;
+  itemGap?: number;
+  maxItemWidth?: ViewStyle["maxWidth"];
+  renderItem?: (props: PieChartLegendRenderProps<TData>) => ReactNode;
 };
 
 export type PieChartProps<TData extends Record<string, unknown>> = {
@@ -61,14 +76,15 @@ export type PieChartProps<TData extends Record<string, unknown>> = {
   preset?: CartesianChartPresetValue;
   innerRadius?: number;
   innerRadiusRatio?: number;
-  legend?: boolean | PieChartLegendConfig;
+  legend?: boolean | PieChartLegendConfig<TData>;
   selectedIndex?: number;
   defaultSelectedIndex?: number;
   activeSlice?: PieChartActiveSliceConfig;
   interaction?: PieChartInteraction<TData>;
   centerLabel?:
     | string
-    | ((props: PieChartCenterLabelRenderProps<TData>) => string);
+    | ReactNode
+    | ((props: PieChartCenterLabelRenderProps<TData>) => ReactNode);
   accessibilityLabel?: string;
   testID?: string;
   formatValue?: (value: number) => string;

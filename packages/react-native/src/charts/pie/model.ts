@@ -35,8 +35,8 @@ const clamp = (value: number, min: number, max: number) => {
 const getStringValue = (value: unknown, fallback: string) =>
   typeof value === "string" && value.length > 0 ? value : fallback;
 
-const getLegendVisible = (
-  legend: PieChartProps<Record<string, unknown>>["legend"]
+const getLegendVisible = <TData extends Record<string, unknown>>(
+  legend: PieChartProps<TData>["legend"]
 ) => {
   if (legend === false) {
     return false;

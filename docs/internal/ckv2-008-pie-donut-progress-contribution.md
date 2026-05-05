@@ -33,6 +33,9 @@ Added:
 - Expo showcase story for product usage contribution heatmap
 - Expo interaction test for donut slice selection
 - visual baselines for pie and donut stories
+- custom pie/donut legend item rendering
+- rich React center labels for donut KPI content
+- long-label and zero-slice donut visual coverage
 
 ## Design Choices
 
@@ -42,6 +45,5 @@ The geometry builder accepts normalized slices instead of legacy props. Modern a
 
 ## Remaining Work
 
-- Add custom legend rendering and richer center label rendering.
-- Add custom legend rendering and richer center label rendering.
-- Add visual stories and screenshots for long legends, zero slices, and active slices.
+- Add external arc labels.
+- Add more zero/empty-state fixtures across ProgressChart and ContributionGraph.

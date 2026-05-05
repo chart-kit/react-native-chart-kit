@@ -18,11 +18,12 @@ import {
   normalizePieChartSelectedIndex
 } from "./interaction";
 import { buildPieChartModel } from "./model";
-import type { PieChartProps } from "./types";
+import type { PieChartCenterLabelRenderProps, PieChartProps } from "./types";
 
 export type * from "./types";
 
 const defaultDonutInnerRadiusRatio = 0.58;
+const defaultPieLegendGap = 8;
 
 export const PieChart = <TData extends Record<string, unknown>>(
   props: PieChartProps<TData>
@@ -52,6 +53,7 @@ export const PieChart = <TData extends Record<string, unknown>>(
     radius,
     total
   } = model;
+  const legendConfig = typeof props.legend === "object" ? props.legend : {};
   const activeSlice = {
     activeOpacity: props.activeSlice?.activeOpacity ?? 1,
     inactiveOpacity: props.activeSlice?.inactiveOpacity ?? 0.42,
@@ -117,10 +119,32 @@ export const PieChart = <TData extends Record<string, unknown>>(
         onResponderTerminationRequest: () => true
       }
     : {};
+  const centerLabelProps: PieChartCenterLabelRenderProps<TData> = {
+    arcs,
+    theme: resolvedTheme,
+    total
+  };
+
+  if (selectedIndex !== undefined) {
+    centerLabelProps.selectedIndex = selectedIndex;
+
+    const selectedArc = arcs[selectedIndex];
+
+    if (selectedArc) {
+      centerLabelProps.selectedArc = selectedArc;
+    }
+  }
+
   const centerLabel =
     typeof props.centerLabel === "function"
-      ? props.centerLabel({ arcs, theme: resolvedTheme, total })
+      ? props.centerLabel(centerLabelProps)
       : props.centerLabel;
+  const isTextCenterLabel =
+    typeof centerLabel === "string" && centerLabel.length > 0;
+  const customCenterLabel =
+    centerLabel !== undefined && centerLabel !== null && !isTextCenterLabel
+      ? centerLabel
+      : null;
   const accessibilityLabel =
     props.accessibilityLabel ??
     `Pie chart with ${legendItems.length} slices. Total ${total}.`;
@@ -172,7 +196,7 @@ export const PieChart = <TData extends Record<string, unknown>>(
             );
           })}
         </SvgLayer>
-        {typeof centerLabel === "string" && centerLabel.length > 0 ? (
+        {isTextCenterLabel ? (
           <SvgLayer name="overlays">
             <SvgText
               fill={resolvedTheme.text}
@@ -190,27 +214,77 @@ export const PieChart = <TData extends Record<string, unknown>>(
           </SvgLayer>
         ) : null}
       </SvgSurface>
+      {customCenterLabel ? (
+        <View
+          pointerEvents="none"
+          style={[
+            styles.centerLabelOverlay,
+            {
+              height: Math.max(44, Math.min(76, radius * 0.82)),
+              top: centerY - Math.max(22, Math.min(38, radius * 0.41)),
+              width: props.width
+            }
+          ]}
+        >
+          {customCenterLabel}
+        </View>
+      ) : null}
       {legendVisible && legendItems.length > 0 ? (
-        <View style={styles.legend}>
-          {legendItems.map((item) => (
-            <View key={item.key} style={styles.legendItem}>
+        <View
+          style={[
+            styles.legend,
+            {
+              gap: legendConfig.itemGap ?? defaultPieLegendGap
+            }
+          ]}
+        >
+          {legendItems.map((item, index) => {
+            const selected = selectedIndex === item.index;
+            const renderedItem = legendConfig.renderItem?.({
+              index,
+              item,
+              selected,
+              theme: resolvedTheme
+            });
+
+            return (
               <View
-                style={[styles.legendSwatch, { backgroundColor: item.color }]}
-              />
-              <Text
-                numberOfLines={1}
-                style={[styles.legendText, { color: resolvedTheme.text }]}
+                key={item.key}
+                style={[
+                  styles.legendItem,
+                  {
+                    maxWidth: legendConfig.maxItemWidth ?? "48%"
+                  }
+                ]}
               >
-                {item.label}
-              </Text>
-              <Text
-                numberOfLines={1}
-                style={[styles.legendValue, { color: resolvedTheme.mutedText }]}
-              >
-                {item.percentageLabel}
-              </Text>
-            </View>
-          ))}
+                {renderedItem ?? (
+                  <>
+                    <View
+                      style={[
+                        styles.legendSwatch,
+                        { backgroundColor: item.color }
+                      ]}
+                    />
+                    <Text
+                      numberOfLines={1}
+                      style={[styles.legendText, { color: resolvedTheme.text }]}
+                    >
+                      {item.label}
+                    </Text>
+                    <Text
+                      numberOfLines={1}
+                      style={[
+                        styles.legendValue,
+                        { color: resolvedTheme.mutedText }
+                      ]}
+                    >
+                      {item.percentageLabel}
+                    </Text>
+                  </>
+                )}
+              </View>
+            );
+          })}
         </View>
       ) : null}
     </View>
@@ -230,11 +304,17 @@ const styles = StyleSheet.create({
   container: {
     overflow: "hidden"
   },
+  centerLabelOverlay: {
+    alignItems: "center",
+    justifyContent: "center",
+    left: 0,
+    position: "absolute"
+  },
   legend: {
     alignContent: "center",
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 8,
+    gap: defaultPieLegendGap,
     justifyContent: "center",
     paddingHorizontal: 8,
     paddingTop: 4

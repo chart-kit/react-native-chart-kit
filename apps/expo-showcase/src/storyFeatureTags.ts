@@ -56,6 +56,11 @@ export const storyFeatureTags: Record<string, string[]> = {
   "v2-pie-acquisition": ["pie chart", "bottom legend", "percentage labels"],
   "v2-donut-revenue": ["donut chart", "center label", "bottom legend"],
   "v2-donut-selection": ["tap selection", "active slice", "center label"],
+  "v2-donut-custom-legend": [
+    "custom legend",
+    "rich center label",
+    "zero slice"
+  ],
   "v2-progress-activity": ["progress rings", "theme preset", "center label"],
   "v2-progress-single": ["single ring", "completion", "center label"],
   "v2-contribution-usage": ["calendar heatmap", "month labels", "date cells"],

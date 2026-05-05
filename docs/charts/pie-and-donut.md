@@ -56,6 +56,8 @@ The first v2 slice supports:
 - bottom wrapped legend
 - percentage labels in the legend
 - donut center text
+- rich custom center labels
+- custom legend item rendering
 - tap selection with active-slice highlighting
 - zero and invalid slices without broken paths
 
@@ -82,4 +84,33 @@ const [selectedIndex, setSelectedIndex] = useState(0);
 />;
 ```
 
-Custom legend rendering and advanced label renderers are planned for the next CKV2-008 slices.
+## Custom Legend And Center Label
+
+Use `legend.renderItem` when the default compact legend is not enough. `centerLabel` can return React content for multi-line KPI labels.
+
+```tsx
+<DonutChart
+  data={retentionSegments}
+  valueKey="accounts"
+  labelKey="status"
+  centerLabel={({ theme, total }) => (
+    <View>
+      <Text style={{ color: theme.text }}>{total}</Text>
+      <Text style={{ color: theme.mutedText }}>accounts</Text>
+    </View>
+  )}
+  legend={{
+    maxItemWidth: "100%",
+    renderItem: ({ item, theme }) => (
+      <View>
+        <Text style={{ color: theme.text }}>{item.label}</Text>
+        <Text style={{ color: theme.mutedText }}>{item.percentageLabel}</Text>
+      </View>
+    )
+  }}
+  width={360}
+  height={300}
+/>
+```
+
+Advanced arc labels outside the chart are still planned for a later CKV2-008 slice.
