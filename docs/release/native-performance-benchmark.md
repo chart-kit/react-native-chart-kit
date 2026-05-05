@@ -1,6 +1,6 @@
 # Native Performance Benchmark Protocol
 
-Status on May 5, 2026: protocol ready, release-device performance evidence missing.
+Status on May 5, 2026: protocol ready, partial Android release-emulator evidence captured; full release-device performance evidence missing.
 
 This protocol defines the native benchmark evidence required before H5/H6 can claim production performance confidence. The current `npm run benchmark` command covers core geometry and web showcase scrub timing. It does not measure native render time, native gesture frame pacing, release-build memory, or renderer-specific device behavior.
 
@@ -28,6 +28,22 @@ Current automated benchmark coverage:
 - web showcase line scrub frame timing
 
 This baseline is useful for regression detection, but native release-device evidence must be collected separately.
+
+## Local Sample Evidence
+
+The Android release APK was profiled on the `chartkit_api36` Android 36 ARM64 emulator for one visible Line Charts scenario. The app launched from the release APK, the Pro Animation Preview `Replay` button was tapped through `adb shell input tap`, and Android `dumpsys gfxinfo` / `dumpsys meminfo` were captured afterward.
+
+Artifact:
+
+- [Android line animation performance sample](artifacts/android-line-animation-performance.md)
+
+Observed result:
+
+| Date        | Commit    | Platform | Device/OS                      | Build       | Renderer | Scenario                | p50 frame | p95 frame | Memory PSS | Result       |
+| ----------- | --------- | -------- | ------------------------------ | ----------- | -------- | ----------------------- | --------- | --------- | ---------- | ------------ |
+| May 5, 2026 | `4dd219e` | Android  | `chartkit_api36` emulator / 36 | Release APK | SVG      | Line animation `Replay` | 16 ms     | 18 ms     | 277,137 KB | Partial pass |
+
+This sample is intentionally not counted as full H5/H6 performance evidence because it covers only one Android emulator scenario. The remaining required matrix still needs iOS, physical-device or accepted simulator/emulator targets, gesture-heavy scenarios, memory before/after per scenario, and Skia parity where supported.
 
 ## Device Matrix
 
@@ -94,9 +110,10 @@ Recommended tools:
 
 Before H5/H6, capture a completed log:
 
-| Date | Commit | Platform | Device | Build | Renderer | Scenario | p50 frame | p95 frame | Memory | Result  | Notes |
-| ---- | ------ | -------- | ------ | ----- | -------- | -------- | --------- | --------- | ------ | ------- | ----- |
-| TBD  | TBD    | iOS      | TBD    | TBD   | svg      | TBD      | TBD       | TBD       | TBD    | Pending |       |
-| TBD  | TBD    | Android  | TBD    | TBD   | svg      | TBD      | TBD       | TBD       | TBD    | Pending |       |
+| Date        | Commit    | Platform | Device                                       | Build       | Renderer | Scenario                | p50 frame | p95 frame | Memory         | Result       | Notes                                                            |
+| ----------- | --------- | -------- | -------------------------------------------- | ----------- | -------- | ----------------------- | --------- | --------- | -------------- | ------------ | ---------------------------------------------------------------- |
+| May 5, 2026 | `4dd219e` | Android  | `chartkit_api36` emulator / Android 36 ARM64 | Release APK | svg      | Line animation `Replay` | 16 ms     | 18 ms     | 277,137 KB PSS | Partial pass | Single visible animation sample only; full matrix still pending. |
+| TBD         | TBD       | iOS      | TBD                                          | TBD         | svg      | TBD                     | TBD       | TBD       | TBD            | Pending      |                                                                  |
+| TBD         | TBD       | Android  | TBD                                          | TBD         | svg      | Gesture matrix          | TBD       | TBD       | TBD            | Pending      |                                                                  |
 
 Attach profiler screenshots, logs, or recordings for any scenario that fails target expectations.

@@ -38,7 +38,7 @@ Impact: the optional package boundary exists for H4 review, but Skia must stay l
 
 ## Native Performance Evidence
 
-`npm run benchmark` covers core geometry and web showcase scrub timing. The [Native performance benchmark protocol](native-performance-benchmark.md) defines the release-device measurements needed for iOS and Android, including frame timing, memory, renderer, data size, and gesture scenarios.
+`npm run benchmark` covers core geometry and web showcase scrub timing. The [Native performance benchmark protocol](native-performance-benchmark.md) defines the release-device measurements needed for iOS and Android, including frame timing, memory, renderer, data size, and gesture scenarios. A partial Android release-emulator sample now covers one Line Charts animation scenario, but it does not replace the required iOS, physical-device or accepted simulator/emulator, gesture-heavy, memory, and renderer-parity matrix.
 
 Impact: benchmark regressions can be caught locally for core geometry and web scrub timing, but H5/H6 should not claim native release-device performance until the native benchmark log is complete.
 
