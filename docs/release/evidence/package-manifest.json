@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "lastUpdated": "2026-05-05",
+  "packages": [
+    {
+      "dir": ".",
+      "name": "react-native-chart-kit",
+      "publishInBeta": true,
+      "requiredFiles": [
+        "LICENSE",
+        "README.md",
+        "dist/index.d.ts",
+        "dist/index.js",
+        "package.json",
+        "scripts/chartkit-codemod.mjs"
+      ]
+    },
+    {
+      "dir": "packages/core",
+      "name": "@chart-kit/core",
+      "publishInBeta": true,
+      "requiredFiles": [
+        "README.md",
+        "dist/index.d.ts",
+        "dist/index.js",
+        "package.json"
+      ]
+    },
+    {
+      "dir": "packages/svg-renderer",
+      "name": "@chart-kit/svg-renderer",
+      "publishInBeta": true,
+      "requiredFiles": [
+        "README.md",
+        "dist/index.d.ts",
+        "dist/index.js",
+        "package.json"
+      ]
+    },
+    {
+      "dir": "packages/react-native",
+      "name": "@chart-kit/react-native",
+      "publishInBeta": true,
+      "requiredFiles": [
+        "README.md",
+        "dist/index.d.ts",
+        "dist/index.js",
+        "dist/proPreview.d.ts",
+        "dist/proPreview.js",
+        "package.json"
+      ]
+    },
+    {
+      "dir": "packages/skia-renderer",
+      "name": "@chart-kit/skia-renderer",
+      "publishInBeta": false,
+      "requiredFiles": [
+        "README.md",
+        "dist/index.d.ts",
+        "dist/index.js",
+        "package.json"
+      ]
+    },
+    {
+      "dir": "packages/pro",
+      "name": "@chart-kit/pro",
+      "publishInBeta": false,
+      "requiredFiles": [
+        "README.md",
+        "dist/index.d.ts",
+        "dist/index.js",
+        "package.json"
+      ]
+    }
+  ]
+}

@@ -83,14 +83,13 @@ jobs:
             exit 1
           fi
 
-          if npm view "${PACKAGE_NAME}@${PACKAGE_VERSION}" version >/dev/null 2>&1; then
-            echo "${PACKAGE_NAME}@${PACKAGE_VERSION} is already published"
-            exit 1
-          fi
-
-          for PACKAGE_DIR in packages/core packages/svg-renderer packages/react-native; do
-            WORKSPACE_NAME=$(node -p "require('./${PACKAGE_DIR}/package.json').name")
-            WORKSPACE_VERSION=$(node -p "require('./${PACKAGE_DIR}/package.json').version")
+          for PACKAGE_DIR in $(node scripts/list-release-packages.mjs --publishable); do
+            PACKAGE_JSON="${PACKAGE_DIR}/package.json"
+            if [ "${PACKAGE_DIR}" = "." ]; then
+              PACKAGE_JSON="package.json"
+            fi
+            WORKSPACE_NAME=$(node -p "require('./${PACKAGE_JSON}').name")
+            WORKSPACE_VERSION=$(node -p "require('./${PACKAGE_JSON}').version")
 
             if npm view "${WORKSPACE_NAME}@${WORKSPACE_VERSION}" version >/dev/null 2>&1; then
               echo "${WORKSPACE_NAME}@${WORKSPACE_VERSION} is already published"
@@ -105,7 +104,7 @@ jobs:
 
       - name: Publish
         run: |
-          for PACKAGE_DIR in packages/core packages/svg-renderer packages/react-native .; do
+          for PACKAGE_DIR in $(node scripts/list-release-packages.mjs --publishable); do
             npm publish "${PACKAGE_DIR}" --access public --provenance --tag "${NPM_TAG}"
           done
         env:

@@ -1,70 +1,20 @@
 import { spawnSync } from "node:child_process";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 
 const repoRoot = process.cwd();
 const npmCache = path.join(repoRoot, ".tmp", "npm-pack-cache");
+const packageManifestPath = path.join(
+  repoRoot,
+  "docs/release/evidence/package-manifest.json"
+);
+const packageManifest = JSON.parse(await readFile(packageManifestPath, "utf8"));
+const packageChecks = packageManifest.packages ?? [];
 
-const packageChecks = [
-  {
-    dir: ".",
-    requiredFiles: [
-      "LICENSE",
-      "README.md",
-      "dist/index.d.ts",
-      "dist/index.js",
-      "package.json",
-      "scripts/chartkit-codemod.mjs"
-    ]
-  },
-  {
-    dir: "packages/core",
-    requiredFiles: [
-      "README.md",
-      "dist/index.d.ts",
-      "dist/index.js",
-      "package.json"
-    ]
-  },
-  {
-    dir: "packages/svg-renderer",
-    requiredFiles: [
-      "README.md",
-      "dist/index.d.ts",
-      "dist/index.js",
-      "package.json"
-    ]
-  },
-  {
-    dir: "packages/react-native",
-    requiredFiles: [
-      "README.md",
-      "dist/index.d.ts",
-      "dist/index.js",
-      "dist/proPreview.d.ts",
-      "dist/proPreview.js",
-      "package.json"
-    ]
-  },
-  {
-    dir: "packages/skia-renderer",
-    requiredFiles: [
-      "README.md",
-      "dist/index.d.ts",
-      "dist/index.js",
-      "package.json"
-    ]
-  },
-  {
-    dir: "packages/pro",
-    requiredFiles: [
-      "README.md",
-      "dist/index.d.ts",
-      "dist/index.js",
-      "package.json"
-    ]
-  }
-];
+if (!Array.isArray(packageChecks) || packageChecks.length === 0) {
+  throw new Error("Package manifest must define at least one package.");
+}
 
 const parsePackJson = (stdout) => {
   const trimmed = stdout.trim();
@@ -80,11 +30,37 @@ const parsePackJson = (stdout) => {
 const failures = [];
 
 for (const packageCheck of packageChecks) {
+  if (!packageCheck.dir || !packageCheck.name) {
+    failures.push("Package manifest entries must include dir and name.");
+    continue;
+  }
+
+  if (
+    !Array.isArray(packageCheck.requiredFiles) ||
+    packageCheck.requiredFiles.length === 0
+  ) {
+    failures.push(
+      `${packageCheck.dir}: package manifest entry must include requiredFiles.`
+    );
+    continue;
+  }
+
+  const packageDir = path.join(repoRoot, packageCheck.dir);
+  const packageJson = JSON.parse(
+    await readFile(path.join(packageDir, "package.json"), "utf8")
+  );
+
+  if (packageJson.name !== packageCheck.name) {
+    failures.push(
+      `${packageCheck.dir}: manifest name ${packageCheck.name} does not match package.json name ${packageJson.name}`
+    );
+  }
+
   const result = spawnSync(
     "npm",
     ["pack", "--dry-run", "--json", "--ignore-scripts", "--cache", npmCache],
     {
-      cwd: path.join(repoRoot, packageCheck.dir),
+      cwd: packageDir,
       encoding: "utf8"
     }
   );

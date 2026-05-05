@@ -25,6 +25,7 @@ const requiredFiles = [
   "docs/release/native-runtime-qa.md",
   "docs/release/accessibility-qa.md",
   "docs/release/evidence/native-accessibility-qa.json",
+  "docs/release/evidence/package-manifest.json",
   "docs/release/evidence/native-performance-benchmark.json",
   "docs/release/evidence/native-runtime-qa.json",
   "docs/release/evidence/owner-gates.json",

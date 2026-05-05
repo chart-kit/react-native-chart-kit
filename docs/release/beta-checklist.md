@@ -9,6 +9,7 @@ This checklist tracks CKV2-017 readiness. It is not approval to publish; H5 stil
 - Current modern workspace package: `@chart-kit/react-native`
 - Package strategy: `react-native-chart-kit` remains the compatibility path; `@chart-kit/react-native` is the modern v2 API for new adopters
 - Dist-tag target for first public test: `beta`
+- Publish manifest: [package-manifest.json](evidence/package-manifest.json) is the source of truth for beta-publishable packages. It currently publishes the root compatibility package, `@chart-kit/core`, `@chart-kit/svg-renderer`, and `@chart-kit/react-native`; it pack-checks but does not beta-publish `@chart-kit/skia-renderer` or `@chart-kit/pro`.
 
 ## Required Checks
 
@@ -46,7 +47,7 @@ The `test:e2e` command covers web showcase interaction flows. The example comman
 
 The `docs:build` command validates local links, balanced code fences, JS/TS markdown fence syntax, and public TS/TSX docs examples. Integrated docs example coverage still runs through `npm run rn:typecheck`.
 
-The `pack:check` command runs `npm pack --dry-run --json --ignore-scripts` for the root package and every workspace package, using a repo-local temp npm cache. It verifies the publishable file lists include package metadata, README files, built `dist` entrypoints, and the modern `pro-preview` subpath artifacts.
+The `pack:check` command runs `npm pack --dry-run --json --ignore-scripts` for every package in the release package manifest, using a repo-local temp npm cache. It verifies package names, package metadata, README files, built `dist` entrypoints, and the modern `pro-preview` subpath artifacts. The publish workflow reads the same manifest for the beta publish list so preview-only packages cannot be published by an unrelated hardcoded loop.
 
 ## Manual Review
 

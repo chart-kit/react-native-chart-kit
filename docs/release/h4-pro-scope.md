@@ -67,6 +67,8 @@ react-native-chart-kit          # compatibility package and migration bridge
 
 `npm run surface:check` now also verifies that public docs, showcase source, and docs-example type fixtures do not import explicit Pro-preview-only exports from the main modern package barrel.
 
+The beta publish list is controlled by [package-manifest.json](evidence/package-manifest.json). `@chart-kit/skia-renderer` and `@chart-kit/pro` remain pack-checked preview packages with `publishInBeta: false` until H4 approves the final Pro/package split.
+
 Implementation principles:
 
 - keep free components free of license checks
