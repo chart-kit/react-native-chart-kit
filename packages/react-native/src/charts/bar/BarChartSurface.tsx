@@ -74,6 +74,7 @@ export const BarChartSurface = <TData,>({
     selectedBarKey,
     state: selectionAnimationState
   });
+  const shouldCoverSelectionGrid = !shouldRenderGridLines;
 
   return (
     <View collapsable={false} style={{ width, height }} {...responderProps}>
@@ -141,6 +142,17 @@ export const BarChartSurface = <TData,>({
             : null}
         </SvgLayer>
         <SvgLayer name="data">
+          {shouldCoverSelectionGrid ? (
+            <SvgRect
+              x={boxes.plot.x}
+              y={boxes.plot.y}
+              width={boxes.plot.width}
+              height={boxes.plot.height}
+              rx={6}
+              fill={resolvedTheme.plotBackground}
+              testID={createSvgTestId("bar-chart-selection-grid-cover")}
+            />
+          ) : null}
           {bars.map((bar) => {
             const strokeOpacity = getAnimatedBarSelectionStrokeOpacity({
               barKey: bar.key,

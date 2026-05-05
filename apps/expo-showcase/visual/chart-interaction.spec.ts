@@ -107,6 +107,9 @@ test.describe("Expo showcase chart interactions", () => {
 
     const gridLines = page.getByTestId("chart-layer.grid").locator("line");
     await expect(gridLines).toHaveCount(0);
+    await expect(
+      page.getByTestId("bar-chart-selection-grid-cover")
+    ).toBeVisible();
 
     await page.getByTestId("bar-chart-bar.organic.1").click();
     await expect(page.getByText("Organic: 48k")).toBeVisible();
@@ -127,6 +130,9 @@ test.describe("Expo showcase chart interactions", () => {
 
     await page.mouse.click(chartBox.x + 12, chartBox.y + 12);
     await expect(page.getByText("Organic: 48k")).toHaveCount(0);
+    await expect(
+      page.getByTestId("bar-chart-selection-grid-cover")
+    ).toHaveCount(0);
     await expect(gridLines.first()).toHaveAttribute("stroke-opacity", "0.78");
   });
 
@@ -138,6 +144,9 @@ test.describe("Expo showcase chart interactions", () => {
 
     await expect(page.getByText("Spend inspection")).toBeVisible();
     await expect(page.getByText("Spend: $54k")).toBeVisible();
+    await expect(
+      page.getByTestId("bar-chart-selection-grid-cover")
+    ).toBeVisible();
 
     await page.getByTestId("bar-chart-bar.spend.16").click();
     await expect(page.getByText("Spend: $61k")).toBeVisible();
