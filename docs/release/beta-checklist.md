@@ -22,6 +22,7 @@ npm run test:e2e
 npm run test:visual
 npm run benchmark
 npm run surface:check
+npm run release:gate:report
 npm run docs:build
 npm run example:rn-cli:typecheck
 npm run native:release:dry-run
@@ -36,6 +37,7 @@ Manual example commands:
 - `npm run example:rn-cli:typecheck` verifies the non-Expo RN CLI app source and Metro import aliases.
 - `npm run native:release:dry-run` prints the generated native release-build commands without requiring local native projects.
 - `npm run native:release:android` and `npm run native:release:ios` run the release-build checks documented in [Native release checks](native-release-checks.md).
+- `npm run release:gate:report` prints the current H4/H5/H6 blockers without failing; `npm run release:gate` is the strict publish gate and should fail until the blockers are resolved.
 
 The `test:e2e` command covers web showcase interaction flows. The example commands are not native release-build checks and must not be counted as passing automated native coverage.
 

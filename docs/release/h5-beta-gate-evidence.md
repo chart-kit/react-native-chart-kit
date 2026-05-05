@@ -27,6 +27,7 @@ Commands refreshed on May 5, 2026. The `test:e2e` row was added after promoting 
 | Visual regression      | `npm run test:visual`              | Passed: 94 Playwright tests                                                                         |
 | Benchmark              | `npm run benchmark`                | Passed: core geometry scenarios plus web showcase scrub timing                                      |
 | Public surface audit   | `npm run surface:check`            | Passed: `react-native-chart-kit` compatibility exports and `@chart-kit/react-native` modern exports |
+| Release gate report    | `npm run release:gate:report`      | Runs and reports remaining H4/H5/H6/native/Skia blockers without failing                            |
 | Docs verification      | `npm run docs:build`               | Passed: markdown, JS/TS fence, and public TS/TSX example validation                                 |
 | RN CLI example source  | `npm run example:rn-cli:typecheck` | Passed: non-Expo app source and local package aliases type-check                                    |
 | Native release dry-run | `npm run native:release:dry-run`   | Passed: prints Expo prebuild, Android Gradle release, CocoaPods, and iOS xcodebuild commands        |
