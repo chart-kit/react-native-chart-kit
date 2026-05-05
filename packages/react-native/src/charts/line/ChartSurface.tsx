@@ -380,9 +380,7 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
           {animatedTooltip
             ? props.renderTooltip
               ? props.renderTooltip(animatedTooltip)
-              : isSvgRenderer
-                ? renderDefaultTooltip(animatedTooltip)
-                : null
+              : renderDefaultTooltip(animatedTooltip, renderer)
             : null}
         </Layer>
         {debugLayout && debugLayoutModel && isSvgRenderer ? (

@@ -34,6 +34,7 @@ import {
   getLineChartRenderer,
   lineChartSvgRenderer
 } from "../src/charts/line/renderer";
+import { renderDefaultTooltip } from "../src/charts/line/defaultTooltip";
 import { renderConfiguredLegend } from "../src/charts/line/legend";
 import { renderDefaultDot } from "../src/charts/line/markers";
 import { resolveCartesianChartThemeConfig } from "../src/theme/presets";
@@ -45,7 +46,8 @@ import {
 import type {
   LineChartDotRenderProps,
   LineChartLegendRenderProps,
-  LineChartRenderer
+  LineChartRenderer,
+  LineChartTooltipRenderProps
 } from "../src/charts/line/LineChart";
 import type { ResolvedLineChartLegendConfig } from "../src/charts/line/types";
 import type { LineChartModel } from "../src/charts/line/useChartModel";
@@ -187,6 +189,56 @@ const defaultLegendProps: LineChartLegendRenderProps = {
   width: 80,
   x: 0,
   y: 0
+};
+
+const defaultTooltipProps: LineChartTooltipRenderProps<
+  Record<string, unknown>
+> = {
+  config: {
+    backgroundColor: "#ffffff",
+    borderColor: "#cbd5e1",
+    borderRadius: 8,
+    fontFamily: undefined,
+    fontSize: 12,
+    labelColor: "#64748b",
+    labelFontSize: 12,
+    padding: 10,
+    positionAnimationDuration: 220,
+    shadowColor: "#020617",
+    shadowOffsetX: 0,
+    shadowOffsetY: 2,
+    shadowOpacity: 0.08,
+    shared: true,
+    textColor: "#0f172a",
+    visible: true,
+    width: undefined
+  },
+  height: 62,
+  index: 0,
+  series: [
+    {
+      color: "#2563eb",
+      formattedValue: "$57k",
+      key: "actual",
+      label: "Actual",
+      point: {
+        dataIndex: 0,
+        defined: true,
+        index: 0,
+        seriesKey: "actual",
+        value: 57,
+        x: 42,
+        xValue: "Jan",
+        y: 80
+      },
+      value: 57
+    }
+  ],
+  theme: resolveCartesianChartThemeConfig({ mode: "light" }),
+  width: 124,
+  x: 16,
+  xLabel: "Jan 2026",
+  y: 20
 };
 
 describe("LineChart renderer adapter", () => {
@@ -338,6 +390,62 @@ describe("LineChart renderer adapter", () => {
             ...skiaLikeRenderer.capabilities,
             text: false
           }
+        }
+      })
+    ).toBeNull();
+  });
+
+  it("renders the default tooltip through injected primitives", () => {
+    const tooltip = renderDefaultTooltip(defaultTooltipProps, skiaLikeRenderer);
+    const tooltipChildren = getFragmentChildren(tooltip);
+    const seriesChildren = getFragmentChildren(tooltipChildren[3]);
+
+    expect(tooltipChildren).toHaveLength(4);
+    expect(tooltipChildren[0]?.props).toMatchObject({
+      fill: "#020617",
+      height: 62,
+      opacity: 0.08,
+      width: 124,
+      x: 16,
+      y: 22
+    });
+    expect(tooltipChildren[1]?.props).toMatchObject({
+      fill: "#ffffff",
+      height: 62,
+      rx: 8,
+      stroke: "#cbd5e1",
+      width: 124,
+      x: 16,
+      y: 20
+    });
+    expect(tooltipChildren[2]?.props).toMatchObject({
+      fill: "#64748b",
+      fontSize: 12,
+      text: "Jan 2026",
+      x: 26,
+      y: 42
+    });
+    expect(seriesChildren).toHaveLength(2);
+    expect(seriesChildren[0]?.props).toMatchObject({
+      cx: 29,
+      fill: "#2563eb",
+      r: 3
+    });
+    expect(seriesChildren[1]?.props).toMatchObject({
+      fill: "#0f172a",
+      fontSize: 12,
+      text: "Actual: $57k",
+      x: 38
+    });
+  });
+
+  it("skips the default tooltip for renderers without text support", () => {
+    expect(
+      renderDefaultTooltip(defaultTooltipProps, {
+        ...skiaLikeRenderer,
+        capabilities: {
+          ...skiaLikeRenderer.capabilities,
+          text: false
         }
       })
     ).toBeNull();
