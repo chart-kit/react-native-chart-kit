@@ -69,6 +69,7 @@ Benchmark scope covers core geometry plus one web showcase scrub timing scenario
 | Docs example checks     | `npm run docs:build`; `packages/react-native/test/docs-examples.typecheck.tsx`; `npm run rn:typecheck`                                                              | Syntax-covered for every JS/TS markdown fence; type-covered for public docs and representative integrated examples  |
 | Issue list              | [Known issues](known-issues.md)                                                                                                                                     | Covered                                                                                                             |
 | Benchmark results       | `npm run benchmark`; this document                                                                                                                                  | Covered for core geometry and web scrub timing                                                                      |
+| Native performance plan | [Native performance benchmark protocol](native-performance-benchmark.md)                                                                                            | Protocol exists; release-device timing/FPS/memory evidence still pending                                            |
 | Native release results  | [Native release results](native-release-results.md)                                                                                                                 | Partial: iOS passed locally; Android still needs Java-backed CI/local evidence                                      |
 | Native runtime QA       | [Native runtime QA protocol](native-runtime-qa.md); `npm run test:e2e`; `npm run test:visual`                                                                       | Protocol exists; manual iOS/Android gesture/runtime evidence still pending                                          |
 | Accessibility QA        | [Accessibility QA protocol](accessibility-qa.md); `packages/react-native/test/chart-accessibility.test.ts`; `packages/react-native/test/line-accessibility.test.ts` | Automated helper coverage exists; native VoiceOver/TalkBack evidence still pending                                  |
@@ -99,6 +100,7 @@ These are not covered by the green checks:
 - green native iOS release-build workflow artifact, despite local iOS release-build success
 - green native Android release-build workflow artifact
 - completed native runtime QA log beyond the web showcase interaction suite
+- completed native performance benchmark log for release builds on iOS and Android
 - generated native RN CLI `ios/` and `android/` release-build projects
 - Skia renderer and Pro package split
 - final free-vs-Pro boundary for animation, range selector, zoom, and financial features

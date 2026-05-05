@@ -30,6 +30,12 @@ The [H4 Pro scope decision packet](h4-pro-scope.md) proposes the package boundar
 
 Impact: H4/H5 must decide which features stay free, which move to Pro, and how to avoid making the free library feel intentionally limited.
 
+## Native Performance Evidence
+
+`npm run benchmark` covers core geometry and web showcase scrub timing. The [Native performance benchmark protocol](native-performance-benchmark.md) defines the release-device measurements needed for iOS and Android, including frame timing, memory, renderer, data size, and gesture scenarios.
+
+Impact: benchmark regressions can be caught locally for core geometry and web scrub timing, but H5/H6 should not claim native release-device performance until the native benchmark log is complete.
+
 ## Candlestick Scope
 
 `CandlestickChart` currently supports OHLC body and wick geometry, opt-in volume overlays, opt-in calendar-aware session-gap markers for dated candles, scrollable long-history mode, viewport windowing with pan/pinch preview gestures, interactive range selector overview, baseline OHLC accessibility helpers, and tap inspection with an OHLC tooltip plus close-price badge. It does not yet include named exchange calendar presets or advanced financial narratives.

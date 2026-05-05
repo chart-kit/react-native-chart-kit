@@ -40,6 +40,7 @@ These docs describe the current v2 preview implementation in this repository. Th
 - [H5 owner decision memo](release/h5-owner-decision-memo.md)
 - [Native release checks](release/native-release-checks.md)
 - [Native release results](release/native-release-results.md)
+- [Native performance benchmark protocol](release/native-performance-benchmark.md)
 - [Native runtime QA protocol](release/native-runtime-qa.md)
 - [Known issues](release/known-issues.md)
 - [Completion audit](internal/completion-audit.md)

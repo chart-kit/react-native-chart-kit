@@ -53,6 +53,7 @@ The `docs:build` command validates local links, balanced code fences, JS/TS mark
 ## Release Artifacts
 
 - [Accessibility QA protocol](accessibility-qa.md)
+- [Native performance benchmark protocol](native-performance-benchmark.md)
 - [Native runtime QA protocol](native-runtime-qa.md)
 - [Migration guide](../migration/from-v1.md)
 - `chartkit-codemod v1-to-v2`
