@@ -21,6 +21,7 @@ Concrete success criteria:
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
 | Repository audit                | `docs/internal/repo-audit.md`, `docs/internal/current-api-inventory.md`, `docs/internal/compatibility-matrix-draft.md`                                                 | Covered                                                                                                         |
 | H0/H1 decisions                 | `docs/internal/h0-h1-decisions.md`                                                                                                                                     | Covered for initial package and compatibility direction                                                         |
+| H4 decision packet              | `docs/release/h4-pro-scope.md`                                                                                                                                         | Drafted for owner review; approval still missing                                                                |
 | Monorepo foundation             | `packages/core`, `packages/svg-renderer`, `packages/react-native`, `apps/expo-showcase`                                                                                | Covered                                                                                                         |
 | Required commands               | `package.json` scripts for lint, typecheck, test, visual, compat, e2e, benchmark, examples, docs, native release dry-run                                               | Covered, except native release builds require native toolchains                                                 |
 | Core model/scales/layout        | `packages/core/src`, unit tests under `packages/core/test`                                                                                                             | Covered for current chart scope                                                                                 |
@@ -44,25 +45,25 @@ Concrete success criteria:
 
 ## Missing Or Not Fully Verified
 
-| Requirement                  | Missing evidence                                                       | Why it matters                                                                                |
-| ---------------------------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| Native iOS release build     | Local release build passed, but no green native workflow artifact      | Required before production beta/RC confidence                                                 |
-| Native Android release build | No successful Gradle release build artifact                            | Required before production beta/RC confidence                                                 |
-| Native e2e/runtime QA        | Only web Playwright e2e is automated                                   | Gestures, scroll conflicts, text rendering, and release behavior can differ on device         |
-| RN CLI native projects       | No generated RN CLI `ios/` or `android/` projects are checked in       | Source-level RN CLI example exists, but release-build evidence still requires native projects |
-| H4 Pro scope                 | No owner-approved Pro/free boundary or package/license implementation  | Required before labeling animation/range/zoom/financial/Skia features as free or Pro          |
-| Skia renderer                | No `packages/skia-renderer` implementation                             | Spec lists this as Pro/performance scope                                                      |
-| Native performance benchmark | No release-device timing/FPS/memory data                               | Current benchmark is core geometry plus web scrub timing                                      |
-| Screen-reader QA             | No iOS VoiceOver/Android TalkBack evidence                             | Accessibility helpers exist, but native assistive-tech behavior is not verified               |
-| Candlestick market sessions  | No market-session gap handling                                         | Financial chart remains preview, not a complete Pro financial chart                           |
-| H5 approval                  | Owner has not approved beta publication                                | Beta cannot be claimed published/approved                                                     |
-| H6 approval                  | No RC approval, final semver, final release notes, final visual freeze | Release candidate cannot be claimed                                                           |
+| Requirement                  | Missing evidence                                                                        | Why it matters                                                                                |
+| ---------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Native iOS release build     | Local release build passed, but no green native workflow artifact                       | Required before production beta/RC confidence                                                 |
+| Native Android release build | No successful Gradle release build artifact                                             | Required before production beta/RC confidence                                                 |
+| Native e2e/runtime QA        | Only web Playwright e2e is automated                                                    | Gestures, scroll conflicts, text rendering, and release behavior can differ on device         |
+| RN CLI native projects       | No generated RN CLI `ios/` or `android/` projects are checked in                        | Source-level RN CLI example exists, but release-build evidence still requires native projects |
+| H4 Pro scope                 | Draft exists, but no owner-approved Pro/free boundary or package/license implementation | Required before labeling animation/range/zoom/financial/Skia features as free or Pro          |
+| Skia renderer                | No `packages/skia-renderer` implementation                                              | Spec lists this as Pro/performance scope                                                      |
+| Native performance benchmark | No release-device timing/FPS/memory data                                                | Current benchmark is core geometry plus web scrub timing                                      |
+| Screen-reader QA             | No iOS VoiceOver/Android TalkBack evidence                                              | Accessibility helpers exist, but native assistive-tech behavior is not verified               |
+| Candlestick market sessions  | No market-session gap handling                                                          | Financial chart remains preview, not a complete Pro financial chart                           |
+| H5 approval                  | Owner has not approved beta publication                                                 | Beta cannot be claimed published/approved                                                     |
+| H6 approval                  | No RC approval, final semver, final release notes, final visual freeze                  | Release candidate cannot be claimed                                                           |
 
 ## Current Gate Position
 
 - H0/H1: covered by prior decisions.
 - H2/H3: preview implementation and API are reviewable; final design/API freeze still belongs to beta/RC review.
-- H4: open. Pro package, Skia, licensing, and free-vs-Pro boundaries need owner decision.
+- H4: open. The decision packet exists, but Pro package, Skia, licensing, and free-vs-Pro boundaries need owner approval.
 - H5: open. Evidence packet exists, but recommendation remains "keep iterating before npm beta" unless owner explicitly accepts native gaps for an API-preview beta.
 - H6: not started. RC requires native release-build evidence, final semver, final changelog, docs freeze, and owner approval.
 

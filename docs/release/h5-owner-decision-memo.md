@@ -6,7 +6,7 @@ This memo converts the H5 beta gate into explicit choices. It is a recommendatio
 
 Do not publish the beta package yet. Approve the preview implementation for continued beta preparation, then finish the remaining native and Pro-scope caveats before publishing.
 
-Reason: the implementation, showcase, docs, tests, visual coverage, benchmark, support workflow, release checklist, and package path are in place, but native release-build coverage and the free-vs-Pro feature boundary are not final.
+Reason: the implementation, showcase, docs, tests, visual coverage, benchmark, support workflow, release checklist, and package path are in place, but Android release-build coverage and the free-vs-Pro feature boundary are not final.
 
 The current export surface is guarded by `npm run surface:check`. That check verifies the legacy `react-native-chart-kit` root exports and the modern `@chart-kit/react-native` exports.
 
@@ -18,7 +18,7 @@ Rationale:
 
 - verification is strong for web showcase and TypeScript surfaces
 - native release-build checks are configured and iOS passed locally, but Android still needs a successful Java-backed build and no green native workflow artifact is recorded yet
-- Pro/free feature boundary is not final
+- the [H4 Pro scope decision packet](h4-pro-scope.md) is ready for owner review, but not approved
 
 Acceptable owner override: publish a limited preview beta only if the beta is clearly labeled as API-preview and not production-ready.
 

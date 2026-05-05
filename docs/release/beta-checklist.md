@@ -59,6 +59,7 @@ The `docs:build` command validates local links, balanced code fences, JS/TS mark
 - [Production recipes](../recipes/README.md)
 - [Troubleshooting guide](../troubleshooting.md)
 - [Known issues](known-issues.md)
+- [H4 Pro scope decision packet](h4-pro-scope.md)
 - [H5 beta gate evidence](h5-beta-gate-evidence.md)
 - [H5 owner decision memo](h5-owner-decision-memo.md)
 - [Changelog](../../CHANGELOG.md)
