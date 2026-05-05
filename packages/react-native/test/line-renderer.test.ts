@@ -21,6 +21,10 @@ vi.mock("@chart-kit/svg-renderer", () => {
     SvgRect: MockPrimitive,
     SvgSurface: MockPrimitive,
     SvgText: MockPrimitive,
+    createSvgTextMeasurer: () => (text: string) => ({
+      height: 14,
+      width: text.length * 7
+    }),
     createSvgTestId: (...parts: Array<string | number>) =>
       parts.map(String).join(".")
   };
@@ -30,6 +34,7 @@ import {
   getLineChartRenderer,
   lineChartSvgRenderer
 } from "../src/charts/line/renderer";
+import { renderConfiguredLegend } from "../src/charts/line/legend";
 import { renderDefaultDot } from "../src/charts/line/markers";
 import { resolveCartesianChartThemeConfig } from "../src/theme/presets";
 import {
@@ -39,8 +44,10 @@ import {
 } from "../src/charts/line/thresholdRendering";
 import type {
   LineChartDotRenderProps,
+  LineChartLegendRenderProps,
   LineChartRenderer
 } from "../src/charts/line/LineChart";
+import type { ResolvedLineChartLegendConfig } from "../src/charts/line/types";
 import type { LineChartModel } from "../src/charts/line/useChartModel";
 import type { SkiaRenderer } from "../../skia-renderer/src/types";
 
@@ -124,6 +131,62 @@ const skiaLikeRenderer: LineChartRenderer = {
     text: true
   },
   name: "skia-test"
+};
+
+const defaultLegendConfig: ResolvedLineChartLegendConfig = {
+  align: "start",
+  fontFamily: undefined,
+  fontSize: 12,
+  itemGap: 20,
+  itemPaddingHorizontal: 0,
+  itemPaddingVertical: 0,
+  labelColor: "#0f172a",
+  labelGap: 6,
+  marker: "square",
+  markerSize: 8,
+  padding: 0,
+  position: "top",
+  renderItem: undefined,
+  renderLegend: undefined,
+  rowGap: 8,
+  visible: true,
+  wrap: true
+};
+
+const defaultLegendProps: LineChartLegendRenderProps = {
+  align: "start",
+  height: 24,
+  items: [
+    {
+      color: "#2563eb",
+      contentHeight: 24,
+      contentWidth: 64,
+      contentX: 8,
+      contentY: 4,
+      fontSize: 12,
+      height: 24,
+      index: 0,
+      key: "price",
+      label: "Price",
+      labelColor: "#0f172a",
+      labelGap: 6,
+      marker: "square",
+      markerSize: 8,
+      paddingHorizontal: 0,
+      paddingVertical: 0,
+      strokeLinecap: "round",
+      strokeOpacity: 0.82,
+      strokeWidth: 3,
+      width: 80,
+      x: 0,
+      y: 0
+    }
+  ],
+  position: "top",
+  theme: resolveCartesianChartThemeConfig({ mode: "light" }),
+  width: 80,
+  x: 0,
+  y: 0
 };
 
 describe("LineChart renderer adapter", () => {
@@ -233,5 +296,50 @@ describe("LineChart renderer adapter", () => {
       },
       type: ElementPrimitive
     });
+  });
+
+  it("renders the default legend through injected primitives", () => {
+    const legend = renderConfiguredLegend({
+      config: defaultLegendConfig,
+      legend: defaultLegendProps,
+      renderer: skiaLikeRenderer
+    });
+    const legendItems = getFragmentChildren(legend);
+    const itemChildren = getFragmentChildren(legendItems[0]);
+
+    expect(legendItems).toHaveLength(1);
+    expect(itemChildren).toHaveLength(2);
+    expect(itemChildren[0]?.props).toMatchObject({
+      fill: "#2563eb",
+      height: 8,
+      opacity: 0.82,
+      stroke: "#2563eb",
+      width: 8,
+      x: 8,
+      y: 12
+    });
+    expect(itemChildren[1]?.props).toMatchObject({
+      fill: "#0f172a",
+      fontSize: 12,
+      text: "Price",
+      x: 22,
+      y: 20.32
+    });
+  });
+
+  it("skips the default legend for renderers without text support", () => {
+    expect(
+      renderConfiguredLegend({
+        config: defaultLegendConfig,
+        legend: defaultLegendProps,
+        renderer: {
+          ...skiaLikeRenderer,
+          capabilities: {
+            ...skiaLikeRenderer.capabilities,
+            text: false
+          }
+        }
+      })
+    ).toBeNull();
   });
 });

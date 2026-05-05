@@ -1,6 +1,5 @@
 import { layoutLegend, solveChartBoxes } from "@chart-kit/core";
 import type { Size } from "@chart-kit/core";
-import { SvgGroup, SvgLine, SvgSymbol, SvgText } from "@chart-kit/svg-renderer";
 
 import type { ResolvedCartesianChartTheme } from "../../theme";
 import type {
@@ -9,6 +8,7 @@ import type {
   LineChartLegendRenderProps,
   LineChartLegendPosition,
   LineChartProps,
+  LineChartRenderer,
   ResolvedLineChartLegendConfig
 } from "./types";
 import { getFontFamilyProps } from "./text";
@@ -95,15 +95,18 @@ export const getLegendY = ({
   return Math.max(8, boxes.plot.y - legendHeight - 8);
 };
 
-const renderDefaultLegendItem = (item: LineChartLegendRenderItem) => {
+const renderDefaultLegendItem = (
+  item: LineChartLegendRenderItem,
+  renderer: LineChartRenderer
+) => {
   const markerCenterY = item.contentY + item.contentHeight / 2;
-  const markerShape = item.marker === "line" ? "line" : item.marker;
   const legendLineStrokeWidth = Math.min(3, Math.max(1.5, item.strokeWidth));
+  const { Circle, Group, Line, Rect, Text } = renderer;
 
   return (
-    <SvgGroup key={`legend-${item.key}`}>
+    <Group key={`legend-${item.key}`}>
       {item.marker === "line" ? (
-        <SvgLine
+        <Line
           x1={item.contentX}
           x2={item.contentX + item.markerSize}
           y1={markerCenterY}
@@ -116,50 +119,68 @@ const renderDefaultLegendItem = (item: LineChartLegendRenderItem) => {
             ? { strokeDasharray: item.strokeDasharray }
             : {})}
         />
-      ) : (
-        <SvgSymbol
-          shape={markerShape}
-          x={item.contentX + item.markerSize / 2}
-          y={markerCenterY}
-          size={item.markerSize}
+      ) : item.marker === "circle" ? (
+        <Circle
+          cx={item.contentX + item.markerSize / 2}
+          cy={markerCenterY}
+          r={item.markerSize / 2}
           fill={item.color}
           opacity={item.strokeOpacity}
           stroke={item.color}
-          cornerRadius={2}
+        />
+      ) : (
+        <Rect
+          x={item.contentX}
+          y={markerCenterY - item.markerSize / 2}
+          width={item.markerSize}
+          height={item.markerSize}
+          rx={2}
+          fill={item.color}
+          opacity={item.strokeOpacity}
+          stroke={item.color}
         />
       )}
-      <SvgText
+      <Text
         x={item.contentX + item.markerSize + item.labelGap}
         y={item.contentY + item.contentHeight / 2 + item.fontSize * 0.36}
         fill={item.labelColor}
         fontSize={item.fontSize}
+        text={item.label}
         {...getFontFamilyProps(item.fontFamily)}
       >
         {item.label}
-      </SvgText>
-    </SvgGroup>
+      </Text>
+    </Group>
   );
 };
 
 export const renderConfiguredLegend = ({
   legend,
-  config
+  config,
+  renderer
 }: {
   legend: LineChartLegendRenderProps;
   config: ResolvedLineChartLegendConfig;
+  renderer: LineChartRenderer;
 }) => {
   if (config.renderLegend) {
     return config.renderLegend(legend);
   }
 
+  if (!config.renderItem && renderer.capabilities?.text === false) {
+    return null;
+  }
+
+  const { Group } = renderer;
+
   return (
-    <SvgGroup>
+    <Group>
       {legend.items.map((item) =>
         config.renderItem
           ? config.renderItem(item)
-          : renderDefaultLegendItem(item)
+          : renderDefaultLegendItem(item, renderer)
       )}
-    </SvgGroup>
+    </Group>
   );
 };
 

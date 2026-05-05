@@ -343,10 +343,11 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
               />
             )
           ) : null}
-          {legendModel && isSvgRenderer
+          {legendModel
             ? renderConfiguredLegend({
                 legend: legendModel.renderProps,
-                config: legendModel.config
+                config: legendModel.config,
+                renderer
               })
             : null}
         </Layer>
