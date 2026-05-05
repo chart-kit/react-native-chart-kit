@@ -16,16 +16,17 @@ Prepare the first public beta decision packet for Chart Kit v2:
 
 ## Verification Evidence
 
-Commands refreshed on May 5, 2026:
+Commands refreshed on May 5, 2026. The `test:e2e` row was added after promoting the web-showcase interaction suite from a placeholder to a real command.
 
 | Requirement           | Evidence              | Result                                                                       |
 | --------------------- | --------------------- | ---------------------------------------------------------------------------- |
 | Lint                  | `npm run lint`        | Passed                                                                       |
 | TypeScript            | `npm run typecheck`   | Passed for root, core, SVG renderer, React Native package, and Expo showcase |
 | Unit and compat tests | `npm run test`        | Passed: 33 unit files, 196 unit tests, 1 compat file, 5 compat tests         |
+| Web e2e interactions  | `npm run test:e2e`    | Passed: Playwright showcase interaction flows                                |
 | Visual regression     | `npm run test:visual` | Passed: 87 Playwright tests                                                  |
 | Benchmark             | `npm run benchmark`   | Passed: core line and bar geometry scenarios                                 |
-| Docs verification     | `npm run docs:build`  | Passed: 47 markdown files                                                    |
+| Docs verification     | `npm run docs:build`  | Passed: 48 markdown files                                                    |
 | Package build         | `npm run build`       | Passed                                                                       |
 
 Latest benchmark highlights from `npm run benchmark`:
@@ -46,6 +47,7 @@ Benchmark scope is core geometry only. It does not measure native render time, g
 | Spec requirement       | Artifact or evidence                                                                                     | Coverage status                                                                |
 | ---------------------- | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
 | Passing test suite     | `npm run test`; unit tests under `packages/core/test` and `packages/react-native/test`                   | Covered for current unit and compatibility scope                               |
+| E2E command            | `npm run test:e2e`; `apps/expo-showcase/visual/chart-interaction.spec.ts`                                | Covered for web showcase interactions; not native runtime                      |
 | Visual baseline        | `apps/expo-showcase/visual/__screenshots__`; `npm run test:visual`                                       | Covered for 69 chart-story screenshots plus interaction tests                  |
 | Example app            | `apps/expo-showcase`; `npm run example:expo`; [Expo showcase README](../../apps/expo-showcase/README.md) | Available for manual phone review; not automated native release coverage       |
 | Migration guide        | [From v1](../migration/from-v1.md)                                                                       | Covered                                                                        |
@@ -79,14 +81,14 @@ These are not covered by the green checks:
 
 - native iOS release build
 - native Android release build
-- native e2e tests
+- native e2e tests beyond the web showcase interaction suite
 - React Native CLI example apps
 - standalone compiled docs snippets
 - Skia renderer and Pro package split
 - final public package/import path
 - final free-vs-Pro boundary for animation, range selector, zoom, and financial features
 
-The placeholder commands `npm run test:e2e`, `npm run example:ios`, and `npm run example:android` intentionally fail and must not be counted as passing checks.
+The placeholder commands `npm run example:ios` and `npm run example:android` intentionally fail and must not be counted as passing native checks.
 
 ## Owner Decisions Required
 

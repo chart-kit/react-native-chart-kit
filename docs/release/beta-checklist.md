@@ -18,6 +18,7 @@ Run these before requesting H5 review:
 npm run lint
 npm run typecheck
 npm run test
+npm run test:e2e
 npm run test:visual
 npm run benchmark
 npm run docs:build
@@ -26,11 +27,10 @@ npm run build
 
 Expected known exceptions:
 
-- `npm run test:e2e` is still a placeholder.
 - `npm run example:ios` is still a placeholder.
 - `npm run example:android` is still a placeholder.
 
-Those placeholders must not be counted as passing native release-build coverage.
+The `test:e2e` command covers web showcase interaction flows. It must not be counted as passing native release-build coverage.
 
 ## Manual Review
 

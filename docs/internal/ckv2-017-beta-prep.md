@@ -8,6 +8,7 @@ This slice adds concrete release-prep artifacts without publishing a beta.
 - added known issues list
 - added GitHub issue forms for layout, compatibility, and performance bugs
 - updated CI so pull requests run tests and docs verification, not only build/typecheck
+- made `npm run test:e2e` a real web-showcase Playwright interaction command
 - expanded the v7 changelog entry with v2 preview milestones
 
 ## Verification
@@ -16,11 +17,12 @@ This slice adds concrete release-prep artifacts without publishing a beta.
 - `npm run lint`
 - `npm run typecheck`
 - `npm run test`
+- `npm run test:e2e`
 - `npm run benchmark`
 
 ## Remaining H5 Inputs
 
 - final beta package/import path
-- whether native e2e and native release-build gaps are acceptable for beta
+- whether native e2e beyond the web showcase and native release-build gaps are acceptable for beta
 - whether candlestick remains public preview or waits for deeper financial-chart scope
 - final free-vs-Pro visibility for animation, range selector, and zoom workflows

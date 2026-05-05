@@ -50,6 +50,9 @@ jobs:
       - name: Test
         run: npm run test
 
+      - name: E2E
+        run: npm run test:e2e
+
       - name: Docs
         run: npm run docs:build
 

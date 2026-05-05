@@ -8,11 +8,13 @@ Android and iOS release-build tests are not configured yet. The Expo showcase ve
 
 Impact: beta can be used for preview and API feedback, but production users should wait for native release-build verification before treating v2 as stable.
 
-## E2E Coverage
+## Native E2E Coverage
 
-`npm run test:e2e`, `npm run example:ios`, and `npm run example:android` intentionally fail through placeholder commands. They are tracked gaps, not passing checks.
+`npm run test:e2e` covers web showcase interaction flows through Playwright. It does not cover native iOS or Android runtime behavior.
 
-Impact: CI cannot yet validate native navigation, release builds, or platform-specific gesture conflicts.
+`npm run example:ios` and `npm run example:android` intentionally fail through placeholder commands. They are tracked gaps, not passing checks.
+
+Impact: CI can validate web showcase interactions, but cannot yet validate native navigation, release builds, or platform-specific gesture conflicts.
 
 ## Package Naming
 

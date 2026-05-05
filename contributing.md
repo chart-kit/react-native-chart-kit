@@ -58,6 +58,7 @@ npm run showcase:typecheck
 npm run test
 npm run test:unit
 npm run test:compat
+npm run test:e2e
 npm run test:visual
 npm run benchmark
 npm run build
@@ -77,11 +78,11 @@ Command status:
 | `npm run test:unit`          | Working Vitest unit test command.                                   |
 | `npm run test:visual`        | Working alias for Expo showcase plus Playwright visual screenshots. |
 | `npm run test:compat`        | Working Vitest command for legacy compatibility fixtures.           |
-| `npm run test:e2e`           | Placeholder; native e2e tests not configured yet.                   |
+| `npm run test:e2e`           | Working Playwright command for showcase interaction flows.          |
 | `npm run benchmark`          | Working core geometry benchmark with line and bar scenarios.        |
 | `npm run example:ios`        | Placeholder; native iOS example not configured yet.                 |
 | `npm run example:android`    | Placeholder; native Android example not configured yet.             |
 | `npm run example:expo`       | Working Expo showcase app command for phone/device review.          |
 | `npm run docs:build`         | Working markdown docs verifier for local links and code fences.     |
 
-Placeholder commands intentionally exit with a non-zero status so CI cannot mistake missing coverage for a passing check.
+Placeholder example commands intentionally exit with a non-zero status so CI cannot mistake missing native example coverage for a passing check.
