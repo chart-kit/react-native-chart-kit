@@ -1,6 +1,6 @@
 # CKV2-015 Candlestick Foundation
 
-Status: in progress
+Status: foundation complete; H4 still needs to decide Pro packaging and licensing boundaries.
 
 Implemented in this slice:
 

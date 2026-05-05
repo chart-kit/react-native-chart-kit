@@ -41,4 +41,4 @@ Defaults:
 - `getCandlestickChartDataTable()` returns exact OHLC rows for accessible detail panels and exports
 - `getCandlestickChartAccessibilitySummary()` reports latest close, highest high, and lowest low
 
-This foundation does not yet include range selector controls, market-session gaps, or pinch zoom. Those remain in the next financial-chart slices.
+This foundation includes preview-grade range selection plus controlled pan and pinch-zoom windows. It does not yet include market-session gap handling or advanced financial narratives.

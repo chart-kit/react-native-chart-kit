@@ -121,7 +121,7 @@ Features used: stable date-to-cell mapping, month labels, weekday labels, color 
 
 ## OHLC Price Action
 
-Use this for the first financial-chart review surface. The current candlestick foundation includes tap inspection and a volume overlay, but does not yet include range controls.
+Use this for the first financial-chart review surface. The current candlestick foundation includes tap inspection, a volume overlay, scrollable histories, controlled viewport gestures, and a compact range selector overview.
 
 ```tsx
 <CandlestickChart
