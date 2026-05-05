@@ -65,6 +65,8 @@ react-native-chart-kit          # compatibility package and migration bridge
 
 `@chart-kit/react-native/pro-preview` now exists as an explicit preview entrypoint for current Pro-candidate workflows. It exposes the current advanced LineChart, BarChart, DonutChart, CombinedChart, CandlestickChart, and chart-selection surface while the main `@chart-kit/react-native` barrel stays focused on the free/baseline API. This is not license gating and does not decide the final paid boundary; it gives demos, docs, and `@chart-kit/pro` a clean target before runtime code moves.
 
+`npm run surface:check` now also verifies that public docs, showcase source, and docs-example type fixtures do not import explicit Pro-preview-only exports from the main modern package barrel.
+
 Implementation principles:
 
 - keep free components free of license checks

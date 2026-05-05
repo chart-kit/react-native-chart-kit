@@ -43,7 +43,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "surface:check": "node scripts/verify-public-surface.mjs && node scripts/verify-package-boundaries.mjs",
+    "surface:check": "node scripts/verify-public-surface.mjs && node scripts/verify-package-boundaries.mjs && node scripts/verify-pro-preview-imports.mjs",
     "boundaries:check": "node scripts/verify-package-boundaries.mjs",
     "test": "npm run typecheck && npm run test:unit && npm run test:compat",
     "test:unit": "vitest run --exclude \"packages/**/test/compat/**/*.test.ts\"",
