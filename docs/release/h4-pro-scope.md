@@ -44,7 +44,7 @@ These are reasonable Pro candidates because they are deeper product workflows, p
 | Interactions      | tooltips, crosshair, scrubbing, nearest-point selection, long press, selected-series highlighting, shared tooltips, zoom/pan, fixed Y-axis scrolling, brush/range selection    |
 | Commercial charts | Candlestick/OHLC, financial presets, combo bar + line, dual-axis, grouped bars, horizontal stacked bars, advanced donut, gauge, radar, treemap, advanced contribution heatmaps |
 | Export            | PNG/SVG export, snapshot API, share sheet integration, and future server-side/headless chart image generation                                                                  |
-| Themes/templates  | Apple Health style, Linear-style, fintech dark mode, analytics dashboard, minimal SaaS, fitness, crypto, accessibility-safe palettes, animated transitions                     |
+| Themes/templates  | beautiful presets, Apple Health style, Linear-style, fintech dark mode, analytics dashboard, minimal SaaS, fitness, crypto, accessibility-safe palettes, animated transitions  |
 | Performance       | large dataset mode, decimation/downsampling, virtualized or windowed rendering, memoized path generation, optional Skia renderer, native benchmarks in docs                    |
 | Enterprise        | accessibility reports, design-system token adapters, support matrices                                                                                                          |
 

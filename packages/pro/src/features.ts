@@ -102,6 +102,7 @@ export const chartKitProPreviewFeatures = [
       "Free v2 keeps good default, dark, high-contrast, and custom preset creation support.",
     id: "pro-theme-templates",
     includes: [
+      "beautiful presets",
       "Apple Health style",
       "Linear-style",
       "fintech dark mode",

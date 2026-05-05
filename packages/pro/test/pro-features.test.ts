@@ -75,6 +75,88 @@ describe("Chart Kit Pro preview boundary", () => {
     });
   });
 
+  it("locks the owner-proposed Pro monetization buckets into the registry", () => {
+    expect(getChartKitProFeature("pro-layout-engine")).toMatchObject({
+      includes: [
+        "smart Y-axis width measurement",
+        "no clipped labels under dense data",
+        "multiline, rotated, and ellipsized X labels",
+        "auto tick density",
+        "custom ticks",
+        "axis titles",
+        "fixed min/max ranges",
+        "nice numeric formatting",
+        "currency, percent, and compact formatting",
+        "true full-width plotting",
+        "responsive chart area",
+        "safe-area and small-screen handling"
+      ]
+    });
+    expect(getChartKitProFeature("pro-interactions")).toMatchObject({
+      includes: [
+        "tooltips",
+        "crosshair",
+        "scrubbing",
+        "nearest-point selection",
+        "click and press handlers",
+        "long press",
+        "highlight selected series",
+        "shared tooltip across multiple series",
+        "zoom and pan",
+        "scrollable charts with fixed Y-axis",
+        "brush and range selection"
+      ]
+    });
+    expect(getChartKitProFeature("pro-chart-types")).toMatchObject({
+      includes: [
+        "candlestick and OHLC",
+        "financial line chart presets",
+        "combo bar plus line",
+        "dual-axis charts",
+        "grouped bars",
+        "horizontal stacked bars",
+        "advanced donut",
+        "gauge",
+        "radar",
+        "treemap",
+        "advanced contribution graph and calendar heatmap"
+      ]
+    });
+    expect(getChartKitProFeature("pro-export")).toMatchObject({
+      includes: [
+        "export chart as PNG",
+        "export chart as SVG where feasible",
+        "share sheet integration",
+        "snapshot API",
+        "server-side or headless chart image generation"
+      ]
+    });
+    expect(getChartKitProFeature("pro-theme-templates")).toMatchObject({
+      includes: [
+        "beautiful presets",
+        "Apple Health style",
+        "Linear-style",
+        "fintech dark mode",
+        "analytics dashboard style",
+        "minimal SaaS style",
+        "fitness app style",
+        "crypto style",
+        "accessibility-safe palettes",
+        "animated transitions"
+      ]
+    });
+    expect(getChartKitProFeature("pro-performance")).toMatchObject({
+      includes: [
+        "large dataset mode",
+        "decimation and downsampling",
+        "virtualized or scrolling chart rendering",
+        "memoized path generation",
+        "optional Skia renderer",
+        "benchmarks in docs"
+      ]
+    });
+  });
+
   it("classifies free baseline and pro-candidate public surfaces", () => {
     expect(
       chartKitFreeBaselineSurface.map((surface) => surface.exportName)
