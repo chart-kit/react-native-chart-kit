@@ -7,11 +7,9 @@ const V2ProgressActivity = ({ width }: NativeStoryProps) => (
   <ChartSection title="Activity rings" kicker="Progress chart">
     <ProgressChart
       centerLabel={({ average }) => `${Math.round(average * 100)}%`}
-      colorKey="color"
       data={activityProgress}
       height={260}
       labelKey="metric"
-      preset="health"
       strokeWidth={16}
       testID="activity-progress-chart"
       valueKey="progress"
@@ -24,10 +22,8 @@ const V2ProgressSingle = ({ width }: NativeStoryProps) => (
   <ChartSection title="Setup completion" kicker="Progress ring">
     <ProgressRing
       centerLabel={`${Math.round(onboardingProgress * 100)}%`}
-      color="#2563eb"
       height={240}
       label="Workspace setup"
-      preset="analytics"
       ringGap={0}
       strokeWidth={18}
       value={onboardingProgress}

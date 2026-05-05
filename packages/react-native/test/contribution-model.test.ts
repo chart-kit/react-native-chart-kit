@@ -37,6 +37,31 @@ describe("ContributionGraph model", () => {
     });
   });
 
+  it("inherits heatmap colors from the app-level chart preset", () => {
+    const model = buildContributionGraphModel({
+      chartKitTheme: {
+        ...chartKitTheme,
+        preset: "minimal"
+      },
+      props: {
+        values: [
+          { date: "2026-04-01", count: 4 },
+          { date: "2026-04-02", count: 8 }
+        ],
+        endDate: "2026-04-07",
+        numDays: 7,
+        width: 320,
+        height: 150
+      }
+    });
+
+    expect(model.cells.find((cell) => cell.value === 8)).toMatchObject({
+      fill: "#111827",
+      opacity: 1
+    });
+    expect(model.cells.find((cell) => cell.value === 0)?.fill).toBe("#eceff3");
+  });
+
   it("supports custom color scales and Monday week starts", () => {
     const model = buildContributionGraphModel({
       chartKitTheme,

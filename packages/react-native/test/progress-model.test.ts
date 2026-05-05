@@ -45,6 +45,30 @@ describe("ProgressChart model", () => {
     expect(model.average).toBeCloseTo(0.7);
   });
 
+  it("inherits ring colors from the app-level chart preset", () => {
+    const model = buildProgressChartModel({
+      chartKitTheme: {
+        ...chartKitTheme,
+        preset: "minimal"
+      },
+      props: {
+        data: [
+          { label: "Move", value: 0.72 },
+          { label: "Exercise", value: 0.48 },
+          { label: "Stand", value: 0.9 }
+        ],
+        valueKey: "value",
+        labelKey: "label",
+        width: 320,
+        height: 260
+      }
+    });
+
+    expect(model.rings[0]?.color).toBe("#111827");
+    expect(model.rings[1]?.color).toBe("#64748b");
+    expect(model.resolvedTheme.grid).toBe("#eceff3");
+  });
+
   it("supports legacy progress data and hidden legends", () => {
     const model = buildProgressChartModel({
       chartKitTheme,

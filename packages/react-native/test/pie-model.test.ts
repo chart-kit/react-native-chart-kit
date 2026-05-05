@@ -39,6 +39,30 @@ describe("PieChart model", () => {
     expect(model.total).toBe(100);
   });
 
+  it("inherits arc colors from the app-level chart preset", () => {
+    const model = buildPieChartModel({
+      chartKitTheme: {
+        ...chartKitTheme,
+        preset: "minimal"
+      },
+      props: {
+        data: [
+          { channel: "Organic", share: 54 },
+          { channel: "Paid", share: 31 },
+          { channel: "Referral", share: 15 }
+        ],
+        valueKey: "share",
+        labelKey: "channel",
+        width: 320,
+        height: 260
+      }
+    });
+
+    expect(model.arcs[0]?.color).toBe("#111827");
+    expect(model.arcs[1]?.color).toBe("#64748b");
+    expect(model.resolvedTheme.grid).toBe("#eceff3");
+  });
+
   it("uses donut inner radius ratio and can hide legends", () => {
     const model = buildPieChartModel({
       chartKitTheme,

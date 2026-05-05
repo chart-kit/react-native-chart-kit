@@ -13,7 +13,6 @@ const V2ContributionUsage = ({ width }: NativeStoryProps) => (
       endDate={productUsageEndDate}
       height={162}
       numDays={productUsageNumDays}
-      preset="analytics"
       testID="product-usage-heatmap"
       values={productUsage}
       weekStartsOn={1}

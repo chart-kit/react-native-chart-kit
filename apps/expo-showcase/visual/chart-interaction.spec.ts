@@ -154,6 +154,49 @@ test.describe("Expo showcase chart interactions", () => {
     );
   });
 
+  test("slice, progress, and heatmap stories inherit app-level theme presets", async ({
+    page
+  }) => {
+    await page.goto("/?story=v2-pie-acquisition&visual=1&preset=minimal");
+    await page.evaluate(async () => {
+      await document.fonts?.ready;
+    });
+
+    await expect(page.getByText("Acquisition share")).toBeVisible();
+    await expect(page.getByTestId("pie-chart-slice.0")).toHaveAttribute(
+      "fill",
+      "#111827"
+    );
+    await expect(page.getByTestId("pie-chart-slice.1")).toHaveAttribute(
+      "fill",
+      "#64748b"
+    );
+
+    await page.goto("/?story=v2-progress-activity&visual=1&preset=minimal");
+    await page.evaluate(async () => {
+      await document.fonts?.ready;
+    });
+
+    await expect(page.getByText("Activity rings")).toBeVisible();
+    await expect(
+      page.getByTestId("activity-progress-chart-ring.0")
+    ).toHaveAttribute("stroke", "#111827");
+    await expect(
+      page.getByTestId("activity-progress-chart-ring.1")
+    ).toHaveAttribute("stroke", "#64748b");
+
+    await page.goto("/?story=v2-contribution-usage&visual=1&preset=minimal");
+    await page.evaluate(async () => {
+      await document.fonts?.ready;
+    });
+
+    await expect(page.getByText("Product usage")).toBeVisible();
+    const themedHeatmapCellCount = await page
+      .locator('[data-testid^="product-usage-heatmap-cell."][fill="#111827"]')
+      .count();
+    expect(themedHeatmapCellCount).toBeGreaterThan(0);
+  });
+
   test("horizontal bar chart shows every category label", async ({ page }) => {
     await page.goto("/?story=v2-bar-horizontal&visual=1");
     await page.evaluate(async () => {

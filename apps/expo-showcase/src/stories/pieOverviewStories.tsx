@@ -11,7 +11,6 @@ const V2PieAcquisition = ({ width }: NativeStoryProps) => (
       data={acquisitionShare}
       height={260}
       labelKey="channel"
-      preset="analytics"
       valueKey="share"
       width={width}
       formatPercentage={(value) => `${Math.round(value * 100)}%`}
@@ -26,7 +25,6 @@ const V2DonutRevenue = ({ width }: NativeStoryProps) => (
       data={subscriptionMix}
       height={260}
       labelKey="plan"
-      preset="fintech"
       valueKey="revenue"
       width={width}
       formatPercentage={(value) => `${Math.round(value * 100)}%`}
@@ -50,7 +48,6 @@ const V2SelectableDonut = ({ width }: NativeStoryProps) => {
           onSelect: (event) => setSelectedIndex(event.index)
         }}
         labelKey="plan"
-        preset="fintech"
         selectedIndex={selectedIndex}
         testID="selectable-donut-chart"
         valueKey="revenue"
