@@ -3,7 +3,7 @@
   "status": "partial",
   "requiredFor": ["H4", "H5", "H6"],
   "lastUpdated": "2026-05-05",
-  "summary": "The Skia preview package, injected primitive adapter, and local LineChart renderer contract coverage exist, but native install and renderer parity evidence are incomplete.",
+  "summary": "The Skia preview package, injected primitive adapter, and local renderer contract coverage exist, but native install and renderer parity evidence are incomplete.",
   "completedEntries": [
     {
       "date": "2026-05-05",
@@ -18,9 +18,15 @@
       "result": "partial-pass",
       "artifacts": [
         "packages/skia-renderer/test/skia-renderer.test.ts",
-        "packages/react-native/test/line-renderer.test.ts"
+        "packages/react-native/test/line-renderer.test.ts",
+        "packages/react-native/test/bar-renderer.test.ts",
+        "packages/react-native/test/pie-renderer.test.ts",
+        "packages/react-native/test/progress-renderer.test.ts",
+        "packages/react-native/test/contribution-renderer.test.ts",
+        "packages/react-native/test/combined-renderer.test.ts",
+        "packages/react-native/test/candlestick-renderer.test.ts"
       ],
-      "notes": "Local primitive tests plus LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, and CombinedChart renderer contract tests run through npm run skia:parity."
+      "notes": "Local primitive tests plus LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, CombinedChart, and CandlestickChart renderer contract tests run through npm run skia:parity."
     }
   ],
   "coveredSurfaces": [
@@ -56,13 +62,18 @@
     "CombinedChart axes and legend",
     "CombinedChart selection overlay",
     "CombinedChart default tooltip",
+    "CandlestickChart OHLC body",
+    "CandlestickChart volume bars",
+    "CandlestickChart session markers",
+    "CandlestickChart selection overlay",
+    "CandlestickChart default tooltip",
+    "CandlestickChart range selector",
     "debug-layout surfaces"
   ],
   "missingEvidence": [
     "native Skia install verification",
     "native renderer parity coverage",
     "sticky-axis font configuration evidence",
-    "native Skia benchmark comparison",
-    "remaining Pro-preview chart integration for CandlestickChart"
+    "native Skia benchmark comparison"
   ]
 }

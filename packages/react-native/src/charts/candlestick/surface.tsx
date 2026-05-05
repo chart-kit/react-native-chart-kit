@@ -1,26 +1,29 @@
-import {
-  SvgGroup,
-  SvgLayer,
-  SvgLine,
-  SvgRect,
-  SvgSurface,
-  SvgText
-} from "@chart-kit/svg-renderer";
+import type { ReactNode } from "react";
 
+import { getLineChartRenderer as getCandlestickChartRenderer } from "../line/renderer";
 import { getFontFamilyProps } from "../line/text";
 import { renderDefaultCandlestickTooltip } from "./tooltip";
 import type { CandlestickChartTooltipModel } from "./tooltipModel";
 import type {
   CandlestickChartCandleModel,
   CandlestickChartModel,
+  CandlestickChartRenderer,
   ResolvedCandlestickChartTooltipConfig
 } from "./types";
+
+const RendererLayer = ({
+  children
+}: {
+  children?: ReactNode;
+  name?: string;
+}) => <>{children}</>;
 
 export const CandlestickChartSurface = <TData,>({
   chartHeight,
   chartWidth,
   formatYLabel,
   model,
+  renderer: rendererProp,
   selectedCandle,
   testID,
   tooltipConfig,
@@ -30,6 +33,7 @@ export const CandlestickChartSurface = <TData,>({
   chartWidth: number;
   formatYLabel: (value: number) => string;
   model: CandlestickChartModel<TData>;
+  renderer?: CandlestickChartRenderer | undefined;
   selectedCandle: CandlestickChartCandleModel<TData> | undefined;
   testID?: string | undefined;
   tooltipConfig: ResolvedCandlestickChartTooltipConfig;
@@ -50,11 +54,22 @@ export const CandlestickChartSurface = <TData,>({
     yTicks
   } = model;
   const fontProps = getFontFamilyProps(resolvedTheme.typography.fontFamily);
+  const renderer = getCandlestickChartRenderer(rendererProp);
+  const Group = renderer.Group;
+  const Layer = renderer.Layer ?? RendererLayer;
+  const Line = renderer.Line;
+  const Rect = renderer.Rect;
+  const Surface = renderer.Surface;
+  const SvgText = renderer.Text;
+  const canRenderText = renderer.capabilities?.text !== false;
+  const selectedCloseLabel = selectedCandle
+    ? formatYLabel(selectedCandle.close)
+    : "";
 
   return (
-    <SvgSurface height={chartHeight} width={chartWidth}>
-      <SvgLayer name="background">
-        <SvgRect
+    <Surface height={chartHeight} width={chartWidth}>
+      <Layer name="background">
+        <Rect
           fill={resolvedTheme.background}
           height={chartHeight}
           rx={8}
@@ -62,7 +77,7 @@ export const CandlestickChartSurface = <TData,>({
           x={0}
           y={0}
         />
-        <SvgRect
+        <Rect
           fill={resolvedTheme.plotBackground}
           height={boxes.plot.height}
           rx={6}
@@ -70,11 +85,11 @@ export const CandlestickChartSurface = <TData,>({
           x={boxes.plot.x}
           y={boxes.plot.y}
         />
-      </SvgLayer>
-      <SvgLayer name="grid">
+      </Layer>
+      <Layer name="grid">
         {sessionGaps.map((gap) => (
-          <SvgGroup key={gap.key}>
-            <SvgRect
+          <Group key={gap.key}>
+            <Rect
               fill={gap.fill}
               height={gap.height}
               opacity={gap.fillOpacity}
@@ -82,7 +97,7 @@ export const CandlestickChartSurface = <TData,>({
               x={gap.x}
               y={gap.y}
             />
-            <SvgLine
+            <Line
               stroke={gap.stroke}
               strokeOpacity={gap.strokeOpacity}
               strokeWidth={gap.strokeWidth}
@@ -94,11 +109,11 @@ export const CandlestickChartSurface = <TData,>({
                 ? { strokeDasharray: gap.strokeDasharray }
                 : {})}
             />
-          </SvgGroup>
+          </Group>
         ))}
         {sessionEvents.map((event) => (
-          <SvgGroup key={event.key}>
-            <SvgRect
+          <Group key={event.key}>
+            <Rect
               fill={event.fill}
               height={event.height}
               opacity={event.fillOpacity}
@@ -106,7 +121,7 @@ export const CandlestickChartSurface = <TData,>({
               x={event.x}
               y={event.y}
             />
-            <SvgLine
+            <Line
               stroke={event.stroke}
               strokeOpacity={event.strokeOpacity}
               strokeWidth={event.strokeWidth}
@@ -118,14 +133,14 @@ export const CandlestickChartSurface = <TData,>({
                 ? { strokeDasharray: event.strokeDasharray }
                 : {})}
             />
-          </SvgGroup>
+          </Group>
         ))}
         {showHorizontalGridLines
           ? yTicks.map((tick) => {
               const label = yLabels.find((item) => item.key === `tick-${tick}`);
 
               return label ? (
-                <SvgLine
+                <Line
                   key={`grid-y-${tick}`}
                   stroke={resolvedTheme.grid}
                   strokeOpacity={0.64}
@@ -138,10 +153,10 @@ export const CandlestickChartSurface = <TData,>({
               ) : null;
             })
           : null}
-      </SvgLayer>
-      <SvgLayer name="data">
+      </Layer>
+      <Layer name="data">
         {volumeBars.map((bar) => (
-          <SvgRect
+          <Rect
             key={bar.key}
             fill={bar.color}
             height={bar.height}
@@ -152,7 +167,7 @@ export const CandlestickChartSurface = <TData,>({
           />
         ))}
         {candles.map((candle) => (
-          <SvgLine
+          <Line
             key={`wick-${candle.key}`}
             stroke={candle.color}
             strokeLinecap="round"
@@ -165,7 +180,7 @@ export const CandlestickChartSurface = <TData,>({
           />
         ))}
         {candles.map((candle) => (
-          <SvgRect
+          <Rect
             key={`body-${candle.key}`}
             fill={candle.color}
             height={candle.bodyHeight}
@@ -185,14 +200,15 @@ export const CandlestickChartSurface = <TData,>({
               : {})}
           />
         ))}
-      </SvgLayer>
-      <SvgLayer name="axes">
-        {showYAxisLabels
+      </Layer>
+      <Layer name="axes">
+        {showYAxisLabels && canRenderText
           ? yLabels.map((label) => (
               <SvgText
                 key={`label-y-${label.key}`}
                 fill={resolvedTheme.mutedText}
                 fontSize={resolvedTheme.typography.axisLabelSize}
+                text={label.text}
                 textAnchor="end"
                 x={label.x}
                 y={label.y}
@@ -202,12 +218,13 @@ export const CandlestickChartSurface = <TData,>({
               </SvgText>
             ))
           : null}
-        {showXAxisLabels
+        {showXAxisLabels && canRenderText
           ? xLabels.map((label) => (
               <SvgText
                 key={`label-x-${label.index}`}
                 fill={resolvedTheme.mutedText}
                 fontSize={resolvedTheme.typography.axisLabelSize}
+                text={label.text}
                 textAnchor="middle"
                 x={label.x}
                 y={label.y}
@@ -217,41 +234,53 @@ export const CandlestickChartSurface = <TData,>({
               </SvgText>
             ))
           : null}
-        {sessionGaps.map((gap) =>
-          gap.label ? (
-            <SvgText
-              key={`label-${gap.key}`}
-              fill={resolvedTheme.mutedText}
-              fontSize={Math.max(9, resolvedTheme.typography.axisLabelSize - 1)}
-              textAnchor="middle"
-              x={gap.labelX}
-              y={gap.labelY}
-              {...fontProps}
-            >
-              {gap.label}
-            </SvgText>
-          ) : null
-        )}
-        {sessionEvents.map((event) =>
-          event.label ? (
-            <SvgText
-              key={`label-${event.key}`}
-              fill={resolvedTheme.mutedText}
-              fontSize={Math.max(9, resolvedTheme.typography.axisLabelSize - 1)}
-              textAnchor="middle"
-              x={event.labelX}
-              y={event.labelY}
-              {...fontProps}
-            >
-              {event.label}
-            </SvgText>
-          ) : null
-        )}
-      </SvgLayer>
-      <SvgLayer name="interaction">
+        {canRenderText
+          ? sessionGaps.map((gap) =>
+              gap.label ? (
+                <SvgText
+                  key={`label-${gap.key}`}
+                  fill={resolvedTheme.mutedText}
+                  fontSize={Math.max(
+                    9,
+                    resolvedTheme.typography.axisLabelSize - 1
+                  )}
+                  text={gap.label}
+                  textAnchor="middle"
+                  x={gap.labelX}
+                  y={gap.labelY}
+                  {...fontProps}
+                >
+                  {gap.label}
+                </SvgText>
+              ) : null
+            )
+          : null}
+        {canRenderText
+          ? sessionEvents.map((event) =>
+              event.label ? (
+                <SvgText
+                  key={`label-${event.key}`}
+                  fill={resolvedTheme.mutedText}
+                  fontSize={Math.max(
+                    9,
+                    resolvedTheme.typography.axisLabelSize - 1
+                  )}
+                  text={event.label}
+                  textAnchor="middle"
+                  x={event.labelX}
+                  y={event.labelY}
+                  {...fontProps}
+                >
+                  {event.label}
+                </SvgText>
+              ) : null
+            )
+          : null}
+      </Layer>
+      <Layer name="interaction">
         {selectedCandle ? (
-          <SvgGroup key="candlestick-selection">
-            <SvgLine
+          <Group key="candlestick-selection">
+            <Line
               stroke={resolvedTheme.axis}
               strokeDasharray={[4, 4]}
               strokeOpacity={0.42}
@@ -261,7 +290,7 @@ export const CandlestickChartSurface = <TData,>({
               y1={boxes.plot.y}
               y2={boxes.plot.y + boxes.plot.height}
             />
-            <SvgRect
+            <Rect
               fill={selectedCandle.color}
               height={20}
               rx={5}
@@ -275,32 +304,38 @@ export const CandlestickChartSurface = <TData,>({
                 )
               )}
             />
-            <SvgText
-              fill={resolvedTheme.background}
-              fontSize={resolvedTheme.typography.axisLabelSize}
-              fontWeight="600"
-              textAnchor="middle"
-              x={boxes.plot.x + boxes.plot.width - 29}
-              y={Math.max(
-                boxes.plot.y + 16,
-                Math.min(
-                  boxes.plot.y + boxes.plot.height - 8,
-                  selectedCandle.closeY + 4
-                )
-              )}
-              {...fontProps}
-            >
-              {formatYLabel(selectedCandle.close)}
-            </SvgText>
-          </SvgGroup>
+            {canRenderText ? (
+              <SvgText
+                fill={resolvedTheme.background}
+                fontSize={resolvedTheme.typography.axisLabelSize}
+                fontWeight="600"
+                text={selectedCloseLabel}
+                textAnchor="middle"
+                x={boxes.plot.x + boxes.plot.width - 29}
+                y={Math.max(
+                  boxes.plot.y + 16,
+                  Math.min(
+                    boxes.plot.y + boxes.plot.height - 8,
+                    selectedCandle.closeY + 4
+                  )
+                )}
+                {...fontProps}
+              >
+                {selectedCloseLabel}
+              </SvgText>
+            ) : null}
+          </Group>
         ) : null}
         {tooltipModel
-          ? renderDefaultCandlestickTooltip({
-              ...tooltipModel,
-              config: tooltipConfig
-            })
+          ? renderDefaultCandlestickTooltip(
+              {
+                ...tooltipModel,
+                config: tooltipConfig
+              },
+              renderer
+            )
           : null}
-      </SvgLayer>
-    </SvgSurface>
+      </Layer>
+    </Surface>
   );
 };

@@ -46,6 +46,7 @@ export type {
   CandlestickChartRangeSelectorConfig,
   CandlestickChartRangeSelectorGestureEvent,
   CandlestickChartRangeSelectorInteraction,
+  CandlestickChartRenderer,
   CandlestickChartSelectEvent,
   CandlestickChartSessionGapConfig,
   CandlestickChartTooltipConfig,

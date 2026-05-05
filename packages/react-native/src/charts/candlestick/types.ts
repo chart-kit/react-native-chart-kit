@@ -23,6 +23,9 @@ import type {
   ChartViewportInteractionConfig,
   ChartViewportInteractionType
 } from "../../viewport/types";
+import type { LineChartRenderer } from "../line/types";
+
+export type CandlestickChartRenderer = LineChartRenderer;
 
 export type CandlestickChartPriceKeys<TData extends Record<string, unknown>> = {
   closeKey: keyof TData & string;
@@ -65,6 +68,7 @@ export type CandlestickChartProps<TData extends Record<string, unknown>> =
     volumeHeightRatio?: number;
     volumeKey?: keyof TData & string;
     volumeOpacity?: number;
+    renderer?: CandlestickChartRenderer;
     accessibilityLabel?: string;
     testID?: string;
   };

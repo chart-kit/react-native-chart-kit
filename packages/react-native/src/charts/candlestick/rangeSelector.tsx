@@ -1,4 +1,5 @@
 import { useCallback, useRef } from "react";
+import type { ReactNode } from "react";
 import { View } from "react-native";
 import type { GestureResponderEvent } from "react-native";
 
@@ -7,21 +8,22 @@ import {
   resolveChartViewportWindowFromPosition,
   type ResolvedChartViewportWindow
 } from "@chart-kit/core";
-import {
-  SvgGroup,
-  SvgLayer,
-  SvgLine,
-  SvgRect,
-  SvgSurface
-} from "@chart-kit/svg-renderer";
-
+import { getLineChartRenderer as getCandlestickChartRenderer } from "../line/renderer";
 import { clamp } from "../line/utils";
 import type {
   CandlestickChartModel,
   CandlestickChartProps,
+  CandlestickChartRenderer,
   CandlestickChartRangeSelectorInteraction
 } from "./types";
 import type { CandlestickChartRangeSelectorResolvedConfig } from "./rangeSelectorConfig";
+
+const RendererLayer = ({
+  children
+}: {
+  children?: ReactNode;
+  name?: string;
+}) => <>{children}</>;
 
 export const CandlestickChartRangeSelector = <
   TData extends Record<string, unknown>
@@ -32,6 +34,7 @@ export const CandlestickChartRangeSelector = <
   model,
   onViewportChange,
   preventBrowserSelection,
+  renderer: rendererProp,
   testID,
   viewportWindow,
   width
@@ -42,6 +45,7 @@ export const CandlestickChartRangeSelector = <
   model: CandlestickChartModel<TData>;
   onViewportChange: CandlestickChartProps<TData>["onViewportChange"];
   preventBrowserSelection: (event: GestureResponderEvent) => void;
+  renderer?: CandlestickChartRenderer | undefined;
   testID?: string | undefined;
   viewportWindow: ResolvedChartViewportWindow;
   width: number;
@@ -204,11 +208,17 @@ export const CandlestickChartRangeSelector = <
   );
   const handleHeight = Math.max(8, config.handleHeight);
   const handleY = plotY + (plotHeight - handleHeight) / 2;
+  const renderer = getCandlestickChartRenderer(rendererProp);
+  const Group = renderer.Group;
+  const Layer = renderer.Layer ?? RendererLayer;
+  const Line = renderer.Line;
+  const Rect = renderer.Rect;
+  const Surface = renderer.Surface;
   const renderHandle = (
     side: CandlestickChartRangeSelectorInteraction,
     x: number
   ) => (
-    <SvgRect
+    <Rect
       key={`handle-${side}`}
       x={x}
       y={handleY}
@@ -232,9 +242,9 @@ export const CandlestickChartRangeSelector = <
       testID={testID ? `${testID}-range-selector` : undefined}
       {...responderProps}
     >
-      <SvgSurface width={width} height={config.height}>
-        <SvgLayer name="background">
-          <SvgRect
+      <Surface width={width} height={config.height}>
+        <Layer name="background">
+          <Rect
             x={0}
             y={0}
             width={width}
@@ -242,7 +252,7 @@ export const CandlestickChartRangeSelector = <
             rx={8}
             fill={config.backgroundFill ?? model.resolvedTheme.background}
           />
-          <SvgRect
+          <Rect
             x={plotX}
             y={plotY}
             width={plotWidth}
@@ -250,10 +260,10 @@ export const CandlestickChartRangeSelector = <
             rx={config.plotRadius}
             fill={config.plotFill ?? model.resolvedTheme.plotBackground}
           />
-        </SvgLayer>
-        <SvgLayer name="data">
+        </Layer>
+        <Layer name="data">
           {model.volumeBars.map((bar) => (
-            <SvgRect
+            <Rect
               key={bar.key}
               fill={bar.color}
               height={bar.height}
@@ -264,8 +274,8 @@ export const CandlestickChartRangeSelector = <
             />
           ))}
           {model.candles.map((candle) => (
-            <SvgGroup key={candle.key}>
-              <SvgLine
+            <Group key={candle.key}>
+              <Line
                 stroke={candle.color}
                 strokeLinecap="round"
                 strokeOpacity={0.62}
@@ -275,7 +285,7 @@ export const CandlestickChartRangeSelector = <
                 y1={candle.highY}
                 y2={candle.lowY}
               />
-              <SvgRect
+              <Rect
                 fill={candle.color}
                 height={candle.bodyHeight}
                 opacity={0.82}
@@ -284,13 +294,13 @@ export const CandlestickChartRangeSelector = <
                 x={candle.bodyX}
                 y={candle.bodyY}
               />
-            </SvgGroup>
+            </Group>
           ))}
-        </SvgLayer>
-        <SvgLayer name="overlays">
+        </Layer>
+        <Layer name="overlays">
           {config.outsideOpacity > 0 ? (
-            <SvgGroup key="candlestick-range-selector-outside">
-              <SvgRect
+            <Group key="candlestick-range-selector-outside">
+              <Rect
                 key="outside-start"
                 x={plotX}
                 y={plotY}
@@ -299,7 +309,7 @@ export const CandlestickChartRangeSelector = <
                 fill={config.outsideFill ?? model.resolvedTheme.background}
                 opacity={config.outsideOpacity}
               />
-              <SvgRect
+              <Rect
                 key="outside-end"
                 x={windowEndX}
                 y={plotY}
@@ -308,9 +318,9 @@ export const CandlestickChartRangeSelector = <
                 fill={config.outsideFill ?? model.resolvedTheme.background}
                 opacity={config.outsideOpacity}
               />
-            </SvgGroup>
+            </Group>
           ) : null}
-          <SvgRect
+          <Rect
             x={windowX}
             y={plotY}
             width={windowWidth}
@@ -323,13 +333,13 @@ export const CandlestickChartRangeSelector = <
             strokeWidth={config.windowStrokeWidth}
           />
           {isInteractive ? (
-            <SvgGroup key="candlestick-range-selector-handles">
+            <Group key="candlestick-range-selector-handles">
               {renderHandle("resizeStart", startHandleX)}
               {renderHandle("resizeEnd", endHandleX)}
-            </SvgGroup>
+            </Group>
           ) : null}
-        </SvgLayer>
-      </SvgSurface>
+        </Layer>
+      </Surface>
     </View>
   );
 };

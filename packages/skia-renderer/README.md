@@ -21,6 +21,7 @@ Status:
 - `PieChart` and `DonutChart` can accept the injected renderer through their experimental `renderer` prop for slices, connector lines, and SVG text labels
 - `ProgressChart`, `ProgressRing`, `ContributionGraph`, and `CalendarHeatmap` can accept the injected renderer through their experimental `renderer` prop for their chart primitives and SVG text labels
 - `CombinedChart` can accept the injected renderer through its experimental `renderer` prop for its bars, lines, axes, legend, selection overlay, and default tooltip
+- `CandlestickChart` can accept the injected renderer through its experimental `renderer` prop for its OHLC body, volume bars, session markers, selection overlay, default tooltip, and range selector
 - sticky-axis labels require a Skia font through `createSkiaRenderer({ skia, font })`
 - text primitives support measured `textAnchor` alignment when the supplied Skia font exposes `measureText`
 - path-local area gradients are used when `skia.LinearGradient` and `skia.vec` are available; SVG-style gradient defs remain disabled for Skia
@@ -32,5 +33,6 @@ Status:
 - local ProgressChart renderer contract coverage lives in `packages/react-native/test/progress-renderer.test.ts`
 - local ContributionGraph renderer contract coverage lives in `packages/react-native/test/contribution-renderer.test.ts`
 - local CombinedChart renderer contract coverage lives in `packages/react-native/test/combined-renderer.test.ts`
-- `npm run skia:parity` runs the local Skia primitive tests plus LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, and CombinedChart renderer contract tests together
+- local CandlestickChart renderer contract coverage lives in `packages/react-native/test/candlestick-renderer.test.ts`
+- `npm run skia:parity` runs the local Skia primitive tests plus LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, CombinedChart, and CandlestickChart renderer contract tests together
 - native install verification and native renderer parity coverage are still pending
