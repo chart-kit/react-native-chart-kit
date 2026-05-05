@@ -56,6 +56,9 @@ jobs:
       - name: Surface
         run: npm run surface:check
 
+      - name: Package pack check
+        run: npm run pack:check
+
       - name: Docs
         run: npm run docs:build
 

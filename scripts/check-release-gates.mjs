@@ -57,6 +57,7 @@ const requiredScripts = [
   "native:release:dry-run",
   "native:release:android",
   "native:release:ios",
+  "pack:check",
   "release:gate",
   "release:gate:report"
 ];

@@ -29,6 +29,7 @@ npm run docs:build
 npm run example:rn-cli:typecheck
 npm run native:release:dry-run
 npm run build
+npm run pack:check
 ```
 
 Manual example commands:
@@ -44,6 +45,8 @@ Manual example commands:
 The `test:e2e` command covers web showcase interaction flows. The example commands are not native release-build checks and must not be counted as passing automated native coverage.
 
 The `docs:build` command validates local links, balanced code fences, JS/TS markdown fence syntax, and public TS/TSX docs examples. Integrated docs example coverage still runs through `npm run rn:typecheck`.
+
+The `pack:check` command runs `npm pack --dry-run --json --ignore-scripts` for the root package and every workspace package, using a repo-local temp npm cache. It verifies the publishable file lists include package metadata, README files, built `dist` entrypoints, and the modern `pro-preview` subpath artifacts.
 
 ## Manual Review
 
