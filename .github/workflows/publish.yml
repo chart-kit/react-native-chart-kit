@@ -47,6 +47,12 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+      - name: Test
+        run: npm run test
+
+      - name: Docs
+        run: npm run docs:build
+
       - name: Verify package is unpublished
         id: package
         run: |

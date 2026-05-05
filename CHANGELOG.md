@@ -5,6 +5,12 @@
 - publish the rebuild line under the `@chart-kit/react-native` npm package
 - update the support matrix to React 19, React Native 0.83+, and react-native-svg 15
 - modernize package tooling and remove the legacy Expo 37 root demo setup
+- add renderer-agnostic core packages for normalization, scales, layout, geometry, interaction, and benchmarks
+- add modern LineChart and AreaChart with multi-series data, null gaps, smart labels, tooltips, crosshair, scrollable viewports, pan/zoom controls, range selector, markers, reference overlays, thresholds, decimation, and accessibility helpers
+- add modern BarChart with grouped, stacked, 100% stacked, horizontal, negative, scrollable, selectable, animated, and themed examples
+- add PieChart, DonutChart, ProgressChart, ContributionGraph, CombinedChart, and CandlestickChart preview foundations
+- add Expo showcase and Playwright visual regression coverage for modern and compatibility fixtures
+- add v1 migration docs, prop mapping, production recipes, troubleshooting, beta checklist, known issues, and issue templates
 
 ## v6.12.2
 

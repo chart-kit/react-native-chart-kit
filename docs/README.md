@@ -31,6 +31,11 @@ These docs describe the current v2 preview implementation in this repository. Th
 
 - [Production recipes](recipes/README.md)
 
+## Release
+
+- [Beta checklist](release/beta-checklist.md)
+- [Known issues](release/known-issues.md)
+
 ## Local Preview
 
 Run the Expo showcase when you need to review the same chart stories used by visual regression:

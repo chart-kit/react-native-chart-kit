@@ -1,0 +1,92 @@
+name: Performance bug
+description: Report slow rendering, jank, memory pressure, or crashes with large charts.
+title: "[Performance]: "
+labels:
+  - performance
+  - needs-reproduction
+body:
+  - type: input
+    id: device
+    attributes:
+      label: Device
+      placeholder: iPhone 14, Pixel 6, Samsung A52, simulator, etc.
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      multiple: true
+      options:
+        - iOS
+        - Android
+        - Expo Go
+        - Expo dev-client
+        - Web
+    validations:
+      required: true
+  - type: dropdown
+    id: renderer
+    attributes:
+      label: Renderer
+      options:
+        - SVG
+        - Skia
+        - Unknown
+    validations:
+      required: true
+  - type: dropdown
+    id: chart_type
+    attributes:
+      label: Chart type
+      options:
+        - LineChart
+        - AreaChart
+        - BarChart
+        - CombinedChart
+        - CandlestickChart
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: total_points
+    attributes:
+      label: Total data points
+      placeholder: 10000
+    validations:
+      required: true
+  - type: input
+    id: visible_points
+    attributes:
+      label: Visible data points
+      placeholder: 500
+    validations:
+      required: true
+  - type: textarea
+    id: interaction
+    attributes:
+      label: Interaction causing the issue
+      description: Include render, scroll, scrub, tap, pan, pinch zoom, range selector, or app navigation details.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Benchmark or reproduction
+      description: Include a minimal reproduction or adapt the output of npm run benchmark.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected performance
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual performance
+      description: Include FPS, dropped frames, memory, crash logs, or video when possible.
+    validations:
+      required: true
