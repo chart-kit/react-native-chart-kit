@@ -15,6 +15,7 @@ Current exports:
 Status:
 
 - injected Skia primitive adapter for Canvas, Group, Path, Rect, Circle, Line, Text, LinearGradient, and rect-clipped Groups
+- public descriptor evidence reports `localParity: "partial"`, `nativeInstall: "missing"`, and `nativeParity: "missing"` until device evidence exists
 - `LineChart` can accept the injected renderer through its experimental `renderer` prop for the main plot, range selector, sticky-axis, path-local area gradients, threshold rect clips, default marker, default legend, default tooltip, and debug-layout surfaces
 - sticky-axis labels require a Skia font through `createSkiaRenderer({ skia, font })`
 - text primitives support measured `textAnchor` alignment when the supplied Skia font exposes `measureText`

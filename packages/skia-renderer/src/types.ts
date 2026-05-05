@@ -2,6 +2,14 @@ import type { ComponentType, ElementType, ReactNode } from "react";
 
 export type SkiaRendererStatus = "preview" | "available";
 
+export type SkiaRendererEvidenceStatus = "missing" | "partial" | "verified";
+
+export type SkiaRendererEvidence = {
+  localParity: SkiaRendererEvidenceStatus;
+  nativeInstall: SkiaRendererEvidenceStatus;
+  nativeParity: SkiaRendererEvidenceStatus;
+};
+
 export type SkiaRendererCapabilities = {
   animation: "none" | "uiThread";
   clipPaths: boolean;
@@ -21,6 +29,7 @@ export type SkiaRendererCapabilities = {
 
 export type SkiaRendererDescriptor = {
   capabilities: SkiaRendererCapabilities;
+  evidence: SkiaRendererEvidence;
   installHint: string;
   packageName: "@chart-kit/skia-renderer";
   peerDependency: "@shopify/react-native-skia";
@@ -29,6 +38,7 @@ export type SkiaRendererDescriptor = {
 
 export type SkiaRendererDescriptorOptions = {
   capabilities?: Partial<SkiaRendererCapabilities>;
+  evidence?: Partial<SkiaRendererEvidence>;
   installHint?: string;
   status?: SkiaRendererStatus;
 };

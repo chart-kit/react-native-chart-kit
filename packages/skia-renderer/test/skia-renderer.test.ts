@@ -60,6 +60,11 @@ describe("Skia renderer preview boundary", () => {
 
   it("creates preview descriptors with install guidance", () => {
     expect(skiaRendererPreview).toMatchObject({
+      evidence: {
+        localParity: "partial",
+        nativeInstall: "missing",
+        nativeParity: "missing"
+      },
       packageName: "@chart-kit/skia-renderer",
       peerDependency: "@shopify/react-native-skia",
       status: "preview"
@@ -67,10 +72,16 @@ describe("Skia renderer preview boundary", () => {
     expect(
       createSkiaRendererDescriptor({
         capabilities: { textMeasurement: "skia" },
+        evidence: { nativeInstall: "verified" },
         status: "available"
       })
     ).toMatchObject({
       capabilities: { textMeasurement: "skia" },
+      evidence: {
+        localParity: "partial",
+        nativeInstall: "verified",
+        nativeParity: "missing"
+      },
       status: "available"
     });
   });

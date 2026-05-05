@@ -26,10 +26,17 @@ export const createSkiaRendererCapabilities = (
 
 export const createSkiaRendererDescriptor = ({
   capabilities,
+  evidence,
   installHint = "Install @shopify/react-native-skia before enabling the Skia renderer.",
   status = "preview"
 }: SkiaRendererDescriptorOptions = {}): SkiaRendererDescriptor => ({
   capabilities: createSkiaRendererCapabilities(capabilities),
+  evidence: {
+    localParity: "partial",
+    nativeInstall: "missing",
+    nativeParity: "missing",
+    ...evidence
+  },
   installHint,
   packageName: "@chart-kit/skia-renderer",
   peerDependency: "@shopify/react-native-skia",
