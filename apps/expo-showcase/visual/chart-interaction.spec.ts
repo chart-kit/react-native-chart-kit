@@ -109,7 +109,7 @@ test.describe("Expo showcase chart interactions", () => {
       .getByTestId("chart-layer.grid")
       .locator("line")
       .first();
-    await expect(gridLine).toHaveAttribute("stroke-opacity", "0.34");
+    await expect(gridLine).toHaveAttribute("stroke-opacity", "0");
 
     await page.getByTestId("bar-chart-bar.organic.1").click();
     await expect(page.getByText("Organic: 48k")).toBeVisible();

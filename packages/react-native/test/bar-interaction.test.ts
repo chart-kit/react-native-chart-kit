@@ -170,10 +170,10 @@ describe("BarChart interaction helpers", () => {
 
     expect(
       getAnimatedBarSelectionOpacity({ barKey: "paid-1", state })
-    ).toBeCloseTo(0.71);
+    ).toBeCloseTo(0.77);
     expect(
       getAnimatedBarSelectionOpacity({ barKey: "organic-1", state })
-    ).toBeCloseTo(0.71);
+    ).toBeCloseTo(0.77);
     expect(
       getAnimatedBarSelectionFill({
         backgroundColor: "#ffffff",
@@ -181,7 +181,7 @@ describe("BarChart interaction helpers", () => {
         color: "#2563eb",
         state
       })
-    ).toBe("#6490f1");
+    ).toBe("#5787f0");
     expect(
       getAnimatedBarSelectionStrokeOpacity({ barKey: "paid-1", state })
     ).toBeCloseTo(0.16);
@@ -198,7 +198,7 @@ describe("BarChart interaction helpers", () => {
       getAnimatedBarSelectionGridOpacity({
         state: { fromKey: "paid-1", toKey: "paid-1", progress: 1 }
       })
-    ).toBeCloseTo(0.34);
+    ).toBeCloseTo(0);
   });
 
   it("keeps overlay tooltips inside the visible viewport", () => {

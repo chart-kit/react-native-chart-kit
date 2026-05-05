@@ -3,9 +3,9 @@ import { useEffect, useRef, useState } from "react";
 import type { BarChartSelectionAnimationConfig } from "./types";
 
 const defaultSelectionAnimationDuration = 180;
-const dimmedBarOpacity = 0.42;
+const dimmedBarOpacity = 0.54;
 const defaultGridStrokeOpacity = 0.78;
-const selectedGridStrokeOpacity = 0.34;
+const selectedGridStrokeOpacity = 0;
 const selectedStrokeOpacity = 0.32;
 
 export type ResolvedBarChartSelectionAnimationConfig = {
