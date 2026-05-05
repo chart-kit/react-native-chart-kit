@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { createSvgRendererCapabilities } from "../src/capabilities";
 import { createClipPathRef } from "../src/clipPath";
+import { createSvgHitRegionProps } from "../src/hitRegions";
 import {
   chartRenderLayerOrder,
   chartRenderLayers,
@@ -84,7 +85,7 @@ describe("SVG renderer helpers", () => {
       animation: "reactNative",
       clipPaths: true,
       gradients: true,
-      hitRegions: false,
+      hitRegions: true,
       layers: true,
       shadows: false,
       symbols: true,
@@ -100,5 +101,35 @@ describe("SVG renderer helpers", () => {
       hitRegions: true,
       textMeasurement: "custom"
     });
+  });
+
+  it("creates invisible hit-region props without changing layout bounds", () => {
+    expect(
+      createSvgHitRegionProps({
+        height: 44,
+        testID: "point-hit-region",
+        width: 44,
+        x: 10,
+        y: 12
+      })
+    ).toMatchObject({
+      fill: "#000",
+      fillOpacity: 0.001,
+      height: 44,
+      pointerEvents: "auto",
+      testID: "point-hit-region",
+      width: 44,
+      x: 10,
+      y: 12
+    });
+    expect(
+      createSvgHitRegionProps({
+        disabled: true,
+        height: 44,
+        width: 44,
+        x: 10,
+        y: 12
+      }).pointerEvents
+    ).toBe("none");
   });
 });

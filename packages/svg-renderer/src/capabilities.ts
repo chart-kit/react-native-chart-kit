@@ -6,7 +6,7 @@ export const createSvgRendererCapabilities = (
   animation: "reactNative",
   clipPaths: true,
   gradients: true,
-  hitRegions: false,
+  hitRegions: true,
   layers: true,
   shadows: false,
   symbols: true,

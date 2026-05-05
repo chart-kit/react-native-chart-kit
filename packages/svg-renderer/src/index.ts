@@ -1,6 +1,7 @@
 export * from "./capabilities";
 export * from "./clipPath";
 export * from "./defs";
+export * from "./hitRegions";
 export * from "./layerOrder";
 export * from "./layers";
 export * from "./primitives";

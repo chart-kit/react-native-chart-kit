@@ -1,9 +1,11 @@
 import Svg, { Circle, Defs, G, Line, Path, Rect, Text } from "react-native-svg";
 
+import { createSvgHitRegionProps } from "./hitRegions";
 import type {
   SvgCircleProps,
   SvgDefsProps,
   SvgGroupProps,
+  SvgHitRegionProps,
   SvgLineProps,
   SvgPathProps,
   SvgRectProps,
@@ -33,6 +35,9 @@ export const SvgGroup = ({ children, ...props }: SvgGroupProps) => (
 
 export const SvgPath = (props: SvgPathProps) => <Path {...props} />;
 export const SvgRect = (props: SvgRectProps) => <Rect {...props} />;
+export const SvgHitRegion = (props: SvgHitRegionProps) => (
+  <Rect {...createSvgHitRegionProps(props)} />
+);
 export const SvgCircle = (props: SvgCircleProps) => <Circle {...props} />;
 export const SvgText = ({ children, ...props }: SvgTextProps) => (
   <Text {...props}>{children}</Text>

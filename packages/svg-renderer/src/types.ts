@@ -49,6 +49,16 @@ export type SvgGroupProps = GProps &
 
 export type SvgPathProps = PathProps & SvgTestableProps;
 export type SvgRectProps = RectProps & SvgTestableProps;
+export type SvgHitRegionProps = Omit<RectProps, "fill" | "fillOpacity"> &
+  SvgTestableProps & {
+    disabled?: boolean;
+    fill?: RectProps["fill"];
+    fillOpacity?: RectProps["fillOpacity"];
+    height: number;
+    width: number;
+    x: number;
+    y: number;
+  };
 export type SvgCircleProps = CircleProps & SvgTestableProps;
 export type SvgTextProps = TextProps & SvgTestableProps;
 export type SvgLineProps = LineProps & SvgTestableProps;
@@ -119,6 +129,7 @@ export type SvgRenderer = {
   Group: ComponentType<SvgGroupProps>;
   Path: ComponentType<SvgPathProps>;
   Rect: ComponentType<SvgRectProps>;
+  HitRegion: ComponentType<SvgHitRegionProps>;
   Circle: ComponentType<SvgCircleProps>;
   Symbol: ComponentType<SvgSymbolProps>;
   Text: ComponentType<SvgTextProps>;
