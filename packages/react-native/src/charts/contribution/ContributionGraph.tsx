@@ -14,9 +14,18 @@ import {
   getContributionGraphMonthLabel,
   getContributionGraphWeekdayLabel
 } from "./model";
+import { getContributionGraphAccessibilitySummary } from "./accessibility";
 import type { ContributionGraphProps } from "./types";
 
 export type * from "./types";
+export {
+  getContributionGraphAccessibilitySummary,
+  getContributionGraphDataTable
+} from "./accessibility";
+export type {
+  ContributionGraphDataTable,
+  ContributionGraphDataTableRow
+} from "./accessibility";
 
 export const ContributionGraph = <
   TData extends { date?: string | number | Date; [key: string]: unknown }
@@ -33,7 +42,12 @@ export const ContributionGraph = <
   const showWeekdayLabels = props.showWeekdayLabels !== false;
   const accessibilityLabel =
     props.accessibilityLabel ??
-    `Contribution graph with ${cells.length} visible days.`;
+    getContributionGraphAccessibilitySummary({
+      accessor: props.accessor,
+      endDate: props.endDate,
+      numDays: props.numDays,
+      values: props.values
+    });
 
   return (
     <View

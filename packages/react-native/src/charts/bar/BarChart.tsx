@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import type { GestureResponderEvent, ViewProps } from "react-native";
 
 import { useChartKitTheme } from "../../theme";
+import { getBarChartAccessibilitySummary } from "./accessibility";
 import {
   BarChartSurface,
   BarChartTooltipOverlay,
@@ -25,6 +26,15 @@ import {
 import type { BarChartProps } from "./types";
 
 export type * from "./types";
+export {
+  getBarChartAccessibilitySummary,
+  getBarChartDataTable
+} from "./accessibility";
+export type {
+  BarChartDataTable,
+  BarChartDataTableColumn,
+  BarChartDataTableRow
+} from "./accessibility";
 
 export const BarChart = <TData extends Record<string, unknown>>(
   props: BarChartProps<TData>
@@ -66,7 +76,7 @@ export const BarChart = <TData extends Record<string, unknown>>(
       }),
     [chartKitTheme, props, viewport.contentWidth]
   );
-  const { bars, boxes, resolvedTheme, xLabels } = model;
+  const { bars, boxes, resolvedTheme } = model;
   const scrollInitialOffset =
     viewport.scrollable && props.initialIndex === "end"
       ? Math.max(0, initialScrollOffset - boxes.plot.x * 0.66)
@@ -140,7 +150,15 @@ export const BarChart = <TData extends Record<string, unknown>>(
     : {};
   const accessibilityLabel =
     props.accessibilityLabel ??
-    `Bar chart with ${bars.length} bars across ${xLabels.length} visible x-axis labels.`;
+    getBarChartAccessibilitySummary({
+      data: props.data,
+      formatXLabel: props.formatXLabel,
+      formatYLabel: props.formatYLabel,
+      series: props.series,
+      xKey: props.xKey,
+      yKey: props.yKey,
+      yKeys: props.yKeys
+    });
   const chartSurface = (
     <BarChartSurface
       barRadius={barRadius}

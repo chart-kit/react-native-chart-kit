@@ -11,6 +11,7 @@ import {
 } from "@chart-kit/svg-renderer";
 
 import { useChartKitTheme } from "../../theme";
+import { getPieChartAccessibilitySummary } from "./accessibility";
 import {
   buildPieChartSelectEvent,
   getPieChartInteractionConfig,
@@ -22,6 +23,11 @@ import { buildPieChartModel } from "./model";
 import type { PieChartCenterLabelRenderProps, PieChartProps } from "./types";
 
 export type * from "./types";
+export {
+  getPieChartAccessibilitySummary,
+  getPieChartDataTable
+} from "./accessibility";
+export type { PieChartDataTable, PieChartDataTableRow } from "./accessibility";
 
 const defaultDonutInnerRadiusRatio = 0.58;
 const defaultPieLegendGap = 8;
@@ -149,7 +155,15 @@ export const PieChart = <TData extends Record<string, unknown>>(
       : null;
   const accessibilityLabel =
     props.accessibilityLabel ??
-    `Pie chart with ${legendItems.length} slices. Total ${total}.`;
+    getPieChartAccessibilitySummary({
+      colorKey: props.colorKey,
+      colors: props.colors,
+      data: props.data,
+      formatPercentage: props.formatPercentage,
+      formatValue: props.formatValue,
+      labelKey: props.labelKey,
+      valueKey: props.valueKey
+    });
 
   return (
     <View

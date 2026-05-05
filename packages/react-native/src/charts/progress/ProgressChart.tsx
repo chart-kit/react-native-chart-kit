@@ -9,6 +9,7 @@ import {
 } from "@chart-kit/svg-renderer";
 
 import { useChartKitTheme } from "../../theme";
+import { getProgressChartAccessibilitySummary } from "./accessibility";
 import { buildProgressChartModel } from "./model";
 import type {
   ProgressChartProps,
@@ -17,6 +18,14 @@ import type {
 } from "./types";
 
 export type * from "./types";
+export {
+  getProgressChartAccessibilitySummary,
+  getProgressChartDataTable
+} from "./accessibility";
+export type {
+  ProgressChartDataTable,
+  ProgressChartDataTableRow
+} from "./accessibility";
 
 const defaultStrokeLinecap = "round";
 
@@ -47,9 +56,15 @@ export const ProgressChart = <
       : props.centerLabel;
   const accessibilityLabel =
     props.accessibilityLabel ??
-    `Progress chart with ${rings.length} rings. Average progress ${Math.round(
-      average * 100
-    )} percent.`;
+    getProgressChartAccessibilitySummary({
+      colorKey: props.colorKey,
+      colors: props.colors,
+      data: props.data,
+      formatPercentage: props.formatPercentage,
+      labelKey: props.labelKey,
+      labels: props.labels,
+      valueKey: props.valueKey
+    });
 
   return (
     <View

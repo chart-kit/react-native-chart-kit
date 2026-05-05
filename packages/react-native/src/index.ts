@@ -32,6 +32,9 @@ export type {
   ResolvedChartKitThemeMode
 } from "./theme";
 export type {
+  BarChartDataTable,
+  BarChartDataTableColumn,
+  BarChartDataTableRow,
   BarChartDeselectEvent,
   BarChartInitialIndex,
   BarChartInteraction,
@@ -59,6 +62,8 @@ export type {
   StackedBarChartRow
 } from "./charts/bar/StackedBarChart";
 export type {
+  ContributionGraphDataTable,
+  ContributionGraphDataTableRow,
   ContributionGraphCellModel,
   ContributionGraphColorRenderProps,
   ContributionGraphDayPressEvent,
@@ -67,6 +72,8 @@ export type {
 } from "./charts/contribution/ContributionGraph";
 export type {
   PieChartActiveSliceConfig,
+  PieChartDataTable,
+  PieChartDataTableRow,
   PieChartCenterLabelRenderProps,
   PieChartDeselectEvent,
   PieChartInteraction,
@@ -80,6 +87,8 @@ export type {
 } from "./charts/pie/PieChart";
 export type {
   ProgressChartCenterLabelRenderProps,
+  ProgressChartDataTable,
+  ProgressChartDataTableRow,
   ProgressChartData,
   ProgressChartLegendConfig,
   ProgressChartLegendItem,
@@ -145,6 +154,22 @@ export type {
   ResolvedLineChartThresholdStyle,
   ResolvedLineChartTooltipConfig
 } from "./charts/line/LineChart";
+export {
+  getBarChartAccessibilitySummary,
+  getBarChartDataTable
+} from "./charts/bar/BarChart";
+export {
+  getContributionGraphAccessibilitySummary,
+  getContributionGraphDataTable
+} from "./charts/contribution/ContributionGraph";
+export {
+  getPieChartAccessibilitySummary,
+  getPieChartDataTable
+} from "./charts/pie/PieChart";
+export {
+  getProgressChartAccessibilitySummary,
+  getProgressChartDataTable
+} from "./charts/progress/ProgressChart";
 export {
   getLineChartAccessibilitySummary,
   getLineChartDataTable
