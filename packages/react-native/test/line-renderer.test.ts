@@ -5,6 +5,7 @@ import {
   type ReactNode
 } from "react";
 import { describe, expect, it, vi } from "vitest";
+import type { LayoutDebugModel } from "@chart-kit/core";
 
 vi.mock("@chart-kit/svg-renderer", () => {
   const MockPrimitive = () => null;
@@ -35,6 +36,7 @@ import {
   lineChartSvgRenderer
 } from "../src/charts/line/renderer";
 import { renderDefaultTooltip } from "../src/charts/line/defaultTooltip";
+import { renderLineChartDebugLayout } from "../src/charts/line/debugOverlay";
 import { renderConfiguredLegend } from "../src/charts/line/legend";
 import { renderDefaultDot } from "../src/charts/line/markers";
 import { resolveCartesianChartThemeConfig } from "../src/theme/presets";
@@ -71,6 +73,9 @@ const getFragmentChildren = (node: ReactNode): ReactElement[] => {
 
   return Children.toArray(node.props.children).filter(isValidElement);
 };
+
+const getRenderedChildren = (node: ReactNode): ReactElement[] =>
+  Children.toArray(node).filter(isValidElement);
 
 const geometries = [
   {
@@ -239,6 +244,20 @@ const defaultTooltipProps: LineChartTooltipRenderProps<
   x: 16,
   xLabel: "Jan 2026",
   y: 20
+};
+
+const debugLayoutModel: LayoutDebugModel = {
+  rects: [
+    {
+      height: 120,
+      id: "plot",
+      kind: "plot",
+      text: "plot",
+      width: 240,
+      x: 40,
+      y: 20
+    }
+  ]
 };
 
 describe("LineChart renderer adapter", () => {
@@ -449,5 +468,58 @@ describe("LineChart renderer adapter", () => {
         }
       })
     ).toBeNull();
+  });
+
+  it("renders the debug overlay through injected primitives", () => {
+    const debugNodes = getRenderedChildren(
+      renderLineChartDebugLayout({
+        fontFamily: undefined,
+        model: debugLayoutModel,
+        renderer: skiaLikeRenderer
+      })
+    );
+    const debugChildren = getFragmentChildren(debugNodes[0]);
+
+    expect(debugNodes).toHaveLength(1);
+    expect(debugChildren).toHaveLength(2);
+    expect(debugChildren[0]?.props).toMatchObject({
+      fill: "none",
+      height: 120,
+      stroke: "#22c55e",
+      width: 240,
+      x: 40,
+      y: 20
+    });
+    expect(debugChildren[1]?.props).toMatchObject({
+      fill: "#22c55e",
+      fontSize: 9,
+      text: "plot",
+      x: 42,
+      y: 17
+    });
+  });
+
+  it("keeps debug rectangles when renderer text is unavailable", () => {
+    const debugNodes = getRenderedChildren(
+      renderLineChartDebugLayout({
+        fontFamily: undefined,
+        model: debugLayoutModel,
+        renderer: {
+          ...skiaLikeRenderer,
+          capabilities: {
+            ...skiaLikeRenderer.capabilities,
+            text: false
+          }
+        }
+      })
+    );
+    const debugChildren = getFragmentChildren(debugNodes[0]);
+
+    expect(debugChildren).toHaveLength(1);
+    expect(debugChildren[0]?.props).toMatchObject({
+      height: 120,
+      stroke: "#22c55e",
+      width: 240
+    });
   });
 });

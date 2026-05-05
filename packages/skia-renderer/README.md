@@ -15,9 +15,9 @@ Current exports:
 Status:
 
 - injected Skia primitive adapter for Canvas, Group, Path, Rect, Circle, Line, Text, and LinearGradient
-- `LineChart` can accept the injected renderer through its experimental `renderer` prop for the main plot, range selector, sticky-axis, default marker, default legend, and default tooltip surfaces
+- `LineChart` can accept the injected renderer through its experimental `renderer` prop for the main plot, range selector, sticky-axis, default marker, default legend, default tooltip, and debug-layout surfaces
 - sticky-axis labels require a Skia font through `createSkiaRenderer({ skia, font })`
 - gradient capability is disabled for chart consumption until SVG-style gradient defs have Skia parity
 - no license gating
-- the default SVG-only debug overlay, native install verification, and renderer parity coverage are still pending
+- native install verification and renderer parity coverage are still pending
 - no renderer parity suite yet

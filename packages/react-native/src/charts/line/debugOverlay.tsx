@@ -1,9 +1,9 @@
 import type { ReactNode } from "react";
 
 import type { LayoutDebugModel, LayoutDebugRect } from "@chart-kit/core";
-import { SvgGroup, SvgRect, SvgText } from "@chart-kit/svg-renderer";
 
 import { getFontFamilyProps } from "./text";
+import type { LineChartRenderer } from "./types";
 
 const getDebugStroke = (kind: LayoutDebugRect["kind"]) => {
   switch (kind) {
@@ -25,12 +25,17 @@ const getDebugStroke = (kind: LayoutDebugRect["kind"]) => {
 
 export const renderLineChartDebugLayout = ({
   fontFamily,
-  model
+  model,
+  renderer
 }: {
   fontFamily?: string | undefined;
   model: LayoutDebugModel;
-}): ReactNode =>
-  model.rects.map((rect, index) => {
+  renderer: LineChartRenderer;
+}): ReactNode => {
+  const { Group, Rect, Text } = renderer;
+  const canRenderText = renderer.capabilities?.text !== false;
+
+  return model.rects.map((rect, index) => {
     const stroke = getDebugStroke(rect.kind);
     const dashProps =
       rect.kind === "outer" || rect.kind === "plot"
@@ -38,8 +43,8 @@ export const renderLineChartDebugLayout = ({
         : { strokeDasharray: [4, 3] };
 
     return (
-      <SvgGroup key={`debug-${rect.kind}-${rect.id}-${index}`}>
-        <SvgRect
+      <Group key={`debug-${rect.kind}-${rect.id}-${index}`}>
+        <Rect
           fill="none"
           height={rect.height}
           stroke={stroke}
@@ -50,17 +55,19 @@ export const renderLineChartDebugLayout = ({
           y={rect.y}
           {...dashProps}
         />
-        {rect.text ? (
-          <SvgText
+        {rect.text && canRenderText ? (
+          <Text
             fill={stroke}
             fontSize={9}
+            text={rect.text}
             x={rect.x + 2}
             y={Math.max(10, rect.y - 3)}
             {...getFontFamilyProps(fontFamily)}
           >
             {rect.text}
-          </SvgText>
+          </Text>
         ) : null}
-      </SvgGroup>
+      </Group>
     );
   });
+};

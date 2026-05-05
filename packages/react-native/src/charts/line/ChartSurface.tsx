@@ -70,7 +70,6 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
   const { Defs, Group, Line, Rect, Surface, Text } = renderer;
   const Layer = renderer.Layer ?? Group;
   const LinearGradient = renderer.LinearGradient;
-  const isSvgRenderer = renderer.name === "svg";
   const canRenderText = renderer.capabilities?.text !== false;
   const supportsGradients =
     renderer.capabilities?.gradients !== false && Boolean(LinearGradient);
@@ -383,11 +382,12 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
               : renderDefaultTooltip(animatedTooltip, renderer)
             : null}
         </Layer>
-        {debugLayout && debugLayoutModel && isSvgRenderer ? (
+        {debugLayout && debugLayoutModel ? (
           <Layer name="debug">
             {renderLineChartDebugLayout({
               fontFamily: resolvedTheme.typography.fontFamily,
-              model: debugLayoutModel
+              model: debugLayoutModel,
+              renderer
             })}
           </Layer>
         ) : null}
