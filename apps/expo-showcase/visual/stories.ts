@@ -40,6 +40,7 @@ export const chartStories = [
   "v2-combined-revenue-margin",
   "v2-combined-shared-tooltip",
   "v2-combined-legend-toggles",
+  "v2-combined-negative-values",
   "v2-pie-acquisition",
   "v2-pie-external-labels",
   "v2-donut-revenue",

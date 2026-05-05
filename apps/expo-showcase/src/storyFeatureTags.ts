@@ -64,6 +64,11 @@ export const storyFeatureTags: Record<string, string[]> = {
     "legend toggles",
     "domain updates"
   ],
+  "v2-combined-negative-values": [
+    "negative values",
+    "zero baseline",
+    "dual axis"
+  ],
   "v2-pie-acquisition": ["pie chart", "bottom legend", "percentage labels"],
   "v2-pie-external-labels": [
     "external labels",

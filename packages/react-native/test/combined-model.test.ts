@@ -133,4 +133,26 @@ describe("CombinedChart model", () => {
 
     expect(enterpriseLegend?.active).toBe(false);
   });
+
+  it("places negative combined bars below the zero baseline", () => {
+    const model = buildCombinedChartModel({
+      chartKitTheme,
+      data: [
+        { month: "Jan", profit: -20, margin: 8 },
+        { month: "Feb", profit: 35, margin: 18 }
+      ],
+      xKey: "month",
+      bars: [{ yKey: "profit", label: "Profit" }],
+      lines: [{ yKey: "margin", label: "Margin" }],
+      leftYDomain: { min: "dataMin", max: "dataMax", nice: true },
+      width: 360,
+      height: 260
+    });
+    const negativeBar = model.bars.find((bar) => bar.value < 0);
+    const positiveBar = model.bars.find((bar) => bar.value > 0);
+
+    expect(negativeBar?.y).toBe(negativeBar?.baselineY);
+    expect(negativeBar?.height).toBeGreaterThan(0);
+    expect(positiveBar?.y).toBeLessThan(positiveBar?.baselineY ?? 0);
+  });
 });

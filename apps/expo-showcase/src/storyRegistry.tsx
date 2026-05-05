@@ -192,7 +192,8 @@ export const publicChartMode: ShowcaseMode = {
           storyIds: [
             "v2-combined-revenue-margin",
             "v2-combined-shared-tooltip",
-            "v2-combined-legend-toggles"
+            "v2-combined-legend-toggles",
+            "v2-combined-negative-values"
           ]
         }
       ]
@@ -319,7 +320,8 @@ export const showcaseModes: ShowcaseMode[] = [
         storyIds: [
           "v2-combined-revenue-margin",
           "v2-combined-shared-tooltip",
-          "v2-combined-legend-toggles"
+          "v2-combined-legend-toggles",
+          "v2-combined-negative-values"
         ]
       },
       {
