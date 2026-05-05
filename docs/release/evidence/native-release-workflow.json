@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "status": "partial",
+  "requiredFor": ["H5", "H6"],
+  "lastUpdated": "2026-05-05",
+  "summary": "iOS and Android release builds passed locally, but the native release workflow still needs a green run on the release candidate commit.",
+  "completedEntries": [
+    {
+      "date": "2026-05-05",
+      "platform": "ios",
+      "build": "Release simulator build",
+      "result": "local-pass",
+      "notes": "Local release-build path completed outside the sandbox; green workflow evidence is still required."
+    },
+    {
+      "date": "2026-05-05",
+      "platform": "android",
+      "build": "Release APK",
+      "result": "local-pass",
+      "notes": "Local assembleRelease path completed with OpenJDK 17 and Homebrew Android command-line tools SDK; green workflow evidence is still required."
+    }
+  ],
+  "missingEvidence": [
+    "green native release workflow run on the release candidate commit",
+    "archived iOS workflow artifact or log",
+    "archived Android workflow artifact or log"
+  ]
+}

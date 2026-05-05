@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "status": "partial",
+  "requiredFor": ["H4", "H5", "H6"],
+  "lastUpdated": "2026-05-05",
+  "summary": "The Skia preview package, injected primitive adapter, and local LineChart renderer contract coverage exist, but native install and renderer parity evidence are incomplete.",
+  "completedEntries": [
+    {
+      "date": "2026-05-05",
+      "scope": "package-boundary",
+      "result": "partial-pass",
+      "artifacts": ["packages/skia-renderer/README.md"],
+      "notes": "Skia package remains optional and avoids static Skia imports."
+    },
+    {
+      "date": "2026-05-05",
+      "scope": "local-parity",
+      "result": "partial-pass",
+      "artifacts": [
+        "packages/skia-renderer/test/skia-renderer.test.ts",
+        "packages/react-native/test/line-renderer.test.ts"
+      ],
+      "notes": "Local primitive tests and LineChart renderer contract tests run through npm run skia:parity."
+    }
+  ],
+  "coveredSurfaces": [
+    "Canvas",
+    "Group",
+    "Path",
+    "Rect",
+    "Circle",
+    "Line",
+    "Text",
+    "LinearGradient",
+    "rect-clipped Groups",
+    "LineChart main plot",
+    "range selector",
+    "sticky-axis",
+    "path-local area gradients",
+    "threshold rect clips",
+    "measured text anchors",
+    "default marker",
+    "default legend",
+    "default tooltip",
+    "debug-layout surfaces"
+  ],
+  "missingEvidence": [
+    "native Skia install verification",
+    "native renderer parity coverage",
+    "sticky-axis font configuration evidence",
+    "native Skia benchmark comparison",
+    "remaining chart integration beyond LineChart surfaces"
+  ]
+}

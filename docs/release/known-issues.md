@@ -6,7 +6,7 @@ These are allowed only as explicit beta caveats. Anything in this file should ei
 
 Android and iOS release-build checks are configured in `.github/workflows/native-release.yml` and can be run locally with `npm run native:release:android` and `npm run native:release:ios`. The Expo showcase also verifies web screenshots and can run on device through Expo Go or Expo dev targets.
 
-The iOS and Android release builds passed locally on May 5, 2026. Android used OpenJDK 17 plus the Homebrew Android command-line tools SDK (`/opt/homebrew/share/android-commandlinetools`) and completed `assembleRelease`. The release script now fails before prebuild when either Java or the Android SDK is missing. The remaining gap is CI evidence: H5/H6 should not count native release-build coverage as complete until the native workflow has a green run on the release candidate commit.
+The iOS and Android release builds passed locally on May 5, 2026. Android used OpenJDK 17 plus the Homebrew Android command-line tools SDK (`/opt/homebrew/share/android-commandlinetools`) and completed `assembleRelease`. The release script now fails before prebuild when either Java or the Android SDK is missing. The remaining gap is CI evidence: H5/H6 should not count native release-build coverage as complete until the native workflow has a green run on the release candidate commit. The structured status lives in [native-release-workflow.json](evidence/native-release-workflow.json).
 
 Impact: beta can be used for preview and API feedback, but production users should wait for green native workflow verification before treating v2 as stable.
 
@@ -32,7 +32,7 @@ Impact: H4/H5 must decide which features stay free, which move to Pro, and how t
 
 ## Skia Renderer
 
-`packages/skia-renderer` now provides a preview package boundary, capability metadata, install guidance, and an injected Skia primitive adapter. `LineChart` can accept the injected renderer for its main plot, range selector, sticky-axis, path-local area gradients, threshold rect clips, measured text anchors, default marker, default legend, default tooltip, and debug-layout surfaces. Local renderer contract coverage exists, but sticky-axis labels require a Skia font, and native install verification plus native renderer parity tests are not complete yet.
+`packages/skia-renderer` now provides a preview package boundary, capability metadata, install guidance, and an injected Skia primitive adapter. `LineChart` can accept the injected renderer for its main plot, range selector, sticky-axis, path-local area gradients, threshold rect clips, measured text anchors, default marker, default legend, default tooltip, and debug-layout surfaces. Local renderer contract coverage exists, but sticky-axis labels require a Skia font, and native install verification plus native renderer parity tests are not complete yet. The structured status lives in [skia-renderer-evidence.json](evidence/skia-renderer-evidence.json).
 
 Impact: the optional package boundary exists for H4 review, but Skia must stay labeled as preview until the remaining chart integration, install matrix, native benchmarks, and native parity tests are implemented.
 

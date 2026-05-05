@@ -73,6 +73,8 @@ The `pack:check` command runs `npm pack --dry-run --json --ignore-scripts` for e
 - [H4 Pro scope decision packet](h4-pro-scope.md)
 - [H5 beta gate evidence](h5-beta-gate-evidence.md)
 - [H5 owner decision memo](h5-owner-decision-memo.md)
+- [Native release workflow evidence manifest](evidence/native-release-workflow.json)
+- [Skia renderer evidence manifest](evidence/skia-renderer-evidence.json)
 - [Changelog](../../CHANGELOG.md)
 
 ## H5 Owner Decision

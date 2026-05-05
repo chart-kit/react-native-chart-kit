@@ -25,10 +25,12 @@ const requiredFiles = [
   "docs/release/native-runtime-qa.md",
   "docs/release/accessibility-qa.md",
   "docs/release/evidence/native-accessibility-qa.json",
-  "docs/release/evidence/package-manifest.json",
   "docs/release/evidence/native-performance-benchmark.json",
+  "docs/release/evidence/native-release-workflow.json",
   "docs/release/evidence/native-runtime-qa.json",
   "docs/release/evidence/owner-gates.json",
+  "docs/release/evidence/package-manifest.json",
+  "docs/release/evidence/skia-renderer-evidence.json",
   ".github/workflows/native-release.yml",
   "packages/core/package.json",
   "packages/react-native/package.json",
@@ -76,24 +78,21 @@ const releaseBlockers = [
     pattern: /Android .*blocked locally by missing Android SDK/i,
     message:
       "Android release-build evidence is still blocked locally by Android SDK configuration."
-  },
-  {
-    id: "native-workflow-evidence",
-    file: "docs/release/known-issues.md",
-    pattern: /green (native )?(release )?workflow (artifact|run)|green run/i,
-    message: "Green native release workflow evidence is still missing."
-  },
-  {
-    id: "skia-backend",
-    file: "packages/skia-renderer/README.md",
-    pattern:
-      /native install verification and native renderer parity coverage are still pending/i,
-    message:
-      "Skia adapter and first LineChart hook exist, but native install and native renderer parity evidence are still missing."
   }
 ];
 
 const releaseEvidenceManifests = [
+  {
+    id: "native-workflow-evidence",
+    file: "docs/release/evidence/native-release-workflow.json",
+    message: "Green native release workflow evidence is still missing."
+  },
+  {
+    id: "skia-backend",
+    file: "docs/release/evidence/skia-renderer-evidence.json",
+    message:
+      "Skia adapter and first LineChart hook exist, but native install and native renderer parity evidence are still missing."
+  },
   {
     id: "native-runtime-qa",
     file: "docs/release/evidence/native-runtime-qa.json",
