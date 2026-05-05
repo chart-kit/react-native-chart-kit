@@ -76,7 +76,11 @@ const {
   buildLineSeriesGeometry,
   createBandScale,
   createLinearScale,
-  normalizeCartesianData
+  normalizeCartesianData,
+  resolveChartViewportWindow,
+  resolveChartViewportWindowFromHandlePosition,
+  resolveChartViewportWindowFromPosition,
+  sliceChartViewportData
 } = requireBenchmarkBuild(benchmarkBuild.entry);
 
 const iterations = Math.max(
@@ -174,6 +178,65 @@ const runBarGeometryBuild = ({ mode, rows, seriesKeys }) => {
   });
 };
 
+const runViewportLineGeometryBuild = ({
+  rows,
+  seriesKeys,
+  visiblePoints,
+  windowStart
+}) => {
+  const viewportWindow = resolveChartViewportWindow({
+    itemCount: rows.length,
+    startIndex: windowStart,
+    endIndex: windowStart + visiblePoints
+  });
+  const visibleRows = sliceChartViewportData(rows, viewportWindow);
+
+  return {
+    geometries: runLineGeometryBuild({
+      rows: visibleRows,
+      seriesKeys,
+      pathDecimation: false
+    }),
+    viewportWindow
+  };
+};
+
+const runRangeSelectorOverviewBuild = ({
+  iteration,
+  rows,
+  seriesKeys,
+  visiblePoints,
+  pathDecimation
+}) => {
+  const locationRatio = (iteration % 25) / 24;
+  const locationX = 32 + plotWidth * locationRatio;
+  const movedWindow = resolveChartViewportWindowFromPosition({
+    itemCount: rows.length,
+    locationX,
+    plotWidth,
+    plotX: 32,
+    visibleCount: visiblePoints
+  });
+  const resizedWindow = resolveChartViewportWindowFromHandlePosition({
+    currentWindow: movedWindow,
+    handle: iteration % 2 === 0 ? "start" : "end",
+    itemCount: rows.length,
+    locationX: 32 + plotWidth * (1 - locationRatio),
+    minVisibleCount: Math.max(12, Math.floor(visiblePoints / 8)),
+    plotWidth,
+    plotX: 32
+  });
+
+  return {
+    geometries: runLineGeometryBuild({
+      rows,
+      seriesKeys,
+      pathDecimation
+    }),
+    viewportWindow: resizedWindow
+  };
+};
+
 const summarizeLineGeometry = (geometries) => {
   const pathPoints = geometries.reduce(
     (sum, geometry) =>
@@ -203,28 +266,26 @@ const summarizeBarGeometry = (geometry, rows, seriesKeys) => ({
   sourcePoints: rows.length * seriesKeys.length
 });
 
-const runLineScenario = (scenario) => {
+const buildSeriesKeys = (series) =>
+  Array.from({ length: series }, (_, index) => `y${index}`);
+
+const runTimedScenario = ({ build, scenario, summarize }) => {
   const rows = generateRows({
     points: scenario.points,
     series: scenario.series
   });
-  const seriesKeys = Array.from(
-    { length: scenario.series },
-    (_, index) => `y${index}`
-  );
+  const seriesKeys = buildSeriesKeys(scenario.series);
   const times = [];
-  let summary = { pathChars: 0, pathPoints: 0, sourcePoints: 0 };
+  let metadata = {};
+  let summary = { pathChars: 0, pathPoints: 0, sourcePoints: 0, bars: 0 };
 
   for (let index = 0; index < warmupIterations + iterations; index++) {
     const start = performance.now();
-    const geometries = runLineGeometryBuild({
-      rows,
-      seriesKeys,
-      pathDecimation: scenario.pathDecimation
-    });
+    const result = build({ iteration: index, rows, seriesKeys });
     const elapsed = performance.now() - start;
 
-    summary = summarizeLineGeometry(geometries);
+    summary = summarize({ result, rows, seriesKeys });
+    metadata = result.metadata ?? {};
 
     if (index >= warmupIterations) {
       times.push(elapsed);
@@ -234,48 +295,88 @@ const runLineScenario = (scenario) => {
   return {
     kind: "line",
     ...scenario,
+    geometryPoints: summary.sourcePoints,
+    ...metadata,
     ...summary,
     medianMs: percentile(times, 50),
     p95Ms: percentile(times, 95)
   };
 };
 
-const runBarScenario = (scenario) => {
-  const rows = generateRows({
-    points: scenario.points,
-    series: scenario.series
+const runLineScenario = (scenario) =>
+  runTimedScenario({
+    scenario,
+    build: ({ rows, seriesKeys }) => ({
+      geometries: runLineGeometryBuild({
+        rows,
+        seriesKeys,
+        pathDecimation: scenario.pathDecimation
+      })
+    }),
+    summarize: ({ result }) => summarizeLineGeometry(result.geometries)
   });
-  const seriesKeys = Array.from(
-    { length: scenario.series },
-    (_, index) => `y${index}`
+
+const runBarScenario = (scenario) =>
+  runTimedScenario({
+    scenario: { kind: "bar", ...scenario },
+    build: ({ rows, seriesKeys }) => ({
+      geometry: runBarGeometryBuild({
+        mode: scenario.mode,
+        rows,
+        seriesKeys
+      })
+    }),
+    summarize: ({ result, rows, seriesKeys }) =>
+      summarizeBarGeometry(result.geometry, rows, seriesKeys)
+  });
+
+const runViewportLineScenario = (scenario) => {
+  const windowStart = Math.max(
+    0,
+    Math.min(
+      scenario.windowStart ?? scenario.points - scenario.visiblePoints,
+      scenario.points - scenario.visiblePoints
+    )
   );
-  const times = [];
-  let summary = { bars: 0, pathChars: 0, pathPoints: 0, sourcePoints: 0 };
 
-  for (let index = 0; index < warmupIterations + iterations; index++) {
-    const start = performance.now();
-    const geometry = runBarGeometryBuild({
-      mode: scenario.mode,
-      rows,
-      seriesKeys
-    });
-    const elapsed = performance.now() - start;
+  return runTimedScenario({
+    scenario,
+    build: ({ rows, seriesKeys }) => {
+      const result = runViewportLineGeometryBuild({
+        rows,
+        seriesKeys,
+        visiblePoints: scenario.visiblePoints,
+        windowStart
+      });
 
-    summary = summarizeBarGeometry(geometry, rows, seriesKeys);
-
-    if (index >= warmupIterations) {
-      times.push(elapsed);
-    }
-  }
-
-  return {
-    kind: "bar",
-    ...scenario,
-    ...summary,
-    medianMs: percentile(times, 50),
-    p95Ms: percentile(times, 95)
-  };
+      return {
+        ...result,
+        metadata: { viewportVisibleCount: result.viewportWindow.visibleCount }
+      };
+    },
+    summarize: ({ result }) => summarizeLineGeometry(result.geometries)
+  });
 };
+
+const runRangeSelectorScenario = (scenario) =>
+  runTimedScenario({
+    scenario,
+    build: ({ iteration, rows, seriesKeys }) => {
+      const result = runRangeSelectorOverviewBuild({
+        iteration,
+        rows,
+        seriesKeys,
+        visiblePoints: scenario.visiblePoints,
+        pathDecimation: scenario.pathDecimation
+      });
+
+      return {
+        ...result,
+        metadata: { viewportVisibleCount: result.viewportWindow.visibleCount }
+      };
+    },
+    summarize: ({ result }) => summarizeLineGeometry(result.geometries)
+  });
 
 const lineScenarios = [
   { name: "line-100", points: 100, series: 1 },
@@ -291,6 +392,26 @@ const lineScenarios = [
     points: 1000,
     series: 5,
     pathDecimation: { maxPoints: 700 }
+  }
+];
+
+const viewportLineScenarios = [
+  {
+    name: "line-10000-window-2000",
+    points: 10000,
+    series: 1,
+    visiblePoints: 2000,
+    windowStart: 7000
+  }
+];
+
+const rangeSelectorScenarios = [
+  {
+    name: "range-selector-2x10000-overview",
+    points: 10000,
+    series: 2,
+    visiblePoints: 90,
+    pathDecimation: { maxPoints: 900 }
   }
 ];
 
@@ -311,6 +432,8 @@ const barScenarios = [
 
 const results = [
   ...lineScenarios.map(runLineScenario),
+  ...viewportLineScenarios.map(runViewportLineScenario),
+  ...rangeSelectorScenarios.map(runRangeSelectorScenario),
   ...barScenarios.map(runBarScenario)
 ];
 const memory = process.memoryUsage();
@@ -326,7 +449,9 @@ console.log(
     "kind",
     "scenario",
     "series",
-    "source points",
+    "total points",
+    "geometry points",
+    "visible",
     "bars",
     "path points",
     "path chars",
@@ -341,7 +466,9 @@ results.forEach((result) => {
       result.kind,
       result.name,
       result.series,
-      result.sourcePoints,
+      result.points * result.series,
+      result.geometryPoints,
+      result.viewportVisibleCount ?? result.visiblePoints ?? "",
       result.bars ?? 0,
       result.pathPoints,
       result.pathChars,

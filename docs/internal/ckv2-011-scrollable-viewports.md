@@ -58,9 +58,9 @@ const [viewport, setViewport] = useState({ startIndex: 40, endIndex: 90 });
 - `packages/react-native/test/line-viewport-interaction.test.ts` covers interaction config, pan distance mapping, pinch sensitivity, and range selector custom render hooks.
 - `apps/expo-showcase/visual/chart-interaction.spec.ts` covers public menu visibility, range selector move/resize, main-plot pan, mini-chart dark mode, scroll locking during range gestures, and passive scrollable comparison behavior.
 - Visual stories include `v2-scrollable-price`, `v2-scrollable-dense`, `v2-scrollable-stock-comparison`, `v2-viewport-zoom-pan`, and `v2-range-selector`.
+- `npm run benchmark` includes a 10,000-point dataset with a 2,000-point visible line window and a 2 x 10,000-point range-selector overview path with decimation plus move/resize calculations.
 
 ## Remaining Work
 
 - Native iOS and Android QA for pinch zoom and nested scroll conflict behavior.
 - Optional future gesture adapter for high-frequency scrub if responder-based scrub shows native jank.
-- Performance benchmark coverage for very large viewport windows and range-selector overview paths.
