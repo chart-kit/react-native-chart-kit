@@ -115,6 +115,9 @@ export const buildBarChartModel = <TData extends Record<string, unknown>>({
   barGapRatio = 0.12,
   showValuesOnTopOfBars = false,
   showHorizontalGridLines = true,
+  showXAxisLabels = true,
+  showYAxisLabels = true,
+  yTickCount = 5,
   legend,
   labelStrategy = "auto",
   formatXLabel = defaultFormatBarChartXLabel,
@@ -154,7 +157,10 @@ export const buildBarChartModel = <TData extends Record<string, unknown>>({
     mode === "stacked100" && yDomain === defaultYDomain
       ? ([0, 100] as [number, number])
       : resolveNumericDomain(domainValues, yDomain);
-  const yTicks = generateLinearTicks({ domain: resolvedYDomain, count: 5 });
+  const yTicks = generateLinearTicks({
+    domain: resolvedYDomain,
+    count: Math.max(2, Math.round(yTickCount))
+  });
   const yLabelSizes = yTicks.map((tick) =>
     measureBarChartText(formatYLabel(tick), textOptions)
   );
@@ -432,6 +438,8 @@ export const buildBarChartModel = <TData extends Record<string, unknown>>({
     resolvedTheme,
     legendItems,
     showHorizontalGridLines,
+    showXAxisLabels,
+    showYAxisLabels,
     valueLabels,
     xLabels: isHorizontal ? horizontalXLabels : verticalXLabels,
     yLabels: isHorizontal ? horizontalYLabels : verticalYLabels,

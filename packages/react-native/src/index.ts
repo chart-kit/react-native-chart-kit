@@ -1,4 +1,5 @@
 export { BarChart } from "./charts/bar/BarChart";
+export { StackedBarChart } from "./charts/bar/StackedBarChart";
 export {
   CalendarHeatmap,
   ContributionGraph
@@ -50,6 +51,13 @@ export type {
   BarChartXLabelModel,
   BarChartYLabelModel
 } from "./charts/bar/BarChart";
+export type {
+  StackedBarChartCompatProps,
+  StackedBarChartLegacyConfig,
+  StackedBarChartLegacyData,
+  StackedBarChartProps,
+  StackedBarChartRow
+} from "./charts/bar/StackedBarChart";
 export type {
   ContributionGraphCellModel,
   ContributionGraphColorRenderProps,

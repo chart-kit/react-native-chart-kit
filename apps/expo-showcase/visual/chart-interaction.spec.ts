@@ -215,6 +215,23 @@ test.describe("Expo showcase chart interactions", () => {
     await expect(page.getByText("Community")).toBeVisible();
   });
 
+  test("stacked bar compatibility avoids legacy segment label collisions", async ({
+    page
+  }) => {
+    await page.goto("/?story=stacked-bar-percentile&visual=1");
+    await page.evaluate(async () => {
+      await document.fonts?.ready;
+    });
+
+    await expect(page.getByText("Stacked Percentile")).toBeVisible();
+    const svgText = await page
+      .locator("svg text")
+      .evaluateAll((nodes) => nodes.map((node) => node.textContent ?? ""));
+
+    expect(svgText).not.toContain("63%");
+    await expect(page.getByText("Active")).toBeVisible();
+  });
+
   test("donut chart tap selection updates the active center label", async ({
     page
   }) => {

@@ -2,6 +2,7 @@ import {
   BarChart as CompatBarChart,
   LineChart as CompatLineChart
 } from "@chart-kit/react-native";
+import { StackedBarChart as CompatStackedBarChart } from "@chart-kit/react-native-v2";
 
 import {
   fixtures as barFixtures,
@@ -11,6 +12,10 @@ import {
   fixtures as lineFixtures,
   type LineChartFixture
 } from "../fixtures/compatLine";
+import {
+  fixtures as stackedBarFixtures,
+  type StackedBarChartFixture
+} from "../fixtures/compatStackedBar";
 import {
   ChartSection,
   EmptyState,
@@ -24,13 +29,22 @@ const hasLineData = (fixture: LineChartFixture) =>
 const hasBarData = (fixture: BarChartFixture) =>
   fixture.data.datasets.some((dataset) => dataset.data.length > 0);
 
+const hasStackedBarData = (fixture: StackedBarChartFixture) =>
+  fixture.data.data.some((group) => group.length > 0);
+
 const resolveLegacyWidth = (
   availableWidth: number,
-  fixture: Pick<LineChartFixture | BarChartFixture, "width">
+  fixture: Pick<
+    LineChartFixture | BarChartFixture | StackedBarChartFixture,
+    "width"
+  >
 ) => Math.min(availableWidth, fixture.width);
 
 const legacyChartStyle = (
-  fixture: Pick<LineChartFixture | BarChartFixture, "style">
+  fixture: Pick<
+    LineChartFixture | BarChartFixture | StackedBarChartFixture,
+    "style"
+  >
 ) => ({
   ...fixture.style,
   paddingRight: Math.min(fixture.style?.paddingRight ?? 28, 28),
@@ -115,6 +129,43 @@ const CompatBarStory = ({
         ) : (
           <EmptyState
             copy="The compatibility fixture contains zero bars."
+            height={fixture.height}
+          />
+        )}
+      </ChartSection>
+    );
+  };
+
+  return Story;
+};
+
+const CompatStackedBarStory = ({
+  fixture,
+  title
+}: {
+  fixture: StackedBarChartFixture;
+  title: string;
+}) => {
+  const Story = ({ width }: NativeStoryProps) => {
+    const chartWidth = resolveLegacyWidth(width, fixture);
+
+    return (
+      <ChartSection title={title} kicker="Compat StackedBarChart">
+        {hasStackedBarData(fixture) ? (
+          <CompatStackedBarChart
+            data={fixture.data}
+            width={chartWidth}
+            height={fixture.height}
+            chartConfig={fixture.chartConfig}
+            hideLegend={fixture.hideLegend}
+            percentile={fixture.percentile}
+            segments={fixture.segments}
+            style={legacyChartStyle(fixture)}
+            yAxisSuffix={fixture.yAxisSuffix}
+          />
+        ) : (
+          <EmptyState
+            copy="The compatibility fixture contains zero stacked bars."
             height={fixture.height}
           />
         )}
@@ -233,6 +284,25 @@ export const compatBarStories: ShowcaseStory[] = [
     Component: CompatBarStory({
       title: "Tiny Width",
       fixture: barFixtures.tinyWidth
+    })
+  }
+];
+
+export const compatStackedBarStories: ShowcaseStory[] = [
+  {
+    id: "stacked-bar-basic",
+    title: "Stacked Basic",
+    Component: CompatStackedBarStory({
+      title: "Stacked Basic",
+      fixture: stackedBarFixtures.basic
+    })
+  },
+  {
+    id: "stacked-bar-percentile",
+    title: "Stacked Percentile",
+    Component: CompatStackedBarStory({
+      title: "Stacked Percentile",
+      fixture: stackedBarFixtures.percentile
     })
   }
 ];

@@ -1,4 +1,8 @@
-import { compatBarStories, compatLineStories } from "./stories/compatStories";
+import {
+  compatBarStories,
+  compatLineStories,
+  compatStackedBarStories
+} from "./stories/compatStories";
 import { barOverviewStories } from "./stories/barOverviewStories";
 import { contributionOverviewStories } from "./stories/contributionOverviewStories";
 import { lineInteractionStories } from "./stories/lineInteractionStories";
@@ -78,7 +82,7 @@ export const storySections: ShowcaseSection[] = [
   {
     id: "legacy-bar",
     title: "Compat BarChart",
-    stories: compatBarStories
+    stories: [...compatBarStories, ...compatStackedBarStories]
   }
 ];
 
@@ -305,8 +309,14 @@ export const showcaseModes: ShowcaseMode[] = [
         id: "compat",
         title: "Compatibility",
         description:
-          "Legacy LineChart and BarChart facade fixtures kept visible for upgrade review.",
-        storyIds: ["line-basic", "bar-basic", "line-dark-mode", "bar-dark-mode"]
+          "Legacy LineChart, BarChart, and StackedBarChart facade fixtures kept visible for upgrade review.",
+        storyIds: [
+          "line-basic",
+          "bar-basic",
+          "stacked-bar-basic",
+          "line-dark-mode",
+          "bar-dark-mode"
+        ]
       }
     ]
   },
@@ -413,11 +423,13 @@ export const showcaseModes: ShowcaseMode[] = [
         id: "compat-bar",
         title: "Compat BarChart",
         description:
-          "Legacy bar fixtures for upgrade safety: dense data, long labels, negatives, empty state, and tiny width.",
+          "Legacy bar fixtures for upgrade safety: dense data, long labels, negatives, empty state, stacked bars, and tiny width.",
         storyIds: [
           "bar-basic",
           "bar-long-labels",
           "bar-dense-data",
+          "stacked-bar-basic",
+          "stacked-bar-percentile",
           "bar-negative-values",
           "bar-empty-state",
           "bar-dark-mode",

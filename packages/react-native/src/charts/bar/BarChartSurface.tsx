@@ -51,6 +51,8 @@ export const BarChartSurface = <TData,>({
     orientation,
     resolvedTheme,
     showHorizontalGridLines,
+    showXAxisLabels,
+    showYAxisLabels,
     valueLabels,
     xLabels,
     yLabels,
@@ -161,7 +163,7 @@ export const BarChartSurface = <TData,>({
           })}
         </SvgLayer>
         <SvgLayer name="axes">
-          {showYAxis
+          {showYAxis && showYAxisLabels
             ? yLabels.map((label) => (
                 <SvgText
                   key={`label-y-${label.key}`}
@@ -176,19 +178,21 @@ export const BarChartSurface = <TData,>({
                 </SvgText>
               ))
             : null}
-          {xLabels.map((label) => (
-            <SvgText
-              key={`label-x-${label.index}`}
-              x={label.x}
-              y={label.y}
-              fill={resolvedTheme.mutedText}
-              fontSize={resolvedTheme.typography.axisLabelSize}
-              textAnchor={label.textAnchor}
-              {...fontProps}
-            >
-              {label.text}
-            </SvgText>
-          ))}
+          {showXAxisLabels
+            ? xLabels.map((label) => (
+                <SvgText
+                  key={`label-x-${label.index}`}
+                  x={label.x}
+                  y={label.y}
+                  fill={resolvedTheme.mutedText}
+                  fontSize={resolvedTheme.typography.axisLabelSize}
+                  textAnchor={label.textAnchor}
+                  {...fontProps}
+                >
+                  {label.text}
+                </SvgText>
+              ))
+            : null}
           {valueLabels.map((label) => (
             <SvgText
               key={label.key}
@@ -292,7 +296,7 @@ export const StickyBarChartYAxis = <TData,>({
   model,
   width
 }: StickyBarChartYAxisProps<TData>) => {
-  const { boxes, resolvedTheme, yLabels } = model;
+  const { boxes, resolvedTheme, showYAxisLabels, yLabels } = model;
   const fontProps = getFontFamilyProps(resolvedTheme.typography.fontFamily);
 
   return (
@@ -313,19 +317,21 @@ export const StickyBarChartYAxis = <TData,>({
             height={Math.max(0, height - (boxes.plot.y + boxes.plot.height))}
             fill={resolvedTheme.background}
           />
-          {yLabels.map((label) => (
-            <SvgText
-              key={`sticky-label-y-${label.key}`}
-              x={label.x}
-              y={label.y}
-              fill={resolvedTheme.mutedText}
-              fontSize={resolvedTheme.typography.axisLabelSize}
-              textAnchor="end"
-              {...fontProps}
-            >
-              {label.text}
-            </SvgText>
-          ))}
+          {showYAxisLabels
+            ? yLabels.map((label) => (
+                <SvgText
+                  key={`sticky-label-y-${label.key}`}
+                  x={label.x}
+                  y={label.y}
+                  fill={resolvedTheme.mutedText}
+                  fontSize={resolvedTheme.typography.axisLabelSize}
+                  textAnchor="end"
+                  {...fontProps}
+                >
+                  {label.text}
+                </SvgText>
+              ))
+            : null}
         </SvgLayer>
       </SvgSurface>
     </View>

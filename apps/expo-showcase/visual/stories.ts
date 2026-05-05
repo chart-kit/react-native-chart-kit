@@ -53,6 +53,8 @@ export const chartStories = [
   "bar-basic",
   "bar-long-labels",
   "bar-dense-data",
+  "stacked-bar-basic",
+  "stacked-bar-percentile",
   "bar-negative-values",
   "bar-empty-state",
   "bar-dark-mode",

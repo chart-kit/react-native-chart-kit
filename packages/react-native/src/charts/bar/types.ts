@@ -126,6 +126,9 @@ export type BarChartProps<TData extends Record<string, unknown>> = {
   barGapRatio?: number;
   showValuesOnTopOfBars?: boolean;
   showHorizontalGridLines?: boolean;
+  showXAxisLabels?: boolean;
+  showYAxisLabels?: boolean;
+  yTickCount?: number;
   legend?: boolean;
   interaction?: BarChartInteraction<TData>;
   selectedBar?: BarChartSelectedBar;
@@ -206,6 +209,8 @@ export type BarChartModel<TData = unknown> = {
   resolvedTheme: ResolvedCartesianChartTheme;
   legendItems: BarChartLegendItemModel[];
   showHorizontalGridLines: boolean;
+  showXAxisLabels: boolean;
+  showYAxisLabels: boolean;
   valueLabels: BarChartValueLabelModel[];
   xLabels: BarChartXLabelModel[];
   yLabels: BarChartYLabelModel[];

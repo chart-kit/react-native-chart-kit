@@ -69,6 +69,8 @@ export const storyFeatureTags: Record<string, string[]> = {
   "bar-basic": ["legacy data", "compat facade", "bar chart"],
   "bar-long-labels": ["long labels", "compat facade", "bar chart"],
   "bar-dense-data": ["dense data", "compat facade", "bar chart"],
+  "stacked-bar-basic": ["legacy data", "compat facade", "stacked bar"],
+  "stacked-bar-percentile": ["percentile", "compat facade", "stacked bar"],
   "bar-negative-values": ["negative values", "compat facade", "bar chart"],
   "bar-empty-state": ["empty state", "compat facade", "bar chart"],
   "bar-dark-mode": ["dark mode", "compat facade", "bar chart"],

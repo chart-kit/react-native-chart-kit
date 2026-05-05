@@ -2,7 +2,7 @@
 
 `BarChart` is the modern v2 bar surface for object-row data. It supports vertical and horizontal bars, grouped bars, stacked bars, 100% stacked bars, negative values, horizontal scrolling, automatic axis padding, theme presets, value labels, tap selection, tooltips, and a simple bottom legend.
 
-Use this API for new apps. Legacy `BarChart` compatibility fixtures remain separate from the modern v2 API.
+Use this API for new apps. The v2 package also exports a `StackedBarChart` compatibility facade for legacy stacked-bar data during migration.
 
 ## Basic Bars
 
@@ -126,6 +126,38 @@ Set `mode="stacked100"` for percentage composition. The original values are pres
 />
 ```
 
+## Legacy StackedBarChart Facade
+
+Existing `StackedBarChart` data can render through the modern stacked-bar engine without changing the old data shape.
+
+```tsx
+import { StackedBarChart } from "@chart-kit/react-native-v2";
+
+<StackedBarChart
+  data={{
+    labels: ["Free", "Starter", "Team"],
+    legend: ["Active", "Trial", "Paused"],
+    data: [
+      [44, 18, 8],
+      [38, 24, 11],
+      [52, 28, 14]
+    ],
+    barColors: ["#2563eb", "#0891b2", "#7c3aed"]
+  }}
+  width={360}
+  height={250}
+  chartConfig={{
+    backgroundGradientFrom: "#ffffff",
+    backgroundGradientTo: "#ffffff",
+    decimalPlaces: 0
+  }}
+  segments={4}
+  yAxisSuffix="k"
+/>;
+```
+
+The facade maps `labels`, `legend`, `data`, `barColors`, `hideLegend`, `percentile`, `segments`, `barPercentage`, `chartConfig.barPercentage`, `chartConfig.barRadius`, `decimalPlaces`, `formatYLabel`, `withVerticalLabels`, `withHorizontalLabels`, `withInnerLines`, `yAxisLabel`, and `yAxisSuffix`.
+
 ## Tap Selection And Tooltips
 
 Bar selection is opt-in. Use `interaction="tap"` for the simplest behavior, or pass an object when you need callbacks or outside-press dismissal.
@@ -184,9 +216,11 @@ Useful label and theme props:
 - `formatXLabel`: formats x-axis labels.
 - `formatYLabel`: formats y-axis and value labels.
 - `showHorizontalGridLines`: enabled by default.
+- `showXAxisLabels` / `showYAxisLabels`: hide axis label groups without removing grid geometry.
+- `yTickCount`: controls y-axis tick density.
 - `preset`: uses the same cartesian presets as LineChart.
 - `theme`: overrides chart colors, plot background, text, typography, and series colors.
 
 ## Current Limitations
 
-This is still an early modern BarChart slice. The current implementation does not yet include custom bar renderers or legacy BarChart prop mapping. Those belong to later CKV2-007 slices.
+This is still an early modern BarChart slice. The current implementation does not yet include custom bar renderers or full legacy `BarChart` prop mapping. Those belong to later CKV2-007 slices.
