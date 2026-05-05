@@ -20,7 +20,7 @@
         "packages/skia-renderer/test/skia-renderer.test.ts",
         "packages/react-native/test/line-renderer.test.ts"
       ],
-      "notes": "Local primitive tests plus LineChart, BarChart, and PieChart renderer contract tests run through npm run skia:parity."
+      "notes": "Local primitive tests plus LineChart, BarChart, PieChart, ProgressChart, and ContributionGraph renderer contract tests run through npm run skia:parity."
     }
   ],
   "coveredSurfaces": [
@@ -48,6 +48,10 @@
     "PieChart and DonutChart slices",
     "PieChart and DonutChart connector lines",
     "PieChart and DonutChart SVG text labels",
+    "ProgressChart and ProgressRing paths",
+    "ProgressChart SVG text labels",
+    "ContributionGraph and CalendarHeatmap cells",
+    "ContributionGraph and CalendarHeatmap SVG text labels",
     "debug-layout surfaces"
   ],
   "missingEvidence": [
@@ -55,6 +59,6 @@
     "native renderer parity coverage",
     "sticky-axis font configuration evidence",
     "native Skia benchmark comparison",
-    "remaining chart integration beyond LineChart, BarChart, and PieChart surfaces"
+    "remaining Pro-preview chart integration for CombinedChart and CandlestickChart"
   ]
 }

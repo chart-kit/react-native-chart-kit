@@ -9,6 +9,9 @@ import type {
   CartesianChartTheme,
   ResolvedCartesianChartTheme
 } from "../../theme";
+import type { LineChartRenderer } from "../line/types";
+
+export type ContributionGraphRenderer = LineChartRenderer;
 
 export type ContributionGraphDayPressEvent<TData = LegacyContributionValue> = {
   index: number;
@@ -54,6 +57,7 @@ export type ContributionGraphProps<
   getMonthLabel?: (monthIndex: number, date: Date) => string;
   getWeekdayLabel?: (dayIndex: number) => string;
   onDayPress?: (event: ContributionGraphDayPressEvent<TData>) => void;
+  renderer?: ContributionGraphRenderer;
   accessibilityLabel?: string;
   testID?: string;
 };

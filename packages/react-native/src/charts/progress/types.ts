@@ -5,6 +5,9 @@ import type {
   CartesianChartTheme,
   ResolvedCartesianChartTheme
 } from "../../theme";
+import type { LineChartRenderer } from "../line/types";
+
+export type ProgressChartRenderer = LineChartRenderer;
 
 export type ProgressRingDatum = {
   label?: string;
@@ -51,6 +54,7 @@ export type ProgressChartProps<
   radius?: number;
   strokeLinecap?: ProgressChartStrokeLinecap;
   backgroundRingColor?: string;
+  renderer?: ProgressChartRenderer;
   accessibilityLabel?: string;
   testID?: string;
   formatPercentage?: (value: number) => string;

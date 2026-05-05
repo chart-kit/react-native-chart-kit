@@ -71,7 +71,8 @@ export type {
   ContributionGraphColorRenderProps,
   ContributionGraphDayPressEvent,
   ContributionGraphModel,
-  ContributionGraphProps
+  ContributionGraphProps,
+  ContributionGraphRenderer
 } from "./charts/contribution/ContributionGraph";
 export type {
   PieChartActiveSliceConfig,
@@ -98,6 +99,7 @@ export type {
   ProgressChartLegendItem,
   ProgressChartModel,
   ProgressChartProps,
+  ProgressChartRenderer,
   ProgressChartStrokeLinecap,
   ProgressRingDatum,
   ProgressRingProps

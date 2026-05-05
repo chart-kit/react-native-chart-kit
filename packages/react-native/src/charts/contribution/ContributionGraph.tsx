@@ -1,14 +1,9 @@
 import { useMemo } from "react";
+import type { ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 
-import {
-  SvgLayer,
-  SvgRect,
-  SvgSurface,
-  SvgText
-} from "@chart-kit/svg-renderer";
-
 import { useChartKitTheme } from "../../theme";
+import { getLineChartRenderer as getContributionGraphRenderer } from "../line/renderer";
 import {
   buildContributionGraphModel,
   getContributionGraphMonthLabel,
@@ -26,6 +21,13 @@ export type {
   ContributionGraphDataTable,
   ContributionGraphDataTableRow
 } from "./accessibility";
+
+const RendererLayer = ({
+  children
+}: {
+  children?: ReactNode;
+  name?: string;
+}) => <>{children}</>;
 
 export const ContributionGraph = <
   TData extends { date?: string | number | Date; [key: string]: unknown }
@@ -48,6 +50,12 @@ export const ContributionGraph = <
       numDays: props.numDays,
       values: props.values
     });
+  const renderer = getContributionGraphRenderer(props.renderer);
+  const Layer = renderer.Layer ?? RendererLayer;
+  const Rect = renderer.Rect;
+  const Surface = renderer.Surface;
+  const SvgText = renderer.Text;
+  const canRenderText = renderer.capabilities?.text !== false;
 
   return (
     <View
@@ -64,53 +72,63 @@ export const ContributionGraph = <
       ]}
       testID={props.testID}
     >
-      <SvgSurface width={props.width} height={props.height}>
-        <SvgLayer name="axes">
-          {showMonthLabels
-            ? monthLabels.map((label) => (
-                <SvgText
-                  key={label.key}
-                  fill={resolvedTheme.mutedText}
-                  fontSize={10}
-                  fontWeight="700"
-                  x={label.x}
-                  y={label.y}
-                  {...(resolvedTheme.typography.fontFamily
-                    ? { fontFamily: resolvedTheme.typography.fontFamily }
-                    : {})}
-                >
-                  {getContributionGraphMonthLabel(
-                    label.monthIndex,
-                    label.date,
-                    props.getMonthLabel
-                  )}
-                </SvgText>
-              ))
+      <Surface width={props.width} height={props.height}>
+        <Layer name="axes">
+          {showMonthLabels && canRenderText
+            ? monthLabels.map((label) => {
+                const text = getContributionGraphMonthLabel(
+                  label.monthIndex,
+                  label.date,
+                  props.getMonthLabel
+                );
+
+                return (
+                  <SvgText
+                    key={label.key}
+                    fill={resolvedTheme.mutedText}
+                    fontSize={10}
+                    fontWeight="700"
+                    text={text}
+                    x={label.x}
+                    y={label.y}
+                    {...(resolvedTheme.typography.fontFamily
+                      ? { fontFamily: resolvedTheme.typography.fontFamily }
+                      : {})}
+                  >
+                    {text}
+                  </SvgText>
+                );
+              })
             : null}
-          {showWeekdayLabels
-            ? weekdayLabels.map((label) => (
-                <SvgText
-                  key={label.key}
-                  fill={resolvedTheme.mutedText}
-                  fontSize={9}
-                  fontWeight="700"
-                  x={label.x}
-                  y={label.y}
-                  {...(resolvedTheme.typography.fontFamily
-                    ? { fontFamily: resolvedTheme.typography.fontFamily }
-                    : {})}
-                >
-                  {getContributionGraphWeekdayLabel(
-                    label.dayIndex,
-                    props.getWeekdayLabel
-                  )}
-                </SvgText>
-              ))
+          {showWeekdayLabels && canRenderText
+            ? weekdayLabels.map((label) => {
+                const text = getContributionGraphWeekdayLabel(
+                  label.dayIndex,
+                  props.getWeekdayLabel
+                );
+
+                return (
+                  <SvgText
+                    key={label.key}
+                    fill={resolvedTheme.mutedText}
+                    fontSize={9}
+                    fontWeight="700"
+                    text={text}
+                    x={label.x}
+                    y={label.y}
+                    {...(resolvedTheme.typography.fontFamily
+                      ? { fontFamily: resolvedTheme.typography.fontFamily }
+                      : {})}
+                  >
+                    {text}
+                  </SvgText>
+                );
+              })
             : null}
-        </SvgLayer>
-        <SvgLayer name="data">
+        </Layer>
+        <Layer name="data">
           {cells.map((cell) => (
-            <SvgRect
+            <Rect
               key={`${cell.date.toISOString()}-${cell.weekIndex}-${cell.weekdayIndex}`}
               fill={cell.fill}
               height={cell.size}
@@ -133,8 +151,8 @@ export const ContributionGraph = <
               }}
             />
           ))}
-        </SvgLayer>
-      </SvgSurface>
+        </Layer>
+      </Surface>
     </View>
   );
 };

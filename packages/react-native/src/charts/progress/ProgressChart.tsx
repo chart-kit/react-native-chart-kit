@@ -1,14 +1,9 @@
 import { useMemo } from "react";
+import type { ReactNode } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-import {
-  SvgLayer,
-  SvgPath,
-  SvgSurface,
-  SvgText
-} from "@chart-kit/svg-renderer";
-
 import { useChartKitTheme } from "../../theme";
+import { getLineChartRenderer as getProgressChartRenderer } from "../line/renderer";
 import { getProgressChartAccessibilitySummary } from "./accessibility";
 import { buildProgressChartModel } from "./model";
 import type {
@@ -28,6 +23,13 @@ export type {
 } from "./accessibility";
 
 const defaultStrokeLinecap = "round";
+
+const RendererLayer = ({
+  children
+}: {
+  children?: ReactNode;
+  name?: string;
+}) => <>{children}</>;
 
 export const ProgressChart = <
   TData extends Record<string, unknown> = ProgressRingDatum
@@ -65,6 +67,12 @@ export const ProgressChart = <
       labels: props.labels,
       valueKey: props.valueKey
     });
+  const renderer = getProgressChartRenderer(props.renderer);
+  const Layer = renderer.Layer ?? RendererLayer;
+  const Path = renderer.Path;
+  const Surface = renderer.Surface;
+  const SvgText = renderer.Text;
+  const canRenderText = renderer.capabilities?.text !== false;
 
   return (
     <View
@@ -81,11 +89,11 @@ export const ProgressChart = <
       ]}
       testID={props.testID}
     >
-      <SvgSurface width={props.width} height={chartHeight}>
-        <SvgLayer name="background">
+      <Surface width={props.width} height={chartHeight}>
+        <Layer name="background">
           {rings.map((ring) =>
             ring.backgroundPath.length > 0 ? (
-              <SvgPath
+              <Path
                 key={`progress-background-${ring.index}`}
                 d={ring.backgroundPath}
                 fill="none"
@@ -98,11 +106,11 @@ export const ProgressChart = <
               />
             ) : null
           )}
-        </SvgLayer>
-        <SvgLayer name="data">
+        </Layer>
+        <Layer name="data">
           {rings.map((ring) =>
             ring.defined ? (
-              <SvgPath
+              <Path
                 key={`progress-ring-${ring.index}`}
                 d={ring.path}
                 fill="none"
@@ -116,13 +124,16 @@ export const ProgressChart = <
               />
             ) : null
           )}
-        </SvgLayer>
-        {typeof centerLabel === "string" && centerLabel.length > 0 ? (
-          <SvgLayer name="overlays">
+        </Layer>
+        {typeof centerLabel === "string" &&
+        centerLabel.length > 0 &&
+        canRenderText ? (
+          <Layer name="overlays">
             <SvgText
               fill={resolvedTheme.text}
               fontSize={18}
               fontWeight="800"
+              text={centerLabel}
               textAnchor="middle"
               x={centerX}
               y={centerY + 6}
@@ -132,9 +143,9 @@ export const ProgressChart = <
             >
               {centerLabel}
             </SvgText>
-          </SvgLayer>
+          </Layer>
         ) : null}
-      </SvgSurface>
+      </Surface>
       {legendVisible && legendItems.length > 0 ? (
         <View style={styles.legend}>
           {legendItems.map((item) => (
