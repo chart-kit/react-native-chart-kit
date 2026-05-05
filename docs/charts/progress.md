@@ -48,3 +48,21 @@ The legacy data object still works:
 ```
 
 Values outside `0..1` produce normalization warnings in core and are clamped by geometry so the ring never draws broken arcs.
+
+## Zero And Missing Values
+
+Zero and missing rings keep their background tracks and legend rows. Values above `1` are clamped visually while their source value remains available in the model.
+
+```tsx
+<ProgressChart
+  data={[
+    { metric: "Brief approved", progress: 0 },
+    { metric: "QA pass", progress: null },
+    { metric: "Rollout cap", progress: 1.18 }
+  ]}
+  valueKey="progress"
+  labelKey="metric"
+  width={320}
+  height={260}
+/>
+```

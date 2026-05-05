@@ -33,3 +33,18 @@ import { ContributionGraph } from "@chart-kit/react-native-v2";
 ```
 
 Use `onDayPress` to connect cells to native tooltips, bottom sheets, or app-level detail panels.
+
+## Empty Ranges
+
+An empty `values` array still renders the requested date range as zero-count cells. This keeps loading, quiet-period, and newly created workspace states visually stable.
+
+```tsx
+<ContributionGraph
+  values={[]}
+  endDate="2026-05-03"
+  numDays={91}
+  width={340}
+  height={150}
+  weekStartsOn={1}
+/>
+```

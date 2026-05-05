@@ -16,6 +16,9 @@ const formatDate = (date: Date) => {
 
 export const productUsageEndDate = formatDate(end);
 export const productUsageNumDays = 154;
+export const quietUsageEndDate = formatDate(end);
+export const quietUsageNumDays = 91;
+export const quietProductUsage: ProductUsageDay[] = [];
 export const productUsage: ProductUsageDay[] = Array.from(
   { length: productUsageNumDays },
   (_, index) => {

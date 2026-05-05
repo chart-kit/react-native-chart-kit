@@ -1,6 +1,10 @@
 import { ProgressChart, ProgressRing } from "@chart-kit/react-native-v2";
 
-import { activityProgress, onboardingProgress } from "../fixtures/v2Progress";
+import {
+  activityProgress,
+  goalReadinessProgress,
+  onboardingProgress
+} from "../fixtures/v2Progress";
 import { ChartSection, type NativeStoryProps } from "./storyPrimitives";
 
 const V2ProgressActivity = ({ width }: NativeStoryProps) => (
@@ -32,6 +36,21 @@ const V2ProgressSingle = ({ width }: NativeStoryProps) => (
   </ChartSection>
 );
 
+const V2ProgressZeroMissing = ({ width }: NativeStoryProps) => (
+  <ChartSection title="Launch readiness" kicker="Zero and missing rings">
+    <ProgressChart
+      centerLabel={({ average }) => `${Math.round(average * 100)}%`}
+      data={goalReadinessProgress}
+      height={260}
+      labelKey="metric"
+      strokeWidth={16}
+      testID="zero-missing-progress-chart"
+      valueKey="progress"
+      width={width}
+    />
+  </ChartSection>
+);
+
 export const progressOverviewStories = [
   {
     id: "v2-progress-activity",
@@ -42,5 +61,10 @@ export const progressOverviewStories = [
     id: "v2-progress-single",
     title: "Single Progress Ring",
     Component: V2ProgressSingle
+  },
+  {
+    id: "v2-progress-zero-missing",
+    title: "Zero & Missing",
+    Component: V2ProgressZeroMissing
   }
 ];

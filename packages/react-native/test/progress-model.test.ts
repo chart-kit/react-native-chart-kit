@@ -117,4 +117,44 @@ describe("ProgressChart model", () => {
       defined: false
     });
   });
+
+  it("keeps zero, missing, and clamped rings visible in the model", () => {
+    const model = buildProgressChartModel({
+      chartKitTheme,
+      props: {
+        data: [
+          { metric: "Brief approved", progress: 0 },
+          { metric: "QA pass", progress: null },
+          { metric: "Rollout cap", progress: 1.18 }
+        ],
+        valueKey: "progress",
+        labelKey: "metric",
+        width: 320,
+        height: 260
+      }
+    });
+
+    expect(model.rings).toHaveLength(3);
+    expect(model.rings[0]).toMatchObject({
+      value: 0,
+      clampedValue: 0,
+      defined: false
+    });
+    expect(model.rings[1]).toMatchObject({
+      value: null,
+      clampedValue: 0,
+      defined: false
+    });
+    expect(model.rings[2]).toMatchObject({
+      value: 1.18,
+      clampedValue: 1,
+      defined: true
+    });
+    expect(model.average).toBeCloseTo(0.5);
+    expect(model.legendItems.map((item) => item.percentageLabel)).toEqual([
+      "0%",
+      "0%",
+      "100%"
+    ]);
+  });
 });

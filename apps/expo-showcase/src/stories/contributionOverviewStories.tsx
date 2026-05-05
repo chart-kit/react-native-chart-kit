@@ -3,7 +3,10 @@ import { ContributionGraph } from "@chart-kit/react-native-v2";
 import {
   productUsage,
   productUsageEndDate,
-  productUsageNumDays
+  productUsageNumDays,
+  quietProductUsage,
+  quietUsageEndDate,
+  quietUsageNumDays
 } from "../fixtures/v2Contribution";
 import { ChartSection, type NativeStoryProps } from "./storyPrimitives";
 
@@ -21,10 +24,30 @@ const V2ContributionUsage = ({ width }: NativeStoryProps) => (
   </ChartSection>
 );
 
+const V2ContributionQuiet = ({ width }: NativeStoryProps) => (
+  <ChartSection title="Quiet workspace" kicker="Empty heatmap">
+    <ContributionGraph
+      endDate={quietUsageEndDate}
+      height={150}
+      numDays={quietUsageNumDays}
+      showOutOfRangeDays
+      testID="quiet-usage-heatmap"
+      values={quietProductUsage}
+      weekStartsOn={1}
+      width={width}
+    />
+  </ChartSection>
+);
+
 export const contributionOverviewStories = [
   {
     id: "v2-contribution-usage",
     title: "Product Usage Heatmap",
     Component: V2ContributionUsage
+  },
+  {
+    id: "v2-contribution-empty",
+    title: "Empty Heatmap",
+    Component: V2ContributionQuiet
   }
 ];

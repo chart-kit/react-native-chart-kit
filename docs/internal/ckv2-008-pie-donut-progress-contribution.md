@@ -37,6 +37,8 @@ Added:
 - rich React center labels for donut KPI content
 - long-label and zero-slice donut visual coverage
 - external pie/donut arc labels with connector lines and small-slice filtering
+- zero, missing, and clamped-value ProgressChart visual coverage
+- empty ContributionGraph visual coverage
 
 ## Design Choices
 
@@ -46,4 +48,4 @@ The geometry builder accepts normalized slices instead of legacy props. Modern a
 
 ## Remaining Work
 
-- Add more zero/empty-state fixtures across ProgressChart and ContributionGraph.
+- None for the CKV2-008 baseline. Future polish can add richer empty-state copy or skeleton/loading examples if product needs them.

@@ -82,4 +82,32 @@ describe("ContributionGraph model", () => {
       weekdayIndex: 0
     });
   });
+
+  it("renders empty contribution ranges as deterministic zero cells", () => {
+    const model = buildContributionGraphModel({
+      chartKitTheme,
+      props: {
+        values: [],
+        endDate: "2026-05-04",
+        numDays: 14,
+        weekStartsOn: 1,
+        width: 320,
+        height: 150
+      }
+    });
+
+    expect(model.cells).toHaveLength(14);
+    expect(model.valueMax).toBe(0);
+    expect(model.cells.every((cell) => cell.value === 0)).toBe(true);
+    expect(
+      model.cells.every((cell) => cell.fill === model.resolvedTheme.grid)
+    ).toBe(true);
+    expect(
+      model.cells.every((cell) => Math.abs(cell.opacity - 0.22) < 0.0001)
+    ).toBe(true);
+    expect(model.cells[0]).toMatchObject({
+      defined: true,
+      weekdayIndex: 1
+    });
+  });
 });

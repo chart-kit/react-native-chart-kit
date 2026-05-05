@@ -204,7 +204,11 @@ export const publicChartMode: ShowcaseMode = {
           title: "Showpieces",
           description:
             "Modern concentric progress rings built on renderer-agnostic progress geometry.",
-          storyIds: ["v2-progress-activity", "v2-progress-single"]
+          storyIds: [
+            "v2-progress-activity",
+            "v2-progress-single",
+            "v2-progress-zero-missing"
+          ]
         }
       ]
     },
@@ -219,7 +223,7 @@ export const publicChartMode: ShowcaseMode = {
           title: "Showpieces",
           description:
             "Calendar-style heatmaps with stable date mapping and theme-aware density.",
-          storyIds: ["v2-contribution-usage"]
+          storyIds: ["v2-contribution-usage", "v2-contribution-empty"]
         }
       ]
     }
@@ -300,14 +304,18 @@ export const showcaseModes: ShowcaseMode[] = [
         title: "Progress",
         description:
           "Modern progress chart examples for multi-ring and single-ring completion states.",
-        storyIds: ["v2-progress-activity", "v2-progress-single"]
+        storyIds: [
+          "v2-progress-activity",
+          "v2-progress-single",
+          "v2-progress-zero-missing"
+        ]
       },
       {
         id: "heatmaps",
         title: "Heatmaps",
         description:
           "Modern contribution heatmap examples with month labels, weekday labels, and stable date cells.",
-        storyIds: ["v2-contribution-usage"]
+        storyIds: ["v2-contribution-usage", "v2-contribution-empty"]
       },
       {
         id: "compat",
