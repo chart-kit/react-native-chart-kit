@@ -58,7 +58,7 @@ react-native-chart-kit          # compatibility package and migration bridge
 @chart-kit/pro                  # paid workflow package that composes free primitives
 ```
 
-`packages/skia-renderer` currently exists only as a preview package boundary with capability metadata and install guidance. It does not import Skia, render charts, or add license gating until H4 approves the Pro/package split.
+`packages/skia-renderer` currently exposes capability metadata, install guidance, and an injected Skia primitive adapter. Chart components do not consume it and it does not add license gating until H4 approves the Pro/package split.
 
 `packages/pro` currently exists only as a preview feature-registry boundary. It has no license checks, no runtime activation, and no gated chart implementations.
 

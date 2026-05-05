@@ -73,7 +73,7 @@ Benchmark scope covers core geometry plus one web showcase scrub timing scenario
 | Native performance plan | [Native performance benchmark protocol](native-performance-benchmark.md)                                                                                            | Protocol exists; release-device timing/FPS/memory evidence still pending                                            |
 | Native release results  | [Native release results](native-release-results.md)                                                                                                                 | Partial: iOS passed locally; Android still needs Java-backed CI/local evidence                                      |
 | Native runtime QA       | [Native runtime QA protocol](native-runtime-qa.md); `npm run test:e2e`; `npm run test:visual`                                                                       | Protocol exists; manual iOS/Android gesture/runtime evidence still pending                                          |
-| Skia package boundary   | `packages/skia-renderer`; `npm run skia:typecheck`                                                                                                                  | Preview descriptor boundary exists; actual Skia drawing backend still pending H4                                    |
+| Skia package boundary   | `packages/skia-renderer`; `npm run skia:typecheck`                                                                                                                  | Preview primitive adapter exists; chart integration and renderer parity evidence still pending H4                   |
 | Pro package boundary    | `packages/pro`; `npm run pro:typecheck`                                                                                                                             | Preview feature registry exists; license gating and paid implementations still pending H4                           |
 | Accessibility QA        | [Accessibility QA protocol](accessibility-qa.md); `packages/react-native/test/chart-accessibility.test.ts`; `packages/react-native/test/line-accessibility.test.ts` | Automated helper coverage exists; native VoiceOver/TalkBack evidence still pending                                  |
 | Changelog               | [Changelog](../../CHANGELOG.md)                                                                                                                                     | Covered for current v7 preview                                                                                      |
@@ -105,7 +105,7 @@ These are not covered by the green checks:
 - completed native runtime QA log beyond the web showcase interaction suite
 - completed native performance benchmark log for release builds on iOS and Android
 - generated native RN CLI `ios/` and `android/` release-build projects
-- actual Skia drawing backend and Pro package split
+- Skia chart integration, renderer parity evidence, and Pro package split
 - final free-vs-Pro boundary for animation, range selector, zoom, and financial features
 
 The example commands `npm run example:ios` and `npm run example:android` launch the Expo showcase through Expo dev tooling. They are manual review commands and must not be counted as passing native release-build or native e2e checks.

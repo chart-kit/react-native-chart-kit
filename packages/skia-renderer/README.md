@@ -1,18 +1,20 @@
 # @chart-kit/skia-renderer
 
-Preview package boundary for future Chart Kit v2 Skia rendering.
+Preview package boundary for Chart Kit v2 Skia rendering.
 
-This package intentionally does not import `@shopify/react-native-skia` yet. It provides the typed package boundary, capability metadata, and install guidance needed to keep future Skia work optional and separate from the free SVG renderer.
+This package intentionally avoids a static import of `@shopify/react-native-skia`. Apps that install Skia can pass the Skia module into `createSkiaRenderer({ skia })`, keeping the native dependency optional for SVG-only users.
 
 Current exports:
 
 - `createSkiaRendererCapabilities`
 - `createSkiaRendererDescriptor`
+- `createSkiaRenderer`
+- `createSkiaTextMeasurer`
 - `skiaRendererPreview`
 
 Status:
 
-- preview scaffold only
+- injected Skia primitive adapter for Canvas, Group, Path, Rect, Circle, Line, Text, and LinearGradient
 - no license gating
-- no runtime Skia dependency
 - no chart components consume this package yet
+- no renderer parity suite yet

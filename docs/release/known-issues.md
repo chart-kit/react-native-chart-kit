@@ -32,9 +32,9 @@ Impact: H4/H5 must decide which features stay free, which move to Pro, and how t
 
 ## Skia Renderer
 
-`packages/skia-renderer` now provides a preview package boundary with capability metadata and install guidance. It does not import `@shopify/react-native-skia`, render charts, or provide renderer parity tests yet.
+`packages/skia-renderer` now provides a preview package boundary, capability metadata, install guidance, and an injected Skia primitive adapter. Chart components do not consume it yet, and renderer parity tests do not exist yet.
 
-Impact: the optional package boundary exists for H4 review, but Skia must stay labeled as preview until the actual drawing backend, install matrix, native benchmarks, and parity tests are implemented.
+Impact: the optional package boundary exists for H4 review, but Skia must stay labeled as preview until chart integration, install matrix, native benchmarks, and parity tests are implemented.
 
 ## Native Performance Evidence
 

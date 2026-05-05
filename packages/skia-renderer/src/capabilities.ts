@@ -8,12 +8,14 @@ export const createSkiaRendererCapabilities = (
   overrides: Partial<SkiaRendererCapabilities> = {}
 ): SkiaRendererCapabilities => ({
   animation: "uiThread",
-  clipPaths: true,
+  clipPaths: false,
   decimation: true,
   gradients: true,
-  hitRegions: true,
+  hitRegions: false,
   layers: true,
-  shadows: true,
+  shadows: false,
+  symbols: false,
+  testIds: true,
   textMeasurement: "unavailable",
   viewportWindowing: true,
   ...overrides

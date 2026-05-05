@@ -57,7 +57,7 @@ Measure these scenarios:
 | Combined chart  | bars plus line            | shared tooltip and legend       | p50/p95 frame time, domain recalculation  |
 | Candlestick     | 1,000 candles             | pan, pinch, tap inspection      | p50/p95 frame time, overlay alignment     |
 
-When the Skia renderer exists, run the same scenarios for both `svg` and `skia` where supported.
+When Skia chart integration exists, run the same scenarios for both `svg` and `skia` where supported.
 
 ## Metrics To Capture
 

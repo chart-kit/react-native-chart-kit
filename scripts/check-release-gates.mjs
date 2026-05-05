@@ -114,8 +114,10 @@ const releaseBlockers = [
   {
     id: "skia-backend",
     file: "packages/skia-renderer/README.md",
-    pattern: /does not import `@shopify\/react-native-skia` yet/i,
-    message: "Skia package is still a preview boundary, not a real renderer."
+    pattern:
+      /no chart components consume this package yet|no renderer parity suite yet/i,
+    message:
+      "Skia adapter exists, but chart integration and renderer parity evidence are still missing."
   }
 ];
 
