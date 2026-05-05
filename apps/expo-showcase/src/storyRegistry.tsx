@@ -185,6 +185,7 @@ export const publicChartMode: ShowcaseMode = {
             "Modern pie and donut previews built on renderer-agnostic arc geometry.",
           storyIds: [
             "v2-pie-acquisition",
+            "v2-pie-external-labels",
             "v2-donut-revenue",
             "v2-donut-selection",
             "v2-donut-custom-legend"
@@ -288,6 +289,7 @@ export const showcaseModes: ShowcaseMode[] = [
           "Modern pie and donut examples with legends and center labels.",
         storyIds: [
           "v2-pie-acquisition",
+          "v2-pie-external-labels",
           "v2-donut-revenue",
           "v2-donut-selection",
           "v2-donut-custom-legend"

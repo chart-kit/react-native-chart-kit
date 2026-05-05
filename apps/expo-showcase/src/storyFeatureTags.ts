@@ -54,6 +54,11 @@ export const storyFeatureTags: Record<string, string[]> = {
   "v2-bar-negative": ["negative values", "baseline", "value labels"],
   "v2-bar-stacked-percent": ["stacked100", "percentage labels", "bar chart"],
   "v2-pie-acquisition": ["pie chart", "bottom legend", "percentage labels"],
+  "v2-pie-external-labels": [
+    "external labels",
+    "connector lines",
+    "small-slice filter"
+  ],
   "v2-donut-revenue": ["donut chart", "center label", "bottom legend"],
   "v2-donut-selection": ["tap selection", "active slice", "center label"],
   "v2-donut-custom-legend": [

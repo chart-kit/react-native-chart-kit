@@ -115,4 +115,49 @@ describe("PieChart model", () => {
       "Paused"
     ]);
   });
+
+  it("builds external arc labels with small-slice filtering", () => {
+    const model = buildPieChartModel({
+      chartKitTheme,
+      props: {
+        arcLabels: {
+          minPercentage: 0.12,
+          formatLabel: ({ label, percentageLabel, selected }) =>
+            `${selected ? "*" : ""}${label}: ${percentageLabel}`
+        },
+        data: [
+          { channel: "Search", share: 52 },
+          { channel: "Sales", share: 28 },
+          { channel: "Partners", share: 14 },
+          { channel: "Lifecycle", share: 6 }
+        ],
+        labelKey: "channel",
+        legend: false,
+        valueKey: "share",
+        width: 360,
+        height: 240
+      },
+      selectedIndex: 1
+    });
+
+    expect(model.arcLabelsVisible).toBe(true);
+    expect(model.radius).toBeLessThan(110);
+    expect(model.arcLabels.map((label) => label.text)).toEqual([
+      "Search: 52%",
+      "*Sales: 28%",
+      "Partners: 14%"
+    ]);
+    expect(
+      model.arcLabels.some((label) => label.text.includes("Lifecycle"))
+    ).toBe(false);
+    expect(model.arcLabels.every((label) => label.connectorVisible)).toBe(true);
+    expect(
+      model.arcLabels.every(
+        (label) => label.y >= 0 && label.y <= model.chartHeight
+      )
+    ).toBe(true);
+    expect(
+      model.arcLabels.every((label) => label.x >= 10 && label.x <= 350)
+    ).toBe(true);
+  });
 });

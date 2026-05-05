@@ -57,6 +57,27 @@ export type PieChartLegendRenderProps<TData = unknown> = {
   theme: ResolvedCartesianChartTheme;
 };
 
+export type PieChartArcLabelRenderProps<TData = unknown> = {
+  arc: PieArcModel<TData>;
+  color: string;
+  index: number;
+  label: string;
+  percentageLabel: string;
+  selected: boolean;
+  theme: ResolvedCartesianChartTheme;
+  valueLabel: string;
+};
+
+export type PieChartArcLabelsConfig<TData = unknown> = {
+  visible?: boolean;
+  connectorLines?: boolean;
+  connectorLength?: number;
+  fontSize?: number;
+  minPercentage?: number;
+  offset?: number;
+  formatLabel?: (props: PieChartArcLabelRenderProps<TData>) => string | null;
+};
+
 export type PieChartLegendConfig<TData = unknown> = {
   visible?: boolean;
   itemGap?: number;
@@ -77,6 +98,7 @@ export type PieChartProps<TData extends Record<string, unknown>> = {
   innerRadius?: number;
   innerRadiusRatio?: number;
   legend?: boolean | PieChartLegendConfig<TData>;
+  arcLabels?: boolean | PieChartArcLabelsConfig<TData>;
   selectedIndex?: number;
   defaultSelectedIndex?: number;
   activeSlice?: PieChartActiveSliceConfig;
@@ -101,7 +123,28 @@ export type PieChartLegendItem<TData = unknown> = {
   arc: PieArcModel<TData>;
 };
 
+export type PieChartArcLabelModel<TData = unknown> = {
+  index: number;
+  key: string;
+  text: string;
+  color: string;
+  fontSize: number;
+  textAnchor: "start" | "end";
+  x: number;
+  y: number;
+  connectorStartX: number;
+  connectorStartY: number;
+  connectorBendX: number;
+  connectorBendY: number;
+  connectorEndX: number;
+  connectorEndY: number;
+  connectorVisible: boolean;
+  arc: PieArcModel<TData>;
+};
+
 export type PieChartModel<TData = unknown> = {
+  arcLabels: Array<PieChartArcLabelModel<TData>>;
+  arcLabelsVisible: boolean;
   arcs: Array<PieArcModel<TData>>;
   centerX: number;
   centerY: number;

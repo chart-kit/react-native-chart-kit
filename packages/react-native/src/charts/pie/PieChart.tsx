@@ -4,6 +4,7 @@ import type { GestureResponderEvent, ViewProps } from "react-native";
 
 import {
   SvgLayer,
+  SvgLine,
   SvgPath,
   SvgSurface,
   SvgText
@@ -39,10 +40,11 @@ export const PieChart = <TData extends Record<string, unknown>>(
   const selectedIndex =
     normalizePieChartSelectedIndex(props.selectedIndex) ?? gestureSelectedIndex;
   const model = useMemo(
-    () => buildPieChartModel({ chartKitTheme, props }),
-    [chartKitTheme, props]
+    () => buildPieChartModel({ chartKitTheme, props, selectedIndex }),
+    [chartKitTheme, props, selectedIndex]
   );
   const {
+    arcLabels,
     arcs,
     centerX,
     centerY,
@@ -211,6 +213,54 @@ export const PieChart = <TData extends Record<string, unknown>>(
             >
               {centerLabel}
             </SvgText>
+          </SvgLayer>
+        ) : null}
+        {arcLabels.length > 0 ? (
+          <SvgLayer name="overlays">
+            {arcLabels.map((label) =>
+              label.connectorVisible ? (
+                <SvgLine
+                  key={`${label.key}-connector-a`}
+                  x1={label.connectorStartX}
+                  x2={label.connectorBendX}
+                  y1={label.connectorStartY}
+                  y2={label.connectorBendY}
+                  stroke={resolvedTheme.grid}
+                  strokeOpacity={0.9}
+                  strokeWidth={1}
+                />
+              ) : null
+            )}
+            {arcLabels.map((label) =>
+              label.connectorVisible ? (
+                <SvgLine
+                  key={`${label.key}-connector-b`}
+                  x1={label.connectorBendX}
+                  x2={label.connectorEndX}
+                  y1={label.connectorBendY}
+                  y2={label.connectorEndY}
+                  stroke={resolvedTheme.grid}
+                  strokeOpacity={0.9}
+                  strokeWidth={1}
+                />
+              ) : null
+            )}
+            {arcLabels.map((label) => (
+              <SvgText
+                key={label.key}
+                fill={resolvedTheme.text}
+                fontSize={label.fontSize}
+                fontWeight="800"
+                textAnchor={label.textAnchor}
+                x={label.x}
+                y={label.y + label.fontSize / 3}
+                {...(resolvedTheme.typography.fontFamily
+                  ? { fontFamily: resolvedTheme.typography.fontFamily }
+                  : {})}
+              >
+                {label.text}
+              </SvgText>
+            ))}
           </SvgLayer>
         ) : null}
       </SvgSurface>

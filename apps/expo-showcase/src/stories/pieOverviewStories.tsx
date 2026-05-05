@@ -23,6 +23,25 @@ const V2PieAcquisition = ({ width }: NativeStoryProps) => (
   </ChartSection>
 );
 
+const V2PieExternalLabels = ({ width }: NativeStoryProps) => (
+  <ChartSection title="Lead sources" kicker="External labels">
+    <PieChart
+      arcLabels={{
+        minPercentage: 0.09,
+        formatLabel: ({ label, percentageLabel }) =>
+          `${label.split(" ")[0]} ${percentageLabel}`
+      }}
+      data={acquisitionShare}
+      height={260}
+      labelKey="channel"
+      legend={false}
+      valueKey="share"
+      width={width}
+      formatPercentage={(value) => `${Math.round(value * 100)}%`}
+    />
+  </ChartSection>
+);
+
 const V2DonutRevenue = ({ width }: NativeStoryProps) => (
   <ChartSection title="Revenue mix" kicker="Donut chart">
     <DonutChart
@@ -121,6 +140,11 @@ export const pieOverviewStories = [
     id: "v2-pie-acquisition",
     title: "Acquisition Pie",
     Component: V2PieAcquisition
+  },
+  {
+    id: "v2-pie-external-labels",
+    title: "External Labels",
+    Component: V2PieExternalLabels
   },
   {
     id: "v2-donut-revenue",

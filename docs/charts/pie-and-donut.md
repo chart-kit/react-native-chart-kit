@@ -58,6 +58,7 @@ The first v2 slice supports:
 - donut center text
 - rich custom center labels
 - custom legend item rendering
+- external arc labels with connector lines
 - tap selection with active-slice highlighting
 - zero and invalid slices without broken paths
 
@@ -113,4 +114,22 @@ Use `legend.renderItem` when the default compact legend is not enough. `centerLa
 />
 ```
 
-Advanced arc labels outside the chart are still planned for a later CKV2-008 slice.
+## External Arc Labels
+
+Use `arcLabels` when the chart should explain itself without a separate legend. Small slices are filtered by `minPercentage` so long-tail labels do not collide with the primary categories.
+
+```tsx
+<PieChart
+  data={acquisitionShare}
+  valueKey="share"
+  labelKey="channel"
+  legend={false}
+  arcLabels={{
+    minPercentage: 0.09,
+    formatLabel: ({ label, percentageLabel }) =>
+      `${label.split(" ")[0]} ${percentageLabel}`
+  }}
+  width={360}
+  height={260}
+/>
+```

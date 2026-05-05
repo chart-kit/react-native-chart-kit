@@ -36,6 +36,7 @@ Added:
 - custom pie/donut legend item rendering
 - rich React center labels for donut KPI content
 - long-label and zero-slice donut visual coverage
+- external pie/donut arc labels with connector lines and small-slice filtering
 
 ## Design Choices
 
@@ -45,5 +46,4 @@ The geometry builder accepts normalized slices instead of legacy props. Modern a
 
 ## Remaining Work
 
-- Add external arc labels.
 - Add more zero/empty-state fixtures across ProgressChart and ContributionGraph.
