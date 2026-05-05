@@ -1,4 +1,4 @@
-import { CandlestickChart } from "@chart-kit/react-native-v2";
+import { CandlestickChart } from "@chart-kit/react-native";
 
 import { stockCandles } from "../fixtures/v2Finance";
 import { ChartSection, type NativeStoryProps } from "./storyPrimitives";

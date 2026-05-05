@@ -90,11 +90,22 @@ const assertMissing = ({ actual, expected, label }) => {
 };
 
 const packageJson = JSON.parse(await readRepoFile("package.json"));
+const v2PackageJson = JSON.parse(
+  await readRepoFile("packages/react-native/package.json")
+);
 const rootSource = await readRepoFile("src/index.ts");
 const v2Source = await readRepoFile("packages/react-native/src/index.ts");
 
-if (packageJson.name !== "@chart-kit/react-native") {
+if (packageJson.name !== "react-native-chart-kit") {
   throw new Error(`Unexpected package name: ${packageJson.name}`);
+}
+
+if (v2PackageJson.name !== "@chart-kit/react-native") {
+  throw new Error(`Unexpected v2 package name: ${v2PackageJson.name}`);
+}
+
+if (v2PackageJson.private === true) {
+  throw new Error("@chart-kit/react-native must not be private");
 }
 
 if (packageJson.main !== "./dist/index.js") {
@@ -114,16 +125,16 @@ assertMissing({
 assertMissing({
   actual: extractNamedExports(v2Source),
   expected: expectedV2ValueExports,
-  label: "V2 preview value surface"
+  label: "Modern v2 value surface"
 });
 
 assertMissing({
   actual: extractNamedExports(v2Source, "type"),
   expected: expectedV2TypeExports,
-  label: "V2 preview type surface"
+  label: "Modern v2 type surface"
 });
 
 console.log("Public surface check passed.");
 console.log(`Root compatibility exports: ${expectedRootExports.length}`);
-console.log(`V2 preview value exports: ${expectedV2ValueExports.length}`);
-console.log(`V2 preview type exports: ${expectedV2TypeExports.length}`);
+console.log(`Modern v2 value exports: ${expectedV2ValueExports.length}`);
+console.log(`Modern v2 type exports: ${expectedV2TypeExports.length}`);

@@ -7,7 +7,7 @@ Use this API for new apps. The v2 package also exports a `StackedBarChart` compa
 ## Basic Bars
 
 ```tsx
-import { BarChart } from "@chart-kit/react-native-v2";
+import { BarChart } from "@chart-kit/react-native";
 
 const data = [
   { month: "Jan", signups: 42 },
@@ -131,7 +131,7 @@ Set `mode="stacked100"` for percentage composition. The original values are pres
 Existing `StackedBarChart` data can render through the modern stacked-bar engine without changing the old data shape.
 
 ```tsx
-import { StackedBarChart } from "@chart-kit/react-native-v2";
+import { StackedBarChart } from "@chart-kit/react-native";
 
 <StackedBarChart
   data={{

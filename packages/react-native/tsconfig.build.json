@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "paths": {
+      "@chart-kit/core": ["packages/core/dist/index.d.ts"],
+      "@chart-kit/svg-renderer": ["packages/svg-renderer/dist/index.d.ts"]
+    }
+  },
+  "include": ["src/**/*"]
+}

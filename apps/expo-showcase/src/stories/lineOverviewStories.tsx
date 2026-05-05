@@ -1,4 +1,4 @@
-import { LineChart } from "@chart-kit/react-native-v2";
+import { LineChart } from "@chart-kit/react-native";
 import { SvgCircle, SvgGroup, SvgRect, SvgText } from "@chart-kit/svg-renderer";
 
 import {

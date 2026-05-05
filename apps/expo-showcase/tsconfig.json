@@ -18,8 +18,8 @@
     "baseUrl": "../..",
     "paths": {
       "@chart-kit/core": ["packages/core/src/index.ts"],
-      "@chart-kit/react-native": ["src/index.ts"],
-      "@chart-kit/react-native-v2": ["packages/react-native/src/index.ts"],
+      "@chart-kit/react-native": ["packages/react-native/src/index.ts"],
+      "react-native-chart-kit": ["src/index.ts"],
       "@chart-kit/svg-renderer": ["packages/svg-renderer/src/index.ts"]
     }
   },

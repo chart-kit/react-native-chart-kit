@@ -1,5 +1,5 @@
 {
-  "name": "@chart-kit/react-native",
+  "name": "react-native-chart-kit",
   "version": "7.0.0-next.0",
   "workspaces": [
     "packages/*",
@@ -47,8 +47,11 @@
     "test:e2e": "npm run e2e:test",
     "typecheck": "tsc --noEmit && npm run core:typecheck && npm run svg:typecheck && npm run rn:typecheck && npm run showcase:typecheck",
     "core:typecheck": "tsc -p packages/core/tsconfig.json --noEmit && tsc -p packages/core/tsconfig.test.json --noEmit",
+    "core:build": "tsc -p packages/core/tsconfig.json",
     "svg:typecheck": "tsc -p packages/svg-renderer/tsconfig.json --noEmit && tsc -p packages/svg-renderer/tsconfig.test.json --noEmit",
+    "svg:build": "tsc -p packages/svg-renderer/tsconfig.json",
     "rn:typecheck": "tsc -p packages/react-native/tsconfig.json --noEmit && tsc -p packages/react-native/tsconfig.test.json --noEmit",
+    "rn:build": "tsc -p packages/react-native/tsconfig.build.json",
     "benchmark": "npm run benchmark:core-geometry",
     "benchmark:core-geometry": "node scripts/benchmark-core-line.mjs",
     "benchmark:core-line": "node scripts/benchmark-core-line.mjs",
@@ -63,8 +66,8 @@
     "example:android": "npm --workspace @chart-kit/expo-showcase run android --",
     "example:expo": "npm --workspace @chart-kit/expo-showcase run start --",
     "docs:build": "node scripts/docs-build.mjs",
-    "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
-    "build": "npm run clean && tsc",
+    "clean": "node scripts/clean-dist.mjs",
+    "build": "npm run clean && npm run core:build && npm run svg:build && npm run rn:build && tsc",
     "dev": "tsc --watch",
     "prepare": "npm run build && husky"
   },

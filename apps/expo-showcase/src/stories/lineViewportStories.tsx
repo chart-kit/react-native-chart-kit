@@ -15,7 +15,7 @@ import {
   type LineChartViewportChangeEvent,
   type LineChartViewportConfig,
   useChartKitTheme
-} from "@chart-kit/react-native-v2";
+} from "@chart-kit/react-native";
 
 import {
   denseRevenue,

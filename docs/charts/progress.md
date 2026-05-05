@@ -3,7 +3,7 @@
 The v2 progress surface supports concentric rings and single-ring completion states. It accepts object rows for the modern API and the legacy Chart Kit progress data shape.
 
 ```tsx
-import { ProgressChart, ProgressRing } from "@chart-kit/react-native-v2";
+import { ProgressChart, ProgressRing } from "@chart-kit/react-native";
 
 const data = [
   { metric: "Move", progress: 0.72, color: "#f43f5e" },

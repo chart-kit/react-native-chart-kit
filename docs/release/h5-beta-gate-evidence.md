@@ -18,17 +18,17 @@ Prepare the first public beta decision packet for Chart Kit v2:
 
 Commands refreshed on May 5, 2026. The `test:e2e` row was added after promoting the web-showcase interaction suite from a placeholder to a real command.
 
-| Requirement           | Evidence                | Result                                                                       |
-| --------------------- | ----------------------- | ---------------------------------------------------------------------------- |
-| Lint                  | `npm run lint`          | Passed                                                                       |
-| TypeScript            | `npm run typecheck`     | Passed for root, core, SVG renderer, React Native package, and Expo showcase |
-| Unit and compat tests | `npm run test`          | Passed: 33 unit files, 196 unit tests, 1 compat file, 5 compat tests         |
-| Web e2e interactions  | `npm run test:e2e`      | Passed: Playwright showcase interaction flows                                |
-| Visual regression     | `npm run test:visual`   | Passed: 87 Playwright tests                                                  |
-| Benchmark             | `npm run benchmark`     | Passed: core line and bar geometry scenarios                                 |
-| Public surface audit  | `npm run surface:check` | Passed: root compatibility and v2 preview exports                            |
-| Docs verification     | `npm run docs:build`    | Passed: 49 markdown files and 98 JS/TS code fences                           |
-| Package build         | `npm run build`         | Passed                                                                       |
+| Requirement           | Evidence                | Result                                                                                              |
+| --------------------- | ----------------------- | --------------------------------------------------------------------------------------------------- |
+| Lint                  | `npm run lint`          | Passed                                                                                              |
+| TypeScript            | `npm run typecheck`     | Passed for root, core, SVG renderer, React Native package, and Expo showcase                        |
+| Unit and compat tests | `npm run test`          | Passed: 33 unit files, 196 unit tests, 1 compat file, 5 compat tests                                |
+| Web e2e interactions  | `npm run test:e2e`      | Passed: Playwright showcase interaction flows                                                       |
+| Visual regression     | `npm run test:visual`   | Passed: 87 Playwright tests                                                                         |
+| Benchmark             | `npm run benchmark`     | Passed: core line and bar geometry scenarios                                                        |
+| Public surface audit  | `npm run surface:check` | Passed: `react-native-chart-kit` compatibility exports and `@chart-kit/react-native` modern exports |
+| Docs verification     | `npm run docs:build`    | Passed: 49 markdown files and 98 JS/TS code fences                                                  |
+| Package build         | `npm run build`         | Passed                                                                                              |
 
 Latest benchmark highlights from `npm run benchmark`:
 
@@ -53,14 +53,14 @@ Benchmark scope is core geometry only. It does not measure native render time, g
 | Example app            | `apps/expo-showcase`; `npm run example:expo`; `npm run example:ios`; `npm run example:android`; [Expo showcase README](../../apps/expo-showcase/README.md) | Available for manual phone, simulator, and emulator review; not automated native release coverage |
 | Migration guide        | [From v1](../migration/from-v1.md)                                                                                                                         | Covered                                                                                           |
 | Prop mapping           | [Prop mapping](../migration/prop-mapping.md)                                                                                                               | Covered for common props                                                                          |
-| Install docs           | [Installation](../getting-started/installation.md)                                                                                                         | Covered with package-path caveat                                                                  |
+| Install docs           | [Installation](../getting-started/installation.md)                                                                                                         | Covered for compatibility and modern package paths                                                |
 | Recipes                | [Production recipes](../recipes/README.md)                                                                                                                 | Covered                                                                                           |
 | Docs example checks    | `npm run docs:build`; `packages/react-native/test/docs-examples.typecheck.tsx`; `npm run rn:typecheck`                                                     | Syntax-covered for every JS/TS markdown fence; type-covered for representative examples           |
 | Issue list             | [Known issues](known-issues.md)                                                                                                                            | Covered                                                                                           |
 | Benchmark results      | `npm run benchmark`; this document                                                                                                                         | Covered for core geometry only                                                                    |
 | Changelog              | [Changelog](../../CHANGELOG.md)                                                                                                                            | Covered for current v7 preview                                                                    |
 | Support workflow       | `.github/ISSUE_TEMPLATE/*`                                                                                                                                 | Covered for layout, compatibility, and performance bugs                                           |
-| Public export surface  | `scripts/verify-public-surface.mjs`; `npm run surface:check`                                                                                               | Covered for current root compat exports and private v2 preview exports                            |
+| Public export surface  | `scripts/verify-public-surface.mjs`; `npm run surface:check`                                                                                               | Covered for root compatibility exports and modern v2 exports                                      |
 | Release command safety | `.github/workflows/publish.yml`                                                                                                                            | Covered for branch, duplicate version, dist-tag, tests, docs, and build checks                    |
 | CI checks              | `.github/workflows/ci.yml`                                                                                                                                 | Covered for lint, typecheck, test, docs, benchmark, and build                                     |
 
@@ -88,7 +88,6 @@ These are not covered by the green checks:
 - React Native CLI example apps
 - full typechecking of every markdown snippet as a standalone app example
 - Skia renderer and Pro package split
-- final public package/import path
 - final free-vs-Pro boundary for animation, range selector, zoom, and financial features
 
 The example commands `npm run example:ios` and `npm run example:android` launch the Expo showcase through Expo dev tooling. They are manual review commands and must not be counted as passing native release-build or native e2e checks.
@@ -98,7 +97,6 @@ The example commands `npm run example:ios` and `npm run example:android` launch 
 H5 can proceed only after the owner decides:
 
 - publish beta now or keep iterating
-- final beta package name and import path
 - whether native release-build gaps are acceptable for beta
 - whether advanced line interactions visible in the showcase remain free, move to Pro, or stay labeled preview
 - whether `CandlestickChart` is included in public beta or remains financial preview

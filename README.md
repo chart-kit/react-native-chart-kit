@@ -8,7 +8,7 @@ If you're looking to **build a website or a cross-platform mobile app** – we w
 
 ## Import components
 
-1. `yarn add @chart-kit/react-native`
+1. `yarn add react-native-chart-kit`
 2. `yarn add react-native-svg` install peer dependencies
 3. Use with ES6 syntax to import components
 
@@ -20,7 +20,7 @@ import {
   ProgressChart,
   ContributionGraph,
   StackedBarChart
-} from "@chart-kit/react-native";
+} from "react-native-chart-kit";
 ```
 
 ## Quick Example

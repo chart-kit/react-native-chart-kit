@@ -8,6 +8,7 @@ export default [
   {
     ignores: [
       "dist/**",
+      "packages/*/dist/**",
       "node_modules/**",
       "coverage/**",
       "apps/expo-showcase/.expo/**",

@@ -38,7 +38,7 @@ The compatibility promise covers the common public API, not undocumented interna
 New screens should use object rows, explicit keys, app-level themes, and the interaction API.
 
 ```tsx
-import { LineChart } from "@chart-kit/react-native-v2";
+import { LineChart } from "@chart-kit/react-native";
 
 <LineChart
   data={[
@@ -71,10 +71,10 @@ Use compatibility props only when a migrated chart needs old spacing during a tr
 
 The current repository has two surfaces:
 
-- Legacy-compatible root package for upgrade testing.
-- Private `@chart-kit/react-native-v2` workspace package for modern API review.
+- `react-native-chart-kit`: legacy-compatible root package for upgrade testing and continuity.
+- `@chart-kit/react-native`: modern v2 workspace package for new screens and API review.
 
-The final public import path is a beta-release gate. Until then, docs use `@chart-kit/react-native-v2` for modern examples so old and new APIs are visibly separate.
+Docs use `@chart-kit/react-native` for modern examples so old and new APIs are visibly separate.
 
 ## Visual Review
 

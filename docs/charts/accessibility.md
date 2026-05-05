@@ -11,7 +11,7 @@ import {
   getPieChartDataTable,
   getProgressChartDataTable,
   getContributionGraphDataTable
-} from "@chart-kit/react-native-v2";
+} from "@chart-kit/react-native";
 ```
 
 These helpers return normalized rows and formatted values that can back a hidden native table, a visible details panel, export flow, or enterprise accessibility report.

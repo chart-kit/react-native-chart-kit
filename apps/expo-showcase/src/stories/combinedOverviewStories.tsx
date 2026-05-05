@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-import { CombinedChart, useChartKitTheme } from "@chart-kit/react-native-v2";
+import { CombinedChart, useChartKitTheme } from "@chart-kit/react-native";
 
 import { revenueMargin } from "../fixtures/v2Combined";
 import { ChartSection, type NativeStoryProps } from "./storyPrimitives";

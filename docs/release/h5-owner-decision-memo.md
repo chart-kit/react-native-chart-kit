@@ -4,11 +4,11 @@ This memo converts the H5 beta gate into explicit choices. It is a recommendatio
 
 ## Recommended Decision
 
-Do not publish the beta package yet. Approve the preview implementation for continued beta preparation, then spend the next slice on package/export strategy before publishing.
+Do not publish the beta package yet. Approve the preview implementation for continued beta preparation, then finish the remaining native and Pro-scope caveats before publishing.
 
-Reason: the implementation, showcase, docs, tests, visual coverage, benchmark, support workflow, and release checklist are in place, but the public package path is still unresolved. Publishing before resolving the package path would make migration docs and install instructions unstable.
+Reason: the implementation, showcase, docs, tests, visual coverage, benchmark, support workflow, release checklist, and package path are in place, but native release-build coverage and the free-vs-Pro feature boundary are not final.
 
-The current export surface is guarded by `npm run surface:check`. That check verifies the legacy root exports and the private v2 preview exports, but it does not decide the final public v2 import path.
+The current export surface is guarded by `npm run surface:check`. That check verifies the legacy `react-native-chart-kit` root exports and the modern `@chart-kit/react-native` exports.
 
 ## Decision 1: Publish Now Or Keep Iterating
 
@@ -18,7 +18,6 @@ Rationale:
 
 - verification is strong for web showcase and TypeScript surfaces
 - native iOS/Android release-build coverage is not configured
-- package/import path is not final
 - Pro/free feature boundary is not final
 
 Acceptable owner override: publish a limited preview beta only if the beta is clearly labeled as API-preview and not production-ready.
@@ -27,15 +26,15 @@ Acceptable owner override: publish a limited preview beta only if the beta is cl
 
 Recommendation:
 
-- Keep the root legacy component names compatibility-first.
-- Add a modern public import path before beta, preferably `@chart-kit/react-native/v2` or a scoped modern package decided by the owner.
-- Keep `@chart-kit/react-native-v2` private/internal until the final path is chosen.
+- Keep `react-native-chart-kit` compatibility-first for existing users.
+- Use `@chart-kit/react-native` as the modern public import path for new adopters.
+- Keep old `chartConfig` examples in migration docs, not the primary v2 getting-started path.
 
 Rationale:
 
 - existing users need common v1 imports to keep working
 - new adopters should not start from the old `chartConfig` API
-- modern docs currently use the private workspace name to avoid pretending the public path is final
+- the approved H0/H1 strategy called for a dual-package split between compatibility and modern APIs
 
 ## Decision 3: Native Release-Build Gaps
 
@@ -70,8 +69,8 @@ Rationale:
 
 Approve continued beta preparation with these next tasks:
 
-1. Finalize public package/import path.
-2. Wire the chosen path into docs and typechecked examples.
+1. Verify the public package/import path in CI and release docs.
+2. Keep the chosen path wired into docs and typechecked examples.
 3. Decide whether the first beta is API-preview or production-beta.
 4. Keep native release-build gaps in known issues unless native examples are implemented first.
 5. Keep candlestick labeled Financial Preview.

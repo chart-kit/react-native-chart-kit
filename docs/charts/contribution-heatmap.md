@@ -3,7 +3,7 @@
 `ContributionGraph` and `CalendarHeatmap` render calendar-style activity charts from date/count rows. The core geometry maps dates into deterministic week and weekday cells, so timezone, leap-year, and week-start behavior can be tested without React Native.
 
 ```tsx
-import { ContributionGraph } from "@chart-kit/react-native-v2";
+import { ContributionGraph } from "@chart-kit/react-native";
 
 <ContributionGraph
   values={[

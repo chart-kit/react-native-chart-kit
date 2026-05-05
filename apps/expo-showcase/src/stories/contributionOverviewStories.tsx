@@ -1,4 +1,4 @@
-import { ContributionGraph } from "@chart-kit/react-native-v2";
+import { ContributionGraph } from "@chart-kit/react-native";
 
 import {
   productUsage,

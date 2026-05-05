@@ -5,7 +5,7 @@
 ## Pie Chart
 
 ```tsx
-import { PieChart } from "@chart-kit/react-native-v2";
+import { PieChart } from "@chart-kit/react-native";
 
 const data = [
   { channel: "Organic search", share: 42 },
@@ -34,7 +34,7 @@ export function AcquisitionShare() {
 Use `DonutChart` for the default donut radius, or pass `innerRadius` / `innerRadiusRatio` directly to `PieChart`.
 
 ```tsx
-import { DonutChart } from "@chart-kit/react-native-v2";
+import { DonutChart } from "@chart-kit/react-native";
 
 <DonutChart
   centerLabel="$1.5M"

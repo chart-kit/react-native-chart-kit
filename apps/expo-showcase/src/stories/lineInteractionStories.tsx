@@ -1,4 +1,4 @@
-import { LineChart } from "@chart-kit/react-native-v2";
+import { LineChart } from "@chart-kit/react-native";
 import { SvgGroup, SvgLine, SvgRect, SvgText } from "@chart-kit/svg-renderer";
 
 import { multiSeriesRevenue, revenueWithGaps } from "../fixtures/v2Line";

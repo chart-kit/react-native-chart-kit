@@ -3,7 +3,7 @@ import {
   type CartesianChartPresetName,
   type CartesianChartPresetRegistry,
   type ResolvedChartKitThemeMode
-} from "@chart-kit/react-native-v2";
+} from "@chart-kit/react-native";
 
 export type ShowcaseThemeMode = ResolvedChartKitThemeMode;
 export type ShowcasePresetId = CartesianChartPresetName | "studio";

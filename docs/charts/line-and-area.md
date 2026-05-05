@@ -7,7 +7,7 @@ Use this API for new apps. The legacy `react-native-chart-kit` data shape is han
 ## Basic Line
 
 ```tsx
-import { LineChart } from "@chart-kit/react-native-v2";
+import { LineChart } from "@chart-kit/react-native";
 
 const data = [
   { month: "Jan", revenue: 18 },
@@ -311,7 +311,7 @@ Every LineChart generates a summary if `accessibilityLabel` is not provided. For
 import {
   getLineChartAccessibilitySummary,
   getLineChartDataTable
-} from "@chart-kit/react-native-v2";
+} from "@chart-kit/react-native";
 ```
 
 `getLineChartDataTable()` returns columns and rows suitable for an app-level table fallback or export workflow.

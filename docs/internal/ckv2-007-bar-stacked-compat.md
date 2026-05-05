@@ -4,7 +4,7 @@ This slice adds a v2 `StackedBarChart` compatibility facade on top of the modern
 
 ## Implemented
 
-- `StackedBarChart` export from `@chart-kit/react-native-v2`.
+- `StackedBarChart` export from `@chart-kit/react-native`.
 - Legacy stacked data shape: `labels`, `legend`, `data`, and `barColors`.
 - Legacy props mapped into modern bar props:
   - `hideLegend`

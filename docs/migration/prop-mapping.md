@@ -69,10 +69,7 @@ After:
 Move reusable styling into `ChartKitProvider` or a custom preset.
 
 ```tsx
-import {
-  ChartKitProvider,
-  createChartPreset
-} from "@chart-kit/react-native-v2";
+import { ChartKitProvider, createChartPreset } from "@chart-kit/react-native";
 
 const brand = createChartPreset({
   light: {

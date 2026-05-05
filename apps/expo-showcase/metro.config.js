@@ -15,11 +15,11 @@ config.resolver.nodeModulesPaths = [
 ];
 config.resolver.extraNodeModules = {
   "@chart-kit/core": path.resolve(repoRoot, "packages/core/src/index.ts"),
-  "@chart-kit/react-native": path.resolve(repoRoot, "src/index.ts"),
-  "@chart-kit/react-native-v2": path.resolve(
+  "@chart-kit/react-native": path.resolve(
     repoRoot,
     "packages/react-native/src/index.ts"
   ),
+  "react-native-chart-kit": path.resolve(repoRoot, "src/index.ts"),
   "@chart-kit/svg-renderer": path.resolve(
     repoRoot,
     "packages/svg-renderer/src/index.ts"

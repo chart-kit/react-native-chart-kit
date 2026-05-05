@@ -3,7 +3,7 @@
 CandlestickChart renders OHLC price rows on a shared categorical x-axis. This first CKV2-015 slice establishes renderer-agnostic candle geometry and a theme-aware SVG component.
 
 ```tsx
-import { CandlestickChart } from "@chart-kit/react-native-v2";
+import { CandlestickChart } from "@chart-kit/react-native";
 
 <CandlestickChart
   data={candles}

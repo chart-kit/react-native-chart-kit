@@ -3,10 +3,7 @@
 Charts inherit app-level theme settings from `ChartKitProvider`, while each chart can still override `theme` or `preset` locally.
 
 ```tsx
-import {
-  ChartKitProvider,
-  createChartPreset
-} from "@chart-kit/react-native-v2";
+import { ChartKitProvider, createChartPreset } from "@chart-kit/react-native";
 
 const acme = createChartPreset({
   light: {

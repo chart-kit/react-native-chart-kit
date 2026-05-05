@@ -3,7 +3,7 @@
 CombinedChart overlays bar and line series on a shared x-axis. The first v2 slice supports vertical grouped or stacked bars plus line series with independent left and right y-axis domains.
 
 ```tsx
-import { CombinedChart } from "@chart-kit/react-native-v2";
+import { CombinedChart } from "@chart-kit/react-native";
 
 <CombinedChart
   data={rows}

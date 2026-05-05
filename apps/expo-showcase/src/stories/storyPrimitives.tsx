@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-import { useChartKitTheme } from "@chart-kit/react-native-v2";
+import { useChartKitTheme } from "@chart-kit/react-native";
 
 export type NativeStoryProps = {
   isVisualMode?: boolean;

@@ -11,7 +11,7 @@ import {
 import {
   ChartKitProvider,
   resolveCartesianChartThemeConfig
-} from "@chart-kit/react-native-v2";
+} from "@chart-kit/react-native";
 
 import { styles } from "./src/appStyles";
 import {

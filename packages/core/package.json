@@ -1,12 +1,20 @@
 {
   "name": "@chart-kit/core",
   "version": "7.0.0-next.0",
-  "private": true,
   "description": "Renderer-agnostic Chart Kit v2 core scaffold.",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
+    "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit"
   },
   "license": "MIT"

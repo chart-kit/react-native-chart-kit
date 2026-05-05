@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Pressable, Text } from "react-native";
 
-import { BarChart } from "@chart-kit/react-native-v2";
+import { BarChart } from "@chart-kit/react-native";
 
 import {
   acquisitionByChannel,

@@ -15,18 +15,18 @@ Added:
 - graceful zero, invalid, and negative value handling after normalization
 - arc centroid positions for future labels, press targets, and active slice states
 - unit tests for proportional sectors, donut paths, invalid slices, and single-slice full circles
-- modern `PieChart` and `DonutChart` exports from `@chart-kit/react-native-v2`
+- modern `PieChart` and `DonutChart` exports from `@chart-kit/react-native`
 - object-row props with `valueKey`, `labelKey`, and optional `colorKey` / `colors`
 - theme/preset integration and bottom wrapped legends
 - donut center text
 - tap selection, typed slice select events, and active-slice highlighting
 - renderer-agnostic progress ring geometry in `@chart-kit/core`
-- modern `ProgressChart` and `ProgressRing` exports from `@chart-kit/react-native-v2`
+- modern `ProgressChart` and `ProgressRing` exports from `@chart-kit/react-native`
 - progress object-row props with `valueKey`, `labelKey`, and optional `colorKey` / `colors`
 - legacy progress data shape support
 - progress center labels, legends, stroke width, ring gap, radius, and stroke cap customization
 - renderer-agnostic contribution heatmap geometry in `@chart-kit/core`
-- modern `ContributionGraph` and `CalendarHeatmap` exports from `@chart-kit/react-native-v2`
+- modern `ContributionGraph` and `CalendarHeatmap` exports from `@chart-kit/react-native`
 - heatmap month labels, weekday labels, Monday/Sunday week starts, theme-aware density, custom color scales, and day press events
 - Expo showcase stories for acquisition share and revenue mix
 - Expo showcase stories for activity rings and single-ring completion

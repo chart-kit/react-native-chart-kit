@@ -2,7 +2,7 @@ import { SvgGroup, SvgPath, SvgRect } from "@chart-kit/svg-renderer";
 import type {
   LineChartRangeSelectorHandleRenderProps,
   LineChartRangeSelectorLineRenderProps
-} from "@chart-kit/react-native-v2";
+} from "@chart-kit/react-native";
 
 export type RangeSelectorRendererPalette = {
   handleGripColor: string;

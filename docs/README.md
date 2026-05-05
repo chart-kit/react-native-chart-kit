@@ -1,6 +1,6 @@
 # Chart Kit v2 Docs
 
-These docs describe the current v2 preview implementation in this repository. The modern chart API is built in the private workspace package `@chart-kit/react-native-v2` while the final public package path is still a beta-release decision. The legacy root package remains the migration bridge.
+These docs describe the current v2 preview implementation in this repository. The modern chart API is built in `@chart-kit/react-native`, while the legacy root package `react-native-chart-kit` remains the migration bridge for existing apps.
 
 ## Getting Started
 

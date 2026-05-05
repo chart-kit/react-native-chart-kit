@@ -5,9 +5,9 @@ This checklist tracks CKV2-017 readiness. It is not approval to publish; H5 stil
 ## Package And Version
 
 - Current version: `7.0.0-next.0`
-- Current root package name: `@chart-kit/react-native`
-- Current modern workspace package: `@chart-kit/react-native-v2` and private
-- Beta decision needed: final public import path and whether the existing `react-native-chart-kit` package is restored as the npm continuity path for this repo
+- Current root package name: `react-native-chart-kit`
+- Current modern workspace package: `@chart-kit/react-native`
+- Package strategy: `react-native-chart-kit` remains the compatibility path; `@chart-kit/react-native` is the modern v2 API for new adopters
 - Dist-tag target for first public test: `beta`
 
 ## Required Checks
@@ -62,7 +62,6 @@ The `docs:build` command validates local links, balanced code fences, and JS/TS 
 Before publishing beta, the owner should decide:
 
 - publish beta or keep iterating
-- final beta package name and import path
 - whether known native e2e gaps are acceptable for beta
 - which Pro preview features remain visible in the free preview app
 - whether candlestick stays in public beta or remains behind a preview/financial label

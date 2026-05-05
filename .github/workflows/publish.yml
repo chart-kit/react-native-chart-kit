@@ -59,7 +59,7 @@ jobs:
       - name: Docs
         run: npm run docs:build
 
-      - name: Verify package is unpublished
+      - name: Verify packages are unpublished
         id: package
         run: |
           PACKAGE_NAME=$(node -p "require('./package.json').name")
@@ -82,13 +82,26 @@ jobs:
             exit 1
           fi
 
+          for PACKAGE_DIR in packages/core packages/svg-renderer packages/react-native; do
+            WORKSPACE_NAME=$(node -p "require('./${PACKAGE_DIR}/package.json').name")
+            WORKSPACE_VERSION=$(node -p "require('./${PACKAGE_DIR}/package.json').version")
+
+            if npm view "${WORKSPACE_NAME}@${WORKSPACE_VERSION}" version >/dev/null 2>&1; then
+              echo "${WORKSPACE_NAME}@${WORKSPACE_VERSION} is already published"
+              exit 1
+            fi
+          done
+
           if git ls-remote --exit-code --tags origin "refs/tags/${TAG_NAME}" >/dev/null 2>&1; then
             echo "${TAG_NAME} already exists"
             exit 1
           fi
 
       - name: Publish
-        run: npm publish --access public --provenance --tag "${NPM_TAG}"
+        run: |
+          for PACKAGE_DIR in packages/core packages/svg-renderer packages/react-native .; do
+            npm publish "${PACKAGE_DIR}" --access public --provenance --tag "${NPM_TAG}"
+          done
         env:
           NPM_TAG: ${{ steps.package.outputs.npm_tag }}
 

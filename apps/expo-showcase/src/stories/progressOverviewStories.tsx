@@ -1,4 +1,4 @@
-import { ProgressChart, ProgressRing } from "@chart-kit/react-native-v2";
+import { ProgressChart, ProgressRing } from "@chart-kit/react-native";
 
 import {
   activityProgress,

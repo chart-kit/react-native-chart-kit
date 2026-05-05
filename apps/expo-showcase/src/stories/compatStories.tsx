@@ -1,8 +1,8 @@
 import {
   BarChart as CompatBarChart,
-  LineChart as CompatLineChart
-} from "@chart-kit/react-native";
-import { StackedBarChart as CompatStackedBarChart } from "@chart-kit/react-native-v2";
+  LineChart as CompatLineChart,
+  StackedBarChart as CompatStackedBarChart
+} from "react-native-chart-kit";
 
 import {
   fixtures as barFixtures,

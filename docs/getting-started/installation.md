@@ -1,6 +1,6 @@
 # Installation
 
-Chart Kit v2 is developed in this repo as a workspace package before public beta packaging is finalized.
+Chart Kit v2 is developed in this repo as the `@chart-kit/react-native` workspace package. The existing `react-native-chart-kit` package remains the compatibility path for current users.
 
 For local development in this repository:
 
@@ -10,13 +10,13 @@ cd react-native-chart-kit
 npm install
 ```
 
-For the planned beta package:
+For new apps using the modern v2 API:
 
 ```sh
 npm install @chart-kit/react-native react-native-svg react-native-gesture-handler
 ```
 
-During internal development, modern examples import from `@chart-kit/react-native-v2`, which is a private workspace package. Before beta, the approved package strategy is to keep the existing `react-native-chart-kit` package as the upgrade bridge and expose the modern API from the scoped package path.
+For existing apps, keep using `react-native-chart-kit` during migration and move new screens to `@chart-kit/react-native` when you want the modern object-row API.
 
 ## Expo
 
@@ -45,7 +45,7 @@ export function App() {
 New apps should start with object-row data and explicit keys. This avoids the old `labels` plus `datasets` shape unless you are migrating existing code.
 
 ```tsx
-import { LineChart } from "@chart-kit/react-native-v2";
+import { LineChart } from "@chart-kit/react-native";
 
 const data = [
   { month: "Jan", revenue: 18 },
@@ -73,7 +73,7 @@ export function RevenueChart() {
 Set the product theme once at the app boundary. Every chart can still override `theme` or `preset` locally.
 
 ```tsx
-import { ChartKitProvider } from "@chart-kit/react-native-v2";
+import { ChartKitProvider } from "@chart-kit/react-native";
 
 <ChartKitProvider mode="system" preset="analytics">
   <Dashboard />

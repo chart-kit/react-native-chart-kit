@@ -1,12 +1,20 @@
 {
-  "name": "@chart-kit/react-native-v2",
+  "name": "@chart-kit/react-native",
   "version": "7.0.0-next.0",
-  "private": true,
-  "description": "Experimental Chart Kit v2 React Native components.",
+  "description": "Modern Chart Kit v2 React Native components.",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
+    "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {

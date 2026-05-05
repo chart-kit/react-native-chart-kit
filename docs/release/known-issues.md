@@ -16,12 +16,6 @@ Impact: beta can be used for preview and API feedback, but production users shou
 
 Impact: CI can validate web showcase interactions, but cannot yet validate native navigation, release builds, or platform-specific gesture conflicts.
 
-## Package Naming
-
-The modern workspace package is currently private as `@chart-kit/react-native-v2`, while the root package is `@chart-kit/react-native`. The final public package path remains a beta gate.
-
-Impact: docs separate modern API examples from the legacy migration surface, but install/import instructions must be finalized before public beta.
-
 ## Pro Split
 
 Some advanced line-chart experiences, such as animation preview and range-selector/zoom workflows, are visible in the showcase before the final free-vs-Pro boundary is locked.

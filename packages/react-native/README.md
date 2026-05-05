@@ -1,8 +1,8 @@
-# @chart-kit/react-native-v2
+# @chart-kit/react-native
 
-Private experimental package for Chart Kit v2 React Native components.
+Modern Chart Kit v2 React Native components.
 
-The package is intentionally not exported from the legacy root package yet. It exists so modern components can be built and visually reviewed before public API approval.
+This package is the scoped modern API for new adopters. The root `react-native-chart-kit` package remains the legacy-compatible migration bridge.
 
 Current exports:
 

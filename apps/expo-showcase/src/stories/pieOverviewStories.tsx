@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-import { DonutChart, PieChart } from "@chart-kit/react-native-v2";
+import { DonutChart, PieChart } from "@chart-kit/react-native";
 
 import {
   acquisitionShare,
