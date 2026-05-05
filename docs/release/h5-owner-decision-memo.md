@@ -64,7 +64,8 @@ Rationale:
 - OHLC body and wick geometry exist
 - tap inspection, an OHLC tooltip, and a close-price badge exist
 - opt-in volume overlays exist
-- market gaps, range selector integration, and advanced financial accessibility narratives are not complete
+- scrollable histories, controlled viewport gestures, and range selector integration exist in preview form
+- market gaps and advanced financial accessibility narratives are not complete
 - including it as a preview helps owner review Pro/financial direction without overpromising
 
 ## Recommended H5 Outcome

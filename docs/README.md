@@ -37,6 +37,7 @@ These docs describe the current v2 preview implementation in this repository. Th
 - [H5 beta gate evidence](release/h5-beta-gate-evidence.md)
 - [H5 owner decision memo](release/h5-owner-decision-memo.md)
 - [Known issues](release/known-issues.md)
+- [Completion audit](internal/completion-audit.md)
 
 ## Local Preview
 
