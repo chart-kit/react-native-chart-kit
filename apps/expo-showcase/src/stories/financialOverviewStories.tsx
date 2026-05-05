@@ -34,13 +34,21 @@ const V2CandlestickPriceAction = ({
         data={stockCandles}
         downColor="#ef4444"
         formatYLabel={formatPrice}
-        height={278}
+        height={336}
         highKey="high"
         interaction="tap"
         lowKey="low"
         openKey="open"
         defaultSelectedIndex={stockCandles.length - 2}
         onViewportChange={handleViewportChange}
+        rangeSelector={{
+          height: 62,
+          gap: 9,
+          interactive: true,
+          minVisiblePoints: 4,
+          onGestureEnd: onScrubEnd,
+          onGestureStart: onScrubStart
+        }}
         testID="stock-candlestick-chart"
         tooltip={{ width: 154 }}
         upColor="#16a34a"

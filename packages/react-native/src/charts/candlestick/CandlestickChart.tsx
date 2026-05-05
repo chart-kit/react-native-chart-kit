@@ -37,6 +37,8 @@ import {
   getCandlestickChartTooltipConfig,
   getCandlestickChartTooltipModel
 } from "./tooltipModel";
+import { CandlestickChartRangeSelector } from "./rangeSelector";
+import { getCandlestickChartRangeSelectorConfig } from "./rangeSelectorConfig";
 import { renderDefaultCandlestickTooltip } from "./tooltip";
 import type { CandlestickChartProps } from "./types";
 
@@ -58,6 +60,18 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
   const [gestureSelectedIndex, setGestureSelectedIndex] = useState<
     number | undefined
   >(props.defaultSelectedIndex);
+  const rangeSelectorConfig = useMemo(
+    () => getCandlestickChartRangeSelectorConfig(props.rangeSelector),
+    [props.rangeSelector]
+  );
+  const isRangeSelectorVisible =
+    rangeSelectorConfig.visible && props.data.length > 1;
+  const mainHeight = isRangeSelectorVisible
+    ? Math.max(
+        120,
+        props.height - rangeSelectorConfig.height - rangeSelectorConfig.gap
+      )
+    : props.height;
   const viewportWindow = useMemo(
     () =>
       resolveChartViewportWindow({
@@ -85,9 +99,23 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
         ...props,
         chartKitTheme,
         data: visibleData,
+        height: mainHeight,
         dataIndexOffset: viewportWindow.startIndex
       }),
-    [chartKitTheme, props, viewportWindow.startIndex, visibleData]
+    [chartKitTheme, mainHeight, props, viewportWindow.startIndex, visibleData]
+  );
+  const overviewModel = useMemo(
+    () =>
+      buildCandlestickChartModel({
+        ...props,
+        chartKitTheme,
+        data: props.data,
+        height: rangeSelectorConfig.height,
+        showXAxisLabels: false,
+        showYAxisLabels: false,
+        yTickCount: 2
+      }),
+    [chartKitTheme, props, rangeSelectorConfig.height]
   );
   const {
     boxes,
@@ -234,15 +262,15 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
     >
       <View
         collapsable={false}
-        style={{ height: props.height, width: props.width }}
+        style={{ height: mainHeight, width: props.width }}
         {...responderProps}
       >
         <ChartViewportGesture gesture={viewportPinchZoom}>
-          <SvgSurface height={props.height} width={props.width}>
+          <SvgSurface height={mainHeight} width={props.width}>
             <SvgLayer name="background">
               <SvgRect
                 fill={resolvedTheme.background}
-                height={props.height}
+                height={mainHeight}
                 rx={8}
                 width={props.width}
                 x={0}
@@ -425,6 +453,17 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
           </SvgSurface>
         </ChartViewportGesture>
       </View>
+      <CandlestickChartRangeSelector
+        config={rangeSelectorConfig}
+        dataLength={props.data.length}
+        isVisible={isRangeSelectorVisible}
+        model={overviewModel}
+        onViewportChange={props.onViewportChange}
+        preventBrowserSelection={preventBrowserSelection}
+        testID={props.testID}
+        viewportWindow={viewportWindow}
+        width={props.width}
+      />
     </View>
   );
 };

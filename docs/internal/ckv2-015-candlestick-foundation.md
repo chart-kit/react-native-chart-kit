@@ -16,10 +16,10 @@ Implemented in this slice:
 - opt-in volume overlay bars
 - viewport windowing with source data indexes preserved
 - controlled viewport pan and pinch-zoom gestures
+- interactive range selector overview
 - unit coverage for candle body, wick, direction, and invalid-row handling
 
 Still pending for the broader financial module:
 
-- range selector integration
 - scrollable viewport mode
 - Pro packaging and licensing decision

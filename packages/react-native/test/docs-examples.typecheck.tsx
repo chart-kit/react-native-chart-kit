@@ -219,6 +219,7 @@ export const docsExampleElements = [
     highKey="high"
     lowKey="low"
     closeKey="close"
+    rangeSelector={{ interactive: true, minVisiblePoints: 2 }}
     viewport={{ visiblePoints: 2, initialIndex: "end" }}
     viewportInteraction={{ pan: true, pinchZoom: true, minVisiblePoints: 2 }}
     onViewportChange={() => undefined}

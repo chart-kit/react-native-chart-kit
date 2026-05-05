@@ -154,18 +154,18 @@ export const buildCandlestickChartModel = <
   const xDomain = xValues.map(getBarChartXKey);
   const xLabelTexts = rows.map((row) => formatXLabel(row.x, row.index));
   const textOptions = { fontSize: resolvedTheme.typography.axisLabelSize };
-  const xLabelSizes = xLabelTexts.map((text) =>
-    measureBarChartText(text, textOptions)
-  );
+  const xLabelSizes = showXAxisLabels
+    ? xLabelTexts.map((text) => measureBarChartText(text, textOptions))
+    : [];
   const domainValues = rows.flatMap((row) => [row.low, row.high]);
   const resolvedYDomain = resolveNumericDomain(domainValues, yDomain);
   const yTicks = generateLinearTicks({
     domain: resolvedYDomain,
     count: Math.max(2, Math.round(yTickCount))
   });
-  const yLabelSizes = yTicks.map((tick) =>
-    measureBarChartText(formatYLabel(tick), textOptions)
-  );
+  const yLabelSizes = showYAxisLabels
+    ? yTicks.map((tick) => measureBarChartText(formatYLabel(tick), textOptions))
+    : [];
   const padding = calculateAutoPadding({
     base: { top: 18, right: 14, bottom: 12, left: 10 },
     bottomLabels:

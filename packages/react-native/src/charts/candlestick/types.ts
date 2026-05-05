@@ -19,7 +19,8 @@ import type {
 import type {
   ChartViewportChangeEvent,
   ChartViewportConfig,
-  ChartViewportInteractionConfig
+  ChartViewportInteractionConfig,
+  ChartViewportInteractionType
 } from "../../viewport/types";
 
 export type CandlestickChartPriceKeys<TData extends Record<string, unknown>> = {
@@ -53,6 +54,7 @@ export type CandlestickChartProps<TData extends Record<string, unknown>> =
     selectedIndex?: number;
     tooltip?: boolean | CandlestickChartTooltipConfig;
     onViewportChange?: (event: CandlestickChartViewportChangeEvent) => void;
+    rangeSelector?: boolean | CandlestickChartRangeSelectorConfig;
     viewport?: CandlestickChartViewportConfig;
     viewportInteraction?: boolean | CandlestickChartViewportInteractionConfig;
     volumeHeightRatio?: number;
@@ -98,7 +100,53 @@ export type ResolvedCandlestickChartTooltipConfig =
 export type CandlestickChartViewportConfig = ChartViewportConfig;
 export type CandlestickChartViewportInteractionConfig =
   ChartViewportInteractionConfig;
-export type CandlestickChartViewportChangeEvent = ChartViewportChangeEvent;
+
+export type CandlestickChartRangeSelectorInteraction =
+  | "move"
+  | "resizeStart"
+  | "resizeEnd";
+
+export type CandlestickChartRangeSelectorGestureEvent = {
+  interaction: CandlestickChartRangeSelectorInteraction;
+};
+
+export type CandlestickChartViewportChangeEvent = Omit<
+  ChartViewportChangeEvent,
+  "interaction" | "source"
+> & {
+  interaction:
+    | ChartViewportInteractionType
+    | CandlestickChartRangeSelectorInteraction;
+  source: "mainPlot" | "rangeSelector";
+};
+
+export type CandlestickChartRangeSelectorConfig = {
+  backgroundFill?: string;
+  gap?: number;
+  handleColor?: string;
+  handleHeight?: number;
+  handleHitSlop?: number;
+  handleOpacity?: number;
+  handleRadius?: number;
+  handleWidth?: number;
+  height?: number;
+  interactive?: boolean;
+  minVisiblePoints?: number;
+  onGestureEnd?: (event: CandlestickChartRangeSelectorGestureEvent) => void;
+  onGestureStart?: (event: CandlestickChartRangeSelectorGestureEvent) => void;
+  outsideFill?: string;
+  outsideOpacity?: number;
+  plotFill?: string;
+  plotRadius?: number;
+  visible?: boolean;
+  volumeOpacity?: number;
+  windowFill?: string;
+  windowOpacity?: number;
+  windowRadius?: number;
+  windowStroke?: string;
+  windowStrokeOpacity?: number;
+  windowStrokeWidth?: number;
+};
 
 export type BuildCandlestickChartModelOptions<
   TData extends Record<string, unknown>

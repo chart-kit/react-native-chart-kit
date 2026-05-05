@@ -133,6 +133,7 @@ Use this for the first financial-chart review surface. The current candlestick f
   closeKey="close"
   volumeKey="volume"
   interaction="tap"
+  rangeSelector={{ interactive: true, minVisiblePoints: 8 }}
   tooltip={{ width: 154 }}
   viewport={{ visiblePoints: 20, initialIndex: "end" }}
   viewportInteraction={{ pan: true, pinchZoom: true, minVisiblePoints: 8 }}
@@ -143,4 +144,4 @@ Use this for the first financial-chart review surface. The current candlestick f
 />
 ```
 
-Features used: OHLC normalization, candle body geometry, wick geometry, volume overlay, viewport windowing, pan/pinch viewport gestures, up/down/flat theming, skipped invalid rows, tap selection, OHLC tooltip, close-price badge.
+Features used: OHLC normalization, candle body geometry, wick geometry, volume overlay, viewport windowing, range selector overview, pan/pinch viewport gestures, up/down/flat theming, skipped invalid rows, tap selection, OHLC tooltip, close-price badge.

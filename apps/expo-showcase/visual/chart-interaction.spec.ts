@@ -322,6 +322,38 @@ test.describe("Expo showcase chart interactions", () => {
     await expect(interactionLayer.getByText("Jun 11")).toHaveCount(0);
   });
 
+  test("candlestick range selector changes the visible window", async ({
+    page
+  }) => {
+    await page.goto("/?story=v2-candlestick-price-action&visual=1");
+    await page.evaluate(async () => {
+      await document.fonts?.ready;
+    });
+
+    const chart = page.getByTestId("stock-candlestick-chart");
+    const rangeSelector = page.getByTestId(
+      "stock-candlestick-chart-range-selector"
+    );
+
+    await expect(page.getByText("Price action")).toBeVisible();
+    await expect(
+      page.getByTestId("stock-candlestick-chart-candle.0")
+    ).toHaveCount(0);
+    await expect(rangeSelector).toBeVisible();
+
+    const rangeBox = await rangeSelector.boundingBox();
+    expect(rangeBox).not.toBeNull();
+
+    if (!rangeBox) {
+      return;
+    }
+
+    await page.mouse.click(rangeBox.x + 34, rangeBox.y + rangeBox.height / 2);
+    await expect(
+      chart.getByTestId("stock-candlestick-chart-candle.0")
+    ).toBeVisible();
+  });
+
   test("range selector overview changes the visible window", async ({
     page
   }) => {
