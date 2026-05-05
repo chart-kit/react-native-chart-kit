@@ -60,7 +60,7 @@
     "example:ios": "node scripts/missing-command.mjs example:ios \"React Native CLI iOS example is not configured yet.\"",
     "example:android": "node scripts/missing-command.mjs example:android \"React Native CLI Android example is not configured yet.\"",
     "example:expo": "npm --workspace @chart-kit/expo-showcase run start --",
-    "docs:build": "node scripts/missing-command.mjs docs:build \"Docs site build is not configured yet.\"",
+    "docs:build": "node scripts/docs-build.mjs",
     "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
     "build": "npm run clean && tsc",
     "dev": "tsc --watch",
