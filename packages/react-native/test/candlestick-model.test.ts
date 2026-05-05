@@ -87,4 +87,22 @@ describe("CandlestickChart model", () => {
     expect(model.volumeBars[0]?.opacity).toBe(0.18);
     expect(model.volumeBars[0]?.color).toBe(model.candles[0]?.color);
   });
+
+  it("preserves source indexes for viewport slices", () => {
+    const model = buildCandlestickChartModel({
+      chartKitTheme,
+      closeKey: "close",
+      data: rows.slice(1),
+      dataIndexOffset: 1,
+      height: 260,
+      highKey: "high",
+      lowKey: "low",
+      openKey: "open",
+      width: 360,
+      xKey: "day"
+    });
+
+    expect(model.candles.map((candle) => candle.dataIndex)).toEqual([1, 2]);
+    expect(model.xLabels.map((label) => label.index)).toEqual([1, 2]);
+  });
 });

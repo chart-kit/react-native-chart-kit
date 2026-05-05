@@ -14,6 +14,7 @@ Implemented in this slice:
 - theme-aware OHLC tooltip
 - vertical inspection line and close-price badge
 - opt-in volume overlay bars
+- viewport windowing with source data indexes preserved
 - unit coverage for candle body, wick, direction, and invalid-row handling
 
 Still pending for the broader financial module:

@@ -17,6 +17,7 @@ import { CandlestickChart } from "@chart-kit/react-native";
   height={280}
   interaction="tap"
   tooltip={{ width: 154 }}
+  viewport={{ visiblePoints: 20, initialIndex: "end" }}
   yDomain={{ min: "dataMin", max: "dataMax", nice: true }}
   formatYLabel={(value) => `$${Math.round(value)}`}
 />;
@@ -29,6 +30,7 @@ Defaults:
 - flat candles use muted theme text
 - invalid OHLC rows are skipped
 - pass `volumeKey` to render a subtle volume overlay behind the candles
+- use `viewport` to render a focused window from a larger OHLC dataset
 - tap selection can show a vertical inspection line, close-price badge, and theme-aware OHLC tooltip
 - y-domain is based on lows and highs, not open and close only
 - `getCandlestickChartDataTable()` returns exact OHLC rows for accessible detail panels and exports

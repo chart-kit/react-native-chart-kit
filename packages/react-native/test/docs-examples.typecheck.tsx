@@ -219,6 +219,7 @@ export const docsExampleElements = [
     highKey="high"
     lowKey="low"
     closeKey="close"
+    viewport={{ visiblePoints: 2, initialIndex: "end" }}
     yDomain={{ min: "dataMin", max: "dataMax", nice: true }}
     formatYLabel={(value) => `$${Math.round(value)}`}
     width={360}

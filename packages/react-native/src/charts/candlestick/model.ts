@@ -39,6 +39,7 @@ export const normalizeCandlestickRows = <
 >({
   closeKey,
   data,
+  dataIndexOffset = 0,
   highKey,
   lowKey,
   openKey,
@@ -46,7 +47,9 @@ export const normalizeCandlestickRows = <
 }: Pick<
   CandlestickChartProps<TData>,
   "closeKey" | "data" | "highKey" | "lowKey" | "openKey" | "xKey"
->): Array<CandlestickDatum<TData>> =>
+> & {
+  dataIndexOffset?: number;
+}): Array<CandlestickDatum<TData>> =>
   data.flatMap((row, index) => {
     const open = row[openKey];
     const high = row[highKey];
@@ -64,7 +67,17 @@ export const normalizeCandlestickRows = <
       return [];
     }
 
-    return [{ close, high, index, low, open, raw: row, x }];
+    return [
+      {
+        close,
+        high,
+        index: index + dataIndexOffset,
+        low,
+        open,
+        raw: row,
+        x
+      }
+    ];
   });
 
 const getCandleColor = ({
@@ -96,6 +109,7 @@ export const buildCandlestickChartModel = <
   chartKitTheme,
   closeKey,
   data,
+  dataIndexOffset = 0,
   downColor,
   flatColor,
   formatXLabel = defaultFormatBarChartXLabel,
@@ -130,6 +144,7 @@ export const buildCandlestickChartModel = <
   const rows = normalizeCandlestickRows({
     closeKey,
     data,
+    dataIndexOffset,
     highKey,
     lowKey,
     openKey,
@@ -137,7 +152,7 @@ export const buildCandlestickChartModel = <
   });
   const xValues = rows.map((row) => row.x);
   const xDomain = xValues.map(getBarChartXKey);
-  const xLabelTexts = xValues.map((value, index) => formatXLabel(value, index));
+  const xLabelTexts = rows.map((row) => formatXLabel(row.x, row.index));
   const textOptions = { fontSize: resolvedTheme.typography.axisLabelSize };
   const xLabelSizes = xLabelTexts.map((text) =>
     measureBarChartText(text, textOptions)
@@ -253,7 +268,7 @@ export const buildCandlestickChartModel = <
       ? []
       : [
           {
-            index,
+            index: rows[index]?.index ?? index,
             text,
             x: x + xScale.bandwidth / 2,
             y: boxes.plot.y + boxes.plot.height + labelBaselineOffset

@@ -134,6 +134,7 @@ Use this for the first financial-chart review surface. The current candlestick f
   volumeKey="volume"
   interaction="tap"
   tooltip={{ width: 154 }}
+  viewport={{ visiblePoints: 20, initialIndex: "end" }}
   yDomain={{ min: "dataMin", max: "dataMax", nice: true }}
   formatYLabel={(value) => `$${Math.round(value)}`}
   width={360}
@@ -141,4 +142,4 @@ Use this for the first financial-chart review surface. The current candlestick f
 />
 ```
 
-Features used: OHLC normalization, candle body geometry, wick geometry, volume overlay, up/down/flat theming, skipped invalid rows, tap selection, OHLC tooltip, close-price badge.
+Features used: OHLC normalization, candle body geometry, wick geometry, volume overlay, viewport windowing, up/down/flat theming, skipped invalid rows, tap selection, OHLC tooltip, close-price badge.

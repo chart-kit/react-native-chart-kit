@@ -1,5 +1,6 @@
 import type {
   ChartBoxes,
+  ChartViewportInitialIndex,
   ChartXValue,
   NumericDomainInput,
   ProjectedCandlestick
@@ -47,6 +48,7 @@ export type CandlestickChartProps<TData extends Record<string, unknown>> =
     interaction?: CandlestickChartInteraction<TData>;
     selectedIndex?: number;
     tooltip?: boolean | CandlestickChartTooltipConfig;
+    viewport?: CandlestickChartViewportConfig;
     volumeHeightRatio?: number;
     volumeKey?: keyof TData & string;
     volumeOpacity?: number;
@@ -85,10 +87,18 @@ export type CandlestickChartTooltipConfig = BarChartTooltipConfig;
 export type ResolvedCandlestickChartTooltipConfig =
   ResolvedBarChartTooltipConfig;
 
+export type CandlestickChartViewportConfig = {
+  endIndex?: number;
+  initialIndex?: ChartViewportInitialIndex;
+  startIndex?: number;
+  visiblePoints?: number;
+};
+
 export type BuildCandlestickChartModelOptions<
   TData extends Record<string, unknown>
 > = CandlestickChartProps<TData> & {
   chartKitTheme: ChartKitThemeContextValue;
+  dataIndexOffset?: number;
 };
 
 export type CandlestickChartXLabelModel = {

@@ -3,6 +3,10 @@ import { StyleSheet, View } from "react-native";
 import type { GestureResponderEvent, ViewProps } from "react-native";
 
 import {
+  resolveChartViewportWindow,
+  sliceChartViewportData
+} from "@chart-kit/core";
+import {
   SvgLayer,
   SvgLine,
   SvgRect,
@@ -49,9 +53,36 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
   const [gestureSelectedIndex, setGestureSelectedIndex] = useState<
     number | undefined
   >(props.defaultSelectedIndex);
+  const viewportWindow = useMemo(
+    () =>
+      resolveChartViewportWindow({
+        itemCount: props.data.length,
+        startIndex: props.viewport?.startIndex,
+        endIndex: props.viewport?.endIndex,
+        visiblePoints: props.viewport?.visiblePoints,
+        initialIndex: props.viewport?.initialIndex
+      }),
+    [
+      props.data.length,
+      props.viewport?.endIndex,
+      props.viewport?.initialIndex,
+      props.viewport?.startIndex,
+      props.viewport?.visiblePoints
+    ]
+  );
+  const visibleData = useMemo(
+    () => sliceChartViewportData(props.data, viewportWindow),
+    [props.data, viewportWindow]
+  );
   const model = useMemo(
-    () => buildCandlestickChartModel({ ...props, chartKitTheme }),
-    [chartKitTheme, props]
+    () =>
+      buildCandlestickChartModel({
+        ...props,
+        chartKitTheme,
+        data: visibleData,
+        dataIndexOffset: viewportWindow.startIndex
+      }),
+    [chartKitTheme, props, viewportWindow.startIndex, visibleData]
   );
   const {
     boxes,
