@@ -18,6 +18,7 @@ Status:
 - public descriptor evidence reports `localParity: "partial"`, `nativeInstall: "missing"`, and `nativeParity: "missing"` until device evidence exists
 - `LineChart` can accept the injected renderer through its experimental `renderer` prop for the main plot, range selector, sticky-axis, path-local area gradients, threshold rect clips, default marker, default legend, default tooltip, and debug-layout surfaces
 - `BarChart` can accept the injected renderer through its experimental `renderer` prop for its chart body, sticky Y-axis, and default tooltip overlay
+- `PieChart` and `DonutChart` can accept the injected renderer through their experimental `renderer` prop for slices, connector lines, and SVG text labels
 - sticky-axis labels require a Skia font through `createSkiaRenderer({ skia, font })`
 - text primitives support measured `textAnchor` alignment when the supplied Skia font exposes `measureText`
 - path-local area gradients are used when `skia.LinearGradient` and `skia.vec` are available; SVG-style gradient defs remain disabled for Skia
@@ -25,5 +26,6 @@ Status:
 - no license gating
 - local LineChart renderer contract coverage lives in `packages/react-native/test/line-renderer.test.ts`
 - local BarChart renderer contract coverage lives in `packages/react-native/test/bar-renderer.test.ts`
-- `npm run skia:parity` runs the local Skia primitive tests plus LineChart and BarChart renderer contract tests together
+- local PieChart renderer contract coverage lives in `packages/react-native/test/pie-renderer.test.ts`
+- `npm run skia:parity` runs the local Skia primitive tests plus LineChart, BarChart, and PieChart renderer contract tests together
 - native install verification and native renderer parity coverage are still pending

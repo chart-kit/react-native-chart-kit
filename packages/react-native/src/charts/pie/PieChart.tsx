@@ -1,17 +1,11 @@
 import { useCallback, useId, useMemo, useState } from "react";
+import type { ReactNode } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import type { GestureResponderEvent, ViewProps } from "react-native";
 
-import {
-  SvgLayer,
-  SvgLine,
-  SvgPath,
-  SvgSurface,
-  SvgText
-} from "@chart-kit/svg-renderer";
-
 import { useChartKitTheme } from "../../theme";
 import { useScopedChartSelection } from "../../selection/ChartSelectionProvider";
+import { getLineChartRenderer as getPieChartRenderer } from "../line/renderer";
 import { getPieChartAccessibilitySummary } from "./accessibility";
 import {
   buildPieChartSelectEvent,
@@ -32,6 +26,13 @@ export type { PieChartDataTable, PieChartDataTableRow } from "./accessibility";
 
 const defaultDonutInnerRadiusRatio = 0.58;
 const defaultPieLegendGap = 8;
+
+const RendererLayer = ({
+  children
+}: {
+  children?: ReactNode;
+  name?: string;
+}) => <>{children}</>;
 
 export const PieChart = <TData extends Record<string, unknown>>(
   props: PieChartProps<TData>
@@ -206,6 +207,13 @@ export const PieChart = <TData extends Record<string, unknown>>(
       labelKey: props.labelKey,
       valueKey: props.valueKey
     });
+  const renderer = getPieChartRenderer(props.renderer);
+  const Layer = renderer.Layer ?? RendererLayer;
+  const Line = renderer.Line;
+  const Path = renderer.Path;
+  const Surface = renderer.Surface;
+  const SvgText = renderer.Text;
+  const canRenderText = renderer.capabilities?.text !== false;
 
   return (
     <View
@@ -223,8 +231,8 @@ export const PieChart = <TData extends Record<string, unknown>>(
       testID={props.testID}
       {...responderProps}
     >
-      <SvgSurface width={props.width} height={chartHeight}>
-        <SvgLayer name="background">
+      <Surface width={props.width} height={chartHeight}>
+        <Layer name="background">
           {arcs.map((arc) => {
             if (!arc.defined) {
               return null;
@@ -238,7 +246,7 @@ export const PieChart = <TData extends Record<string, unknown>>(
               : 1;
 
             return (
-              <SvgPath
+              <Path
                 key={`pie-slice-${arc.index}`}
                 d={arc.path}
                 fill={arc.color ?? resolvedTheme.text}
@@ -253,13 +261,14 @@ export const PieChart = <TData extends Record<string, unknown>>(
               />
             );
           })}
-        </SvgLayer>
-        {isTextCenterLabel ? (
-          <SvgLayer name="overlays">
+        </Layer>
+        {isTextCenterLabel && canRenderText ? (
+          <Layer name="overlays">
             <SvgText
               fill={resolvedTheme.text}
               fontSize={16}
               fontWeight="800"
+              text={centerLabel}
               textAnchor="middle"
               x={centerX}
               y={centerY + 5}
@@ -269,13 +278,13 @@ export const PieChart = <TData extends Record<string, unknown>>(
             >
               {centerLabel}
             </SvgText>
-          </SvgLayer>
+          </Layer>
         ) : null}
         {arcLabels.length > 0 ? (
-          <SvgLayer name="overlays">
+          <Layer name="overlays">
             {arcLabels.map((label) =>
               label.connectorVisible ? (
-                <SvgLine
+                <Line
                   key={`${label.key}-connector-a`}
                   x1={label.connectorStartX}
                   x2={label.connectorBendX}
@@ -289,7 +298,7 @@ export const PieChart = <TData extends Record<string, unknown>>(
             )}
             {arcLabels.map((label) =>
               label.connectorVisible ? (
-                <SvgLine
+                <Line
                   key={`${label.key}-connector-b`}
                   x1={label.connectorBendX}
                   x2={label.connectorEndX}
@@ -301,25 +310,28 @@ export const PieChart = <TData extends Record<string, unknown>>(
                 />
               ) : null
             )}
-            {arcLabels.map((label) => (
-              <SvgText
-                key={label.key}
-                fill={resolvedTheme.text}
-                fontSize={label.fontSize}
-                fontWeight="800"
-                textAnchor={label.textAnchor}
-                x={label.x}
-                y={label.y + label.fontSize / 3}
-                {...(resolvedTheme.typography.fontFamily
-                  ? { fontFamily: resolvedTheme.typography.fontFamily }
-                  : {})}
-              >
-                {label.text}
-              </SvgText>
-            ))}
-          </SvgLayer>
+            {canRenderText
+              ? arcLabels.map((label) => (
+                  <SvgText
+                    key={label.key}
+                    fill={resolvedTheme.text}
+                    fontSize={label.fontSize}
+                    fontWeight="800"
+                    text={label.text}
+                    textAnchor={label.textAnchor}
+                    x={label.x}
+                    y={label.y + label.fontSize / 3}
+                    {...(resolvedTheme.typography.fontFamily
+                      ? { fontFamily: resolvedTheme.typography.fontFamily }
+                      : {})}
+                  >
+                    {label.text}
+                  </SvgText>
+                ))
+              : null}
+          </Layer>
         ) : null}
-      </SvgSurface>
+      </Surface>
       {customCenterLabel ? (
         <View
           pointerEvents="none"

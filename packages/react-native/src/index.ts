@@ -86,6 +86,7 @@ export type {
   PieChartLegendItem,
   PieChartModel,
   PieChartProps,
+  PieChartRenderer,
   PieChartSelectEvent
 } from "./charts/pie/PieChart";
 export type {

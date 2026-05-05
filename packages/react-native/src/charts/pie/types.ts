@@ -8,6 +8,9 @@ import type {
   CartesianChartTheme,
   ResolvedCartesianChartTheme
 } from "../../theme";
+import type { LineChartRenderer } from "../line/types";
+
+export type PieChartRenderer = LineChartRenderer;
 
 export type PieChartDeselectEvent = {
   reason: "outsidePress" | "programmatic";
@@ -107,6 +110,7 @@ export type PieChartProps<TData extends Record<string, unknown>> = {
     | string
     | ReactNode
     | ((props: PieChartCenterLabelRenderProps<TData>) => ReactNode);
+  renderer?: PieChartRenderer;
   accessibilityLabel?: string;
   id?: string;
   testID?: string;
