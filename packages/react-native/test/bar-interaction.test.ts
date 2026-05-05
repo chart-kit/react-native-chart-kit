@@ -7,6 +7,7 @@ import {
 } from "../src/charts/bar/interaction";
 import { getBarChartTooltipConfig } from "../src/charts/bar/options";
 import {
+  getBarChartSelectionGridOpacity,
   getAnimatedBarSelectionFill,
   getAnimatedBarSelectionGridOpacity,
   getAnimatedBarSelectionOpacity,
@@ -207,6 +208,12 @@ describe("BarChart interaction helpers", () => {
     expect(
       getAnimatedBarSelectionGridOpacity({
         state: { fromKey: "paid-1", toKey: undefined, progress: 0.5 }
+      })
+    ).toBeCloseTo(0);
+    expect(
+      getBarChartSelectionGridOpacity({
+        selectedBarKey: "paid-1",
+        state: { fromKey: undefined, toKey: undefined, progress: 1 }
       })
     ).toBeCloseTo(0);
   });

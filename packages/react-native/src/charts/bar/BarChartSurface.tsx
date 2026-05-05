@@ -13,9 +13,9 @@ import {
 
 import { getFontFamilyProps } from "../line/text";
 import {
-  getAnimatedBarSelectionGridOpacity,
   getAnimatedBarSelectionFill,
   getAnimatedBarSelectionStrokeOpacity,
+  getBarChartSelectionGridOpacity,
   useBarChartSelectionAnimation
 } from "./selectionAnimation";
 import { renderDefaultBarChartTooltip } from "./tooltip";
@@ -65,7 +65,8 @@ export const BarChartSurface = <TData,>({
     animation: selectionAnimation,
     selectedBarKey
   });
-  const gridStrokeOpacity = getAnimatedBarSelectionGridOpacity({
+  const gridStrokeOpacity = getBarChartSelectionGridOpacity({
+    selectedBarKey,
     state: selectionAnimationState
   });
 
@@ -145,7 +146,7 @@ export const BarChartSurface = <TData,>({
                   y={bar.y}
                   width={bar.width}
                   height={bar.height}
-                  rx={radius}
+                  rx={0}
                   fill={resolvedTheme.plotBackground}
                 />
                 <SvgRect

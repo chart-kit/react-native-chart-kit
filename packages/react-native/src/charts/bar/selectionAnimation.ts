@@ -211,6 +211,20 @@ export const getAnimatedBarSelectionGridOpacity = ({
   return defaultGridStrokeOpacity;
 };
 
+export const getBarChartSelectionGridOpacity = ({
+  selectedBarKey,
+  state
+}: {
+  selectedBarKey: string | undefined;
+  state: BarChartSelectionAnimationState;
+}) => {
+  if (selectedBarKey !== undefined) {
+    return selectedGridStrokeOpacity;
+  }
+
+  return getAnimatedBarSelectionGridOpacity({ state });
+};
+
 export const useBarChartSelectionAnimation = ({
   animation,
   selectedBarKey
