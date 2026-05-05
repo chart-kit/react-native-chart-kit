@@ -16,6 +16,8 @@ Impact: beta can be used for preview and API feedback, but production users shou
 
 `npm run example:ios` and `npm run example:android` launch the Expo showcase for manual simulator or emulator review. They are tracked as manual example commands, not passing native e2e or release-build checks.
 
+The [Native runtime QA protocol](native-runtime-qa.md) defines the required iOS and Android gesture/runtime review path. The missing evidence is a completed device log for tap, scrub, pan, pinch, range selector, tooltip stacking, nested scroll, theme switching, and edge-label behavior.
+
 `examples/rn-cli-basic` provides a non-Expo app source and Metro alias smoke surface. `npm run example:rn-cli:typecheck` verifies its TypeScript imports, but generated RN CLI `ios/` and `android/` projects are not checked in or release-built yet.
 
 Impact: CI can validate web showcase interactions, but cannot yet validate native navigation, release builds, or platform-specific gesture conflicts.
