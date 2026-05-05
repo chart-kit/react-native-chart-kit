@@ -180,6 +180,25 @@ test.describe("Expo showcase chart interactions", () => {
     await expect(chart.getByText("Jan 14")).toHaveCount(0);
   });
 
+  test("range selector custom line renderer has stable keys", async ({
+    page
+  }) => {
+    const messages: string[] = [];
+    page.on("console", (message) => {
+      messages.push(message.text());
+    });
+
+    await page.goto("/?story=v2-range-selector&visual=1");
+    await page.evaluate(async () => {
+      await document.fonts?.ready;
+    });
+
+    await expect(page.getByText("Portfolio range")).toBeVisible();
+    expect(messages.join("\n")).not.toContain(
+      'Each child in a list should have a unique "key" prop'
+    );
+  });
+
   test("main plot drag pans a controlled viewport", async ({ page }) => {
     await page.goto("/?story=v2-viewport-zoom-pan");
     await page.evaluate(async () => {

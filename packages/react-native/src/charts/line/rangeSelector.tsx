@@ -8,6 +8,7 @@ import {
   type ResolvedChartViewportWindow
 } from "@chart-kit/core";
 import {
+  SvgGroup,
   SvgLayer,
   SvgPath,
   SvgRect,
@@ -265,7 +266,9 @@ export const LineChartRangeSelector = <TData extends Record<string, unknown>>({
   };
   const renderLine = (props: LineChartRangeSelectorLineRenderProps) =>
     config.renderLine ? (
-      config.renderLine(props)
+      <SvgGroup key={`range-line-${props.key}`}>
+        {config.renderLine(props)}
+      </SvgGroup>
     ) : (
       <SvgPath
         key={`range-line-${props.key}`}
