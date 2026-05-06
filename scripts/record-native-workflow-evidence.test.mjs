@@ -41,11 +41,9 @@ describe("native workflow evidence recorder", () => {
     const evidence = await listNativeWorkflowEvidence({ repoRoot });
 
     expect(evidence).toMatchObject({
-      status: "partial"
+      status: "complete"
     });
-    expect(evidence.missingEvidence).toContain(
-      "green native release workflow run on the release candidate commit through next push or manual workflow_dispatch"
-    );
+    expect(evidence.missingEvidence).toEqual([]);
   });
 
   it("requires workflow run and both platform artifacts before marking complete", async () => {
@@ -100,6 +98,12 @@ describe("native workflow evidence recorder", () => {
 
   it("records a green workflow run without mutating during dry-run", async () => {
     const tempRepo = await createTempRepo();
+    const beforeManifest = JSON.parse(
+      await readFile(
+        join(tempRepo, "docs/release/evidence/native-release-workflow.json"),
+        "utf8"
+      )
+    );
     const result = await recordNativeWorkflowEvidence({
       androidArtifact:
         "https://github.com/example/repo/actions/runs/1/artifacts/android",
@@ -121,7 +125,7 @@ describe("native workflow evidence recorder", () => {
       dryRun: true,
       status: "complete"
     });
-    expect(manifest.status).toBe("partial");
+    expect(manifest).toEqual(beforeManifest);
   });
 
   it("requires local artifact evidence files to exist when artifact values are not URLs", async () => {
