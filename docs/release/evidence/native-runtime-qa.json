@@ -7,24 +7,40 @@
   "matrix": "docs/release/evidence/native-runtime-matrix.json",
   "completedEntries": [
     {
-      "date": "2026-05-05",
-      "commit": "d54e599",
+      "date": "2026-05-06",
       "platform": "ios",
       "device": "iPhone 17 simulator / iOS 26.0",
       "build": "Release simulator build",
       "result": "partial-pass",
-      "artifacts": ["docs/release/artifacts/ios-runtime-smoke.png"],
-      "notes": "App launched and Line Charts rendered; full interaction matrix still pending."
+      "artifacts": [
+        "docs/release/artifacts/ios-runtime-smoke.png",
+        "docs/release/artifacts/ios-runtime-bar-charts.png",
+        "docs/release/artifacts/ios-runtime-combined-preview.png",
+        "docs/release/artifacts/ios-runtime-financial-preview.png",
+        "docs/release/artifacts/ios-runtime-pie-donut.png",
+        "docs/release/artifacts/ios-runtime-progress.png",
+        "docs/release/artifacts/ios-runtime-heatmaps.png",
+        "docs/release/artifacts/ios-runtime-compatibility.png"
+      ],
+      "notes": "Release simulator launch-smoke screenshots cover all required showcase pages; full interaction, rotation, and physical-device runtime matrix still pending."
     },
     {
-      "date": "2026-05-05",
-      "commit": "e0b46ae",
+      "date": "2026-05-06",
       "platform": "android",
       "device": "chartkit_api36 emulator / Android 36, ARM64",
       "build": "Release APK",
       "result": "partial-pass",
-      "artifacts": ["docs/release/artifacts/android-runtime-smoke.png"],
-      "notes": "App launched from release APK and Line Charts rendered; full interaction matrix still pending."
+      "artifacts": [
+        "docs/release/artifacts/android-runtime-smoke.png",
+        "docs/release/artifacts/android-runtime-bar-charts.png",
+        "docs/release/artifacts/android-runtime-combined-preview.png",
+        "docs/release/artifacts/android-runtime-financial-preview.png",
+        "docs/release/artifacts/android-runtime-pie-donut.png",
+        "docs/release/artifacts/android-runtime-progress.png",
+        "docs/release/artifacts/android-runtime-heatmaps.png",
+        "docs/release/artifacts/android-runtime-compatibility.png"
+      ],
+      "notes": "Release emulator launch-smoke screenshots cover all required showcase pages; full gesture, rotation, and physical-device runtime matrix still pending."
     }
   ],
   "requiredPages": [
