@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-import { DonutChart, PieChart } from "@chart-kit/react-native";
+import {
+  DonutChart,
+  PieChart,
+  getPieChartDataTable
+} from "@chart-kit/react-native";
 
 import {
   acquisitionShare,
@@ -9,6 +13,27 @@ import {
   subscriptionMix
 } from "../fixtures/v2Pie";
 import { ChartSection, type NativeStoryProps } from "./storyPrimitives";
+import { ChartDataDetails } from "./dataDetails";
+
+const formatPiePercentage = (value: number) => `${Math.round(value * 100)}%`;
+const acquisitionShareTable = getPieChartDataTable({
+  data: acquisitionShare,
+  formatPercentage: formatPiePercentage,
+  formatValue: (value) => `${value}`,
+  labelKey: "channel",
+  valueKey: "share"
+});
+const acquisitionShareDetails = {
+  columns: [
+    { key: "channel", label: "Channel" },
+    { key: "share", label: "Share" },
+    { key: "percent", label: "Percent" }
+  ],
+  rows: acquisitionShareTable.rows.map((row) => ({
+    key: `${row.index}`,
+    values: [row.label, row.formattedValue, row.percentageLabel]
+  }))
+};
 
 const V2PieAcquisition = ({ width }: NativeStoryProps) => (
   <ChartSection title="Acquisition share" kicker="Pie chart">
@@ -18,9 +43,13 @@ const V2PieAcquisition = ({ width }: NativeStoryProps) => (
       labelKey="channel"
       valueKey="share"
       width={width}
-      formatPercentage={(value) => `${Math.round(value * 100)}%`}
+      formatPercentage={formatPiePercentage}
     />
   </ChartSection>
+);
+
+const V2PieAcquisitionDetails = () => (
+  <ChartDataDetails title="Acquisition share" {...acquisitionShareDetails} />
 );
 
 const V2PieExternalLabels = ({ width }: NativeStoryProps) => (
@@ -37,7 +66,7 @@ const V2PieExternalLabels = ({ width }: NativeStoryProps) => (
       legend={false}
       valueKey="share"
       width={width}
-      formatPercentage={(value) => `${Math.round(value * 100)}%`}
+      formatPercentage={formatPiePercentage}
     />
   </ChartSection>
 );
@@ -51,7 +80,7 @@ const V2DonutRevenue = ({ width }: NativeStoryProps) => (
       labelKey="plan"
       valueKey="revenue"
       width={width}
-      formatPercentage={(value) => `${Math.round(value * 100)}%`}
+      formatPercentage={formatPiePercentage}
     />
   </ChartSection>
 );
@@ -76,7 +105,7 @@ const V2SelectableDonut = ({ width }: NativeStoryProps) => {
         testID="selectable-donut-chart"
         valueKey="revenue"
         width={width}
-        formatPercentage={(value) => `${Math.round(value * 100)}%`}
+        formatPercentage={formatPiePercentage}
       />
     </ChartSection>
   );
@@ -102,7 +131,7 @@ const V2CustomLegendDonut = ({ width }: NativeStoryProps) => (
           </Text>
         </View>
       )}
-      formatPercentage={(value) => `${Math.round(value * 100)}%`}
+      formatPercentage={formatPiePercentage}
       legend={{
         itemGap: 6,
         maxItemWidth: "100%",
@@ -139,7 +168,8 @@ export const pieOverviewStories = [
   {
     id: "v2-pie-acquisition",
     title: "Acquisition Pie",
-    Component: V2PieAcquisition
+    Component: V2PieAcquisition,
+    Details: V2PieAcquisitionDetails
   },
   {
     id: "v2-pie-external-labels",

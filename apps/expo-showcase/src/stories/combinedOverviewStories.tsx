@@ -2,10 +2,14 @@ import { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { useChartKitTheme } from "@chart-kit/react-native";
-import { CombinedChart } from "@chart-kit/react-native/pro-preview";
+import {
+  CombinedChart,
+  getCombinedChartDataTable
+} from "@chart-kit/react-native/pro-preview";
 
 import { revenueMargin } from "../fixtures/v2Combined";
 import { ChartSection, type NativeStoryProps } from "./storyPrimitives";
+import { ChartDataDetails, createFormattedValueDetails } from "./dataDetails";
 
 const formatCurrency = (value: number) => `$${value}k`;
 const formatPercent = (value: number) => `${value}%`;
@@ -59,6 +63,22 @@ const V2CombinedRevenueMargin = ({ width }: NativeStoryProps) => (
       xKey="month"
     />
   </ChartSection>
+);
+
+const revenueMarginDetails = createFormattedValueDetails({
+  categoryLabel: "Month",
+  table: getCombinedChartDataTable({
+    bars: [{ yKey: "revenue", label: "Revenue" }],
+    data: revenueMargin,
+    formatLeftYLabel: formatCurrency,
+    formatRightYLabel: formatPercent,
+    lines: [{ yKey: "margin", label: "Margin" }],
+    xKey: "month"
+  })
+});
+
+const V2CombinedRevenueMarginDetails = () => (
+  <ChartDataDetails title="Revenue and margin" {...revenueMarginDetails} />
 );
 
 const V2CombinedSharedTooltip = ({ width }: NativeStoryProps) => (
@@ -179,7 +199,8 @@ export const combinedOverviewStories = [
   {
     id: "v2-combined-revenue-margin",
     title: "Revenue + Margin",
-    Component: V2CombinedRevenueMargin
+    Component: V2CombinedRevenueMargin,
+    Details: V2CombinedRevenueMarginDetails
   },
   {
     id: "v2-combined-shared-tooltip",

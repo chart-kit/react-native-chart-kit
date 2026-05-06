@@ -397,6 +397,7 @@ export default function App() {
                   <View style={styles.storyGrid}>
                     {group.stories.map((story) => {
                       const StoryComponent = story.Component;
+                      const StoryDetails = story.Details;
                       const tags = storyFeatureTags[story.id] ?? [];
 
                       return (
@@ -413,6 +414,9 @@ export default function App() {
                             onScrubStart={() => setIsScrubbing(true)}
                             onScrubEnd={() => setIsScrubbing(false)}
                           />
+                          {StoryDetails ? (
+                            <StoryDetails width={chartWidth} />
+                          ) : null}
                           {tags.length > 0 ? (
                             <Text
                               style={[

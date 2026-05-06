@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Pressable, Text } from "react-native";
 
-import { BarChart } from "@chart-kit/react-native";
+import { BarChart, getBarChartDataTable } from "@chart-kit/react-native";
 import { SvgRect } from "@chart-kit/svg-renderer";
 
 import {
@@ -16,6 +16,7 @@ import {
   storyStyles,
   type NativeStoryProps
 } from "./storyPrimitives";
+import { ChartDataDetails, createFormattedValueDetails } from "./dataDetails";
 
 const formatThousands = (value: number) => `${value}k`;
 const formatPercent = (value: number) => `${value}%`;
@@ -179,6 +180,20 @@ const V2GroupedBar = ({ width }: NativeStoryProps) => (
       formatYLabel={formatThousands}
     />
   </ChartSection>
+);
+
+const acquisitionMixDetails = createFormattedValueDetails({
+  categoryLabel: "Month",
+  table: getBarChartDataTable({
+    data: acquisitionByChannel,
+    formatYLabel: formatThousands,
+    xKey: "month",
+    yKeys: ["organic", "paid"]
+  })
+});
+
+const V2GroupedBarDetails = () => (
+  <ChartDataDetails title="Acquisition mix" {...acquisitionMixDetails} />
 );
 
 const V2SelectableBar = ({ width }: NativeStoryProps) => (
@@ -380,7 +395,8 @@ export const barOverviewStories = [
   {
     id: "v2-bar-grouped",
     title: "Grouped Bars",
-    Component: V2GroupedBar
+    Component: V2GroupedBar,
+    Details: V2GroupedBarDetails
   },
   {
     id: "v2-bar-selection",

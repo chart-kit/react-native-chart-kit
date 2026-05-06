@@ -2,12 +2,14 @@ import { useCallback, useState } from "react";
 
 import {
   CandlestickChart,
+  getCandlestickChartDataTable,
   getCandlestickEmergencyClosureSessions
 } from "@chart-kit/react-native/pro-preview";
 import type { CandlestickChartViewportConfig } from "@chart-kit/react-native/pro-preview";
 
 import { stockCandles } from "../fixtures/v2Finance";
 import { ChartSection, type NativeStoryProps } from "./storyPrimitives";
+import { ChartDataDetails } from "./dataDetails";
 
 const formatPrice = (value: number) => `$${Math.round(value)}`;
 const monthNames = [
@@ -58,6 +60,35 @@ const sessionEventCandles = [
 const sessionEventClosures = getCandlestickEmergencyClosureSessions([
   { date: "2026-11-26", reason: "Closed" }
 ]);
+const priceActionTable = getCandlestickChartDataTable({
+  closeKey: "close",
+  data: stockCandles,
+  formatXLabel: formatTradingDay,
+  formatYLabel: formatPrice,
+  highKey: "high",
+  lowKey: "low",
+  openKey: "open",
+  xKey: "day"
+});
+const priceActionDetails = {
+  columns: [
+    { key: "day", label: "Day" },
+    { key: "open", label: "Open" },
+    { key: "high", label: "High" },
+    { key: "low", label: "Low" },
+    { key: "close", label: "Close" }
+  ],
+  rows: priceActionTable.rows.slice(-8).map((row) => ({
+    key: `${row.index}`,
+    values: [
+      row.xLabel,
+      row.formattedOpen,
+      row.formattedHigh,
+      row.formattedLow,
+      row.formattedClose
+    ]
+  }))
+};
 
 const V2CandlestickPriceAction = ({
   onScrubEnd,
@@ -117,6 +148,10 @@ const V2CandlestickPriceAction = ({
     </ChartSection>
   );
 };
+
+const V2CandlestickPriceActionDetails = () => (
+  <ChartDataDetails title="Price action" {...priceActionDetails} />
+);
 
 const V2CandlestickScrollable = ({ width }: NativeStoryProps) => (
   <ChartSection title="Scrollable candles" kicker="Candlestick">
@@ -180,7 +215,8 @@ export const financialOverviewStories = [
   {
     id: "v2-candlestick-price-action",
     title: "Candlestick",
-    Component: V2CandlestickPriceAction
+    Component: V2CandlestickPriceAction,
+    Details: V2CandlestickPriceActionDetails
   },
   {
     id: "v2-candlestick-scrollable",

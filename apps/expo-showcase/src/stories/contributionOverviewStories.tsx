@@ -1,4 +1,7 @@
-import { ContributionGraph } from "@chart-kit/react-native";
+import {
+  ContributionGraph,
+  getContributionGraphDataTable
+} from "@chart-kit/react-native";
 
 import {
   productUsage,
@@ -9,6 +12,24 @@ import {
   quietUsageNumDays
 } from "../fixtures/v2Contribution";
 import { ChartSection, type NativeStoryProps } from "./storyPrimitives";
+import { ChartDataDetails } from "./dataDetails";
+
+const productUsageTable = getContributionGraphDataTable({
+  endDate: productUsageEndDate,
+  formatValue: (value) => `${value} events`,
+  numDays: productUsageNumDays,
+  values: productUsage
+});
+const productUsageDetails = {
+  columns: [
+    { key: "date", label: "Date" },
+    { key: "events", label: "Events" }
+  ],
+  rows: productUsageTable.rows.slice(-8).map((row) => ({
+    key: `${row.index}`,
+    values: [row.dateLabel, row.formattedValue]
+  }))
+};
 
 const V2ContributionUsage = ({ width }: NativeStoryProps) => (
   <ChartSection title="Product usage" kicker="Contribution heatmap">
@@ -22,6 +43,10 @@ const V2ContributionUsage = ({ width }: NativeStoryProps) => (
       width={width}
     />
   </ChartSection>
+);
+
+const V2ContributionUsageDetails = () => (
+  <ChartDataDetails title="Product usage" {...productUsageDetails} />
 );
 
 const V2ContributionQuiet = ({ width }: NativeStoryProps) => (
@@ -43,7 +68,8 @@ export const contributionOverviewStories = [
   {
     id: "v2-contribution-usage",
     title: "Product Usage Heatmap",
-    Component: V2ContributionUsage
+    Component: V2ContributionUsage,
+    Details: V2ContributionUsageDetails
   },
   {
     id: "v2-contribution-empty",

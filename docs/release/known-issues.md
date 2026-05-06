@@ -64,6 +64,6 @@ Impact: public chart docs now have automated type coverage, but docs should stil
 
 ## Screen-Reader QA
 
-Generated summaries and data table helpers are covered by unit tests, and the [Accessibility QA protocol](accessibility-qa.md) defines the VoiceOver/TalkBack review path. The missing evidence is a completed native screen-reader pass on iOS and Android.
+Generated summaries and data table helpers are covered by unit tests, representative showcase pages expose collapsed data details panels for table-fallback review, and the [Accessibility QA protocol](accessibility-qa.md) defines the VoiceOver/TalkBack review path. The missing evidence is a completed native screen-reader pass on iOS and Android.
 
 Impact: accessibility helpers are present, but production beta/RC should not claim native assistive-technology behavior until the manual QA log is complete.

@@ -14,6 +14,7 @@ export type ShowcaseStory = {
   id: string;
   title: string;
   Component: React.ComponentType<NativeStoryProps>;
+  Details?: React.ComponentType<NativeStoryProps>;
 };
 
 export type ShowcaseSection = {

@@ -1,4 +1,8 @@
-import { ProgressChart, ProgressRing } from "@chart-kit/react-native";
+import {
+  ProgressChart,
+  ProgressRing,
+  getProgressChartDataTable
+} from "@chart-kit/react-native";
 
 import {
   activityProgress,
@@ -6,6 +10,23 @@ import {
   onboardingProgress
 } from "../fixtures/v2Progress";
 import { ChartSection, type NativeStoryProps } from "./storyPrimitives";
+import { ChartDataDetails } from "./dataDetails";
+
+const activityProgressTable = getProgressChartDataTable({
+  data: activityProgress,
+  labelKey: "metric",
+  valueKey: "progress"
+});
+const activityProgressDetails = {
+  columns: [
+    { key: "metric", label: "Metric" },
+    { key: "progress", label: "Progress" }
+  ],
+  rows: activityProgressTable.rows.map((row) => ({
+    key: `${row.index}`,
+    values: [row.label, row.formattedValue]
+  }))
+};
 
 const V2ProgressActivity = ({ width }: NativeStoryProps) => (
   <ChartSection title="Activity rings" kicker="Progress chart">
@@ -20,6 +41,10 @@ const V2ProgressActivity = ({ width }: NativeStoryProps) => (
       width={width}
     />
   </ChartSection>
+);
+
+const V2ProgressActivityDetails = () => (
+  <ChartDataDetails title="Activity rings" {...activityProgressDetails} />
 );
 
 const V2ProgressSingle = ({ width }: NativeStoryProps) => (
@@ -55,7 +80,8 @@ export const progressOverviewStories = [
   {
     id: "v2-progress-activity",
     title: "Activity Rings",
-    Component: V2ProgressActivity
+    Component: V2ProgressActivity,
+    Details: V2ProgressActivityDetails
   },
   {
     id: "v2-progress-single",

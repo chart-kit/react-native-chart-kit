@@ -1,4 +1,4 @@
-import { LineChart } from "@chart-kit/react-native";
+import { LineChart, getLineChartDataTable } from "@chart-kit/react-native";
 import { SvgCircle, SvgGroup, SvgRect, SvgText } from "@chart-kit/svg-renderer";
 
 import {
@@ -12,6 +12,7 @@ import {
   type NativeStoryProps,
   type ShowcaseStory
 } from "./storyPrimitives";
+import { ChartDataDetails, createFormattedValueDetails } from "./dataDetails";
 
 const V2Basic = ({ width }: NativeStoryProps) => (
   <ChartSection title="Revenue" kicker="Basic">
@@ -24,6 +25,20 @@ const V2Basic = ({ width }: NativeStoryProps) => (
       curve="monotone"
     />
   </ChartSection>
+);
+
+const basicRevenueDetails = createFormattedValueDetails({
+  categoryLabel: "Month",
+  table: getLineChartDataTable({
+    data: basicRevenue,
+    formatYLabel: (value) => `$${value}k`,
+    xKey: "month",
+    yKeys: ["actual"]
+  })
+});
+
+const V2BasicDetails = () => (
+  <ChartDataDetails title="Revenue" {...basicRevenueDetails} />
 );
 
 const V2RevenueCard = ({ width }: NativeStoryProps) => (
@@ -347,7 +362,12 @@ const V2DotStyles = ({ width }: NativeStoryProps) => (
 );
 
 export const lineOverviewStories: ShowcaseStory[] = [
-  { id: "v2-basic", title: "Basic", Component: V2Basic },
+  {
+    id: "v2-basic",
+    title: "Basic",
+    Component: V2Basic,
+    Details: V2BasicDetails
+  },
   { id: "v2-revenue-card", title: "MRR Growth", Component: V2RevenueCard },
   { id: "v2-bottom-legend", title: "Bottom Legend", Component: V2BottomLegend },
   { id: "v2-custom-legend", title: "Custom Legend", Component: V2CustomLegend },
