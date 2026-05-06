@@ -104,6 +104,26 @@ describe("release gate checker", () => {
     ]);
   });
 
+  it("validates native QA matrix showcase launch targets", () => {
+    const report = runGateReportJson();
+
+    expect(
+      report.checks
+        .filter((check) =>
+          [
+            "matrix:native-runtime-qa",
+            "matrix:native-accessibility-qa",
+            "matrix:native-performance"
+          ].includes(check.id)
+        )
+        .map((check) => [check.id, check.status, check.detail])
+    ).toEqual([
+      ["matrix:native-runtime-qa", "pass", ""],
+      ["matrix:native-accessibility-qa", "pass", ""],
+      ["matrix:native-performance", "pass", ""]
+    ]);
+  });
+
   it("validates release evidence manifest consistency", () => {
     const report = runGateReportJson();
 

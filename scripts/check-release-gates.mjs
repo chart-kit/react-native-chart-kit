@@ -51,6 +51,8 @@ const requiredFiles = [
   "packages/skia-renderer/package.json",
   "packages/pro/package.json",
   "apps/expo-showcase/package.json",
+  "apps/expo-showcase/src/storyRegistry.tsx",
+  "apps/expo-showcase/visual/stories.ts",
   "examples/rn-cli-basic/package.json"
 ];
 
@@ -186,6 +188,12 @@ const getIds = (items) =>
       : []
   );
 
+const extractQuotedStrings = (source) =>
+  new Set([...source.matchAll(/"([^"]+)"/g)].map((match) => match[1]));
+
+const extractObjectIds = (source) =>
+  new Set([...source.matchAll(/\bid:\s*"([^"]+)"/g)].map((match) => match[1]));
+
 const isExternalEvidenceLink = (value) => /^https?:\/\//.test(value);
 
 const getMatrixStatus = (rows = []) => {
@@ -212,7 +220,10 @@ const getMatrixStatus = (rows = []) => {
   return "pending";
 };
 
-const validateEvidenceMatrix = async (matrix) => {
+const validateEvidenceMatrix = async (
+  matrix,
+  { showcasePageIds = new Set(), showcaseStoryIds = new Set() } = {}
+) => {
   const errors = [];
   const pageIds = getIds(matrix.pages);
   const platformIds = getIds(matrix.platforms);
@@ -244,6 +255,30 @@ const validateEvidenceMatrix = async (matrix) => {
           `${page.id} references unknown check groups: ${missingGroups.join(
             ", "
           )}`
+        );
+      }
+
+      if (
+        page.showcasePageId &&
+        showcasePageIds.size > 0 &&
+        !showcasePageIds.has(page.showcasePageId)
+      ) {
+        errors.push(
+          `${page.id} references unknown showcase page ${page.showcasePageId}`
+        );
+      }
+    }
+  }
+
+  if (Array.isArray(matrix.scenarios)) {
+    for (const scenario of matrix.scenarios) {
+      if (
+        scenario.showcaseStoryId &&
+        showcaseStoryIds.size > 0 &&
+        !showcaseStoryIds.has(scenario.showcaseStoryId)
+      ) {
+        errors.push(
+          `${scenario.id} references unknown showcase story ${scenario.showcaseStoryId}`
         );
       }
     }
@@ -576,6 +611,13 @@ addCheck({
   status: publishWorkflowSafetyChecks.length === 0 ? "pass" : "fail"
 });
 
+const showcasePageIds = extractObjectIds(
+  await readRepoFile("apps/expo-showcase/src/storyRegistry.tsx")
+);
+const showcaseStoryIds = extractQuotedStrings(
+  await readRepoFile("apps/expo-showcase/visual/stories.ts")
+);
+
 const candidateJavaHomes = [
   process.env.JAVA_HOME,
   "/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home",
@@ -700,7 +742,12 @@ for (const manifestConfig of releaseEvidenceManifests) {
     manifestConfig.matrixFile && (await pathExists(manifestConfig.matrixFile))
       ? await readRepoJson(manifestConfig.matrixFile)
       : undefined;
-  const matrixErrors = matrix ? await validateEvidenceMatrix(matrix) : [];
+  const matrixErrors = matrix
+    ? await validateEvidenceMatrix(matrix, {
+        showcasePageIds,
+        showcaseStoryIds
+      })
+    : [];
   const manifestErrors = await validateReleaseEvidenceManifest({
     manifest,
     matrix,
