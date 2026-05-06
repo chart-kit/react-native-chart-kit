@@ -2,7 +2,7 @@
 
 Status on May 5, 2026: protocol ready, partial Android release-emulator evidence captured; full release-device performance evidence missing. Structured gate evidence lives in [native-performance-benchmark.json](evidence/native-performance-benchmark.json), with the scenario matrix in [native-performance-matrix.json](evidence/native-performance-matrix.json). Use the generated [native QA checklist](native-qa-checklists.md) for row-by-row execution.
 
-This protocol defines the native benchmark evidence required before H5/H6 can claim production performance confidence. The current `npm run benchmark` command covers core geometry and web showcase scrub timing. It does not measure native render time, native gesture frame pacing, release-build memory, or renderer-specific device behavior.
+This protocol defines the native benchmark evidence required before production beta/RC can claim production performance confidence. The current `npm run benchmark` command covers core geometry and web showcase scrub timing. It does not measure native render time, native gesture frame pacing, release-build memory, or renderer-specific device behavior.
 
 ## Automated Baseline
 
@@ -43,7 +43,7 @@ Observed result:
 | ----------- | --------- | -------- | ------------------------------ | ----------- | -------- | ----------------------- | --------- | --------- | ---------- | ------------ |
 | May 5, 2026 | `4dd219e` | Android  | `chartkit_api36` emulator / 36 | Release APK | SVG      | Line animation `Replay` | 16 ms     | 18 ms     | 277,137 KB | Partial pass |
 
-This sample is intentionally not counted as full H5/H6 performance evidence because it covers only one Android emulator scenario. The remaining required matrix still needs iOS, physical-device or accepted simulator/emulator targets, gesture-heavy scenarios, memory before/after per scenario, and Skia parity where supported.
+This sample is intentionally not counted as full production beta/RC performance evidence because it covers only one Android emulator scenario. The remaining required matrix still needs iOS, physical-device or accepted simulator/emulator targets, gesture-heavy scenarios, memory before/after per scenario, and Skia parity where supported.
 
 ## Device Matrix
 
@@ -98,7 +98,7 @@ For every run, capture:
 
 ## Measurement Guidance
 
-Use release builds for publish-gate numbers. Expo Go and debug builds are useful for development, but they should not be used as final H5/H6 performance evidence.
+Use release builds for publish-gate numbers. Expo Go and debug builds are useful for development, but they should not be used as final production beta/RC performance evidence.
 
 Recommended tools:
 
@@ -110,7 +110,7 @@ Recommended tools:
 
 ## Evidence Log Template
 
-Before H5/H6, capture a completed log:
+Before production beta/RC, capture a completed log:
 
 | Date        | Commit    | Platform | Device                                       | Build       | Renderer | Scenario                | p50 frame | p95 frame | Memory         | Result       | Notes                                                            |
 | ----------- | --------- | -------- | -------------------------------------------- | ----------- | -------- | ----------------------- | --------- | --------- | -------------- | ------------ | ---------------------------------------------------------------- |

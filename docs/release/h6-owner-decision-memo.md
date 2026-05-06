@@ -15,7 +15,7 @@ Recommendation: keep H6 `not-started` until H4 and H5 are approved and all nativ
 Required before RC:
 
 - H4 Pro/free boundary approval
-- H5 beta approval or explicit beta skip decision
+- H5 Developer Preview approval or explicit preview skip decision
 - green native release workflow artifact evidence
 - completed native runtime QA matrix
 - completed native accessibility QA matrix

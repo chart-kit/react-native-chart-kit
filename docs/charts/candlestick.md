@@ -2,7 +2,7 @@
 
 CandlestickChart renders OHLC price rows on a shared categorical x-axis. This CKV2-015 preview establishes renderer-agnostic candle geometry, a theme-aware SVG component, and tap inspection for OHLC values.
 
-Status: CandlestickChart is a Financial Preview and Pro candidate until H4 finalizes package scope. Keep it visible for API and product review, but do not position it as part of the final free beta yet.
+Status: CandlestickChart is a Financial Preview and Pro candidate under the H4-approved package scope. Keep it visible for API and product review, but do not position it as part of the final free Developer Preview.
 
 ```tsx
 import {

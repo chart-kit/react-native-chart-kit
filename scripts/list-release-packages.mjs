@@ -24,7 +24,7 @@ const filteredPackages = publishableOnly
 const field = args.has("--names") ? "name" : "dir";
 
 if (publishableOnly && filteredPackages.length === 0) {
-  throw new Error("Package manifest has no beta-publishable packages.");
+  throw new Error("Package manifest has no publishable packages.");
 }
 
 console.log(

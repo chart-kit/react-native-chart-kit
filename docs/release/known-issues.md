@@ -1,14 +1,14 @@
 # Known Issues Before Beta
 
-These are allowed only as explicit beta caveats. Anything in this file should either become a tracked issue or be resolved before release candidate.
+These are allowed only as explicit Developer Preview caveats. Anything in this file should either become a tracked issue or be resolved before release candidate.
 
 ## Native Release-Build Coverage
 
 Android and iOS release-build checks are configured in `.github/workflows/native-release.yml` and can be run locally with `npm run native:release:android` and `npm run native:release:ios`. The Expo showcase also verifies web screenshots and can run on device through Expo Go or Expo dev targets.
 
-The iOS and Android release builds passed locally on May 5, 2026. Android used OpenJDK 17 plus the Homebrew Android command-line tools SDK (`/opt/homebrew/share/android-commandlinetools`) and completed `assembleRelease`. The release script now fails before prebuild when either Java or the Android SDK is missing. The remaining gap is CI evidence: H5/H6 should not count native release-build coverage as complete until the native workflow has a green run on the release candidate commit. The structured status lives in [native-release-workflow.json](evidence/native-release-workflow.json).
+The iOS and Android release builds passed locally on May 5, 2026. Android used OpenJDK 17 plus the Homebrew Android command-line tools SDK (`/opt/homebrew/share/android-commandlinetools`) and completed `assembleRelease`. The release script now fails before prebuild when either Java or the Android SDK is missing. The remaining gap is CI evidence: production beta/RC should not count native release-build coverage as complete until the native workflow has a green run on the release candidate commit. The structured status lives in [native-release-workflow.json](evidence/native-release-workflow.json).
 
-Impact: beta can be used for preview and API feedback, but production users should wait for green native workflow verification before treating v2 as stable.
+Impact: Developer Preview can be used for preview and API feedback, but production users should wait for green native workflow verification before treating v2 as stable.
 
 ## Native E2E Coverage
 
@@ -26,9 +26,9 @@ Impact: CI can validate web showcase interactions, but cannot yet validate nativ
 
 Some advanced line-chart experiences, such as animation preview and range-selector/zoom workflows, are visible in the showcase before the final free-vs-Pro boundary is locked.
 
-The [H4 Pro scope decision packet](h4-pro-scope.md) is approved: Pro should focus on production layout depth, production interactions, commercial chart types, export, premium templates, and performance. `packages/pro` now provides a preview feature-registry boundary for those buckets. Per H4, Pro ships later as a separate package and no license checks, runtime activation, or paid implementations are added before beta.
+The [H4 Pro scope decision packet](h4-pro-scope.md) is approved: Pro should focus on production layout depth, production interactions, commercial chart types, export, premium templates, and performance. `packages/pro` now provides a preview feature-registry boundary for those buckets. Per H4/H5, Pro ships later as a separate package and no license checks, runtime activation, paid implementations, or npm publication are added before Developer Preview.
 
-Impact: H5 must keep these features labeled as preview or Pro-candidate for beta, and H6 must not treat Pro as a finished paid package until paid implementation and native evidence are complete.
+Impact: Developer Preview must keep these features labeled as preview or Pro-candidate, and H6 must not treat Pro as a finished paid package until paid implementation and native evidence are complete.
 
 ## Skia Renderer
 
@@ -40,7 +40,7 @@ Impact: the optional package boundary is approved for preview, but Skia must sta
 
 `npm run benchmark` covers core geometry and web showcase scrub timing. The [Native performance benchmark protocol](native-performance-benchmark.md) defines the release-device measurements needed for iOS and Android, including frame timing, memory, renderer, data size, and gesture scenarios. A partial Android release-emulator sample now covers one Line Charts animation scenario, but it does not replace the required iOS, physical-device or accepted simulator/emulator, gesture-heavy, memory, and renderer-parity matrix.
 
-Impact: benchmark regressions can be caught locally for core geometry and web scrub timing, but H5/H6 should not claim native release-device performance until the native benchmark log is complete.
+Impact: benchmark regressions can be caught locally for core geometry and web scrub timing, but production beta/RC should not claim native release-device performance until the native benchmark log is complete.
 
 ## Candlestick Scope
 
@@ -58,4 +58,4 @@ Impact: public chart docs now have automated type coverage, but docs should stil
 
 Generated summaries and data table helpers are covered by unit tests, and the [Accessibility QA protocol](accessibility-qa.md) defines the VoiceOver/TalkBack review path. The missing evidence is a completed native screen-reader pass on iOS and Android.
 
-Impact: accessibility helpers are present, but H5/H6 should not claim native assistive-technology behavior until the manual QA log is complete.
+Impact: accessibility helpers are present, but production beta/RC should not claim native assistive-technology behavior until the manual QA log is complete.

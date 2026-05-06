@@ -2,7 +2,7 @@
 
 Last updated: May 5, 2026.
 
-These results document local native release-build attempts for the Expo showcase. They do not replace green CI workflow artifacts for H5/H6.
+These results document local native release-build attempts for the Expo showcase. They do not replace green CI workflow artifacts for production beta/RC.
 
 ## Summary
 

@@ -84,7 +84,7 @@ describe("owner gate decision recorder", () => {
 
     expect(gates.map((gate) => [gate.id, gate.status])).toEqual([
       ["h4", "approved"],
-      ["h5", "open"],
+      ["h5", "approved"],
       ["h6", "not-started"]
     ]);
     expect(gates[0].pendingDecisions ?? []).toHaveLength(0);
@@ -147,10 +147,10 @@ describe("owner gate decision recorder", () => {
         approvedAt: "2026-05-06",
         approvedBy: "owner",
         decisions: [
-          "publish API-preview beta",
-          "native evidence gaps accepted for API-preview beta",
+          "publish Developer Preview",
+          "native evidence gaps accepted for Developer Preview",
           "known issues accepted",
-          "beta tag approved"
+          "next tag approved"
         ],
         gateId: "h5",
         repoRoot: tempRepo

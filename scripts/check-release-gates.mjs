@@ -129,7 +129,7 @@ const releaseEvidenceManifests = [
 
 const ownerGateMessages = {
   h4: "H4 Pro/free boundary approval is still open.",
-  h5: "H5 beta approval is still open.",
+  h5: "H5 Developer Preview approval is still open.",
   h6: "H6 release-candidate approval is not started."
 };
 

@@ -2,7 +2,7 @@
 
 Recipes are scenario-first examples for product teams. They should use the modern API and avoid old `chartConfig` patterns.
 
-Status: several recipes intentionally demonstrate Pro-candidate workflows, including production touch interactions, range selectors, dual-axis combined charts, grouped/scrollable bars, advanced donut selection, and financial charts. Keep them visible for product review, but do not treat every recipe as final free-beta scope until H4 is approved.
+Status: several recipes intentionally demonstrate Pro-candidate workflows, including production touch interactions, range selectors, dual-axis combined charts, grouped/scrollable bars, advanced donut selection, and financial charts. Keep them visible for product review, but do not treat every recipe as final free Developer Preview scope under the H4-approved boundary.
 
 ## Portfolio Price History
 

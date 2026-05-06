@@ -67,7 +67,7 @@ react-native-chart-kit          # compatibility package and migration bridge
 
 `npm run surface:check` now also verifies that public docs, showcase source, and docs-example type fixtures do not import explicit Pro-preview-only exports from the main modern package barrel.
 
-The beta publish list is controlled by [package-manifest.json](evidence/package-manifest.json). Per H4, `@chart-kit/skia-renderer` and `@chart-kit/pro` remain pack-checked preview packages with `publishInBeta: false` until paid-package implementation and native evidence are ready.
+The Developer Preview publish list is controlled by [package-manifest.json](evidence/package-manifest.json). Per H4/H5, `@chart-kit/skia-renderer` and `@chart-kit/pro` remain pack-checked preview packages with `publishInBeta: false` until paid-package implementation and native evidence are ready.
 
 Implementation principles:
 
@@ -99,7 +99,7 @@ H4 approved these answers on May 6, 2026:
 3. Which current preview interactions must remain free at beta?
 4. Can `CandlestickChart` remain public as Financial Preview?
 5. Should combo/dual-axis, grouped bars, horizontal stacked bars, and advanced contribution heatmap move to Pro candidates?
-6. Should the first beta publish without any license enforcement?
+6. Should the Developer Preview publish without any license enforcement?
 
 7. Yes, separate package.
 8. Separate optional preview package, with Pro docs and examples depending on it after native evidence is complete.

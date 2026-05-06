@@ -1,10 +1,10 @@
-# CKV2-017 Beta Release Preparation
+# CKV2-017 Developer Preview Release Preparation
 
-This slice adds concrete release-prep artifacts without publishing a beta.
+This slice added concrete release-prep artifacts. H5 later approved a Developer Preview from free packages only.
 
 ## Changed
 
-- added beta release checklist
+- added release checklist
 - added known issues list
 - added GitHub issue forms for layout, compatibility, and performance bugs
 - updated CI so pull requests run tests and docs verification, not only build/typecheck
@@ -23,9 +23,10 @@ This slice adds concrete release-prep artifacts without publishing a beta.
 - `npm run surface:check`
 - `npm run build`
 
-## Remaining H5 Inputs
+## H5 Decision
 
-- final beta package/import path
-- whether native e2e beyond the web showcase and native release-build gaps are acceptable for beta
-- whether candlestick remains public preview or waits for deeper financial-chart scope
-- final free-vs-Pro visibility for animation, range selector, and zoom workflows
+- publish free packages only under the `next` npm dist-tag
+- disclose native e2e, release workflow, accessibility, performance, and Skia gaps
+- keep `@chart-kit/pro` and `@chart-kit/skia-renderer` unpublished
+- keep candlestick as Financial Preview
+- keep advanced workflows labeled preview or Pro-candidate

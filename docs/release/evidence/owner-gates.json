@@ -24,18 +24,21 @@
     },
     {
       "id": "h5",
-      "name": "Beta release approval",
-      "status": "open",
+      "name": "Developer Preview release approval",
+      "status": "approved",
       "requiredFor": ["H5"],
       "evidence": [
         "docs/release/h5-beta-gate-evidence.md",
         "docs/release/h5-owner-decision-memo.md"
       ],
-      "pendingDecisions": [
-        "publish beta now or keep iterating",
-        "whether native evidence gaps are acceptable for API-preview beta",
-        "beta known-issues acceptance",
-        "beta package tag and release date"
+      "approvedAt": "2026-05-06",
+      "approvedBy": "owner",
+      "decisions": [
+        "Chart Kit v2 may publish a Developer Preview from the free packages only; this is not a production beta or release candidate.",
+        "Native runtime, accessibility, performance, workflow, and Skia evidence gaps are accepted only for Developer Preview and must remain disclosed in known issues and release notes.",
+        "Publishable package set is react-native-chart-kit, @chart-kit/core, @chart-kit/svg-renderer, and @chart-kit/react-native; do not publish @chart-kit/pro or @chart-kit/skia-renderer.",
+        "Use the next npm dist-tag for Developer Preview; no production release date is approved.",
+        "Advanced interactions, financial charts, range selector, pan/zoom, animation, Skia, and large-data workflows remain preview or Pro-candidate per the H4-approved boundary; CandlestickChart remains Financial Preview."
       ]
     },
     {

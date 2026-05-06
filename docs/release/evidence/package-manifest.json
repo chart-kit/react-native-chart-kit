@@ -1,6 +1,8 @@
 {
   "schemaVersion": 1,
-  "lastUpdated": "2026-05-05",
+  "lastUpdated": "2026-05-06",
+  "releaseLabel": "Developer Preview",
+  "distTag": "next",
   "packages": [
     {
       "dir": ".",
