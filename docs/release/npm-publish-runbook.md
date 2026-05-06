@@ -23,6 +23,7 @@ The publish workflow reads [package-manifest.json](evidence/package-manifest.jso
 The latest publish rerun failed before install/build because GitHub Actions received an empty npm auth token:
 
 - [Publish rerun 25416750710](https://github.com/indiespirit/react-native-chart-kit/actions/runs/25416750710)
+- [Publish rerun 25417506026](https://github.com/indiespirit/react-native-chart-kit/actions/runs/25417506026)
 - Evidence: [npm-publish-evidence.json](evidence/npm-publish-evidence.json)
 
 The workflow expects a repository Actions secret named `NPM_TOKEN`.
