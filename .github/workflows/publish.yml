@@ -154,6 +154,34 @@ jobs:
           NPM_TAG: ${{ steps.package.outputs.npm_tag }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      - name: Remove prerelease latest dist-tags
+        run: |
+          if [ "${NPM_TAG}" = "latest" ] || [[ "${PACKAGE_VERSION}" != *-* ]]; then
+            echo "No prerelease latest tag cleanup needed."
+            exit 0
+          fi
+
+          for PACKAGE_DIR in $(node scripts/list-release-packages.mjs --publishable); do
+            PACKAGE_JSON="${PACKAGE_DIR}/package.json"
+            if [ "${PACKAGE_DIR}" = "." ]; then
+              PACKAGE_JSON="package.json"
+            fi
+
+            WORKSPACE_NAME=$(node -p "require('./${PACKAGE_JSON}').name")
+            CURRENT_LATEST=$(npm dist-tag ls "${WORKSPACE_NAME}" | awk '/^latest:/ {print $2}')
+
+            if [ "${CURRENT_LATEST}" = "${PACKAGE_VERSION}" ]; then
+              echo "Removing unintended latest tag from ${WORKSPACE_NAME}@${PACKAGE_VERSION}"
+              npm dist-tag rm "${WORKSPACE_NAME}" latest
+            else
+              echo "Leaving ${WORKSPACE_NAME} latest tag unchanged (${CURRENT_LATEST:-missing})."
+            fi
+          done
+        env:
+          NPM_TAG: ${{ steps.package.outputs.npm_tag }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          PACKAGE_VERSION: ${{ steps.package.outputs.version }}
+
       - name: Verify npm registry publish state
         run: npm run release:publish:status -- --strict
 

@@ -104,4 +104,29 @@ describe("npm publish state checker", () => {
       ["@chart-kit/pro", "unexpected-published"]
     ]);
   });
+
+  it("fails when a prerelease package is accidentally tagged latest", async () => {
+    const state = await buildNpmPublishState({
+      distTag: "next",
+      manifest,
+      npmView: createNpmView({
+        "@chart-kit/core": {
+          distTags: { latest: "7.0.0-next.0", next: "7.0.0-next.0" }
+        },
+        "@chart-kit/react-native": {},
+        "react-native-chart-kit": {
+          distTags: { latest: "6.12.2", next: "7.0.0-next.0" }
+        }
+      }),
+      version: "7.0.0-next.0"
+    });
+
+    expect(state.status).toBe("failed");
+    expect(state.entries.map((entry) => [entry.name, entry.status])).toEqual([
+      ["@chart-kit/core", "unexpected-latest-tag"],
+      ["@chart-kit/react-native", "pass"],
+      ["react-native-chart-kit", "pass"],
+      ["@chart-kit/pro", "pass"]
+    ]);
+  });
 });

@@ -70,6 +70,12 @@ export const buildNpmPublishState = async ({
       await npmView({ name: packageInfo.name, version })
     );
     const taggedVersion = viewResult.distTags[distTag];
+    const latestVersion = viewResult.distTags.latest;
+    const hasUnexpectedLatestTag =
+      packageInfo.publishInBeta &&
+      distTag !== "latest" &&
+      version.includes("-") &&
+      latestVersion === version;
 
     let status = "pass";
     const expected = packageInfo.publishInBeta
@@ -80,6 +86,8 @@ export const buildNpmPublishState = async ({
       status = "missing";
     } else if (packageInfo.publishInBeta && taggedVersion !== version) {
       status = "wrong-dist-tag";
+    } else if (hasUnexpectedLatestTag) {
+      status = "unexpected-latest-tag";
     } else if (!packageInfo.publishInBeta && viewResult.published) {
       status = "unexpected-published";
     }
@@ -92,6 +100,7 @@ export const buildNpmPublishState = async ({
       published: viewResult.published,
       status,
       taggedVersion,
+      latestVersion,
       version,
       visibleVersion: viewResult.version
     });
@@ -125,9 +134,12 @@ const formatState = (state) => {
     const tagText = entry.taggedVersion
       ? `${entry.distTag}=${entry.taggedVersion}`
       : `${entry.distTag}=<missing>`;
+    const latestText = entry.latestVersion
+      ? `, latest=${entry.latestVersion}`
+      : "";
     const publishedText = entry.published ? "published" : "not published";
 
-    return `- ${entry.name}@${entry.version}: ${entry.status} (${publishedText}, ${tagText}; expected ${entry.expected})`;
+    return `- ${entry.name}@${entry.version}: ${entry.status} (${publishedText}, ${tagText}${latestText}; expected ${entry.expected})`;
   });
 
   return [
