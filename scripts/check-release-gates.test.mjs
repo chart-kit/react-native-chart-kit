@@ -36,4 +36,20 @@ describe("release gate checker", () => {
       status: "block"
     });
   });
+
+  it("surfaces pending native runtime matrix rows", () => {
+    const report = runGateReportJson();
+    const nativeRuntimeCheck = report.checks.find(
+      (check) => check.id === "blocker:native-runtime-qa"
+    );
+
+    expect(nativeRuntimeCheck).toMatchObject({
+      evidence:
+        "docs/release/evidence/native-runtime-qa.json; docs/release/evidence/native-runtime-matrix.json",
+      status: "block"
+    });
+    expect(nativeRuntimeCheck?.detail).toContain(
+      "16 pending native runtime matrix rows"
+    );
+  });
 });

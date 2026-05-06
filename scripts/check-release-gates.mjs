@@ -27,6 +27,7 @@ const requiredFiles = [
   "docs/release/evidence/native-accessibility-qa.json",
   "docs/release/evidence/native-performance-benchmark.json",
   "docs/release/evidence/native-release-workflow.json",
+  "docs/release/evidence/native-runtime-matrix.json",
   "docs/release/evidence/native-runtime-qa.json",
   "docs/release/evidence/owner-gates.json",
   "docs/release/evidence/package-manifest.json",
@@ -92,7 +93,8 @@ const releaseEvidenceManifests = [
   },
   {
     id: "native-runtime-qa",
-    file: "docs/release/evidence/native-runtime-qa.json"
+    file: "docs/release/evidence/native-runtime-qa.json",
+    matrixFile: "docs/release/evidence/native-runtime-matrix.json"
   },
   {
     id: "native-accessibility-qa",
@@ -260,12 +262,30 @@ for (const gate of ownerGatesManifest.gates ?? []) {
 for (const manifestConfig of releaseEvidenceManifests) {
   const manifest = await readRepoJson(manifestConfig.file);
   const status = manifest.status ?? "missing";
+  const missingEvidence = Array.isArray(manifest.missingEvidence)
+    ? manifest.missingEvidence
+    : [];
+  const matrix =
+    manifestConfig.matrixFile && (await pathExists(manifestConfig.matrixFile))
+      ? await readRepoJson(manifestConfig.matrixFile)
+      : undefined;
+  const pendingMatrixRows = Array.isArray(matrix?.rows)
+    ? matrix.rows.filter((row) => row.status !== "pass")
+    : [];
+  const detail = [
+    ...missingEvidence,
+    pendingMatrixRows.length > 0
+      ? `${pendingMatrixRows.length} pending native runtime matrix rows`
+      : ""
+  ]
+    .filter(Boolean)
+    .join("; ");
 
   addCheck({
-    detail: Array.isArray(manifest.missingEvidence)
-      ? manifest.missingEvidence.join("; ")
-      : "",
-    evidence: manifestConfig.file,
+    detail,
+    evidence: [manifestConfig.file, manifestConfig.matrixFile]
+      .filter(Boolean)
+      .join("; "),
     id: `blocker:${manifestConfig.id}`,
     message:
       manifest.summary ??

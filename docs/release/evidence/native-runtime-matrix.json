@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "status": "pending",
+  "lastUpdated": "2026-05-05",
+  "source": "docs/release/native-runtime-qa.md",
+  "platforms": [
+    {
+      "id": "ios",
+      "label": "iOS",
+      "requiredBuildSurface": "Expo showcase and iOS release build"
+    },
+    {
+      "id": "android",
+      "label": "Android",
+      "requiredBuildSurface": "Expo showcase and Android release build"
+    }
+  ],
+  "checkGroups": {
+    "global": [
+      "page opens without red-screen warnings or console errors",
+      "app-level menu, theme mode, and preset switching work after chart interactions",
+      "tooltips render above chart content, legends, axes, labels, and overlays",
+      "tooltips shift or flip instead of clipping against chart or screen edges",
+      "theme switching does not leave stale colors in chart surfaces",
+      "rotation or width changes keep charts inside parent bounds without clipped labels"
+    ],
+    "line": [
+      "tap selection can be enabled without scrub",
+      "scrub selection updates continuously and does not flicker",
+      "while-active scrub hides tooltip on release",
+      "main-plot pan blocks vertical page scroll while dragging",
+      "pinch zoom does not fight vertical page scroll or leave invalid viewport",
+      "range selector drag and thumb resize block vertical page scroll while active",
+      "multi-series selection keeps marker, tooltip, legend, and external consumers in sync",
+      "outside tap dismisses only within the configured provider scope"
+    ],
+    "bar": [
+      "tap selection animates without moving bar layout",
+      "scrollable bars preserve bottom labels and selected hit targets",
+      "scrollable selectable bars drag horizontally without vertical scroll conflicts",
+      "first and last bar tooltips are not clipped by axes or labels",
+      "gridlines stay behind inactive, dimmed, selected, and custom-rendered bars"
+    ],
+    "combinedFinancial": [
+      "shared tooltip values match selected x value across visible series",
+      "legend toggles update visible series without stale tooltip content",
+      "dual-axis values remain visually tied to the correct axis",
+      "candlestick tap inspection selects the expected candle",
+      "candlestick pan, pinch, and range selector keep candle, volume, and session-gap overlays aligned"
+    ],
+    "radialHeatmap": [
+      "slice, segment, ring, and heatmap cell selection returns the expected item",
+      "long labels and legends do not cover selected slices or tooltips",
+      "progress values and heatmap cells remain tappable at small widths",
+      "empty, zero, and missing data states render without runtime errors"
+    ],
+    "compat": [
+      "legacy facade fixtures render without runtime errors",
+      "legacy labels remain visible within chart bounds",
+      "compatibility dark-mode fixtures follow app-level theme switching"
+    ]
+  },
+  "pages": [
+    {
+      "id": "line-charts",
+      "title": "Line Charts",
+      "showcasePageId": "line-area",
+      "requiredCheckGroups": ["global", "line"]
+    },
+    {
+      "id": "bar-charts",
+      "title": "Bar Charts",
+      "showcasePageId": "bar",
+      "requiredCheckGroups": ["global", "bar"]
+    },
+    {
+      "id": "combined-preview",
+      "title": "Combined Preview",
+      "showcasePageId": "combined",
+      "requiredCheckGroups": ["global", "combinedFinancial"]
+    },
+    {
+      "id": "financial-preview",
+      "title": "Financial Preview",
+      "showcasePageId": "financial",
+      "requiredCheckGroups": ["global", "combinedFinancial"]
+    },
+    {
+      "id": "pie-donut",
+      "title": "Pie & Donut",
+      "showcasePageId": "pie-donut",
+      "requiredCheckGroups": ["global", "radialHeatmap"]
+    },
+    {
+      "id": "progress",
+      "title": "Progress",
+      "showcasePageId": "progress",
+      "requiredCheckGroups": ["global", "radialHeatmap"]
+    },
+    {
+      "id": "heatmaps",
+      "title": "Heatmaps",
+      "showcasePageId": "heatmaps",
+      "requiredCheckGroups": ["global", "radialHeatmap"]
+    },
+    {
+      "id": "compatibility",
+      "title": "Compatibility",
+      "showcasePageId": "compat",
+      "requiredCheckGroups": ["global", "compat"]
+    }
+  ],
+  "rows": [
+    {
+      "id": "ios-line-charts",
+      "platform": "ios",
+      "pageId": "line-charts",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-bar-charts",
+      "platform": "ios",
+      "pageId": "bar-charts",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-combined-preview",
+      "platform": "ios",
+      "pageId": "combined-preview",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-financial-preview",
+      "platform": "ios",
+      "pageId": "financial-preview",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-pie-donut",
+      "platform": "ios",
+      "pageId": "pie-donut",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-progress",
+      "platform": "ios",
+      "pageId": "progress",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-heatmaps",
+      "platform": "ios",
+      "pageId": "heatmaps",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-compatibility",
+      "platform": "ios",
+      "pageId": "compatibility",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-line-charts",
+      "platform": "android",
+      "pageId": "line-charts",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-bar-charts",
+      "platform": "android",
+      "pageId": "bar-charts",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-combined-preview",
+      "platform": "android",
+      "pageId": "combined-preview",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-financial-preview",
+      "platform": "android",
+      "pageId": "financial-preview",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-pie-donut",
+      "platform": "android",
+      "pageId": "pie-donut",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-progress",
+      "platform": "android",
+      "pageId": "progress",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-heatmaps",
+      "platform": "android",
+      "pageId": "heatmaps",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-compatibility",
+      "platform": "android",
+      "pageId": "compatibility",
+      "status": "pending",
+      "evidence": []
+    }
+  ]
+}

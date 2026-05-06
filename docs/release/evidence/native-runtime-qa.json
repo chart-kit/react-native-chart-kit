@@ -4,6 +4,7 @@
   "requiredFor": ["H5", "H6"],
   "lastUpdated": "2026-05-05",
   "summary": "Release simulator/emulator smoke evidence exists for iOS and Android, but the full gesture/runtime device matrix is incomplete.",
+  "matrix": "docs/release/evidence/native-runtime-matrix.json",
   "completedEntries": [
     {
       "date": "2026-05-05",
