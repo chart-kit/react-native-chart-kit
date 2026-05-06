@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "status": "partial",
+  "status": "complete",
   "requiredFor": ["H5", "H6"],
   "lastUpdated": "2026-05-06",
-  "summary": "iOS and Android release builds passed locally, and native-release.yml can run on next pushes or manual dispatch once the workflow exists on the default branch. The native release workflow still needs a green run on the release candidate commit.",
+  "summary": "Native release workflow passed with archived iOS and Android release evidence artifacts.",
   "completedEntries": [
     {
       "date": "2026-05-05",
@@ -18,11 +18,18 @@
       "build": "Release APK",
       "result": "local-pass",
       "notes": "Local assembleRelease path completed with OpenJDK 17 and Homebrew Android command-line tools SDK; green workflow evidence is still required."
+    },
+    {
+      "artifacts": [
+        "https://github.com/indiespirit/react-native-chart-kit/actions/runs/25418252069/artifacts/6823378231",
+        "https://github.com/indiespirit/react-native-chart-kit/actions/runs/25418252069/artifacts/6823420008"
+      ],
+      "commit": "11a3babaedd8fdd70ad862550e8611e9ae7ca445",
+      "date": "2026-05-06",
+      "result": "workflow-pass",
+      "runUrl": "https://github.com/indiespirit/react-native-chart-kit/actions/runs/25418252069",
+      "scope": "native-release-workflow"
     }
   ],
-  "missingEvidence": [
-    "green native release workflow run on the release candidate commit through next push or manual workflow_dispatch",
-    "archived iOS workflow artifact or log",
-    "archived Android workflow artifact or log"
-  ]
+  "missingEvidence": []
 }
