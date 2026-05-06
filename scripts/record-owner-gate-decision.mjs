@@ -107,6 +107,12 @@ const getH6ApprovalBlockers = async ({ manifest, repoRoot }) => {
   return blockers;
 };
 
+const getH5ApprovalBlockers = ({ manifest }) => {
+  const h4 = (manifest.gates ?? []).find((gate) => gate.id === "h4");
+
+  return h4?.status === "approved" ? [] : ["H4 must be approved before H5"];
+};
+
 export const listOwnerGates = async ({ repoRoot = defaultRepoRoot } = {}) => {
   const manifest = await readOwnerGates(repoRoot);
 
@@ -166,6 +172,14 @@ export const approveOwnerGate = async ({
 
     if (h6Blockers.length > 0) {
       throw new Error(`H6 cannot be approved yet: ${h6Blockers.join("; ")}`);
+    }
+  }
+
+  if (gateId === "h5") {
+    const h5Blockers = getH5ApprovalBlockers({ manifest });
+
+    if (h5Blockers.length > 0) {
+      throw new Error(`H5 cannot be approved yet: ${h5Blockers.join("; ")}`);
     }
   }
 

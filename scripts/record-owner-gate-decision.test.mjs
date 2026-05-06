@@ -108,6 +108,25 @@ describe("owner gate decision recorder", () => {
     expect(manifest.gates[0].pendingDecisions).toBeUndefined();
   });
 
+  it("blocks H5 approval until H4 is approved", async () => {
+    const tempRepo = await createTempRepo();
+
+    await expect(
+      approveOwnerGate({
+        approvedAt: "2026-05-06",
+        approvedBy: "owner",
+        decisions: [
+          "publish API-preview beta",
+          "native evidence gaps accepted for API-preview beta",
+          "known issues accepted",
+          "beta tag approved"
+        ],
+        gateId: "h5",
+        repoRoot: tempRepo
+      })
+    ).rejects.toThrow("H5 cannot be approved yet");
+  });
+
   it("supports dry-run without writing approval", async () => {
     const tempRepo = await createTempRepo();
     const result = await approveOwnerGate({

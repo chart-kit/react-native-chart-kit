@@ -75,6 +75,8 @@ Rationale:
 
 ## Recommended H5 Outcome
 
+The recorder enforces the gate order: H4 must be approved before H5 can be approved. Native evidence gaps can still be accepted for an API-preview beta if the owner records that decision explicitly.
+
 Approve continued beta preparation with these next tasks:
 
 1. Verify the public package/import path in CI and release docs.
