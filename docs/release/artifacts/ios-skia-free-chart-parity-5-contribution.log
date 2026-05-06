@@ -1,0 +1,11 @@
+Timestamp               Ty Process[PID:TID]
+2026-05-06 19:19:38.460 Df ChartKitShowcase[26634:848f7c] [com.apple.FrontBoard:SceneClient] [(FBSceneManager):sceneID:io.chartkit.showcase-default] Received action(s) in scene-update: UIOpenURLAction
+2026-05-06 19:19:38.460 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338
+2026-05-06 19:20:21.189 Df ChartKitShowcase[26634:848f7c] [com.apple.FrontBoard:SceneClient] [(FBSceneManager):sceneID:io.chartkit.showcase-default] Received action(s) in scene-update: UIOpenURLAction
+2026-05-06 19:20:21.189 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338
+2026-05-06 19:20:35.213 Df ChartKitShowcase[26634:848f7c] [com.apple.FrontBoard:SceneClient] [(FBSceneManager):sceneID:io.chartkit.showcase-default] Received action(s) in scene-update: UIOpenURLAction
+2026-05-06 19:20:35.213 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338
+2026-05-06 19:20:48.334 Df ChartKitShowcase[26634:848f7c] [com.apple.FrontBoard:SceneClient] [(FBSceneManager):sceneID:io.chartkit.showcase-default] Received action(s) in scene-update: UIOpenURLAction
+2026-05-06 19:20:48.334 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338
+2026-05-06 19:21:02.944 Df ChartKitShowcase[26634:848f7c] [com.apple.FrontBoard:SceneClient] [(FBSceneManager):sceneID:io.chartkit.showcase-default] Received action(s) in scene-update: UIOpenURLAction
+2026-05-06 19:21:02.944 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338

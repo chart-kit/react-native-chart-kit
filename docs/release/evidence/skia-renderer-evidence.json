@@ -109,12 +109,12 @@
     "debug-layout surfaces"
   ],
   "missingEvidence": [
-    "ios-skia-native-install is partial; iOS install/build evidence exists, but renderer parity and Skia performance rows are still required before Skia can be complete.",
-    "android-skia-native-install is partial; Android install/build evidence exists, but renderer parity and Skia performance rows are still required before Skia can be complete.",
-    "ios-skia-free-chart-parity is partial; renderer-injected iOS Release build evidence exists, but native screenshots, visible text/gradient/clip/tooltip/legend parity review, and interaction review are still required.",
-    "android-skia-free-chart-parity is partial; renderer-injected Android Release build evidence exists, but native screenshots, visible text/gradient/clip/tooltip/legend parity review, and interaction review are still required.",
-    "ios-skia-pro-preview-parity is partial; renderer-injected iOS Release build evidence exists, but native CombinedChart, CandlestickChart, range-selector, sticky-axis, crosshair, tooltip, and debug-layout screenshot parity review is still required.",
-    "android-skia-pro-preview-parity is partial; renderer-injected Android Release build evidence exists, but native CombinedChart, CandlestickChart, range-selector, sticky-axis, crosshair, tooltip, and debug-layout screenshot parity review is still required.",
+    "ios-skia-native-install is partial; evidence is required before this matrix can be complete.",
+    "android-skia-native-install is partial; evidence is required before this matrix can be complete.",
+    "ios-skia-free-chart-parity is partial; evidence is required before this matrix can be complete.",
+    "android-skia-free-chart-parity is partial; evidence is required before this matrix can be complete.",
+    "ios-skia-pro-preview-parity is partial; evidence is required before this matrix can be complete.",
+    "android-skia-pro-preview-parity is partial; evidence is required before this matrix can be complete.",
     "ios-skia-performance-comparison is pending; evidence is required before this matrix can be complete.",
     "android-skia-performance-comparison is pending; evidence is required before this matrix can be complete."
   ]
