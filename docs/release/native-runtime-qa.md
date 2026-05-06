@@ -1,6 +1,6 @@
 # Native Runtime QA Protocol
 
-Status on May 5, 2026: protocol ready, partial iOS and Android simulator/emulator smoke evidence captured; full native runtime evidence incomplete. Structured gate evidence lives in [native-runtime-qa.json](evidence/native-runtime-qa.json), with the page-by-page manual matrix in [native-runtime-matrix.json](evidence/native-runtime-matrix.json).
+Status on May 5, 2026: protocol ready, partial iOS and Android simulator/emulator smoke evidence captured; full native runtime evidence incomplete. Structured gate evidence lives in [native-runtime-qa.json](evidence/native-runtime-qa.json), with the page-by-page manual matrix in [native-runtime-matrix.json](evidence/native-runtime-matrix.json). Use the generated [native QA checklist](native-qa-checklists.md) for row-by-row execution.
 
 This protocol covers the manual iOS and Android runtime checks required before H5/H6 can claim native interaction confidence. Web Playwright tests, visual screenshots, and native release-build checks are useful, but they do not prove device gesture behavior, nested scrolling, text rendering, tooltip stacking, or release-mode runtime behavior.
 

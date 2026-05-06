@@ -61,6 +61,7 @@ The `pack:check` command runs `npm pack --dry-run --json --ignore-scripts` for e
 ## Release Artifacts
 
 - [Accessibility QA protocol](accessibility-qa.md)
+- [Native QA checklist](native-qa-checklists.md)
 - [Native performance benchmark protocol](native-performance-benchmark.md)
 - [Native runtime QA protocol](native-runtime-qa.md)
 - [Migration guide](../migration/from-v1.md)

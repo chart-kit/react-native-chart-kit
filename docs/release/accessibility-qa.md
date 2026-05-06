@@ -1,6 +1,6 @@
 # Accessibility QA Protocol
 
-Status on May 5, 2026: protocol ready, native screen-reader evidence missing. Structured gate evidence lives in [native-accessibility-qa.json](evidence/native-accessibility-qa.json), with the page-by-page assistive-technology matrix in [native-accessibility-matrix.json](evidence/native-accessibility-matrix.json).
+Status on May 5, 2026: protocol ready, native screen-reader evidence missing. Structured gate evidence lives in [native-accessibility-qa.json](evidence/native-accessibility-qa.json), with the page-by-page assistive-technology matrix in [native-accessibility-matrix.json](evidence/native-accessibility-matrix.json). Use the generated [native QA checklist](native-qa-checklists.md) for row-by-row execution.
 
 This protocol covers the manual VoiceOver and TalkBack checks required before H5/H6 can claim native accessibility confidence. Automated tests verify generated summaries and data table helpers, but they do not prove native assistive-technology behavior.
 

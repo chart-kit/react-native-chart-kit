@@ -1,6 +1,6 @@
 # Native Performance Benchmark Protocol
 
-Status on May 5, 2026: protocol ready, partial Android release-emulator evidence captured; full release-device performance evidence missing. Structured gate evidence lives in [native-performance-benchmark.json](evidence/native-performance-benchmark.json), with the scenario matrix in [native-performance-matrix.json](evidence/native-performance-matrix.json).
+Status on May 5, 2026: protocol ready, partial Android release-emulator evidence captured; full release-device performance evidence missing. Structured gate evidence lives in [native-performance-benchmark.json](evidence/native-performance-benchmark.json), with the scenario matrix in [native-performance-matrix.json](evidence/native-performance-matrix.json). Use the generated [native QA checklist](native-qa-checklists.md) for row-by-row execution.
 
 This protocol defines the native benchmark evidence required before H5/H6 can claim production performance confidence. The current `npm run benchmark` command covers core geometry and web showcase scrub timing. It does not measure native render time, native gesture frame pacing, release-build memory, or renderer-specific device behavior.
 

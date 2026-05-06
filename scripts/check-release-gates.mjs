@@ -19,6 +19,7 @@ const requiredFiles = [
   "docs/release/h5-beta-gate-evidence.md",
   "docs/release/h5-owner-decision-memo.md",
   "docs/release/known-issues.md",
+  "docs/release/native-qa-checklists.md",
   "docs/release/native-performance-benchmark.md",
   "docs/release/native-release-checks.md",
   "docs/release/native-release-results.md",
@@ -35,6 +36,7 @@ const requiredFiles = [
   "docs/release/evidence/package-manifest.json",
   "docs/release/evidence/skia-renderer-evidence.json",
   ".github/workflows/native-release.yml",
+  "scripts/generate-native-qa-checklists.mjs",
   "packages/core/package.json",
   "packages/react-native/package.json",
   "packages/svg-renderer/package.json",
@@ -64,6 +66,8 @@ const requiredScripts = [
   "native:release:android",
   "native:release:ios",
   "pack:check",
+  "release:qa:checklists",
+  "release:qa:checklists:check",
   "release:gate",
   "release:gate:report"
 ];
