@@ -3,7 +3,7 @@ export const defaultAndroidPackage = "io.chartkit.showcase";
 const validPlatforms = new Set(["android", "ios"]);
 
 export const captureNativeQaUsage = `Usage:
-  node scripts/capture-native-qa-screenshot.mjs --matrix <runtime|accessibility|performance> --row <row-id> --platform <ios|android> [options]
+  node scripts/capture-native-qa-screenshot.mjs --matrix <runtime|accessibility|performance|skia> --row <row-id> --platform <ios|android> [options]
 
 Options:
   --android-log-output <path>  Also clear/capture Android logcat to this repo-relative path.

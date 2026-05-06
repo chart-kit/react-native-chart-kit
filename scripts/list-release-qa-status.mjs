@@ -86,6 +86,41 @@ const getLaunchUrl = (matrix, row) => {
   return `chartkitshowcase://showcase?${params.toString()}`;
 };
 
+const getRowPlatform = (matrix, row) => {
+  if (row.platform) return row.platform;
+
+  const tech = matrix.assistiveTech?.find(
+    (item) => item.id === row.assistiveTechId
+  );
+
+  return tech?.platform ?? "";
+};
+
+const getCaptureCommand = ({ launchUrl, matrixName, platform, row }) => {
+  if (!launchUrl || !platform) return "";
+
+  const artifactBase = `docs/release/artifacts/${row.id}`;
+  const command = [
+    "npm run release:qa:capture --",
+    `--matrix ${matrixName}`,
+    `--row ${row.id}`,
+    `--platform ${platform}`,
+    `--output ${artifactBase}.png`
+  ];
+
+  if (platform === "ios") {
+    command.push(`--ios-log-output ${artifactBase}.log`);
+  } else if (platform === "android") {
+    command.push(`--android-log-output ${artifactBase}.log`);
+
+    if (matrixName === "accessibility") {
+      command.push(`--android-ui-output ${artifactBase}.xml`);
+    }
+  }
+
+  return command.join(" ");
+};
+
 const getRowCommand = ({ matrixName, row }) =>
   [
     "npm run release:qa:record --",
@@ -120,14 +155,25 @@ export const buildReleaseQaStatus = async ({
       label: config.label,
       matrix: name,
       matrixPath: config.path,
-      openRows: openRows.map((row) => ({
-        command: getRowCommand({ matrixName: name, row }),
-        evidence: row.evidence ?? [],
-        id: row.id,
-        launchUrl: getLaunchUrl(matrix, row),
-        status: row.status,
-        target: getTarget(matrix, row)
-      })),
+      openRows: openRows.map((row) => {
+        const launchUrl = getLaunchUrl(matrix, row);
+        const platform = getRowPlatform(matrix, row);
+
+        return {
+          captureCommand: getCaptureCommand({
+            launchUrl,
+            matrixName: name,
+            platform,
+            row
+          }),
+          command: getRowCommand({ matrixName: name, row }),
+          evidence: row.evidence ?? [],
+          id: row.id,
+          launchUrl,
+          status: row.status,
+          target: getTarget(matrix, row)
+        };
+      }),
       status: matrix.status
     });
   }
@@ -147,6 +193,7 @@ const formatStatus = (sections) =>
       ...section.openRows.flatMap((row) => [
         `  - ${row.id} [${row.status}] ${row.target}`,
         row.launchUrl ? `    launch: ${row.launchUrl}` : "",
+        row.captureCommand ? `    capture: ${row.captureCommand}` : "",
         `    evidence: ${row.evidence.length > 0 ? row.evidence.join(", ") : "none"}`,
         `    record: ${row.command}`
       ])

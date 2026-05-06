@@ -48,6 +48,44 @@ describe("release QA status", () => {
     expect(row?.launchUrl).toBe(
       "chartkitshowcase://showcase?view=charts&story=v2-perf-line-1000-scrub"
     );
+    expect(row?.captureCommand).toBe(
+      "npm run release:qa:capture -- --matrix performance --row android-svg-standard-line-scrub --platform android --output docs/release/artifacts/android-svg-standard-line-scrub.png --android-log-output docs/release/artifacts/android-svg-standard-line-scrub.log"
+    );
+  });
+
+  it("adds capture commands for iOS runtime rows", async () => {
+    const [section] = await buildReleaseQaStatus({
+      matrixName: "runtime",
+      status: "partial"
+    });
+    const row = section.openRows.find((item) => item.id === "ios-line-charts");
+
+    expect(row?.captureCommand).toBe(
+      "npm run release:qa:capture -- --matrix runtime --row ios-line-charts --platform ios --output docs/release/artifacts/ios-line-charts.png --ios-log-output docs/release/artifacts/ios-line-charts.log"
+    );
+  });
+
+  it("adds UI hierarchy capture for Android accessibility rows", async () => {
+    const [section] = await buildReleaseQaStatus({
+      matrixName: "accessibility",
+      status: "partial"
+    });
+    const row = section.openRows.find(
+      (item) => item.id === "android-talkback-line-charts"
+    );
+
+    expect(row?.captureCommand).toBe(
+      "npm run release:qa:capture -- --matrix accessibility --row android-talkback-line-charts --platform android --output docs/release/artifacts/android-talkback-line-charts.png --android-log-output docs/release/artifacts/android-talkback-line-charts.log --android-ui-output docs/release/artifacts/android-talkback-line-charts.xml"
+    );
+  });
+
+  it("omits capture commands for rows without showcase links", async () => {
+    const [section] = await buildReleaseQaStatus({
+      matrixName: "skia",
+      status: "pending"
+    });
+
+    expect(section.openRows.map((row) => row.captureCommand)).toEqual(["", ""]);
   });
 
   it("honors CLI matrix and status filters", () => {
@@ -65,6 +103,24 @@ describe("release QA status", () => {
 
     expect(output).toContain("Skia Renderer (skia): partial");
     expect(output).toContain("ios-skia-performance-comparison");
+    expect(output).not.toContain("capture:");
     expect(output).not.toContain("Runtime QA (runtime)");
+  });
+
+  it("prints capture commands from the CLI for launchable rows", () => {
+    const output = execFileSync(
+      process.execPath,
+      [
+        path.join(repoRoot, "scripts/list-release-qa-status.mjs"),
+        "--matrix",
+        "runtime",
+        "--status",
+        "partial"
+      ],
+      { cwd: repoRoot, encoding: "utf8" }
+    );
+
+    expect(output).toContain("capture: npm run release:qa:capture --");
+    expect(output).toContain("--row ios-line-charts --platform ios");
   });
 });
