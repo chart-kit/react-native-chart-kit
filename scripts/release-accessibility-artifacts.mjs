@@ -40,6 +40,44 @@ const requiredBaselineTokens = [
 const missingTokens = (source, tokens) =>
   tokens.filter((token) => !source.includes(token));
 
+const hasRowSpecificEvidence = (row, artifacts) =>
+  artifacts.some(
+    (artifact) => isExternalEvidenceLink(artifact) || artifact.includes(row.id)
+  );
+
+const getAssistiveTech = (matrix, row) =>
+  matrix.assistiveTech?.find((item) => item.id === row.assistiveTechId);
+
+const validateFinalScreenReaderEvidence = ({ artifacts, matrix, row }) => {
+  const errors = [];
+
+  if (row.status !== "pass") return errors;
+
+  const tech = getAssistiveTech(matrix, row);
+  const requiredTechName = tech?.label ?? row.assistiveTechId ?? "";
+  const notes = row.notes ?? "";
+
+  if (!hasRowSpecificEvidence(row, artifacts)) {
+    errors.push(
+      `${row.id} accessibility pass row must include row-specific screen-reader evidence`
+    );
+  }
+
+  if (requiredTechName && !notes.includes(requiredTechName)) {
+    errors.push(`${row.id} pass notes must mention ${requiredTechName}`);
+  }
+
+  if (!/\b(manual|screen-reader|screen reader)\b/i.test(notes)) {
+    errors.push(`${row.id} pass notes must describe manual screen-reader QA`);
+  }
+
+  if (/\b(automated|local baseline|partial|still required)\b/i.test(notes)) {
+    errors.push(`${row.id} pass notes describe incomplete accessibility QA`);
+  }
+
+  return errors;
+};
+
 const validateLocalBaseline = async ({ artifact, exists, readText, row }) => {
   const errors = [];
 
@@ -87,6 +125,10 @@ export const validateAccessibilityMatrixArtifacts = async (
       : [];
     const baselineArtifacts = artifacts.filter((artifact) =>
       artifact.includes(baselineArtifactName)
+    );
+
+    errors.push(
+      ...validateFinalScreenReaderEvidence({ artifacts, matrix, row })
     );
 
     for (const artifact of baselineArtifacts) {

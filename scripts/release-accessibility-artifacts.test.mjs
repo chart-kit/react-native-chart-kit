@@ -10,6 +10,13 @@ const readRepoText = (relativePath) =>
   readFile(path.join(repoRoot, relativePath), "utf8");
 
 const matrixWithBaseline = ({ status = "partial" } = {}) => ({
+  assistiveTech: [
+    {
+      id: "ios-voiceover",
+      label: "iOS VoiceOver",
+      platform: "ios"
+    }
+  ],
   rows: [
     {
       assistiveTechId: "ios-voiceover",
@@ -19,6 +26,29 @@ const matrixWithBaseline = ({ status = "partial" } = {}) => ({
       id: "ios-voiceover-line-charts",
       pageId: "line-charts",
       status
+    }
+  ]
+});
+
+const matrixWithPassRow = ({ evidence, notes } = {}) => ({
+  assistiveTech: [
+    {
+      id: "ios-voiceover",
+      label: "iOS VoiceOver",
+      platform: "ios"
+    }
+  ],
+  rows: [
+    {
+      assistiveTechId: "ios-voiceover",
+      evidence:
+        evidence ?? ["docs/release/artifacts/ios-voiceover-line-charts.md"],
+      id: "ios-voiceover-line-charts",
+      notes:
+        notes ??
+        "Manual iOS VoiceOver screen-reader QA passed for Line Charts.",
+      pageId: "line-charts",
+      status: "pass"
     }
   ]
 });
@@ -89,5 +119,62 @@ describe("accessibility artifact validation", () => {
     expect(errors.join("; ")).toContain(
       "must not use the local accessibility baseline as final evidence"
     );
+  });
+
+  it("requires row-specific screen-reader evidence for pass rows", async () => {
+    const errors = await validateAccessibilityMatrixArtifacts(
+      matrixWithPassRow({
+        evidence: ["docs/release/artifacts/ios-voiceover-overview.md"]
+      }),
+      {
+        exists: async () => true,
+        readText: async () => ""
+      }
+    );
+
+    expect(errors.join("; ")).toContain(
+      "must include row-specific screen-reader evidence"
+    );
+  });
+
+  it("requires final pass notes to name the assistive technology", async () => {
+    const errors = await validateAccessibilityMatrixArtifacts(
+      matrixWithPassRow({ notes: "Manual screen-reader QA passed." }),
+      {
+        exists: async () => true,
+        readText: async () => ""
+      }
+    );
+
+    expect(errors.join("; ")).toContain("pass notes must mention iOS VoiceOver");
+  });
+
+  it("rejects incomplete pass notes", async () => {
+    const errors = await validateAccessibilityMatrixArtifacts(
+      matrixWithPassRow({
+        notes:
+          "Manual iOS VoiceOver screen-reader QA partial; native review still required."
+      }),
+      {
+        exists: async () => true,
+        readText: async () => ""
+      }
+    );
+
+    expect(errors.join("; ")).toContain(
+      "pass notes describe incomplete accessibility QA"
+    );
+  });
+
+  it("accepts row-specific manual screen-reader pass evidence", async () => {
+    const errors = await validateAccessibilityMatrixArtifacts(
+      matrixWithPassRow(),
+      {
+        exists: async () => true,
+        readText: async () => ""
+      }
+    );
+
+    expect(errors).toEqual([]);
   });
 });
