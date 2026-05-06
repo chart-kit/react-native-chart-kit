@@ -176,7 +176,9 @@ const getIds = (items) =>
       : []
   );
 
-const validateEvidenceMatrix = (matrix) => {
+const isExternalEvidenceLink = (value) => /^https?:\/\//.test(value);
+
+const validateEvidenceMatrix = async (matrix) => {
   const errors = [];
   const pageIds = getIds(matrix.pages);
   const platformIds = getIds(matrix.platforms);
@@ -228,6 +230,17 @@ const validateEvidenceMatrix = (matrix) => {
         evidence.some((item) => typeof item !== "string" || item.length === 0)
       ) {
         errors.push(`${row.id} is passed without evidence links`);
+      } else {
+        for (const evidenceItem of evidence) {
+          if (
+            !isExternalEvidenceLink(evidenceItem) &&
+            !(await pathExists(evidenceItem))
+          ) {
+            errors.push(
+              `${row.id} references missing evidence ${evidenceItem}`
+            );
+          }
+        }
       }
     }
 
@@ -586,7 +599,7 @@ for (const manifestConfig of releaseEvidenceManifests) {
     manifestConfig.matrixFile && (await pathExists(manifestConfig.matrixFile))
       ? await readRepoJson(manifestConfig.matrixFile)
       : undefined;
-  const matrixErrors = matrix ? validateEvidenceMatrix(matrix) : [];
+  const matrixErrors = matrix ? await validateEvidenceMatrix(matrix) : [];
   const manifestErrors = validateReleaseEvidenceManifest({
     manifest,
     matrix,

@@ -1,5 +1,11 @@
-import { copyFile, mkdtemp, mkdir, readFile } from "node:fs/promises";
-import { join } from "node:path";
+import {
+  copyFile,
+  mkdtemp,
+  mkdir,
+  readFile,
+  writeFile
+} from "node:fs/promises";
+import { dirname, join } from "node:path";
 import { tmpdir } from "node:os";
 import { describe, expect, it } from "vitest";
 
@@ -32,6 +38,13 @@ const createTempRepo = async () => {
   return tempRepo;
 };
 
+const createArtifact = async (repoRoot, relativePath) => {
+  const artifactPath = join(repoRoot, relativePath);
+
+  await mkdir(dirname(artifactPath), { recursive: true });
+  await writeFile(artifactPath, "manual evidence\n", "utf8");
+};
+
 describe("native QA evidence recorder", () => {
   it("lists actionable rows for a native evidence matrix", async () => {
     const rows = await listNativeQaRows({
@@ -58,8 +71,24 @@ describe("native QA evidence recorder", () => {
     ).rejects.toThrow("--evidence is required");
   });
 
+  it("requires repo-relative evidence files to exist before marking a row as pass", async () => {
+    await expect(
+      recordNativeQaEvidence({
+        evidence: ["docs/release/artifacts/missing-runtime.md"],
+        matrixName: "runtime",
+        repoRoot,
+        rowId: "ios-line-charts",
+        status: "pass"
+      })
+    ).rejects.toThrow("Evidence file does not exist");
+  });
+
   it("updates one matrix row and regenerates the native QA checklist", async () => {
     const tempRepo = await createTempRepo();
+    await createArtifact(
+      tempRepo,
+      "docs/release/artifacts/ios-line-charts-runtime.md"
+    );
     const result = await recordNativeQaEvidence({
       evidence: ["docs/release/artifacts/ios-line-charts-runtime.md"],
       matrixName: "runtime",
@@ -99,6 +128,10 @@ describe("native QA evidence recorder", () => {
 
   it("supports dry-run without writing matrix changes", async () => {
     const tempRepo = await createTempRepo();
+    await createArtifact(
+      tempRepo,
+      "docs/release/artifacts/ios-line-charts-runtime.md"
+    );
     const result = await recordNativeQaEvidence({
       dryRun: true,
       evidence: ["docs/release/artifacts/ios-line-charts-runtime.md"],
@@ -124,6 +157,10 @@ describe("native QA evidence recorder", () => {
 
   it("records Skia matrix evidence and regenerates the release QA checklist", async () => {
     const tempRepo = await createTempRepo();
+    await createArtifact(
+      tempRepo,
+      "docs/release/artifacts/skia-ios-install.md"
+    );
     const result = await recordNativeQaEvidence({
       evidence: ["docs/release/artifacts/skia-ios-install.md"],
       matrixName: "skia",

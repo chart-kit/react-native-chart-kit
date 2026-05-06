@@ -1,4 +1,4 @@
-import { readFile, writeFile } from "node:fs/promises";
+import { access, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
@@ -101,6 +101,17 @@ const getMatrixConfig = (matrixName) => {
 
 const getToday = () => new Date().toISOString().slice(0, 10);
 
+const pathExists = async (repoRoot, relativePath) => {
+  try {
+    await access(path.join(repoRoot, relativePath));
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+const isExternalEvidenceLink = (value) => /^https?:\/\//.test(value);
+
 const getMatrixStatus = (rows) => {
   if (rows.every((row) => row.status === "pass")) {
     return "complete";
@@ -179,6 +190,25 @@ export const recordNativeQaEvidence = async ({
 
   if (status === "pass" && evidence.length === 0) {
     throw new Error("--evidence is required when --status pass is used");
+  }
+
+  if (status === "pass") {
+    const missingLocalEvidence = [];
+
+    for (const evidenceItem of evidence) {
+      if (
+        !isExternalEvidenceLink(evidenceItem) &&
+        !(await pathExists(repoRoot, evidenceItem))
+      ) {
+        missingLocalEvidence.push(evidenceItem);
+      }
+    }
+
+    if (missingLocalEvidence.length > 0) {
+      throw new Error(
+        `Evidence file does not exist: ${missingLocalEvidence.join(", ")}`
+      );
+    }
   }
 
   const matrix = await readJson(repoRoot, config.path);
