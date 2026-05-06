@@ -21,13 +21,13 @@
     },
     {
       "artifacts": [
-        "https://github.com/indiespirit/react-native-chart-kit/actions/runs/25442347176/artifacts/6833483843",
-        "https://github.com/indiespirit/react-native-chart-kit/actions/runs/25442347176/artifacts/6833550120"
+        "https://github.com/indiespirit/react-native-chart-kit/actions/runs/25443812256/artifacts/6834135468",
+        "https://github.com/indiespirit/react-native-chart-kit/actions/runs/25443812256/artifacts/6834216118"
       ],
-      "commit": "20bf904c59709f8c1540203ba5daa3878c4560d0",
+      "commit": "b3db5c3fe188264c6d3beb85e0de77e3b383468b",
       "date": "2026-05-06",
       "result": "workflow-pass",
-      "runUrl": "https://github.com/indiespirit/react-native-chart-kit/actions/runs/25442347176",
+      "runUrl": "https://github.com/indiespirit/react-native-chart-kit/actions/runs/25443812256",
       "scope": "native-release-workflow"
     }
   ],
