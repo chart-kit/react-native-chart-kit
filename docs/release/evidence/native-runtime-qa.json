@@ -39,7 +39,7 @@
   ],
   "missingEvidence": [
     "ios-line-charts is partial; evidence is required before this matrix can be complete.",
-    "ios-bar-charts is pending; evidence is required before this matrix can be complete.",
+    "ios-bar-charts is partial; evidence is required before this matrix can be complete.",
     "ios-combined-preview is pending; evidence is required before this matrix can be complete.",
     "ios-financial-preview is pending; evidence is required before this matrix can be complete.",
     "ios-pie-donut is pending; evidence is required before this matrix can be complete.",

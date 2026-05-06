@@ -40,6 +40,27 @@ describe("showcase navigation helpers", () => {
     expect(getPresetFromParams(params)).toBe("analytics");
   });
 
+  it("reads public Expo QA query params from process env by default", () => {
+    const previousQuery = process.env.EXPO_PUBLIC_CHARTKIT_SHOWCASE_QA_QUERY;
+    process.env.EXPO_PUBLIC_CHARTKIT_SHOWCASE_QA_QUERY =
+      "view=charts&page=bar&theme=dark&preset=analytics";
+
+    try {
+      const params = getShowcaseSearchParamsFromBuildEnv();
+
+      expect(params?.get("view")).toBe("charts");
+      expect(params?.get("page")).toBe("bar");
+      expect(getThemeModeFromParams(params)).toBe("dark");
+      expect(getPresetFromParams(params)).toBe("analytics");
+    } finally {
+      if (previousQuery === undefined) {
+        delete process.env.EXPO_PUBLIC_CHARTKIT_SHOWCASE_QA_QUERY;
+      } else {
+        process.env.EXPO_PUBLIC_CHARTKIT_SHOWCASE_QA_QUERY = previousQuery;
+      }
+    }
+  });
+
   it("parses full URLs from the build-time QA query env var", () => {
     const params = getShowcaseSearchParamsFromBuildEnv({
       EXPO_PUBLIC_CHARTKIT_SHOWCASE_QA_QUERY:

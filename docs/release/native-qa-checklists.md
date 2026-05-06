@@ -8,7 +8,7 @@ Generated from native and Skia evidence matrices last updated 2026-05-06. Regene
 
 | Matrix | Rows | Pass | Partial | Pending | Blocked | Fail | Not Applicable |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Runtime QA | 16 | 0 | 2 | 14 | 0 | 0 | 0 |
+| Runtime QA | 16 | 0 | 3 | 13 | 0 | 0 | 0 |
 | Accessibility QA | 16 | 0 | 0 | 16 | 0 | 0 | 0 |
 | Native Performance | 18 | 0 | 0 | 18 | 0 | 0 | 0 |
 | Skia Renderer | 8 | 0 | 0 | 8 | 0 | 0 | 0 |
@@ -74,7 +74,7 @@ Source: [docs/release/native-runtime-qa.md](native-runtime-qa.md) and [docs/rele
 | Row | Target | Build Surface | Showcase Page | Deep Link | Check Groups | Status | Evidence |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `ios-line-charts` | iOS / Line Charts | Expo showcase and iOS release build | `line-area` | chartkitshowcase://showcase?view=charts&page=line-area | `global`, `line` | partial | `docs/release/artifacts/ios-runtime-smoke.png` |
-| `ios-bar-charts` | iOS / Bar Charts | Expo showcase and iOS release build | `bar` | chartkitshowcase://showcase?view=charts&page=bar | `global`, `bar` | pending | None |
+| `ios-bar-charts` | iOS / Bar Charts | Expo showcase and iOS release build | `bar` | chartkitshowcase://showcase?view=charts&page=bar | `global`, `bar` | partial | `docs/release/artifacts/ios-runtime-bar-charts.png` |
 | `ios-combined-preview` | iOS / Combined Preview | Expo showcase and iOS release build | `combined` | chartkitshowcase://showcase?view=charts&page=combined | `global`, `combinedFinancial` | pending | None |
 | `ios-financial-preview` | iOS / Financial Preview | Expo showcase and iOS release build | `financial` | chartkitshowcase://showcase?view=charts&page=financial | `global`, `combinedFinancial` | pending | None |
 | `ios-pie-donut` | iOS / Pie & Donut | Expo showcase and iOS release build | `pie-donut` | chartkitshowcase://showcase?view=charts&page=pie-donut | `global`, `radialHeatmap` | pending | None |

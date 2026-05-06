@@ -124,8 +124,9 @@
       "id": "ios-bar-charts",
       "platform": "ios",
       "pageId": "bar-charts",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": ["docs/release/artifacts/ios-runtime-bar-charts.png"],
+      "notes": "Release simulator QA launch smoke: Bar page opened without red-screen error and grouped/selection bar chart content rendered; full gesture, rotation, and physical-device runtime checks still pending."
     },
     {
       "id": "ios-combined-preview",

@@ -10,7 +10,7 @@ describe("native QA checklist generator", () => {
   it("generates actionable checklist rows from all native evidence matrices", async () => {
     const markdown = await generateNativeQaChecklist({ repoRoot });
 
-    expect(markdown).toContain("| Runtime QA | 16 | 0 | 2 | 14 | 0 | 0 | 0 |");
+    expect(markdown).toContain("| Runtime QA | 16 | 0 | 3 | 13 | 0 | 0 | 0 |");
     expect(markdown).toContain(
       "| Accessibility QA | 16 | 0 | 0 | 16 | 0 | 0 | 0 |"
     );

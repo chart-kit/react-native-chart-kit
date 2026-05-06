@@ -84,11 +84,14 @@ export const getShowcaseSearchParamsFromUrl = (
 };
 
 export const getShowcaseSearchParamsFromBuildEnv = (
-  env: ShowcaseBuildEnv | undefined = typeof process === "undefined"
-    ? undefined
-    : process.env
+  env?: ShowcaseBuildEnv
 ): ShowcaseSearchParams | null => {
-  const query = env?.EXPO_PUBLIC_CHARTKIT_SHOWCASE_QA_QUERY?.trim();
+  const query = (
+    env?.EXPO_PUBLIC_CHARTKIT_SHOWCASE_QA_QUERY ??
+    (typeof process === "undefined"
+      ? undefined
+      : process.env.EXPO_PUBLIC_CHARTKIT_SHOWCASE_QA_QUERY)
+  )?.trim();
 
   if (!query) {
     return null;
