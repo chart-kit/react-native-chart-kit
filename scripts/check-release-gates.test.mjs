@@ -89,6 +89,21 @@ describe("release gate checker", () => {
     );
   });
 
+  it("surfaces incomplete RN CLI native example evidence", () => {
+    const report = runGateReportJson();
+    const rnCliCheck = report.checks.find(
+      (check) => check.id === "blocker:rn-cli-example"
+    );
+
+    expect(rnCliCheck).toMatchObject({
+      evidence: "docs/release/evidence/rn-cli-example-evidence.json",
+      status: "block"
+    });
+    expect(rnCliCheck?.detail).toContain(
+      "RN CLI iOS native project generation"
+    );
+  });
+
   it("validates evidence matrix structure", () => {
     const report = runGateReportJson();
 
@@ -134,6 +149,7 @@ describe("release gate checker", () => {
     ).toEqual([
       ["manifest:developer-preview-publish", "pass"],
       ["manifest:native-workflow-evidence", "pass"],
+      ["manifest:rn-cli-example", "pass"],
       ["manifest:skia-backend", "pass"],
       ["manifest:native-runtime-qa", "pass"],
       ["manifest:native-accessibility-qa", "pass"],
@@ -151,6 +167,7 @@ describe("release gate checker", () => {
     ).toEqual([
       ["manifest:developer-preview-publish", "pass", ""],
       ["manifest:native-workflow-evidence", "pass", ""],
+      ["manifest:rn-cli-example", "pass", ""],
       ["manifest:skia-backend", "pass", ""],
       ["manifest:native-runtime-qa", "pass", ""],
       ["manifest:native-accessibility-qa", "pass", ""],

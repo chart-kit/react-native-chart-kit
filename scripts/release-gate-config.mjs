@@ -16,6 +16,7 @@ export const requiredFiles = [
   "docs/release/native-release-checks.md",
   "docs/release/native-release-results.md",
   "docs/release/native-runtime-qa.md",
+  "docs/release/rn-cli-example-qa.md",
   "docs/release/skia-renderer-qa.md",
   "docs/release/accessibility-qa.md",
   "docs/release/evidence/native-accessibility-matrix.json",
@@ -23,6 +24,7 @@ export const requiredFiles = [
   "docs/release/evidence/native-performance-matrix.json",
   "docs/release/evidence/native-performance-benchmark.json",
   "docs/release/evidence/native-release-workflow.json",
+  "docs/release/evidence/rn-cli-example-evidence.json",
   "docs/release/evidence/native-runtime-matrix.json",
   "docs/release/evidence/native-runtime-qa.json",
   "docs/release/evidence/npm-publish-evidence.json",
@@ -70,6 +72,7 @@ export const requiredScripts = [
   "example:ios",
   "example:android",
   "example:expo",
+  "example:rn-cli:typecheck",
   "docs:build",
   "surface:check",
   "security:audit",
@@ -115,6 +118,10 @@ export const releaseEvidenceManifests = [
   {
     id: "native-workflow-evidence",
     file: "docs/release/evidence/native-release-workflow.json"
+  },
+  {
+    id: "rn-cli-example",
+    file: "docs/release/evidence/rn-cli-example-evidence.json"
   },
   {
     id: "skia-backend",

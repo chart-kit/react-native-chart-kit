@@ -34,9 +34,9 @@ Impact: high and critical npm vulnerabilities now block CI/publish for v2 work, 
 
 The [Native runtime QA protocol](native-runtime-qa.md) defines the required iOS and Android gesture/runtime review path. Local iOS simulator and Android emulator release smoke passes launched the showcase and captured all required runtime pages, but the missing evidence is still a completed device log for tap, scrub, pan, pinch, range selector, tooltip stacking, nested scroll, theme switching, edge-label behavior, accessibility services, and physical-device behavior.
 
-`examples/rn-cli-basic` provides a non-Expo app source and Metro alias smoke surface. `npm run example:rn-cli:typecheck` verifies its TypeScript imports, but generated RN CLI `ios/` and `android/` projects are not checked in or release-built yet.
+`examples/rn-cli-basic` provides a non-Expo app source and Metro alias smoke surface. `npm run example:rn-cli:typecheck` verifies its TypeScript imports, but generated RN CLI `ios/` and `android/` projects are not checked in or release-built yet. The RN CLI gap is tracked explicitly in [rn-cli-example-qa.md](rn-cli-example-qa.md) and [rn-cli-example-evidence.json](evidence/rn-cli-example-evidence.json).
 
-Impact: CI can validate web showcase interactions, but cannot yet validate native navigation, release builds, or platform-specific gesture conflicts.
+Impact: CI can validate web showcase interactions and Expo native release builds, but cannot yet validate plain RN CLI native navigation, release builds, or platform-specific gesture conflicts.
 
 ## Pro Split
 

@@ -7,6 +7,7 @@ const defaultRepoRoot = process.cwd();
 const ownerGatesPath = "docs/release/evidence/owner-gates.json";
 const h6EvidenceManifestPaths = [
   "docs/release/evidence/native-release-workflow.json",
+  "docs/release/evidence/rn-cli-example-evidence.json",
   "docs/release/evidence/native-runtime-qa.json",
   "docs/release/evidence/native-accessibility-qa.json",
   "docs/release/evidence/native-performance-benchmark.json",
