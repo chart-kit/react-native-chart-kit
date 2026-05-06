@@ -38,6 +38,18 @@ jobs:
           node-version: 24
           registry-url: https://registry.npmjs.org
 
+      - name: Verify npm publish access
+        run: |
+          npm whoami
+
+          if ! npm access list packages @chart-kit --json >/dev/null; then
+            echo "NPM_TOKEN cannot access the @chart-kit npm scope."
+            echo "Create or claim the @chart-kit scope and grant this token publish rights before rerunning."
+            exit 1
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Install dependencies
         run: npm install --ignore-scripts
 

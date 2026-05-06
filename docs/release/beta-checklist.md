@@ -10,7 +10,7 @@ This checklist tracks CKV2-017 readiness for the H5-approved Developer Preview. 
 - Package strategy: `react-native-chart-kit` remains the compatibility path; `@chart-kit/react-native` is the modern v2 API for new adopters
 - Dist-tag target for Developer Preview: `next`
 - Publish manifest: [package-manifest.json](evidence/package-manifest.json) is the source of truth for Developer Preview-publishable packages. It publishes `@chart-kit/core`, `@chart-kit/svg-renderer`, `@chart-kit/react-native`, and then the root compatibility package `react-native-chart-kit`; it pack-checks but does not publish `@chart-kit/skia-renderer` or `@chart-kit/pro`.
-- npm access prerequisite: the `NPM_TOKEN` used by GitHub Actions must be able to create and publish public packages under the `@chart-kit` scope. npm returns `404 Not Found` for scoped package publishes when the token does not have access to that scope.
+- npm access prerequisite: the `NPM_TOKEN` used by GitHub Actions must be able to create and publish public packages under the `@chart-kit` scope. The publish workflow runs `npm whoami` and `npm access list packages @chart-kit --json` before expensive build/test work so missing scope access fails early.
 
 ## Required Checks
 

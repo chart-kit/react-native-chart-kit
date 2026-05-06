@@ -13,8 +13,9 @@
       ]
     },
     {
-      "result": "Publish workflow reruns now skip already-published package versions and publish scoped dependency packages before the root compatibility package.",
+      "result": "Publish workflow reruns now verify npm auth/scope access early, skip already-published package versions, and publish scoped dependency packages before the root compatibility package.",
       "artifacts": [
+        ".github/workflows/publish.yml",
         "https://github.com/indiespirit/react-native-chart-kit/commit/47487b5",
         "https://github.com/indiespirit/react-native-chart-kit/commit/8bf2dad"
       ]
