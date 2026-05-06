@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "lastUpdated": "2026-05-06",
+  "status": "blocked",
+  "checks": [
+    {
+      "command": "gh secret list --repo indiespirit/react-native-chart-kit --json name,updatedAt",
+      "result": "pass",
+      "outputSummary": "Returned an empty list, so no repository Actions secrets are configured."
+    },
+    {
+      "command": "npm whoami --registry https://registry.npmjs.org/",
+      "result": "blocked",
+      "outputSummary": "Returned E401 Unauthorized, so this shell does not have npm publish credentials."
+    }
+  ],
+  "nextRequiredAction": "Add a repository Actions secret named NPM_TOKEN with npm publish rights for the @chart-kit scope, or complete local npm login with an account that can publish the scoped packages."
+}
