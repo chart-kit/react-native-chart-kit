@@ -109,6 +109,28 @@ EXPO_PUBLIC_CHARTKIT_SHOWCASE_QA_QUERY="view=charts&page=bar" \
 
 The value accepts the same query params as the deep-link and web URLs, including full values such as `chartkitshowcase://showcase?story=v2-range-selector&theme=dark&preset=analytics`. This is only a launch helper; row evidence still requires the manual checks and screenshots or recordings listed below.
 
+For row-by-row screenshot evidence, use the capture helper after the release app is installed and launchable on a simulator, emulator, or attached device:
+
+```sh
+npm run release:qa:capture -- \
+  --matrix runtime \
+  --row ios-line-charts \
+  --platform ios \
+  --output docs/release/artifacts/ios-line-charts-runtime.png
+```
+
+Android accepts the same matrix row metadata:
+
+```sh
+npm run release:qa:capture -- \
+  --matrix runtime \
+  --row android-bar-charts \
+  --platform android \
+  --output docs/release/artifacts/android-bar-charts-runtime.png
+```
+
+Use `--device <simulator-udid-or-adb-serial>` for a specific target, `--dry-run` to print the native commands, and `--no-launch` when the row is already open and only the current screen should be captured. After manual checks pass, attach the captured file to the structured matrix with `npm run release:qa:record -- --matrix runtime --row <row-id> --status pass --evidence <artifact>`.
+
 ## Required Pages
 
 Review these showcase pages:
