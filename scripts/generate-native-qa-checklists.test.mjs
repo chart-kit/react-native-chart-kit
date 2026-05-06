@@ -25,9 +25,9 @@ describe("native QA checklist generator", () => {
     expect(markdown).toContain(
       "chartkitshowcase://showcase?view=charts&page=compat"
     );
-    expect(markdown).toContain("`v2-bar-scrollable-selection`");
+    expect(markdown).toContain("`v2-perf-bar-500-selection`");
     expect(markdown).toContain(
-      "chartkitshowcase://showcase?view=charts&story=v2-bar-scrollable-selection"
+      "chartkitshowcase://showcase?view=charts&story=v2-perf-bar-500-selection"
     );
     expect(markdown).toContain("`android-talkback-compatibility`");
     expect(markdown).toContain("`ios-svg-standard-line-scrub`");

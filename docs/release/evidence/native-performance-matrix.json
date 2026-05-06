@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "pending",
-  "lastUpdated": "2026-05-05",
+  "lastUpdated": "2026-05-06",
   "source": "docs/release/native-performance-benchmark.md",
   "platforms": [
     {
@@ -37,63 +37,63 @@
       "label": "Small line initial render",
       "requiredDataSize": "100 points",
       "interaction": "initial render",
-      "showcaseStoryId": "v2-basic"
+      "showcaseStoryId": "v2-perf-line-100"
     },
     {
       "id": "standard-line-scrub",
       "label": "Standard line scrub",
       "requiredDataSize": "1,000 points",
       "interaction": "initial render and scrub",
-      "showcaseStoryId": "v2-scrub"
+      "showcaseStoryId": "v2-perf-line-1000-scrub"
     },
     {
       "id": "dense-line-decimated-overview",
       "label": "Dense line decimated overview",
       "requiredDataSize": "10,000 total points",
       "interaction": "decimated overview",
-      "showcaseStoryId": "v2-scrollable-dense"
+      "showcaseStoryId": "v2-perf-line-10000-overview"
     },
     {
       "id": "multi-line-shared-tooltip-scrub",
       "label": "Multi-line shared tooltip scrub",
       "requiredDataSize": "5 series x 1,000 points",
       "interaction": "shared tooltip scrub",
-      "showcaseStoryId": "v2-selected-tooltip"
+      "showcaseStoryId": "v2-perf-line-5x1000-tooltip"
     },
     {
       "id": "scrollable-line-one-finger-pan",
       "label": "Scrollable line one-finger pan",
       "requiredDataSize": "10,000 total points, 2,000 shown",
       "interaction": "one-finger pan",
-      "showcaseStoryId": "v2-viewport-zoom-pan"
+      "showcaseStoryId": "v2-perf-line-10000-pan"
     },
     {
       "id": "range-selector-drag-and-thumb-resize",
       "label": "Range selector drag and thumb resize",
       "requiredDataSize": "2 series x 10,000 points",
       "interaction": "drag and thumb resize",
-      "showcaseStoryId": "v2-range-selector"
+      "showcaseStoryId": "v2-perf-range-2x10000"
     },
     {
       "id": "scrollable-bar-horizontal-scroll-and-selection",
       "label": "Scrollable bar horizontal scroll and selection",
       "requiredDataSize": "500 bars",
       "interaction": "horizontal scroll and selection",
-      "showcaseStoryId": "v2-bar-scrollable-selection"
+      "showcaseStoryId": "v2-perf-bar-500-selection"
     },
     {
       "id": "combined-chart-shared-tooltip-and-legend",
       "label": "Combined chart shared tooltip and legend",
       "requiredDataSize": "bars plus line",
       "interaction": "shared tooltip and legend",
-      "showcaseStoryId": "v2-combined-shared-tooltip"
+      "showcaseStoryId": "v2-perf-combined-tooltip"
     },
     {
       "id": "candlestick-pan-pinch-and-tap-inspection",
       "label": "Candlestick pan, pinch, and tap inspection",
       "requiredDataSize": "1,000 candles",
       "interaction": "pan, pinch, tap inspection",
-      "showcaseStoryId": "v2-candlestick-scrollable"
+      "showcaseStoryId": "v2-perf-candlestick-1000"
     }
   ],
   "rows": [

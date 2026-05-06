@@ -1,4 +1,4 @@
-import { access, readFile } from "node:fs/promises";
+import { access, readFile, readdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import path from "node:path";
@@ -194,6 +194,28 @@ const extractQuotedStrings = (source) =>
 
 const extractObjectIds = (source) =>
   new Set([...source.matchAll(/\bid:\s*"([^"]+)"/g)].map((match) => match[1]));
+
+const readShowcaseStoryIds = async () => {
+  const storyIds = extractQuotedStrings(
+    await readRepoFile("apps/expo-showcase/visual/stories.ts")
+  );
+  const storyDirectory = path.join(repoRoot, "apps/expo-showcase/src/stories");
+  const storyFiles = (await readdir(storyDirectory)).filter((fileName) =>
+    fileName.endsWith("Stories.tsx")
+  );
+
+  for (const storyFile of storyFiles) {
+    const source = await readRepoFile(
+      `apps/expo-showcase/src/stories/${storyFile}`
+    );
+
+    for (const storyId of extractObjectIds(source)) {
+      storyIds.add(storyId);
+    }
+  }
+
+  return storyIds;
+};
 
 const isExternalEvidenceLink = (value) => /^https?:\/\//.test(value);
 
@@ -627,9 +649,7 @@ addCheck({
 const showcasePageIds = extractObjectIds(
   await readRepoFile("apps/expo-showcase/src/storyRegistry.tsx")
 );
-const showcaseStoryIds = extractQuotedStrings(
-  await readRepoFile("apps/expo-showcase/visual/stories.ts")
-);
+const showcaseStoryIds = await readShowcaseStoryIds();
 
 const candidateJavaHomes = [
   process.env.JAVA_HOME,

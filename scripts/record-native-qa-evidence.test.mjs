@@ -93,8 +93,9 @@ describe("native QA evidence recorder", () => {
     );
     expect(performanceRow.checks).toContain("metric: initial render time");
     expect(performanceRow).toMatchObject({
-      launchUrl: "chartkitshowcase://showcase?view=charts&story=v2-basic",
-      showcaseStoryId: "v2-basic"
+      launchUrl:
+        "chartkitshowcase://showcase?view=charts&story=v2-perf-line-100",
+      showcaseStoryId: "v2-perf-line-100"
     });
     expect(skiaRow.checks).toContain(
       "scenario: evidence Install optional Skia renderer dependencies, run native release build, and verify the SVG default path still works without static Skia imports."

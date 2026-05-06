@@ -11,6 +11,7 @@ import { lineInteractionStories } from "./stories/lineInteractionStories";
 import { lineOverviewStories } from "./stories/lineOverviewStories";
 import { lineQaStories } from "./stories/lineQaStories";
 import { lineViewportStories } from "./stories/lineViewportStories";
+import { performanceStories } from "./stories/performanceStories";
 import { pieOverviewStories } from "./stories/pieOverviewStories";
 import { progressOverviewStories } from "./stories/progressOverviewStories";
 import { publicChartMode } from "./publicChartMode";
@@ -86,6 +87,11 @@ export const storySections: ShowcaseSection[] = [
     id: "v2-contribution",
     title: "V2 Contribution",
     stories: contributionOverviewStories
+  },
+  {
+    id: "qa-performance",
+    title: "QA Performance",
+    stories: performanceStories
   },
   {
     id: "legacy-line",
@@ -360,6 +366,23 @@ export const showcaseModes: ShowcaseMode[] = [
           "bar-empty-state",
           "line-negative-values",
           "bar-negative-values"
+        ]
+      },
+      {
+        id: "native-performance",
+        title: "Native Performance",
+        description:
+          "Large deterministic datasets matching the native performance matrix rows.",
+        storyIds: [
+          "v2-perf-line-100",
+          "v2-perf-line-1000-scrub",
+          "v2-perf-line-10000-overview",
+          "v2-perf-line-5x1000-tooltip",
+          "v2-perf-line-10000-pan",
+          "v2-perf-range-2x10000",
+          "v2-perf-bar-500-selection",
+          "v2-perf-combined-tooltip",
+          "v2-perf-candlestick-1000"
         ]
       }
     ]
