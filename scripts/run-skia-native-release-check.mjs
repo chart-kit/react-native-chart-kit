@@ -15,6 +15,7 @@ Options:
   --artifact <path>        Write a markdown evidence artifact in this repo after a successful run.
   --dry-run                Print the temporary-workspace commands without executing them.
   --keep-temp              Keep the temporary workspace for inspection.
+  --ios-simulator <id>     After an iOS build, install/run the temp showcase on this simulator.
   --renderer <svg|skia>    Build SVG-default app or inject Skia renderer. Defaults to svg.
   --skia-package <spec>    Skia package spec to install. Defaults to @shopify/react-native-skia.
   --temp-dir <path>        Use a specific temporary workspace parent directory.
@@ -50,6 +51,8 @@ export const parseSkiaNativeArgs = (argv) => {
       options.dryRun = true;
     } else if (arg === "--help" || arg === "-h") {
       options.help = true;
+    } else if (arg === "--ios-simulator") {
+      options.iosSimulator = readValue();
     } else if (arg === "--keep-temp") {
       options.keepTemp = true;
     } else if (arg === "--platform") {
@@ -132,6 +135,7 @@ const run = ({ args, captureOutput = true, command, cwd, dryRun }) => {
 
 export const buildSkiaNativeCommandPlan = ({
   archivePath,
+  iosSimulator,
   platform,
   renderer = "svg",
   skiaPackage,
@@ -204,6 +208,26 @@ export const buildSkiaNativeCommandPlan = ({
     cwd: workspaceDir
   });
 
+  if (iosSimulator && ["ios", "all"].includes(platform)) {
+    plan.push({
+      args: [
+        "--workspace",
+        "@chart-kit/expo-showcase",
+        "exec",
+        "expo",
+        "--",
+        "run:ios",
+        "--configuration",
+        "Release",
+        "--device",
+        iosSimulator,
+        "--no-bundler"
+      ],
+      command: "npm",
+      cwd: workspaceDir
+    });
+  }
+
   return plan;
 };
 
@@ -250,6 +274,7 @@ export const buildVerifiedOutput = ({
 const createArtifact = ({
   artifactPath,
   commands,
+  iosSimulator,
   platform,
   renderer = "svg",
   skiaPackage,
@@ -290,6 +315,7 @@ ${commands.map((item) => item.command).join("\n")}
 - \`${getPackageNameFromSpec(skiaPackage)}\` verified with \`npm ls\`.
 - Showcase renderer mode stayed \`${renderer}\`.
 - Existing native release check completed for \`${platform}\`.
+${iosSimulator ? `- iOS simulator install/run completed for \`${iosSimulator}\`.` : ""}
 
 ## Verified Output
 
@@ -318,6 +344,7 @@ const readGitShortSha = () => {
 export const runSkiaNativeReleaseCheck = async ({
   artifact,
   dryRun,
+  iosSimulator,
   keepTemp,
   platform,
   renderer = "svg",
@@ -330,6 +357,7 @@ export const runSkiaNativeReleaseCheck = async ({
   const archivePath = `${workspaceDir}.tar`;
   const plan = buildSkiaNativeCommandPlan({
     archivePath,
+    iosSimulator,
     platform,
     renderer,
     skiaPackage,
@@ -347,6 +375,7 @@ export const runSkiaNativeReleaseCheck = async ({
       const relativeArtifact = await createArtifact({
         artifactPath,
         commands: executed,
+        iosSimulator,
         platform,
         renderer,
         skiaPackage,

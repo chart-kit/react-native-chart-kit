@@ -37,10 +37,12 @@ npm run skia:native:release -- --platform ios --artifact docs/release/artifacts/
 npm run skia:native:release -- --platform android --artifact docs/release/artifacts/android-skia-native-install.md
 npm run skia:native:release -- --platform ios --renderer skia --artifact docs/release/artifacts/ios-skia-renderer-build.md
 npm run skia:native:release -- --platform android --renderer skia --artifact docs/release/artifacts/android-skia-renderer-build.md
+npm run skia:native:release -- --platform ios --renderer skia --ios-simulator <simulator-uuid> --keep-temp
 ```
 
 The helper creates a temporary workspace from the current committed repo state, runs `npm ci`, installs the Skia peer into only that temporary showcase workspace, and delegates to the normal Expo native release check. It removes the temporary workspace unless `--keep-temp` is provided.
 When `--renderer skia` is passed, the helper also injects a temporary `ChartKitProvider` renderer into the showcase app, typechecks the patched app, and then runs the native release build. This keeps the free showcase package dependency-free while making native Skia parity builds repeatable.
+When `--ios-simulator` is passed, the helper also installs and launches the temporary renderer-injected showcase on that simulator so the native QA capture helper can take screenshots from the rebuilt app.
 
 Required checks:
 

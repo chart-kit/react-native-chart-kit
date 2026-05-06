@@ -25,6 +25,8 @@ describe("Skia native release check runner", () => {
         "all",
         "--dry-run",
         "--keep-temp",
+        "--ios-simulator",
+        "A706C6A5-26A2-499F-B24A-A9FB574888B0",
         "--temp-dir",
         "/tmp/chartkit",
         "--artifact",
@@ -37,6 +39,7 @@ describe("Skia native release check runner", () => {
     ).toMatchObject({
       artifact: "docs/release/artifacts/skia.md",
       dryRun: true,
+      iosSimulator: "A706C6A5-26A2-499F-B24A-A9FB574888B0",
       keepTemp: true,
       platform: "all",
       renderer: "skia",
@@ -128,6 +131,36 @@ describe("Skia native release check runner", () => {
       "@chart-kit/expo-showcase",
       "run",
       "typecheck"
+    ]);
+  });
+
+  it("can add an iOS simulator install command for screenshot QA", () => {
+    const plan = buildSkiaNativeCommandPlan({
+      archivePath: "/tmp/chartkit-skia.tar",
+      iosSimulator: "A706C6A5-26A2-499F-B24A-A9FB574888B0",
+      platform: "ios",
+      renderer: "skia",
+      skiaPackage: "@shopify/react-native-skia",
+      workspaceDir: "/tmp/chartkit-skia"
+    });
+    const installStep = plan.at(-1);
+
+    expect(installStep).toMatchObject({
+      command: "npm",
+      cwd: "/tmp/chartkit-skia"
+    });
+    expect(installStep?.args).toEqual([
+      "--workspace",
+      "@chart-kit/expo-showcase",
+      "exec",
+      "expo",
+      "--",
+      "run:ios",
+      "--configuration",
+      "Release",
+      "--device",
+      "A706C6A5-26A2-499F-B24A-A9FB574888B0",
+      "--no-bundler"
     ]);
   });
 
