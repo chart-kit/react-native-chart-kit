@@ -129,6 +129,7 @@ export const buildSkiaNativeCommandPlan = ({
   workspaceDir
 }) => {
   const packageName = getPackageNameFromSpec(skiaPackage);
+  const showcaseDir = path.join(workspaceDir, "apps/expo-showcase");
 
   return [
     {
@@ -150,17 +151,16 @@ export const buildSkiaNativeCommandPlan = ({
       args: [
         "install",
         skiaPackage,
-        "--workspace=@chart-kit/expo-showcase",
         "--no-save",
         "--package-lock=false"
       ],
       command: "npm",
-      cwd: workspaceDir
+      cwd: showcaseDir
     },
     {
-      args: ["ls", packageName, "--workspace=@chart-kit/expo-showcase", "--depth=0"],
+      args: ["ls", packageName, "--depth=0"],
       command: "npm",
-      cwd: workspaceDir
+      cwd: showcaseDir
     },
     {
       args: [

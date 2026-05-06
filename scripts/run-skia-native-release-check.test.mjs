@@ -71,11 +71,13 @@ describe("Skia native release check runner", () => {
       "node"
     ]);
     expect(plan[2].args).toEqual(["ci"]);
+    expect(plan[3].cwd.endsWith("/tmp/chartkit-skia/apps/expo-showcase")).toBe(
+      true
+    );
     expect(plan[3].args).toContain("@shopify/react-native-skia@2");
     expect(plan[4].args).toEqual([
       "ls",
       "@shopify/react-native-skia",
-      "--workspace=@chart-kit/expo-showcase",
       "--depth=0"
     ]);
     expect(plan[5].args).toEqual([
