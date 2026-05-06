@@ -40,7 +40,7 @@ Impact: Developer Preview must keep these features labeled as preview or Pro-can
 
 ## Skia Renderer
 
-`packages/skia-renderer` now provides a preview package boundary, capability metadata, install guidance, and an injected Skia primitive adapter. Local renderer contract coverage exists for the injected primitives plus LineChart, BarChart, PieChart/DonutChart, ProgressChart/ProgressRing, ContributionGraph/CalendarHeatmap, CombinedChart, and CandlestickChart. Sticky-axis labels and measured text anchors are covered locally with a supplied Skia-like font, but native Skia install verification, native renderer parity tests, and native Skia benchmark comparisons are not complete yet. The structured status lives in [skia-renderer-evidence.json](evidence/skia-renderer-evidence.json).
+`packages/skia-renderer` now provides a preview package boundary, capability metadata, install guidance, and an injected Skia primitive adapter. Local renderer contract coverage exists for the injected primitives plus LineChart, BarChart, PieChart/DonutChart, ProgressChart/ProgressRing, ContributionGraph/CalendarHeatmap, CombinedChart, and CandlestickChart. Sticky-axis labels and measured text anchors are covered locally with a supplied Skia-like font. The local baseline is recorded in [skia-local-baseline-2026-05-06.md](artifacts/skia-local-baseline-2026-05-06.md), leaving 6 partial Skia rows and 2 pending native performance rows. Native Skia install verification, native renderer parity tests, and native Skia benchmark comparisons are not complete yet. The structured status lives in [skia-renderer-evidence.json](evidence/skia-renderer-evidence.json).
 
 Impact: the optional package boundary is approved for preview, but Skia must stay labeled as preview until the install matrix, native benchmarks, and native parity tests are implemented.
 
@@ -64,6 +64,6 @@ Impact: public chart docs now have automated type coverage, but docs should stil
 
 ## Screen-Reader QA
 
-Generated summaries and data table helpers are covered by unit tests, representative showcase pages expose collapsed data details panels for table-fallback review, and the [Accessibility QA protocol](accessibility-qa.md) defines the VoiceOver/TalkBack review path. The missing evidence is a completed native screen-reader pass on iOS and Android.
+Generated summaries and data table helpers are covered by unit tests, representative showcase pages expose collapsed data details panels for table-fallback review, and the [Accessibility QA protocol](accessibility-qa.md) defines the VoiceOver/TalkBack review path. The local automated baseline is recorded in [accessibility-local-baseline-2026-05-06.md](artifacts/accessibility-local-baseline-2026-05-06.md), leaving 16 partial assistive-tech/page rows. The missing evidence is a completed native screen-reader pass on iOS and Android.
 
 Impact: accessibility helpers are present, but production beta/RC should not claim native assistive-technology behavior until the manual QA log is complete.
