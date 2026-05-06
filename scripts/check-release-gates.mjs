@@ -567,6 +567,7 @@ const nativeReleaseWorkflowSource = await readRepoFile(
 );
 const nativeWorkflowArtifactChecks = [
   "actions/upload-artifact@v5",
+  "FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true",
   "native-release-android",
   "native-release-ios",
   "docs/release/artifacts/native-workflow/android-release.log",
