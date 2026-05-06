@@ -5,7 +5,17 @@
   "lastUpdated": "2026-05-06",
   "summary": "Automated summary and data-table helper coverage exists, but native VoiceOver and TalkBack evidence has not been captured.",
   "matrix": "docs/release/evidence/native-accessibility-matrix.json",
-  "completedEntries": [],
+  "completedEntries": [
+    {
+      "date": "2026-05-06",
+      "scope": "local-accessibility-baseline",
+      "result": "partial-pass",
+      "artifacts": [
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+      ],
+      "notes": "Automated summary/data-table helpers, showcase data-details coverage, and native QA checklist synchronization passed; native VoiceOver and TalkBack review remains required."
+    }
+  ],
   "requiredAssistiveTech": [
     {
       "platform": "ios",

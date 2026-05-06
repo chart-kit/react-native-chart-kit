@@ -2,6 +2,7 @@ import { access, readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 
+import { validateAccessibilityMatrixArtifacts } from "./release-accessibility-artifacts.mjs";
 import { validatePerformanceMatrixArtifacts } from "./release-performance-artifacts.mjs";
 import { validateSkiaMatrixArtifacts } from "./release-skia-artifacts.mjs";
 
@@ -318,6 +319,9 @@ export const validateEvidenceMatrix = async (
   }
   if (matrix.source === "docs/release/skia-renderer-qa.md") {
     errors.push(...(await validateSkiaMatrixArtifacts(matrix)));
+  }
+  if (matrix.source === "docs/release/accessibility-qa.md") {
+    errors.push(...(await validateAccessibilityMatrixArtifacts(matrix)));
   }
 
   return errors;

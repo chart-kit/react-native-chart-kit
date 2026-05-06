@@ -35,6 +35,7 @@ export const requiredFiles = [
   ".github/workflows/publish.yml",
   ".github/workflows/native-release.yml",
   "scripts/release-gate-config.mjs",
+  "scripts/release-accessibility-artifacts.mjs",
   "scripts/release-gate-validation.mjs",
   "scripts/release-performance-artifacts.mjs",
   "scripts/release-skia-artifacts.mjs",
