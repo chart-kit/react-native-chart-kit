@@ -38,6 +38,8 @@ The release-check script restores `apps/expo-showcase/app.json` and `apps/expo-s
 
 The `Native Release Checks` workflow runs Android and iOS release-build jobs separately. It is available through `workflow_dispatch` and also runs on pull requests that touch package source, the showcase app, package manifests, or the native-release script.
 
+Each workflow job writes native build output into `docs/release/artifacts/native-workflow/*-release.log` and uploads those logs as GitHub Actions artifacts. The Android job also uploads the generated release APK when present. These artifacts are the expected evidence source for clearing the native workflow blocker in the release gate.
+
 Do not treat H5 or H6 as complete until this workflow has a green run on the release candidate commit, or until the owner explicitly accepts the native gap for an API-preview beta.
 
 ## Local Requirements

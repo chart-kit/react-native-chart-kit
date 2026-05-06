@@ -142,4 +142,18 @@ describe("release gate checker", () => {
       status: "pass"
     });
   });
+
+  it("checks native release workflow artifact upload wiring", () => {
+    const report = runGateReportJson();
+
+    expect(
+      report.checks.find(
+        (check) => check.id === "workflow:native-release-artifacts"
+      )
+    ).toMatchObject({
+      evidence: ".github/workflows/native-release.yml",
+      message: "Native release workflow archives Android and iOS evidence logs",
+      status: "pass"
+    });
+  });
 });

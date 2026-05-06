@@ -38,7 +38,20 @@ jobs:
         run: npm run build
 
       - name: Android release build
-        run: npm run native:release:android
+        run: |
+          set -o pipefail
+          mkdir -p docs/release/artifacts/native-workflow
+          npm run native:release:android 2>&1 | tee docs/release/artifacts/native-workflow/android-release.log
+
+      - name: Upload Android release evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-release-android
+          path: |
+            docs/release/artifacts/native-workflow/android-release.log
+            apps/expo-showcase/android/app/build/outputs/apk/release/*.apk
+          if-no-files-found: warn
 
   ios-release:
     name: iOS Release Build
@@ -60,4 +73,15 @@ jobs:
         run: npm run build
 
       - name: iOS release build
-        run: npm run native:release:ios
+        run: |
+          set -o pipefail
+          mkdir -p docs/release/artifacts/native-workflow
+          npm run native:release:ios 2>&1 | tee docs/release/artifacts/native-workflow/ios-release.log
+
+      - name: Upload iOS release evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-release-ios
+          path: docs/release/artifacts/native-workflow/ios-release.log
+          if-no-files-found: error

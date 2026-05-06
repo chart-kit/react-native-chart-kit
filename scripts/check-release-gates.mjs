@@ -433,6 +433,30 @@ addCheck({
   status: qaChecklistResult.status === 0 ? "pass" : "fail"
 });
 
+const nativeReleaseWorkflowSource = await readRepoFile(
+  ".github/workflows/native-release.yml"
+);
+const nativeWorkflowArtifactChecks = [
+  "actions/upload-artifact@v4",
+  "native-release-android",
+  "native-release-ios",
+  "docs/release/artifacts/native-workflow/android-release.log",
+  "docs/release/artifacts/native-workflow/ios-release.log"
+].filter((needle) => !nativeReleaseWorkflowSource.includes(needle));
+
+addCheck({
+  detail:
+    nativeWorkflowArtifactChecks.length > 0
+      ? `Missing workflow evidence config: ${nativeWorkflowArtifactChecks.join(
+          ", "
+        )}`
+      : "",
+  evidence: ".github/workflows/native-release.yml",
+  id: "workflow:native-release-artifacts",
+  message: "Native release workflow archives Android and iOS evidence logs",
+  status: nativeWorkflowArtifactChecks.length === 0 ? "pass" : "fail"
+});
+
 const candidateJavaHomes = [
   process.env.JAVA_HOME,
   "/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home",

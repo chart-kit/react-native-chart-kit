@@ -62,3 +62,10 @@ Non-blocking warnings observed:
 - Gradle warned that the daemon would stop after running out of JVM metaspace; the release build still completed successfully.
 
 The GitHub `Native Release Checks` workflow configures Java and runs on an Android-capable hosted runner, so the next evidence step is a green workflow run.
+
+When the workflow runs, download the `native-release-android` and `native-release-ios` artifacts. The archived logs are expected at:
+
+- `docs/release/artifacts/native-workflow/android-release.log`
+- `docs/release/artifacts/native-workflow/ios-release.log`
+
+Use those artifact links when updating [native-release-workflow.json](evidence/native-release-workflow.json).
