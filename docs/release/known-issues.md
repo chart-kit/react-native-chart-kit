@@ -12,11 +12,11 @@ Impact: native release-build workflow evidence is no longer the blocker, but pro
 
 ## Developer Preview Package Publish
 
-`react-native-chart-kit@7.0.0-next.0` is published under the `next` npm dist-tag, while `latest` remains `6.12.2`. The scoped modern packages are not published yet. May 6, 2026 publish reruns failed before package installation because GitHub Actions received an empty npm auth token (`NODE_AUTH_TOKEN`), so npm returned `ENEEDAUTH`. The latest recorded run is [25423381765](https://github.com/indiespirit/react-native-chart-kit/actions/runs/25423381765), and repository secret inspection returned no configured Actions secrets.
+Developer Preview package publishing is complete for `7.0.0-next.0`. `react-native-chart-kit@next`, `@chart-kit/core@next`, `@chart-kit/svg-renderer@next`, and `@chart-kit/react-native@next` resolve to `7.0.0-next.0`; `@chart-kit/pro` and `@chart-kit/skia-renderer` remain unpublished as intended. The successful publish workflow run is [25441203278](https://github.com/indiespirit/react-native-chart-kit/actions/runs/25441203278), and the GitHub prerelease is [v7.0.0-next.0](https://github.com/indiespirit/react-native-chart-kit/releases/tag/v7.0.0-next.0).
 
-The structured status lives in [npm-publish-evidence.json](evidence/npm-publish-evidence.json), and the exact rerun procedure is documented in [npm-publish-runbook.md](npm-publish-runbook.md). The publish workflow now verifies npm auth/scope access before expensive checks, skips already-published package versions, and publishes the scoped dependency packages before the root compatibility package on the next rerun. The next unblock is to add the GitHub Actions `NPM_TOKEN` secret and ensure that token can create and publish public packages under the `@chart-kit` scope.
+`react-native-chart-kit@latest` remains `6.12.2`, so existing users are not moved to v2 unless they install with `next`. npm currently keeps `latest=7.0.0-next.0` on the new scoped packages because they have no stable versions yet and npm rejected removing that tag. The publish-state checker allows this only for packages with no stable version and still fails if an existing stable package has `latest` moved to a prerelease.
 
-Impact: existing users can install the root preview package with the `next` dist-tag, but new adopters cannot install the modern `@chart-kit/react-native` package until the npm `@chart-kit` scope access is fixed and the publish workflow is rerun.
+Impact: existing `react-native-chart-kit` users are protected. New adopters using `@chart-kit/react-native` should treat the scoped namespace as Developer Preview until a stable scoped release exists.
 
 ## Native E2E Coverage
 

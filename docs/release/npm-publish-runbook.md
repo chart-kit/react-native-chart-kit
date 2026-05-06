@@ -1,34 +1,34 @@
 # NPM Developer Preview Publish Runbook
 
-Status on May 6, 2026: the Developer Preview npm publish is blocked on GitHub Actions npm authentication. `react-native-chart-kit@7.0.0-next.0` is already published under `next`; the scoped free packages are still missing.
+Status on May 6, 2026: Developer Preview npm publishing is complete for `7.0.0-next.0`. The successful workflow run is [25441203278](https://github.com/indiespirit/react-native-chart-kit/actions/runs/25441203278), and the GitHub prerelease is [v7.0.0-next.0](https://github.com/indiespirit/react-native-chart-kit/releases/tag/v7.0.0-next.0).
 
 ## Publish Target
 
-Publish these packages under the `next` dist-tag:
+Published under the `next` dist-tag:
 
 - `@chart-kit/core@7.0.0-next.0`
 - `@chart-kit/svg-renderer@7.0.0-next.0`
 - `@chart-kit/react-native@7.0.0-next.0`
 - `react-native-chart-kit@7.0.0-next.0`
 
-Do not publish these packages for Developer Preview:
+Not published for Developer Preview:
 
 - `@chart-kit/skia-renderer@7.0.0-next.0`
 - `@chart-kit/pro@7.0.0-next.0`
 
-The publish workflow reads [package-manifest.json](evidence/package-manifest.json), so the package list above should not be duplicated manually in the workflow.
+The publish workflow reads [package-manifest.json](evidence/package-manifest.json), so future package-list changes should happen in the manifest rather than in a hardcoded publish loop.
 
-## Current Blocker
+## Dist-Tag Notes
 
-The latest publish rerun failed before install/build because GitHub Actions received an empty npm auth token:
+`react-native-chart-kit@latest` remains `6.12.2`, and `react-native-chart-kit@next` points to `7.0.0-next.0`. This protects existing users from accidental upgrades.
 
-- [Publish rerun 25416750710](https://github.com/indiespirit/react-native-chart-kit/actions/runs/25416750710)
-- [Publish rerun 25417506026](https://github.com/indiespirit/react-native-chart-kit/actions/runs/25417506026)
-- [Publish rerun 25417790177](https://github.com/indiespirit/react-native-chart-kit/actions/runs/25417790177)
-- [Publish rerun 25423381765](https://github.com/indiespirit/react-native-chart-kit/actions/runs/25423381765)
-- Evidence: [npm-publish-evidence.json](evidence/npm-publish-evidence.json)
+The new scoped packages currently show both `latest` and `next` pointing to `7.0.0-next.0`:
 
-The workflow expects a repository Actions secret named `NPM_TOKEN`. On May 6, 2026, `gh secret list --repo indiespirit/react-native-chart-kit --json name,updatedAt` returned an empty list, and local `npm whoami --registry https://registry.npmjs.org/` returned `E401 Unauthorized`. The local auth preflight is recorded in [npm-auth-preflight.json](evidence/npm-auth-preflight.json).
+- `@chart-kit/core`
+- `@chart-kit/svg-renderer`
+- `@chart-kit/react-native`
+
+npm rejected removal of `latest` for these packages with `E400` because each package has no stable version yet. The publish-state checker treats this as an explicit Developer Preview caveat only when no stable version exists. It still fails if an existing stable package has its `latest` tag moved to a prerelease.
 
 ## Required Token Properties
 
@@ -40,33 +40,7 @@ The `NPM_TOKEN` secret must:
 - work in CI without interactive 2FA prompts
 - remain scoped to npm package publishing, not general GitHub access
 
-If the npm account or organization enforces 2FA for publishing, use a publish-capable automation or granular access token that npm accepts from CI.
-
-## Preflight Checks
-
-After adding the GitHub secret, the workflow checks:
-
-```sh
-npm whoami
-npm access list packages @chart-kit --json
-```
-
-The second command must succeed for the token-owning npm account. If the `@chart-kit` scope does not exist or the token cannot access it, create or claim the scope and grant publish rights before rerunning the workflow.
-
-Local status check:
-
-```sh
-npm run release:publish:status
-```
-
-Expected state before the auth fix:
-
-- `react-native-chart-kit@7.0.0-next.0`: published under `next`
-- `@chart-kit/core@7.0.0-next.0`: missing
-- `@chart-kit/svg-renderer@7.0.0-next.0`: missing
-- `@chart-kit/react-native@7.0.0-next.0`: missing
-- `@chart-kit/skia-renderer@7.0.0-next.0`: unpublished, expected
-- `@chart-kit/pro@7.0.0-next.0`: unpublished, expected
+Current preflight evidence is recorded in [npm-auth-preflight.json](evidence/npm-auth-preflight.json).
 
 ## Rerun Publish
 
@@ -77,16 +51,16 @@ gh workflow run publish.yml --ref next -f npm_tag=next
 gh run watch <run-id> --exit-status
 ```
 
-The workflow is idempotent for already-published package versions. On rerun, it should skip `react-native-chart-kit@7.0.0-next.0` and publish the missing scoped free packages.
+The workflow is idempotent for already-published package versions. On rerun, it skips versions that already exist, attempts to remove unintended prerelease `latest` tags, verifies the final registry state, and then creates or updates the GitHub prerelease.
 
-The workflow will fail if:
+The workflow fails if:
 
 - it is not run from `next`
 - `NPM_TOKEN` is missing or invalid
-- the token cannot access `@chart-kit`
 - `latest` is selected for a prerelease version
-- a GitHub release tag for the same package version already exists
-- `npm run release:publish:status -- --strict` does not see the expected registry state after publish
+- a publishable package is missing from the expected `next` dist-tag after publish
+- a preview-only package is published
+- an existing stable package has `latest` moved to a prerelease
 
 ## Post-Publish Verification
 
@@ -98,12 +72,20 @@ npm view @chart-kit/core@next version
 npm view @chart-kit/svg-renderer@next version
 npm view @chart-kit/react-native@next version
 npm view react-native-chart-kit@next version
+npm dist-tag ls react-native-chart-kit
 ```
 
-Expected versions:
+Expected version output:
 
 ```text
 7.0.0-next.0
+```
+
+Expected root package dist-tags:
+
+```text
+latest: 6.12.2
+next: 7.0.0-next.0
 ```
 
 Confirm Pro and Skia remain unpublished:
@@ -115,13 +97,13 @@ npm view @chart-kit/skia-renderer@7.0.0-next.0 version
 
 Those commands should fail with npm not-found output during Developer Preview.
 
-## After Successful Publish
+## Evidence To Update
 
-Update the release evidence:
+After each future publish rerun, update:
 
 - [npm-publish-evidence.json](evidence/npm-publish-evidence.json)
-- [known-issues.md](known-issues.md), removing or revising the Developer Preview Package Publish blocker
-- [completion-audit.md](../internal/completion-audit.md), changing Developer Preview publish from missing to covered
+- [known-issues.md](known-issues.md), if the publish caveats changed
+- [completion-audit.md](../internal/completion-audit.md), if release-gate status changed
 
 Then rerun:
 

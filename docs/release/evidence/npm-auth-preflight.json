@@ -1,18 +1,23 @@
 {
   "schemaVersion": 1,
   "lastUpdated": "2026-05-06",
-  "status": "blocked",
+  "status": "complete",
   "checks": [
     {
       "command": "gh secret list --repo indiespirit/react-native-chart-kit --json name,updatedAt",
       "result": "pass",
-      "outputSummary": "Returned an empty list, so no repository Actions secrets are configured."
+      "outputSummary": "Returned NPM_TOKEN updated at 2026-05-06T13:35:14Z."
     },
     {
       "command": "npm whoami --registry https://registry.npmjs.org/",
-      "result": "blocked",
-      "outputSummary": "Returned E401 Unauthorized, so this shell does not have npm publish credentials."
+      "result": "pass",
+      "outputSummary": "Returned exitdev."
+    },
+    {
+      "command": "gh workflow run publish.yml --repo indiespirit/react-native-chart-kit --ref next -f npm_tag=next",
+      "result": "pass",
+      "outputSummary": "Publish workflow run 25441203278 authenticated with npm, verified package state, and completed Developer Preview publishing."
     }
   ],
-  "nextRequiredAction": "Add a repository Actions secret named NPM_TOKEN with npm publish rights for the @chart-kit scope, or complete local npm login with an account that can publish the scoped packages."
+  "nextRequiredAction": "No npm auth action is required for Developer Preview. Keep the NPM_TOKEN secret active for future next prereleases."
 }

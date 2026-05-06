@@ -56,7 +56,7 @@ Use `npm run release:native-workflow:record -- --list` to inspect native release
 
 Use `npm run release:publish:status` to compare the Developer Preview package manifest against actual npm registry state. It should report the scoped free packages and root compatibility package under `next`, while `@chart-kit/pro` and `@chart-kit/skia-renderer` remain unpublished for Developer Preview. Add `-- --strict` when a complete publish is expected.
 
-Use [npm-publish-runbook.md](npm-publish-runbook.md) when rerunning the Developer Preview publish workflow after fixing the `NPM_TOKEN` secret. It documents the required token properties, idempotent rerun command, and post-publish registry checks.
+Use [npm-publish-runbook.md](npm-publish-runbook.md) when rerunning the Developer Preview publish workflow for future `next` prereleases. It documents the required token properties, idempotent rerun command, dist-tag caveats, and post-publish registry checks.
 
 Use [native-workflow-runbook.md](native-workflow-runbook.md) when making the native release workflow visible on the default branch, dispatching it for the release-candidate commit, and recording iOS/Android workflow artifacts.
 
