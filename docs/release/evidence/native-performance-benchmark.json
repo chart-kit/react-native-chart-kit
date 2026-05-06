@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "status": "partial",
   "requiredFor": ["H5", "H6"],
-  "lastUpdated": "2026-05-05",
-  "summary": "One Android release-emulator line-animation sample exists, but the full release-device performance matrix is incomplete.",
+  "lastUpdated": "2026-05-06",
+  "summary": "Android release-emulator samples now cover all Android SVG performance rows, but iOS, physical-device acceptance, Skia, and final performance review are incomplete.",
   "matrix": "docs/release/evidence/native-performance-matrix.json",
   "completedEntries": [
     {
@@ -22,6 +22,31 @@
         "docs/release/artifacts/android-line-animation-performance.md"
       ],
       "notes": "Single visible animation sample only; full matrix still pending."
+    },
+    {
+      "date": "2026-05-06",
+      "commit": "07b27db",
+      "platform": "android",
+      "device": "sdk_gphone64_arm64 emulator / Android 16, 1080x2400",
+      "build": "Release APK",
+      "renderer": "svg",
+      "scenario": "All nine Android SVG performance matrix rows",
+      "p50Frame": "captured per artifact",
+      "p95Frame": "captured per artifact",
+      "memory": "before/after PSS and RSS captured per artifact",
+      "result": "partial-pass",
+      "artifacts": [
+        "docs/release/artifacts/android-svg-small-line-initial-render-performance.md",
+        "docs/release/artifacts/android-svg-standard-line-scrub-performance.md",
+        "docs/release/artifacts/android-svg-dense-line-decimated-overview-performance.md",
+        "docs/release/artifacts/android-svg-multi-line-shared-tooltip-scrub-performance.md",
+        "docs/release/artifacts/android-svg-scrollable-line-one-finger-pan-performance.md",
+        "docs/release/artifacts/android-svg-range-selector-drag-and-thumb-resize-performance.md",
+        "docs/release/artifacts/android-svg-scrollable-bar-horizontal-scroll-and-selection-performance.md",
+        "docs/release/artifacts/android-svg-combined-chart-shared-tooltip-and-legend-performance.md",
+        "docs/release/artifacts/android-svg-candlestick-pan-pinch-and-tap-inspection-performance.md"
+      ],
+      "notes": "Release-emulator samples captured with adb launch timing, gfxinfo, before/after meminfo, gesture/tap input where applicable, and screenshots. Rows remain partial until accepted target review is complete."
     }
   ],
   "requiredScenarios": [
@@ -36,10 +61,23 @@
     "candlestick pan, pinch, and tap inspection"
   ],
   "missingEvidence": [
-    "iOS release-device or accepted simulator performance matrix",
-    "Android release-device or accepted emulator performance matrix beyond one sample",
-    "gesture-heavy frame timing",
-    "memory before and after each required scenario",
-    "Skia renderer parity/performance where supported"
+    "ios-svg-small-line-initial-render is pending; evidence is required before this matrix can be complete.",
+    "ios-svg-standard-line-scrub is pending; evidence is required before this matrix can be complete.",
+    "ios-svg-dense-line-decimated-overview is pending; evidence is required before this matrix can be complete.",
+    "ios-svg-multi-line-shared-tooltip-scrub is pending; evidence is required before this matrix can be complete.",
+    "ios-svg-scrollable-line-one-finger-pan is pending; evidence is required before this matrix can be complete.",
+    "ios-svg-range-selector-drag-and-thumb-resize is pending; evidence is required before this matrix can be complete.",
+    "ios-svg-scrollable-bar-horizontal-scroll-and-selection is pending; evidence is required before this matrix can be complete.",
+    "ios-svg-combined-chart-shared-tooltip-and-legend is pending; evidence is required before this matrix can be complete.",
+    "ios-svg-candlestick-pan-pinch-and-tap-inspection is pending; evidence is required before this matrix can be complete.",
+    "android-svg-small-line-initial-render is partial; evidence is required before this matrix can be complete.",
+    "android-svg-standard-line-scrub is partial; evidence is required before this matrix can be complete.",
+    "android-svg-dense-line-decimated-overview is partial; evidence is required before this matrix can be complete.",
+    "android-svg-multi-line-shared-tooltip-scrub is partial; evidence is required before this matrix can be complete.",
+    "android-svg-scrollable-line-one-finger-pan is partial; evidence is required before this matrix can be complete.",
+    "android-svg-range-selector-drag-and-thumb-resize is partial; evidence is required before this matrix can be complete.",
+    "android-svg-scrollable-bar-horizontal-scroll-and-selection is partial; evidence is required before this matrix can be complete.",
+    "android-svg-combined-chart-shared-tooltip-and-legend is partial; evidence is required before this matrix can be complete.",
+    "android-svg-candlestick-pan-pinch-and-tap-inspection is partial; evidence is required before this matrix can be complete."
   ]
 }

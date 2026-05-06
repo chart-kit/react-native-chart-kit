@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "pending",
+  "status": "partial",
   "lastUpdated": "2026-05-06",
   "source": "docs/release/native-performance-benchmark.md",
   "platforms": [
@@ -228,72 +228,99 @@
       "platform": "android",
       "renderer": "svg",
       "scenarioId": "small-line-initial-render",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/android-svg-small-line-initial-render-performance.md"
+      ],
+      "notes": "Android release-emulator sample captured with adb gfxinfo, meminfo, launch timing, and screenshot; not full physical-device QA."
     },
     {
       "id": "android-svg-standard-line-scrub",
       "platform": "android",
       "renderer": "svg",
       "scenarioId": "standard-line-scrub",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/android-svg-standard-line-scrub-performance.md"
+      ],
+      "notes": "Android release-emulator sample captured with adb gfxinfo, meminfo, launch timing, gesture input, and screenshot; not full physical-device QA."
     },
     {
       "id": "android-svg-dense-line-decimated-overview",
       "platform": "android",
       "renderer": "svg",
       "scenarioId": "dense-line-decimated-overview",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/android-svg-dense-line-decimated-overview-performance.md"
+      ],
+      "notes": "Android release-emulator sample captured with adb gfxinfo, meminfo, launch timing, and screenshot; not full physical-device QA."
     },
     {
       "id": "android-svg-multi-line-shared-tooltip-scrub",
       "platform": "android",
       "renderer": "svg",
       "scenarioId": "multi-line-shared-tooltip-scrub",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/android-svg-multi-line-shared-tooltip-scrub-performance.md"
+      ],
+      "notes": "Android release-emulator sample captured with adb gfxinfo, meminfo, launch timing, gesture input, and screenshot; not full physical-device QA."
     },
     {
       "id": "android-svg-scrollable-line-one-finger-pan",
       "platform": "android",
       "renderer": "svg",
       "scenarioId": "scrollable-line-one-finger-pan",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/android-svg-scrollable-line-one-finger-pan-performance.md"
+      ],
+      "notes": "Android release-emulator sample captured with adb gfxinfo, meminfo, launch timing, gesture input, and screenshot; not full physical-device QA."
     },
     {
       "id": "android-svg-range-selector-drag-and-thumb-resize",
       "platform": "android",
       "renderer": "svg",
       "scenarioId": "range-selector-drag-and-thumb-resize",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/android-svg-range-selector-drag-and-thumb-resize-performance.md"
+      ],
+      "notes": "Android release-emulator sample captured with adb gfxinfo, meminfo, launch timing, gesture input, and screenshot; not full physical-device QA."
     },
     {
       "id": "android-svg-scrollable-bar-horizontal-scroll-and-selection",
       "platform": "android",
       "renderer": "svg",
       "scenarioId": "scrollable-bar-horizontal-scroll-and-selection",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/android-svg-scrollable-bar-horizontal-scroll-and-selection-performance.md"
+      ],
+      "notes": "Android release-emulator sample captured with adb gfxinfo, meminfo, launch timing, gesture input, and screenshot; not full physical-device QA."
     },
     {
       "id": "android-svg-combined-chart-shared-tooltip-and-legend",
       "platform": "android",
       "renderer": "svg",
       "scenarioId": "combined-chart-shared-tooltip-and-legend",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/android-svg-combined-chart-shared-tooltip-and-legend-performance.md"
+      ],
+      "notes": "Android release-emulator sample captured with adb gfxinfo, meminfo, launch timing, tap input, and screenshot; not full physical-device QA."
     },
     {
       "id": "android-svg-candlestick-pan-pinch-and-tap-inspection",
       "platform": "android",
       "renderer": "svg",
       "scenarioId": "candlestick-pan-pinch-and-tap-inspection",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/android-svg-candlestick-pan-pinch-and-tap-inspection-performance.md"
+      ],
+      "notes": "Android release-emulator sample captured with adb gfxinfo, meminfo, launch timing, tap input, and screenshot; not full physical-device QA."
     }
   ],
   "deferredRows": [
