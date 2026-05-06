@@ -19,6 +19,12 @@ const writeJson = async (repoRoot, relativePath, value) =>
 const getToday = () => new Date().toISOString().slice(0, 10);
 
 const isExternalEvidenceLink = (value) => /^https?:\/\//.test(value);
+const githubActionsRunPattern =
+  /^https:\/\/github\.com\/[^/]+\/[^/]+\/actions\/runs\/(\d+)(?:\/.*)?$/;
+const gitCommitPattern = /^[0-9a-f]{6,40}$/i;
+
+const getGithubActionsRunId = (value) =>
+  value.match(githubActionsRunPattern)?.[1];
 
 const pathExists = async (repoRoot, relativePath) => {
   try {
@@ -82,12 +88,24 @@ const assertRequired = (options) => {
   }
 };
 
+const assertWorkflowReference = ({ commit, runUrl }) => {
+  if (!gitCommitPattern.test(commit)) {
+    throw new Error("--commit must be a short or full git commit SHA");
+  }
+
+  if (!getGithubActionsRunId(runUrl)) {
+    throw new Error("--run-url must be a GitHub Actions run URL");
+  }
+};
+
 const assertArtifactEvidenceExists = async ({
   androidArtifact,
   iosArtifact,
-  repoRoot
+  repoRoot,
+  runUrl
 }) => {
   const missing = [];
+  const runId = getGithubActionsRunId(runUrl);
 
   for (const artifact of [iosArtifact, androidArtifact]) {
     if (
@@ -101,6 +119,26 @@ const assertArtifactEvidenceExists = async ({
   if (missing.length > 0) {
     throw new Error(
       `Artifact evidence must be an external URL or existing repo file: ${missing.join(
+        ", "
+      )}`
+    );
+  }
+
+  const mismatchedArtifacts = [iosArtifact, androidArtifact].filter(
+    (artifact) => {
+      if (!isExternalEvidenceLink(artifact)) {
+        return false;
+      }
+
+      const artifactRunId = getGithubActionsRunId(artifact);
+
+      return artifactRunId && artifactRunId !== runId;
+    }
+  );
+
+  if (mismatchedArtifacts.length > 0) {
+    throw new Error(
+      `GitHub artifact URLs must belong to ${runUrl}: ${mismatchedArtifacts.join(
         ", "
       )}`
     );
@@ -136,10 +174,12 @@ export const recordNativeWorkflowEvidence = async ({
     runUrl
   };
   assertRequired(options);
+  assertWorkflowReference({ commit, runUrl });
   await assertArtifactEvidenceExists({
     androidArtifact,
     iosArtifact,
-    repoRoot
+    repoRoot,
+    runUrl
   });
 
   const manifest = await readJson(repoRoot, manifestPath);

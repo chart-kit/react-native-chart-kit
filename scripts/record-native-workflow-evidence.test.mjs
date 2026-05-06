@@ -58,6 +58,46 @@ describe("native workflow evidence recorder", () => {
     ).rejects.toThrow("--android-artifact, --ios-artifact required");
   });
 
+  it("requires a git commit SHA and GitHub Actions run URL", async () => {
+    await expect(
+      recordNativeWorkflowEvidence({
+        androidArtifact:
+          "https://github.com/example/repo/actions/runs/1/artifacts/android",
+        commit: "not a sha",
+        iosArtifact:
+          "https://github.com/example/repo/actions/runs/1/artifacts/ios",
+        repoRoot,
+        runUrl: "https://github.com/example/repo/actions/runs/1"
+      })
+    ).rejects.toThrow("--commit must be a short or full git commit SHA");
+
+    await expect(
+      recordNativeWorkflowEvidence({
+        androidArtifact:
+          "https://github.com/example/repo/actions/runs/1/artifacts/android",
+        commit: "abc123",
+        iosArtifact:
+          "https://github.com/example/repo/actions/runs/1/artifacts/ios",
+        repoRoot,
+        runUrl: "https://example.test/native-run"
+      })
+    ).rejects.toThrow("--run-url must be a GitHub Actions run URL");
+  });
+
+  it("requires GitHub artifact URLs to belong to the recorded run", async () => {
+    await expect(
+      recordNativeWorkflowEvidence({
+        androidArtifact:
+          "https://github.com/example/repo/actions/runs/2/artifacts/android",
+        commit: "abc123",
+        iosArtifact:
+          "https://github.com/example/repo/actions/runs/1/artifacts/ios",
+        repoRoot,
+        runUrl: "https://github.com/example/repo/actions/runs/1"
+      })
+    ).rejects.toThrow("GitHub artifact URLs must belong");
+  });
+
   it("records a green workflow run without mutating during dry-run", async () => {
     const tempRepo = await createTempRepo();
     const result = await recordNativeWorkflowEvidence({
