@@ -1,6 +1,6 @@
 # Native Performance Benchmark Protocol
 
-Status on May 5, 2026: protocol ready, partial Android release-emulator evidence captured; full release-device performance evidence missing. Structured gate evidence lives in [native-performance-benchmark.json](evidence/native-performance-benchmark.json).
+Status on May 5, 2026: protocol ready, partial Android release-emulator evidence captured; full release-device performance evidence missing. Structured gate evidence lives in [native-performance-benchmark.json](evidence/native-performance-benchmark.json), with the scenario matrix in [native-performance-matrix.json](evidence/native-performance-matrix.json).
 
 This protocol defines the native benchmark evidence required before H5/H6 can claim production performance confidence. The current `npm run benchmark` command covers core geometry and web showcase scrub timing. It does not measure native render time, native gesture frame pacing, release-build memory, or renderer-specific device behavior.
 
@@ -74,6 +74,8 @@ Measure these scenarios:
 | Candlestick     | 1,000 candles             | pan, pinch, tap inspection      | p50/p95 frame time, overlay alignment     |
 
 When Skia chart integration exists, run the same scenarios for both `svg` and `skia` where supported.
+
+The machine-readable matrix in [native-performance-matrix.json](evidence/native-performance-matrix.json) expands the required scenarios across iOS and Android for the SVG renderer. Skia rows remain deferred until native Skia install and renderer parity evidence exist.
 
 ## Metrics To Capture
 

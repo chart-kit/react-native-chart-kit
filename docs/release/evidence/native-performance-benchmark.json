@@ -4,6 +4,7 @@
   "requiredFor": ["H5", "H6"],
   "lastUpdated": "2026-05-05",
   "summary": "One Android release-emulator line-animation sample exists, but the full release-device performance matrix is incomplete.",
+  "matrix": "docs/release/evidence/native-performance-matrix.json",
   "completedEntries": [
     {
       "date": "2026-05-05",

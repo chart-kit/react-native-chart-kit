@@ -68,4 +68,20 @@ describe("release gate checker", () => {
       "16 pending native accessibility matrix rows"
     );
   });
+
+  it("surfaces pending native performance matrix rows", () => {
+    const report = runGateReportJson();
+    const nativePerformanceCheck = report.checks.find(
+      (check) => check.id === "blocker:native-performance"
+    );
+
+    expect(nativePerformanceCheck).toMatchObject({
+      evidence:
+        "docs/release/evidence/native-performance-benchmark.json; docs/release/evidence/native-performance-matrix.json",
+      status: "block"
+    });
+    expect(nativePerformanceCheck?.detail).toContain(
+      "18 pending native performance matrix rows"
+    );
+  });
 });

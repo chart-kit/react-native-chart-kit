@@ -1,0 +1,243 @@
+{
+  "schemaVersion": 1,
+  "status": "pending",
+  "lastUpdated": "2026-05-05",
+  "source": "docs/release/native-performance-benchmark.md",
+  "platforms": [
+    {
+      "id": "ios",
+      "label": "iOS",
+      "requiredBuildSurface": "Release build on device or accepted simulator"
+    },
+    {
+      "id": "android",
+      "label": "Android",
+      "requiredBuildSurface": "Release APK on device or accepted emulator"
+    }
+  ],
+  "metrics": [
+    "commit SHA",
+    "package version",
+    "platform, OS, device, and simulator/emulator/physical flag",
+    "build type",
+    "renderer",
+    "chart type and scenario",
+    "total, visible, rendered points, and series count",
+    "initial render time",
+    "median frame time during interaction",
+    "p95 frame time during interaction",
+    "max frame time during interaction",
+    "dropped frames or frames over 16.7 ms where available",
+    "memory before and after scenario",
+    "visible correctness notes for clipping, tooltip stacking, and gesture conflicts"
+  ],
+  "scenarios": [
+    {
+      "id": "small-line-initial-render",
+      "label": "Small line initial render",
+      "requiredDataSize": "100 points",
+      "interaction": "initial render"
+    },
+    {
+      "id": "standard-line-scrub",
+      "label": "Standard line scrub",
+      "requiredDataSize": "1,000 points",
+      "interaction": "initial render and scrub"
+    },
+    {
+      "id": "dense-line-decimated-overview",
+      "label": "Dense line decimated overview",
+      "requiredDataSize": "10,000 total points",
+      "interaction": "decimated overview"
+    },
+    {
+      "id": "multi-line-shared-tooltip-scrub",
+      "label": "Multi-line shared tooltip scrub",
+      "requiredDataSize": "5 series x 1,000 points",
+      "interaction": "shared tooltip scrub"
+    },
+    {
+      "id": "scrollable-line-one-finger-pan",
+      "label": "Scrollable line one-finger pan",
+      "requiredDataSize": "10,000 total points, 2,000 shown",
+      "interaction": "one-finger pan"
+    },
+    {
+      "id": "range-selector-drag-and-thumb-resize",
+      "label": "Range selector drag and thumb resize",
+      "requiredDataSize": "2 series x 10,000 points",
+      "interaction": "drag and thumb resize"
+    },
+    {
+      "id": "scrollable-bar-horizontal-scroll-and-selection",
+      "label": "Scrollable bar horizontal scroll and selection",
+      "requiredDataSize": "500 bars",
+      "interaction": "horizontal scroll and selection"
+    },
+    {
+      "id": "combined-chart-shared-tooltip-and-legend",
+      "label": "Combined chart shared tooltip and legend",
+      "requiredDataSize": "bars plus line",
+      "interaction": "shared tooltip and legend"
+    },
+    {
+      "id": "candlestick-pan-pinch-and-tap-inspection",
+      "label": "Candlestick pan, pinch, and tap inspection",
+      "requiredDataSize": "1,000 candles",
+      "interaction": "pan, pinch, tap inspection"
+    }
+  ],
+  "rows": [
+    {
+      "id": "ios-svg-small-line-initial-render",
+      "platform": "ios",
+      "renderer": "svg",
+      "scenarioId": "small-line-initial-render",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-svg-standard-line-scrub",
+      "platform": "ios",
+      "renderer": "svg",
+      "scenarioId": "standard-line-scrub",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-svg-dense-line-decimated-overview",
+      "platform": "ios",
+      "renderer": "svg",
+      "scenarioId": "dense-line-decimated-overview",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-svg-multi-line-shared-tooltip-scrub",
+      "platform": "ios",
+      "renderer": "svg",
+      "scenarioId": "multi-line-shared-tooltip-scrub",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-svg-scrollable-line-one-finger-pan",
+      "platform": "ios",
+      "renderer": "svg",
+      "scenarioId": "scrollable-line-one-finger-pan",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-svg-range-selector-drag-and-thumb-resize",
+      "platform": "ios",
+      "renderer": "svg",
+      "scenarioId": "range-selector-drag-and-thumb-resize",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-svg-scrollable-bar-horizontal-scroll-and-selection",
+      "platform": "ios",
+      "renderer": "svg",
+      "scenarioId": "scrollable-bar-horizontal-scroll-and-selection",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-svg-combined-chart-shared-tooltip-and-legend",
+      "platform": "ios",
+      "renderer": "svg",
+      "scenarioId": "combined-chart-shared-tooltip-and-legend",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-svg-candlestick-pan-pinch-and-tap-inspection",
+      "platform": "ios",
+      "renderer": "svg",
+      "scenarioId": "candlestick-pan-pinch-and-tap-inspection",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-svg-small-line-initial-render",
+      "platform": "android",
+      "renderer": "svg",
+      "scenarioId": "small-line-initial-render",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-svg-standard-line-scrub",
+      "platform": "android",
+      "renderer": "svg",
+      "scenarioId": "standard-line-scrub",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-svg-dense-line-decimated-overview",
+      "platform": "android",
+      "renderer": "svg",
+      "scenarioId": "dense-line-decimated-overview",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-svg-multi-line-shared-tooltip-scrub",
+      "platform": "android",
+      "renderer": "svg",
+      "scenarioId": "multi-line-shared-tooltip-scrub",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-svg-scrollable-line-one-finger-pan",
+      "platform": "android",
+      "renderer": "svg",
+      "scenarioId": "scrollable-line-one-finger-pan",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-svg-range-selector-drag-and-thumb-resize",
+      "platform": "android",
+      "renderer": "svg",
+      "scenarioId": "range-selector-drag-and-thumb-resize",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-svg-scrollable-bar-horizontal-scroll-and-selection",
+      "platform": "android",
+      "renderer": "svg",
+      "scenarioId": "scrollable-bar-horizontal-scroll-and-selection",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-svg-combined-chart-shared-tooltip-and-legend",
+      "platform": "android",
+      "renderer": "svg",
+      "scenarioId": "combined-chart-shared-tooltip-and-legend",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-svg-candlestick-pan-pinch-and-tap-inspection",
+      "platform": "android",
+      "renderer": "svg",
+      "scenarioId": "candlestick-pan-pinch-and-tap-inspection",
+      "status": "pending",
+      "evidence": []
+    }
+  ],
+  "deferredRows": [
+    {
+      "renderer": "skia",
+      "status": "blocked",
+      "reason": "Native Skia install and renderer parity evidence are not complete."
+    }
+  ]
+}

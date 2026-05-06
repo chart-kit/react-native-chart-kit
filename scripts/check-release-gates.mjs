@@ -26,6 +26,7 @@ const requiredFiles = [
   "docs/release/accessibility-qa.md",
   "docs/release/evidence/native-accessibility-matrix.json",
   "docs/release/evidence/native-accessibility-qa.json",
+  "docs/release/evidence/native-performance-matrix.json",
   "docs/release/evidence/native-performance-benchmark.json",
   "docs/release/evidence/native-release-workflow.json",
   "docs/release/evidence/native-runtime-matrix.json",
@@ -105,7 +106,9 @@ const releaseEvidenceManifests = [
   },
   {
     id: "native-performance",
-    file: "docs/release/evidence/native-performance-benchmark.json"
+    file: "docs/release/evidence/native-performance-benchmark.json",
+    matrixFile: "docs/release/evidence/native-performance-matrix.json",
+    matrixLabel: "native performance matrix rows"
   }
 ];
 
