@@ -58,6 +58,8 @@ Use `npm run release:publish:status` to compare the Developer Preview package ma
 
 Use [npm-publish-runbook.md](npm-publish-runbook.md) when rerunning the Developer Preview publish workflow after fixing the `NPM_TOKEN` secret. It documents the required token properties, idempotent rerun command, and post-publish registry checks.
 
+Use [native-workflow-runbook.md](native-workflow-runbook.md) when making the native release workflow visible on the default branch, dispatching it for the release-candidate commit, and recording iOS/Android workflow artifacts.
+
 Use `npm run release:owner:record -- --list` to inspect H4/H5/H6 owner gates. Owner approval should be recorded through the same command with `--gate`, `--approved-by`, and one `--decision` value for each pending decision.
 
 ## Manual Review
@@ -83,6 +85,7 @@ Use `npm run release:owner:record -- --list` to inspect H4/H5/H6 owner gates. Ow
 - [Troubleshooting guide](../troubleshooting.md)
 - [Known issues](known-issues.md)
 - [NPM publish runbook](npm-publish-runbook.md)
+- [Native workflow runbook](native-workflow-runbook.md)
 - [H4 Pro scope decision packet](h4-pro-scope.md)
 - [H4 owner decision memo](h4-owner-decision-memo.md)
 - [H5 Developer Preview evidence](h5-beta-gate-evidence.md)

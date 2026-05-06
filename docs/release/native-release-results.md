@@ -61,7 +61,7 @@ Non-blocking warnings observed:
 - Gradle emitted Expo/React Native deprecation warnings from generated native dependencies.
 - Gradle warned that the daemon would stop after running out of JVM metaspace; the release build still completed successfully.
 
-The GitHub `Native Release Checks` workflow configures Java and runs on an Android-capable hosted runner, so the next evidence step is a green workflow run.
+The GitHub `Native Release Checks` workflow configures Java and runs on an Android-capable hosted runner, so the next evidence step is a green workflow run. The default-branch dispatch and evidence-recording sequence is documented in [Native workflow runbook](native-workflow-runbook.md).
 
 When the workflow runs, download the `native-release-android` and `native-release-ios` artifacts. The archived logs are expected at:
 
