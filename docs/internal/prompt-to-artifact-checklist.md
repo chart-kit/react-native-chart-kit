@@ -34,7 +34,7 @@ Status on May 6, 2026: Developer Preview evidence is strong, but the full v2/v2 
 | `yarn lint` / `npm run lint`                       | `package.json`, `scripts/check-file-sizes.mjs`   | Defined; local verification uses npm scripts                 |
 | `yarn typecheck` / `npm run typecheck`             | `package.json`, workspace tsconfigs              | Defined                                                      |
 | `yarn test` / `npm run test`                       | `package.json`, Vitest tests                     | Defined                                                      |
-| `yarn test:unit` / `npm run test:unit`             | `package.json`, latest run: 67 files / 359 tests | Passing                                                      |
+| `yarn test:unit` / `npm run test:unit`             | `package.json`, latest run: 70 files / 384 tests | Passing                                                      |
 | `yarn test:visual` / `npm run test:visual`         | Expo showcase Playwright visual suite            | Defined                                                      |
 | `yarn test:compat` / `npm run test:compat`         | `packages/core/test/compat`                      | Defined                                                      |
 | `yarn test:e2e` / `npm run test:e2e`               | Expo showcase interaction suite                  | Defined                                                      |
@@ -63,14 +63,14 @@ Status on May 6, 2026: Developer Preview evidence is strong, but the full v2/v2 
 
 ## Release-Blocking Gaps
 
-| Gap                     | Blocking evidence                                                                                                         | Required next action                                                                                                    |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| Native runtime QA       | `docs/release/evidence/native-runtime-matrix.json` has 16 partial rows; iOS and Android row-level screenshots/logs exist  | Run row-by-row device/simulator interaction QA and record pass rows with `npm run release:qa:record`                    |
-| Native accessibility QA | `docs/release/evidence/native-accessibility-matrix.json` has 16 partial rows with row-level iOS/Android support artifacts | Run manual VoiceOver/TalkBack review and record pass evidence                                                           |
-| Native performance      | `docs/release/evidence/native-performance-matrix.json` has 18 partial rows                                                | Complete accepted device/Instruments review or explicitly approved target matrix                                        |
-| Skia native evidence    | `docs/release/evidence/skia-renderer-matrix.json` has 6 partial and 2 pending rows                                        | Install optional Skia renderer in native QA app, capture parity/performance evidence                                    |
-| Pro paid package        | `packages/pro` is preview metadata only                                                                                   | Implement paid package/licensing only after owner confirms commercial launch scope                                      |
-| H6 approval             | owner gate is `not-started`                                                                                               | Approve final semver, changelog, docs freeze, visual baseline freeze, and deprecation policy after evidence is complete |
+| Gap                     | Blocking evidence                                                                                                                           | Required next action                                                                                                    |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Native runtime QA       | `docs/release/evidence/native-runtime-matrix.json` has 16 partial rows; iOS and Android row-level screenshots/logs exist                    | Run row-by-row device/simulator interaction QA and record pass rows with `npm run release:qa:record`                    |
+| Native accessibility QA | `docs/release/evidence/native-accessibility-matrix.json` has 16 partial rows with row-level iOS/Android support artifacts                   | Run manual VoiceOver/TalkBack review and record pass evidence                                                           |
+| Native performance      | `docs/release/evidence/native-performance-matrix.json` has 18 partial rows                                                                  | Complete accepted device/Instruments review or explicitly approved target matrix                                        |
+| Skia native evidence    | `docs/release/evidence/skia-renderer-matrix.json` has 6 partial and 2 pending rows; iOS/Android optional-Skia install/build artifacts exist | Capture native renderer parity screenshots and SVG-vs-Skia performance evidence                                         |
+| Pro paid package        | `packages/pro` is preview metadata only                                                                                                     | Implement paid package/licensing only after owner confirms commercial launch scope                                      |
+| H6 approval             | owner gate is `not-started`                                                                                                                 | Approve final semver, changelog, docs freeze, visual baseline freeze, and deprecation policy after evidence is complete |
 
 ## Final Completion Rule
 
