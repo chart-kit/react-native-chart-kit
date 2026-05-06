@@ -44,6 +44,7 @@ These docs describe the current v2 preview implementation in this repository. Th
 - [Native runtime QA protocol](release/native-runtime-qa.md)
 - [Known issues](release/known-issues.md)
 - [Completion audit](internal/completion-audit.md)
+- [Prompt-to-artifact checklist](internal/prompt-to-artifact-checklist.md)
 
 ## Local Preview
 

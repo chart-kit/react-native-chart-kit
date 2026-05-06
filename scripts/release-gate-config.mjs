@@ -3,6 +3,7 @@ export const requiredFiles = [
   "docs/internal/current-api-inventory.md",
   "docs/internal/compatibility-matrix-draft.md",
   "docs/internal/completion-audit.md",
+  "docs/internal/prompt-to-artifact-checklist.md",
   "docs/release/beta-checklist.md",
   "docs/release/h4-pro-scope.md",
   "docs/release/h4-owner-decision-memo.md",
