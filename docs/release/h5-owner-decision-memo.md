@@ -84,3 +84,17 @@ Approve continued beta preparation with these next tasks:
 3. Decide whether the first beta is API-preview or production-beta.
 4. Keep native workflow and native performance gaps in known issues until workflow and device benchmark evidence are green on the release commit.
 5. Keep candlestick labeled Financial Preview.
+
+Record H5 approval only after H4 is approved and the owner accepts or edits the beta decisions:
+
+```sh
+npm run release:owner:record -- \
+  --gate h5 \
+  --approved-by <owner> \
+  --approved-at <yyyy-mm-dd> \
+  --decision "Continue beta preparation before npm publication." \
+  --decision "First beta may be labeled API Preview only if native evidence gaps remain." \
+  --decision "Compatibility package and modern package paths approved for beta review." \
+  --decision "Advanced interactions, financial charts, range selector, pan/zoom, animation, Skia, and large-data workflows remain preview or Pro-candidate until H4 final labels are approved." \
+  --decision "CandlestickChart remains Financial Preview."
+```
