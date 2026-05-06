@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "pending",
+  "status": "partial",
   "lastUpdated": "2026-05-06",
   "source": "docs/release/skia-renderer-qa.md",
   "platforms": [
@@ -42,43 +42,49 @@
       "id": "ios-skia-native-install",
       "platform": "ios",
       "scenarioId": "native-install",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": ["docs/release/artifacts/skia-local-baseline-2026-05-06.md"],
+      "notes": "Local package-boundary and pack dry-run evidence only; native iOS Skia install verification still required."
     },
     {
       "id": "android-skia-native-install",
       "platform": "android",
       "scenarioId": "native-install",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": ["docs/release/artifacts/skia-local-baseline-2026-05-06.md"],
+      "notes": "Local package-boundary and pack dry-run evidence only; native Android Skia install verification still required."
     },
     {
       "id": "ios-skia-free-chart-parity",
       "platform": "ios",
       "scenarioId": "free-chart-parity",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": ["docs/release/artifacts/skia-local-baseline-2026-05-06.md"],
+      "notes": "Local renderer-contract parity only; native iOS screenshot/interaction parity still required."
     },
     {
       "id": "android-skia-free-chart-parity",
       "platform": "android",
       "scenarioId": "free-chart-parity",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": ["docs/release/artifacts/skia-local-baseline-2026-05-06.md"],
+      "notes": "Local renderer-contract parity only; native Android screenshot/interaction parity still required."
     },
     {
       "id": "ios-skia-pro-preview-parity",
       "platform": "ios",
       "scenarioId": "pro-preview-parity",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": ["docs/release/artifacts/skia-local-baseline-2026-05-06.md"],
+      "notes": "Local Pro-preview renderer-contract parity only; native iOS screenshot/interaction parity still required."
     },
     {
       "id": "android-skia-pro-preview-parity",
       "platform": "android",
       "scenarioId": "pro-preview-parity",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": ["docs/release/artifacts/skia-local-baseline-2026-05-06.md"],
+      "notes": "Local Pro-preview renderer-contract parity only; native Android screenshot/interaction parity still required."
     },
     {
       "id": "ios-skia-performance-comparison",

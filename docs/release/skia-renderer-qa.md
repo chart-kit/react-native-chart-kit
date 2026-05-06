@@ -1,6 +1,6 @@
 # Skia Renderer QA Protocol
 
-Status on May 6, 2026: protocol ready, native Skia evidence missing. Structured gate evidence lives in [skia-renderer-evidence.json](evidence/skia-renderer-evidence.json), with install, renderer-parity, and performance rows in [skia-renderer-matrix.json](evidence/skia-renderer-matrix.json). Use the generated [native QA checklist](native-qa-checklists.md) for row-by-row execution.
+Status on May 6, 2026: protocol ready, local baseline recorded, native Skia evidence missing. Structured gate evidence lives in [skia-renderer-evidence.json](evidence/skia-renderer-evidence.json), with install, renderer-parity, and performance rows in [skia-renderer-matrix.json](evidence/skia-renderer-matrix.json). Use the generated [native QA checklist](native-qa-checklists.md) for row-by-row execution.
 
 This protocol covers the native evidence required before `@chart-kit/skia-renderer` can move beyond preview. Local renderer-contract tests prove that the injected primitive adapter can satisfy chart renderer contracts, but they do not prove native installation, native text rendering, native gradients, native clipping, or release-build performance.
 
@@ -21,6 +21,7 @@ Current automated coverage:
 - injected Skia primitives for canvas, groups, paths, rects, circles, lines, text, gradients, and clipped groups
 - local renderer-contract coverage for LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, CombinedChart, and CandlestickChart
 - package pack dry-run for `@chart-kit/skia-renderer` while keeping it unpublished for Developer Preview
+- local baseline artifact: [skia-local-baseline-2026-05-06.md](artifacts/skia-local-baseline-2026-05-06.md)
 
 This baseline is required but not enough for a pass row in the Skia evidence matrix.
 
