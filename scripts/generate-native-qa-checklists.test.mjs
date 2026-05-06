@@ -15,7 +15,7 @@ describe("native QA checklist generator", () => {
       "| Accessibility QA | 16 | 0 | 0 | 16 | 0 | 0 | 0 |"
     );
     expect(markdown).toContain(
-      "| Native Performance | 18 | 0 | 0 | 18 | 0 | 0 | 0 |"
+      "| Native Performance | 18 | 0 | 18 | 0 | 0 | 0 | 0 |"
     );
     expect(markdown).toContain("| Skia Renderer | 8 | 0 | 0 | 8 | 0 | 0 | 0 |");
     expect(markdown).toContain("`ios-line-charts`");

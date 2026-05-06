@@ -1,6 +1,6 @@
 # Native Performance Benchmark Protocol
 
-Status on May 6, 2026: protocol ready, Android release-emulator evidence captured for all Android SVG performance rows; iOS, physical-device acceptance, Skia, and final performance review are still missing. Structured gate evidence lives in [native-performance-benchmark.json](evidence/native-performance-benchmark.json), with the scenario matrix in [native-performance-matrix.json](evidence/native-performance-matrix.json). Use the generated [native QA checklist](native-qa-checklists.md) for row-by-row execution.
+Status on May 6, 2026: protocol ready, release simulator/emulator samples captured for all iOS and Android SVG performance rows; Instruments/device acceptance, Skia, and final performance review are still missing. Structured gate evidence lives in [native-performance-benchmark.json](evidence/native-performance-benchmark.json), with the scenario matrix in [native-performance-matrix.json](evidence/native-performance-matrix.json). Use the generated [native QA checklist](native-qa-checklists.md) for row-by-row execution.
 
 This protocol defines the native benchmark evidence required before production beta/RC can claim production performance confidence. The current `npm run benchmark` command covers core geometry and web showcase scrub timing. It does not measure native render time, native gesture frame pacing, release-build memory, or renderer-specific device behavior.
 
@@ -31,7 +31,7 @@ This baseline is useful for regression detection, but native release-device evid
 
 ## Local Sample Evidence
 
-The Android release APK was profiled on the `chartkit_api36` emulator for one visible Line Charts scenario on May 5 and all nine Android SVG performance matrix rows on May 6. The matrix-row samples launch each showcase fixture by deep link, collect Android `am start -W`, `dumpsys gfxinfo`, before/after `dumpsys meminfo`, gesture or tap input where applicable, and a screenshot.
+The Android release APK was profiled on the `chartkit_api36` emulator for one visible Line Charts scenario on May 5 and all nine Android SVG performance matrix rows on May 6. The iOS release app was sampled on the iPhone 17 simulator for all nine iOS SVG performance matrix rows on May 6. Android matrix-row samples launch each showcase fixture by deep link, collect Android `am start -W`, `dumpsys gfxinfo`, before/after `dumpsys meminfo`, gesture or tap input where applicable, and a screenshot. iOS matrix-row samples launch each showcase fixture by deep link and collect simulator launch command timing, process RSS, and a screenshot.
 
 Artifact:
 
@@ -45,6 +45,15 @@ Artifact:
 - [Android SVG scrollable bar horizontal scroll and selection](artifacts/android-svg-scrollable-bar-horizontal-scroll-and-selection-performance.md)
 - [Android SVG combined chart shared tooltip and legend](artifacts/android-svg-combined-chart-shared-tooltip-and-legend-performance.md)
 - [Android SVG candlestick pan, pinch, and tap inspection](artifacts/android-svg-candlestick-pan-pinch-and-tap-inspection-performance.md)
+- [iOS SVG small line initial render](artifacts/ios-svg-small-line-initial-render-performance.md)
+- [iOS SVG standard line scrub](artifacts/ios-svg-standard-line-scrub-performance.md)
+- [iOS SVG dense line decimated overview](artifacts/ios-svg-dense-line-decimated-overview-performance.md)
+- [iOS SVG multi-line shared tooltip scrub](artifacts/ios-svg-multi-line-shared-tooltip-scrub-performance.md)
+- [iOS SVG scrollable line one-finger pan](artifacts/ios-svg-scrollable-line-one-finger-pan-performance.md)
+- [iOS SVG range selector drag and thumb resize](artifacts/ios-svg-range-selector-drag-and-thumb-resize-performance.md)
+- [iOS SVG scrollable bar horizontal scroll and selection](artifacts/ios-svg-scrollable-bar-horizontal-scroll-and-selection-performance.md)
+- [iOS SVG combined chart shared tooltip and legend](artifacts/ios-svg-combined-chart-shared-tooltip-and-legend-performance.md)
+- [iOS SVG candlestick pan, pinch, and tap inspection](artifacts/ios-svg-candlestick-pan-pinch-and-tap-inspection-performance.md)
 
 Observed result:
 
@@ -52,8 +61,9 @@ Observed result:
 | ----------- | --------- | -------- | ------------------------------ | ----------- | -------- | ----------------------- | --------- | --------- | ---------- | ------------ |
 | May 5, 2026 | `4dd219e` | Android  | `chartkit_api36` emulator / 36 | Release APK | SVG      | Line animation `Replay` | 16 ms     | 18 ms     | 277,137 KB | Partial pass |
 | May 6, 2026 | `07b27db` | Android  | `sdk_gphone64_arm64` / 16      | Release APK | SVG      | Android SVG matrix rows | Per row   | Per row   | Per row    | Partial pass |
+| May 6, 2026 | `b8b0545` | iOS      | iPhone 17 simulator / 26.0     | Release app | SVG      | iOS SVG matrix rows     | Pending   | Pending   | Per row    | Partial pass |
 
-These samples are intentionally not counted as full production beta/RC performance evidence. The remaining required matrix still needs iOS, physical-device or explicitly accepted simulator/emulator sign-off, manual visible-correctness review, and Skia parity where supported.
+These samples are intentionally not counted as full production beta/RC performance evidence. The remaining required matrix still needs Instruments frame timing on iOS, physical-device or explicitly accepted simulator/emulator sign-off, manual visible-correctness review, and Skia parity where supported.
 
 ## Device Matrix
 
@@ -108,6 +118,16 @@ npm run release:performance:android -- \
 ```
 
 Use the generated record command with `--status partial` unless the row-specific criteria were reviewed on an accepted release target. These samples are useful for trend evidence, but they do not replace full physical-device or accepted simulator/emulator performance sign-off.
+
+For iOS release-simulator samples, the helper below opens the matrix row, captures simulator launch command timing, process RSS, and a screenshot into one markdown artifact:
+
+```sh
+npm run release:performance:ios -- \
+  --row ios-svg-standard-line-scrub \
+  --output docs/release/artifacts/ios-svg-standard-line-scrub-performance.md
+```
+
+Use the generated record command with `--status partial`. This helper does not replace Instruments frame timing, synthetic gesture profiling, or physical-device sign-off.
 
 ## Metrics To Capture
 

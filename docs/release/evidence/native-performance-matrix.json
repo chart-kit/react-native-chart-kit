@@ -156,72 +156,99 @@
       "platform": "ios",
       "renderer": "svg",
       "scenarioId": "small-line-initial-render",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/ios-svg-small-line-initial-render-performance.md"
+      ],
+      "notes": "iOS release-simulator sample captured with simctl openurl timing, process RSS, and screenshot; no Instruments frame timing or physical-device QA."
     },
     {
       "id": "ios-svg-standard-line-scrub",
       "platform": "ios",
       "renderer": "svg",
       "scenarioId": "standard-line-scrub",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/ios-svg-standard-line-scrub-performance.md"
+      ],
+      "notes": "iOS release-simulator sample captured with simctl openurl timing, process RSS, and screenshot; no Instruments frame timing, synthetic gesture, or physical-device QA."
     },
     {
       "id": "ios-svg-dense-line-decimated-overview",
       "platform": "ios",
       "renderer": "svg",
       "scenarioId": "dense-line-decimated-overview",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/ios-svg-dense-line-decimated-overview-performance.md"
+      ],
+      "notes": "iOS release-simulator sample captured with simctl openurl timing, process RSS, and screenshot; no Instruments frame timing or physical-device QA."
     },
     {
       "id": "ios-svg-multi-line-shared-tooltip-scrub",
       "platform": "ios",
       "renderer": "svg",
       "scenarioId": "multi-line-shared-tooltip-scrub",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/ios-svg-multi-line-shared-tooltip-scrub-performance.md"
+      ],
+      "notes": "iOS release-simulator sample captured with simctl openurl timing, process RSS, and screenshot; no Instruments frame timing, synthetic gesture, or physical-device QA."
     },
     {
       "id": "ios-svg-scrollable-line-one-finger-pan",
       "platform": "ios",
       "renderer": "svg",
       "scenarioId": "scrollable-line-one-finger-pan",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/ios-svg-scrollable-line-one-finger-pan-performance.md"
+      ],
+      "notes": "iOS release-simulator sample captured with simctl openurl timing, process RSS, and screenshot; no Instruments frame timing, synthetic gesture, or physical-device QA."
     },
     {
       "id": "ios-svg-range-selector-drag-and-thumb-resize",
       "platform": "ios",
       "renderer": "svg",
       "scenarioId": "range-selector-drag-and-thumb-resize",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/ios-svg-range-selector-drag-and-thumb-resize-performance.md"
+      ],
+      "notes": "iOS release-simulator sample captured with simctl openurl timing, process RSS, and screenshot; no Instruments frame timing, synthetic gesture, or physical-device QA."
     },
     {
       "id": "ios-svg-scrollable-bar-horizontal-scroll-and-selection",
       "platform": "ios",
       "renderer": "svg",
       "scenarioId": "scrollable-bar-horizontal-scroll-and-selection",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/ios-svg-scrollable-bar-horizontal-scroll-and-selection-performance.md"
+      ],
+      "notes": "iOS release-simulator sample captured with simctl openurl timing, process RSS, and screenshot; no Instruments frame timing, synthetic gesture, or physical-device QA."
     },
     {
       "id": "ios-svg-combined-chart-shared-tooltip-and-legend",
       "platform": "ios",
       "renderer": "svg",
       "scenarioId": "combined-chart-shared-tooltip-and-legend",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/ios-svg-combined-chart-shared-tooltip-and-legend-performance.md"
+      ],
+      "notes": "iOS release-simulator sample captured with simctl openurl timing, process RSS, and screenshot; no Instruments frame timing, synthetic gesture, or physical-device QA."
     },
     {
       "id": "ios-svg-candlestick-pan-pinch-and-tap-inspection",
       "platform": "ios",
       "renderer": "svg",
       "scenarioId": "candlestick-pan-pinch-and-tap-inspection",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/ios-svg-candlestick-pan-pinch-and-tap-inspection-performance.md"
+      ],
+      "notes": "iOS release-simulator sample captured with simctl openurl timing, process RSS, and screenshot; no Instruments frame timing, synthetic gesture, pinch, or physical-device QA."
     },
     {
       "id": "android-svg-small-line-initial-render",
