@@ -69,12 +69,24 @@ const getPageGroups = (page) =>
     .map((groupId) => `\`${groupId}\``)
     .join(", ");
 
+const getShowcaseLaunchUrl = (page) => {
+  if (!page?.showcasePageId) {
+    return "";
+  }
+
+  const params = new URLSearchParams();
+  params.set("view", "charts");
+  params.set("page", page.showcasePageId);
+
+  return `chartkitshowcase://showcase?${params.toString()}`;
+};
+
 const formatRuntimeRows = (matrix) => {
   const platforms = toIdMap(matrix.platforms);
   const pages = toIdMap(matrix.pages);
   const lines = [
-    "| Row | Target | Build Surface | Showcase Page | Check Groups | Status | Evidence |",
-    "| --- | --- | --- | --- | --- | --- | --- |"
+    "| Row | Target | Build Surface | Showcase Page | Deep Link | Check Groups | Status | Evidence |",
+    "| --- | --- | --- | --- | --- | --- | --- | --- |"
   ];
 
   for (const row of matrix.rows) {
@@ -86,6 +98,7 @@ const formatRuntimeRows = (matrix) => {
         `${platform?.label ?? row.platform} / ${page?.title ?? row.pageId}`,
         platform?.requiredBuildSurface ?? "",
         page?.showcasePageId ? `\`${page.showcasePageId}\`` : "",
+        getShowcaseLaunchUrl(page),
         getPageGroups(page),
         row.status,
         formatEvidence(row.evidence)
@@ -104,8 +117,8 @@ const formatAccessibilityRows = (matrix) => {
   const assistiveTech = toIdMap(matrix.assistiveTech);
   const pages = toIdMap(matrix.pages);
   const lines = [
-    "| Row | Target | Build Surface | Showcase Page | Check Groups | Status | Evidence |",
-    "| --- | --- | --- | --- | --- | --- | --- |"
+    "| Row | Target | Build Surface | Showcase Page | Deep Link | Check Groups | Status | Evidence |",
+    "| --- | --- | --- | --- | --- | --- | --- | --- |"
   ];
 
   for (const row of matrix.rows) {
@@ -117,6 +130,7 @@ const formatAccessibilityRows = (matrix) => {
         `${tech?.label ?? row.assistiveTechId} / ${page?.title ?? row.pageId}`,
         tech?.requiredBuildSurface ?? "",
         page?.showcasePageId ? `\`${page.showcasePageId}\`` : "",
+        getShowcaseLaunchUrl(page),
         getPageGroups(page),
         row.status,
         formatEvidence(row.evidence)

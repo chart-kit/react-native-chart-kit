@@ -71,24 +71,24 @@ Source: [docs/release/native-runtime-qa.md](native-runtime-qa.md) and [docs/rele
 
 ### Runtime Rows
 
-| Row | Target | Build Surface | Showcase Page | Check Groups | Status | Evidence |
-| --- | --- | --- | --- | --- | --- | --- |
-| `ios-line-charts` | iOS / Line Charts | Expo showcase and iOS release build | `line-area` | `global`, `line` | partial | `docs/release/artifacts/ios-runtime-smoke.png` |
-| `ios-bar-charts` | iOS / Bar Charts | Expo showcase and iOS release build | `bar` | `global`, `bar` | pending | None |
-| `ios-combined-preview` | iOS / Combined Preview | Expo showcase and iOS release build | `combined` | `global`, `combinedFinancial` | pending | None |
-| `ios-financial-preview` | iOS / Financial Preview | Expo showcase and iOS release build | `financial` | `global`, `combinedFinancial` | pending | None |
-| `ios-pie-donut` | iOS / Pie & Donut | Expo showcase and iOS release build | `pie-donut` | `global`, `radialHeatmap` | pending | None |
-| `ios-progress` | iOS / Progress | Expo showcase and iOS release build | `progress` | `global`, `radialHeatmap` | pending | None |
-| `ios-heatmaps` | iOS / Heatmaps | Expo showcase and iOS release build | `heatmaps` | `global`, `radialHeatmap` | pending | None |
-| `ios-compatibility` | iOS / Compatibility | Expo showcase and iOS release build | `compat` | `global`, `compat` | pending | None |
-| `android-line-charts` | Android / Line Charts | Expo showcase and Android release build | `line-area` | `global`, `line` | partial | `docs/release/artifacts/android-runtime-smoke.png` |
-| `android-bar-charts` | Android / Bar Charts | Expo showcase and Android release build | `bar` | `global`, `bar` | pending | None |
-| `android-combined-preview` | Android / Combined Preview | Expo showcase and Android release build | `combined` | `global`, `combinedFinancial` | pending | None |
-| `android-financial-preview` | Android / Financial Preview | Expo showcase and Android release build | `financial` | `global`, `combinedFinancial` | pending | None |
-| `android-pie-donut` | Android / Pie & Donut | Expo showcase and Android release build | `pie-donut` | `global`, `radialHeatmap` | pending | None |
-| `android-progress` | Android / Progress | Expo showcase and Android release build | `progress` | `global`, `radialHeatmap` | pending | None |
-| `android-heatmaps` | Android / Heatmaps | Expo showcase and Android release build | `heatmaps` | `global`, `radialHeatmap` | pending | None |
-| `android-compatibility` | Android / Compatibility | Expo showcase and Android release build | `compat` | `global`, `compat` | pending | None |
+| Row | Target | Build Surface | Showcase Page | Deep Link | Check Groups | Status | Evidence |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `ios-line-charts` | iOS / Line Charts | Expo showcase and iOS release build | `line-area` | chartkitshowcase://showcase?view=charts&page=line-area | `global`, `line` | partial | `docs/release/artifacts/ios-runtime-smoke.png` |
+| `ios-bar-charts` | iOS / Bar Charts | Expo showcase and iOS release build | `bar` | chartkitshowcase://showcase?view=charts&page=bar | `global`, `bar` | pending | None |
+| `ios-combined-preview` | iOS / Combined Preview | Expo showcase and iOS release build | `combined` | chartkitshowcase://showcase?view=charts&page=combined | `global`, `combinedFinancial` | pending | None |
+| `ios-financial-preview` | iOS / Financial Preview | Expo showcase and iOS release build | `financial` | chartkitshowcase://showcase?view=charts&page=financial | `global`, `combinedFinancial` | pending | None |
+| `ios-pie-donut` | iOS / Pie & Donut | Expo showcase and iOS release build | `pie-donut` | chartkitshowcase://showcase?view=charts&page=pie-donut | `global`, `radialHeatmap` | pending | None |
+| `ios-progress` | iOS / Progress | Expo showcase and iOS release build | `progress` | chartkitshowcase://showcase?view=charts&page=progress | `global`, `radialHeatmap` | pending | None |
+| `ios-heatmaps` | iOS / Heatmaps | Expo showcase and iOS release build | `heatmaps` | chartkitshowcase://showcase?view=charts&page=heatmaps | `global`, `radialHeatmap` | pending | None |
+| `ios-compatibility` | iOS / Compatibility | Expo showcase and iOS release build | `compat` | chartkitshowcase://showcase?view=charts&page=compat | `global`, `compat` | pending | None |
+| `android-line-charts` | Android / Line Charts | Expo showcase and Android release build | `line-area` | chartkitshowcase://showcase?view=charts&page=line-area | `global`, `line` | partial | `docs/release/artifacts/android-runtime-smoke.png` |
+| `android-bar-charts` | Android / Bar Charts | Expo showcase and Android release build | `bar` | chartkitshowcase://showcase?view=charts&page=bar | `global`, `bar` | pending | None |
+| `android-combined-preview` | Android / Combined Preview | Expo showcase and Android release build | `combined` | chartkitshowcase://showcase?view=charts&page=combined | `global`, `combinedFinancial` | pending | None |
+| `android-financial-preview` | Android / Financial Preview | Expo showcase and Android release build | `financial` | chartkitshowcase://showcase?view=charts&page=financial | `global`, `combinedFinancial` | pending | None |
+| `android-pie-donut` | Android / Pie & Donut | Expo showcase and Android release build | `pie-donut` | chartkitshowcase://showcase?view=charts&page=pie-donut | `global`, `radialHeatmap` | pending | None |
+| `android-progress` | Android / Progress | Expo showcase and Android release build | `progress` | chartkitshowcase://showcase?view=charts&page=progress | `global`, `radialHeatmap` | pending | None |
+| `android-heatmaps` | Android / Heatmaps | Expo showcase and Android release build | `heatmaps` | chartkitshowcase://showcase?view=charts&page=heatmaps | `global`, `radialHeatmap` | pending | None |
+| `android-compatibility` | Android / Compatibility | Expo showcase and Android release build | `compat` | chartkitshowcase://showcase?view=charts&page=compat | `global`, `compat` | pending | None |
 
 ## Accessibility QA
 
@@ -116,24 +116,24 @@ Source: [docs/release/accessibility-qa.md](accessibility-qa.md) and [docs/releas
 
 ### Accessibility Rows
 
-| Row | Target | Build Surface | Showcase Page | Check Groups | Status | Evidence |
-| --- | --- | --- | --- | --- | --- | --- |
-| `ios-voiceover-line-charts` | iOS VoiceOver / Line Charts | Expo showcase or iOS release app | `line-area` | `global`, `tableFallback` | pending | None |
-| `ios-voiceover-bar-charts` | iOS VoiceOver / Bar Charts | Expo showcase or iOS release app | `bar` | `global`, `tableFallback` | pending | None |
-| `ios-voiceover-combined-preview` | iOS VoiceOver / Combined Preview | Expo showcase or iOS release app | `combined` | `global`, `tableFallback` | pending | None |
-| `ios-voiceover-financial-preview` | iOS VoiceOver / Financial Preview | Expo showcase or iOS release app | `financial` | `global`, `tableFallback` | pending | None |
-| `ios-voiceover-pie-donut` | iOS VoiceOver / Pie & Donut | Expo showcase or iOS release app | `pie-donut` | `global`, `tableFallback` | pending | None |
-| `ios-voiceover-progress` | iOS VoiceOver / Progress | Expo showcase or iOS release app | `progress` | `global`, `tableFallback` | pending | None |
-| `ios-voiceover-heatmaps` | iOS VoiceOver / Heatmaps | Expo showcase or iOS release app | `heatmaps` | `global`, `tableFallback` | pending | None |
-| `ios-voiceover-compatibility` | iOS VoiceOver / Compatibility | Expo showcase or iOS release app | `compat` | `global` | pending | None |
-| `android-talkback-line-charts` | Android TalkBack / Line Charts | Expo showcase or Android release app | `line-area` | `global`, `tableFallback` | pending | None |
-| `android-talkback-bar-charts` | Android TalkBack / Bar Charts | Expo showcase or Android release app | `bar` | `global`, `tableFallback` | pending | None |
-| `android-talkback-combined-preview` | Android TalkBack / Combined Preview | Expo showcase or Android release app | `combined` | `global`, `tableFallback` | pending | None |
-| `android-talkback-financial-preview` | Android TalkBack / Financial Preview | Expo showcase or Android release app | `financial` | `global`, `tableFallback` | pending | None |
-| `android-talkback-pie-donut` | Android TalkBack / Pie & Donut | Expo showcase or Android release app | `pie-donut` | `global`, `tableFallback` | pending | None |
-| `android-talkback-progress` | Android TalkBack / Progress | Expo showcase or Android release app | `progress` | `global`, `tableFallback` | pending | None |
-| `android-talkback-heatmaps` | Android TalkBack / Heatmaps | Expo showcase or Android release app | `heatmaps` | `global`, `tableFallback` | pending | None |
-| `android-talkback-compatibility` | Android TalkBack / Compatibility | Expo showcase or Android release app | `compat` | `global` | pending | None |
+| Row | Target | Build Surface | Showcase Page | Deep Link | Check Groups | Status | Evidence |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `ios-voiceover-line-charts` | iOS VoiceOver / Line Charts | Expo showcase or iOS release app | `line-area` | chartkitshowcase://showcase?view=charts&page=line-area | `global`, `tableFallback` | pending | None |
+| `ios-voiceover-bar-charts` | iOS VoiceOver / Bar Charts | Expo showcase or iOS release app | `bar` | chartkitshowcase://showcase?view=charts&page=bar | `global`, `tableFallback` | pending | None |
+| `ios-voiceover-combined-preview` | iOS VoiceOver / Combined Preview | Expo showcase or iOS release app | `combined` | chartkitshowcase://showcase?view=charts&page=combined | `global`, `tableFallback` | pending | None |
+| `ios-voiceover-financial-preview` | iOS VoiceOver / Financial Preview | Expo showcase or iOS release app | `financial` | chartkitshowcase://showcase?view=charts&page=financial | `global`, `tableFallback` | pending | None |
+| `ios-voiceover-pie-donut` | iOS VoiceOver / Pie & Donut | Expo showcase or iOS release app | `pie-donut` | chartkitshowcase://showcase?view=charts&page=pie-donut | `global`, `tableFallback` | pending | None |
+| `ios-voiceover-progress` | iOS VoiceOver / Progress | Expo showcase or iOS release app | `progress` | chartkitshowcase://showcase?view=charts&page=progress | `global`, `tableFallback` | pending | None |
+| `ios-voiceover-heatmaps` | iOS VoiceOver / Heatmaps | Expo showcase or iOS release app | `heatmaps` | chartkitshowcase://showcase?view=charts&page=heatmaps | `global`, `tableFallback` | pending | None |
+| `ios-voiceover-compatibility` | iOS VoiceOver / Compatibility | Expo showcase or iOS release app | `compat` | chartkitshowcase://showcase?view=charts&page=compat | `global` | pending | None |
+| `android-talkback-line-charts` | Android TalkBack / Line Charts | Expo showcase or Android release app | `line-area` | chartkitshowcase://showcase?view=charts&page=line-area | `global`, `tableFallback` | pending | None |
+| `android-talkback-bar-charts` | Android TalkBack / Bar Charts | Expo showcase or Android release app | `bar` | chartkitshowcase://showcase?view=charts&page=bar | `global`, `tableFallback` | pending | None |
+| `android-talkback-combined-preview` | Android TalkBack / Combined Preview | Expo showcase or Android release app | `combined` | chartkitshowcase://showcase?view=charts&page=combined | `global`, `tableFallback` | pending | None |
+| `android-talkback-financial-preview` | Android TalkBack / Financial Preview | Expo showcase or Android release app | `financial` | chartkitshowcase://showcase?view=charts&page=financial | `global`, `tableFallback` | pending | None |
+| `android-talkback-pie-donut` | Android TalkBack / Pie & Donut | Expo showcase or Android release app | `pie-donut` | chartkitshowcase://showcase?view=charts&page=pie-donut | `global`, `tableFallback` | pending | None |
+| `android-talkback-progress` | Android TalkBack / Progress | Expo showcase or Android release app | `progress` | chartkitshowcase://showcase?view=charts&page=progress | `global`, `tableFallback` | pending | None |
+| `android-talkback-heatmaps` | Android TalkBack / Heatmaps | Expo showcase or Android release app | `heatmaps` | chartkitshowcase://showcase?view=charts&page=heatmaps | `global`, `tableFallback` | pending | None |
+| `android-talkback-compatibility` | Android TalkBack / Compatibility | Expo showcase or Android release app | `compat` | chartkitshowcase://showcase?view=charts&page=compat | `global` | pending | None |
 
 ## Native Performance
 

@@ -19,6 +19,12 @@ describe("native QA checklist generator", () => {
     );
     expect(markdown).toContain("| Skia Renderer | 8 | 0 | 0 | 8 | 0 | 0 | 0 |");
     expect(markdown).toContain("`ios-line-charts`");
+    expect(markdown).toContain(
+      "chartkitshowcase://showcase?view=charts&page=line-area"
+    );
+    expect(markdown).toContain(
+      "chartkitshowcase://showcase?view=charts&page=compat"
+    );
     expect(markdown).toContain("`android-talkback-compatibility`");
     expect(markdown).toContain("`ios-svg-standard-line-scrub`");
     expect(markdown).toContain("`ios-skia-native-install`");
