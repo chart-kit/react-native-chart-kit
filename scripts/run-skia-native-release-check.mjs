@@ -148,13 +148,7 @@ export const buildSkiaNativeCommandPlan = ({
       cwd: workspaceDir
     },
     {
-      args: [
-        "install",
-        skiaPackage,
-        "--no-save",
-        "--package-lock=false",
-        "--workspaces=false"
-      ],
+      args: ["install", skiaPackage, "--workspaces=false"],
       command: "npm",
       cwd: showcaseDir
     },
