@@ -8,7 +8,8 @@ const outputPath = "docs/release/native-qa-checklists.md";
 const matrixPaths = {
   accessibility: "docs/release/evidence/native-accessibility-matrix.json",
   performance: "docs/release/evidence/native-performance-matrix.json",
-  runtime: "docs/release/evidence/native-runtime-matrix.json"
+  runtime: "docs/release/evidence/native-runtime-matrix.json",
+  skia: "docs/release/evidence/skia-renderer-matrix.json"
 };
 
 const statusOrder = ["pass", "pending", "blocked", "fail", "not-applicable"];
@@ -154,15 +155,46 @@ const formatPerformanceRows = (matrix) => {
   return lines.join("\n");
 };
 
+const formatSkiaRows = (matrix) => {
+  const platforms = toIdMap(matrix.platforms);
+  const scenarios = toIdMap(matrix.scenarios);
+  const lines = [
+    "| Row | Target | Build Surface | Required Evidence | Status | Evidence |",
+    "| --- | --- | --- | --- | --- | --- |"
+  ];
+
+  for (const row of matrix.rows) {
+    const platform = platforms.get(row.platform);
+    const scenario = scenarios.get(row.scenarioId);
+    lines.push(
+      [
+        `\`${row.id}\``,
+        `${platform?.label ?? row.platform} / ${scenario?.label ?? row.scenarioId}`,
+        platform?.requiredBuildSurface ?? "",
+        scenario?.requiredEvidence ?? "",
+        row.status,
+        formatEvidence(row.evidence)
+      ]
+        .map(escapeTableValue)
+        .join(" | ")
+        .replace(/^/, "| ")
+        .replace(/$/, " |")
+    );
+  }
+
+  return lines.join("\n");
+};
+
 export const generateNativeQaChecklist = async ({
   repoRoot = defaultRepoRoot
 } = {}) => {
-  const [runtime, accessibility, performance] = await Promise.all([
+  const [runtime, accessibility, performance, skia] = await Promise.all([
     readRepoJson(repoRoot, matrixPaths.runtime),
     readRepoJson(repoRoot, matrixPaths.accessibility),
-    readRepoJson(repoRoot, matrixPaths.performance)
+    readRepoJson(repoRoot, matrixPaths.performance),
+    readRepoJson(repoRoot, matrixPaths.skia)
   ]);
-  const latestUpdated = [runtime, accessibility, performance]
+  const latestUpdated = [runtime, accessibility, performance, skia]
     .map((matrix) => matrix.lastUpdated)
     .sort()
     .at(-1);
@@ -172,7 +204,7 @@ export const generateNativeQaChecklist = async ({
     "",
     "<!-- prettier-ignore-start -->",
     "",
-    `Generated from native evidence matrices last updated ${latestUpdated}. Regenerate with \`npm run release:qa:checklists\`. Record row evidence with \`npm run release:qa:record -- --matrix runtime --row ios-line-charts --status pass --evidence docs/release/artifacts/example.md\`. Do not mark a row as \`pass\` without evidence links in the source matrix.`,
+    `Generated from native and Skia evidence matrices last updated ${latestUpdated}. Regenerate with \`npm run release:qa:checklists\`. Record row evidence with \`npm run release:qa:record -- --matrix runtime --row ios-line-charts --status pass --evidence docs/release/artifacts/example.md\` or \`--matrix skia\` for Skia rows. Do not mark a row as \`pass\` without evidence links in the source matrix.`,
     "",
     "## Matrix Summary",
     "",
@@ -181,6 +213,7 @@ export const generateNativeQaChecklist = async ({
     formatStatusSummary("Runtime QA", runtime),
     formatStatusSummary("Accessibility QA", accessibility),
     formatStatusSummary("Native Performance", performance),
+    formatStatusSummary("Skia Renderer", skia),
     "",
     "## Runtime QA",
     "",
@@ -230,6 +263,14 @@ export const generateNativeQaChecklist = async ({
       (row) =>
         `- \`${row.renderer}\`: ${row.status}. ${row.reason ?? "No reason recorded."}`
     ),
+    "",
+    "## Skia Renderer",
+    "",
+    `Source: [${skia.source}](${path.relative("docs/release", skia.source)}) and [${matrixPaths.skia}](evidence/skia-renderer-matrix.json).`,
+    "",
+    "### Skia Rows",
+    "",
+    formatSkiaRows(skia),
     "",
     "<!-- prettier-ignore-end -->",
     ""

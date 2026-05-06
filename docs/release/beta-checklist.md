@@ -49,7 +49,7 @@ The `docs:build` command validates local links, balanced code fences, JS/TS mark
 
 The `pack:check` command runs `npm pack --dry-run --json --ignore-scripts` for every package in the release package manifest, using a repo-local temp npm cache. It verifies package names, package metadata, README files, built `dist` entrypoints, and the modern `pro-preview` subpath artifacts. The publish workflow reads the same manifest for the beta publish list so preview-only packages cannot be published by an unrelated hardcoded loop.
 
-Use `npm run release:qa:record -- --matrix runtime --list` to inspect native QA matrix rows, and use the same command with `--row`, `--status`, and `--evidence` after a manual device pass. Use `--matrix skia` for Skia renderer install, parity, and performance evidence. The recorder rejects `pass` rows without evidence links and regenerates [native QA checklist](native-qa-checklists.md) for native runtime/accessibility/performance rows.
+Use `npm run release:qa:record -- --matrix runtime --list` to inspect native QA matrix rows, and use the same command with `--row`, `--status`, and `--evidence` after a manual device pass. Use `--matrix skia` for Skia renderer install, parity, and performance evidence. The recorder rejects `pass` rows without evidence links and regenerates [native QA checklist](native-qa-checklists.md).
 
 Use `npm run release:owner:record -- --list` to inspect H4/H5/H6 owner gates. Owner approval should be recorded through the same command with `--gate`, `--approved-by`, and one `--decision` value for each pending decision.
 

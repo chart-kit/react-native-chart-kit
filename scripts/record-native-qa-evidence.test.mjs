@@ -122,7 +122,7 @@ describe("native QA evidence recorder", () => {
     });
   });
 
-  it("records Skia matrix evidence without regenerating the native QA checklist", async () => {
+  it("records Skia matrix evidence and regenerates the release QA checklist", async () => {
     const tempRepo = await createTempRepo();
     const result = await recordNativeQaEvidence({
       evidence: ["docs/release/artifacts/skia-ios-install.md"],
@@ -139,11 +139,13 @@ describe("native QA evidence recorder", () => {
       )
     );
 
-    await expect(
-      readFile(join(tempRepo, "docs/release/native-qa-checklists.md"), "utf8")
-    ).rejects.toThrow();
+    const checklist = await readFile(
+      join(tempRepo, "docs/release/native-qa-checklists.md"),
+      "utf8"
+    );
+
     expect(result).toMatchObject({
-      checklistPath: undefined,
+      checklistPath: "docs/release/native-qa-checklists.md",
       matrixPath: "docs/release/evidence/skia-renderer-matrix.json",
       status: "partial"
     });
@@ -151,5 +153,7 @@ describe("native QA evidence recorder", () => {
       evidence: ["docs/release/artifacts/skia-ios-install.md"],
       status: "pass"
     });
+    expect(checklist).toContain("| Skia Renderer | 8 | 1 | 7 | 0 | 0 | 0 |");
+    expect(checklist).toContain("`ios-skia-native-install`");
   });
 });

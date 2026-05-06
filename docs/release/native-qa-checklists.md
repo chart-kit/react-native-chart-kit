@@ -2,7 +2,7 @@
 
 <!-- prettier-ignore-start -->
 
-Generated from native evidence matrices last updated 2026-05-05. Regenerate with `npm run release:qa:checklists`. Record row evidence with `npm run release:qa:record -- --matrix runtime --row ios-line-charts --status pass --evidence docs/release/artifacts/example.md`. Do not mark a row as `pass` without evidence links in the source matrix.
+Generated from native and Skia evidence matrices last updated 2026-05-06. Regenerate with `npm run release:qa:checklists`. Record row evidence with `npm run release:qa:record -- --matrix runtime --row ios-line-charts --status pass --evidence docs/release/artifacts/example.md` or `--matrix skia` for Skia rows. Do not mark a row as `pass` without evidence links in the source matrix.
 
 ## Matrix Summary
 
@@ -11,6 +11,7 @@ Generated from native evidence matrices last updated 2026-05-05. Regenerate with
 | Runtime QA | 16 | 0 | 16 | 0 | 0 | 0 |
 | Accessibility QA | 16 | 0 | 16 | 0 | 0 | 0 |
 | Native Performance | 18 | 0 | 18 | 0 | 0 | 0 |
+| Skia Renderer | 8 | 0 | 8 | 0 | 0 | 0 |
 
 ## Runtime QA
 
@@ -180,5 +181,22 @@ Source: [docs/release/native-performance-benchmark.md](native-performance-benchm
 ### Deferred Rows
 
 - `skia`: blocked. Native Skia install and renderer parity evidence are not complete.
+
+## Skia Renderer
+
+Source: [docs/release/h4-pro-scope.md](h4-pro-scope.md) and [docs/release/evidence/skia-renderer-matrix.json](evidence/skia-renderer-matrix.json).
+
+### Skia Rows
+
+| Row | Target | Build Surface | Required Evidence | Status | Evidence |
+| --- | --- | --- | --- | --- | --- |
+| `ios-skia-native-install` | iOS / Native Skia install verification | Release build on device or accepted simulator with optional Skia renderer installed | Install optional Skia renderer dependencies, run native release build, and verify the SVG default path still works without static Skia imports. | pending | None |
+| `android-skia-native-install` | Android / Native Skia install verification | Release APK on device or accepted emulator with optional Skia renderer installed | Install optional Skia renderer dependencies, run native release build, and verify the SVG default path still works without static Skia imports. | pending | None |
+| `ios-skia-free-chart-parity` | iOS / Free chart renderer parity | Release build on device or accepted simulator with optional Skia renderer installed | Line, Area, Bar, StackedBar, Pie, Donut, Progress, and Contribution surfaces render with injected Skia primitives without missing text, gradients, clipping, tooltips, or legends. | pending | None |
+| `android-skia-free-chart-parity` | Android / Free chart renderer parity | Release APK on device or accepted emulator with optional Skia renderer installed | Line, Area, Bar, StackedBar, Pie, Donut, Progress, and Contribution surfaces render with injected Skia primitives without missing text, gradients, clipping, tooltips, or legends. | pending | None |
+| `ios-skia-pro-preview-parity` | iOS / Pro preview renderer parity | Release build on device or accepted simulator with optional Skia renderer installed | Combined, Candlestick, range selector, sticky axis, crosshair, tooltip, and debug-layout preview surfaces render correctly with injected Skia primitives. | pending | None |
+| `android-skia-pro-preview-parity` | Android / Pro preview renderer parity | Release APK on device or accepted emulator with optional Skia renderer installed | Combined, Candlestick, range selector, sticky axis, crosshair, tooltip, and debug-layout preview surfaces render correctly with injected Skia primitives. | pending | None |
+| `ios-skia-performance-comparison` | iOS / Skia performance comparison | Release build on device or accepted simulator with optional Skia renderer installed | Compare SVG and Skia native release-build timing and memory on dense line, multi-line scrub, range selector, scrollable bar, combined, and candlestick scenarios. | pending | None |
+| `android-skia-performance-comparison` | Android / Skia performance comparison | Release APK on device or accepted emulator with optional Skia renderer installed | Compare SVG and Skia native release-build timing and memory on dense line, multi-line scrub, range selector, scrollable bar, combined, and candlestick scenarios. | pending | None |
 
 <!-- prettier-ignore-end -->
