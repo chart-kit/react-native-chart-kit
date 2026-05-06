@@ -11,6 +11,9 @@ on:
       - packages/**
       - scripts/run-expo-native-release-check.mjs
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   android-release:
     name: Android Release Build
