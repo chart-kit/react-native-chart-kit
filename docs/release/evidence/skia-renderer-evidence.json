@@ -28,6 +28,16 @@
         "packages/react-native/test/candlestick-renderer.test.ts"
       ],
       "notes": "Local primitive tests plus LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, CombinedChart, and CandlestickChart renderer contract tests run through npm run skia:parity. The local tests cover Skia font-backed text measurement, measured text anchors, and the injected sticky Y-axis label path."
+    },
+    {
+      "date": "2026-05-06",
+      "scope": "native-qa-helper",
+      "result": "partial-pass",
+      "artifacts": [
+        "scripts/run-skia-native-release-check.mjs",
+        "scripts/run-skia-native-release-check.test.mjs"
+      ],
+      "notes": "The optional-Skia native release helper plans and runs QA in a temporary workspace so @shopify/react-native-skia is not committed to the free showcase package. Native install, renderer parity, and performance rows still require successful platform runs and review evidence."
     }
   ],
   "coveredSurfaces": [

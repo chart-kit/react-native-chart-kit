@@ -29,6 +29,15 @@ This baseline is required but not enough for a pass row in the Skia evidence mat
 
 Use a temporary QA branch or throwaway working tree for native Skia install verification until the final Pro package is ready. Do not publish `@chart-kit/skia-renderer` or add permanent Skia runtime dependencies to the free package before owner approval.
 
+Use the Skia native release helper to exercise that temporary path without committing `@shopify/react-native-skia` to the free showcase package:
+
+```sh
+npm run skia:native:dry-run
+npm run skia:native:release -- --platform android --artifact docs/release/artifacts/android-skia-native-install.md
+```
+
+The helper creates a temporary workspace from the current committed repo state, runs `npm ci`, installs the Skia peer into only that temporary showcase workspace, and delegates to the normal Expo native release check. It removes the temporary workspace unless `--keep-temp` is provided.
+
 Required checks:
 
 - install `@shopify/react-native-skia` into the Expo showcase QA app
