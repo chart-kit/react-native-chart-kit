@@ -1,13 +1,16 @@
 {
   "schemaVersion": 1,
-  "lastUpdated": "2026-05-05",
+  "lastUpdated": "2026-05-06",
   "gates": [
     {
       "id": "h4",
       "name": "Pro/free boundary approval",
       "status": "open",
       "requiredFor": ["H5", "H6"],
-      "evidence": ["docs/release/h4-pro-scope.md"],
+      "evidence": [
+        "docs/release/h4-pro-scope.md",
+        "docs/release/h4-owner-decision-memo.md"
+      ],
       "pendingDecisions": [
         "final free-vs-Pro feature boundary",
         "@chart-kit/pro package split",
@@ -38,7 +41,10 @@
       "name": "Release-candidate approval",
       "status": "not-started",
       "requiredFor": ["H6"],
-      "evidence": ["docs/internal/completion-audit.md"],
+      "evidence": [
+        "docs/internal/completion-audit.md",
+        "docs/release/h6-owner-decision-memo.md"
+      ],
       "pendingDecisions": [
         "release candidate approval",
         "final semver",
