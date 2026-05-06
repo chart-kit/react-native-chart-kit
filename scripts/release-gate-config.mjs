@@ -1,0 +1,136 @@
+export const requiredFiles = [
+  "docs/internal/repo-audit.md",
+  "docs/internal/current-api-inventory.md",
+  "docs/internal/compatibility-matrix-draft.md",
+  "docs/internal/completion-audit.md",
+  "docs/release/beta-checklist.md",
+  "docs/release/h4-pro-scope.md",
+  "docs/release/h4-owner-decision-memo.md",
+  "docs/release/h5-beta-gate-evidence.md",
+  "docs/release/h5-owner-decision-memo.md",
+  "docs/release/h6-owner-decision-memo.md",
+  "docs/release/known-issues.md",
+  "docs/release/native-workflow-runbook.md",
+  "docs/release/native-qa-checklists.md",
+  "docs/release/native-performance-benchmark.md",
+  "docs/release/native-release-checks.md",
+  "docs/release/native-release-results.md",
+  "docs/release/native-runtime-qa.md",
+  "docs/release/accessibility-qa.md",
+  "docs/release/evidence/native-accessibility-matrix.json",
+  "docs/release/evidence/native-accessibility-qa.json",
+  "docs/release/evidence/native-performance-matrix.json",
+  "docs/release/evidence/native-performance-benchmark.json",
+  "docs/release/evidence/native-release-workflow.json",
+  "docs/release/evidence/native-runtime-matrix.json",
+  "docs/release/evidence/native-runtime-qa.json",
+  "docs/release/evidence/npm-publish-evidence.json",
+  "docs/release/evidence/owner-gates.json",
+  "docs/release/evidence/package-manifest.json",
+  "docs/release/evidence/skia-renderer-evidence.json",
+  "docs/release/evidence/skia-renderer-matrix.json",
+  ".github/workflows/publish.yml",
+  ".github/workflows/native-release.yml",
+  "scripts/release-gate-config.mjs",
+  "scripts/release-gate-validation.mjs",
+  "scripts/generate-native-qa-checklists.mjs",
+  "scripts/record-native-workflow-evidence.mjs",
+  "scripts/record-owner-gate-decision.mjs",
+  "scripts/record-native-qa-evidence.mjs",
+  "packages/core/package.json",
+  "packages/react-native/package.json",
+  "packages/svg-renderer/package.json",
+  "packages/skia-renderer/package.json",
+  "packages/pro/package.json",
+  "apps/expo-showcase/package.json",
+  "apps/expo-showcase/src/storyRegistry.tsx",
+  "apps/expo-showcase/src/stories/performanceStoryMetadata.json",
+  "apps/expo-showcase/visual/stories.ts",
+  "examples/rn-cli-basic/package.json"
+];
+
+export const requiredScripts = [
+  "lint",
+  "typecheck",
+  "test",
+  "test:unit",
+  "test:visual",
+  "test:compat",
+  "test:e2e",
+  "benchmark",
+  "boundaries:check",
+  "example:ios",
+  "example:android",
+  "example:expo",
+  "docs:build",
+  "surface:check",
+  "skia:parity",
+  "native:release:dry-run",
+  "native:release:android",
+  "native:release:ios",
+  "pack:check",
+  "release:native-workflow:record",
+  "release:qa:checklists",
+  "release:qa:checklists:check",
+  "release:qa:record",
+  "release:owner:record",
+  "release:publish:status",
+  "release:gate",
+  "release:gate:report"
+];
+
+export const releaseBlockers = [
+  {
+    id: "audit-not-complete",
+    file: "docs/internal/completion-audit.md",
+    pattern: /Status on .*: not complete\./,
+    message: "Completion audit still says the v2/v2 Pro plan is not complete."
+  },
+  {
+    id: "native-android-release",
+    file: "docs/release/known-issues.md",
+    pattern: /Android .*blocked locally by missing Android SDK/i,
+    message:
+      "Android release-build evidence is still blocked locally by Android SDK configuration."
+  }
+];
+
+export const releaseEvidenceManifests = [
+  {
+    id: "developer-preview-publish",
+    file: "docs/release/evidence/npm-publish-evidence.json"
+  },
+  {
+    id: "native-workflow-evidence",
+    file: "docs/release/evidence/native-release-workflow.json"
+  },
+  {
+    id: "skia-backend",
+    file: "docs/release/evidence/skia-renderer-evidence.json",
+    matrixFile: "docs/release/evidence/skia-renderer-matrix.json",
+    matrixLabel: "Skia renderer evidence rows"
+  },
+  {
+    id: "native-runtime-qa",
+    file: "docs/release/evidence/native-runtime-qa.json",
+    matrixFile: "docs/release/evidence/native-runtime-matrix.json"
+  },
+  {
+    id: "native-accessibility-qa",
+    file: "docs/release/evidence/native-accessibility-qa.json",
+    matrixFile: "docs/release/evidence/native-accessibility-matrix.json",
+    matrixLabel: "native accessibility matrix rows"
+  },
+  {
+    id: "native-performance",
+    file: "docs/release/evidence/native-performance-benchmark.json",
+    matrixFile: "docs/release/evidence/native-performance-matrix.json",
+    matrixLabel: "native performance matrix rows"
+  }
+];
+
+export const ownerGateMessages = {
+  h4: "H4 Pro/free boundary approval is still open.",
+  h5: "H5 Developer Preview approval is still open.",
+  h6: "H6 release-candidate approval is not started."
+};
