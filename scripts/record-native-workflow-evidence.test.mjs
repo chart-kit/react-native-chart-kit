@@ -1,6 +1,12 @@
-import { copyFile, mkdir, mkdtemp, readFile } from "node:fs/promises";
+import {
+  copyFile,
+  mkdir,
+  mkdtemp,
+  readFile,
+  writeFile
+} from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -21,6 +27,13 @@ const createTempRepo = async () => {
   );
 
   return tempRepo;
+};
+
+const createArtifact = async (repoRoot, relativePath) => {
+  const artifactPath = join(repoRoot, relativePath);
+
+  await mkdir(dirname(artifactPath), { recursive: true });
+  await writeFile(artifactPath, "workflow evidence\n", "utf8");
 };
 
 describe("native workflow evidence recorder", () => {
@@ -69,6 +82,49 @@ describe("native workflow evidence recorder", () => {
       status: "complete"
     });
     expect(manifest.status).toBe("partial");
+  });
+
+  it("requires local artifact evidence files to exist when artifact values are not URLs", async () => {
+    const tempRepo = await createTempRepo();
+
+    await expect(
+      recordNativeWorkflowEvidence({
+        androidArtifact:
+          "docs/release/artifacts/native-workflow/android-release.log",
+        commit: "abc123",
+        iosArtifact: "docs/release/artifacts/native-workflow/ios-release.log",
+        repoRoot: tempRepo,
+        runUrl: "https://github.com/example/repo/actions/runs/1"
+      })
+    ).rejects.toThrow("Artifact evidence must be an external URL");
+  });
+
+  it("accepts existing local workflow artifact files", async () => {
+    const tempRepo = await createTempRepo();
+
+    await createArtifact(
+      tempRepo,
+      "docs/release/artifacts/native-workflow/ios-release.log"
+    );
+    await createArtifact(
+      tempRepo,
+      "docs/release/artifacts/native-workflow/android-release.log"
+    );
+
+    const result = await recordNativeWorkflowEvidence({
+      androidArtifact:
+        "docs/release/artifacts/native-workflow/android-release.log",
+      commit: "abc123",
+      dryRun: true,
+      iosArtifact: "docs/release/artifacts/native-workflow/ios-release.log",
+      repoRoot: tempRepo,
+      runUrl: "https://github.com/example/repo/actions/runs/1"
+    });
+
+    expect(result).toMatchObject({
+      dryRun: true,
+      status: "complete"
+    });
   });
 
   it("marks workflow evidence complete with archived platform artifacts", async () => {

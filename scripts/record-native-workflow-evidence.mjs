@@ -1,4 +1,4 @@
-import { readFile, writeFile } from "node:fs/promises";
+import { access, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
@@ -17,6 +17,17 @@ const writeJson = async (repoRoot, relativePath, value) =>
   );
 
 const getToday = () => new Date().toISOString().slice(0, 10);
+
+const isExternalEvidenceLink = (value) => /^https?:\/\//.test(value);
+
+const pathExists = async (repoRoot, relativePath) => {
+  try {
+    await access(path.join(repoRoot, relativePath));
+    return true;
+  } catch {
+    return false;
+  }
+};
 
 const parseArgs = (argv) => {
   const options = {};
@@ -71,6 +82,31 @@ const assertRequired = (options) => {
   }
 };
 
+const assertArtifactEvidenceExists = async ({
+  androidArtifact,
+  iosArtifact,
+  repoRoot
+}) => {
+  const missing = [];
+
+  for (const artifact of [iosArtifact, androidArtifact]) {
+    if (
+      !isExternalEvidenceLink(artifact) &&
+      !(await pathExists(repoRoot, artifact))
+    ) {
+      missing.push(artifact);
+    }
+  }
+
+  if (missing.length > 0) {
+    throw new Error(
+      `Artifact evidence must be an external URL or existing repo file: ${missing.join(
+        ", "
+      )}`
+    );
+  }
+};
+
 export const listNativeWorkflowEvidence = async ({
   repoRoot = defaultRepoRoot
 } = {}) => {
@@ -100,6 +136,11 @@ export const recordNativeWorkflowEvidence = async ({
     runUrl
   };
   assertRequired(options);
+  await assertArtifactEvidenceExists({
+    androidArtifact,
+    iosArtifact,
+    repoRoot
+  });
 
   const manifest = await readJson(repoRoot, manifestPath);
   const localEntries = (manifest.completedEntries ?? []).filter(
