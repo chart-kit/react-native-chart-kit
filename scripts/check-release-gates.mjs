@@ -354,7 +354,11 @@ const validateOwnerGatesManifest = async (manifest) => {
   return errors;
 };
 
-const validateReleaseEvidenceManifest = ({ manifest, matrix, matrixFile }) => {
+const validateReleaseEvidenceManifest = async ({
+  manifest,
+  matrix,
+  matrixFile
+}) => {
   const errors = [];
   const status = manifest.status ?? "missing";
   const missingEvidence = Array.isArray(manifest.missingEvidence)
@@ -402,6 +406,27 @@ const validateReleaseEvidenceManifest = ({ manifest, matrix, matrixFile }) => {
   for (const [index, entry] of completedEntries.entries()) {
     if (!entry.result || typeof entry.result !== "string") {
       errors.push(`completedEntries[${index}] must include result`);
+    }
+
+    if (entry.artifacts !== undefined) {
+      if (!Array.isArray(entry.artifacts)) {
+        errors.push(`completedEntries[${index}].artifacts must be an array`);
+      } else {
+        for (const artifact of entry.artifacts) {
+          if (typeof artifact !== "string" || artifact.length === 0) {
+            errors.push(
+              `completedEntries[${index}].artifacts must contain non-empty strings`
+            );
+          } else if (
+            !isExternalEvidenceLink(artifact) &&
+            !(await pathExists(artifact))
+          ) {
+            errors.push(
+              `completedEntries[${index}] references missing artifact ${artifact}`
+            );
+          }
+        }
+      }
     }
   }
 
@@ -602,7 +627,7 @@ for (const manifestConfig of releaseEvidenceManifests) {
       ? await readRepoJson(manifestConfig.matrixFile)
       : undefined;
   const matrixErrors = matrix ? await validateEvidenceMatrix(matrix) : [];
-  const manifestErrors = validateReleaseEvidenceManifest({
+  const manifestErrors = await validateReleaseEvidenceManifest({
     manifest,
     matrix,
     matrixFile: manifestConfig.matrixFile
