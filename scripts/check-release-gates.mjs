@@ -124,6 +124,14 @@ const addCheck = ({ detail = "", evidence = "", id, message, status }) => {
   checks.push({ detail, evidence, id, message, status });
 };
 
+const validMatrixRowStatuses = new Set([
+  "blocked",
+  "fail",
+  "not-applicable",
+  "pass",
+  "pending"
+]);
+
 const readRepoFile = (relativePath) =>
   readFile(path.join(repoRoot, relativePath), "utf8");
 
@@ -137,6 +145,104 @@ const pathExists = async (relativePath) => {
   } catch {
     return false;
   }
+};
+
+const getIds = (items) =>
+  new Set(
+    Array.isArray(items)
+      ? items
+          .map((item) => (typeof item.id === "string" ? item.id : ""))
+          .filter(Boolean)
+      : []
+  );
+
+const validateEvidenceMatrix = (matrix) => {
+  const errors = [];
+  const pageIds = getIds(matrix.pages);
+  const platformIds = getIds(matrix.platforms);
+  const scenarioIds = getIds(matrix.scenarios);
+  const assistiveTechIds = getIds(matrix.assistiveTech);
+  const checkGroupIds = new Set(Object.keys(matrix.checkGroups ?? {}));
+  const rowIds = new Set();
+
+  if (!Array.isArray(matrix.rows) || matrix.rows.length === 0) {
+    errors.push("matrix must define at least one row");
+  }
+
+  if (Array.isArray(matrix.pages)) {
+    for (const page of matrix.pages) {
+      const missingGroups = (page.requiredCheckGroups ?? []).filter(
+        (groupId) => !checkGroupIds.has(groupId)
+      );
+
+      if (missingGroups.length > 0) {
+        errors.push(
+          `${page.id} references unknown check groups: ${missingGroups.join(
+            ", "
+          )}`
+        );
+      }
+    }
+  }
+
+  for (const row of matrix.rows ?? []) {
+    if (!row.id || typeof row.id !== "string") {
+      errors.push("matrix row is missing a string id");
+      continue;
+    }
+
+    if (rowIds.has(row.id)) {
+      errors.push(`${row.id} is duplicated`);
+    }
+    rowIds.add(row.id);
+
+    if (!validMatrixRowStatuses.has(row.status)) {
+      errors.push(`${row.id} has invalid status ${row.status}`);
+    }
+
+    if (row.status === "pass") {
+      const evidence = Array.isArray(row.evidence) ? row.evidence : [];
+
+      if (
+        evidence.length === 0 ||
+        evidence.some((item) => typeof item !== "string" || item.length === 0)
+      ) {
+        errors.push(`${row.id} is passed without evidence links`);
+      }
+    }
+
+    if (row.pageId && pageIds.size > 0 && !pageIds.has(row.pageId)) {
+      errors.push(`${row.id} references unknown page ${row.pageId}`);
+    }
+
+    if (
+      row.platform &&
+      platformIds.size > 0 &&
+      !platformIds.has(row.platform)
+    ) {
+      errors.push(`${row.id} references unknown platform ${row.platform}`);
+    }
+
+    if (
+      row.scenarioId &&
+      scenarioIds.size > 0 &&
+      !scenarioIds.has(row.scenarioId)
+    ) {
+      errors.push(`${row.id} references unknown scenario ${row.scenarioId}`);
+    }
+
+    if (
+      row.assistiveTechId &&
+      assistiveTechIds.size > 0 &&
+      !assistiveTechIds.has(row.assistiveTechId)
+    ) {
+      errors.push(
+        `${row.id} references unknown assistive tech ${row.assistiveTechId}`
+      );
+    }
+  }
+
+  return errors;
 };
 
 for (const file of requiredFiles) {
@@ -275,6 +381,7 @@ for (const manifestConfig of releaseEvidenceManifests) {
     manifestConfig.matrixFile && (await pathExists(manifestConfig.matrixFile))
       ? await readRepoJson(manifestConfig.matrixFile)
       : undefined;
+  const matrixErrors = matrix ? validateEvidenceMatrix(matrix) : [];
   const pendingMatrixRows = Array.isArray(matrix?.rows)
     ? matrix.rows.filter((row) => row.status !== "pass")
     : [];
@@ -300,6 +407,16 @@ for (const manifestConfig of releaseEvidenceManifests) {
       `${manifestConfig.id} evidence manifest is not complete.`,
     status: status === "complete" ? "pass" : "block"
   });
+
+  if (manifestConfig.matrixFile) {
+    addCheck({
+      detail: matrixErrors.join("; "),
+      evidence: manifestConfig.matrixFile,
+      id: `matrix:${manifestConfig.id}`,
+      message: `${manifestConfig.matrixFile} is structurally valid`,
+      status: matrix && matrixErrors.length === 0 ? "pass" : "fail"
+    });
+  }
 }
 
 const totals = checks.reduce(

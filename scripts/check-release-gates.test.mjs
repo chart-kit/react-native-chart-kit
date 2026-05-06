@@ -84,4 +84,18 @@ describe("release gate checker", () => {
       "18 pending native performance matrix rows"
     );
   });
+
+  it("validates evidence matrix structure", () => {
+    const report = runGateReportJson();
+
+    expect(
+      report.checks
+        .filter((check) => check.id.startsWith("matrix:"))
+        .map((check) => [check.id, check.status])
+    ).toEqual([
+      ["matrix:native-runtime-qa", "pass"],
+      ["matrix:native-accessibility-qa", "pass"],
+      ["matrix:native-performance", "pass"]
+    ]);
+  });
 });
