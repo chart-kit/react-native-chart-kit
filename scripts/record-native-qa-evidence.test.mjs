@@ -172,7 +172,7 @@ describe("native QA evidence recorder", () => {
       notes: "Release simulator pass",
       status: "pass"
     });
-    expect(checklist).toContain("| Runtime QA | 16 | 1 | 2 | 13 | 0 | 0 | 0 |");
+    expect(checklist).toContain("| Runtime QA | 16 | 1 | 8 | 7 | 0 | 0 | 0 |");
     expect(checklist).toContain(
       "`docs/release/artifacts/ios-line-charts-runtime.md`"
     );
@@ -226,7 +226,7 @@ describe("native QA evidence recorder", () => {
       notes: "Release simulator launch smoke only",
       status: "partial"
     });
-    expect(checklist).toContain("| Runtime QA | 16 | 0 | 3 | 13 | 0 | 0 | 0 |");
+    expect(checklist).toContain("| Runtime QA | 16 | 0 | 9 | 7 | 0 | 0 | 0 |");
     expect(checklist).toContain(
       "`docs/release/artifacts/ios-line-charts-smoke.png`"
     );

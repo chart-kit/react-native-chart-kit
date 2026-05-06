@@ -8,7 +8,7 @@ Generated from native and Skia evidence matrices last updated 2026-05-06. Regene
 
 | Matrix | Rows | Pass | Partial | Pending | Blocked | Fail | Not Applicable |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Runtime QA | 16 | 0 | 3 | 13 | 0 | 0 | 0 |
+| Runtime QA | 16 | 0 | 9 | 7 | 0 | 0 | 0 |
 | Accessibility QA | 16 | 0 | 0 | 16 | 0 | 0 | 0 |
 | Native Performance | 18 | 0 | 0 | 18 | 0 | 0 | 0 |
 | Skia Renderer | 8 | 0 | 0 | 8 | 0 | 0 | 0 |
@@ -75,12 +75,12 @@ Source: [docs/release/native-runtime-qa.md](native-runtime-qa.md) and [docs/rele
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `ios-line-charts` | iOS / Line Charts | Expo showcase and iOS release build | `line-area` | chartkitshowcase://showcase?view=charts&page=line-area | `global`, `line` | partial | `docs/release/artifacts/ios-runtime-smoke.png` |
 | `ios-bar-charts` | iOS / Bar Charts | Expo showcase and iOS release build | `bar` | chartkitshowcase://showcase?view=charts&page=bar | `global`, `bar` | partial | `docs/release/artifacts/ios-runtime-bar-charts.png` |
-| `ios-combined-preview` | iOS / Combined Preview | Expo showcase and iOS release build | `combined` | chartkitshowcase://showcase?view=charts&page=combined | `global`, `combinedFinancial` | pending | None |
-| `ios-financial-preview` | iOS / Financial Preview | Expo showcase and iOS release build | `financial` | chartkitshowcase://showcase?view=charts&page=financial | `global`, `combinedFinancial` | pending | None |
-| `ios-pie-donut` | iOS / Pie & Donut | Expo showcase and iOS release build | `pie-donut` | chartkitshowcase://showcase?view=charts&page=pie-donut | `global`, `radialHeatmap` | pending | None |
-| `ios-progress` | iOS / Progress | Expo showcase and iOS release build | `progress` | chartkitshowcase://showcase?view=charts&page=progress | `global`, `radialHeatmap` | pending | None |
-| `ios-heatmaps` | iOS / Heatmaps | Expo showcase and iOS release build | `heatmaps` | chartkitshowcase://showcase?view=charts&page=heatmaps | `global`, `radialHeatmap` | pending | None |
-| `ios-compatibility` | iOS / Compatibility | Expo showcase and iOS release build | `compat` | chartkitshowcase://showcase?view=charts&page=compat | `global`, `compat` | pending | None |
+| `ios-combined-preview` | iOS / Combined Preview | Expo showcase and iOS release build | `combined` | chartkitshowcase://showcase?view=charts&page=combined | `global`, `combinedFinancial` | partial | `docs/release/artifacts/ios-runtime-combined-preview.png` |
+| `ios-financial-preview` | iOS / Financial Preview | Expo showcase and iOS release build | `financial` | chartkitshowcase://showcase?view=charts&page=financial | `global`, `combinedFinancial` | partial | `docs/release/artifacts/ios-runtime-financial-preview.png` |
+| `ios-pie-donut` | iOS / Pie & Donut | Expo showcase and iOS release build | `pie-donut` | chartkitshowcase://showcase?view=charts&page=pie-donut | `global`, `radialHeatmap` | partial | `docs/release/artifacts/ios-runtime-pie-donut.png` |
+| `ios-progress` | iOS / Progress | Expo showcase and iOS release build | `progress` | chartkitshowcase://showcase?view=charts&page=progress | `global`, `radialHeatmap` | partial | `docs/release/artifacts/ios-runtime-progress.png` |
+| `ios-heatmaps` | iOS / Heatmaps | Expo showcase and iOS release build | `heatmaps` | chartkitshowcase://showcase?view=charts&page=heatmaps | `global`, `radialHeatmap` | partial | `docs/release/artifacts/ios-runtime-heatmaps.png` |
+| `ios-compatibility` | iOS / Compatibility | Expo showcase and iOS release build | `compat` | chartkitshowcase://showcase?view=charts&page=compat | `global`, `compat` | partial | `docs/release/artifacts/ios-runtime-compatibility.png` |
 | `android-line-charts` | Android / Line Charts | Expo showcase and Android release build | `line-area` | chartkitshowcase://showcase?view=charts&page=line-area | `global`, `line` | partial | `docs/release/artifacts/android-runtime-smoke.png` |
 | `android-bar-charts` | Android / Bar Charts | Expo showcase and Android release build | `bar` | chartkitshowcase://showcase?view=charts&page=bar | `global`, `bar` | pending | None |
 | `android-combined-preview` | Android / Combined Preview | Expo showcase and Android release build | `combined` | chartkitshowcase://showcase?view=charts&page=combined | `global`, `combinedFinancial` | pending | None |

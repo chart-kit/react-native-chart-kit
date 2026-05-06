@@ -132,43 +132,49 @@
       "id": "ios-combined-preview",
       "platform": "ios",
       "pageId": "combined-preview",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": ["docs/release/artifacts/ios-runtime-combined-preview.png"],
+      "notes": "Release simulator QA launch smoke: Combined Preview page opened without red-screen error and dual-axis combined chart content rendered; full shared-tooltip, legend toggle, gesture, rotation, and physical-device runtime checks still pending."
     },
     {
       "id": "ios-financial-preview",
       "platform": "ios",
       "pageId": "financial-preview",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": ["docs/release/artifacts/ios-runtime-financial-preview.png"],
+      "notes": "Release simulator QA launch smoke: Financial Preview page opened without red-screen error and candlestick/range-selector content rendered; full candlestick tap, pan, pinch, range-selector, rotation, and physical-device runtime checks still pending."
     },
     {
       "id": "ios-pie-donut",
       "platform": "ios",
       "pageId": "pie-donut",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": ["docs/release/artifacts/ios-runtime-pie-donut.png"],
+      "notes": "Release simulator QA launch smoke: Pie & Donut page opened without red-screen error and pie/donut chart content rendered; full slice selection, long-label, tooltip, rotation, and physical-device runtime checks still pending."
     },
     {
       "id": "ios-progress",
       "platform": "ios",
       "pageId": "progress",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": ["docs/release/artifacts/ios-runtime-progress.png"],
+      "notes": "Release simulator QA launch smoke: Progress page opened without red-screen error and progress ring content rendered; full ring selection, empty-state, tooltip, rotation, and physical-device runtime checks still pending."
     },
     {
       "id": "ios-heatmaps",
       "platform": "ios",
       "pageId": "heatmaps",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": ["docs/release/artifacts/ios-runtime-heatmaps.png"],
+      "notes": "Release simulator QA launch smoke: Heatmaps page opened without red-screen error and calendar heatmap content rendered; full heatmap cell selection, empty-state, rotation, and physical-device runtime checks still pending."
     },
     {
       "id": "ios-compatibility",
       "platform": "ios",
       "pageId": "compatibility",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": ["docs/release/artifacts/ios-runtime-compatibility.png"],
+      "notes": "Release simulator QA launch smoke: Compatibility page opened without red-screen error and legacy LineChart/BarChart fixture content rendered; full legacy bounds, dark-mode switching, rotation, and physical-device runtime checks still pending."
     },
     {
       "id": "android-line-charts",
