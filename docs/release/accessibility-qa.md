@@ -1,6 +1,6 @@
 # Accessibility QA Protocol
 
-Status on May 6, 2026: protocol ready, local baseline recorded, native screen-reader evidence missing. Structured gate evidence lives in [native-accessibility-qa.json](evidence/native-accessibility-qa.json), with the page-by-page assistive-technology matrix in [native-accessibility-matrix.json](evidence/native-accessibility-matrix.json). Use the generated [native QA checklist](native-qa-checklists.md) for row-by-row execution.
+Status on May 6, 2026: protocol ready, local baseline recorded, and row-level iOS/Android support captures recorded. Manual native screen-reader review is still missing. Structured gate evidence lives in [native-accessibility-qa.json](evidence/native-accessibility-qa.json), with the page-by-page assistive-technology matrix in [native-accessibility-matrix.json](evidence/native-accessibility-matrix.json). Use the generated [native QA checklist](native-qa-checklists.md) for row-by-row execution.
 
 This protocol covers the manual VoiceOver and TalkBack checks required before production beta/RC can claim native accessibility confidence. Automated tests verify generated summaries and data table helpers, but they do not prove native assistive-technology behavior.
 
@@ -23,6 +23,7 @@ Current automated coverage:
 - ContributionGraph empty-day summary and data table helpers
 - Expo showcase representative data details panels for each page that requires table-fallback QA
 - local baseline artifact: [accessibility-local-baseline-2026-05-06.md](artifacts/accessibility-local-baseline-2026-05-06.md)
+- row-level iOS screenshots/logs and Android screenshots/logs/UIAutomator hierarchy snapshots for every accessibility matrix row
 
 ## Manual Device Matrix
 
@@ -67,7 +68,7 @@ npm run release:qa:capture -- \
   --android-ui-output docs/release/artifacts/android-talkback-line-charts.xml
 ```
 
-Use `--device <simulator-udid-or-adb-serial>` for a specific target and `--no-launch` when the screen-reader state is already positioned on the target page. The iOS log and Android UI hierarchy artifacts are supporting evidence; they do not replace the required VoiceOver or TalkBack manual review. Record the artifacts with `npm run release:qa:record -- --matrix accessibility --row <row-id> --status pass --evidence <artifact> --evidence <log-or-ui-artifact> --reviewed-by <name> --device "<device/os>" --build-surface "<build>" --notes "<screen-reader checks passed>"` only after the required VoiceOver or TalkBack checks pass.
+Use `--device <simulator-udid-or-adb-serial>` for a specific target and `--no-launch` when the screen-reader state is already positioned on the target page. The iOS log and Android UI hierarchy artifacts are supporting evidence; they do not replace the required VoiceOver or TalkBack manual review. Record the artifacts with `npm run release:qa:record -- --matrix accessibility --row <row-id> --status pass --evidence <artifact> --evidence <log-or-ui-artifact> --reviewed-by <name> --device "<device/os>" --build-surface "<build>" --notes "<manual iOS VoiceOver screen-reader checks passed>"` or equivalent Android TalkBack notes only after the required VoiceOver or TalkBack checks pass.
 
 Representative stories on the Line, Bar, Combined, Financial, Pie & Donut, Progress, and Heatmaps pages include a collapsed `Data details` panel. Use those panels during VoiceOver and TalkBack review to verify the table-fallback checks without making the public preview visually dense by default.
 

@@ -188,9 +188,12 @@
       "pageId": "line-charts",
       "status": "partial",
       "evidence": [
-        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md",
+        "docs/release/artifacts/android-talkback-line-charts.png",
+        "docs/release/artifacts/android-talkback-line-charts.log",
+        "docs/release/artifacts/android-talkback-line-charts.xml"
       ],
-      "notes": "Automated summary/data-table and showcase data-details evidence only; native Android TalkBack review still required."
+      "notes": "Supporting Android row-level capture and UI hierarchy only; manual Android TalkBack screen-reader review still required."
     },
     {
       "id": "android-talkback-bar-charts",
@@ -198,9 +201,12 @@
       "pageId": "bar-charts",
       "status": "partial",
       "evidence": [
-        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md",
+        "docs/release/artifacts/android-talkback-bar-charts.png",
+        "docs/release/artifacts/android-talkback-bar-charts.log",
+        "docs/release/artifacts/android-talkback-bar-charts.xml"
       ],
-      "notes": "Automated summary/data-table and showcase data-details evidence only; native Android TalkBack review still required."
+      "notes": "Supporting Android row-level capture and UI hierarchy only; manual Android TalkBack screen-reader review still required."
     },
     {
       "id": "android-talkback-combined-preview",
@@ -208,9 +214,12 @@
       "pageId": "combined-preview",
       "status": "partial",
       "evidence": [
-        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md",
+        "docs/release/artifacts/android-talkback-combined-preview.png",
+        "docs/release/artifacts/android-talkback-combined-preview.log",
+        "docs/release/artifacts/android-talkback-combined-preview.xml"
       ],
-      "notes": "Automated summary/data-table and showcase data-details evidence only; native Android TalkBack review still required."
+      "notes": "Supporting Android row-level capture and UI hierarchy only; manual Android TalkBack screen-reader review still required."
     },
     {
       "id": "android-talkback-financial-preview",
@@ -218,9 +227,12 @@
       "pageId": "financial-preview",
       "status": "partial",
       "evidence": [
-        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md",
+        "docs/release/artifacts/android-talkback-financial-preview.png",
+        "docs/release/artifacts/android-talkback-financial-preview.log",
+        "docs/release/artifacts/android-talkback-financial-preview.xml"
       ],
-      "notes": "Automated summary/data-table and showcase data-details evidence only; native Android TalkBack review still required."
+      "notes": "Supporting Android row-level capture and UI hierarchy only; manual Android TalkBack screen-reader review still required."
     },
     {
       "id": "android-talkback-pie-donut",
@@ -228,9 +240,12 @@
       "pageId": "pie-donut",
       "status": "partial",
       "evidence": [
-        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md",
+        "docs/release/artifacts/android-talkback-pie-donut.png",
+        "docs/release/artifacts/android-talkback-pie-donut.log",
+        "docs/release/artifacts/android-talkback-pie-donut.xml"
       ],
-      "notes": "Automated summary/data-table and showcase data-details evidence only; native Android TalkBack review still required."
+      "notes": "Supporting Android row-level capture and UI hierarchy only; manual Android TalkBack screen-reader review still required."
     },
     {
       "id": "android-talkback-progress",
@@ -238,9 +253,12 @@
       "pageId": "progress",
       "status": "partial",
       "evidence": [
-        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md",
+        "docs/release/artifacts/android-talkback-progress.png",
+        "docs/release/artifacts/android-talkback-progress.log",
+        "docs/release/artifacts/android-talkback-progress.xml"
       ],
-      "notes": "Automated summary/data-table and showcase data-details evidence only; native Android TalkBack review still required."
+      "notes": "Supporting Android row-level capture and UI hierarchy only; manual Android TalkBack screen-reader review still required."
     },
     {
       "id": "android-talkback-heatmaps",
@@ -248,9 +266,12 @@
       "pageId": "heatmaps",
       "status": "partial",
       "evidence": [
-        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md",
+        "docs/release/artifacts/android-talkback-heatmaps.png",
+        "docs/release/artifacts/android-talkback-heatmaps.log",
+        "docs/release/artifacts/android-talkback-heatmaps.xml"
       ],
-      "notes": "Automated summary/data-table and showcase data-details evidence only; native Android TalkBack review still required."
+      "notes": "Supporting Android row-level capture and UI hierarchy only; manual Android TalkBack screen-reader review still required."
     },
     {
       "id": "android-talkback-compatibility",
@@ -258,9 +279,12 @@
       "pageId": "compatibility",
       "status": "partial",
       "evidence": [
-        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md",
+        "docs/release/artifacts/android-talkback-compatibility.png",
+        "docs/release/artifacts/android-talkback-compatibility.log",
+        "docs/release/artifacts/android-talkback-compatibility.xml"
       ],
-      "notes": "Automated summary/data-table and showcase data-details evidence only; native Android TalkBack review still required."
+      "notes": "Supporting Android row-level capture and UI hierarchy only; manual Android TalkBack screen-reader review still required."
     }
   ]
 }
