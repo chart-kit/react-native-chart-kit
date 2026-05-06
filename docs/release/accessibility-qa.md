@@ -42,6 +42,18 @@ adb shell am start -W -a android.intent.action.VIEW -d "chartkitshowcase://showc
 
 Supported params match the web preview URLs: `page`, `story`, `view`, `theme`, and `preset`.
 
+For row evidence, the native QA capture helper can open the row deep link and save a screenshot before or after screen-reader inspection:
+
+```sh
+npm run release:qa:capture -- \
+  --matrix accessibility \
+  --row ios-voiceover-line-charts \
+  --platform ios \
+  --output docs/release/artifacts/ios-voiceover-line-charts.png
+```
+
+Use `--device <simulator-udid-or-adb-serial>` for a specific target and `--no-launch` when the screen-reader state is already positioned on the target page. Record the artifact with `npm run release:qa:record -- --matrix accessibility --row <row-id> --status pass --evidence <artifact>` only after the required VoiceOver or TalkBack checks pass.
+
 ## Required Screens
 
 Review these showcase pages:

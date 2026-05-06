@@ -77,6 +77,18 @@ When Skia chart integration exists, run the same scenarios for both `svg` and `s
 
 The machine-readable matrix in [native-performance-matrix.json](evidence/native-performance-matrix.json) expands the required scenarios across iOS and Android for the SVG renderer. Each scenario maps to a current showcase story, and the generated [native QA checklist](native-qa-checklists.md) includes native deep links for opening the relevant story during manual profiling. Dedicated QA fixture sizes are recorded in the showcase [performance story metadata](../../apps/expo-showcase/src/stories/performanceStoryMetadata.json), and `npm run release:gate:report` checks that the matrix expected metrics match that metadata. Skia rows remain deferred until native Skia install and renderer parity evidence exist.
 
+To open and capture a specific performance fixture before attaching profiler output, use the same row metadata:
+
+```sh
+npm run release:qa:capture -- \
+  --matrix performance \
+  --row android-svg-standard-line-scrub \
+  --platform android \
+  --output docs/release/artifacts/android-svg-standard-line-scrub.png
+```
+
+Use `--dry-run` to print the `adb` or `xcrun` commands, and use `--no-launch` if Instruments, Android Studio Profiler, or a screen recording is already focused on the target scenario. A screenshot alone is not enough for a performance row; attach timing and memory evidence with `npm run release:qa:record -- --matrix performance --row <row-id> --status pass --evidence <artifact>`.
+
 ## Metrics To Capture
 
 For every run, capture:
