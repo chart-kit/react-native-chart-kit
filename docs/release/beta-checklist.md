@@ -54,6 +54,8 @@ Use `npm run release:qa:record -- --matrix runtime --list` to inspect native QA 
 
 Use `npm run release:native-workflow:record -- --list` to inspect native release workflow evidence. After a green workflow run, record the run URL, commit, and both platform artifact links with `--run-url`, `--commit`, `--ios-artifact`, and `--android-artifact`.
 
+Use `npm run release:publish:status` to compare the Developer Preview package manifest against actual npm registry state. It should report the scoped free packages and root compatibility package under `next`, while `@chart-kit/pro` and `@chart-kit/skia-renderer` remain unpublished for Developer Preview. Add `-- --strict` when a complete publish is expected.
+
 Use `npm run release:owner:record -- --list` to inspect H4/H5/H6 owner gates. Owner approval should be recorded through the same command with `--gate`, `--approved-by`, and one `--decision` value for each pending decision.
 
 ## Manual Review

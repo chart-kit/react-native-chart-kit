@@ -79,6 +79,7 @@ const requiredScripts = [
   "release:qa:checklists:check",
   "release:qa:record",
   "release:owner:record",
+  "release:publish:status",
   "release:gate",
   "release:gate:report"
 ];
