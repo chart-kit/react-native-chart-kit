@@ -1,14 +1,14 @@
 # Native Workflow Runbook
 
-Status on May 6, 2026: native iOS and Android release builds passed locally, but the GitHub `Native Release Checks` workflow has not produced release-candidate evidence yet.
+Status on May 6, 2026: native iOS and Android release builds passed locally and the GitHub `Native Release Checks` workflow has passed on `next` with archived platform evidence.
 
-## Current Blocker
+## Current Evidence
 
 GitHub Actions only exposes manually dispatched workflows after the workflow file exists on the repository default branch. The workflow file currently exists on `next`, while the repository default branch is `master`, so `workflow_dispatch` is not available yet for `.github/workflows/native-release.yml`.
 
 The workflow is also configured to run on relevant `next` pushes. Use that path when the workflow is not dispatchable from the UI yet.
 
-Do not mark the native workflow evidence complete until a green workflow run exists on the release-candidate commit and both platform artifacts are archived.
+The current recorded evidence lives in [native-release-workflow.json](evidence/native-release-workflow.json). Keep it current by recording the latest green workflow run whenever the release-candidate commit changes.
 
 ## Required Evidence
 
