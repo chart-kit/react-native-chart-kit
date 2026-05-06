@@ -1,7 +1,7 @@
 # Skia Local Baseline Evidence
 
 Date: 2026-05-06
-Commit: `54042f6`
+Commit: `3272e3c`
 Build surface: local repository checks only
 
 This artifact records the local Skia renderer baseline required before native Skia QA. It is suitable only for `partial` Skia matrix evidence. It does not prove native Skia installation, native renderer parity, native text/gradient/clipping behavior, or native release-build performance.

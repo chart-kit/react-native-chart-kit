@@ -7,14 +7,14 @@
   "matrix": "docs/release/evidence/skia-renderer-matrix.json",
   "completedEntries": [
     {
-      "date": "2026-05-05",
+      "date": "2026-05-06",
       "scope": "package-boundary",
       "result": "partial-pass",
       "artifacts": ["packages/skia-renderer/README.md"],
       "notes": "Skia package remains optional and avoids static Skia imports."
     },
     {
-      "date": "2026-05-05",
+      "date": "2026-05-06",
       "scope": "local-parity",
       "result": "partial-pass",
       "artifacts": [
