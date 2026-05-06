@@ -88,6 +88,9 @@ jobs:
       - name: Package pack check
         run: npm run pack:check
 
+      - name: Security audit
+        run: npm run security:audit
+
       - name: Docs
         run: npm run docs:build
 

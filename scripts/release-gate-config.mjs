@@ -72,6 +72,7 @@ export const requiredScripts = [
   "example:expo",
   "docs:build",
   "surface:check",
+  "security:audit",
   "skia:parity",
   "native:release:dry-run",
   "native:release:android",

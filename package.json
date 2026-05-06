@@ -45,6 +45,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "surface:check": "node scripts/verify-public-surface.mjs && node scripts/verify-package-boundaries.mjs && node scripts/verify-pro-preview-imports.mjs",
+    "security:audit": "npm audit --audit-level=high",
     "boundaries:check": "node scripts/verify-package-boundaries.mjs",
     "pack:check": "node scripts/check-package-packs.mjs",
     "test": "npm run typecheck && npm run test:unit && npm run test:compat",

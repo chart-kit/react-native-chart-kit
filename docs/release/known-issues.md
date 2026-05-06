@@ -18,6 +18,14 @@ Developer Preview package publishing is complete for `7.0.0-next.0`. `react-nati
 
 Impact: existing `react-native-chart-kit` users are protected. New adopters using `@chart-kit/react-native` should treat the scoped namespace as Developer Preview until a stable scoped release exists.
 
+## Security Audit
+
+`npm run security:audit` runs `npm audit --audit-level=high` and is wired into CI and the publish workflow. On May 6, 2026, the current `next` branch passed that high/critical audit gate. The open critical Dependabot alert reported during pushes targets the default-branch `expo <48` dependency path, not the current v2 preview branch; the active v2 showcase resolves Expo to patched major versions.
+
+The current `next` branch still has moderate npm audit findings through Expo CLI / `@expo/metro-config` / PostCSS. npm suggests a force downgrade path for `@expo/metro-config`, which is not appropriate for the Expo 54 showcase without a deliberate SDK compatibility review.
+
+Impact: high and critical npm vulnerabilities now block CI/publish for v2 work, but moderate Expo toolchain advisories remain tracked until an Expo-compatible upstream fix is available.
+
 ## Native E2E Coverage
 
 `npm run test:e2e` covers web showcase interaction flows through Playwright. It does not cover native iOS or Android runtime behavior.
