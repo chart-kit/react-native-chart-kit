@@ -26,6 +26,11 @@ const matrixConfigs = {
   runtime: {
     label: "Runtime QA",
     path: "docs/release/evidence/native-runtime-matrix.json"
+  },
+  skia: {
+    label: "Skia Renderer",
+    path: "docs/release/evidence/skia-renderer-matrix.json",
+    regenerateNativeChecklist: false
   }
 };
 
@@ -207,15 +212,18 @@ export const recordNativeQaEvidence = async ({
 
   if (!dryRun) {
     await writeJson(repoRoot, config.path, nextMatrix);
-    await writeFile(
-      path.join(repoRoot, checklistPath),
-      await generateNativeQaChecklist({ repoRoot }),
-      "utf8"
-    );
+    if (config.regenerateNativeChecklist !== false) {
+      await writeFile(
+        path.join(repoRoot, checklistPath),
+        await generateNativeQaChecklist({ repoRoot }),
+        "utf8"
+      );
+    }
   }
 
   return {
-    checklistPath,
+    checklistPath:
+      config.regenerateNativeChecklist === false ? undefined : checklistPath,
     dryRun,
     matrixPath: config.path,
     row: nextRow,
@@ -260,7 +268,7 @@ const main = async () => {
     } to ${result.row.status}.`
   );
 
-  if (!result.dryRun) {
+  if (!result.dryRun && result.checklistPath) {
     console.log(`Regenerated ${result.checklistPath}.`);
   }
 };
