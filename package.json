@@ -82,6 +82,7 @@
     "native:release:android": "node scripts/run-expo-native-release-check.mjs --platform android",
     "native:release:ios": "node scripts/run-expo-native-release-check.mjs --platform ios",
     "native:release:dry-run": "node scripts/run-expo-native-release-check.mjs --platform all --dry-run",
+    "release:native-workflow:record": "node scripts/record-native-workflow-evidence.mjs",
     "release:qa:checklists": "node scripts/generate-native-qa-checklists.mjs",
     "release:qa:checklists:check": "node scripts/generate-native-qa-checklists.mjs --check",
     "release:qa:record": "node scripts/record-native-qa-evidence.mjs",

@@ -68,4 +68,12 @@ When the workflow runs, download the `native-release-android` and `native-releas
 - `docs/release/artifacts/native-workflow/android-release.log`
 - `docs/release/artifacts/native-workflow/ios-release.log`
 
-Use those artifact links when updating [native-release-workflow.json](evidence/native-release-workflow.json).
+Use those artifact links when updating [native-release-workflow.json](evidence/native-release-workflow.json):
+
+```sh
+npm run release:native-workflow:record -- \
+  --run-url https://github.com/<owner>/<repo>/actions/runs/<run-id> \
+  --commit <release-candidate-sha> \
+  --ios-artifact https://github.com/<owner>/<repo>/actions/runs/<run-id>/artifacts/<ios-artifact-id> \
+  --android-artifact https://github.com/<owner>/<repo>/actions/runs/<run-id>/artifacts/<android-artifact-id>
+```
