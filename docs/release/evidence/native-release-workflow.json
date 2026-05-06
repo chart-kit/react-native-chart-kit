@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "status": "partial",
   "requiredFor": ["H5", "H6"],
-  "lastUpdated": "2026-05-05",
-  "summary": "iOS and Android release builds passed locally, but the native release workflow still needs a green run on the release candidate commit.",
+  "lastUpdated": "2026-05-06",
+  "summary": "iOS and Android release builds passed locally, but the native release workflow still needs a green run on the release candidate commit. Manual dispatch is currently blocked because native-release.yml is only on next and GitHub Actions can dispatch workflows only after the workflow exists on the default branch.",
   "completedEntries": [
     {
       "date": "2026-05-05",
@@ -21,6 +21,7 @@
     }
   ],
   "missingEvidence": [
+    "native-release.yml must exist on the default branch or be merged before manual workflow_dispatch is available",
     "green native release workflow run on the release candidate commit",
     "archived iOS workflow artifact or log",
     "archived Android workflow artifact or log"
