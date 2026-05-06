@@ -68,7 +68,7 @@ jobs:
       - name: React Native CLI example
         run: npm run example:rn-cli:typecheck
 
-      - name: Verify packages are unpublished
+      - name: Verify package publish state
         id: package
         run: |
           PACKAGE_NAME=$(node -p "require('./package.json').name")
@@ -95,8 +95,7 @@ jobs:
             WORKSPACE_VERSION=$(node -p "require('./${PACKAGE_JSON}').version")
 
             if npm view "${WORKSPACE_NAME}@${WORKSPACE_VERSION}" version >/dev/null 2>&1; then
-              echo "${WORKSPACE_NAME}@${WORKSPACE_VERSION} is already published"
-              exit 1
+              echo "${WORKSPACE_NAME}@${WORKSPACE_VERSION} is already published and will be skipped"
             fi
           done
 
@@ -108,7 +107,22 @@ jobs:
       - name: Publish
         run: |
           for PACKAGE_DIR in $(node scripts/list-release-packages.mjs --publishable); do
-            npm publish "${PACKAGE_DIR}" --access public --provenance --tag "${NPM_TAG}"
+            PACKAGE_JSON="${PACKAGE_DIR}/package.json"
+            PUBLISH_TARGET="./${PACKAGE_DIR}"
+            if [ "${PACKAGE_DIR}" = "." ]; then
+              PACKAGE_JSON="package.json"
+              PUBLISH_TARGET="."
+            fi
+
+            WORKSPACE_NAME=$(node -p "require('./${PACKAGE_JSON}').name")
+            WORKSPACE_VERSION=$(node -p "require('./${PACKAGE_JSON}').version")
+
+            if npm view "${WORKSPACE_NAME}@${WORKSPACE_VERSION}" version >/dev/null 2>&1; then
+              echo "Skipping ${WORKSPACE_NAME}@${WORKSPACE_VERSION}; already published"
+              continue
+            fi
+
+            npm publish "${PUBLISH_TARGET}" --ignore-scripts --access public --provenance --tag "${NPM_TAG}"
           done
         env:
           NPM_TAG: ${{ steps.package.outputs.npm_tag }}
