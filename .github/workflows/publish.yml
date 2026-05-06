@@ -54,10 +54,12 @@ jobs:
 
           echo "Authenticated to npm as ${NPM_USER}."
 
-          if ! npm access list packages @chart-kit --json >/dev/null; then
-            echo "NPM_TOKEN cannot access the @chart-kit npm scope."
-            echo "Create or claim the @chart-kit scope and grant this token publish rights before rerunning."
-            exit 1
+          if npm access list packages @chart-kit --json >/dev/null; then
+            echo "NPM_TOKEN can list packages in the @chart-kit npm scope."
+          else
+            echo "::warning::NPM_TOKEN authenticated, but npm refused the @chart-kit package-list preflight."
+            echo "::warning::Granular npm tokens can be allowed to publish while still being denied org package listing."
+            echo "::warning::Continuing; npm publish remains the authoritative write-permission check."
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
