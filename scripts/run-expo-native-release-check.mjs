@@ -192,7 +192,7 @@ const assertIosToolchain = ({ dryRun }) => {
   });
 };
 
-const run = ({ args, command, cwd, dryRun }) => {
+const run = ({ args, captureOutput = false, command, cwd, dryRun }) => {
   const relativeCwd = path.relative(repoRoot, cwd) || ".";
   process.stdout.write(
     `$ cd ${relativeCwd} && ${commandText(command, args)}\n`
@@ -205,15 +205,20 @@ const run = ({ args, command, cwd, dryRun }) => {
   const result = spawnSync(command, args, {
     cwd,
     encoding: "utf8",
-    stdio: ["inherit", "pipe", "pipe"]
+    maxBuffer: captureOutput ? 1024 * 1024 * 20 : undefined,
+    stdio: captureOutput ? ["inherit", "pipe", "pipe"] : "inherit"
   });
 
-  if (result.stdout) {
+  if (captureOutput && result.stdout) {
     process.stdout.write(result.stdout);
   }
 
-  if (result.stderr) {
+  if (captureOutput && result.stderr) {
     process.stderr.write(result.stderr);
+  }
+
+  if (result.error) {
+    throw result.error;
   }
 
   if (result.status !== 0) {
@@ -222,7 +227,7 @@ const run = ({ args, command, cwd, dryRun }) => {
     );
   }
 
-  return result.stdout ?? "";
+  return captureOutput ? (result.stdout ?? "") : "";
 };
 
 const runExpoPrebuild = ({ appDir, dryRun, platform }) => {
@@ -342,6 +347,7 @@ const discoverIosScheme = ({ appDir, dryRun, iosDir, xcodeTargetArgs }) => {
 
   const output = run({
     args: ["-list", "-json", ...xcodeTargetArgs],
+    captureOutput: true,
     command: "xcodebuild",
     cwd: iosDir,
     dryRun: false
