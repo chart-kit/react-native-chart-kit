@@ -110,7 +110,7 @@ These are not covered by the green checks:
 - completed native runtime QA log beyond the web showcase interaction suite
 - completed native performance benchmark log for release builds on iOS and Android
 - checked-in generated RN CLI `ios/` and `android/` native projects; release-build/runtime smoke evidence is captured from generated transient projects instead
-- remaining native Skia install, renderer parity, and performance matrix evidence
+- remaining native Skia renderer parity and performance matrix evidence
 - paid Pro implementation remains deferred; `@chart-kit/pro` is not Developer Preview-published
 
 The example commands `npm run example:ios` and `npm run example:android` launch the Expo showcase through Expo dev tooling. They are manual review commands and must not be counted as passing native release-build or native e2e checks.

@@ -33,7 +33,7 @@ export const createSkiaRendererDescriptor = ({
   capabilities: createSkiaRendererCapabilities(capabilities),
   evidence: {
     localParity: "partial",
-    nativeInstall: "missing",
+    nativeInstall: "partial",
     nativeParity: "missing",
     ...evidence
   },

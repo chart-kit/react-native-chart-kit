@@ -62,7 +62,7 @@ describe("Skia renderer preview boundary", () => {
     expect(skiaRendererPreview).toMatchObject({
       evidence: {
         localParity: "partial",
-        nativeInstall: "missing",
+        nativeInstall: "partial",
         nativeParity: "missing"
       },
       packageName: "@chart-kit/skia-renderer",

@@ -25,7 +25,7 @@ const renderer = createSkiaRenderer({ skia: Skia });
 />;
 ```
 
-The Skia path is still preview-only: sticky axis labels require a Skia font, and native install verification plus native renderer parity tests are still pending.
+The Skia path is still preview-only: sticky axis labels require a Skia font, iOS/Android optional-Skia install/build evidence is partial, and native renderer parity tests are still pending.
 
 ## Basic Line
 
