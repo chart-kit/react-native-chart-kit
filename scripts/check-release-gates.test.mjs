@@ -112,6 +112,7 @@ describe("release gate checker", () => {
         .filter((check) => check.id.startsWith("manifest:"))
         .map((check) => [check.id, check.status])
     ).toEqual([
+      ["manifest:developer-preview-publish", "pass"],
       ["manifest:native-workflow-evidence", "pass"],
       ["manifest:skia-backend", "pass"],
       ["manifest:native-runtime-qa", "pass"],
@@ -128,6 +129,7 @@ describe("release gate checker", () => {
         .filter((check) => check.id.startsWith("manifest:"))
         .map((check) => [check.id, check.status, check.detail])
     ).toEqual([
+      ["manifest:developer-preview-publish", "pass", ""],
       ["manifest:native-workflow-evidence", "pass", ""],
       ["manifest:skia-backend", "pass", ""],
       ["manifest:native-runtime-qa", "pass", ""],
@@ -149,6 +151,26 @@ describe("release gate checker", () => {
       message:
         "Generated native QA checklist is in sync with evidence matrices",
       status: "pass"
+    });
+  });
+
+  it("tracks partial Developer Preview npm publish state", () => {
+    const report = runGateReportJson();
+    const publishManifest = JSON.parse(
+      readFileSync(
+        join(repoRoot, "docs/release/evidence/npm-publish-evidence.json"),
+        "utf8"
+      )
+    );
+
+    expect(
+      report.checks.find(
+        (check) => check.id === "blocker:developer-preview-publish"
+      )
+    ).toMatchObject({
+      evidence: "docs/release/evidence/npm-publish-evidence.json",
+      message: publishManifest.summary,
+      status: "block"
     });
   });
 

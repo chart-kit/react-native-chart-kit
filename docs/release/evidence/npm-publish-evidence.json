@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "lastUpdated": "2026-05-06",
+  "status": "partial",
+  "summary": "Developer Preview npm publish is partial: the root compatibility package is published, but scoped @chart-kit packages are blocked by npm scope/token access.",
+  "requiredFor": ["H5", "H6"],
+  "completedEntries": [
+    {
+      "result": "Published react-native-chart-kit@7.0.0-next.0 to npm under the next dist-tag.",
+      "artifacts": [
+        "https://www.npmjs.com/package/react-native-chart-kit/v/7.0.0-next.0",
+        "https://github.com/indiespirit/react-native-chart-kit/actions/runs/25414071804"
+      ]
+    },
+    {
+      "result": "Publish workflow reruns now skip already-published package versions and publish scoped dependency packages before the root compatibility package.",
+      "artifacts": [
+        "https://github.com/indiespirit/react-native-chart-kit/commit/47487b5",
+        "https://github.com/indiespirit/react-native-chart-kit/commit/8bf2dad"
+      ]
+    }
+  ],
+  "missingEvidence": [
+    "@chart-kit/core@7.0.0-next.0 is not published because npm returned 404 for the @chart-kit scope publish.",
+    "@chart-kit/svg-renderer@7.0.0-next.0 is not published.",
+    "@chart-kit/react-native@7.0.0-next.0 is not published.",
+    "GitHub prerelease v7.0.0-next.0 was not created because the publish workflow stops before release creation while scoped package publishing is blocked.",
+    "GitHub Actions NPM_TOKEN must be able to create and publish public packages under the @chart-kit scope."
+  ]
+}

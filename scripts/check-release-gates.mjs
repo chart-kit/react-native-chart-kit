@@ -34,6 +34,7 @@ const requiredFiles = [
   "docs/release/evidence/native-release-workflow.json",
   "docs/release/evidence/native-runtime-matrix.json",
   "docs/release/evidence/native-runtime-qa.json",
+  "docs/release/evidence/npm-publish-evidence.json",
   "docs/release/evidence/owner-gates.json",
   "docs/release/evidence/package-manifest.json",
   "docs/release/evidence/skia-renderer-evidence.json",
@@ -98,6 +99,10 @@ const releaseBlockers = [
 ];
 
 const releaseEvidenceManifests = [
+  {
+    id: "developer-preview-publish",
+    file: "docs/release/evidence/npm-publish-evidence.json"
+  },
   {
     id: "native-workflow-evidence",
     file: "docs/release/evidence/native-release-workflow.json"
