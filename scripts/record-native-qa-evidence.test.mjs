@@ -324,6 +324,12 @@ describe("native QA evidence recorder", () => {
       tempRepo,
       "docs/release/artifacts/ios-line-charts-runtime.md"
     );
+    const beforeMatrix = JSON.parse(
+      await readFile(
+        join(tempRepo, "docs/release/evidence/native-runtime-matrix.json"),
+        "utf8"
+      )
+    );
     const result = await recordNativeQaEvidence({
       dryRun: true,
       evidence: ["docs/release/artifacts/ios-line-charts-runtime.md"],
@@ -347,10 +353,7 @@ describe("native QA evidence recorder", () => {
     );
 
     expect(result.dryRun).toBe(true);
-    expect(matrix.rows[0]).toMatchObject({
-      evidence: ["docs/release/artifacts/ios-runtime-smoke.png"],
-      status: "partial"
-    });
+    expect(matrix.rows[0]).toEqual(beforeMatrix.rows[0]);
   });
 
   it("records Skia matrix evidence and regenerates the release QA checklist", async () => {

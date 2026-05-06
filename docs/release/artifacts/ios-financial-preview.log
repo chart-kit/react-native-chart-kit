@@ -1,0 +1,41 @@
+Timestamp               Ty Process[PID:TID]
+2026-05-06 17:29:27.890 A  ChartKitShowcase[26634:8a7509] (RunningBoardServices) didChangeInheritances
+2026-05-06 17:29:27.891 Df ChartKitShowcase[26634:848f7c] [com.apple.FrontBoard:SceneClient] [(FBSceneManager):sceneID:io.chartkit.showcase-default] Received action(s) in scene-update: UIOpenURLAction
+2026-05-06 17:29:27.891 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338
+2026-05-06 17:29:27.891 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:Application] Deactivation reason added: 5; deactivation reasons: 6144 -> 6176; animating application lifecycle event: 1
+2026-05-06 17:29:27.892 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:Application] Ignoring already applied deactivation reason: 12; deactivation reasons: 6176
+2026-05-06 17:29:27.892 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:Application] Deactivation reason removed: 11; deactivation reasons: 6176 -> 4128; animating application lifecycle event: 1
+2026-05-06 17:29:27.892 Df ChartKitShowcase[26634:8a7509] [com.apple.UIIntelligenceSupport:xpc] establishing connection to agent
+2026-05-06 17:29:27.892 Df ChartKitShowcase[26634:8a7509] [com.apple.xpc:session] [0x600002181bd0] Session created.
+2026-05-06 17:29:27.892 Df ChartKitShowcase[26634:8a7509] [com.apple.xpc:session] [0x600002181bd0] Session created from connection [0x132b56ff0]
+2026-05-06 17:29:27.892 Df ChartKitShowcase[26634:8a7509] [com.apple.xpc:connection] [0x132b56ff0] activating connection: mach=true listener=false peer=false name=com.apple.uiintelligencesupport.agent
+2026-05-06 17:29:27.892 Df ChartKitShowcase[26634:8a7509] [com.apple.xpc:session] [0x600002181bd0] Session activated
+2026-05-06 17:29:27.894 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:EventDeferring] [0x6000029359d0] [keyboardFocus] Recreation of event deferring records requested: removing recreation reason: detachedContext; for reason: _UIEventDeferringManager: 0x6000029359d0: recreating keyboardFocus: context attached for window: 0x105c23a20; contextID: 0x53DCB058
+2026-05-06 17:29:27.967 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:UpdateScheduler] Target list changed: <CADisplay:LCD PurpleMain>
+2026-05-06 17:29:27.967 Df ChartKitShowcase[26634:848f7c] [com.apple.KeyboardArbiter:Client] startConnection
+2026-05-06 17:29:27.967 Df ChartKitShowcase[26634:848f7c] [com.apple.xpc:connection] [0x13055baf0] activating connection: mach=true listener=false peer=false name=com.apple.UIKit.KeyboardManagement.hosted
+2026-05-06 17:29:27.968 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338
+2026-05-06 17:29:27.968 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x105b0bac0> (B904C529-BD84-4858-8C3C-69ED4F140338)
+2026-05-06 17:29:27.968 A  ChartKitShowcase[26634:8a7509] (RunningBoardServices) didChangeInheritances
+2026-05-06 17:29:27.969 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338
+2026-05-06 17:29:27.970 A  ChartKitShowcase[26634:8a7558] (RunningBoardServices) didChangeInheritances
+2026-05-06 17:29:27.990 Df ChartKitShowcase[26634:848f7c] [com.apple.KeyboardArbiter:Client] handleKeyboardChange: set currentKeyboard:N (wasKeyboard:N)
+2026-05-06 17:29:27.991 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:KeyboardSceneDelegate] forceReloadInputViews
+2026-05-06 17:29:27.991 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:KeyboardSceneDelegate] Reloading input views for key-window scene responder: <(null): 0x0; > force:Y
+2026-05-06 17:29:27.992 Df ChartKitShowcase[26634:8a7558] [com.apple.BackBoard:EventDelivery] policyStatus:<BKSHIDEventDeliveryPolicyObserver: 0x600002610240; token: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Aio.chartkit.showcase-default; status: ancestor> was:none
+2026-05-06 17:29:27.992 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:KeyWindow] Scene target of keyboard event deferring environment did change: 1; scene: UIWindowScene: 0x105b0bac0; scene identity: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Aio.chartkit.showcase-default
+2026-05-06 17:29:27.992 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:EventDeferring] [0x6000029359d0] Scene target of event deferring environments did update: scene: 0x105b0bac0; current systemShellManagesKeyboardFocus: 1; systemShellManagesKeyboardFocusForScene: 1; eligibleForRecordRemoval: 1;
+2026-05-06 17:29:27.992 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:KeyWindow] Scene became target of keyboard event deferring environment: UIWindowScene: 0x105b0bac0; scene identity: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Aio.chartkit.showcase-default
+2026-05-06 17:29:27.993 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338
+2026-05-06 17:29:28.076 A  ChartKitShowcase[26634:8a7509] (RunningBoardServices) didChangeInheritances
+2026-05-06 17:29:28.330 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x105b0bac0> (B904C529-BD84-4858-8C3C-69ED4F140338)
+2026-05-06 17:29:28.330 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338
+2026-05-06 17:29:28.331 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:Application] Deactivation reason removed: 12; deactivation reasons: 4128 -> 32; animating application lifecycle event: 1
+2026-05-06 17:29:28.331 Df ChartKitShowcase[26634:848f7c] [com.apple.KeyboardArbiter:Client] Send setDeactivating: N (-DeactivationReason:SuspendedEventsOnly)
+2026-05-06 17:29:28.331 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:Application] Deactivation reason removed: 5; deactivation reasons: 32 -> 0; animating application lifecycle event: 0
+2026-05-06 17:30:21.571 Df ChartKitShowcase[26634:848f7c] [com.apple.FrontBoard:SceneClient] [(FBSceneManager):sceneID:io.chartkit.showcase-default] Received action(s) in scene-update: UIOpenURLAction
+2026-05-06 17:30:21.571 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338
+2026-05-06 17:30:36.639 Df ChartKitShowcase[26634:848f7c] [com.apple.FrontBoard:SceneClient] [(FBSceneManager):sceneID:io.chartkit.showcase-default] Received action(s) in scene-update: UIOpenURLAction
+2026-05-06 17:30:36.639 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338
+2026-05-06 17:30:49.098 Df ChartKitShowcase[26634:848f7c] [com.apple.FrontBoard:SceneClient] [(FBSceneManager):sceneID:io.chartkit.showcase-default] Received action(s) in scene-update: UIOpenURLAction
+2026-05-06 17:30:49.098 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338

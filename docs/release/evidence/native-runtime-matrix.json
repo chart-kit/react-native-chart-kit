@@ -117,64 +117,96 @@
       "platform": "ios",
       "pageId": "line-charts",
       "status": "partial",
-      "evidence": ["docs/release/artifacts/ios-runtime-smoke.png"],
-      "notes": "Release simulator launch smoke: Line Charts rendered; full interaction matrix still pending."
+      "evidence": [
+        "docs/release/artifacts/ios-runtime-smoke.png",
+        "docs/release/artifacts/ios-line-charts.png",
+        "docs/release/artifacts/ios-line-charts.log"
+      ],
+      "notes": "Release simulator row-level capture: Line Charts opened by deep link and rendered chart content; full interaction, rotation, and physical-device runtime checks still pending."
     },
     {
       "id": "ios-bar-charts",
       "platform": "ios",
       "pageId": "bar-charts",
       "status": "partial",
-      "evidence": ["docs/release/artifacts/ios-runtime-bar-charts.png"],
-      "notes": "Release simulator QA launch smoke: Bar page opened without red-screen error and grouped/selection bar chart content rendered; full gesture, rotation, and physical-device runtime checks still pending."
+      "evidence": [
+        "docs/release/artifacts/ios-runtime-bar-charts.png",
+        "docs/release/artifacts/ios-bar-charts.png",
+        "docs/release/artifacts/ios-bar-charts.log"
+      ],
+      "notes": "Release simulator row-level capture: Bar Charts opened by deep link and rendered chart content; full gesture, rotation, and physical-device runtime checks still pending."
     },
     {
       "id": "ios-combined-preview",
       "platform": "ios",
       "pageId": "combined-preview",
       "status": "partial",
-      "evidence": ["docs/release/artifacts/ios-runtime-combined-preview.png"],
-      "notes": "Release simulator QA launch smoke: Combined Preview page opened without red-screen error and dual-axis combined chart content rendered; full shared-tooltip, legend toggle, gesture, rotation, and physical-device runtime checks still pending."
+      "evidence": [
+        "docs/release/artifacts/ios-runtime-combined-preview.png",
+        "docs/release/artifacts/ios-combined-preview.png",
+        "docs/release/artifacts/ios-combined-preview.log"
+      ],
+      "notes": "Release simulator row-level capture: Combined Preview opened by deep link and rendered chart content; full shared-tooltip, legend, gesture, rotation, and physical-device runtime checks still pending."
     },
     {
       "id": "ios-financial-preview",
       "platform": "ios",
       "pageId": "financial-preview",
       "status": "partial",
-      "evidence": ["docs/release/artifacts/ios-runtime-financial-preview.png"],
-      "notes": "Release simulator QA launch smoke: Financial Preview page opened without red-screen error and candlestick/range-selector content rendered; full candlestick tap, pan, pinch, range-selector, rotation, and physical-device runtime checks still pending."
+      "evidence": [
+        "docs/release/artifacts/ios-runtime-financial-preview.png",
+        "docs/release/artifacts/ios-financial-preview.png",
+        "docs/release/artifacts/ios-financial-preview.log"
+      ],
+      "notes": "Release simulator row-level capture: Financial Preview opened by deep link and rendered chart content; full candlestick, pan, pinch, range-selector, rotation, and physical-device runtime checks still pending."
     },
     {
       "id": "ios-pie-donut",
       "platform": "ios",
       "pageId": "pie-donut",
       "status": "partial",
-      "evidence": ["docs/release/artifacts/ios-runtime-pie-donut.png"],
-      "notes": "Release simulator QA launch smoke: Pie & Donut page opened without red-screen error and pie/donut chart content rendered; full slice selection, long-label, tooltip, rotation, and physical-device runtime checks still pending."
+      "evidence": [
+        "docs/release/artifacts/ios-runtime-pie-donut.png",
+        "docs/release/artifacts/ios-pie-donut.png",
+        "docs/release/artifacts/ios-pie-donut.log"
+      ],
+      "notes": "Release simulator row-level capture: Pie and Donut opened by deep link and rendered chart content; full slice selection, long-label, tooltip, rotation, and physical-device runtime checks still pending."
     },
     {
       "id": "ios-progress",
       "platform": "ios",
       "pageId": "progress",
       "status": "partial",
-      "evidence": ["docs/release/artifacts/ios-runtime-progress.png"],
-      "notes": "Release simulator QA launch smoke: Progress page opened without red-screen error and progress ring content rendered; full ring selection, empty-state, tooltip, rotation, and physical-device runtime checks still pending."
+      "evidence": [
+        "docs/release/artifacts/ios-runtime-progress.png",
+        "docs/release/artifacts/ios-progress.png",
+        "docs/release/artifacts/ios-progress.log"
+      ],
+      "notes": "Release simulator row-level capture: Progress opened by deep link and rendered chart content; full ring selection, empty-state, tooltip, rotation, and physical-device runtime checks still pending."
     },
     {
       "id": "ios-heatmaps",
       "platform": "ios",
       "pageId": "heatmaps",
       "status": "partial",
-      "evidence": ["docs/release/artifacts/ios-runtime-heatmaps.png"],
-      "notes": "Release simulator QA launch smoke: Heatmaps page opened without red-screen error and calendar heatmap content rendered; full heatmap cell selection, empty-state, rotation, and physical-device runtime checks still pending."
+      "evidence": [
+        "docs/release/artifacts/ios-runtime-heatmaps.png",
+        "docs/release/artifacts/ios-heatmaps.png",
+        "docs/release/artifacts/ios-heatmaps.log"
+      ],
+      "notes": "Release simulator row-level capture: Heatmaps opened by deep link and rendered chart content; full cell selection, empty-state, rotation, and physical-device runtime checks still pending."
     },
     {
       "id": "ios-compatibility",
       "platform": "ios",
       "pageId": "compatibility",
       "status": "partial",
-      "evidence": ["docs/release/artifacts/ios-runtime-compatibility.png"],
-      "notes": "Release simulator QA launch smoke: Compatibility page opened without red-screen error and legacy LineChart/BarChart fixture content rendered; full legacy bounds, dark-mode switching, rotation, and physical-device runtime checks still pending."
+      "evidence": [
+        "docs/release/artifacts/ios-runtime-compatibility.png",
+        "docs/release/artifacts/ios-compatibility.png",
+        "docs/release/artifacts/ios-compatibility.log"
+      ],
+      "notes": "Release simulator row-level capture: Compatibility opened by deep link and rendered chart content; full legacy bounds, dark-mode switching, rotation, and physical-device runtime checks still pending."
     },
     {
       "id": "android-line-charts",
