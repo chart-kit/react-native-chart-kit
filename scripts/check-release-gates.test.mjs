@@ -174,7 +174,7 @@ describe("release gate checker", () => {
     });
   });
 
-  it("tracks partial Developer Preview npm publish state", () => {
+  it("tracks completed Developer Preview npm publish state", () => {
     const report = runGateReportJson();
     const publishManifest = JSON.parse(
       readFileSync(
@@ -190,7 +190,7 @@ describe("release gate checker", () => {
     ).toMatchObject({
       evidence: "docs/release/evidence/npm-publish-evidence.json",
       message: publishManifest.summary,
-      status: "block"
+      status: "pass"
     });
   });
 
