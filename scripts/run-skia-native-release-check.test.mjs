@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  buildVerifiedOutput,
   buildSkiaNativeCommandPlan,
   getPackageNameFromSpec,
   parseSkiaNativeArgs
@@ -89,5 +90,34 @@ describe("Skia native release check runner", () => {
       "--app-dir",
       "apps/expo-showcase"
     ]);
+  });
+
+  it("summarizes Android Skia install output", () => {
+    expect(
+      buildVerifiedOutput({
+        output: [
+          "@shopify/react-native-skia@2.6.2",
+          "> Configure project :shopify_react-native-skia",
+          "BUILD SUCCESSFUL in 1m"
+        ].join("\n"),
+        platform: "android",
+        skiaPackage: "@shopify/react-native-skia"
+      })
+    ).toContain("Skia Gradle project configured: yes");
+  });
+
+  it("summarizes iOS Skia install output", () => {
+    const summary = buildVerifiedOutput({
+      output: [
+        "@shopify/react-native-skia@2.6.2",
+        "Auto-linking React Native modules for target `ChartKitShowcase`: RNSVG and react-native-skia",
+        "** BUILD SUCCEEDED **"
+      ].join("\n"),
+      platform: "ios",
+      skiaPackage: "@shopify/react-native-skia"
+    });
+
+    expect(summary).toContain("Skia CocoaPods target autolinked: yes");
+    expect(summary).toContain("Release build successful: yes");
   });
 });

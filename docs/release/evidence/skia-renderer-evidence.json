@@ -3,7 +3,7 @@
   "status": "partial",
   "requiredFor": ["H4", "H5", "H6"],
   "lastUpdated": "2026-05-06",
-  "summary": "The Skia preview package, injected primitive adapter, local renderer contract coverage, and Android optional-Skia install/build evidence exist, but iOS install, native renderer parity, and Skia performance evidence are incomplete.",
+  "summary": "The Skia preview package, injected primitive adapter, local renderer contract coverage, and iOS/Android optional-Skia install/build evidence exist, but native renderer parity and Skia performance evidence are incomplete.",
   "matrix": "docs/release/evidence/skia-renderer-matrix.json",
   "completedEntries": [
     {
@@ -45,6 +45,13 @@
       "result": "partial-pass",
       "artifacts": ["docs/release/artifacts/android-skia-native-install.md"],
       "notes": "Android temporary showcase app installed @shopify/react-native-skia@2.6.2, verified it with npm ls, configured the :shopify_react-native-skia Gradle project, and completed assembleRelease. This is install/build evidence only; renderer parity screenshots and Skia performance comparison remain required."
+    },
+    {
+      "date": "2026-05-06",
+      "scope": "ios-native-install",
+      "result": "partial-pass",
+      "artifacts": ["docs/release/artifacts/ios-skia-native-install.md"],
+      "notes": "iOS temporary showcase app installed @shopify/react-native-skia@2.6.2, verified it with npm ls, autolinked the react-native-skia CocoaPods target, and completed Release xcodebuild. This is install/build evidence only; renderer parity screenshots and Skia performance comparison remain required."
     }
   ],
   "coveredSurfaces": [
@@ -91,7 +98,7 @@
     "debug-layout surfaces"
   ],
   "missingEvidence": [
-    "ios-skia-native-install is partial; evidence is required before this matrix can be complete.",
+    "ios-skia-native-install is partial; iOS install/build evidence exists, but renderer parity and Skia performance rows are still required before Skia can be complete.",
     "android-skia-native-install is partial; Android install/build evidence exists, but renderer parity and Skia performance rows are still required before Skia can be complete.",
     "ios-skia-free-chart-parity is partial; evidence is required before this matrix can be complete.",
     "android-skia-free-chart-parity is partial; evidence is required before this matrix can be complete.",

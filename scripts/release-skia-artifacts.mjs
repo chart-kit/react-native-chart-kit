@@ -19,6 +19,7 @@ const readLocalText = (relativePath) =>
 const isExternalEvidenceLink = (value) => /^https?:\/\//.test(value);
 
 const baselineArtifactName = "skia-local-baseline";
+const nativeInstallArtifactName = "skia-native-install";
 const requiredBaselineTokens = [
   "Date:",
   "Commit:",
@@ -36,6 +37,15 @@ const requiredBaselineTokens = [
   "iOS or Android install",
   "native release-build rendering",
   "native SVG-vs-Skia performance comparison"
+];
+const requiredNativeInstallTokens = [
+  "Date:",
+  "Commit:",
+  "Build surface: temporary native QA workspace",
+  "@shopify/react-native-skia@",
+  "Release build successful: yes",
+  "This install evidence does not by itself prove renderer parity screenshots",
+  "Performance comparison rows still require SVG-vs-Skia timing and memory data"
 ];
 
 const missingTokens = (source, tokens) =>
@@ -74,6 +84,45 @@ const validateLocalBaseline = async ({ artifact, exists, readText, row }) => {
   return errors;
 };
 
+const validateNativeInstallArtifact = async ({
+  artifact,
+  exists,
+  readText,
+  row
+}) => {
+  const errors = [];
+
+  if (isExternalEvidenceLink(artifact) || !artifact.endsWith(".md")) {
+    return errors;
+  }
+
+  if (!(await exists(artifact))) {
+    return errors;
+  }
+
+  if (!artifact.includes(nativeInstallArtifactName)) {
+    return errors;
+  }
+
+  const source = await readText(artifact);
+  const platformTokens =
+    row.platform === "ios"
+      ? ["Platform target: ios", "Skia CocoaPods target autolinked: yes"]
+      : ["Platform target: android", "Skia Gradle project configured: yes"];
+  const missing = missingTokens(source, [
+    ...requiredNativeInstallTokens,
+    ...platformTokens
+  ]);
+
+  if (missing.length > 0) {
+    errors.push(
+      `${row.id} Skia native install artifact ${artifact} is missing required fields: ${missing.join(", ")}`
+    );
+  }
+
+  return errors;
+};
+
 export const validateSkiaMatrixArtifacts = async (
   matrix,
   { exists = localExists, readText = readLocalText } = {}
@@ -93,6 +142,17 @@ export const validateSkiaMatrixArtifacts = async (
     for (const artifact of baselineArtifacts) {
       errors.push(
         ...(await validateLocalBaseline({ artifact, exists, readText, row }))
+      );
+    }
+
+    for (const artifact of artifacts) {
+      errors.push(
+        ...(await validateNativeInstallArtifact({
+          artifact,
+          exists,
+          readText,
+          row
+        }))
       );
     }
   }

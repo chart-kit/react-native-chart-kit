@@ -171,6 +171,29 @@ export const buildSkiaNativeCommandPlan = ({
   ];
 };
 
+export const buildVerifiedOutput = ({ output, platform, skiaPackage }) => {
+  const installedVersion =
+    output.match(/@shopify\/react-native-skia@[^\s]+/)?.[0] ??
+    getPackageNameFromSpec(skiaPackage);
+  const isIos = platform === "ios";
+  const integrationLabel = isIos
+    ? "Skia CocoaPods target autolinked"
+    : "Skia Gradle project configured";
+  const integrationVerified = isIos
+    ? output.includes("react-native-skia") &&
+      output.includes("Auto-linking React Native modules")
+    : output.includes("Configure project :shopify_react-native-skia");
+  const buildSucceeded = isIos
+    ? output.includes("** BUILD SUCCEEDED **")
+    : output.includes("BUILD SUCCESSFUL");
+
+  return [
+    `- Installed package: \`${installedVersion}\``,
+    `- ${integrationLabel}: ${integrationVerified ? "yes" : "no"}`,
+    `- Release build successful: ${buildSucceeded ? "yes" : "no"}`
+  ].join("\n");
+};
+
 const createArtifact = ({
   artifactPath,
   commands,
@@ -180,13 +203,11 @@ const createArtifact = ({
 }) => {
   const relativeArtifact = path.relative(repoRoot, artifactPath);
   const output = commands.map((item) => item.output).join("\n");
-  const installedVersion =
-    output.match(/@shopify\/react-native-skia@[^\s]+/)?.[0] ??
-    getPackageNameFromSpec(skiaPackage);
-  const skiaGradleConfigured = output.includes(
-    "Configure project :shopify_react-native-skia"
-  );
-  const buildSucceeded = output.includes("BUILD SUCCESSFUL");
+  const verifiedOutput = buildVerifiedOutput({
+    output,
+    platform,
+    skiaPackage
+  });
   const body = `# Skia Native Install Evidence
 
 Date: ${new Date().toISOString().slice(0, 10)}
@@ -215,9 +236,7 @@ ${commands.map((item) => item.command).join("\n")}
 
 ## Verified Output
 
-- Installed package: \`${installedVersion}\`
-- Skia Gradle project configured: ${skiaGradleConfigured ? "yes" : "no"}
-- Release build successful: ${buildSucceeded ? "yes" : "no"}
+${verifiedOutput}
 
 ## Caveats
 

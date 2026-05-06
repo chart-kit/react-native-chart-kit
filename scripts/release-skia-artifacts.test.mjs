@@ -47,6 +47,25 @@ Not covered by this local baseline:
 - native SVG-vs-Skia performance comparison
 `;
 
+const iosInstallArtifact = `# Skia Native Install Evidence
+
+Date: 2026-05-06
+Commit: \`abc1234\`
+Build surface: temporary native QA workspace
+Platform target: ios
+
+## Verified Output
+
+- Installed package: \`@shopify/react-native-skia@2.6.2\`
+- Skia CocoaPods target autolinked: yes
+- Release build successful: yes
+
+## Caveats
+
+- This install evidence does not by itself prove renderer parity screenshots.
+- Performance comparison rows still require SVG-vs-Skia timing and memory data.
+`;
+
 describe("Skia artifact validation", () => {
   it("accepts checked-in Skia baseline artifacts", async () => {
     const matrix = JSON.parse(
@@ -80,6 +99,29 @@ describe("Skia artifact validation", () => {
 
     expect(errors.join("; ")).toContain(
       "must not use the local Skia baseline as final evidence"
+    );
+  });
+
+  it("requires platform-specific native install proof", async () => {
+    const matrix = {
+      rows: [
+        {
+          evidence: ["docs/release/artifacts/ios-skia-native-install.md"],
+          id: "ios-skia-native-install",
+          platform: "ios",
+          scenarioId: "native-install",
+          status: "partial"
+        }
+      ]
+    };
+    const errors = await validateSkiaMatrixArtifacts(matrix, {
+      exists: async () => true,
+      readText: async () =>
+        iosInstallArtifact.replace("Skia CocoaPods target autolinked: yes", "")
+    });
+
+    expect(errors.join("; ")).toContain(
+      "Skia CocoaPods target autolinked: yes"
     );
   });
 });
