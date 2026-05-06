@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "status": "pending",
+  "lastUpdated": "2026-05-06",
+  "source": "docs/release/h4-pro-scope.md",
+  "platforms": [
+    {
+      "id": "ios",
+      "label": "iOS",
+      "requiredBuildSurface": "Release build on device or accepted simulator with optional Skia renderer installed"
+    },
+    {
+      "id": "android",
+      "label": "Android",
+      "requiredBuildSurface": "Release APK on device or accepted emulator with optional Skia renderer installed"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "native-install",
+      "label": "Native Skia install verification",
+      "requiredEvidence": "Install optional Skia renderer dependencies, run native release build, and verify the SVG default path still works without static Skia imports."
+    },
+    {
+      "id": "free-chart-parity",
+      "label": "Free chart renderer parity",
+      "requiredEvidence": "Line, Area, Bar, StackedBar, Pie, Donut, Progress, and Contribution surfaces render with injected Skia primitives without missing text, gradients, clipping, tooltips, or legends."
+    },
+    {
+      "id": "pro-preview-parity",
+      "label": "Pro preview renderer parity",
+      "requiredEvidence": "Combined, Candlestick, range selector, sticky axis, crosshair, tooltip, and debug-layout preview surfaces render correctly with injected Skia primitives."
+    },
+    {
+      "id": "performance-comparison",
+      "label": "Skia performance comparison",
+      "requiredEvidence": "Compare SVG and Skia native release-build timing and memory on dense line, multi-line scrub, range selector, scrollable bar, combined, and candlestick scenarios."
+    }
+  ],
+  "rows": [
+    {
+      "id": "ios-skia-native-install",
+      "platform": "ios",
+      "scenarioId": "native-install",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-skia-native-install",
+      "platform": "android",
+      "scenarioId": "native-install",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-skia-free-chart-parity",
+      "platform": "ios",
+      "scenarioId": "free-chart-parity",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-skia-free-chart-parity",
+      "platform": "android",
+      "scenarioId": "free-chart-parity",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-skia-pro-preview-parity",
+      "platform": "ios",
+      "scenarioId": "pro-preview-parity",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-skia-pro-preview-parity",
+      "platform": "android",
+      "scenarioId": "pro-preview-parity",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-skia-performance-comparison",
+      "platform": "ios",
+      "scenarioId": "performance-comparison",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-skia-performance-comparison",
+      "platform": "android",
+      "scenarioId": "performance-comparison",
+      "status": "pending",
+      "evidence": []
+    }
+  ]
+}

@@ -2,8 +2,9 @@
   "schemaVersion": 1,
   "status": "partial",
   "requiredFor": ["H4", "H5", "H6"],
-  "lastUpdated": "2026-05-05",
+  "lastUpdated": "2026-05-06",
   "summary": "The Skia preview package, injected primitive adapter, and local renderer contract coverage exist, but native install and renderer parity evidence are incomplete.",
+  "matrix": "docs/release/evidence/skia-renderer-matrix.json",
   "completedEntries": [
     {
       "date": "2026-05-05",

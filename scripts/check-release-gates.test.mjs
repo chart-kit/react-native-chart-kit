@@ -31,10 +31,14 @@ describe("release gate checker", () => {
     );
 
     expect(skiaCheck).toMatchObject({
-      evidence: "docs/release/evidence/skia-renderer-evidence.json",
+      evidence:
+        "docs/release/evidence/skia-renderer-evidence.json; docs/release/evidence/skia-renderer-matrix.json",
       message: skiaManifest.summary,
       status: "block"
     });
+    expect(skiaCheck?.detail).toContain(
+      "8 pending Skia renderer evidence rows"
+    );
   });
 
   it("surfaces pending native runtime matrix rows", () => {
@@ -93,6 +97,7 @@ describe("release gate checker", () => {
         .filter((check) => check.id.startsWith("matrix:"))
         .map((check) => [check.id, check.status])
     ).toEqual([
+      ["matrix:skia-backend", "pass"],
       ["matrix:native-runtime-qa", "pass"],
       ["matrix:native-accessibility-qa", "pass"],
       ["matrix:native-performance", "pass"]

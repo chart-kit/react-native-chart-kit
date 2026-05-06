@@ -35,6 +35,7 @@ const requiredFiles = [
   "docs/release/evidence/owner-gates.json",
   "docs/release/evidence/package-manifest.json",
   "docs/release/evidence/skia-renderer-evidence.json",
+  "docs/release/evidence/skia-renderer-matrix.json",
   ".github/workflows/native-release.yml",
   "scripts/generate-native-qa-checklists.mjs",
   "scripts/record-owner-gate-decision.mjs",
@@ -99,7 +100,9 @@ const releaseEvidenceManifests = [
   },
   {
     id: "skia-backend",
-    file: "docs/release/evidence/skia-renderer-evidence.json"
+    file: "docs/release/evidence/skia-renderer-evidence.json",
+    matrixFile: "docs/release/evidence/skia-renderer-matrix.json",
+    matrixLabel: "Skia renderer evidence rows"
   },
   {
     id: "native-runtime-qa",
