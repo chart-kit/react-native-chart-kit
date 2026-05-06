@@ -1,0 +1,3 @@
+Timestamp               Ty Process[PID:TID]
+2026-05-06 17:46:39.115 Df ChartKitShowcase[26634:848f7c] [com.apple.FrontBoard:SceneClient] [(FBSceneManager):sceneID:io.chartkit.showcase-default] Received action(s) in scene-update: UIOpenURLAction
+2026-05-06 17:46:39.116 Df ChartKitShowcase[26634:848f7c] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338

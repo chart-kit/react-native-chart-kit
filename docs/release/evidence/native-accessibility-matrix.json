@@ -92,9 +92,11 @@
       "pageId": "line-charts",
       "status": "partial",
       "evidence": [
-        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md",
+        "docs/release/artifacts/ios-voiceover-line-charts.png",
+        "docs/release/artifacts/ios-voiceover-line-charts.log"
       ],
-      "notes": "Automated summary/data-table and showcase data-details evidence only; native iOS VoiceOver review still required."
+      "notes": "Supporting iOS row-level capture only; manual iOS VoiceOver screen-reader review still required."
     },
     {
       "id": "ios-voiceover-bar-charts",
@@ -102,9 +104,11 @@
       "pageId": "bar-charts",
       "status": "partial",
       "evidence": [
-        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md",
+        "docs/release/artifacts/ios-voiceover-bar-charts.png",
+        "docs/release/artifacts/ios-voiceover-bar-charts.log"
       ],
-      "notes": "Automated summary/data-table and showcase data-details evidence only; native iOS VoiceOver review still required."
+      "notes": "Supporting iOS row-level capture only; manual iOS VoiceOver screen-reader review still required."
     },
     {
       "id": "ios-voiceover-combined-preview",
@@ -112,9 +116,11 @@
       "pageId": "combined-preview",
       "status": "partial",
       "evidence": [
-        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md",
+        "docs/release/artifacts/ios-voiceover-combined-preview.png",
+        "docs/release/artifacts/ios-voiceover-combined-preview.log"
       ],
-      "notes": "Automated summary/data-table and showcase data-details evidence only; native iOS VoiceOver review still required."
+      "notes": "Supporting iOS row-level capture only; manual iOS VoiceOver screen-reader review still required."
     },
     {
       "id": "ios-voiceover-financial-preview",
@@ -122,9 +128,11 @@
       "pageId": "financial-preview",
       "status": "partial",
       "evidence": [
-        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md",
+        "docs/release/artifacts/ios-voiceover-financial-preview.png",
+        "docs/release/artifacts/ios-voiceover-financial-preview.log"
       ],
-      "notes": "Automated summary/data-table and showcase data-details evidence only; native iOS VoiceOver review still required."
+      "notes": "Supporting iOS row-level capture only; manual iOS VoiceOver screen-reader review still required."
     },
     {
       "id": "ios-voiceover-pie-donut",
@@ -132,9 +140,11 @@
       "pageId": "pie-donut",
       "status": "partial",
       "evidence": [
-        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md",
+        "docs/release/artifacts/ios-voiceover-pie-donut.png",
+        "docs/release/artifacts/ios-voiceover-pie-donut.log"
       ],
-      "notes": "Automated summary/data-table and showcase data-details evidence only; native iOS VoiceOver review still required."
+      "notes": "Supporting iOS row-level capture only; manual iOS VoiceOver screen-reader review still required."
     },
     {
       "id": "ios-voiceover-progress",
@@ -142,9 +152,11 @@
       "pageId": "progress",
       "status": "partial",
       "evidence": [
-        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md",
+        "docs/release/artifacts/ios-voiceover-progress.png",
+        "docs/release/artifacts/ios-voiceover-progress.log"
       ],
-      "notes": "Automated summary/data-table and showcase data-details evidence only; native iOS VoiceOver review still required."
+      "notes": "Supporting iOS row-level capture only; manual iOS VoiceOver screen-reader review still required."
     },
     {
       "id": "ios-voiceover-heatmaps",
@@ -152,9 +164,11 @@
       "pageId": "heatmaps",
       "status": "partial",
       "evidence": [
-        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md",
+        "docs/release/artifacts/ios-voiceover-heatmaps.png",
+        "docs/release/artifacts/ios-voiceover-heatmaps.log"
       ],
-      "notes": "Automated summary/data-table and showcase data-details evidence only; native iOS VoiceOver review still required."
+      "notes": "Supporting iOS row-level capture only; manual iOS VoiceOver screen-reader review still required."
     },
     {
       "id": "ios-voiceover-compatibility",
@@ -162,9 +176,11 @@
       "pageId": "compatibility",
       "status": "partial",
       "evidence": [
-        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md",
+        "docs/release/artifacts/ios-voiceover-compatibility.png",
+        "docs/release/artifacts/ios-voiceover-compatibility.log"
       ],
-      "notes": "Automated summary/data-table and showcase data-details evidence only; native iOS VoiceOver review still required."
+      "notes": "Supporting iOS row-level capture only; manual iOS VoiceOver screen-reader review still required."
     },
     {
       "id": "android-talkback-line-charts",
