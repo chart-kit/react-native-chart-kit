@@ -70,6 +70,8 @@ Keep H6 blocked until the release gate has no blockers.
 
 Record approval only after the owner accepts or edits these decisions and the gate is green:
 
+The recorder enforces H6 prerequisites: H4 and H5 must already be approved, and native workflow, native runtime, native accessibility, native performance, and Skia evidence manifests must be complete.
+
 ```sh
 npm run release:owner:record -- \
   --gate h6 \

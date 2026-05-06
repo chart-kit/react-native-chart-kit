@@ -5,9 +5,19 @@ import { fileURLToPath } from "node:url";
 
 const defaultRepoRoot = process.cwd();
 const ownerGatesPath = "docs/release/evidence/owner-gates.json";
+const h6EvidenceManifestPaths = [
+  "docs/release/evidence/native-release-workflow.json",
+  "docs/release/evidence/native-runtime-qa.json",
+  "docs/release/evidence/native-accessibility-qa.json",
+  "docs/release/evidence/native-performance-benchmark.json",
+  "docs/release/evidence/skia-renderer-evidence.json"
+];
 
 const readOwnerGates = async (repoRoot) =>
   JSON.parse(await readFile(path.join(repoRoot, ownerGatesPath), "utf8"));
+
+const readJson = async (repoRoot, relativePath) =>
+  JSON.parse(await readFile(path.join(repoRoot, relativePath), "utf8"));
 
 const writeOwnerGates = async (repoRoot, manifest) =>
   writeFile(
@@ -58,6 +68,44 @@ const parseArgs = (argv) => {
 };
 
 const today = () => new Date().toISOString().slice(0, 10);
+
+const getH6ApprovalBlockers = async ({ manifest, repoRoot }) => {
+  const blockers = [];
+  const gates = manifest.gates ?? [];
+  const h4 = gates.find((gate) => gate.id === "h4");
+  const h5 = gates.find((gate) => gate.id === "h5");
+
+  if (h4?.status !== "approved") {
+    blockers.push("H4 must be approved before H6");
+  }
+
+  if (h5?.status !== "approved") {
+    blockers.push("H5 must be approved before H6");
+  }
+
+  for (const manifestPath of h6EvidenceManifestPaths) {
+    let evidenceManifest;
+
+    try {
+      evidenceManifest = await readJson(repoRoot, manifestPath);
+    } catch {
+      blockers.push(`${manifestPath} must exist before H6`);
+      continue;
+    }
+
+    if (evidenceManifest.status !== "complete") {
+      blockers.push(`${manifestPath} must be complete before H6`);
+    }
+
+    if (Array.isArray(evidenceManifest.missingEvidence)) {
+      for (const missing of evidenceManifest.missingEvidence) {
+        blockers.push(`${manifestPath} missing: ${missing}`);
+      }
+    }
+  }
+
+  return blockers;
+};
 
 export const listOwnerGates = async ({ repoRoot = defaultRepoRoot } = {}) => {
   const manifest = await readOwnerGates(repoRoot);
@@ -111,6 +159,14 @@ export const approveOwnerGate = async ({
     throw new Error(
       `${gateId} requires ${pendingDecisions.length} decisions; received ${decisions.length}`
     );
+  }
+
+  if (gateId === "h6") {
+    const h6Blockers = await getH6ApprovalBlockers({ manifest, repoRoot });
+
+    if (h6Blockers.length > 0) {
+      throw new Error(`H6 cannot be approved yet: ${h6Blockers.join("; ")}`);
+    }
   }
 
   const nextGate = {

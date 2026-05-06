@@ -137,4 +137,25 @@ describe("owner gate decision recorder", () => {
       status: "open"
     });
   });
+
+  it("blocks H6 approval until H4, H5, and release evidence manifests are complete", async () => {
+    const tempRepo = await createTempRepo();
+
+    await expect(
+      approveOwnerGate({
+        approvedAt: "2026-05-06",
+        approvedBy: "owner",
+        decisions: [
+          "Release candidate approved.",
+          "Final semver approved.",
+          "Final changelog approved.",
+          "Docs freeze approved.",
+          "Visual baseline freeze approved.",
+          "Deprecation policy approved."
+        ],
+        gateId: "h6",
+        repoRoot: tempRepo
+      })
+    ).rejects.toThrow("H6 cannot be approved yet");
+  });
 });
