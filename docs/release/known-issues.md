@@ -26,15 +26,15 @@ Impact: CI can validate web showcase interactions, but cannot yet validate nativ
 
 Some advanced line-chart experiences, such as animation preview and range-selector/zoom workflows, are visible in the showcase before the final free-vs-Pro boundary is locked.
 
-The [H4 Pro scope decision packet](h4-pro-scope.md) captures the owner monetization direction: Pro should focus on production layout depth, production interactions, commercial chart types, export, premium templates, and performance. `packages/pro` now provides a preview feature-registry boundary for those buckets. Final package-separation approval is still pending before any license checks, runtime activation, or paid implementations are added.
+The [H4 Pro scope decision packet](h4-pro-scope.md) is approved: Pro should focus on production layout depth, production interactions, commercial chart types, export, premium templates, and performance. `packages/pro` now provides a preview feature-registry boundary for those buckets. Per H4, Pro ships later as a separate package and no license checks, runtime activation, or paid implementations are added before beta.
 
-Impact: H4/H5 must decide which features stay free, which move to Pro, and how to avoid making the free library feel intentionally limited.
+Impact: H5 must keep these features labeled as preview or Pro-candidate for beta, and H6 must not treat Pro as a finished paid package until paid implementation and native evidence are complete.
 
 ## Skia Renderer
 
 `packages/skia-renderer` now provides a preview package boundary, capability metadata, install guidance, and an injected Skia primitive adapter. Local renderer contract coverage exists for the injected primitives plus LineChart, BarChart, PieChart/DonutChart, ProgressChart/ProgressRing, ContributionGraph/CalendarHeatmap, CombinedChart, and CandlestickChart. Sticky-axis labels and measured text anchors are covered locally with a supplied Skia-like font, but native Skia install verification, native renderer parity tests, and native Skia benchmark comparisons are not complete yet. The structured status lives in [skia-renderer-evidence.json](evidence/skia-renderer-evidence.json).
 
-Impact: the optional package boundary exists for H4 review, but Skia must stay labeled as preview until the install matrix, native benchmarks, and native parity tests are implemented.
+Impact: the optional package boundary is approved for preview, but Skia must stay labeled as preview until the install matrix, native benchmarks, and native parity tests are implemented.
 
 ## Native Performance Evidence
 
@@ -46,7 +46,7 @@ Impact: benchmark regressions can be caught locally for core geometry and web sc
 
 `CandlestickChart` currently supports OHLC body and wick geometry, opt-in volume overlays, opt-in calendar-aware session-gap markers for dated candles, built-in US equities exchange presets for regular full-day holidays and early closes, an emergency-closure feed adapter, scrollable long-history mode, viewport windowing with pan/pinch preview gestures, interactive range selector overview, baseline OHLC accessibility helpers, a financial narrative helper, and tap inspection with an OHLC tooltip plus close-price badge.
 
-Impact: keep it labeled as financial foundation or preview until H4 decides whether advanced financial charts belong in the free package, Pro package, or a separate preview channel.
+Impact: per H4, keep it labeled as Financial Preview until native performance evidence and the Pro implementation path are complete.
 
 ## Docs Examples
 

@@ -5,19 +5,21 @@
     {
       "id": "h4",
       "name": "Pro/free boundary approval",
-      "status": "open",
+      "status": "approved",
       "requiredFor": ["H5", "H6"],
       "evidence": [
         "docs/release/h4-pro-scope.md",
         "docs/release/h4-owner-decision-memo.md"
       ],
-      "pendingDecisions": [
-        "final free-vs-Pro feature boundary",
-        "@chart-kit/pro package split",
-        "@chart-kit/skia-renderer packaging",
-        "license enforcement timing",
-        "which preview interactions remain free at beta",
-        "CandlestickChart beta visibility"
+      "approvedAt": "2026-05-06",
+      "approvedBy": "owner",
+      "decisions": [
+        "Free v2 remains useful with safe layout, SVG renderer, baseline charts, themes, accessibility helpers, and compatibility facade.",
+        "@chart-kit/pro will be a separate package later.",
+        "@chart-kit/skia-renderer remains a separate optional preview renderer package until native install, parity, and benchmark evidence are complete.",
+        "No license enforcement before beta.",
+        "Advanced interactions, range selector, pan/zoom, animation, financial charts, Skia, and large-data workflows stay preview/Pro-candidate for beta.",
+        "CandlestickChart remains Financial Preview."
       ]
     },
     {

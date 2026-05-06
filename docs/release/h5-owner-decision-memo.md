@@ -8,7 +8,7 @@ Do not publish the beta package yet. Approve the preview implementation for cont
 
 Reason: the implementation, showcase, docs, tests, visual coverage, benchmark, support workflow, release checklist, local native release builds, and package path are in place, but remote native workflow evidence and the final free-vs-Pro package boundary are not complete.
 
-The current export surface is guarded by `npm run surface:check`. That check verifies the legacy `react-native-chart-kit` root exports, the free/baseline `@chart-kit/react-native` exports, and the temporary `@chart-kit/react-native/pro-preview` subpath for H4 review.
+The current export surface is guarded by `npm run surface:check`. That check verifies the legacy `react-native-chart-kit` root exports, the free/baseline `@chart-kit/react-native` exports, and the temporary `@chart-kit/react-native/pro-preview` subpath for the H4-approved preview boundary.
 
 ## Decision 1: Publish Now Or Keep Iterating
 
@@ -18,7 +18,7 @@ Rationale:
 
 - verification is strong for web showcase and TypeScript surfaces
 - native release-build checks are configured and iOS/Android passed locally, but no green native workflow artifact is recorded yet
-- the [H4 Pro scope decision packet](h4-pro-scope.md) now captures the owner monetization direction, but final package separation, license timing, and beta labels are not approved
+- the [H4 Pro scope decision packet](h4-pro-scope.md) is approved, but native workflow/device evidence is still incomplete
 
 Acceptable owner override: publish a limited preview beta only if the beta is clearly labeled as API-preview and not production-ready.
 
@@ -51,7 +51,7 @@ Beta label requirement:
 Recommendation for beta preview:
 
 - Keep current line interactions visible in the showcase.
-- Label production layout depth, production touch workflows, range selector, pan/zoom, commercial chart types, export, premium templates, and future Skia/large-dataset work as preview or Pro-candidate features until H4 finalizes package scope.
+- Label production layout depth, production touch workflows, range selector, pan/zoom, commercial chart types, export, premium templates, and future Skia/large-dataset work as preview or Pro-candidate features per the H4-approved boundary.
 - Do not add license gating before the free v2 architecture and public API are stable.
 
 Rationale: hiding the best line-chart interactions before beta weakens visual review, but hard-gating them now would confuse API feedback.
@@ -95,6 +95,6 @@ npm run release:owner:record -- \
   --decision "Continue beta preparation before npm publication." \
   --decision "First beta may be labeled API Preview only if native evidence gaps remain." \
   --decision "Compatibility package and modern package paths approved for beta review." \
-  --decision "Advanced interactions, financial charts, range selector, pan/zoom, animation, Skia, and large-data workflows remain preview or Pro-candidate until H4 final labels are approved." \
+  --decision "Advanced interactions, financial charts, range selector, pan/zoom, animation, Skia, and large-data workflows remain preview or Pro-candidate per the H4-approved boundary." \
   --decision "CandlestickChart remains Financial Preview."
 ```

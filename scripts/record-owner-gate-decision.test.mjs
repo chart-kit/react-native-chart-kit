@@ -1,10 +1,4 @@
-import {
-  copyFile,
-  mkdir,
-  readFile,
-  writeFile,
-  mkdtemp
-} from "node:fs/promises";
+import { mkdir, readFile, writeFile, mkdtemp } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { describe, expect, it } from "vitest";
@@ -16,17 +10,54 @@ import {
 
 const repoRoot = process.cwd();
 
-const createTempRepo = async () => {
+const h4PendingDecisions = [
+  "final free-vs-Pro feature boundary",
+  "@chart-kit/pro package split",
+  "@chart-kit/skia-renderer packaging",
+  "license enforcement timing",
+  "which preview interactions remain free at beta",
+  "CandlestickChart beta visibility"
+];
+
+const createTempRepo = async ({ h4Open = false } = {}) => {
   const tempRepo = await mkdtemp(join(tmpdir(), "chartkit-owner-gates-"));
   const releaseDir = join(tempRepo, "docs/release");
   const evidenceDir = join(releaseDir, "evidence");
 
   await mkdir(evidenceDir, { recursive: true });
-  await copyFile(
-    join(repoRoot, "docs/release/evidence/owner-gates.json"),
-    join(evidenceDir, "owner-gates.json")
+  const ownerGates = JSON.parse(
+    await readFile(
+      join(repoRoot, "docs/release/evidence/owner-gates.json"),
+      "utf8"
+    )
+  );
+
+  if (h4Open) {
+    ownerGates.gates = ownerGates.gates.map((gate) =>
+      gate.id === "h4"
+        ? {
+            evidence: gate.evidence,
+            id: gate.id,
+            name: gate.name,
+            pendingDecisions: h4PendingDecisions,
+            requiredFor: gate.requiredFor,
+            status: "open"
+          }
+        : gate
+    );
+  }
+
+  await writeFile(
+    join(evidenceDir, "owner-gates.json"),
+    JSON.stringify(ownerGates, null, 2),
+    "utf8"
   );
   await writeFile(join(releaseDir, "h4-pro-scope.md"), "# H4\n", "utf8");
+  await writeFile(
+    join(releaseDir, "h4-owner-decision-memo.md"),
+    "# H4 Decision\n",
+    "utf8"
+  );
   await writeFile(
     join(releaseDir, "h5-beta-gate-evidence.md"),
     "# H5 Evidence\n",
@@ -52,15 +83,15 @@ describe("owner gate decision recorder", () => {
     const gates = await listOwnerGates({ repoRoot });
 
     expect(gates.map((gate) => [gate.id, gate.status])).toEqual([
-      ["h4", "open"],
+      ["h4", "approved"],
       ["h5", "open"],
       ["h6", "not-started"]
     ]);
-    expect(gates[0].pendingDecisions).toHaveLength(6);
+    expect(gates[0].pendingDecisions ?? []).toHaveLength(0);
   });
 
   it("requires all pending decisions before approving a gate", async () => {
-    const tempRepo = await createTempRepo();
+    const tempRepo = await createTempRepo({ h4Open: true });
 
     await expect(
       approveOwnerGate({
@@ -74,7 +105,7 @@ describe("owner gate decision recorder", () => {
   });
 
   it("records approved gate metadata and clears pending decisions", async () => {
-    const tempRepo = await createTempRepo();
+    const tempRepo = await createTempRepo({ h4Open: true });
     const decisions = [
       "free-vs-Pro boundary approved",
       "@chart-kit/pro ships separately",
@@ -109,7 +140,7 @@ describe("owner gate decision recorder", () => {
   });
 
   it("blocks H5 approval until H4 is approved", async () => {
-    const tempRepo = await createTempRepo();
+    const tempRepo = await createTempRepo({ h4Open: true });
 
     await expect(
       approveOwnerGate({
@@ -128,7 +159,7 @@ describe("owner gate decision recorder", () => {
   });
 
   it("supports dry-run without writing approval", async () => {
-    const tempRepo = await createTempRepo();
+    const tempRepo = await createTempRepo({ h4Open: true });
     const result = await approveOwnerGate({
       approvedAt: "2026-05-06",
       approvedBy: "owner",
