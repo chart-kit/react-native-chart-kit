@@ -75,7 +75,7 @@ Measure these scenarios:
 
 When Skia chart integration exists, run the same scenarios for both `svg` and `skia` where supported.
 
-The machine-readable matrix in [native-performance-matrix.json](evidence/native-performance-matrix.json) expands the required scenarios across iOS and Android for the SVG renderer. Each scenario maps to a current showcase story, and the generated [native QA checklist](native-qa-checklists.md) includes native deep links for opening the relevant story during manual profiling. Skia rows remain deferred until native Skia install and renderer parity evidence exist.
+The machine-readable matrix in [native-performance-matrix.json](evidence/native-performance-matrix.json) expands the required scenarios across iOS and Android for the SVG renderer. Each scenario maps to a current showcase story, and the generated [native QA checklist](native-qa-checklists.md) includes native deep links for opening the relevant story during manual profiling. Dedicated QA fixture sizes are recorded in the showcase [performance story metadata](../../apps/expo-showcase/src/stories/performanceStoryMetadata.json), and `npm run release:gate:report` checks that the matrix expected metrics match that metadata. Skia rows remain deferred until native Skia install and renderer parity evidence exist.
 
 ## Metrics To Capture
 

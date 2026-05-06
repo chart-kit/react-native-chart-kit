@@ -17,6 +17,7 @@ import {
   type NativeStoryProps,
   type ShowcaseStory
 } from "./storyPrimitives";
+import performanceStoryMetadata from "./performanceStoryMetadata.json";
 
 type PerfLinePoint = {
   benchmark: number;
@@ -122,12 +123,33 @@ const createCandles = (count: number): PerfCandlePoint[] => {
   return candles;
 };
 
-const line100 = createLineData(100);
-const line1000 = createLineData(1000);
-const line10000 = createLineData(10000);
-const bars500 = createBarData(500);
-const combinedPerf = createCombinedData(36);
-const candles1000 = createCandles(1000);
+const getStoryMetadata = (storyId: string) => {
+  const metadata = performanceStoryMetadata.stories.find(
+    (story) => story.id === storyId
+  );
+
+  if (!metadata) {
+    throw new Error(`Missing performance story metadata for ${storyId}`);
+  }
+
+  return metadata;
+};
+
+const line100Metadata = getStoryMetadata("v2-perf-line-100");
+const line1000Metadata = getStoryMetadata("v2-perf-line-1000-scrub");
+const line10000Metadata = getStoryMetadata("v2-perf-line-10000-overview");
+const panLineMetadata = getStoryMetadata("v2-perf-line-10000-pan");
+const rangeMetadata = getStoryMetadata("v2-perf-range-2x10000");
+const barMetadata = getStoryMetadata("v2-perf-bar-500-selection");
+const combinedMetadata = getStoryMetadata("v2-perf-combined-tooltip");
+const candleMetadata = getStoryMetadata("v2-perf-candlestick-1000");
+
+const line100 = createLineData(line100Metadata.totalPoints);
+const line1000 = createLineData(line1000Metadata.totalPoints);
+const line10000 = createLineData(line10000Metadata.totalPoints);
+const bars500 = createBarData(barMetadata.totalPoints);
+const combinedPerf = createCombinedData(combinedMetadata.totalPoints);
+const candles1000 = createCandles(candleMetadata.totalPoints);
 
 const PerfSmallLine = ({ width }: NativeStoryProps) => (
   <ChartSection title="100 point line" kicker="Native performance">
@@ -230,8 +252,8 @@ const PerfMultiLineSharedTooltip = ({
 
 const PerfPanLine = ({ onScrubEnd, onScrubStart, width }: NativeStoryProps) => {
   const [viewport, setViewport] = useState<LineChartViewportConfig>({
-    endIndex: 9999,
-    startIndex: 8000
+    endIndex: panLineMetadata.totalPoints - 1,
+    startIndex: panLineMetadata.totalPoints - panLineMetadata.visiblePoints
   });
   const handleViewportChange = useCallback(
     (event: LineChartViewportChangeEvent) => setViewport(event.viewport),
@@ -271,8 +293,8 @@ const PerfRangeSelector = ({
   width
 }: NativeStoryProps) => {
   const [viewport, setViewport] = useState<LineChartViewportConfig>({
-    endIndex: 9999,
-    startIndex: 8500
+    endIndex: rangeMetadata.totalPoints - 1,
+    startIndex: rangeMetadata.totalPoints - rangeMetadata.visiblePoints
   });
   const handleViewportChange = useCallback(
     (event: LineChartViewportChangeEvent) => setViewport(event.viewport),
@@ -363,8 +385,8 @@ const PerfCandlestick = ({
   width
 }: NativeStoryProps) => {
   const [viewport, setViewport] = useState<CandlestickChartViewportConfig>({
-    endIndex: 999,
-    startIndex: 920
+    endIndex: candleMetadata.totalPoints - 1,
+    startIndex: candleMetadata.totalPoints - candleMetadata.visiblePoints
   });
   const handleViewportChange = useCallback(
     (event: { viewport: CandlestickChartViewportConfig }) =>

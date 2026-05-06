@@ -37,63 +37,117 @@
       "label": "Small line initial render",
       "requiredDataSize": "100 points",
       "interaction": "initial render",
-      "showcaseStoryId": "v2-perf-line-100"
+      "showcaseStoryId": "v2-perf-line-100",
+      "expectedStoryMetrics": {
+        "chartType": "line",
+        "totalPoints": 100,
+        "seriesCount": 1,
+        "visiblePoints": 100
+      }
     },
     {
       "id": "standard-line-scrub",
       "label": "Standard line scrub",
       "requiredDataSize": "1,000 points",
       "interaction": "initial render and scrub",
-      "showcaseStoryId": "v2-perf-line-1000-scrub"
+      "showcaseStoryId": "v2-perf-line-1000-scrub",
+      "expectedStoryMetrics": {
+        "chartType": "line",
+        "totalPoints": 1000,
+        "seriesCount": 1,
+        "visiblePoints": 1000
+      }
     },
     {
       "id": "dense-line-decimated-overview",
       "label": "Dense line decimated overview",
       "requiredDataSize": "10,000 total points",
       "interaction": "decimated overview",
-      "showcaseStoryId": "v2-perf-line-10000-overview"
+      "showcaseStoryId": "v2-perf-line-10000-overview",
+      "expectedStoryMetrics": {
+        "chartType": "line",
+        "totalPoints": 10000,
+        "seriesCount": 1,
+        "visiblePoints": 10000
+      }
     },
     {
       "id": "multi-line-shared-tooltip-scrub",
       "label": "Multi-line shared tooltip scrub",
       "requiredDataSize": "5 series x 1,000 points",
       "interaction": "shared tooltip scrub",
-      "showcaseStoryId": "v2-perf-line-5x1000-tooltip"
+      "showcaseStoryId": "v2-perf-line-5x1000-tooltip",
+      "expectedStoryMetrics": {
+        "chartType": "line",
+        "totalPoints": 1000,
+        "seriesCount": 5,
+        "visiblePoints": 1000
+      }
     },
     {
       "id": "scrollable-line-one-finger-pan",
       "label": "Scrollable line one-finger pan",
       "requiredDataSize": "10,000 total points, 2,000 shown",
       "interaction": "one-finger pan",
-      "showcaseStoryId": "v2-perf-line-10000-pan"
+      "showcaseStoryId": "v2-perf-line-10000-pan",
+      "expectedStoryMetrics": {
+        "chartType": "line",
+        "totalPoints": 10000,
+        "seriesCount": 1,
+        "visiblePoints": 2000
+      }
     },
     {
       "id": "range-selector-drag-and-thumb-resize",
       "label": "Range selector drag and thumb resize",
       "requiredDataSize": "2 series x 10,000 points",
       "interaction": "drag and thumb resize",
-      "showcaseStoryId": "v2-perf-range-2x10000"
+      "showcaseStoryId": "v2-perf-range-2x10000",
+      "expectedStoryMetrics": {
+        "chartType": "line",
+        "totalPoints": 10000,
+        "seriesCount": 2,
+        "visiblePoints": 1500
+      }
     },
     {
       "id": "scrollable-bar-horizontal-scroll-and-selection",
       "label": "Scrollable bar horizontal scroll and selection",
       "requiredDataSize": "500 bars",
       "interaction": "horizontal scroll and selection",
-      "showcaseStoryId": "v2-perf-bar-500-selection"
+      "showcaseStoryId": "v2-perf-bar-500-selection",
+      "expectedStoryMetrics": {
+        "chartType": "bar",
+        "totalPoints": 500,
+        "seriesCount": 1,
+        "visiblePoints": 24
+      }
     },
     {
       "id": "combined-chart-shared-tooltip-and-legend",
       "label": "Combined chart shared tooltip and legend",
       "requiredDataSize": "bars plus line",
       "interaction": "shared tooltip and legend",
-      "showcaseStoryId": "v2-perf-combined-tooltip"
+      "showcaseStoryId": "v2-perf-combined-tooltip",
+      "expectedStoryMetrics": {
+        "chartType": "combined",
+        "totalPoints": 36,
+        "seriesCount": 2,
+        "visiblePoints": 36
+      }
     },
     {
       "id": "candlestick-pan-pinch-and-tap-inspection",
       "label": "Candlestick pan, pinch, and tap inspection",
       "requiredDataSize": "1,000 candles",
       "interaction": "pan, pinch, tap inspection",
-      "showcaseStoryId": "v2-perf-candlestick-1000"
+      "showcaseStoryId": "v2-perf-candlestick-1000",
+      "expectedStoryMetrics": {
+        "chartType": "candlestick",
+        "totalPoints": 1000,
+        "seriesCount": 1,
+        "visiblePoints": 80
+      }
     }
   ],
   "rows": [

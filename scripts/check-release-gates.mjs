@@ -53,6 +53,7 @@ const requiredFiles = [
   "packages/pro/package.json",
   "apps/expo-showcase/package.json",
   "apps/expo-showcase/src/storyRegistry.tsx",
+  "apps/expo-showcase/src/stories/performanceStoryMetadata.json",
   "apps/expo-showcase/visual/stories.ts",
   "examples/rn-cli-basic/package.json"
 ];
@@ -217,6 +218,19 @@ const readShowcaseStoryIds = async () => {
   return storyIds;
 };
 
+const readPerformanceStoryMetadata = async () => {
+  const manifest = await readRepoJson(
+    "apps/expo-showcase/src/stories/performanceStoryMetadata.json"
+  );
+  const stories = Array.isArray(manifest.stories) ? manifest.stories : [];
+
+  return new Map(
+    stories
+      .filter((story) => typeof story.id === "string" && story.id.length > 0)
+      .map((story) => [story.id, story])
+  );
+};
+
 const isExternalEvidenceLink = (value) => /^https?:\/\//.test(value);
 
 const getMatrixStatus = (rows = []) => {
@@ -245,7 +259,11 @@ const getMatrixStatus = (rows = []) => {
 
 const validateEvidenceMatrix = async (
   matrix,
-  { showcasePageIds = new Set(), showcaseStoryIds = new Set() } = {}
+  {
+    performanceStoryMetadata = new Map(),
+    showcasePageIds = new Set(),
+    showcaseStoryIds = new Set()
+  } = {}
 ) => {
   const errors = [];
   const pageIds = getIds(matrix.pages);
@@ -295,6 +313,10 @@ const validateEvidenceMatrix = async (
 
   if (Array.isArray(matrix.scenarios)) {
     for (const scenario of matrix.scenarios) {
+      const storyMetadata = scenario.showcaseStoryId
+        ? performanceStoryMetadata.get(scenario.showcaseStoryId)
+        : undefined;
+
       if (
         scenario.showcaseStoryId &&
         showcaseStoryIds.size > 0 &&
@@ -303,6 +325,39 @@ const validateEvidenceMatrix = async (
         errors.push(
           `${scenario.id} references unknown showcase story ${scenario.showcaseStoryId}`
         );
+      }
+
+      if (scenario.showcaseStoryId?.startsWith("v2-perf-")) {
+        if (!storyMetadata) {
+          errors.push(
+            `${scenario.id} is missing performance story metadata for ${scenario.showcaseStoryId}`
+          );
+        }
+
+        if (!scenario.expectedStoryMetrics) {
+          errors.push(`${scenario.id} must define expectedStoryMetrics`);
+        }
+      }
+
+      if (storyMetadata && scenario.expectedStoryMetrics) {
+        if (storyMetadata.scenarioId !== scenario.id) {
+          errors.push(
+            `${scenario.id} story metadata scenarioId ${storyMetadata.scenarioId} does not match`
+          );
+        }
+
+        for (const key of [
+          "chartType",
+          "seriesCount",
+          "totalPoints",
+          "visiblePoints"
+        ]) {
+          if (storyMetadata[key] !== scenario.expectedStoryMetrics[key]) {
+            errors.push(
+              `${scenario.id} expected ${key}=${scenario.expectedStoryMetrics[key]} but ${scenario.showcaseStoryId} metadata has ${storyMetadata[key]}`
+            );
+          }
+        }
       }
     }
   }
@@ -650,6 +705,7 @@ const showcasePageIds = extractObjectIds(
   await readRepoFile("apps/expo-showcase/src/storyRegistry.tsx")
 );
 const showcaseStoryIds = await readShowcaseStoryIds();
+const performanceStoryMetadata = await readPerformanceStoryMetadata();
 
 const candidateJavaHomes = [
   process.env.JAVA_HOME,
@@ -778,6 +834,7 @@ for (const manifestConfig of releaseEvidenceManifests) {
   const matrixErrors = matrix
     ? await validateEvidenceMatrix(matrix, {
         showcasePageIds,
+        performanceStoryMetadata,
         showcaseStoryIds
       })
     : [];
