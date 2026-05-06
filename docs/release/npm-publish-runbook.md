@@ -24,6 +24,7 @@ The latest publish rerun failed before install/build because GitHub Actions rece
 
 - [Publish rerun 25416750710](https://github.com/indiespirit/react-native-chart-kit/actions/runs/25416750710)
 - [Publish rerun 25417506026](https://github.com/indiespirit/react-native-chart-kit/actions/runs/25417506026)
+- [Publish rerun 25417790177](https://github.com/indiespirit/react-native-chart-kit/actions/runs/25417790177)
 - Evidence: [npm-publish-evidence.json](evidence/npm-publish-evidence.json)
 
 The workflow expects a repository Actions secret named `NPM_TOKEN`.
