@@ -44,7 +44,11 @@ npm run release:qa:record -- \
   --matrix skia \
   --row ios-skia-native-install \
   --status pass \
-  --evidence docs/release/artifacts/ios-skia-native-install.md
+  --evidence docs/release/artifacts/ios-skia-native-install.md \
+  --reviewed-by "<name>" \
+  --device "<device/os>" \
+  --build-surface "<build>" \
+  --notes "Optional Skia install checks passed"
 ```
 
 ## Renderer Parity Check
@@ -74,7 +78,11 @@ npm run release:qa:record -- \
   --matrix skia \
   --row android-skia-free-chart-parity \
   --status pass \
-  --evidence docs/release/artifacts/android-skia-free-chart-parity.png
+  --evidence docs/release/artifacts/android-skia-free-chart-parity.png \
+  --reviewed-by "<name>" \
+  --device "<device/os>" \
+  --build-surface "<build>" \
+  --notes "Native renderer parity checks passed"
 ```
 
 Do not mark a parity row as `pass` when only local Vitest contract tests have run. Use `partial` for local-only evidence.

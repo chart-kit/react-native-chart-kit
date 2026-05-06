@@ -98,7 +98,12 @@ const getMatrixStatus = (rows = []) => {
   return "pending";
 };
 
-const validateMatrixPages = ({ checkGroupIds, errors, matrix, showcasePageIds }) => {
+const validateMatrixPages = ({
+  checkGroupIds,
+  errors,
+  matrix,
+  showcasePageIds
+}) => {
   if (!Array.isArray(matrix.pages)) return;
 
   for (const page of matrix.pages) {
@@ -202,6 +207,29 @@ const validateMatrixRowEvidence = async ({ errors, row }) => {
       errors.push(`${row.id} references missing evidence ${evidenceItem}`);
     }
   }
+
+  if (row.status === "pass") {
+    const review = row.review ?? {};
+
+    for (const field of [
+      "reviewedBy",
+      "reviewedAt",
+      "device",
+      "buildSurface"
+    ]) {
+      if (typeof review[field] !== "string" || review[field].length === 0) {
+        errors.push(`${row.id} pass row is missing review.${field}`);
+      }
+    }
+
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(review.reviewedAt ?? "")) {
+      errors.push(`${row.id} pass row review.reviewedAt must be YYYY-MM-DD`);
+    }
+
+    if (typeof row.notes !== "string" || row.notes.length === 0) {
+      errors.push(`${row.id} pass row must include notes`);
+    }
+  }
 };
 
 export const validateEvidenceMatrix = async (
@@ -257,7 +285,11 @@ export const validateEvidenceMatrix = async (
     if (row.pageId && pageIds.size > 0 && !pageIds.has(row.pageId)) {
       errors.push(`${row.id} references unknown page ${row.pageId}`);
     }
-    if (row.platform && platformIds.size > 0 && !platformIds.has(row.platform)) {
+    if (
+      row.platform &&
+      platformIds.size > 0 &&
+      !platformIds.has(row.platform)
+    ) {
       errors.push(`${row.id} references unknown platform ${row.platform}`);
     }
     if (
@@ -291,7 +323,10 @@ const validateApprovedOwnerGate = ({ errors, gate }) => {
   if (!Array.isArray(gate.decisions) || gate.decisions.length === 0) {
     errors.push(`${gate.id} approved gate must record decisions`);
   }
-  if (Array.isArray(gate.pendingDecisions) && gate.pendingDecisions.length > 0) {
+  if (
+    Array.isArray(gate.pendingDecisions) &&
+    gate.pendingDecisions.length > 0
+  ) {
     errors.push(`${gate.id} approved gate must not list pendingDecisions`);
   }
 };
@@ -362,8 +397,13 @@ const validateCompletedEntryArtifacts = async ({ entry, errors, index }) => {
       errors.push(
         `completedEntries[${index}].artifacts must contain non-empty strings`
       );
-    } else if (!isExternalEvidenceLink(artifact) && !(await pathExists(artifact))) {
-      errors.push(`completedEntries[${index}] references missing artifact ${artifact}`);
+    } else if (
+      !isExternalEvidenceLink(artifact) &&
+      !(await pathExists(artifact))
+    ) {
+      errors.push(
+        `completedEntries[${index}] references missing artifact ${artifact}`
+      );
     }
   }
 };
@@ -388,7 +428,10 @@ export const validateReleaseEvidenceManifest = async ({
   if (!manifest.summary || typeof manifest.summary !== "string") {
     errors.push("manifest must include a summary");
   }
-  if (!Array.isArray(manifest.requiredFor) || manifest.requiredFor.length === 0) {
+  if (
+    !Array.isArray(manifest.requiredFor) ||
+    manifest.requiredFor.length === 0
+  ) {
     errors.push("manifest must list requiredFor gates");
   }
   if (matrixFile && manifest.matrix !== matrixFile) {
@@ -410,7 +453,9 @@ export const validateReleaseEvidenceManifest = async ({
     Array.isArray(matrix.rows) &&
     matrix.rows.every((row) => row.status === "pass")
   ) {
-    errors.push("matrix-backed manifest must be complete when all matrix rows pass");
+    errors.push(
+      "matrix-backed manifest must be complete when all matrix rows pass"
+    );
   } else if (missingEvidence.length === 0) {
     errors.push(`${status} manifest must list missingEvidence`);
   }

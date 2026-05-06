@@ -4,47 +4,16 @@ import process from "node:process";
 import { fileURLToPath } from "node:url";
 
 import { generateNativeQaChecklist } from "./generate-native-qa-checklists.mjs";
+import {
+  getNativeQaManifestStatus,
+  getNativeQaMatrixConfig,
+  getNativeQaMatrixStatus,
+  getNativeQaMissingEvidence,
+  validNativeQaStatuses
+} from "./native-qa-matrix-config.mjs";
 
 const defaultRepoRoot = process.cwd();
 const checklistPath = "docs/release/native-qa-checklists.md";
-const validStatuses = new Set([
-  "blocked",
-  "fail",
-  "not-applicable",
-  "partial",
-  "pass",
-  "pending"
-]);
-const matrixConfigs = {
-  accessibility: {
-    label: "Accessibility QA",
-    completeSummary:
-      "Native accessibility QA matrix is complete for required VoiceOver and TalkBack showcase pages.",
-    manifestPath: "docs/release/evidence/native-accessibility-qa.json",
-    path: "docs/release/evidence/native-accessibility-matrix.json"
-  },
-  performance: {
-    label: "Native Performance",
-    completeSummary:
-      "Native performance matrix is complete for required iOS and Android release scenarios.",
-    manifestPath: "docs/release/evidence/native-performance-benchmark.json",
-    path: "docs/release/evidence/native-performance-matrix.json"
-  },
-  runtime: {
-    label: "Runtime QA",
-    completeSummary:
-      "Native runtime QA matrix is complete for required iOS and Android showcase pages.",
-    manifestPath: "docs/release/evidence/native-runtime-qa.json",
-    path: "docs/release/evidence/native-runtime-matrix.json"
-  },
-  skia: {
-    label: "Skia Renderer",
-    completeSummary:
-      "Skia renderer native install, renderer parity, and performance evidence matrix is complete.",
-    manifestPath: "docs/release/evidence/skia-renderer-evidence.json",
-    path: "docs/release/evidence/skia-renderer-matrix.json"
-  }
-};
 
 const readJson = async (repoRoot, relativePath) =>
   JSON.parse(await readFile(path.join(repoRoot, relativePath), "utf8"));
@@ -58,7 +27,8 @@ const writeJson = async (repoRoot, relativePath, value) =>
 
 const parseArgs = (argv) => {
   const options = {
-    evidence: []
+    evidence: [],
+    review: {}
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -78,6 +48,10 @@ const parseArgs = (argv) => {
       options.dryRun = true;
     } else if (arg === "--details") {
       options.details = true;
+    } else if (arg === "--build-surface") {
+      options.review.buildSurface = readValue();
+    } else if (arg === "--device") {
+      options.review.device = readValue();
     } else if (arg === "--evidence") {
       options.evidence.push(readValue());
     } else if (arg === "--list") {
@@ -88,6 +62,8 @@ const parseArgs = (argv) => {
       options.notes = readValue();
     } else if (arg === "--row") {
       options.rowId = readValue();
+    } else if (arg === "--reviewed-by") {
+      options.review.reviewedBy = readValue();
     } else if (arg === "--status") {
       options.status = readValue();
     } else if (arg === "--updated") {
@@ -98,20 +74,6 @@ const parseArgs = (argv) => {
   }
 
   return options;
-};
-
-const getMatrixConfig = (matrixName) => {
-  const config = matrixConfigs[matrixName];
-
-  if (!config) {
-    throw new Error(
-      `Unknown matrix "${matrixName}". Use one of: ${Object.keys(
-        matrixConfigs
-      ).join(", ")}.`
-    );
-  }
-
-  return config;
 };
 
 const getToday = () => new Date().toISOString().slice(0, 10);
@@ -127,46 +89,6 @@ const pathExists = async (repoRoot, relativePath) => {
 
 const isExternalEvidenceLink = (value) => /^https?:\/\//.test(value);
 
-const getMatrixStatus = (rows) => {
-  if (rows.every((row) => row.status === "pass")) {
-    return "complete";
-  }
-
-  if (rows.some((row) => row.status === "fail")) {
-    return "fail";
-  }
-
-  if (rows.some((row) => row.status === "blocked")) {
-    return "blocked";
-  }
-
-  if (rows.some((row) => ["partial", "pass"].includes(row.status))) {
-    return "partial";
-  }
-
-  return "pending";
-};
-
-const getManifestStatus = (matrixStatus) => {
-  if (matrixStatus === "complete") {
-    return "complete";
-  }
-
-  if (matrixStatus === "blocked" || matrixStatus === "fail") {
-    return "blocked";
-  }
-
-  return "partial";
-};
-
-const getManifestMissingEvidence = (rows) =>
-  rows
-    .filter((row) => row.status !== "pass")
-    .map(
-      (row) =>
-        `${row.id} is ${row.status}; evidence is required before this matrix can be complete.`
-    );
-
 const syncEvidenceManifest = async ({
   config,
   matrix,
@@ -175,12 +97,12 @@ const syncEvidenceManifest = async ({
   updated
 }) => {
   const manifest = await readJson(repoRoot, config.manifestPath);
-  const manifestStatus = getManifestStatus(matrixStatus);
+  const manifestStatus = getNativeQaManifestStatus(matrixStatus);
   const complete = manifestStatus === "complete";
   const nextManifest = {
     ...manifest,
     lastUpdated: updated,
-    missingEvidence: complete ? [] : getManifestMissingEvidence(matrix.rows),
+    missingEvidence: complete ? [] : getNativeQaMissingEvidence(matrix.rows),
     status: manifestStatus,
     summary: complete ? config.completeSummary : manifest.summary
   };
@@ -300,7 +222,7 @@ export const listNativeQaRows = async ({
   matrixName,
   repoRoot = defaultRepoRoot
 }) => {
-  const config = getMatrixConfig(matrixName);
+  const config = getNativeQaMatrixConfig(matrixName);
   const matrix = await readJson(repoRoot, config.path);
 
   return matrix.rows.map((row) => ({
@@ -325,19 +247,20 @@ export const recordNativeQaEvidence = async ({
   matrixName,
   notes,
   repoRoot = defaultRepoRoot,
+  review = {},
   rowId,
   status,
   updated = getToday()
 }) => {
-  const config = getMatrixConfig(matrixName);
+  const config = getNativeQaMatrixConfig(matrixName);
 
   if (!rowId) {
     throw new Error("--row is required");
   }
 
-  if (!validStatuses.has(status)) {
+  if (!validNativeQaStatuses.has(status)) {
     throw new Error(
-      `--status must be one of: ${[...validStatuses].sort().join(", ")}`
+      `--status must be one of: ${[...validNativeQaStatuses].sort().join(", ")}`
     );
   }
 
@@ -345,6 +268,26 @@ export const recordNativeQaEvidence = async ({
     throw new Error(
       "--evidence is required when --status partial or pass is used"
     );
+  }
+
+  if (status === "pass") {
+    const missingReviewFields = [
+      ["reviewedBy", "--reviewed-by"],
+      ["device", "--device"],
+      ["buildSurface", "--build-surface"]
+    ]
+      .filter(([field]) => typeof review[field] !== "string" || !review[field])
+      .map(([, arg]) => arg);
+
+    if (missingReviewFields.length > 0) {
+      throw new Error(
+        `--status pass requires ${missingReviewFields.join(", ")}`
+      );
+    }
+
+    if (!notes) {
+      throw new Error("--notes is required when --status pass is used");
+    }
   }
 
   if (["partial", "pass"].includes(status)) {
@@ -382,13 +325,24 @@ export const recordNativeQaEvidence = async ({
   if (notes) nextRow.notes = notes;
   else delete nextRow.notes;
 
+  if (status === "pass") {
+    nextRow.review = {
+      buildSurface: review.buildSurface,
+      device: review.device,
+      reviewedAt: updated,
+      reviewedBy: review.reviewedBy
+    };
+  } else {
+    delete nextRow.review;
+  }
+
   const nextRows = [...matrix.rows];
   nextRows[rowIndex] = nextRow;
   const nextMatrix = {
     ...matrix,
     lastUpdated: updated,
     rows: nextRows,
-    status: getMatrixStatus(nextRows)
+    status: getNativeQaMatrixStatus(nextRows)
   };
   const nextManifest = await syncEvidenceManifest({
     config,

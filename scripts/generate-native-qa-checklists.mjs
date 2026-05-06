@@ -258,7 +258,7 @@ export const generateNativeQaChecklist = async ({
     "",
     "<!-- prettier-ignore-start -->",
     "",
-    `Generated from native and Skia evidence matrices last updated ${latestUpdated}. Regenerate with \`npm run release:qa:checklists\`. Capture a row screenshot with \`npm run release:qa:capture -- --matrix runtime --row ios-line-charts --platform ios --output docs/release/artifacts/example.png\`, then record row evidence with \`npm run release:qa:record -- --matrix runtime --row ios-line-charts --status pass --evidence docs/release/artifacts/example.png\` or \`--matrix skia\` for Skia rows. Do not mark a row as \`pass\` without evidence links in the source matrix.`,
+    `Generated from native and Skia evidence matrices last updated ${latestUpdated}. Regenerate with \`npm run release:qa:checklists\`. Capture a row screenshot with \`npm run release:qa:capture -- --matrix runtime --row ios-line-charts --platform ios --output docs/release/artifacts/example.png\`, then record row evidence with \`npm run release:qa:record -- --matrix runtime --row ios-line-charts --status pass --evidence docs/release/artifacts/example.png --reviewed-by QA --device "iPhone 17 simulator / iOS 26.0" --build-surface "Release simulator build" --notes "Manual runtime checks passed"\` or \`--matrix skia\` for Skia rows. Do not mark a row as \`pass\` without evidence links, review metadata, and notes in the source matrix.`,
     "",
     "## Matrix Summary",
     "",

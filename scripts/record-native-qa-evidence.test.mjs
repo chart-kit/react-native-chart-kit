@@ -13,6 +13,7 @@ import {
   listNativeQaRows,
   recordNativeQaEvidence
 } from "./record-native-qa-evidence.mjs";
+import { validateEvidenceMatrix } from "./release-gate-validation.mjs";
 
 const repoRoot = process.cwd();
 const matrixFiles = [
@@ -136,11 +137,75 @@ describe("native QA evidence recorder", () => {
       recordNativeQaEvidence({
         evidence: ["docs/release/artifacts/missing-runtime.md"],
         matrixName: "runtime",
+        notes: "Release simulator pass",
         repoRoot,
+        review: {
+          buildSurface: "Release simulator build",
+          device: "iPhone 17 simulator / iOS 26.0",
+          reviewedBy: "QA"
+        },
         rowId: "ios-line-charts",
         status: "pass"
       })
     ).rejects.toThrow("Evidence file does not exist");
+  });
+
+  it("requires review context before marking a row as pass", async () => {
+    await expect(
+      recordNativeQaEvidence({
+        evidence: ["docs/release/artifacts/ios-runtime-smoke.png"],
+        matrixName: "runtime",
+        notes: "Release simulator pass",
+        repoRoot,
+        rowId: "ios-line-charts",
+        status: "pass"
+      })
+    ).rejects.toThrow("--status pass requires --reviewed-by");
+
+    await expect(
+      recordNativeQaEvidence({
+        evidence: ["docs/release/artifacts/ios-runtime-smoke.png"],
+        matrixName: "runtime",
+        repoRoot,
+        review: {
+          buildSurface: "Release simulator build",
+          device: "iPhone 17 simulator / iOS 26.0",
+          reviewedBy: "QA"
+        },
+        rowId: "ios-line-charts",
+        status: "pass"
+      })
+    ).rejects.toThrow("--notes is required");
+  });
+
+  it("treats pass rows without review metadata as invalid release evidence", async () => {
+    const tempRepo = await createTempRepo();
+    const matrix = JSON.parse(
+      await readFile(
+        join(tempRepo, "docs/release/evidence/native-runtime-matrix.json"),
+        "utf8"
+      )
+    );
+    const errors = await validateEvidenceMatrix({
+      ...matrix,
+      rows: [
+        {
+          ...matrix.rows[0],
+          evidence: ["docs/release/artifacts/ios-runtime-smoke.png"],
+          notes: undefined,
+          status: "pass"
+        },
+        ...matrix.rows.slice(1)
+      ]
+    });
+
+    expect(errors).toContain(
+      "ios-line-charts pass row is missing review.reviewedBy"
+    );
+    expect(errors).toContain(
+      "ios-line-charts pass row is missing review.buildSurface"
+    );
+    expect(errors).toContain("ios-line-charts pass row must include notes");
   });
 
   it("updates one matrix row and regenerates the native QA checklist", async () => {
@@ -154,6 +219,11 @@ describe("native QA evidence recorder", () => {
       matrixName: "runtime",
       notes: "Release simulator pass",
       repoRoot: tempRepo,
+      review: {
+        buildSurface: "Release simulator build",
+        device: "iPhone 17 simulator / iOS 26.0",
+        reviewedBy: "QA"
+      },
       rowId: "ios-line-charts",
       status: "pass",
       updated: "2026-05-06"
@@ -180,11 +250,15 @@ describe("native QA evidence recorder", () => {
     expect(matrix.rows[0]).toMatchObject({
       evidence: ["docs/release/artifacts/ios-line-charts-runtime.md"],
       notes: "Release simulator pass",
+      review: {
+        buildSurface: "Release simulator build",
+        device: "iPhone 17 simulator / iOS 26.0",
+        reviewedAt: "2026-05-06",
+        reviewedBy: "QA"
+      },
       status: "pass"
     });
-    expect(checklist).toContain(
-      "| Runtime QA | 16 | 1 | 15 | 0 | 0 | 0 | 0 |"
-    );
+    expect(checklist).toContain("| Runtime QA | 16 | 1 | 15 | 0 | 0 | 0 | 0 |");
     expect(checklist).toContain(
       "`docs/release/artifacts/ios-line-charts-runtime.md`"
     );
@@ -238,9 +312,7 @@ describe("native QA evidence recorder", () => {
       notes: "Release simulator launch smoke only",
       status: "partial"
     });
-    expect(checklist).toContain(
-      "| Runtime QA | 16 | 0 | 16 | 0 | 0 | 0 | 0 |"
-    );
+    expect(checklist).toContain("| Runtime QA | 16 | 0 | 16 | 0 | 0 | 0 | 0 |");
     expect(checklist).toContain(
       "`docs/release/artifacts/ios-line-charts-smoke.png`"
     );
@@ -256,7 +328,13 @@ describe("native QA evidence recorder", () => {
       dryRun: true,
       evidence: ["docs/release/artifacts/ios-line-charts-runtime.md"],
       matrixName: "runtime",
+      notes: "Release simulator pass",
       repoRoot: tempRepo,
+      review: {
+        buildSurface: "Release simulator build",
+        device: "iPhone 17 simulator / iOS 26.0",
+        reviewedBy: "QA"
+      },
       rowId: "ios-line-charts",
       status: "pass",
       updated: "2026-05-06"
@@ -284,7 +362,13 @@ describe("native QA evidence recorder", () => {
     const result = await recordNativeQaEvidence({
       evidence: ["docs/release/artifacts/skia-ios-install.md"],
       matrixName: "skia",
+      notes: "Native Skia install verified",
       repoRoot: tempRepo,
+      review: {
+        buildSurface: "Release simulator build with optional Skia dependency",
+        device: "iPhone 17 simulator / iOS 26.0",
+        reviewedBy: "QA"
+      },
       rowId: "ios-skia-native-install",
       status: "pass",
       updated: "2026-05-06"
@@ -310,9 +394,17 @@ describe("native QA evidence recorder", () => {
     });
     expect(matrix.rows[0]).toMatchObject({
       evidence: ["docs/release/artifacts/skia-ios-install.md"],
+      review: {
+        buildSurface: "Release simulator build with optional Skia dependency",
+        device: "iPhone 17 simulator / iOS 26.0",
+        reviewedAt: "2026-05-06",
+        reviewedBy: "QA"
+      },
       status: "pass"
     });
-    expect(checklist).toContain("| Skia Renderer | 8 | 1 | 5 | 2 | 0 | 0 | 0 |");
+    expect(checklist).toContain(
+      "| Skia Renderer | 8 | 1 | 5 | 2 | 0 | 0 | 0 |"
+    );
     expect(checklist).toContain("`ios-skia-native-install`");
   });
 
@@ -334,6 +426,13 @@ describe("native QA evidence recorder", () => {
         : {
             ...row,
             evidence: [`https://example.test/${row.id}.mp4`],
+            notes: "Seeded completed row",
+            review: {
+              buildSurface: "Release simulator build",
+              device: "Native QA device",
+              reviewedAt: "2026-05-06",
+              reviewedBy: "QA"
+            },
             status: "pass"
           }
     );
@@ -355,7 +454,13 @@ describe("native QA evidence recorder", () => {
     const result = await recordNativeQaEvidence({
       evidence: ["docs/release/artifacts/ios-line-charts-runtime.md"],
       matrixName: "runtime",
+      notes: "Release simulator pass",
       repoRoot: tempRepo,
+      review: {
+        buildSurface: "Release simulator build",
+        device: "iPhone 17 simulator / iOS 26.0",
+        reviewedBy: "QA"
+      },
       rowId: "ios-line-charts",
       status: "pass",
       updated: "2026-05-06"

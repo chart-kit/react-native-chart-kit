@@ -54,7 +54,7 @@ npm run release:qa:capture -- \
   --output docs/release/artifacts/ios-voiceover-line-charts.png
 ```
 
-Use `--device <simulator-udid-or-adb-serial>` for a specific target and `--no-launch` when the screen-reader state is already positioned on the target page. Record the artifact with `npm run release:qa:record -- --matrix accessibility --row <row-id> --status pass --evidence <artifact>` only after the required VoiceOver or TalkBack checks pass.
+Use `--device <simulator-udid-or-adb-serial>` for a specific target and `--no-launch` when the screen-reader state is already positioned on the target page. Record the artifact with `npm run release:qa:record -- --matrix accessibility --row <row-id> --status pass --evidence <artifact> --reviewed-by <name> --device "<device/os>" --build-surface "<build>" --notes "<screen-reader checks passed>"` only after the required VoiceOver or TalkBack checks pass.
 
 Representative stories on the Line, Bar, Combined, Financial, Pie & Donut, Progress, and Heatmaps pages include a collapsed `Data details` panel. Use those panels during VoiceOver and TalkBack review to verify the table-fallback checks without making the public preview visually dense by default.
 
@@ -71,7 +71,7 @@ Review these showcase pages:
 - Heatmaps
 - Compatibility
 
-The machine-readable matrix in [native-accessibility-matrix.json](evidence/native-accessibility-matrix.json) expands these screens across iOS VoiceOver and Android TalkBack. Fill each row with `status: "pass"` and evidence links only after the global and table-fallback checks below have passed on that platform.
+The machine-readable matrix in [native-accessibility-matrix.json](evidence/native-accessibility-matrix.json) expands these screens across iOS VoiceOver and Android TalkBack. Fill each row with `status: "pass"`, evidence links, review metadata, and notes only after the global and table-fallback checks below have passed on that platform.
 
 ## Acceptance Checks
 

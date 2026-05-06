@@ -137,7 +137,7 @@ npm run release:qa:capture -- \
   --output docs/release/artifacts/android-bar-charts-runtime.png
 ```
 
-Use `--device <simulator-udid-or-adb-serial>` for a specific target, `--dry-run` to print the native commands, and `--no-launch` when the row is already open and only the current screen should be captured. After manual checks pass, attach the captured file to the structured matrix with `npm run release:qa:record -- --matrix runtime --row <row-id> --status pass --evidence <artifact>`.
+Use `--device <simulator-udid-or-adb-serial>` for a specific target, `--dry-run` to print the native commands, and `--no-launch` when the row is already open and only the current screen should be captured. After manual checks pass, attach the captured file to the structured matrix with `npm run release:qa:record -- --matrix runtime --row <row-id> --status pass --evidence <artifact> --reviewed-by <name> --device "<device/os>" --build-surface "<build>" --notes "<checks passed>"`.
 
 ## Required Pages
 
@@ -152,7 +152,7 @@ Review these showcase pages:
 - Heatmaps
 - Compatibility
 
-The machine-readable matrix in [native-runtime-matrix.json](evidence/native-runtime-matrix.json) expands these pages across iOS and Android. Fill each row with `status: "pass"` and evidence links only after the required global and page-specific checks below have passed on that platform.
+The machine-readable matrix in [native-runtime-matrix.json](evidence/native-runtime-matrix.json) expands these pages across iOS and Android. Fill each row with `status: "pass"`, evidence links, review metadata, and notes only after the required global and page-specific checks below have passed on that platform.
 
 ## Required Interaction Checks
 
