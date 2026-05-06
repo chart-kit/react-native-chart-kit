@@ -32,9 +32,9 @@ Impact: H4/H5 must decide which features stay free, which move to Pro, and how t
 
 ## Skia Renderer
 
-`packages/skia-renderer` now provides a preview package boundary, capability metadata, install guidance, and an injected Skia primitive adapter. `LineChart` can accept the injected renderer for its main plot, range selector, sticky-axis, path-local area gradients, threshold rect clips, measured text anchors, default marker, default legend, default tooltip, and debug-layout surfaces. Local renderer contract coverage exists, but sticky-axis labels require a Skia font, and native install verification plus native renderer parity tests are not complete yet. The structured status lives in [skia-renderer-evidence.json](evidence/skia-renderer-evidence.json).
+`packages/skia-renderer` now provides a preview package boundary, capability metadata, install guidance, and an injected Skia primitive adapter. Local renderer contract coverage exists for the injected primitives plus LineChart, BarChart, PieChart/DonutChart, ProgressChart/ProgressRing, ContributionGraph/CalendarHeatmap, CombinedChart, and CandlestickChart. Sticky-axis labels and measured text anchors are covered locally with a supplied Skia-like font, but native Skia install verification, native renderer parity tests, and native Skia benchmark comparisons are not complete yet. The structured status lives in [skia-renderer-evidence.json](evidence/skia-renderer-evidence.json).
 
-Impact: the optional package boundary exists for H4 review, but Skia must stay labeled as preview until the remaining chart integration, install matrix, native benchmarks, and native parity tests are implemented.
+Impact: the optional package boundary exists for H4 review, but Skia must stay labeled as preview until the install matrix, native benchmarks, and native parity tests are implemented.
 
 ## Native Performance Evidence
 
