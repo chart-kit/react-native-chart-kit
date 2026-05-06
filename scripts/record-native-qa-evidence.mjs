@@ -207,6 +207,37 @@ const getRowTarget = (matrix, row) => {
     .join(" / ");
 };
 
+const createShowcaseLaunchUrl = ({ pageId, storyId }) => {
+  const params = new URLSearchParams();
+  params.set("view", "charts");
+
+  if (storyId) {
+    params.set("story", storyId);
+  } else if (pageId) {
+    params.set("page", pageId);
+  } else {
+    return "";
+  }
+
+  return `chartkitshowcase://showcase?${params.toString()}`;
+};
+
+const getRowLaunchTarget = (matrix, row) => {
+  const page = matrix.pages?.find((item) => item.id === row.pageId);
+  const scenario = matrix.scenarios?.find((item) => item.id === row.scenarioId);
+  const showcasePageId = page?.showcasePageId;
+  const showcaseStoryId = scenario?.showcaseStoryId;
+
+  return {
+    launchUrl: createShowcaseLaunchUrl({
+      pageId: showcasePageId,
+      storyId: showcaseStoryId
+    }),
+    showcasePageId,
+    showcaseStoryId
+  };
+};
+
 const getRowRequiredCheckGroups = (matrix, row) => {
   const page = matrix.pages?.find((item) => item.id === row.pageId);
 
@@ -253,6 +284,7 @@ export const listNativeQaRows = async ({
     checks: includeDetails ? getRowRequiredChecks(matrix, row) : [],
     evidence: row.evidence ?? [],
     id: row.id,
+    ...getRowLaunchTarget(matrix, row),
     requiredCheckGroups: includeDetails
       ? getRowRequiredCheckGroups(matrix, row)
       : [],
@@ -385,6 +417,18 @@ const main = async () => {
       );
 
       if (options.details) {
+        if (row.launchUrl) {
+          console.log(`  launch: ${row.launchUrl}`);
+        }
+
+        if (row.showcasePageId) {
+          console.log(`  showcase page: ${row.showcasePageId}`);
+        }
+
+        if (row.showcaseStoryId) {
+          console.log(`  showcase story: ${row.showcaseStoryId}`);
+        }
+
         for (const check of row.checks) {
           console.log(`  - ${check}`);
         }
