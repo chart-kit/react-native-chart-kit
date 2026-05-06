@@ -51,8 +51,11 @@
       "platform": "android",
       "scenarioId": "native-install",
       "status": "partial",
-      "evidence": ["docs/release/artifacts/skia-local-baseline-2026-05-06.md"],
-      "notes": "Local package-boundary and pack dry-run evidence only; native Android Skia install verification still required."
+      "evidence": [
+        "docs/release/artifacts/skia-local-baseline-2026-05-06.md",
+        "docs/release/artifacts/android-skia-native-install.md"
+      ],
+      "notes": "Android optional-Skia temp-app install and release APK build passed with @shopify/react-native-skia@2.6.2; native renderer parity screenshots and Skia performance comparison still required before Skia can be complete."
     },
     {
       "id": "ios-skia-free-chart-parity",

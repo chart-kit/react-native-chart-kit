@@ -179,6 +179,14 @@ const createArtifact = ({
   workspaceDir
 }) => {
   const relativeArtifact = path.relative(repoRoot, artifactPath);
+  const output = commands.map((item) => item.output).join("\n");
+  const installedVersion =
+    output.match(/@shopify\/react-native-skia@[^\s]+/)?.[0] ??
+    getPackageNameFromSpec(skiaPackage);
+  const skiaGradleConfigured = output.includes(
+    "Configure project :shopify_react-native-skia"
+  );
+  const buildSucceeded = output.includes("BUILD SUCCESSFUL");
   const body = `# Skia Native Install Evidence
 
 Date: ${new Date().toISOString().slice(0, 10)}
@@ -204,6 +212,12 @@ ${commands.map((item) => item.command).join("\n")}
 - \`${skiaPackage}\` installed only in the temporary showcase workspace.
 - \`${getPackageNameFromSpec(skiaPackage)}\` verified with \`npm ls\`.
 - Existing native release check completed for \`${platform}\`.
+
+## Verified Output
+
+- Installed package: \`${installedVersion}\`
+- Skia Gradle project configured: ${skiaGradleConfigured ? "yes" : "no"}
+- Release build successful: ${buildSucceeded ? "yes" : "no"}
 
 ## Caveats
 
