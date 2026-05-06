@@ -6,7 +6,7 @@ This memo converts the release-candidate gate into explicit choices. It is a rec
 
 Do not approve a release candidate yet.
 
-Reason: H6 requires final semver, release notes, docs freeze, visual baseline freeze, deprecation policy, owner approval, and green native evidence. The repository is prepared for review, but the release gate still blocks on owner approvals plus native workflow, runtime, accessibility, performance, and Skia evidence.
+Reason: H6 requires final semver, release notes, docs freeze, visual baseline freeze, deprecation policy, owner approval, and complete native/Skia evidence. The repository is prepared for review, and the native release workflow is green, but the release gate still blocks on owner approval plus native runtime, accessibility, performance, and Skia evidence.
 
 ## Decision 1: RC Timing
 
@@ -16,7 +16,6 @@ Required before RC:
 
 - H4 Pro/free boundary approval
 - H5 Developer Preview approval or explicit preview skip decision
-- green native release workflow artifact evidence
 - completed native runtime QA matrix
 - completed native accessibility QA matrix
 - completed native performance matrix

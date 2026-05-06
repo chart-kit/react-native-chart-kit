@@ -6,7 +6,7 @@ This memo records the H5 Developer Preview approval from May 6, 2026.
 
 Chart Kit v2 may publish a Developer Preview from the free packages only. This is not a production beta or release candidate.
 
-Reason: the implementation, showcase, docs, tests, visual coverage, benchmark, support workflow, release checklist, local native release builds, and package path are in place. Native workflow/device evidence, Skia native parity, native accessibility, and native performance are still incomplete, so the release must be labeled Developer Preview with gaps disclosed.
+Reason: the implementation, showcase, docs, tests, visual coverage, benchmark, support workflow, release checklist, local native release builds, and package path are in place. Native device evidence, Skia native parity, native accessibility, and native performance are still incomplete, so the release must be labeled Developer Preview with gaps disclosed. The native release workflow later passed on `next` and is now recorded separately.
 
 The current export surface is guarded by `npm run surface:check`. That check verifies the legacy `react-native-chart-kit` root exports, the free/baseline `@chart-kit/react-native` exports, and the temporary `@chart-kit/react-native/pro-preview` subpath for the H4-approved preview boundary.
 
@@ -17,8 +17,8 @@ Approved: publish free packages as **Developer Preview**, not production beta.
 Rationale:
 
 - verification is strong for web showcase and TypeScript surfaces
-- native release-build checks are configured and iOS/Android passed locally, but no green native workflow artifact is recorded yet
-- the [H4 Pro scope decision packet](h4-pro-scope.md) is approved, but native workflow/device evidence is still incomplete
+- native release-build checks are configured and iOS/Android passed locally and in the native workflow
+- the [H4 Pro scope decision packet](h4-pro-scope.md) is approved, but native device evidence is still incomplete
 
 Developer Preview must not be described as production-ready.
 
@@ -42,7 +42,7 @@ Approved: native evidence gaps are acceptable for Developer Preview only, not fo
 
 Developer Preview label requirement:
 
-- docs and release notes must say web-showcase e2e and local native release builds pass, but native workflow/device evidence is not yet proven
+- docs and release notes must say web-showcase e2e and native release-build workflow checks pass, but native device runtime evidence is not yet proven
 - `example:ios` and `example:android` launch the Expo showcase through dev tooling only; they must not be counted as release-build or native e2e coverage
 - `native:release:android` and `native:release:ios` are the release-build checks to run before production beta or RC
 
@@ -97,7 +97,7 @@ Approved next tasks:
 
 1. Verify the public package/import path in CI and release docs.
 2. Keep the chosen path wired into docs and typechecked examples.
-3. Keep native workflow and native performance gaps in known issues until workflow and device benchmark evidence are green on the release commit.
+3. Keep native runtime, accessibility, and performance gaps in known issues until device QA and benchmark evidence are green on the release commit.
 4. Keep `@chart-kit/pro` and `@chart-kit/skia-renderer` unpublished for Developer Preview.
 5. Keep candlestick labeled Financial Preview.
 

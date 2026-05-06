@@ -1,16 +1,17 @@
 # Native Release Results
 
-Last updated: May 5, 2026.
+Last updated: May 6, 2026.
 
-These results document local native release-build attempts for the Expo showcase. They do not replace green CI workflow artifacts for production beta/RC.
+These results document local native release-build attempts for the Expo showcase and the matching green native release workflow evidence.
 
 ## Summary
 
-| Check                            | Result                                                                                                  |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| `npm run native:release:dry-run` | Passed. Printed Expo prebuild, Android Gradle release, CocoaPods, and iOS Xcode release-build commands. |
-| `npm run native:release:ios`     | Passed locally outside the sandbox after CocoaPods downloaded native dependencies.                      |
-| `npm run native:release:android` | Passed locally outside the sandbox with OpenJDK 17 and the Homebrew Android command-line tools SDK.     |
+| Check                            | Result                                                                                                   |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `npm run native:release:dry-run` | Passed. Printed Expo prebuild, Android Gradle release, CocoaPods, and iOS Xcode release-build commands.  |
+| `npm run native:release:ios`     | Passed locally outside the sandbox after CocoaPods downloaded native dependencies.                       |
+| `npm run native:release:android` | Passed locally outside the sandbox with OpenJDK 17 and the Homebrew Android command-line tools SDK.      |
+| Native Release Checks workflow   | Passed on `next` for commit `11a3babaedd8fdd70ad862550e8611e9ae7ca445` with archived platform artifacts. |
 
 ## iOS Evidence
 
@@ -61,19 +62,19 @@ Non-blocking warnings observed:
 - Gradle emitted Expo/React Native deprecation warnings from generated native dependencies.
 - Gradle warned that the daemon would stop after running out of JVM metaspace; the release build still completed successfully.
 
-The GitHub `Native Release Checks` workflow configures Java and runs on an Android-capable hosted runner, so the next evidence step is a green workflow run. The default-branch dispatch and evidence-recording sequence is documented in [Native workflow runbook](native-workflow-runbook.md).
+The GitHub `Native Release Checks` workflow configures Java and runs on an Android-capable hosted runner. On May 6, 2026, run `25418252069` passed both iOS and Android release-build jobs for commit `11a3babaedd8fdd70ad862550e8611e9ae7ca445`.
 
-When the workflow runs, download the `native-release-android` and `native-release-ios` artifacts. The archived logs are expected at:
+The recorded artifacts are:
 
-- `docs/release/artifacts/native-workflow/android-release.log`
-- `docs/release/artifacts/native-workflow/ios-release.log`
+- iOS artifact: `https://github.com/indiespirit/react-native-chart-kit/actions/runs/25418252069/artifacts/6823378231`
+- Android artifact: `https://github.com/indiespirit/react-native-chart-kit/actions/runs/25418252069/artifacts/6823420008`
 
-Use those artifact links when updating [native-release-workflow.json](evidence/native-release-workflow.json):
+The evidence was recorded with:
 
 ```sh
 npm run release:native-workflow:record -- \
-  --run-url https://github.com/<owner>/<repo>/actions/runs/<run-id> \
-  --commit <release-candidate-sha> \
-  --ios-artifact https://github.com/<owner>/<repo>/actions/runs/<run-id>/artifacts/<ios-artifact-id> \
-  --android-artifact https://github.com/<owner>/<repo>/actions/runs/<run-id>/artifacts/<android-artifact-id>
+  --run-url https://github.com/indiespirit/react-native-chart-kit/actions/runs/25418252069 \
+  --commit 11a3babaedd8fdd70ad862550e8611e9ae7ca445 \
+  --ios-artifact https://github.com/indiespirit/react-native-chart-kit/actions/runs/25418252069/artifacts/6823378231 \
+  --android-artifact https://github.com/indiespirit/react-native-chart-kit/actions/runs/25418252069/artifacts/6823420008
 ```

@@ -10,14 +10,14 @@
       "platform": "ios",
       "build": "Release simulator build",
       "result": "local-pass",
-      "notes": "Local release-build path completed outside the sandbox; green workflow evidence is still required."
+      "notes": "Local release-build path completed outside the sandbox; later paired with green workflow evidence."
     },
     {
       "date": "2026-05-05",
       "platform": "android",
       "build": "Release APK",
       "result": "local-pass",
-      "notes": "Local assembleRelease path completed with OpenJDK 17 and Homebrew Android command-line tools SDK; green workflow evidence is still required."
+      "notes": "Local assembleRelease path completed with OpenJDK 17 and Homebrew Android command-line tools SDK; later paired with green workflow evidence."
     },
     {
       "artifacts": [
