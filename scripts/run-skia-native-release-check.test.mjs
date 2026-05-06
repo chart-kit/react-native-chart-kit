@@ -75,10 +75,12 @@ describe("Skia native release check runner", () => {
       true
     );
     expect(plan[3].args).toContain("@shopify/react-native-skia@2");
+    expect(plan[3].args).toContain("--workspaces=false");
     expect(plan[4].args).toEqual([
       "ls",
       "@shopify/react-native-skia",
-      "--depth=0"
+      "--depth=0",
+      "--workspaces=false"
     ]);
     expect(plan[5].args).toEqual([
       "scripts/run-expo-native-release-check.mjs",
