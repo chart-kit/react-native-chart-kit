@@ -42,6 +42,7 @@ npm run skia:native:release -- --platform ios --renderer skia --ios-simulator <s
 
 The helper creates a temporary workspace from the current committed repo state, runs `npm ci`, installs the Skia peer into only that temporary showcase workspace, and delegates to the normal Expo native release check. It removes the temporary workspace unless `--keep-temp` is provided.
 When `--renderer skia` is passed, the helper also injects a temporary `ChartKitProvider` renderer into the showcase app, typechecks the patched app, and then runs the native release build. This keeps the free showcase package dependency-free while making native Skia parity builds repeatable.
+The helper also installs Skia's required `react-native-reanimated` peer in the temporary showcase workspace using Expo SDK 54's bundled `~4.1.1` range. This remains temporary QA state and does not add Reanimated to the published free packages.
 When `--ios-simulator` is passed, the helper also installs and launches the temporary renderer-injected showcase on that simulator so the native QA capture helper can take screenshots from the rebuilt app.
 
 Required checks:

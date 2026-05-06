@@ -7,6 +7,7 @@ import { pathToFileURL } from "node:url";
 
 const repoRoot = process.cwd();
 const defaultSkiaPackage = "@shopify/react-native-skia";
+const defaultSkiaPeerPackages = ["react-native-reanimated@~4.1.1"];
 
 const usage = `Usage:
   node scripts/run-skia-native-release-check.mjs --platform <ios|android|all> [options]
@@ -28,6 +29,7 @@ export const parseSkiaNativeArgs = (argv) => {
     keepTemp: false,
     platform: undefined,
     renderer: "svg",
+    skiaPeerPackages: defaultSkiaPeerPackages,
     skiaPackage: defaultSkiaPackage,
     tempDir: os.tmpdir()
   };
@@ -138,6 +140,7 @@ export const buildSkiaNativeCommandPlan = ({
   iosSimulator,
   platform,
   renderer = "svg",
+  skiaPeerPackages = defaultSkiaPeerPackages,
   skiaPackage,
   workspaceDir
 }) => {
@@ -161,7 +164,7 @@ export const buildSkiaNativeCommandPlan = ({
       cwd: workspaceDir
     },
     {
-      args: ["install", skiaPackage, "--workspaces=false"],
+      args: ["install", skiaPackage, ...skiaPeerPackages, "--workspaces=false"],
       command: "npm",
       cwd: showcaseDir
     },
@@ -277,6 +280,7 @@ const createArtifact = ({
   iosSimulator,
   platform,
   renderer = "svg",
+  skiaPeerPackages = defaultSkiaPeerPackages,
   skiaPackage,
   workspaceDir
 }) => {
@@ -295,6 +299,7 @@ Commit: \`${readGitShortSha()}\`
 Build surface: temporary native QA workspace
 Platform target: ${platform}
 Skia package: \`${skiaPackage}\`
+Skia peer packages: ${skiaPeerPackages.map((item) => `\`${item}\``).join(", ")}
 Showcase renderer mode: ${renderer}
 Temporary workspace: \`${workspaceDir}\`
 
@@ -312,6 +317,7 @@ ${commands.map((item) => item.command).join("\n")}
 
 - Temporary workspace created from the current committed repository state.
 - \`${skiaPackage}\` installed only in the temporary showcase workspace.
+- Skia peer packages installed only in the temporary showcase workspace.
 - \`${getPackageNameFromSpec(skiaPackage)}\` verified with \`npm ls\`.
 - Showcase renderer mode stayed \`${renderer}\`.
 - Existing native release check completed for \`${platform}\`.
@@ -348,6 +354,7 @@ export const runSkiaNativeReleaseCheck = async ({
   keepTemp,
   platform,
   renderer = "svg",
+  skiaPeerPackages = defaultSkiaPeerPackages,
   skiaPackage,
   tempDir
 }) => {
@@ -360,6 +367,7 @@ export const runSkiaNativeReleaseCheck = async ({
     iosSimulator,
     platform,
     renderer,
+    skiaPeerPackages,
     skiaPackage,
     workspaceDir
   });
@@ -378,6 +386,7 @@ export const runSkiaNativeReleaseCheck = async ({
         iosSimulator,
         platform,
         renderer,
+        skiaPeerPackages,
         skiaPackage,
         workspaceDir
       });

@@ -14,6 +14,7 @@ describe("Skia native release check runner", () => {
       keepTemp: false,
       platform: "android",
       renderer: "svg",
+      skiaPeerPackages: ["react-native-reanimated@~4.1.1"],
       skiaPackage: "@shopify/react-native-skia"
     });
   });
@@ -85,8 +86,12 @@ describe("Skia native release check runner", () => {
     expect(plan[3].cwd.endsWith("/tmp/chartkit-skia/apps/expo-showcase")).toBe(
       true
     );
-    expect(plan[3].args).toContain("@shopify/react-native-skia@2");
-    expect(plan[3].args).toContain("--workspaces=false");
+    expect(plan[3].args).toEqual([
+      "install",
+      "@shopify/react-native-skia@2",
+      "react-native-reanimated@~4.1.1",
+      "--workspaces=false"
+    ]);
     expect(plan[4].args).toEqual([
       "ls",
       "@shopify/react-native-skia",
