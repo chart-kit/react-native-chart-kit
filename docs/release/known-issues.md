@@ -24,7 +24,7 @@ Impact: existing `react-native-chart-kit` users are protected. New adopters usin
 
 `npm run example:ios` and `npm run example:android` launch the Expo showcase for manual simulator or emulator review. They are tracked as manual example commands, not passing native e2e or release-build checks.
 
-The [Native runtime QA protocol](native-runtime-qa.md) defines the required iOS and Android gesture/runtime review path. Local iOS simulator and Android emulator release smoke passes launched the showcase and captured Line Charts screenshots, but the missing evidence is still a completed device log for tap, scrub, pan, pinch, range selector, tooltip stacking, nested scroll, theme switching, edge-label behavior, accessibility services, and physical-device behavior.
+The [Native runtime QA protocol](native-runtime-qa.md) defines the required iOS and Android gesture/runtime review path. Local iOS simulator and Android emulator release smoke passes launched the showcase and captured all required runtime pages, but the missing evidence is still a completed device log for tap, scrub, pan, pinch, range selector, tooltip stacking, nested scroll, theme switching, edge-label behavior, accessibility services, and physical-device behavior.
 
 `examples/rn-cli-basic` provides a non-Expo app source and Metro alias smoke surface. `npm run example:rn-cli:typecheck` verifies its TypeScript imports, but generated RN CLI `ios/` and `android/` projects are not checked in or release-built yet.
 

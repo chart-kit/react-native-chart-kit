@@ -119,7 +119,7 @@ describe("native QA screenshot capture", () => {
           "-a",
           "android.intent.action.VIEW",
           "-d",
-          "chartkitshowcase://showcase?view=charts&page=line-area",
+          "'chartkitshowcase://showcase?view=charts&page=line-area'",
           "io.chartkit.showcase"
         ],
         command: "adb"

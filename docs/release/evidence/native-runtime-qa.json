@@ -47,12 +47,12 @@
     "ios-heatmaps is partial; evidence is required before this matrix can be complete.",
     "ios-compatibility is partial; evidence is required before this matrix can be complete.",
     "android-line-charts is partial; evidence is required before this matrix can be complete.",
-    "android-bar-charts is pending; evidence is required before this matrix can be complete.",
-    "android-combined-preview is pending; evidence is required before this matrix can be complete.",
-    "android-financial-preview is pending; evidence is required before this matrix can be complete.",
-    "android-pie-donut is pending; evidence is required before this matrix can be complete.",
-    "android-progress is pending; evidence is required before this matrix can be complete.",
-    "android-heatmaps is pending; evidence is required before this matrix can be complete.",
-    "android-compatibility is pending; evidence is required before this matrix can be complete."
+    "android-bar-charts is partial; evidence is required before this matrix can be complete.",
+    "android-combined-preview is partial; evidence is required before this matrix can be complete.",
+    "android-financial-preview is partial; evidence is required before this matrix can be complete.",
+    "android-pie-donut is partial; evidence is required before this matrix can be complete.",
+    "android-progress is partial; evidence is required before this matrix can be complete.",
+    "android-heatmaps is partial; evidence is required before this matrix can be complete.",
+    "android-compatibility is partial; evidence is required before this matrix can be complete."
   ]
 }

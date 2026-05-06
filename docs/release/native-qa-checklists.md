@@ -8,7 +8,7 @@ Generated from native and Skia evidence matrices last updated 2026-05-06. Regene
 
 | Matrix | Rows | Pass | Partial | Pending | Blocked | Fail | Not Applicable |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Runtime QA | 16 | 0 | 9 | 7 | 0 | 0 | 0 |
+| Runtime QA | 16 | 0 | 16 | 0 | 0 | 0 | 0 |
 | Accessibility QA | 16 | 0 | 0 | 16 | 0 | 0 | 0 |
 | Native Performance | 18 | 0 | 0 | 18 | 0 | 0 | 0 |
 | Skia Renderer | 8 | 0 | 0 | 8 | 0 | 0 | 0 |
@@ -82,13 +82,13 @@ Source: [docs/release/native-runtime-qa.md](native-runtime-qa.md) and [docs/rele
 | `ios-heatmaps` | iOS / Heatmaps | Expo showcase and iOS release build | `heatmaps` | chartkitshowcase://showcase?view=charts&page=heatmaps | `global`, `radialHeatmap` | partial | `docs/release/artifacts/ios-runtime-heatmaps.png` |
 | `ios-compatibility` | iOS / Compatibility | Expo showcase and iOS release build | `compat` | chartkitshowcase://showcase?view=charts&page=compat | `global`, `compat` | partial | `docs/release/artifacts/ios-runtime-compatibility.png` |
 | `android-line-charts` | Android / Line Charts | Expo showcase and Android release build | `line-area` | chartkitshowcase://showcase?view=charts&page=line-area | `global`, `line` | partial | `docs/release/artifacts/android-runtime-smoke.png` |
-| `android-bar-charts` | Android / Bar Charts | Expo showcase and Android release build | `bar` | chartkitshowcase://showcase?view=charts&page=bar | `global`, `bar` | pending | None |
-| `android-combined-preview` | Android / Combined Preview | Expo showcase and Android release build | `combined` | chartkitshowcase://showcase?view=charts&page=combined | `global`, `combinedFinancial` | pending | None |
-| `android-financial-preview` | Android / Financial Preview | Expo showcase and Android release build | `financial` | chartkitshowcase://showcase?view=charts&page=financial | `global`, `combinedFinancial` | pending | None |
-| `android-pie-donut` | Android / Pie & Donut | Expo showcase and Android release build | `pie-donut` | chartkitshowcase://showcase?view=charts&page=pie-donut | `global`, `radialHeatmap` | pending | None |
-| `android-progress` | Android / Progress | Expo showcase and Android release build | `progress` | chartkitshowcase://showcase?view=charts&page=progress | `global`, `radialHeatmap` | pending | None |
-| `android-heatmaps` | Android / Heatmaps | Expo showcase and Android release build | `heatmaps` | chartkitshowcase://showcase?view=charts&page=heatmaps | `global`, `radialHeatmap` | pending | None |
-| `android-compatibility` | Android / Compatibility | Expo showcase and Android release build | `compat` | chartkitshowcase://showcase?view=charts&page=compat | `global`, `compat` | pending | None |
+| `android-bar-charts` | Android / Bar Charts | Expo showcase and Android release build | `bar` | chartkitshowcase://showcase?view=charts&page=bar | `global`, `bar` | partial | `docs/release/artifacts/android-runtime-bar-charts.png` |
+| `android-combined-preview` | Android / Combined Preview | Expo showcase and Android release build | `combined` | chartkitshowcase://showcase?view=charts&page=combined | `global`, `combinedFinancial` | partial | `docs/release/artifacts/android-runtime-combined-preview.png` |
+| `android-financial-preview` | Android / Financial Preview | Expo showcase and Android release build | `financial` | chartkitshowcase://showcase?view=charts&page=financial | `global`, `combinedFinancial` | partial | `docs/release/artifacts/android-runtime-financial-preview.png` |
+| `android-pie-donut` | Android / Pie & Donut | Expo showcase and Android release build | `pie-donut` | chartkitshowcase://showcase?view=charts&page=pie-donut | `global`, `radialHeatmap` | partial | `docs/release/artifacts/android-runtime-pie-donut.png` |
+| `android-progress` | Android / Progress | Expo showcase and Android release build | `progress` | chartkitshowcase://showcase?view=charts&page=progress | `global`, `radialHeatmap` | partial | `docs/release/artifacts/android-runtime-progress.png` |
+| `android-heatmaps` | Android / Heatmaps | Expo showcase and Android release build | `heatmaps` | chartkitshowcase://showcase?view=charts&page=heatmaps | `global`, `radialHeatmap` | partial | `docs/release/artifacts/android-runtime-heatmaps.png` |
+| `android-compatibility` | Android / Compatibility | Expo showcase and Android release build | `compat` | chartkitshowcase://showcase?view=charts&page=compat | `global`, `compat` | partial | `docs/release/artifacts/android-runtime-compatibility.png` |
 
 ## Accessibility QA
 

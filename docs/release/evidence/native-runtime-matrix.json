@@ -188,50 +188,61 @@
       "id": "android-bar-charts",
       "platform": "android",
       "pageId": "bar-charts",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": ["docs/release/artifacts/android-runtime-bar-charts.png"],
+      "notes": "Release emulator launch smoke: Bar Charts page opened without red-screen error and bar chart content rendered; full gesture, rotation, and physical-device runtime checks still pending."
     },
     {
       "id": "android-combined-preview",
       "platform": "android",
       "pageId": "combined-preview",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/android-runtime-combined-preview.png"
+      ],
+      "notes": "Release emulator launch smoke: Combined Preview page opened without red-screen error and combined chart content rendered; full shared-tooltip, legend toggle, gesture, rotation, and physical-device runtime checks still pending."
     },
     {
       "id": "android-financial-preview",
       "platform": "android",
       "pageId": "financial-preview",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/android-runtime-financial-preview.png"
+      ],
+      "notes": "Release emulator launch smoke: Financial Preview page opened without red-screen error and candlestick/range-selector content rendered; full tap, pan, pinch, rotation, and physical-device runtime checks still pending."
     },
     {
       "id": "android-pie-donut",
       "platform": "android",
       "pageId": "pie-donut",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": ["docs/release/artifacts/android-runtime-pie-donut.png"],
+      "notes": "Release emulator launch smoke: Pie & Donut page opened without red-screen error and pie/donut content rendered; full slice selection, long-label, tooltip, rotation, and physical-device runtime checks still pending."
     },
     {
       "id": "android-progress",
       "platform": "android",
       "pageId": "progress",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": ["docs/release/artifacts/android-runtime-progress.png"],
+      "notes": "Release emulator launch smoke: Progress page opened without red-screen error and progress ring content rendered; full ring selection, empty-state, tooltip, rotation, and physical-device runtime checks still pending."
     },
     {
       "id": "android-heatmaps",
       "platform": "android",
       "pageId": "heatmaps",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": ["docs/release/artifacts/android-runtime-heatmaps.png"],
+      "notes": "Release emulator launch smoke: Heatmaps page opened without red-screen error and calendar heatmap content rendered; full heatmap cell selection, empty-state, rotation, and physical-device runtime checks still pending."
     },
     {
       "id": "android-compatibility",
       "platform": "android",
       "pageId": "compatibility",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": ["docs/release/artifacts/android-runtime-compatibility.png"],
+      "notes": "Release emulator launch smoke: Compatibility page opened without red-screen error and legacy LineChart/BarChart fixture content rendered; full legacy bounds, dark-mode switching, rotation, and physical-device runtime checks still pending."
     }
   ]
 }

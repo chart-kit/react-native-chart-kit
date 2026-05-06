@@ -62,12 +62,20 @@ Observed result:
 - `adb shell am start -n io.chartkit.showcase/.MainActivity` launched the showcase.
 - The app launched to the Line Charts page without a red-screen error.
 - The first line-chart content rendered with visible axes, labels, legend, line/area fills, and controls.
+- Follow-up release-emulator smoke captures opened every required Android runtime page by deep link without a red-screen error.
 
-Artifact:
+Artifacts:
 
 - [Android runtime smoke screenshot](artifacts/android-runtime-smoke.png)
+- [Android Bar Charts screenshot](artifacts/android-runtime-bar-charts.png)
+- [Android Combined Preview screenshot](artifacts/android-runtime-combined-preview.png)
+- [Android Financial Preview screenshot](artifacts/android-runtime-financial-preview.png)
+- [Android Pie & Donut screenshot](artifacts/android-runtime-pie-donut.png)
+- [Android Progress screenshot](artifacts/android-runtime-progress.png)
+- [Android Heatmaps screenshot](artifacts/android-runtime-heatmaps.png)
+- [Android Compatibility screenshot](artifacts/android-runtime-compatibility.png)
 
-This is useful release-build launch/render evidence, but it is not a completed Android runtime QA pass. It does not cover all required pages, gestures, rotation, TalkBack, or physical-device behavior.
+This is useful release-build launch/render evidence, but it is not a completed Android runtime QA pass. It does not cover gestures, rotation, TalkBack, or physical-device behavior.
 
 ## Device Matrix
 

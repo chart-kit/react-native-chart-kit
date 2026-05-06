@@ -94,10 +94,17 @@ const parseArgs = (argv) => {
 const shellQuote = (value) => {
   const text = String(value);
 
+  if (text.startsWith("'") && text.endsWith("'")) {
+    return text;
+  }
+
   return /^[A-Za-z0-9_./:@?=&%+-]+$/.test(text)
     ? text
     : `'${text.replaceAll("'", "'\\''")}'`;
 };
+
+const androidShellQuote = (value) =>
+  `'${String(value).replaceAll("'", "'\\''")}'`;
 
 const commandText = (command, args) =>
   [command, ...args.map(shellQuote)].join(" ");
@@ -170,7 +177,7 @@ const buildAndroidLaunchArgs = ({ androidPackage, device, launchUrl }) => [
   "-a",
   "android.intent.action.VIEW",
   "-d",
-  launchUrl,
+  androidShellQuote(launchUrl),
   androidPackage
 ];
 
