@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "status": "pending",
   "lastUpdated": "2026-05-06",
-  "source": "docs/release/h4-pro-scope.md",
+  "source": "docs/release/skia-renderer-qa.md",
   "platforms": [
     {
       "id": "ios",

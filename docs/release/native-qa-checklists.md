@@ -185,7 +185,7 @@ Source: [docs/release/native-performance-benchmark.md](native-performance-benchm
 
 ## Skia Renderer
 
-Source: [docs/release/h4-pro-scope.md](h4-pro-scope.md) and [docs/release/evidence/skia-renderer-matrix.json](evidence/skia-renderer-matrix.json).
+Source: [docs/release/skia-renderer-qa.md](skia-renderer-qa.md) and [docs/release/evidence/skia-renderer-matrix.json](evidence/skia-renderer-matrix.json).
 
 ### Skia Rows
 
