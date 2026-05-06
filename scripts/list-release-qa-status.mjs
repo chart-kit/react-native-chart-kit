@@ -72,8 +72,13 @@ const getLaunchUrl = (matrix, row) => {
   const scenario = matrix.scenarios?.find((item) => item.id === row.scenarioId);
   const pageId = page?.showcasePageId;
   const storyId = scenario?.showcaseStoryId;
+
+  return getTargetLaunchUrl({ pageId, storyId });
+};
+
+const getTargetLaunchUrl = ({ pageId, storyId, viewId = "charts" }) => {
   const params = new URLSearchParams();
-  params.set("view", "charts");
+  params.set("view", viewId);
 
   if (storyId) {
     params.set("story", storyId);
@@ -86,6 +91,30 @@ const getLaunchUrl = (matrix, row) => {
   return `chartkitshowcase://showcase?${params.toString()}`;
 };
 
+const getScenarioTargets = (matrix, row) => {
+  const launchUrl = getLaunchUrl(matrix, row);
+  const scenario = matrix.scenarios?.find((item) => item.id === row.scenarioId);
+  const targets = Array.isArray(scenario?.showcaseTargets)
+    ? scenario.showcaseTargets
+    : [];
+
+  if (targets.length === 0) {
+    return launchUrl
+      ? [{ label: "default", launchUrl, requiresOverride: false }]
+      : [];
+  }
+
+  return targets.map((target) => ({
+    label: target.label ?? target.storyId ?? target.pageId ?? "target",
+    launchUrl: getTargetLaunchUrl({
+      pageId: target.pageId,
+      storyId: target.storyId,
+      viewId: target.viewId ?? "charts"
+    }),
+    requiresOverride: true
+  }));
+};
+
 const getRowPlatform = (matrix, row) => {
   if (row.platform) return row.platform;
 
@@ -96,16 +125,25 @@ const getRowPlatform = (matrix, row) => {
   return tech?.platform ?? "";
 };
 
-const getCaptureCommand = ({ launchUrl, matrixName, platform, row }) => {
+const getCaptureCommand = ({
+  includeLaunchUrl = false,
+  launchUrl,
+  matrixName,
+  platform,
+  row,
+  suffix
+}) => {
   if (!launchUrl || !platform) return "";
 
-  const artifactBase = `docs/release/artifacts/${row.id}`;
+  const artifactBase = `docs/release/artifacts/${row.id}${suffix ? `-${suffix}` : ""}`;
+  const quotedLaunchUrl = `"${launchUrl}"`;
   const command = [
     "npm run release:qa:capture --",
     `--matrix ${matrixName}`,
     `--row ${row.id}`,
     `--platform ${platform}`,
-    `--output ${artifactBase}.png`
+    `--output ${artifactBase}.png`,
+    includeLaunchUrl ? `--launch-url ${quotedLaunchUrl}` : ""
   ];
 
   if (platform === "ios") {
@@ -118,8 +156,11 @@ const getCaptureCommand = ({ launchUrl, matrixName, platform, row }) => {
     }
   }
 
-  return command.join(" ");
+  return command.filter(Boolean).join(" ");
 };
+
+const toCaptureSuffix = (label, index) =>
+  `${index + 1}-${label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`;
 
 const getRowCommand = ({ matrixName, row }) =>
   [
@@ -156,20 +197,33 @@ export const buildReleaseQaStatus = async ({
       matrix: name,
       matrixPath: config.path,
       openRows: openRows.map((row) => {
-        const launchUrl = getLaunchUrl(matrix, row);
+        const launchTargets = getScenarioTargets(matrix, row);
+        const launchUrl = launchTargets[0]?.launchUrl ?? "";
         const platform = getRowPlatform(matrix, row);
+        const captureCommands = launchTargets
+          .map((target, index) =>
+            getCaptureCommand({
+              launchUrl: target.launchUrl,
+              matrixName: name,
+              platform,
+              row,
+              includeLaunchUrl: target.requiresOverride,
+              suffix:
+                launchTargets.length > 1
+                  ? toCaptureSuffix(target.label, index)
+                  : ""
+            })
+          )
+          .filter(Boolean);
 
         return {
-          captureCommand: getCaptureCommand({
-            launchUrl,
-            matrixName: name,
-            platform,
-            row
-          }),
+          captureCommand: captureCommands[0] ?? "",
+          captureCommands,
           command: getRowCommand({ matrixName: name, row }),
           evidence: row.evidence ?? [],
           id: row.id,
           launchUrl,
+          launchTargets,
           status: row.status,
           target: getTarget(matrix, row)
         };
@@ -193,7 +247,7 @@ const formatStatus = (sections) =>
       ...section.openRows.flatMap((row) => [
         `  - ${row.id} [${row.status}] ${row.target}`,
         row.launchUrl ? `    launch: ${row.launchUrl}` : "",
-        row.captureCommand ? `    capture: ${row.captureCommand}` : "",
+        ...row.captureCommands.map((command) => `    capture: ${command}`),
         `    evidence: ${row.evidence.length > 0 ? row.evidence.join(", ") : "none"}`,
         `    record: ${row.command}`
       ])

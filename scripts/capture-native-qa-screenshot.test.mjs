@@ -332,6 +332,30 @@ describe("native QA screenshot capture", () => {
     ).rejects.toThrow("does not have a showcase deep link");
   });
 
+  it("allows a launch URL override for multi-target matrix rows", async () => {
+    const plan = await createNativeQaScreenshotPlan({
+      launchUrl:
+        "chartkitshowcase://showcase?view=charts&story=v2-perf-line-10000-overview",
+      matrixName: "skia",
+      platform: "ios",
+      repoRoot,
+      rowId: "ios-skia-performance-comparison"
+    });
+
+    expect(plan.launchUrl).toBe(
+      "chartkitshowcase://showcase?view=charts&story=v2-perf-line-10000-overview"
+    );
+    expect(plan.commands[0]).toMatchObject({
+      args: [
+        "simctl",
+        "openurl",
+        "booted",
+        "chartkitshowcase://showcase?view=charts&story=v2-perf-line-10000-overview"
+      ],
+      command: "xcrun"
+    });
+  });
+
   it("rejects Android log output for iOS captures", async () => {
     await expect(
       captureNativeQaScreenshot({

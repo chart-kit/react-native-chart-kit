@@ -24,17 +24,55 @@
     {
       "id": "free-chart-parity",
       "label": "Free chart renderer parity",
-      "requiredEvidence": "Line, Area, Bar, StackedBar, Pie, Donut, Progress, and Contribution surfaces render with injected Skia primitives without missing text, gradients, clipping, tooltips, or legends."
+      "requiredEvidence": "Line, Area, Bar, StackedBar, Pie, Donut, Progress, and Contribution surfaces render with injected Skia primitives without missing text, gradients, clipping, tooltips, or legends.",
+      "showcaseTargets": [
+        { "label": "Line and Area", "pageId": "line-area" },
+        { "label": "Bar and StackedBar", "pageId": "bar" },
+        { "label": "Pie and Donut", "pageId": "pie-donut" },
+        { "label": "Progress", "pageId": "progress" },
+        { "label": "Contribution", "pageId": "heatmaps" },
+        { "label": "Compatibility", "pageId": "compat" }
+      ]
     },
     {
       "id": "pro-preview-parity",
       "label": "Pro preview renderer parity",
-      "requiredEvidence": "Combined, Candlestick, range selector, sticky axis, crosshair, tooltip, and debug-layout preview surfaces render correctly with injected Skia primitives."
+      "requiredEvidence": "Combined, Candlestick, range selector, sticky axis, crosshair, tooltip, and debug-layout preview surfaces render correctly with injected Skia primitives.",
+      "showcaseTargets": [
+        { "label": "Combined", "pageId": "combined" },
+        { "label": "Candlestick", "pageId": "financial" },
+        { "label": "Range Selector", "storyId": "v2-range-selector" },
+        { "label": "Crosshair", "storyId": "v2-custom-crosshair" },
+        { "label": "Debug Layout", "storyId": "v2-debug-layout" }
+      ]
     },
     {
       "id": "performance-comparison",
       "label": "Skia performance comparison",
-      "requiredEvidence": "Compare SVG and Skia native release-build timing and memory on dense line, multi-line scrub, range selector, scrollable bar, combined, and candlestick scenarios."
+      "requiredEvidence": "Compare SVG and Skia native release-build timing and memory on dense line, multi-line scrub, range selector, scrollable bar, combined, and candlestick scenarios.",
+      "showcaseTargets": [
+        {
+          "label": "Dense Line",
+          "storyId": "v2-perf-line-10000-overview"
+        },
+        {
+          "label": "Multi-line Scrub",
+          "storyId": "v2-perf-line-5x1000-tooltip"
+        },
+        { "label": "Range Selector", "storyId": "v2-perf-range-2x10000" },
+        {
+          "label": "Scrollable Bar",
+          "storyId": "v2-perf-bar-500-selection"
+        },
+        {
+          "label": "Combined Tooltip",
+          "storyId": "v2-perf-combined-tooltip"
+        },
+        {
+          "label": "Candlestick",
+          "storyId": "v2-perf-candlestick-1000"
+        }
+      ]
     }
   ],
   "rows": [

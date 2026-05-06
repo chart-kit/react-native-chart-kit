@@ -111,6 +111,43 @@ const getStoryLaunchUrl = (storyId) => {
   return `chartkitshowcase://showcase?${params.toString()}`;
 };
 
+const getTargetLaunchUrl = ({ pageId, storyId, viewId = "charts" }) => {
+  const params = new URLSearchParams();
+  params.set("view", viewId);
+
+  if (storyId) {
+    params.set("story", storyId);
+  } else if (pageId) {
+    params.set("page", pageId);
+  } else {
+    return "";
+  }
+
+  return `chartkitshowcase://showcase?${params.toString()}`;
+};
+
+const formatShowcaseTargets = (targets = []) =>
+  targets.length > 0
+    ? targets
+        .map((target) => target.label ?? target.storyId ?? target.pageId)
+        .filter(Boolean)
+        .join(", ")
+    : "";
+
+const formatShowcaseTargetLinks = (targets = []) =>
+  targets.length > 0
+    ? targets
+        .map((target) =>
+          getTargetLaunchUrl({
+            pageId: target.pageId,
+            storyId: target.storyId,
+            viewId: target.viewId
+          })
+        )
+        .filter(Boolean)
+        .join(", ")
+    : "";
+
 const formatRuntimeRows = (matrix) => {
   const platforms = toIdMap(matrix.platforms);
   const pages = toIdMap(matrix.pages);
@@ -213,8 +250,8 @@ const formatSkiaRows = (matrix) => {
   const platforms = toIdMap(matrix.platforms);
   const scenarios = toIdMap(matrix.scenarios);
   const lines = [
-    "| Row | Target | Build Surface | Required Evidence | Status | Evidence |",
-    "| --- | --- | --- | --- | --- | --- |"
+    "| Row | Target | Build Surface | Required Evidence | Showcase Targets | Deep Links | Status | Evidence |",
+    "| --- | --- | --- | --- | --- | --- | --- | --- |"
   ];
 
   for (const row of matrix.rows) {
@@ -226,6 +263,8 @@ const formatSkiaRows = (matrix) => {
         `${platform?.label ?? row.platform} / ${scenario?.label ?? row.scenarioId}`,
         platform?.requiredBuildSurface ?? "",
         scenario?.requiredEvidence ?? "",
+        formatShowcaseTargets(scenario?.showcaseTargets),
+        formatShowcaseTargetLinks(scenario?.showcaseTargets),
         row.status,
         formatEvidence(row.evidence)
       ]

@@ -34,6 +34,13 @@ describe("native QA checklist generator", () => {
     expect(markdown).toContain("`android-talkback-compatibility`");
     expect(markdown).toContain("`ios-svg-standard-line-scrub`");
     expect(markdown).toContain("`ios-skia-native-install`");
+    expect(markdown).toContain("Line and Area, Bar and StackedBar");
+    expect(markdown).toContain(
+      "chartkitshowcase://showcase?view=charts&page=line-area"
+    );
+    expect(markdown).toContain(
+      "chartkitshowcase://showcase?view=charts&story=v2-perf-candlestick-1000"
+    );
     expect(markdown).toContain("### Deferred Rows");
   });
 

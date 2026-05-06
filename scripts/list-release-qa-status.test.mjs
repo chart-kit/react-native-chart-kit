@@ -79,13 +79,16 @@ describe("release QA status", () => {
     );
   });
 
-  it("omits capture commands for rows without showcase links", async () => {
+  it("adds capture commands for Skia multi-target rows", async () => {
     const [section] = await buildReleaseQaStatus({
       matrixName: "skia",
       status: "pending"
     });
 
-    expect(section.openRows.map((row) => row.captureCommand)).toEqual(["", ""]);
+    expect(section.openRows[0]?.captureCommands).toHaveLength(6);
+    expect(section.openRows[0]?.captureCommand).toBe(
+      'npm run release:qa:capture -- --matrix skia --row ios-skia-performance-comparison --platform ios --output docs/release/artifacts/ios-skia-performance-comparison-1-dense-line.png --launch-url "chartkitshowcase://showcase?view=charts&story=v2-perf-line-10000-overview" --ios-log-output docs/release/artifacts/ios-skia-performance-comparison-1-dense-line.log'
+    );
   });
 
   it("honors CLI matrix and status filters", () => {
@@ -103,7 +106,8 @@ describe("release QA status", () => {
 
     expect(output).toContain("Skia Renderer (skia): partial");
     expect(output).toContain("ios-skia-performance-comparison");
-    expect(output).not.toContain("capture:");
+    expect(output).toContain("--launch-url");
+    expect(output).toContain("v2-perf-candlestick-1000");
     expect(output).not.toContain("Runtime QA (runtime)");
   });
 

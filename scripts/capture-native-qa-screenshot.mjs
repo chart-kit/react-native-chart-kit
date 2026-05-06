@@ -242,7 +242,7 @@ const buildAndroidCommands = ({
   return commands;
 };
 
-const findRow = async ({ matrixName, repoRoot, rowId }) => {
+const findRow = async ({ launchUrl, matrixName, repoRoot, rowId }) => {
   const rows = await listNativeQaRows({
     includeDetails: false,
     matrixName,
@@ -254,13 +254,13 @@ const findRow = async ({ matrixName, repoRoot, rowId }) => {
     throw new Error(`Unknown ${matrixName} QA row: ${rowId}`);
   }
 
-  if (!row.launchUrl) {
+  if (!row.launchUrl && !launchUrl) {
     throw new Error(
       `${rowId} does not have a showcase deep link. Use manual evidence for this row.`
     );
   }
 
-  return row;
+  return { ...row, launchUrl: launchUrl ?? row.launchUrl };
 };
 
 export const createNativeQaScreenshotPlan = async ({
@@ -273,6 +273,7 @@ export const createNativeQaScreenshotPlan = async ({
   iosLogOutput,
   iosLogPredicate = 'process == "ChartKitShowcase"',
   launch = true,
+  launchUrl,
   matrixName,
   output,
   platform,
@@ -290,7 +291,7 @@ export const createNativeQaScreenshotPlan = async ({
     platform
   });
 
-  const row = await findRow({ matrixName, repoRoot, rowId });
+  const row = await findRow({ launchUrl, matrixName, repoRoot, rowId });
   const outputPath = output ?? defaultOutputForRow(rowId);
   const absoluteOutputPath = path.resolve(repoRoot, outputPath);
   const absoluteAndroidLogOutputPath = androidLogOutput

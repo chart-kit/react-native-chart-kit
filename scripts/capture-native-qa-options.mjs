@@ -14,6 +14,7 @@ Options:
   --ios-log-output <path>    Also capture iOS simulator logs to this repo-relative path.
   --ios-log-last <duration>  iOS simulator log window. Defaults to 2m.
   --ios-log-predicate <pred> iOS simulator log predicate. Defaults to process == "ChartKitShowcase".
+  --launch-url <url>         Override the row deep link. Useful for multi-target Skia rows.
   --no-launch               Capture current screen without opening the row deep link first.
   --output <path>           Repo-relative screenshot path. Defaults to docs/release/artifacts/<row-id>-screenshot.png.
   --package <id>            Android package id. Defaults to io.chartkit.showcase.
@@ -62,6 +63,8 @@ export const parseCaptureNativeQaArgs = (argv) => {
       options.iosLogOutput = readValue();
     } else if (arg === "--ios-log-predicate") {
       options.iosLogPredicate = readValue();
+    } else if (arg === "--launch-url") {
+      options.launchUrl = readValue();
     } else if (arg === "--matrix") {
       options.matrixName = readValue();
     } else if (arg === "--no-launch") {
