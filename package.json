@@ -90,6 +90,7 @@
     "release:native-workflow:record": "node scripts/record-native-workflow-evidence.mjs",
     "release:qa:checklists": "node scripts/generate-native-qa-checklists.mjs",
     "release:qa:checklists:check": "node scripts/generate-native-qa-checklists.mjs --check",
+    "release:qa:status": "node scripts/list-release-qa-status.mjs",
     "release:qa:capture": "node scripts/capture-native-qa-screenshot.mjs",
     "release:performance:android": "node scripts/capture-android-performance-evidence.mjs",
     "release:performance:ios": "node scripts/capture-ios-performance-evidence.mjs",

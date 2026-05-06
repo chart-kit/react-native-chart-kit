@@ -29,22 +29,23 @@ Status on May 6, 2026: Developer Preview evidence is strong, but the full v2/v2 
 
 ## Required Commands
 
-| Command                                            | Evidence                                         | Current status                                        |
-| -------------------------------------------------- | ------------------------------------------------ | ----------------------------------------------------- |
-| `yarn lint` / `npm run lint`                       | `package.json`, `scripts/check-file-sizes.mjs`   | Defined; local verification uses npm scripts          |
-| `yarn typecheck` / `npm run typecheck`             | `package.json`, workspace tsconfigs              | Defined                                               |
-| `yarn test` / `npm run test`                       | `package.json`, Vitest tests                     | Defined                                               |
-| `yarn test:unit` / `npm run test:unit`             | `package.json`, latest run: 67 files / 359 tests | Passing                                               |
-| `yarn test:visual` / `npm run test:visual`         | Expo showcase Playwright visual suite            | Defined                                               |
-| `yarn test:compat` / `npm run test:compat`         | `packages/core/test/compat`                      | Defined                                               |
-| `yarn test:e2e` / `npm run test:e2e`               | Expo showcase interaction suite                  | Defined                                               |
-| `yarn benchmark` / `npm run benchmark`             | benchmark scripts plus native benchmark protocol | Defined; native final evidence partial                |
-| `yarn example:ios` / `npm run example:ios`         | Expo showcase native command                     | Defined; native release evidence tracked separately   |
-| `yarn example:android` / `npm run example:android` | Expo showcase native command                     | Defined; native release evidence tracked separately   |
-| `yarn example:expo` / `npm run example:expo`       | Expo showcase start command                      | Defined                                               |
-| `yarn docs:build` / `npm run docs:build`           | docs build and public TS/TSX fence typecheck     | Passing                                               |
-| `npm run release:gate:report`                      | `scripts/check-release-gates.mjs`                | Passing report mode with blockers                     |
-| `npm run release:gate`                             | strict release gate                              | Expected to fail until H6/native blockers are cleared |
+| Command                                            | Evidence                                         | Current status                                             |
+| -------------------------------------------------- | ------------------------------------------------ | ---------------------------------------------------------- |
+| `yarn lint` / `npm run lint`                       | `package.json`, `scripts/check-file-sizes.mjs`   | Defined; local verification uses npm scripts               |
+| `yarn typecheck` / `npm run typecheck`             | `package.json`, workspace tsconfigs              | Defined                                                    |
+| `yarn test` / `npm run test`                       | `package.json`, Vitest tests                     | Defined                                                    |
+| `yarn test:unit` / `npm run test:unit`             | `package.json`, latest run: 67 files / 359 tests | Passing                                                    |
+| `yarn test:visual` / `npm run test:visual`         | Expo showcase Playwright visual suite            | Defined                                                    |
+| `yarn test:compat` / `npm run test:compat`         | `packages/core/test/compat`                      | Defined                                                    |
+| `yarn test:e2e` / `npm run test:e2e`               | Expo showcase interaction suite                  | Defined                                                    |
+| `yarn benchmark` / `npm run benchmark`             | benchmark scripts plus native benchmark protocol | Defined; native final evidence partial                     |
+| `yarn example:ios` / `npm run example:ios`         | Expo showcase native command                     | Defined; native release evidence tracked separately        |
+| `yarn example:android` / `npm run example:android` | Expo showcase native command                     | Defined; native release evidence tracked separately        |
+| `yarn example:expo` / `npm run example:expo`       | Expo showcase start command                      | Defined                                                    |
+| `yarn docs:build` / `npm run docs:build`           | docs build and public TS/TSX fence typecheck     | Passing                                                    |
+| `npm run release:gate:report`                      | `scripts/check-release-gates.mjs`                | Passing report mode with blockers                          |
+| `npm run release:gate`                             | strict release gate                              | Expected to fail until H6/native blockers are cleared      |
+| `npm run release:qa:status`                        | `scripts/list-release-qa-status.mjs`             | Lists open native evidence rows and row-recording commands |
 
 ## Human Gates
 
