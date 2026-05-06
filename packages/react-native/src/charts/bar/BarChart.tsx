@@ -50,6 +50,7 @@ export const BarChart = <TData extends Record<string, unknown>>(
   const generatedChartId = useId().replace(/:/g, "");
   const scopedChartId = props.id ?? generatedChartId;
   const chartKitTheme = useChartKitTheme();
+  const renderer = props.renderer ?? chartKitTheme.renderer;
   const scrollViewRef = useRef<ScrollView>(null);
   const interactionConfig = useMemo(
     () => getBarChartInteractionConfig(props.interaction),
@@ -219,7 +220,7 @@ export const BarChart = <TData extends Record<string, unknown>>(
       model={model}
       responderProps={responderProps}
       renderBar={props.renderBar}
-      renderer={props.renderer}
+      renderer={renderer}
       selectedBarKey={selectedBarKey}
       selectionAnimation={props.selectionAnimation}
       showYAxis={!viewport.scrollable}
@@ -234,7 +235,7 @@ export const BarChart = <TData extends Record<string, unknown>>(
       tooltipModel={tooltipModel}
       viewportOffsetX={viewport.scrollable ? scrollOffsetX : 0}
       width={props.width}
-      renderer={props.renderer}
+      renderer={renderer}
     />
   );
 
@@ -295,7 +296,7 @@ export const BarChart = <TData extends Record<string, unknown>>(
           <StickyBarChartYAxis
             height={props.height}
             model={model}
-            renderer={props.renderer}
+            renderer={renderer}
             width={props.width}
           />
           {tooltipOverlay}

@@ -207,7 +207,9 @@ export const PieChart = <TData extends Record<string, unknown>>(
       labelKey: props.labelKey,
       valueKey: props.valueKey
     });
-  const renderer = getPieChartRenderer(props.renderer);
+  const renderer = getPieChartRenderer(
+    props.renderer ?? chartKitTheme.renderer
+  );
   const Layer = renderer.Layer ?? RendererLayer;
   const Line = renderer.Line;
   const Path = renderer.Path;

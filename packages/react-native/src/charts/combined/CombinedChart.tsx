@@ -130,7 +130,9 @@ export const CombinedChart = <TData extends Record<string, unknown>>(
     yLabels
   } = model;
   const fontProps = getFontFamilyProps(resolvedTheme.typography.fontFamily);
-  const renderer = getCombinedChartRenderer(props.renderer);
+  const renderer = getCombinedChartRenderer(
+    props.renderer ?? chartKitTheme.renderer
+  );
   const Circle = renderer.Circle;
   const Layer = renderer.Layer ?? RendererLayer;
   const Line = renderer.Line;

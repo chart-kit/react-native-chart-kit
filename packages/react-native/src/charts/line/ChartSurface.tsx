@@ -16,6 +16,7 @@ import type { LineChartModel } from "./useChartModel";
 import type {
   LineChartDotRenderProps,
   LineChartProps,
+  LineChartRenderer,
   LineChartYAxisLabelModel
 } from "./types";
 
@@ -27,6 +28,7 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
   mainHeight,
   model,
   props,
+  renderer: rendererProp,
   responderProps,
   yAxisLabels
 }: {
@@ -39,6 +41,7 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
   mainHeight: number;
   model: LineChartModel<TData>;
   props: LineChartProps<TData>;
+  renderer?: LineChartRenderer | undefined;
   responderProps: ViewProps;
   yAxisLabels: LineChartYAxisLabelModel[];
 }) => {
@@ -65,7 +68,7 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
     tooltip: animatedTooltip,
     yAxisLabels
   });
-  const renderer = getLineChartRenderer(props.renderer);
+  const renderer = getLineChartRenderer(rendererProp);
   const { Defs, Group, Line, Rect, Surface, Text } = renderer;
   const Layer = renderer.Layer ?? Group;
   const LinearGradient = renderer.LinearGradient;

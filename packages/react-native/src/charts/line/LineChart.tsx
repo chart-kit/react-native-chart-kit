@@ -69,7 +69,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
   const chartId = useId().replace(/:/g, "");
   const scopedChartId = props.id ?? chartId;
   const chartKitTheme = useChartKitTheme();
-  const { onViewportChange } = props;
+  const renderer = props.renderer ?? chartKitTheme.renderer;
   const dataLength = props.data.length;
   const accessibilityLabel = useLineChartAccessibilityLabel(props);
   const scrollViewRef = useRef<ScrollView>(null);
@@ -222,7 +222,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
   const viewportPan = useLineChartViewportPan({
     dataLength,
     enabled: !viewport.scrollable,
-    onViewportChange,
+    onViewportChange: props.onViewportChange,
     plotBounds: boxes.plot,
     preventBrowserSelection,
     viewportInteraction: props.viewportInteraction,
@@ -231,7 +231,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
   const viewportPinchZoom = useLineChartViewportPinchZoom({
     dataLength,
     enabled: !viewport.scrollable,
-    onViewportChange,
+    onViewportChange: props.onViewportChange,
     plotBounds: boxes.plot,
     viewportInteraction: props.viewportInteraction,
     viewportWindow
@@ -399,6 +399,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
       mainHeight={mainHeight}
       model={model}
       props={props}
+      renderer={renderer}
       responderProps={responderProps}
       yAxisLabels={animatedYAxisLabels}
     />
@@ -445,7 +446,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
             gradientId={scrollStartFadeId}
             mainHeight={mainHeight}
             model={model}
-            renderer={props.renderer}
+            renderer={renderer}
             width={props.width}
             yAxisLabels={animatedYAxisLabels}
           />
@@ -471,9 +472,9 @@ export const LineChart = <TData extends Record<string, unknown>>(
         dataLength={dataLength}
         isVisible={isRangeSelectorVisible}
         model={overviewModel}
-        onViewportChange={onViewportChange}
+        onViewportChange={props.onViewportChange}
         preventBrowserSelection={preventBrowserSelection}
-        renderer={props.renderer}
+        renderer={renderer}
         testID={props.testID}
         viewportWindow={viewportWindow}
         width={props.width}

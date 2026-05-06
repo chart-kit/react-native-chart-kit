@@ -50,7 +50,9 @@ export const ContributionGraph = <
       numDays: props.numDays,
       values: props.values
     });
-  const renderer = getContributionGraphRenderer(props.renderer);
+  const renderer = getContributionGraphRenderer(
+    props.renderer ?? chartKitTheme.renderer
+  );
   const Layer = renderer.Layer ?? RendererLayer;
   const Rect = renderer.Rect;
   const Surface = renderer.Surface;

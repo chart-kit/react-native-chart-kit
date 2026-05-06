@@ -25,6 +25,22 @@ const renderer = createSkiaRenderer({ skia: Skia });
 />;
 ```
 
+For renderer QA or app-wide renderer experiments, the same renderer can be
+provided once:
+
+```tsx
+import { ChartKitProvider, LineChart } from "@chart-kit/react-native";
+import { createSkiaRenderer } from "@chart-kit/skia-renderer";
+import * as Skia from "@shopify/react-native-skia";
+
+const renderer = createSkiaRenderer({ skia: Skia });
+const data = [{ date: "Jan", price: 42 }];
+
+<ChartKitProvider renderer={renderer}>
+  <LineChart data={data} xKey="date" yKey="price" width={360} height={240} />
+</ChartKitProvider>;
+```
+
 The Skia path is still preview-only: sticky axis labels require a Skia font, iOS/Android optional-Skia install/build evidence is partial, and native renderer parity tests are still pending.
 
 ## Basic Line

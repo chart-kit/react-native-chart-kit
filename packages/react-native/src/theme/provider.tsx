@@ -13,11 +13,13 @@ import type {
   ChartKitThemeMode,
   ResolvedChartKitThemeMode
 } from "./presets";
+import type { LineChartRenderer } from "../charts/line/types";
 
 export type ChartKitThemeContextValue = {
   mode: ResolvedChartKitThemeMode;
   preset: CartesianChartPresetValue;
   presets: CartesianChartPresetRegistry;
+  renderer?: LineChartRenderer;
   theme: CartesianChartTheme | undefined;
 };
 
@@ -36,6 +38,7 @@ export type ChartKitProviderProps = PropsWithChildren<{
   mode?: ChartKitThemeMode;
   preset?: CartesianChartPresetValue;
   presets?: CartesianChartPresetRegistry;
+  renderer?: LineChartRenderer;
   theme?: CartesianChartTheme;
 }>;
 
@@ -44,6 +47,7 @@ export const ChartKitProvider = ({
   mode = "light",
   preset = "default",
   presets = {},
+  renderer,
   theme
 }: ChartKitProviderProps) => {
   const systemColorScheme = useColorScheme();
@@ -58,9 +62,10 @@ export const ChartKitProvider = ({
       mode: resolvedMode,
       preset,
       presets,
+      ...(renderer ? { renderer } : {}),
       theme
     }),
-    [preset, presets, resolvedMode, theme]
+    [preset, presets, renderer, resolvedMode, theme]
   );
 
   return (

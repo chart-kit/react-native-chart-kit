@@ -60,6 +60,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
   props: CandlestickChartProps<TData>
 ) => {
   const chartKitTheme = useChartKitTheme();
+  const renderer = props.renderer ?? chartKitTheme.renderer;
   const scrollViewRef = useRef<ScrollView>(null);
   const [gestureSelectedIndex, setGestureSelectedIndex] = useState<
     number | undefined
@@ -275,7 +276,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
           chartWidth={chartWidth}
           formatYLabel={formatYLabel}
           model={model}
-          renderer={props.renderer}
+          renderer={renderer}
           selectedCandle={selectedCandle}
           testID={props.testID}
           tooltipConfig={tooltipConfig}
@@ -343,7 +344,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
         model={overviewModel}
         onViewportChange={props.onViewportChange}
         preventBrowserSelection={preventBrowserSelection}
-        renderer={props.renderer}
+        renderer={renderer}
         testID={props.testID}
         viewportWindow={viewportWindow}
         width={props.width}

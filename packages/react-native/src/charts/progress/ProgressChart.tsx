@@ -67,7 +67,9 @@ export const ProgressChart = <
       labels: props.labels,
       valueKey: props.valueKey
     });
-  const renderer = getProgressChartRenderer(props.renderer);
+  const renderer = getProgressChartRenderer(
+    props.renderer ?? chartKitTheme.renderer
+  );
   const Layer = renderer.Layer ?? RendererLayer;
   const Path = renderer.Path;
   const Surface = renderer.Surface;
