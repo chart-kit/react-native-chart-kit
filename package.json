@@ -87,6 +87,7 @@
     "release:qa:checklists": "node scripts/generate-native-qa-checklists.mjs",
     "release:qa:checklists:check": "node scripts/generate-native-qa-checklists.mjs --check",
     "release:qa:capture": "node scripts/capture-native-qa-screenshot.mjs",
+    "release:performance:android": "node scripts/capture-android-performance-evidence.mjs",
     "release:qa:record": "node scripts/record-native-qa-evidence.mjs",
     "release:owner:record": "node scripts/record-owner-gate-decision.mjs",
     "release:publish:status": "node scripts/check-npm-publish-state.mjs",

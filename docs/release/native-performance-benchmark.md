@@ -89,6 +89,16 @@ npm run release:qa:capture -- \
 
 Use `--dry-run` to print the `adb` or `xcrun` commands, and use `--no-launch` if Instruments, Android Studio Profiler, or a screen recording is already focused on the target scenario. A screenshot alone is not enough for a performance row; attach timing and memory evidence with `npm run release:qa:record -- --matrix performance --row <row-id> --status pass --evidence <artifact>`.
 
+For Android release-emulator samples, the helper below opens the matrix row, captures launch timing, `dumpsys gfxinfo`, before/after `dumpsys meminfo`, and a screenshot into one markdown artifact:
+
+```sh
+npm run release:performance:android -- \
+  --row android-svg-standard-line-scrub \
+  --output docs/release/artifacts/android-svg-standard-line-scrub-performance.md
+```
+
+Use the generated record command with `--status partial` unless the row-specific criteria were reviewed on an accepted release target. These samples are useful for trend evidence, but they do not replace full physical-device or accepted simulator/emulator performance sign-off.
+
 ## Metrics To Capture
 
 For every run, capture:
