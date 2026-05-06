@@ -5,19 +5,6 @@
   "distTag": "next",
   "packages": [
     {
-      "dir": ".",
-      "name": "react-native-chart-kit",
-      "publishInBeta": true,
-      "requiredFiles": [
-        "LICENSE",
-        "README.md",
-        "dist/index.d.ts",
-        "dist/index.js",
-        "package.json",
-        "scripts/chartkit-codemod.mjs"
-      ]
-    },
-    {
       "dir": "packages/core",
       "name": "@chart-kit/core",
       "publishInBeta": true,
@@ -50,6 +37,19 @@
         "dist/proPreview.d.ts",
         "dist/proPreview.js",
         "package.json"
+      ]
+    },
+    {
+      "dir": ".",
+      "name": "react-native-chart-kit",
+      "publishInBeta": true,
+      "requiredFiles": [
+        "LICENSE",
+        "README.md",
+        "dist/index.d.ts",
+        "dist/index.js",
+        "package.json",
+        "scripts/chartkit-codemod.mjs"
       ]
     },
     {

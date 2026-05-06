@@ -9,7 +9,8 @@ This checklist tracks CKV2-017 readiness for the H5-approved Developer Preview. 
 - Current modern workspace package: `@chart-kit/react-native`
 - Package strategy: `react-native-chart-kit` remains the compatibility path; `@chart-kit/react-native` is the modern v2 API for new adopters
 - Dist-tag target for Developer Preview: `next`
-- Publish manifest: [package-manifest.json](evidence/package-manifest.json) is the source of truth for Developer Preview-publishable packages. It currently publishes the root compatibility package, `@chart-kit/core`, `@chart-kit/svg-renderer`, and `@chart-kit/react-native`; it pack-checks but does not publish `@chart-kit/skia-renderer` or `@chart-kit/pro`.
+- Publish manifest: [package-manifest.json](evidence/package-manifest.json) is the source of truth for Developer Preview-publishable packages. It publishes `@chart-kit/core`, `@chart-kit/svg-renderer`, `@chart-kit/react-native`, and then the root compatibility package `react-native-chart-kit`; it pack-checks but does not publish `@chart-kit/skia-renderer` or `@chart-kit/pro`.
+- npm access prerequisite: the `NPM_TOKEN` used by GitHub Actions must be able to create and publish public packages under the `@chart-kit` scope. npm returns `404 Not Found` for scoped package publishes when the token does not have access to that scope.
 
 ## Required Checks
 
@@ -47,7 +48,7 @@ The `test:e2e` command covers web showcase interaction flows. The example comman
 
 The `docs:build` command validates local links, balanced code fences, JS/TS markdown fence syntax, and public TS/TSX docs examples. Integrated docs example coverage still runs through `npm run rn:typecheck`.
 
-The `pack:check` command runs `npm pack --dry-run --json --ignore-scripts` for every package in the release package manifest, using a repo-local temp npm cache. It verifies package names, package metadata, README files, built `dist` entrypoints, and the modern `pro-preview` subpath artifacts. The publish workflow reads the same manifest for the Developer Preview publish list so preview-only packages cannot be published by an unrelated hardcoded loop.
+The `pack:check` command runs `npm pack --dry-run --json --ignore-scripts` for every package in the release package manifest, using a repo-local temp npm cache. It verifies package names, package metadata, README files, built `dist` entrypoints, and the modern `pro-preview` subpath artifacts. The publish workflow reads the same manifest for the Developer Preview publish list so preview-only packages cannot be published by an unrelated hardcoded loop. Keep dependency packages before the root compatibility package in the manifest so scoped package access failures happen before the root package is published.
 
 Use `npm run release:qa:record -- --matrix runtime --list` to inspect native QA matrix rows, and use the same command with `--row`, `--status`, and `--evidence` after a manual device pass. Use `--matrix skia` for Skia renderer install, parity, and performance evidence. The recorder rejects `pass` rows without evidence links or missing repo-relative evidence files and regenerates [native QA checklist](native-qa-checklists.md).
 
