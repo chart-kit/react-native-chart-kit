@@ -40,7 +40,8 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint . && npm run filesize:check",
+    "filesize:check": "node scripts/check-file-sizes.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "surface:check": "node scripts/verify-public-surface.mjs && node scripts/verify-package-boundaries.mjs && node scripts/verify-pro-preview-imports.mjs",

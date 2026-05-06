@@ -51,6 +51,7 @@ export const requiredFiles = [
 
 export const requiredScripts = [
   "lint",
+  "filesize:check",
   "typecheck",
   "test",
   "test:unit",
