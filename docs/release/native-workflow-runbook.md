@@ -6,6 +6,8 @@ Status on May 6, 2026: native iOS and Android release builds passed locally, but
 
 GitHub Actions only exposes manually dispatched workflows after the workflow file exists on the repository default branch. The workflow file currently exists on `next`, while the repository default branch is `master`, so `workflow_dispatch` is not available yet for `.github/workflows/native-release.yml`.
 
+The workflow is also configured to run on relevant `next` pushes. Use that path when the workflow is not dispatchable from the UI yet.
+
 Do not mark the native workflow evidence complete until a green workflow run exists on the release-candidate commit and both platform artifacts are archived.
 
 ## Required Evidence
@@ -20,9 +22,18 @@ The release gate requires:
 
 Local release-build passes are useful smoke evidence, but they do not replace this workflow evidence for RC/stable.
 
+## Run From A `next` Push
+
+Push a release-candidate commit to `next` that touches the workflow, showcase, packages, lockfile, package metadata, or native release script paths covered by the workflow `push` trigger. Then watch the resulting workflow run:
+
+```sh
+gh run list --workflow native-release.yml --branch next --limit 5
+gh run watch <run-id> --exit-status
+```
+
 ## Make The Workflow Dispatchable
 
-Choose one of these owner-approved paths:
+For manual runs, choose one of these owner-approved paths:
 
 - Merge the workflow file into the default branch as part of the release branch process.
 - Temporarily add the workflow file to the default branch, then dispatch it against `next` or the release-candidate branch.

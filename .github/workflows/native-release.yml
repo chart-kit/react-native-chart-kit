@@ -2,6 +2,16 @@ name: Native Release Checks
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - next
+    paths:
+      - .github/workflows/native-release.yml
+      - apps/expo-showcase/**
+      - package-lock.json
+      - package.json
+      - packages/**
+      - scripts/run-expo-native-release-check.mjs
   pull_request:
     paths:
       - .github/workflows/native-release.yml

@@ -44,7 +44,7 @@ describe("native workflow evidence recorder", () => {
       status: "partial"
     });
     expect(evidence.missingEvidence).toContain(
-      "green native release workflow run on the release candidate commit"
+      "green native release workflow run on the release candidate commit through next push or manual workflow_dispatch"
     );
   });
 
