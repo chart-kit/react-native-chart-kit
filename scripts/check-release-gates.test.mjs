@@ -98,4 +98,20 @@ describe("release gate checker", () => {
       ["matrix:native-performance", "pass"]
     ]);
   });
+
+  it("checks the generated native QA checklist is synchronized", () => {
+    const report = runGateReportJson();
+
+    expect(
+      report.checks.find(
+        (check) => check.id === "generated:native-qa-checklists"
+      )
+    ).toMatchObject({
+      evidence:
+        "docs/release/native-qa-checklists.md; scripts/generate-native-qa-checklists.mjs",
+      message:
+        "Generated native QA checklist is in sync with evidence matrices",
+      status: "pass"
+    });
+  });
 });

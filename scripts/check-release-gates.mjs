@@ -270,6 +270,30 @@ for (const scriptName of requiredScripts) {
   });
 }
 
+const qaChecklistResult = spawnSync(
+  process.execPath,
+  ["scripts/generate-native-qa-checklists.mjs", "--check"],
+  {
+    cwd: repoRoot,
+    encoding: "utf8"
+  }
+);
+
+addCheck({
+  detail:
+    qaChecklistResult.status === 0
+      ? ""
+      : [qaChecklistResult.stdout, qaChecklistResult.stderr]
+          .filter(Boolean)
+          .join("\n")
+          .trim(),
+  evidence:
+    "docs/release/native-qa-checklists.md; scripts/generate-native-qa-checklists.mjs",
+  id: "generated:native-qa-checklists",
+  message: "Generated native QA checklist is in sync with evidence matrices",
+  status: qaChecklistResult.status === 0 ? "pass" : "fail"
+});
+
 const candidateJavaHomes = [
   process.env.JAVA_HOME,
   "/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home",
