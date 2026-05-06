@@ -11,7 +11,7 @@ These results document local native release-build attempts for the Expo showcase
 | `npm run native:release:dry-run` | Passed. Printed Expo prebuild, Android Gradle release, CocoaPods, and iOS Xcode release-build commands.  |
 | `npm run native:release:ios`     | Passed locally outside the sandbox after CocoaPods downloaded native dependencies.                       |
 | `npm run native:release:android` | Passed locally outside the sandbox with OpenJDK 17 and the Homebrew Android command-line tools SDK.      |
-| Native Release Checks workflow   | Passed on `next` for commit `b3db5c3fe188264c6d3beb85e0de77e3b383468b` with archived platform artifacts. |
+| Native Release Checks workflow   | Passed on `next` for commit `9b828d4eb891dfa2c6588ea2d4f122e0b470c04b` with archived platform artifacts. |
 
 ## iOS Evidence
 
@@ -62,19 +62,19 @@ Non-blocking warnings observed:
 - Gradle emitted Expo/React Native deprecation warnings from generated native dependencies.
 - Gradle warned that the daemon would stop after running out of JVM metaspace; the release build still completed successfully.
 
-The GitHub `Native Release Checks` workflow configures Java and runs on an Android-capable hosted runner. On May 6, 2026, run `25443812256` passed both iOS and Android release-build jobs for commit `b3db5c3fe188264c6d3beb85e0de77e3b383468b`.
+The GitHub `Native Release Checks` workflow configures Java and runs on an Android-capable hosted runner. On May 6, 2026, run `25448125505` passed both iOS and Android release-build jobs for commit `9b828d4eb891dfa2c6588ea2d4f122e0b470c04b`.
 
 The recorded artifacts are:
 
-- iOS artifact: `https://github.com/indiespirit/react-native-chart-kit/actions/runs/25443812256/artifacts/6834135468`
-- Android artifact: `https://github.com/indiespirit/react-native-chart-kit/actions/runs/25443812256/artifacts/6834216118`
+- iOS artifact: `https://github.com/indiespirit/react-native-chart-kit/actions/runs/25448125505/artifacts/6836032492`
+- Android artifact: `https://github.com/indiespirit/react-native-chart-kit/actions/runs/25448125505/artifacts/6836104574`
 
 The evidence was recorded with:
 
 ```sh
 npm run release:native-workflow:record -- \
-  --run-url https://github.com/indiespirit/react-native-chart-kit/actions/runs/25443812256 \
-  --commit b3db5c3fe188264c6d3beb85e0de77e3b383468b \
-  --ios-artifact https://github.com/indiespirit/react-native-chart-kit/actions/runs/25443812256/artifacts/6834135468 \
-  --android-artifact https://github.com/indiespirit/react-native-chart-kit/actions/runs/25443812256/artifacts/6834216118
+  --run-url https://github.com/indiespirit/react-native-chart-kit/actions/runs/25448125505 \
+  --commit 9b828d4eb891dfa2c6588ea2d4f122e0b470c04b \
+  --ios-artifact https://github.com/indiespirit/react-native-chart-kit/actions/runs/25448125505/artifacts/6836032492 \
+  --android-artifact https://github.com/indiespirit/react-native-chart-kit/actions/runs/25448125505/artifacts/6836104574
 ```
