@@ -17,18 +17,30 @@ const validStatuses = new Set([
 const matrixConfigs = {
   accessibility: {
     label: "Accessibility QA",
+    completeSummary:
+      "Native accessibility QA matrix is complete for required VoiceOver and TalkBack showcase pages.",
+    manifestPath: "docs/release/evidence/native-accessibility-qa.json",
     path: "docs/release/evidence/native-accessibility-matrix.json"
   },
   performance: {
     label: "Native Performance",
+    completeSummary:
+      "Native performance matrix is complete for required iOS and Android release scenarios.",
+    manifestPath: "docs/release/evidence/native-performance-benchmark.json",
     path: "docs/release/evidence/native-performance-matrix.json"
   },
   runtime: {
     label: "Runtime QA",
+    completeSummary:
+      "Native runtime QA matrix is complete for required iOS and Android showcase pages.",
+    manifestPath: "docs/release/evidence/native-runtime-qa.json",
     path: "docs/release/evidence/native-runtime-matrix.json"
   },
   skia: {
     label: "Skia Renderer",
+    completeSummary:
+      "Skia renderer native install, renderer parity, and performance evidence matrix is complete.",
+    manifestPath: "docs/release/evidence/skia-renderer-evidence.json",
     path: "docs/release/evidence/skia-renderer-matrix.json"
   }
 };
@@ -132,6 +144,47 @@ const getMatrixStatus = (rows) => {
   }
 
   return "pending";
+};
+
+const getManifestStatus = (matrixStatus) => {
+  if (matrixStatus === "complete") {
+    return "complete";
+  }
+
+  if (matrixStatus === "blocked" || matrixStatus === "fail") {
+    return "blocked";
+  }
+
+  return "partial";
+};
+
+const getManifestMissingEvidence = (rows) =>
+  rows
+    .filter((row) => row.status !== "pass")
+    .map(
+      (row) =>
+        `${row.id} is ${row.status}; evidence is required before this matrix can be complete.`
+    );
+
+const syncEvidenceManifest = async ({
+  config,
+  matrix,
+  matrixStatus,
+  repoRoot,
+  updated
+}) => {
+  const manifest = await readJson(repoRoot, config.manifestPath);
+  const manifestStatus = getManifestStatus(matrixStatus);
+  const complete = manifestStatus === "complete";
+  const nextManifest = {
+    ...manifest,
+    lastUpdated: updated,
+    missingEvidence: complete ? [] : getManifestMissingEvidence(matrix.rows),
+    status: manifestStatus,
+    summary: complete ? config.completeSummary : manifest.summary
+  };
+
+  return nextManifest;
 };
 
 const getRowTarget = (matrix, row) => {
@@ -279,9 +332,17 @@ export const recordNativeQaEvidence = async ({
     rows: nextRows,
     status: getMatrixStatus(nextRows)
   };
+  const nextManifest = await syncEvidenceManifest({
+    config,
+    matrix: nextMatrix,
+    matrixStatus: nextMatrix.status,
+    repoRoot,
+    updated
+  });
 
   if (!dryRun) {
     await writeJson(repoRoot, config.path, nextMatrix);
+    await writeJson(repoRoot, config.manifestPath, nextManifest);
     await writeFile(
       path.join(repoRoot, checklistPath),
       await generateNativeQaChecklist({ repoRoot }),
@@ -292,6 +353,8 @@ export const recordNativeQaEvidence = async ({
   return {
     checklistPath,
     dryRun,
+    manifestPath: config.manifestPath,
+    manifestStatus: nextManifest.status,
     matrixPath: config.path,
     row: nextRow,
     status: nextMatrix.status

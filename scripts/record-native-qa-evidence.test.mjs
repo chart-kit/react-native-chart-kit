@@ -17,8 +17,12 @@ import {
 const repoRoot = process.cwd();
 const matrixFiles = [
   "native-accessibility-matrix.json",
+  "native-accessibility-qa.json",
+  "native-performance-benchmark.json",
   "native-performance-matrix.json",
   "native-runtime-matrix.json",
+  "native-runtime-qa.json",
+  "skia-renderer-evidence.json",
   "skia-renderer-matrix.json"
 ];
 
@@ -141,6 +145,8 @@ describe("native QA evidence recorder", () => {
 
     expect(result).toMatchObject({
       dryRun: false,
+      manifestPath: "docs/release/evidence/native-runtime-qa.json",
+      manifestStatus: "partial",
       matrixPath: "docs/release/evidence/native-runtime-matrix.json",
       status: "partial"
     });
@@ -153,6 +159,19 @@ describe("native QA evidence recorder", () => {
     expect(checklist).toContain("| Runtime QA | 16 | 1 | 15 | 0 | 0 | 0 |");
     expect(checklist).toContain(
       "`docs/release/artifacts/ios-line-charts-runtime.md`"
+    );
+    const manifest = JSON.parse(
+      await readFile(
+        join(tempRepo, "docs/release/evidence/native-runtime-qa.json"),
+        "utf8"
+      )
+    );
+    expect(manifest).toMatchObject({
+      lastUpdated: "2026-05-06",
+      status: "partial"
+    });
+    expect(manifest.missingEvidence).toContain(
+      "ios-bar-charts is pending; evidence is required before this matrix can be complete."
     );
   });
 
@@ -213,6 +232,8 @@ describe("native QA evidence recorder", () => {
 
     expect(result).toMatchObject({
       checklistPath: "docs/release/native-qa-checklists.md",
+      manifestPath: "docs/release/evidence/skia-renderer-evidence.json",
+      manifestStatus: "partial",
       matrixPath: "docs/release/evidence/skia-renderer-matrix.json",
       status: "partial"
     });
@@ -222,5 +243,69 @@ describe("native QA evidence recorder", () => {
     });
     expect(checklist).toContain("| Skia Renderer | 8 | 1 | 7 | 0 | 0 | 0 |");
     expect(checklist).toContain("`ios-skia-native-install`");
+  });
+
+  it("marks aggregate evidence complete when the last matrix row passes", async () => {
+    const tempRepo = await createTempRepo();
+    await createArtifact(
+      tempRepo,
+      "docs/release/artifacts/ios-line-charts-runtime.md"
+    );
+
+    const matrixPath = join(
+      tempRepo,
+      "docs/release/evidence/native-runtime-matrix.json"
+    );
+    const matrix = JSON.parse(await readFile(matrixPath, "utf8"));
+    const preparedRows = matrix.rows.map((row) =>
+      row.id === "ios-line-charts"
+        ? row
+        : {
+            ...row,
+            evidence: [`https://example.test/${row.id}.mp4`],
+            status: "pass"
+          }
+    );
+
+    await writeFile(
+      matrixPath,
+      `${JSON.stringify(
+        {
+          ...matrix,
+          rows: preparedRows,
+          status: "partial"
+        },
+        null,
+        2
+      )}\n`,
+      "utf8"
+    );
+
+    const result = await recordNativeQaEvidence({
+      evidence: ["docs/release/artifacts/ios-line-charts-runtime.md"],
+      matrixName: "runtime",
+      repoRoot: tempRepo,
+      rowId: "ios-line-charts",
+      status: "pass",
+      updated: "2026-05-06"
+    });
+    const manifest = JSON.parse(
+      await readFile(
+        join(tempRepo, "docs/release/evidence/native-runtime-qa.json"),
+        "utf8"
+      )
+    );
+
+    expect(result).toMatchObject({
+      manifestStatus: "complete",
+      status: "complete"
+    });
+    expect(manifest).toMatchObject({
+      lastUpdated: "2026-05-06",
+      missingEvidence: [],
+      status: "complete",
+      summary:
+        "Native runtime QA matrix is complete for required iOS and Android showcase pages."
+    });
   });
 });

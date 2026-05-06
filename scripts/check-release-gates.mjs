@@ -187,6 +187,30 @@ const getIds = (items) =>
 
 const isExternalEvidenceLink = (value) => /^https?:\/\//.test(value);
 
+const getMatrixStatus = (rows = []) => {
+  if (rows.length === 0) {
+    return "pending";
+  }
+
+  if (rows.every((row) => row.status === "pass")) {
+    return "complete";
+  }
+
+  if (rows.some((row) => row.status === "fail")) {
+    return "fail";
+  }
+
+  if (rows.some((row) => row.status === "blocked")) {
+    return "blocked";
+  }
+
+  if (rows.some((row) => row.status === "pass")) {
+    return "partial";
+  }
+
+  return "pending";
+};
+
 const validateEvidenceMatrix = async (matrix) => {
   const errors = [];
   const pageIds = getIds(matrix.pages);
@@ -198,6 +222,14 @@ const validateEvidenceMatrix = async (matrix) => {
 
   if (!Array.isArray(matrix.rows) || matrix.rows.length === 0) {
     errors.push("matrix must define at least one row");
+  }
+
+  const derivedStatus = getMatrixStatus(matrix.rows ?? []);
+
+  if (matrix.status && matrix.status !== derivedStatus) {
+    errors.push(
+      `matrix status ${matrix.status} does not match row-derived status ${derivedStatus}`
+    );
   }
 
   if (Array.isArray(matrix.pages)) {
@@ -406,6 +438,14 @@ const validateReleaseEvidenceManifest = async ({
     if (!matrix && completedEntries.length === 0) {
       errors.push("complete manifest must include completedEntries");
     }
+  } else if (
+    matrix &&
+    Array.isArray(matrix.rows) &&
+    matrix.rows.every((row) => row.status === "pass")
+  ) {
+    errors.push(
+      "matrix-backed manifest must be complete when all matrix rows pass"
+    );
   } else if (missingEvidence.length === 0) {
     errors.push(`${status} manifest must list missingEvidence`);
   }
