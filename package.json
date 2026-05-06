@@ -84,6 +84,7 @@
     "native:release:dry-run": "node scripts/run-expo-native-release-check.mjs --platform all --dry-run",
     "release:qa:checklists": "node scripts/generate-native-qa-checklists.mjs",
     "release:qa:checklists:check": "node scripts/generate-native-qa-checklists.mjs --check",
+    "release:qa:record": "node scripts/record-native-qa-evidence.mjs",
     "release:gate": "node scripts/check-release-gates.mjs --strict",
     "release:gate:report": "node scripts/check-release-gates.mjs",
     "docs:build": "node scripts/docs-build.mjs && node scripts/typecheck-doc-examples.mjs",

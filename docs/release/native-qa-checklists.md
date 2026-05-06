@@ -2,7 +2,7 @@
 
 <!-- prettier-ignore-start -->
 
-Generated from native evidence matrices last updated 2026-05-05. Regenerate with `npm run release:qa:checklists`. Do not mark a row as `pass` without evidence links in the source matrix.
+Generated from native evidence matrices last updated 2026-05-05. Regenerate with `npm run release:qa:checklists`. Record row evidence with `npm run release:qa:record -- --matrix runtime --row ios-line-charts --status pass --evidence docs/release/artifacts/example.md`. Do not mark a row as `pass` without evidence links in the source matrix.
 
 ## Matrix Summary
 
