@@ -81,6 +81,18 @@ const getShowcaseLaunchUrl = (page) => {
   return `chartkitshowcase://showcase?${params.toString()}`;
 };
 
+const getStoryLaunchUrl = (storyId) => {
+  if (!storyId) {
+    return "";
+  }
+
+  const params = new URLSearchParams();
+  params.set("view", "charts");
+  params.set("story", storyId);
+
+  return `chartkitshowcase://showcase?${params.toString()}`;
+};
+
 const formatRuntimeRows = (matrix) => {
   const platforms = toIdMap(matrix.platforms);
   const pages = toIdMap(matrix.pages);
@@ -149,8 +161,8 @@ const formatPerformanceRows = (matrix) => {
   const platforms = toIdMap(matrix.platforms);
   const scenarios = toIdMap(matrix.scenarios);
   const lines = [
-    "| Row | Target | Scenario | Data Size | Interaction | Status | Evidence |",
-    "| --- | --- | --- | --- | --- | --- | --- |"
+    "| Row | Target | Scenario | Data Size | Interaction | Showcase Story | Deep Link | Status | Evidence |",
+    "| --- | --- | --- | --- | --- | --- | --- | --- | --- |"
   ];
 
   for (const row of matrix.rows) {
@@ -163,6 +175,8 @@ const formatPerformanceRows = (matrix) => {
         scenario?.label ?? row.scenarioId,
         scenario?.requiredDataSize ?? "",
         scenario?.interaction ?? "",
+        scenario?.showcaseStoryId ? `\`${scenario.showcaseStoryId}\`` : "",
+        getStoryLaunchUrl(scenario?.showcaseStoryId),
         row.status,
         formatEvidence(row.evidence)
       ]

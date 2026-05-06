@@ -158,26 +158,26 @@ Source: [docs/release/native-performance-benchmark.md](native-performance-benchm
 
 ### Performance Rows
 
-| Row | Target | Scenario | Data Size | Interaction | Status | Evidence |
-| --- | --- | --- | --- | --- | --- | --- |
-| `ios-svg-small-line-initial-render` | iOS / svg | Small line initial render | 100 points | initial render | pending | None |
-| `ios-svg-standard-line-scrub` | iOS / svg | Standard line scrub | 1,000 points | initial render and scrub | pending | None |
-| `ios-svg-dense-line-decimated-overview` | iOS / svg | Dense line decimated overview | 10,000 total points | decimated overview | pending | None |
-| `ios-svg-multi-line-shared-tooltip-scrub` | iOS / svg | Multi-line shared tooltip scrub | 5 series x 1,000 points | shared tooltip scrub | pending | None |
-| `ios-svg-scrollable-line-one-finger-pan` | iOS / svg | Scrollable line one-finger pan | 10,000 total points, 2,000 shown | one-finger pan | pending | None |
-| `ios-svg-range-selector-drag-and-thumb-resize` | iOS / svg | Range selector drag and thumb resize | 2 series x 10,000 points | drag and thumb resize | pending | None |
-| `ios-svg-scrollable-bar-horizontal-scroll-and-selection` | iOS / svg | Scrollable bar horizontal scroll and selection | 500 bars | horizontal scroll and selection | pending | None |
-| `ios-svg-combined-chart-shared-tooltip-and-legend` | iOS / svg | Combined chart shared tooltip and legend | bars plus line | shared tooltip and legend | pending | None |
-| `ios-svg-candlestick-pan-pinch-and-tap-inspection` | iOS / svg | Candlestick pan, pinch, and tap inspection | 1,000 candles | pan, pinch, tap inspection | pending | None |
-| `android-svg-small-line-initial-render` | Android / svg | Small line initial render | 100 points | initial render | pending | None |
-| `android-svg-standard-line-scrub` | Android / svg | Standard line scrub | 1,000 points | initial render and scrub | pending | None |
-| `android-svg-dense-line-decimated-overview` | Android / svg | Dense line decimated overview | 10,000 total points | decimated overview | pending | None |
-| `android-svg-multi-line-shared-tooltip-scrub` | Android / svg | Multi-line shared tooltip scrub | 5 series x 1,000 points | shared tooltip scrub | pending | None |
-| `android-svg-scrollable-line-one-finger-pan` | Android / svg | Scrollable line one-finger pan | 10,000 total points, 2,000 shown | one-finger pan | pending | None |
-| `android-svg-range-selector-drag-and-thumb-resize` | Android / svg | Range selector drag and thumb resize | 2 series x 10,000 points | drag and thumb resize | pending | None |
-| `android-svg-scrollable-bar-horizontal-scroll-and-selection` | Android / svg | Scrollable bar horizontal scroll and selection | 500 bars | horizontal scroll and selection | pending | None |
-| `android-svg-combined-chart-shared-tooltip-and-legend` | Android / svg | Combined chart shared tooltip and legend | bars plus line | shared tooltip and legend | pending | None |
-| `android-svg-candlestick-pan-pinch-and-tap-inspection` | Android / svg | Candlestick pan, pinch, and tap inspection | 1,000 candles | pan, pinch, tap inspection | pending | None |
+| Row | Target | Scenario | Data Size | Interaction | Showcase Story | Deep Link | Status | Evidence |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `ios-svg-small-line-initial-render` | iOS / svg | Small line initial render | 100 points | initial render | `v2-basic` | chartkitshowcase://showcase?view=charts&story=v2-basic | pending | None |
+| `ios-svg-standard-line-scrub` | iOS / svg | Standard line scrub | 1,000 points | initial render and scrub | `v2-scrub` | chartkitshowcase://showcase?view=charts&story=v2-scrub | pending | None |
+| `ios-svg-dense-line-decimated-overview` | iOS / svg | Dense line decimated overview | 10,000 total points | decimated overview | `v2-scrollable-dense` | chartkitshowcase://showcase?view=charts&story=v2-scrollable-dense | pending | None |
+| `ios-svg-multi-line-shared-tooltip-scrub` | iOS / svg | Multi-line shared tooltip scrub | 5 series x 1,000 points | shared tooltip scrub | `v2-selected-tooltip` | chartkitshowcase://showcase?view=charts&story=v2-selected-tooltip | pending | None |
+| `ios-svg-scrollable-line-one-finger-pan` | iOS / svg | Scrollable line one-finger pan | 10,000 total points, 2,000 shown | one-finger pan | `v2-viewport-zoom-pan` | chartkitshowcase://showcase?view=charts&story=v2-viewport-zoom-pan | pending | None |
+| `ios-svg-range-selector-drag-and-thumb-resize` | iOS / svg | Range selector drag and thumb resize | 2 series x 10,000 points | drag and thumb resize | `v2-range-selector` | chartkitshowcase://showcase?view=charts&story=v2-range-selector | pending | None |
+| `ios-svg-scrollable-bar-horizontal-scroll-and-selection` | iOS / svg | Scrollable bar horizontal scroll and selection | 500 bars | horizontal scroll and selection | `v2-bar-scrollable-selection` | chartkitshowcase://showcase?view=charts&story=v2-bar-scrollable-selection | pending | None |
+| `ios-svg-combined-chart-shared-tooltip-and-legend` | iOS / svg | Combined chart shared tooltip and legend | bars plus line | shared tooltip and legend | `v2-combined-shared-tooltip` | chartkitshowcase://showcase?view=charts&story=v2-combined-shared-tooltip | pending | None |
+| `ios-svg-candlestick-pan-pinch-and-tap-inspection` | iOS / svg | Candlestick pan, pinch, and tap inspection | 1,000 candles | pan, pinch, tap inspection | `v2-candlestick-scrollable` | chartkitshowcase://showcase?view=charts&story=v2-candlestick-scrollable | pending | None |
+| `android-svg-small-line-initial-render` | Android / svg | Small line initial render | 100 points | initial render | `v2-basic` | chartkitshowcase://showcase?view=charts&story=v2-basic | pending | None |
+| `android-svg-standard-line-scrub` | Android / svg | Standard line scrub | 1,000 points | initial render and scrub | `v2-scrub` | chartkitshowcase://showcase?view=charts&story=v2-scrub | pending | None |
+| `android-svg-dense-line-decimated-overview` | Android / svg | Dense line decimated overview | 10,000 total points | decimated overview | `v2-scrollable-dense` | chartkitshowcase://showcase?view=charts&story=v2-scrollable-dense | pending | None |
+| `android-svg-multi-line-shared-tooltip-scrub` | Android / svg | Multi-line shared tooltip scrub | 5 series x 1,000 points | shared tooltip scrub | `v2-selected-tooltip` | chartkitshowcase://showcase?view=charts&story=v2-selected-tooltip | pending | None |
+| `android-svg-scrollable-line-one-finger-pan` | Android / svg | Scrollable line one-finger pan | 10,000 total points, 2,000 shown | one-finger pan | `v2-viewport-zoom-pan` | chartkitshowcase://showcase?view=charts&story=v2-viewport-zoom-pan | pending | None |
+| `android-svg-range-selector-drag-and-thumb-resize` | Android / svg | Range selector drag and thumb resize | 2 series x 10,000 points | drag and thumb resize | `v2-range-selector` | chartkitshowcase://showcase?view=charts&story=v2-range-selector | pending | None |
+| `android-svg-scrollable-bar-horizontal-scroll-and-selection` | Android / svg | Scrollable bar horizontal scroll and selection | 500 bars | horizontal scroll and selection | `v2-bar-scrollable-selection` | chartkitshowcase://showcase?view=charts&story=v2-bar-scrollable-selection | pending | None |
+| `android-svg-combined-chart-shared-tooltip-and-legend` | Android / svg | Combined chart shared tooltip and legend | bars plus line | shared tooltip and legend | `v2-combined-shared-tooltip` | chartkitshowcase://showcase?view=charts&story=v2-combined-shared-tooltip | pending | None |
+| `android-svg-candlestick-pan-pinch-and-tap-inspection` | Android / svg | Candlestick pan, pinch, and tap inspection | 1,000 candles | pan, pinch, tap inspection | `v2-candlestick-scrollable` | chartkitshowcase://showcase?view=charts&story=v2-candlestick-scrollable | pending | None |
 
 ### Deferred Rows
 
