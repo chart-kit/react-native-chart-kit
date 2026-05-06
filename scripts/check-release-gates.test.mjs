@@ -99,6 +99,22 @@ describe("release gate checker", () => {
     ]);
   });
 
+  it("validates release evidence manifest consistency", () => {
+    const report = runGateReportJson();
+
+    expect(
+      report.checks
+        .filter((check) => check.id.startsWith("manifest:"))
+        .map((check) => [check.id, check.status])
+    ).toEqual([
+      ["manifest:native-workflow-evidence", "pass"],
+      ["manifest:skia-backend", "pass"],
+      ["manifest:native-runtime-qa", "pass"],
+      ["manifest:native-accessibility-qa", "pass"],
+      ["manifest:native-performance", "pass"]
+    ]);
+  });
+
   it("checks the generated native QA checklist is synchronized", () => {
     const report = runGateReportJson();
 

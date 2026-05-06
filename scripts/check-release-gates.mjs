@@ -139,6 +139,12 @@ const validMatrixRowStatuses = new Set([
   "pass",
   "pending"
 ]);
+const validReleaseEvidenceManifestStatuses = new Set([
+  "blocked",
+  "complete",
+  "missing",
+  "partial"
+]);
 const validOwnerGateStatuses = new Set(["approved", "not-started", "open"]);
 
 const readRepoFile = (relativePath) =>
@@ -328,6 +334,60 @@ const validateOwnerGatesManifest = async (manifest) => {
   return errors;
 };
 
+const validateReleaseEvidenceManifest = ({ manifest, matrix, matrixFile }) => {
+  const errors = [];
+  const status = manifest.status ?? "missing";
+  const missingEvidence = Array.isArray(manifest.missingEvidence)
+    ? manifest.missingEvidence
+    : [];
+  const completedEntries = Array.isArray(manifest.completedEntries)
+    ? manifest.completedEntries
+    : [];
+
+  if (!validReleaseEvidenceManifestStatuses.has(status)) {
+    errors.push(`manifest has invalid status ${status}`);
+  }
+
+  if (!manifest.summary || typeof manifest.summary !== "string") {
+    errors.push("manifest must include a summary");
+  }
+
+  if (
+    !Array.isArray(manifest.requiredFor) ||
+    manifest.requiredFor.length === 0
+  ) {
+    errors.push("manifest must list requiredFor gates");
+  }
+
+  if (matrixFile && manifest.matrix !== matrixFile) {
+    errors.push(`manifest matrix must be ${matrixFile}`);
+  }
+
+  if (status === "complete") {
+    if (missingEvidence.length > 0) {
+      errors.push("complete manifest must not list missingEvidence");
+    }
+
+    if (matrix && matrix.rows?.some((row) => row.status !== "pass")) {
+      errors.push("complete matrix-backed manifest must have all rows passed");
+    }
+
+    if (!matrix && completedEntries.length === 0) {
+      errors.push("complete manifest must include completedEntries");
+    }
+  } else if (missingEvidence.length === 0) {
+    errors.push(`${status} manifest must list missingEvidence`);
+  }
+
+  for (const [index, entry] of completedEntries.entries()) {
+    if (!entry.result || typeof entry.result !== "string") {
+      errors.push(`completedEntries[${index}] must include result`);
+    }
+  }
+
+  return errors;
+};
+
 for (const file of requiredFiles) {
   addCheck({
     evidence: file,
@@ -498,6 +558,11 @@ for (const manifestConfig of releaseEvidenceManifests) {
       ? await readRepoJson(manifestConfig.matrixFile)
       : undefined;
   const matrixErrors = matrix ? validateEvidenceMatrix(matrix) : [];
+  const manifestErrors = validateReleaseEvidenceManifest({
+    manifest,
+    matrix,
+    matrixFile: manifestConfig.matrixFile
+  });
   const pendingMatrixRows = Array.isArray(matrix?.rows)
     ? matrix.rows.filter((row) => row.status !== "pass")
     : [];
@@ -522,6 +587,14 @@ for (const manifestConfig of releaseEvidenceManifests) {
       manifest.summary ??
       `${manifestConfig.id} evidence manifest is not complete.`,
     status: status === "complete" ? "pass" : "block"
+  });
+
+  addCheck({
+    detail: manifestErrors.join("; "),
+    evidence: manifestConfig.file,
+    id: `manifest:${manifestConfig.id}`,
+    message: `${manifestConfig.file} is internally consistent`,
+    status: manifestErrors.length === 0 ? "pass" : "fail"
   });
 
   if (manifestConfig.matrixFile) {
