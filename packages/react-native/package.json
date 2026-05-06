@@ -2,6 +2,11 @@
   "name": "@chart-kit/react-native",
   "version": "7.0.0-next.0",
   "description": "Modern Chart Kit v2 React Native components.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/indiespirit/react-native-chart-kit",
+    "directory": "packages/react-native"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

@@ -2,6 +2,11 @@
   "name": "@chart-kit/pro",
   "version": "7.0.0-next.0",
   "description": "Preview Pro package boundary for Chart Kit v2 advanced workflows.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/indiespirit/react-native-chart-kit",
+    "directory": "packages/pro"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
