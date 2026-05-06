@@ -63,6 +63,8 @@ const parseArgs = (argv) => {
 
     if (arg === "--dry-run") {
       options.dryRun = true;
+    } else if (arg === "--details") {
+      options.details = true;
     } else if (arg === "--evidence") {
       options.evidence.push(readValue());
     } else if (arg === "--list") {
@@ -151,7 +153,42 @@ const getRowTarget = (matrix, row) => {
     .join(" / ");
 };
 
+const getRowRequiredCheckGroups = (matrix, row) => {
+  const page = matrix.pages?.find((item) => item.id === row.pageId);
+
+  return Array.isArray(page?.requiredCheckGroups)
+    ? page.requiredCheckGroups
+    : [];
+};
+
+const getRowRequiredChecks = (matrix, row) => {
+  const requiredCheckGroups = getRowRequiredCheckGroups(matrix, row);
+  const groupChecks = requiredCheckGroups.flatMap((groupId) => {
+    const checks = matrix.checkGroups?.[groupId] ?? [];
+
+    return checks.map((check) => `${groupId}: ${check}`);
+  });
+  const scenario = matrix.scenarios?.find((item) => item.id === row.scenarioId);
+  const scenarioChecks = [
+    scenario?.requiredDataSize
+      ? `scenario: data size ${scenario.requiredDataSize}`
+      : "",
+    scenario?.interaction
+      ? `scenario: interaction ${scenario.interaction}`
+      : "",
+    scenario?.requiredEvidence
+      ? `scenario: evidence ${scenario.requiredEvidence}`
+      : ""
+  ].filter(Boolean);
+  const metricChecks = Array.isArray(matrix.metrics)
+    ? matrix.metrics.map((metric) => `metric: ${metric}`)
+    : [];
+
+  return [...groupChecks, ...scenarioChecks, ...metricChecks];
+};
+
 export const listNativeQaRows = async ({
+  includeDetails = false,
   matrixName,
   repoRoot = defaultRepoRoot
 }) => {
@@ -159,8 +196,12 @@ export const listNativeQaRows = async ({
   const matrix = await readJson(repoRoot, config.path);
 
   return matrix.rows.map((row) => ({
+    checks: includeDetails ? getRowRequiredChecks(matrix, row) : [],
     evidence: row.evidence ?? [],
     id: row.id,
+    requiredCheckGroups: includeDetails
+      ? getRowRequiredCheckGroups(matrix, row)
+      : [],
     status: row.status,
     target: getRowTarget(matrix, row)
   }));
@@ -265,7 +306,10 @@ const main = async () => {
   }
 
   if (options.list) {
-    const rows = await listNativeQaRows({ matrixName: options.matrix });
+    const rows = await listNativeQaRows({
+      includeDetails: options.details,
+      matrixName: options.matrix
+    });
 
     for (const row of rows) {
       console.log(
@@ -273,6 +317,12 @@ const main = async () => {
           row.evidence.length > 0 ? row.evidence.join(", ") : "no evidence"
         }`
       );
+
+      if (options.details) {
+        for (const check of row.checks) {
+          console.log(`  - ${check}`);
+        }
+      }
     }
 
     return;

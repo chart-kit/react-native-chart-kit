@@ -60,6 +60,36 @@ describe("native QA evidence recorder", () => {
     expect(rows).toHaveLength(16);
   });
 
+  it("can include required check details for manual QA rows", async () => {
+    const [runtimeRow] = await listNativeQaRows({
+      includeDetails: true,
+      matrixName: "runtime",
+      repoRoot
+    });
+    const [performanceRow] = await listNativeQaRows({
+      includeDetails: true,
+      matrixName: "performance",
+      repoRoot
+    });
+    const [skiaRow] = await listNativeQaRows({
+      includeDetails: true,
+      matrixName: "skia",
+      repoRoot
+    });
+
+    expect(runtimeRow).toMatchObject({
+      id: "ios-line-charts",
+      requiredCheckGroups: ["global", "line"]
+    });
+    expect(runtimeRow.checks).toContain(
+      "line: tap selection can be enabled without scrub"
+    );
+    expect(performanceRow.checks).toContain("metric: initial render time");
+    expect(skiaRow.checks).toContain(
+      "scenario: evidence Install optional Skia renderer dependencies, run native release build, and verify the SVG default path still works without static Skia imports."
+    );
+  });
+
   it("requires evidence before marking a row as pass", async () => {
     await expect(
       recordNativeQaEvidence({
