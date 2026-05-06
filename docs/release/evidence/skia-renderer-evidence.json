@@ -26,7 +26,7 @@
         "packages/react-native/test/combined-renderer.test.ts",
         "packages/react-native/test/candlestick-renderer.test.ts"
       ],
-      "notes": "Local primitive tests plus LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, CombinedChart, and CandlestickChart renderer contract tests run through npm run skia:parity."
+      "notes": "Local primitive tests plus LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, CombinedChart, and CandlestickChart renderer contract tests run through npm run skia:parity. The local tests cover Skia font-backed text measurement, measured text anchors, and the injected sticky Y-axis label path."
     }
   ],
   "coveredSurfaces": [
@@ -37,11 +37,13 @@
     "Circle",
     "Line",
     "Text",
+    "Skia font-backed text measurement",
     "LinearGradient",
     "rect-clipped Groups",
     "LineChart main plot",
     "range selector",
     "sticky-axis",
+    "sticky-axis labels through injected primitives",
     "path-local area gradients",
     "threshold rect clips",
     "measured text anchors",
@@ -73,7 +75,6 @@
   "missingEvidence": [
     "native Skia install verification",
     "native renderer parity coverage",
-    "sticky-axis font configuration evidence",
     "native Skia benchmark comparison"
   ]
 }
