@@ -12,7 +12,7 @@ describe("native QA checklist generator", () => {
 
     expect(markdown).toContain("| Runtime QA | 16 | 0 | 16 | 0 | 0 | 0 | 0 |");
     expect(markdown).toContain(
-      "| Accessibility QA | 16 | 0 | 0 | 16 | 0 | 0 | 0 |"
+      "| Accessibility QA | 16 | 0 | 16 | 0 | 0 | 0 | 0 |"
     );
     expect(markdown).toContain(
       "| Native Performance | 18 | 0 | 18 | 0 | 0 | 0 | 0 |"

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "status": "missing",
+  "status": "partial",
   "requiredFor": ["H5", "H6"],
-  "lastUpdated": "2026-05-05",
+  "lastUpdated": "2026-05-06",
   "summary": "Automated summary and data-table helper coverage exists, but native VoiceOver and TalkBack evidence has not been captured.",
   "matrix": "docs/release/evidence/native-accessibility-matrix.json",
   "completedEntries": [],
@@ -21,11 +21,21 @@
     }
   ],
   "missingEvidence": [
-    "iOS VoiceOver pass across required pages",
-    "Android TalkBack pass across required pages",
-    "screen-reader focus order evidence",
-    "chart summary announcement evidence",
-    "selection, tooltip, range selector, and legend focus-trap checks",
-    "table fallback announcement checks"
+    "ios-voiceover-line-charts is partial; evidence is required before this matrix can be complete.",
+    "ios-voiceover-bar-charts is partial; evidence is required before this matrix can be complete.",
+    "ios-voiceover-combined-preview is partial; evidence is required before this matrix can be complete.",
+    "ios-voiceover-financial-preview is partial; evidence is required before this matrix can be complete.",
+    "ios-voiceover-pie-donut is partial; evidence is required before this matrix can be complete.",
+    "ios-voiceover-progress is partial; evidence is required before this matrix can be complete.",
+    "ios-voiceover-heatmaps is partial; evidence is required before this matrix can be complete.",
+    "ios-voiceover-compatibility is partial; evidence is required before this matrix can be complete.",
+    "android-talkback-line-charts is partial; evidence is required before this matrix can be complete.",
+    "android-talkback-bar-charts is partial; evidence is required before this matrix can be complete.",
+    "android-talkback-combined-preview is partial; evidence is required before this matrix can be complete.",
+    "android-talkback-financial-preview is partial; evidence is required before this matrix can be complete.",
+    "android-talkback-pie-donut is partial; evidence is required before this matrix can be complete.",
+    "android-talkback-progress is partial; evidence is required before this matrix can be complete.",
+    "android-talkback-heatmaps is partial; evidence is required before this matrix can be complete.",
+    "android-talkback-compatibility is partial; evidence is required before this matrix can be complete."
   ]
 }

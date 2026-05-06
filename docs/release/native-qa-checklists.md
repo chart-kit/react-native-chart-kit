@@ -9,7 +9,7 @@ Generated from native and Skia evidence matrices last updated 2026-05-06. Regene
 | Matrix | Rows | Pass | Partial | Pending | Blocked | Fail | Not Applicable |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | Runtime QA | 16 | 0 | 16 | 0 | 0 | 0 | 0 |
-| Accessibility QA | 16 | 0 | 0 | 16 | 0 | 0 | 0 |
+| Accessibility QA | 16 | 0 | 16 | 0 | 0 | 0 | 0 |
 | Native Performance | 18 | 0 | 18 | 0 | 0 | 0 | 0 |
 | Skia Renderer | 8 | 0 | 6 | 2 | 0 | 0 | 0 |
 
@@ -118,22 +118,22 @@ Source: [docs/release/accessibility-qa.md](accessibility-qa.md) and [docs/releas
 
 | Row | Target | Build Surface | Showcase Page | Deep Link | Check Groups | Status | Evidence |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `ios-voiceover-line-charts` | iOS VoiceOver / Line Charts | Expo showcase or iOS release app | `line-area` | chartkitshowcase://showcase?view=charts&page=line-area | `global`, `tableFallback` | pending | None |
-| `ios-voiceover-bar-charts` | iOS VoiceOver / Bar Charts | Expo showcase or iOS release app | `bar` | chartkitshowcase://showcase?view=charts&page=bar | `global`, `tableFallback` | pending | None |
-| `ios-voiceover-combined-preview` | iOS VoiceOver / Combined Preview | Expo showcase or iOS release app | `combined` | chartkitshowcase://showcase?view=charts&page=combined | `global`, `tableFallback` | pending | None |
-| `ios-voiceover-financial-preview` | iOS VoiceOver / Financial Preview | Expo showcase or iOS release app | `financial` | chartkitshowcase://showcase?view=charts&page=financial | `global`, `tableFallback` | pending | None |
-| `ios-voiceover-pie-donut` | iOS VoiceOver / Pie & Donut | Expo showcase or iOS release app | `pie-donut` | chartkitshowcase://showcase?view=charts&page=pie-donut | `global`, `tableFallback` | pending | None |
-| `ios-voiceover-progress` | iOS VoiceOver / Progress | Expo showcase or iOS release app | `progress` | chartkitshowcase://showcase?view=charts&page=progress | `global`, `tableFallback` | pending | None |
-| `ios-voiceover-heatmaps` | iOS VoiceOver / Heatmaps | Expo showcase or iOS release app | `heatmaps` | chartkitshowcase://showcase?view=charts&page=heatmaps | `global`, `tableFallback` | pending | None |
-| `ios-voiceover-compatibility` | iOS VoiceOver / Compatibility | Expo showcase or iOS release app | `compat` | chartkitshowcase://showcase?view=charts&page=compat | `global` | pending | None |
-| `android-talkback-line-charts` | Android TalkBack / Line Charts | Expo showcase or Android release app | `line-area` | chartkitshowcase://showcase?view=charts&page=line-area | `global`, `tableFallback` | pending | None |
-| `android-talkback-bar-charts` | Android TalkBack / Bar Charts | Expo showcase or Android release app | `bar` | chartkitshowcase://showcase?view=charts&page=bar | `global`, `tableFallback` | pending | None |
-| `android-talkback-combined-preview` | Android TalkBack / Combined Preview | Expo showcase or Android release app | `combined` | chartkitshowcase://showcase?view=charts&page=combined | `global`, `tableFallback` | pending | None |
-| `android-talkback-financial-preview` | Android TalkBack / Financial Preview | Expo showcase or Android release app | `financial` | chartkitshowcase://showcase?view=charts&page=financial | `global`, `tableFallback` | pending | None |
-| `android-talkback-pie-donut` | Android TalkBack / Pie & Donut | Expo showcase or Android release app | `pie-donut` | chartkitshowcase://showcase?view=charts&page=pie-donut | `global`, `tableFallback` | pending | None |
-| `android-talkback-progress` | Android TalkBack / Progress | Expo showcase or Android release app | `progress` | chartkitshowcase://showcase?view=charts&page=progress | `global`, `tableFallback` | pending | None |
-| `android-talkback-heatmaps` | Android TalkBack / Heatmaps | Expo showcase or Android release app | `heatmaps` | chartkitshowcase://showcase?view=charts&page=heatmaps | `global`, `tableFallback` | pending | None |
-| `android-talkback-compatibility` | Android TalkBack / Compatibility | Expo showcase or Android release app | `compat` | chartkitshowcase://showcase?view=charts&page=compat | `global` | pending | None |
+| `ios-voiceover-line-charts` | iOS VoiceOver / Line Charts | Expo showcase or iOS release app | `line-area` | chartkitshowcase://showcase?view=charts&page=line-area | `global`, `tableFallback` | partial | `docs/release/artifacts/accessibility-local-baseline-2026-05-06.md` |
+| `ios-voiceover-bar-charts` | iOS VoiceOver / Bar Charts | Expo showcase or iOS release app | `bar` | chartkitshowcase://showcase?view=charts&page=bar | `global`, `tableFallback` | partial | `docs/release/artifacts/accessibility-local-baseline-2026-05-06.md` |
+| `ios-voiceover-combined-preview` | iOS VoiceOver / Combined Preview | Expo showcase or iOS release app | `combined` | chartkitshowcase://showcase?view=charts&page=combined | `global`, `tableFallback` | partial | `docs/release/artifacts/accessibility-local-baseline-2026-05-06.md` |
+| `ios-voiceover-financial-preview` | iOS VoiceOver / Financial Preview | Expo showcase or iOS release app | `financial` | chartkitshowcase://showcase?view=charts&page=financial | `global`, `tableFallback` | partial | `docs/release/artifacts/accessibility-local-baseline-2026-05-06.md` |
+| `ios-voiceover-pie-donut` | iOS VoiceOver / Pie & Donut | Expo showcase or iOS release app | `pie-donut` | chartkitshowcase://showcase?view=charts&page=pie-donut | `global`, `tableFallback` | partial | `docs/release/artifacts/accessibility-local-baseline-2026-05-06.md` |
+| `ios-voiceover-progress` | iOS VoiceOver / Progress | Expo showcase or iOS release app | `progress` | chartkitshowcase://showcase?view=charts&page=progress | `global`, `tableFallback` | partial | `docs/release/artifacts/accessibility-local-baseline-2026-05-06.md` |
+| `ios-voiceover-heatmaps` | iOS VoiceOver / Heatmaps | Expo showcase or iOS release app | `heatmaps` | chartkitshowcase://showcase?view=charts&page=heatmaps | `global`, `tableFallback` | partial | `docs/release/artifacts/accessibility-local-baseline-2026-05-06.md` |
+| `ios-voiceover-compatibility` | iOS VoiceOver / Compatibility | Expo showcase or iOS release app | `compat` | chartkitshowcase://showcase?view=charts&page=compat | `global` | partial | `docs/release/artifacts/accessibility-local-baseline-2026-05-06.md` |
+| `android-talkback-line-charts` | Android TalkBack / Line Charts | Expo showcase or Android release app | `line-area` | chartkitshowcase://showcase?view=charts&page=line-area | `global`, `tableFallback` | partial | `docs/release/artifacts/accessibility-local-baseline-2026-05-06.md` |
+| `android-talkback-bar-charts` | Android TalkBack / Bar Charts | Expo showcase or Android release app | `bar` | chartkitshowcase://showcase?view=charts&page=bar | `global`, `tableFallback` | partial | `docs/release/artifacts/accessibility-local-baseline-2026-05-06.md` |
+| `android-talkback-combined-preview` | Android TalkBack / Combined Preview | Expo showcase or Android release app | `combined` | chartkitshowcase://showcase?view=charts&page=combined | `global`, `tableFallback` | partial | `docs/release/artifacts/accessibility-local-baseline-2026-05-06.md` |
+| `android-talkback-financial-preview` | Android TalkBack / Financial Preview | Expo showcase or Android release app | `financial` | chartkitshowcase://showcase?view=charts&page=financial | `global`, `tableFallback` | partial | `docs/release/artifacts/accessibility-local-baseline-2026-05-06.md` |
+| `android-talkback-pie-donut` | Android TalkBack / Pie & Donut | Expo showcase or Android release app | `pie-donut` | chartkitshowcase://showcase?view=charts&page=pie-donut | `global`, `tableFallback` | partial | `docs/release/artifacts/accessibility-local-baseline-2026-05-06.md` |
+| `android-talkback-progress` | Android TalkBack / Progress | Expo showcase or Android release app | `progress` | chartkitshowcase://showcase?view=charts&page=progress | `global`, `tableFallback` | partial | `docs/release/artifacts/accessibility-local-baseline-2026-05-06.md` |
+| `android-talkback-heatmaps` | Android TalkBack / Heatmaps | Expo showcase or Android release app | `heatmaps` | chartkitshowcase://showcase?view=charts&page=heatmaps | `global`, `tableFallback` | partial | `docs/release/artifacts/accessibility-local-baseline-2026-05-06.md` |
+| `android-talkback-compatibility` | Android TalkBack / Compatibility | Expo showcase or Android release app | `compat` | chartkitshowcase://showcase?view=charts&page=compat | `global` | partial | `docs/release/artifacts/accessibility-local-baseline-2026-05-06.md` |
 
 ## Native Performance
 

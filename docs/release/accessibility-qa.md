@@ -1,6 +1,6 @@
 # Accessibility QA Protocol
 
-Status on May 5, 2026: protocol ready, native screen-reader evidence missing. Structured gate evidence lives in [native-accessibility-qa.json](evidence/native-accessibility-qa.json), with the page-by-page assistive-technology matrix in [native-accessibility-matrix.json](evidence/native-accessibility-matrix.json). Use the generated [native QA checklist](native-qa-checklists.md) for row-by-row execution.
+Status on May 6, 2026: protocol ready, local baseline recorded, native screen-reader evidence missing. Structured gate evidence lives in [native-accessibility-qa.json](evidence/native-accessibility-qa.json), with the page-by-page assistive-technology matrix in [native-accessibility-matrix.json](evidence/native-accessibility-matrix.json). Use the generated [native QA checklist](native-qa-checklists.md) for row-by-row execution.
 
 This protocol covers the manual VoiceOver and TalkBack checks required before production beta/RC can claim native accessibility confidence. Automated tests verify generated summaries and data table helpers, but they do not prove native assistive-technology behavior.
 
@@ -22,6 +22,7 @@ Current automated coverage:
 - ProgressChart clamped-value summary and data table helpers
 - ContributionGraph empty-day summary and data table helpers
 - Expo showcase representative data details panels for each page that requires table-fallback QA
+- local baseline artifact: [accessibility-local-baseline-2026-05-06.md](artifacts/accessibility-local-baseline-2026-05-06.md)
 
 ## Manual Device Matrix
 

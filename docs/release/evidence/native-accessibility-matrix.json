@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "pending",
-  "lastUpdated": "2026-05-05",
+  "status": "partial",
+  "lastUpdated": "2026-05-06",
   "source": "docs/release/accessibility-qa.md",
   "assistiveTech": [
     {
@@ -90,113 +90,161 @@
       "id": "ios-voiceover-line-charts",
       "assistiveTechId": "ios-voiceover",
       "pageId": "line-charts",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+      ],
+      "notes": "Automated summary/data-table and showcase data-details evidence only; native iOS VoiceOver review still required."
     },
     {
       "id": "ios-voiceover-bar-charts",
       "assistiveTechId": "ios-voiceover",
       "pageId": "bar-charts",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+      ],
+      "notes": "Automated summary/data-table and showcase data-details evidence only; native iOS VoiceOver review still required."
     },
     {
       "id": "ios-voiceover-combined-preview",
       "assistiveTechId": "ios-voiceover",
       "pageId": "combined-preview",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+      ],
+      "notes": "Automated summary/data-table and showcase data-details evidence only; native iOS VoiceOver review still required."
     },
     {
       "id": "ios-voiceover-financial-preview",
       "assistiveTechId": "ios-voiceover",
       "pageId": "financial-preview",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+      ],
+      "notes": "Automated summary/data-table and showcase data-details evidence only; native iOS VoiceOver review still required."
     },
     {
       "id": "ios-voiceover-pie-donut",
       "assistiveTechId": "ios-voiceover",
       "pageId": "pie-donut",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+      ],
+      "notes": "Automated summary/data-table and showcase data-details evidence only; native iOS VoiceOver review still required."
     },
     {
       "id": "ios-voiceover-progress",
       "assistiveTechId": "ios-voiceover",
       "pageId": "progress",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+      ],
+      "notes": "Automated summary/data-table and showcase data-details evidence only; native iOS VoiceOver review still required."
     },
     {
       "id": "ios-voiceover-heatmaps",
       "assistiveTechId": "ios-voiceover",
       "pageId": "heatmaps",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+      ],
+      "notes": "Automated summary/data-table and showcase data-details evidence only; native iOS VoiceOver review still required."
     },
     {
       "id": "ios-voiceover-compatibility",
       "assistiveTechId": "ios-voiceover",
       "pageId": "compatibility",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+      ],
+      "notes": "Automated summary/data-table and showcase data-details evidence only; native iOS VoiceOver review still required."
     },
     {
       "id": "android-talkback-line-charts",
       "assistiveTechId": "android-talkback",
       "pageId": "line-charts",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+      ],
+      "notes": "Automated summary/data-table and showcase data-details evidence only; native Android TalkBack review still required."
     },
     {
       "id": "android-talkback-bar-charts",
       "assistiveTechId": "android-talkback",
       "pageId": "bar-charts",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+      ],
+      "notes": "Automated summary/data-table and showcase data-details evidence only; native Android TalkBack review still required."
     },
     {
       "id": "android-talkback-combined-preview",
       "assistiveTechId": "android-talkback",
       "pageId": "combined-preview",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+      ],
+      "notes": "Automated summary/data-table and showcase data-details evidence only; native Android TalkBack review still required."
     },
     {
       "id": "android-talkback-financial-preview",
       "assistiveTechId": "android-talkback",
       "pageId": "financial-preview",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+      ],
+      "notes": "Automated summary/data-table and showcase data-details evidence only; native Android TalkBack review still required."
     },
     {
       "id": "android-talkback-pie-donut",
       "assistiveTechId": "android-talkback",
       "pageId": "pie-donut",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+      ],
+      "notes": "Automated summary/data-table and showcase data-details evidence only; native Android TalkBack review still required."
     },
     {
       "id": "android-talkback-progress",
       "assistiveTechId": "android-talkback",
       "pageId": "progress",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+      ],
+      "notes": "Automated summary/data-table and showcase data-details evidence only; native Android TalkBack review still required."
     },
     {
       "id": "android-talkback-heatmaps",
       "assistiveTechId": "android-talkback",
       "pageId": "heatmaps",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+      ],
+      "notes": "Automated summary/data-table and showcase data-details evidence only; native Android TalkBack review still required."
     },
     {
       "id": "android-talkback-compatibility",
       "assistiveTechId": "android-talkback",
       "pageId": "compatibility",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
+      ],
+      "notes": "Automated summary/data-table and showcase data-details evidence only; native Android TalkBack review still required."
     }
   ]
 }
