@@ -2,6 +2,8 @@ import { access, readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 
+import { validatePerformanceMatrixArtifacts } from "./release-performance-artifacts.mjs";
+
 const repoRoot = process.cwd();
 
 const validMatrixRowStatuses = new Set([
@@ -308,6 +310,10 @@ export const validateEvidenceMatrix = async (
         `${row.id} references unknown assistive tech ${row.assistiveTechId}`
       );
     }
+  }
+
+  if (matrix.source === "docs/release/native-performance-benchmark.md") {
+    errors.push(...(await validatePerformanceMatrixArtifacts(matrix)));
   }
 
   return errors;
