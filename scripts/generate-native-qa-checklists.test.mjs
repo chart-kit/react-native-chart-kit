@@ -26,6 +26,8 @@ describe("native QA checklist generator", () => {
       "chartkitshowcase://showcase?view=charts&page=compat"
     );
     expect(markdown).toContain("`v2-perf-bar-500-selection`");
+    expect(markdown).toContain("Expected Story Metrics");
+    expect(markdown).toContain("bar; 500 total; 24 visible; 1 series");
     expect(markdown).toContain(
       "chartkitshowcase://showcase?view=charts&story=v2-perf-bar-500-selection"
     );

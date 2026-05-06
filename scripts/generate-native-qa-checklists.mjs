@@ -36,6 +36,24 @@ const formatEvidence = (evidence = []) =>
     ? evidence.map((item) => `\`${item}\``).join(", ")
     : "None";
 
+const formatExpectedStoryMetrics = (metrics) => {
+  if (!metrics) {
+    return "";
+  }
+
+  return [
+    metrics.chartType && `chart ${metrics.chartType}`,
+    Number.isFinite(metrics.totalPoints) &&
+      `${metrics.totalPoints.toLocaleString("en-US")} total`,
+    Number.isFinite(metrics.visiblePoints) &&
+      `${metrics.visiblePoints.toLocaleString("en-US")} visible`,
+    Number.isFinite(metrics.seriesCount) &&
+      `${metrics.seriesCount.toLocaleString("en-US")} series`
+  ]
+    .filter(Boolean)
+    .join("; ");
+};
+
 const countRowsByStatus = (rows = []) => {
   const counts = Object.fromEntries(statusOrder.map((status) => [status, 0]));
 
@@ -161,8 +179,8 @@ const formatPerformanceRows = (matrix) => {
   const platforms = toIdMap(matrix.platforms);
   const scenarios = toIdMap(matrix.scenarios);
   const lines = [
-    "| Row | Target | Scenario | Data Size | Interaction | Showcase Story | Deep Link | Status | Evidence |",
-    "| --- | --- | --- | --- | --- | --- | --- | --- | --- |"
+    "| Row | Target | Scenario | Data Size | Expected Story Metrics | Interaction | Showcase Story | Deep Link | Status | Evidence |",
+    "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"
   ];
 
   for (const row of matrix.rows) {
@@ -174,6 +192,7 @@ const formatPerformanceRows = (matrix) => {
         `${platform?.label ?? row.platform} / ${row.renderer}`,
         scenario?.label ?? row.scenarioId,
         scenario?.requiredDataSize ?? "",
+        formatExpectedStoryMetrics(scenario?.expectedStoryMetrics),
         scenario?.interaction ?? "",
         scenario?.showcaseStoryId ? `\`${scenario.showcaseStoryId}\`` : "",
         getStoryLaunchUrl(scenario?.showcaseStoryId),

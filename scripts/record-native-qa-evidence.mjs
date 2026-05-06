@@ -238,12 +238,30 @@ const getRowLaunchTarget = (matrix, row) => {
   };
 };
 
-const getRowRequiredCheckGroups = (matrix, row) => {
-  const page = matrix.pages?.find((item) => item.id === row.pageId);
+const getRowRequiredCheckGroups = (matrix, row) =>
+  matrix.pages?.find((item) => item.id === row.pageId)?.requiredCheckGroups ??
+  [];
 
-  return Array.isArray(page?.requiredCheckGroups)
-    ? page.requiredCheckGroups
-    : [];
+const getRowExpectedStoryMetrics = (matrix, row) =>
+  matrix.scenarios?.find((item) => item.id === row.scenarioId)
+    ?.expectedStoryMetrics;
+
+const formatExpectedStoryMetrics = (metrics) => {
+  if (!metrics) {
+    return "";
+  }
+
+  return [
+    metrics.chartType && `chart ${metrics.chartType}`,
+    Number.isFinite(metrics.totalPoints) &&
+      `${metrics.totalPoints.toLocaleString("en-US")} total`,
+    Number.isFinite(metrics.visiblePoints) &&
+      `${metrics.visiblePoints.toLocaleString("en-US")} visible`,
+    Number.isFinite(metrics.seriesCount) &&
+      `${metrics.seriesCount.toLocaleString("en-US")} series`
+  ]
+    .filter(Boolean)
+    .join("; ");
 };
 
 const getRowRequiredChecks = (matrix, row) => {
@@ -257,6 +275,11 @@ const getRowRequiredChecks = (matrix, row) => {
   const scenarioChecks = [
     scenario?.requiredDataSize
       ? `scenario: data size ${scenario.requiredDataSize}`
+      : "",
+    scenario?.expectedStoryMetrics
+      ? `scenario: expected story metrics ${formatExpectedStoryMetrics(
+          scenario.expectedStoryMetrics
+        )}`
       : "",
     scenario?.interaction
       ? `scenario: interaction ${scenario.interaction}`
@@ -283,6 +306,9 @@ export const listNativeQaRows = async ({
   return matrix.rows.map((row) => ({
     checks: includeDetails ? getRowRequiredChecks(matrix, row) : [],
     evidence: row.evidence ?? [],
+    expectedStoryMetrics: includeDetails
+      ? getRowExpectedStoryMetrics(matrix, row)
+      : undefined,
     id: row.id,
     ...getRowLaunchTarget(matrix, row),
     requiredCheckGroups: includeDetails
@@ -353,11 +379,8 @@ export const recordNativeQaEvidence = async ({
     status
   };
 
-  if (notes) {
-    nextRow.notes = notes;
-  } else {
-    delete nextRow.notes;
-  }
+  if (notes) nextRow.notes = notes;
+  else delete nextRow.notes;
 
   const nextRows = [...matrix.rows];
   nextRows[rowIndex] = nextRow;
@@ -427,6 +450,14 @@ const main = async () => {
 
         if (row.showcaseStoryId) {
           console.log(`  showcase story: ${row.showcaseStoryId}`);
+        }
+
+        if (row.expectedStoryMetrics) {
+          console.log(
+            `  expected story metrics: ${formatExpectedStoryMetrics(
+              row.expectedStoryMetrics
+            )}`
+          );
         }
 
         for (const check of row.checks) {
