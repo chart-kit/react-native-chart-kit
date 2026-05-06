@@ -114,4 +114,16 @@ describe("release gate checker", () => {
       status: "pass"
     });
   });
+
+  it("validates owner gate manifest structure", () => {
+    const report = runGateReportJson();
+
+    expect(
+      report.checks.find((check) => check.id === "owner-gates:manifest")
+    ).toMatchObject({
+      evidence: "docs/release/evidence/owner-gates.json",
+      message: "Owner gate manifest is structurally valid",
+      status: "pass"
+    });
+  });
 });

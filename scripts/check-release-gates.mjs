@@ -137,6 +137,7 @@ const validMatrixRowStatuses = new Set([
   "pass",
   "pending"
 ]);
+const validOwnerGateStatuses = new Set(["approved", "not-started", "open"]);
 
 const readRepoFile = (relativePath) =>
   readFile(path.join(repoRoot, relativePath), "utf8");
@@ -245,6 +246,80 @@ const validateEvidenceMatrix = (matrix) => {
       errors.push(
         `${row.id} references unknown assistive tech ${row.assistiveTechId}`
       );
+    }
+  }
+
+  return errors;
+};
+
+const validateOwnerGatesManifest = async (manifest) => {
+  const errors = [];
+  const gateIds = new Set();
+
+  if (!Array.isArray(manifest.gates) || manifest.gates.length === 0) {
+    errors.push("owner gate manifest must define at least one gate");
+    return errors;
+  }
+
+  for (const gate of manifest.gates) {
+    if (!gate.id || typeof gate.id !== "string") {
+      errors.push("owner gate is missing a string id");
+      continue;
+    }
+
+    if (gateIds.has(gate.id)) {
+      errors.push(`${gate.id} is duplicated`);
+    }
+    gateIds.add(gate.id);
+
+    const status = gate.status ?? "open";
+
+    if (!validOwnerGateStatuses.has(status)) {
+      errors.push(`${gate.id} has invalid status ${status}`);
+    }
+
+    if (!Array.isArray(gate.requiredFor) || gate.requiredFor.length === 0) {
+      errors.push(`${gate.id} must list requiredFor gates`);
+    }
+
+    if (!Array.isArray(gate.evidence) || gate.evidence.length === 0) {
+      errors.push(`${gate.id} must link evidence files`);
+    } else {
+      for (const evidenceFile of gate.evidence) {
+        if (
+          typeof evidenceFile !== "string" ||
+          evidenceFile.length === 0 ||
+          !(await pathExists(evidenceFile))
+        ) {
+          errors.push(`${gate.id} has missing evidence file ${evidenceFile}`);
+        }
+      }
+    }
+
+    if (status === "approved") {
+      if (!gate.approvedBy || typeof gate.approvedBy !== "string") {
+        errors.push(`${gate.id} approved gate must record approvedBy`);
+      }
+
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(gate.approvedAt ?? "")) {
+        errors.push(`${gate.id} approved gate must record approvedAt`);
+      }
+
+      if (!Array.isArray(gate.decisions) || gate.decisions.length === 0) {
+        errors.push(`${gate.id} approved gate must record decisions`);
+      }
+
+      if (
+        Array.isArray(gate.pendingDecisions) &&
+        gate.pendingDecisions.length > 0
+      ) {
+        errors.push(`${gate.id} approved gate must not list pendingDecisions`);
+      }
+    } else if (
+      !Array.isArray(gate.pendingDecisions) ||
+      gate.pendingDecisions.length === 0
+    ) {
+      errors.push(`${gate.id} open gate must list pendingDecisions`);
     }
   }
 
@@ -384,6 +459,15 @@ for (const blocker of releaseBlockers) {
 const ownerGatesManifest = await readRepoJson(
   "docs/release/evidence/owner-gates.json"
 );
+const ownerGateErrors = await validateOwnerGatesManifest(ownerGatesManifest);
+
+addCheck({
+  detail: ownerGateErrors.join("; "),
+  evidence: "docs/release/evidence/owner-gates.json",
+  id: "owner-gates:manifest",
+  message: "Owner gate manifest is structurally valid",
+  status: ownerGateErrors.length === 0 ? "pass" : "fail"
+});
 
 for (const gate of ownerGatesManifest.gates ?? []) {
   const normalizedStatus = gate.status ?? "open";
