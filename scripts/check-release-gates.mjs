@@ -487,7 +487,7 @@ const nativeReleaseWorkflowSource = await readRepoFile(
   ".github/workflows/native-release.yml"
 );
 const nativeWorkflowArtifactChecks = [
-  "actions/upload-artifact@v4",
+  "actions/upload-artifact@v5",
   "native-release-android",
   "native-release-ios",
   "docs/release/artifacts/native-workflow/android-release.log",
