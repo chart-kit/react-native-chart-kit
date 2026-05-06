@@ -49,6 +49,7 @@ export type SkiaComponentModule = {
   Group: ElementType;
   Path: ElementType;
   Rect: ElementType;
+  RoundedRect?: ElementType | undefined;
   Text: ElementType;
   DashPathEffect?: ElementType | undefined;
   Line?: ElementType | undefined;

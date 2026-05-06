@@ -14,7 +14,7 @@ Current exports:
 
 Status:
 
-- injected Skia primitive adapter for Canvas, Group, Path, Rect, Circle, Line, Text, LinearGradient, and rect-clipped Groups
+- injected Skia primitive adapter for Canvas, Group, Path, Rect, RoundedRect, Circle, Line, Text, LinearGradient, and rect-clipped Groups
 - public descriptor evidence reports `localParity: "partial"`, `nativeInstall: "partial"`, and `nativeParity: "missing"` until native parity/performance evidence exists
 - `LineChart` can accept the injected renderer through its experimental `renderer` prop for the main plot, range selector, sticky-axis, path-local area gradients, threshold rect clips, default marker, default legend, default tooltip, and debug-layout surfaces
 - `BarChart` can accept the injected renderer through its experimental `renderer` prop for its chart body, sticky Y-axis, and default tooltip overlay
@@ -24,6 +24,7 @@ Status:
 - `CandlestickChart` can accept the injected renderer through its experimental `renderer` prop for its OHLC body, volume bars, session markers, selection overlay, default tooltip, and range selector
 - sticky-axis labels require a Skia font through `createSkiaRenderer({ skia, font })`
 - text primitives support measured `textAnchor` alignment when the supplied Skia font exposes `measureText`
+- rounded bars and tooltip surfaces use `RoundedRect` when the host Skia module provides it, with a plain `Rect` fallback
 - path-local area gradients are used when `skia.LinearGradient` and `skia.vec` are available; SVG-style gradient defs remain disabled for Skia
 - threshold line and area overlays use path-level rect clips when `skia.rect` is available; SVG URL clip-path refs remain disabled for Skia
 - no license gating

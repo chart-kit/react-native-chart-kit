@@ -23,6 +23,7 @@ const fakeSkia = {
   LinearGradient: "LinearGradient",
   Path: "Path",
   Rect: "Rect",
+  RoundedRect: "RoundedRect",
   Text: "Text",
   rect: (x: number, y: number, width: number, height: number) => ({
     height,
@@ -222,6 +223,31 @@ describe("Skia renderer preview boundary", () => {
     expect(isValidElement(rect)).toBe(true);
     expect(rectElement?.type).toBe("Group");
     expect(Children.count(rectElement?.props.children)).toBe(2);
+  });
+
+  it("uses Skia RoundedRect for rounded chart rectangles", () => {
+    const renderer = createSkiaRenderer({ skia: fakeSkia });
+    const rect = renderComponent(renderer.Rect, {
+      fill: "#2563eb",
+      height: 40,
+      rx: 8,
+      ry: 6,
+      width: 80,
+      x: 4,
+      y: 10
+    });
+
+    expect(rect).toMatchObject({
+      props: {
+        color: "#2563eb",
+        height: 40,
+        r: { x: 8, y: 6 },
+        width: 80,
+        x: 4,
+        y: 10
+      },
+      type: "RoundedRect"
+    });
   });
 
   it("renders path-local gradient fills when Skia gradient primitives exist", () => {

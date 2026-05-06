@@ -35,9 +35,12 @@ Use the Skia native release helper to exercise that temporary path without commi
 npm run skia:native:dry-run
 npm run skia:native:release -- --platform ios --artifact docs/release/artifacts/ios-skia-native-install.md
 npm run skia:native:release -- --platform android --artifact docs/release/artifacts/android-skia-native-install.md
+npm run skia:native:release -- --platform ios --renderer skia --artifact docs/release/artifacts/ios-skia-renderer-build.md
+npm run skia:native:release -- --platform android --renderer skia --artifact docs/release/artifacts/android-skia-renderer-build.md
 ```
 
 The helper creates a temporary workspace from the current committed repo state, runs `npm ci`, installs the Skia peer into only that temporary showcase workspace, and delegates to the normal Expo native release check. It removes the temporary workspace unless `--keep-temp` is provided.
+When `--renderer skia` is passed, the helper also injects a temporary `ChartKitProvider` renderer into the showcase app, typechecks the patched app, and then runs the native release build. This keeps the free showcase package dependency-free while making native Skia parity builds repeatable.
 
 Required checks:
 

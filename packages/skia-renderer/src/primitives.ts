@@ -241,18 +241,34 @@ export const createSkiaPrimitives = ({
   }: SkiaRectProps) => {
     const fillPaint = getSkiaFillPaintProps(paint);
     const strokePaint = getSkiaStrokePaintProps(paint);
-    const baseProps = { height, rx, ry, testID, width, x, y };
+    const shouldRound = (rx ?? 0) > 0 || (ry ?? 0) > 0;
+    const Shape =
+      shouldRound && skia.RoundedRect ? skia.RoundedRect : skia.Rect;
+    const baseProps =
+      shouldRound && skia.RoundedRect
+        ? {
+            height,
+            r: {
+              x: rx ?? ry ?? 0,
+              y: ry ?? rx ?? 0
+            },
+            testID,
+            width,
+            x,
+            y
+          }
+        : { height, testID, width, x, y };
 
     return renderSkiaPaintPair({
       fillElement: fillPaint
-        ? createElement(skia.Rect, {
+        ? createElement(Shape, {
             ...baseProps,
             ...fillPaint
           })
         : undefined,
       skia,
       strokeElement: strokePaint
-        ? createElement(skia.Rect, {
+        ? createElement(Shape, {
             ...baseProps,
             ...strokePaint
           })

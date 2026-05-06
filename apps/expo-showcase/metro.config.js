@@ -23,6 +23,10 @@ config.resolver.extraNodeModules = {
     repoRoot,
     "packages/react-native/src/proPreview.ts"
   ),
+  "@chart-kit/skia-renderer": path.resolve(
+    repoRoot,
+    "packages/skia-renderer/src/index.ts"
+  ),
   "react-native-chart-kit": path.resolve(repoRoot, "src/index.ts"),
   "@chart-kit/svg-renderer": path.resolve(
     repoRoot,

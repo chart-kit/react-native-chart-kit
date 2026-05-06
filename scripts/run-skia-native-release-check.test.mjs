@@ -13,11 +13,12 @@ describe("Skia native release check runner", () => {
       dryRun: false,
       keepTemp: false,
       platform: "android",
+      renderer: "svg",
       skiaPackage: "@shopify/react-native-skia"
     });
   });
 
-  it("supports dry-run, temp workspace, artifact, and custom package spec", () => {
+  it("supports dry-run, temp workspace, artifact, renderer, and custom package spec", () => {
     expect(
       parseSkiaNativeArgs([
         "--platform",
@@ -28,6 +29,8 @@ describe("Skia native release check runner", () => {
         "/tmp/chartkit",
         "--artifact",
         "docs/release/artifacts/skia.md",
+        "--renderer",
+        "skia",
         "--skia-package",
         "@shopify/react-native-skia@2"
       ])
@@ -36,6 +39,7 @@ describe("Skia native release check runner", () => {
       dryRun: true,
       keepTemp: true,
       platform: "all",
+      renderer: "skia",
       skiaPackage: "@shopify/react-native-skia@2",
       tempDir: "/tmp/chartkit"
     });
@@ -46,6 +50,9 @@ describe("Skia native release check runner", () => {
     expect(() =>
       parseSkiaNativeArgs(["--platform", "web"])
     ).toThrow("--platform must be one of ios, android, or all");
+    expect(() =>
+      parseSkiaNativeArgs(["--platform", "ios", "--renderer", "canvas"])
+    ).toThrow("--renderer must be one of svg or skia");
   });
 
   it("extracts package names from versioned npm specs", () => {
@@ -92,18 +99,60 @@ describe("Skia native release check runner", () => {
     ]);
   });
 
+  it("injects and typechecks the showcase when Skia renderer mode is requested", () => {
+    const plan = buildSkiaNativeCommandPlan({
+      archivePath: "/tmp/chartkit-skia.tar",
+      platform: "android",
+      renderer: "skia",
+      skiaPackage: "@shopify/react-native-skia",
+      workspaceDir: "/tmp/chartkit-skia"
+    });
+
+    expect(plan.map((step) => step.command)).toEqual([
+      "git",
+      "tar",
+      "npm",
+      "npm",
+      "npm",
+      "node",
+      "npm",
+      "node"
+    ]);
+    expect(plan[5].args).toEqual([
+      "scripts/prepare-skia-showcase-renderer-preview.mjs",
+      "--app-dir",
+      "apps/expo-showcase"
+    ]);
+    expect(plan[6].args).toEqual([
+      "--workspace",
+      "@chart-kit/expo-showcase",
+      "run",
+      "typecheck"
+    ]);
+  });
+
   it("summarizes Android Skia install output", () => {
     expect(
       buildVerifiedOutput({
         output: [
           "@shopify/react-native-skia@2.6.2",
+          "Skia showcase renderer preview injected: yes",
           "> Configure project :shopify_react-native-skia",
           "BUILD SUCCESSFUL in 1m"
         ].join("\n"),
         platform: "android",
+        renderer: "skia",
         skiaPackage: "@shopify/react-native-skia"
       })
-    ).toContain("Skia Gradle project configured: yes");
+    ).toEqual(
+      [
+        "- Installed package: `@shopify/react-native-skia@2.6.2`",
+        "- Showcase renderer mode: skia",
+        "- Skia Gradle project configured: yes",
+        "- Release build successful: yes",
+        "- Showcase Skia renderer injected: yes"
+      ].join("\n")
+    );
   });
 
   it("summarizes iOS Skia install output", () => {

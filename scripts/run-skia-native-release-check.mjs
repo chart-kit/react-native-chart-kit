@@ -15,6 +15,7 @@ Options:
   --artifact <path>        Write a markdown evidence artifact in this repo after a successful run.
   --dry-run                Print the temporary-workspace commands without executing them.
   --keep-temp              Keep the temporary workspace for inspection.
+  --renderer <svg|skia>    Build SVG-default app or inject Skia renderer. Defaults to svg.
   --skia-package <spec>    Skia package spec to install. Defaults to @shopify/react-native-skia.
   --temp-dir <path>        Use a specific temporary workspace parent directory.
   --help                   Show this help.
@@ -25,6 +26,7 @@ export const parseSkiaNativeArgs = (argv) => {
     dryRun: false,
     keepTemp: false,
     platform: undefined,
+    renderer: "svg",
     skiaPackage: defaultSkiaPackage,
     tempDir: os.tmpdir()
   };
@@ -52,6 +54,8 @@ export const parseSkiaNativeArgs = (argv) => {
       options.keepTemp = true;
     } else if (arg === "--platform") {
       options.platform = readValue();
+    } else if (arg === "--renderer") {
+      options.renderer = readValue();
     } else if (arg === "--skia-package") {
       options.skiaPackage = readValue();
     } else if (arg === "--temp-dir") {
@@ -65,6 +69,10 @@ export const parseSkiaNativeArgs = (argv) => {
 
   if (!["ios", "android", "all"].includes(options.platform)) {
     throw new Error("--platform must be one of ios, android, or all.");
+  }
+
+  if (!["svg", "skia"].includes(options.renderer)) {
+    throw new Error("--renderer must be one of svg or skia.");
   }
 
   if (!options.skiaPackage) {
@@ -125,13 +133,14 @@ const run = ({ args, captureOutput = true, command, cwd, dryRun }) => {
 export const buildSkiaNativeCommandPlan = ({
   archivePath,
   platform,
+  renderer = "svg",
   skiaPackage,
   workspaceDir
 }) => {
   const packageName = getPackageNameFromSpec(skiaPackage);
   const showcaseDir = path.join(workspaceDir, "apps/expo-showcase");
 
-  return [
+  const plan = [
     {
       args: ["archive", "--format=tar", `--output=${archivePath}`, "HEAD"],
       command: "git",
@@ -156,22 +165,54 @@ export const buildSkiaNativeCommandPlan = ({
       args: ["ls", packageName, "--depth=0", "--workspaces=false"],
       command: "npm",
       cwd: showcaseDir
-    },
-    {
-      args: [
-        "scripts/run-expo-native-release-check.mjs",
-        "--platform",
-        platform,
-        "--app-dir",
-        "apps/expo-showcase"
-      ],
-      command: "node",
-      cwd: workspaceDir
     }
   ];
+
+  if (renderer === "skia") {
+    plan.push(
+      {
+        args: [
+          "scripts/prepare-skia-showcase-renderer-preview.mjs",
+          "--app-dir",
+          "apps/expo-showcase"
+        ],
+        command: "node",
+        cwd: workspaceDir
+      },
+      {
+        args: [
+          "--workspace",
+          "@chart-kit/expo-showcase",
+          "run",
+          "typecheck"
+        ],
+        command: "npm",
+        cwd: workspaceDir
+      }
+    );
+  }
+
+  plan.push({
+    args: [
+      "scripts/run-expo-native-release-check.mjs",
+      "--platform",
+      platform,
+      "--app-dir",
+      "apps/expo-showcase"
+    ],
+    command: "node",
+    cwd: workspaceDir
+  });
+
+  return plan;
 };
 
-export const buildVerifiedOutput = ({ output, platform, skiaPackage }) => {
+export const buildVerifiedOutput = ({
+  output,
+  platform,
+  renderer = "svg",
+  skiaPackage
+}) => {
   const installedVersion =
     output.match(/@shopify\/react-native-skia@[^\s]+/)?.[0] ??
     getPackageNameFromSpec(skiaPackage);
@@ -186,18 +227,31 @@ export const buildVerifiedOutput = ({ output, platform, skiaPackage }) => {
   const buildSucceeded = isIos
     ? output.includes("** BUILD SUCCEEDED **")
     : output.includes("BUILD SUCCESSFUL");
-
-  return [
+  const lines = [
     `- Installed package: \`${installedVersion}\``,
+    `- Showcase renderer mode: ${renderer}`,
     `- ${integrationLabel}: ${integrationVerified ? "yes" : "no"}`,
     `- Release build successful: ${buildSucceeded ? "yes" : "no"}`
-  ].join("\n");
+  ];
+
+  if (renderer === "skia") {
+    lines.push(
+      `- Showcase Skia renderer injected: ${
+        output.includes("Skia showcase renderer preview injected: yes")
+          ? "yes"
+          : "no"
+      }`
+    );
+  }
+
+  return lines.join("\n");
 };
 
 const createArtifact = ({
   artifactPath,
   commands,
   platform,
+  renderer = "svg",
   skiaPackage,
   workspaceDir
 }) => {
@@ -206,6 +260,7 @@ const createArtifact = ({
   const verifiedOutput = buildVerifiedOutput({
     output,
     platform,
+    renderer,
     skiaPackage
   });
   const body = `# Skia Native Install Evidence
@@ -215,6 +270,7 @@ Commit: \`${readGitShortSha()}\`
 Build surface: temporary native QA workspace
 Platform target: ${platform}
 Skia package: \`${skiaPackage}\`
+Showcase renderer mode: ${renderer}
 Temporary workspace: \`${workspaceDir}\`
 
 This artifact records a native optional-Skia install check. It should only be
@@ -232,6 +288,7 @@ ${commands.map((item) => item.command).join("\n")}
 - Temporary workspace created from the current committed repository state.
 - \`${skiaPackage}\` installed only in the temporary showcase workspace.
 - \`${getPackageNameFromSpec(skiaPackage)}\` verified with \`npm ls\`.
+- Showcase renderer mode stayed \`${renderer}\`.
 - Existing native release check completed for \`${platform}\`.
 
 ## Verified Output
@@ -263,6 +320,7 @@ export const runSkiaNativeReleaseCheck = async ({
   dryRun,
   keepTemp,
   platform,
+  renderer = "svg",
   skiaPackage,
   tempDir
 }) => {
@@ -273,6 +331,7 @@ export const runSkiaNativeReleaseCheck = async ({
   const plan = buildSkiaNativeCommandPlan({
     archivePath,
     platform,
+    renderer,
     skiaPackage,
     workspaceDir
   });
@@ -289,6 +348,7 @@ export const runSkiaNativeReleaseCheck = async ({
         artifactPath,
         commands: executed,
         platform,
+        renderer,
         skiaPackage,
         workspaceDir
       });
