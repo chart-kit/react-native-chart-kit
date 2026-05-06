@@ -39,6 +39,7 @@ export const requiredFiles = [
   "scripts/release-accessibility-artifacts.mjs",
   "scripts/release-gate-validation.mjs",
   "scripts/release-performance-artifacts.mjs",
+  "scripts/release-runtime-artifacts.mjs",
   "scripts/release-skia-artifacts.mjs",
   "scripts/generate-native-qa-checklists.mjs",
   "scripts/list-release-qa-status.mjs",

@@ -4,6 +4,7 @@ import process from "node:process";
 
 import { validateAccessibilityMatrixArtifacts } from "./release-accessibility-artifacts.mjs";
 import { validatePerformanceMatrixArtifacts } from "./release-performance-artifacts.mjs";
+import { validateRuntimeMatrixArtifacts } from "./release-runtime-artifacts.mjs";
 import { validateSkiaMatrixArtifacts } from "./release-skia-artifacts.mjs";
 
 const repoRoot = process.cwd();
@@ -316,6 +317,9 @@ export const validateEvidenceMatrix = async (
 
   if (matrix.source === "docs/release/native-performance-benchmark.md") {
     errors.push(...(await validatePerformanceMatrixArtifacts(matrix)));
+  }
+  if (matrix.source === "docs/release/native-runtime-qa.md") {
+    errors.push(...validateRuntimeMatrixArtifacts(matrix));
   }
   if (matrix.source === "docs/release/skia-renderer-qa.md") {
     errors.push(...(await validateSkiaMatrixArtifacts(matrix)));
