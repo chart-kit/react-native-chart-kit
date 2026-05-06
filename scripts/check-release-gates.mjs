@@ -21,6 +21,7 @@ const requiredFiles = [
   "docs/release/h5-owner-decision-memo.md",
   "docs/release/h6-owner-decision-memo.md",
   "docs/release/known-issues.md",
+  "docs/release/native-workflow-runbook.md",
   "docs/release/native-qa-checklists.md",
   "docs/release/native-performance-benchmark.md",
   "docs/release/native-release-checks.md",
@@ -586,6 +587,11 @@ addCheck({
 });
 
 const publishWorkflowSource = await readRepoFile(".github/workflows/publish.yml");
+const publishAuthEnvCount = (
+  publishWorkflowSource.match(
+    /NODE_AUTH_TOKEN:\s*\$\{\{\s*secrets\.NPM_TOKEN\s*\}\}/g
+  ) ?? []
+).length;
 const publishWorkflowSafetyChecks = [
   "secrets.NPM_TOKEN",
   "NODE_AUTH_TOKEN",
@@ -596,6 +602,12 @@ const publishWorkflowSafetyChecks = [
   "npm run release:publish:status -- --strict",
   "npm publish \"${PUBLISH_TARGET}\" --ignore-scripts --access public --provenance --tag"
 ].filter((needle) => !publishWorkflowSource.includes(needle));
+
+if (publishAuthEnvCount < 2) {
+  publishWorkflowSafetyChecks.push(
+    "NODE_AUTH_TOKEN must be set for npm auth preflight and npm publish"
+  );
+}
 
 addCheck({
   detail:

@@ -150,6 +150,7 @@ jobs:
           done
         env:
           NPM_TAG: ${{ steps.package.outputs.npm_tag }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Verify npm registry publish state
         run: npm run release:publish:status -- --strict
