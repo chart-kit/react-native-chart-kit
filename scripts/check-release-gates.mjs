@@ -39,6 +39,7 @@ const requiredFiles = [
   "docs/release/evidence/package-manifest.json",
   "docs/release/evidence/skia-renderer-evidence.json",
   "docs/release/evidence/skia-renderer-matrix.json",
+  ".github/workflows/publish.yml",
   ".github/workflows/native-release.yml",
   "scripts/generate-native-qa-checklists.mjs",
   "scripts/record-native-workflow-evidence.mjs",
@@ -505,6 +506,31 @@ addCheck({
   id: "workflow:native-release-artifacts",
   message: "Native release workflow archives Android and iOS evidence logs",
   status: nativeWorkflowArtifactChecks.length === 0 ? "pass" : "fail"
+});
+
+const publishWorkflowSource = await readRepoFile(".github/workflows/publish.yml");
+const publishWorkflowSafetyChecks = [
+  "secrets.NPM_TOKEN",
+  "NODE_AUTH_TOKEN",
+  "NPM_TOKEN is not configured",
+  "npm whoami",
+  "npm access list packages @chart-kit --json",
+  "scripts/list-release-packages.mjs --publishable",
+  "npm publish \"${PUBLISH_TARGET}\" --ignore-scripts --access public --provenance --tag"
+].filter((needle) => !publishWorkflowSource.includes(needle));
+
+addCheck({
+  detail:
+    publishWorkflowSafetyChecks.length > 0
+      ? `Missing publish workflow safety config: ${publishWorkflowSafetyChecks.join(
+          ", "
+        )}`
+      : "",
+  evidence: ".github/workflows/publish.yml",
+  id: "workflow:publish-safety",
+  message:
+    "Publish workflow validates npm auth and uses the release package manifest",
+  status: publishWorkflowSafetyChecks.length === 0 ? "pass" : "fail"
 });
 
 const candidateJavaHomes = [

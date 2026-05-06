@@ -40,7 +40,19 @@ jobs:
 
       - name: Verify npm publish access
         run: |
-          npm whoami
+          if [ -z "${NODE_AUTH_TOKEN:-}" ]; then
+            echo "NPM_TOKEN is not configured for this repository or environment."
+            echo "Add a GitHub Actions secret named NPM_TOKEN with npm publish access before rerunning."
+            exit 1
+          fi
+
+          if ! NPM_USER=$(npm whoami 2>&1); then
+            echo "NPM_TOKEN could not authenticate with npm."
+            echo "${NPM_USER}"
+            exit 1
+          fi
+
+          echo "Authenticated to npm as ${NPM_USER}."
 
           if ! npm access list packages @chart-kit --json >/dev/null; then
             echo "NPM_TOKEN cannot access the @chart-kit npm scope."

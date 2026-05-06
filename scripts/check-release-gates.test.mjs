@@ -199,4 +199,17 @@ describe("release gate checker", () => {
       status: "pass"
     });
   });
+
+  it("checks npm publish workflow auth and manifest safety", () => {
+    const report = runGateReportJson();
+
+    expect(
+      report.checks.find((check) => check.id === "workflow:publish-safety")
+    ).toMatchObject({
+      evidence: ".github/workflows/publish.yml",
+      message:
+        "Publish workflow validates npm auth and uses the release package manifest",
+      status: "pass"
+    });
+  });
 });
