@@ -51,13 +51,14 @@ gh workflow run publish.yml --ref next -f npm_tag=next
 gh run watch <run-id> --exit-status
 ```
 
-The workflow is idempotent for already-published package versions. On rerun, it skips versions that already exist, attempts to remove unintended prerelease `latest` tags, verifies the final registry state, and then creates or updates the GitHub prerelease.
+The workflow is idempotent for already-published package versions. On rerun, it skips versions that already exist, accepts an existing Git tag only when all publishable packages are already present, attempts to remove unintended prerelease `latest` tags, verifies the final registry state, and then creates the GitHub prerelease only if it does not already exist.
 
 The workflow fails if:
 
 - it is not run from `next`
 - `NPM_TOKEN` is missing or invalid
 - `latest` is selected for a prerelease version
+- the Git tag already exists while one or more publishable packages are still missing
 - a publishable package is missing from the expected `next` dist-tag after publish
 - a preview-only package is published
 - an existing stable package has `latest` moved to a prerelease

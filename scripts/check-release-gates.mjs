@@ -97,7 +97,9 @@ addCheck({
   status: nativeWorkflowArtifactChecks.length === 0 ? "pass" : "fail"
 });
 
-const publishWorkflowSource = await readRepoFile(".github/workflows/publish.yml");
+const publishWorkflowSource = await readRepoFile(
+  ".github/workflows/publish.yml"
+);
 const publishAuthEnvCount = (
   publishWorkflowSource.match(
     /NODE_AUTH_TOKEN:\s*\$\{\{\s*secrets\.NPM_TOKEN\s*\}\}/g
@@ -110,8 +112,12 @@ const publishWorkflowSafetyChecks = [
   "npm whoami",
   "npm access list packages @chart-kit --json",
   "scripts/list-release-packages.mjs --publishable",
+  "HAS_UNPUBLISHED_PACKAGE=0",
+  "continuing idempotent rerun",
   "npm run release:publish:status -- --strict",
-  "npm publish \"${PUBLISH_TARGET}\" --ignore-scripts --access public --provenance --tag"
+  'gh release view "${TAG_NAME}"',
+  "release already exists; skipping release creation.",
+  'npm publish "${PUBLISH_TARGET}" --ignore-scripts --access public --provenance --tag'
 ].filter((needle) => !publishWorkflowSource.includes(needle));
 
 if (publishAuthEnvCount < 2) {

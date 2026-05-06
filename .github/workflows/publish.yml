@@ -115,6 +115,7 @@ jobs:
             exit 1
           fi
 
+          HAS_UNPUBLISHED_PACKAGE=0
           for PACKAGE_DIR in $(node scripts/list-release-packages.mjs --publishable); do
             PACKAGE_JSON="${PACKAGE_DIR}/package.json"
             if [ "${PACKAGE_DIR}" = "." ]; then
@@ -125,12 +126,18 @@ jobs:
 
             if npm view "${WORKSPACE_NAME}@${WORKSPACE_VERSION}" version >/dev/null 2>&1; then
               echo "${WORKSPACE_NAME}@${WORKSPACE_VERSION} is already published and will be skipped"
+            else
+              HAS_UNPUBLISHED_PACKAGE=1
+              echo "${WORKSPACE_NAME}@${WORKSPACE_VERSION} is not published yet"
             fi
           done
 
           if git ls-remote --exit-code --tags origin "refs/tags/${TAG_NAME}" >/dev/null 2>&1; then
-            echo "${TAG_NAME} already exists"
-            exit 1
+            if [ "${HAS_UNPUBLISHED_PACKAGE}" = "1" ]; then
+              echo "${TAG_NAME} already exists, but at least one publishable package is missing."
+              exit 1
+            fi
+            echo "${TAG_NAME} already exists and all publishable packages are already published; continuing idempotent rerun."
           fi
 
       - name: Publish
@@ -197,6 +204,11 @@ jobs:
           PACKAGE_VERSION: ${{ steps.package.outputs.version }}
           TAG_NAME: ${{ steps.package.outputs.tag }}
         run: |
+          if gh release view "${TAG_NAME}" >/dev/null 2>&1; then
+            echo "${TAG_NAME} release already exists; skipping release creation."
+            exit 0
+          fi
+
           awk "/^## v${PACKAGE_VERSION}$/{flag=1; next} /^## /{flag=0} flag" CHANGELOG.md > release-notes.md
 
           if [ ! -s release-notes.md ]; then
