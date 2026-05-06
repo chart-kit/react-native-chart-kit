@@ -74,6 +74,14 @@ const expectedProCandidateCapabilityExports = [
   "DonutChart"
 ];
 
+const expectedProCandidateTriggerExports = [
+  "LineChart",
+  "BarChart",
+  "CombinedChart",
+  "CandlestickChart",
+  "DonutChart"
+];
+
 const expectedReactNativeProPreviewValueExports = [
   "BarChart",
   "CandlestickChart",
@@ -271,6 +279,12 @@ assertSourceContains({
   source: proBoundarySource
 });
 
+assertSourceContains({
+  expected: expectedProCandidateTriggerExports,
+  label: "Pro candidate trigger boundary",
+  source: proBoundarySource
+});
+
 console.log("Public surface check passed.");
 console.log(`Root compatibility exports: ${expectedRootExports.length}`);
 console.log(`Modern v2 value exports: ${expectedV2ValueExports.length}`);
@@ -280,6 +294,9 @@ console.log(
 );
 console.log(
   `Pro candidate capability exports: ${expectedProCandidateCapabilityExports.length}`
+);
+console.log(
+  `Pro candidate trigger exports: ${expectedProCandidateTriggerExports.length}`
 );
 console.log(
   `React Native Pro preview value exports: ${expectedReactNativeProPreviewValueExports.length}`

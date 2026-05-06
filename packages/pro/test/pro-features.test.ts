@@ -4,11 +4,13 @@ import {
   chartKitFreeBaselineSurface,
   chartKitProCandidateCapabilities,
   chartKitProCandidateSurface,
+  chartKitProCandidateTriggers,
   chartKitProReactNativePreviewExports,
   chartKitProPreviewFeatures,
   createChartKitProReactNativePreview,
   createChartKitProFeatureRegistry,
   getChartKitProCandidateCapabilities,
+  getChartKitProCandidateTriggers,
   getChartKitSurfaceExport,
   getChartKitProFeature
 } from "../src";
@@ -208,6 +210,55 @@ describe("Chart Kit Pro preview boundary", () => {
     expect(getChartKitProCandidateCapabilities("LineChart")[0]).toMatchObject({
       featureId: "pro-interactions"
     });
+  });
+
+  it("maps prop-level Pro candidate triggers without moving runtime code", () => {
+    const featureIds = new Set(
+      chartKitProPreviewFeatures.map((feature) => feature.id)
+    );
+    const previewExports = new Set(chartKitProReactNativePreviewExports);
+
+    for (const trigger of chartKitProCandidateTriggers) {
+      expect(featureIds.has(trigger.featureId)).toBe(true);
+      expect(previewExports.has(trigger.exportName)).toBe(true);
+      expect(trigger.capability.length).toBeGreaterThan(8);
+      expect(trigger.freeFallback.length).toBeGreaterThan(8);
+
+      if (trigger.kind === "component") {
+        expect("propName" in trigger).toBe(false);
+      } else {
+        expect("propName" in trigger).toBe(true);
+      }
+    }
+
+    expect(getChartKitProCandidateTriggers("LineChart")).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          featureId: "pro-interactions",
+          propName: "rangeSelector"
+        }),
+        expect.objectContaining({
+          featureId: "pro-performance",
+          propName: "decimation"
+        }),
+        expect.objectContaining({
+          featureId: "skia-renderer",
+          propName: "renderer"
+        })
+      ])
+    );
+    expect(getChartKitProCandidateTriggers("CombinedChart")).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          featureId: "pro-chart-types",
+          kind: "component"
+        }),
+        expect.objectContaining({
+          featureId: "skia-renderer",
+          propName: "renderer"
+        })
+      ])
+    );
   });
 
   it("creates an injected React Native preview surface without static imports", () => {

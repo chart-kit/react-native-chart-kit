@@ -19,9 +19,11 @@ Current exports:
 - `chartKitPackageBoundarySurface`
 - `chartKitProCandidateCapabilities`
 - `chartKitProCandidateSurface`
+- `chartKitProCandidateTriggers`
 - `createChartKitProReactNativePreview`
 - `createChartKitProFeatureRegistry`
 - `getChartKitProCandidateCapabilities`
+- `getChartKitProCandidateTriggers`
 - `getChartKitSurfaceExport`
 - `getChartKitProFeature`
 
@@ -51,6 +53,8 @@ Each registry entry also carries:
 - `freeGuardrail`: what must stay free so v2 does not feel intentionally limited
 
 The surface-boundary metadata is intentionally descriptive. It lets release docs, tests, and future package refactors agree that current preview features such as `CombinedChart`, `CandlestickChart`, advanced `LineChart` interactions, grouped/scrollable/selectable bars, and active donut selection are Pro candidates until H4 is finalized.
+
+`chartKitProCandidateTriggers` narrows that boundary to current component props and component-level triggers. For example, `LineChart` remains a free baseline component, while `rangeSelector`, scrub interaction, custom production tooltip rendering, viewport pan/pinch, large-dataset decimation, and injected Skia renderer support are tracked as Pro candidates. Each trigger also includes a `freeFallback` so future packaging does not accidentally make the free library feel broken.
 
 React Native preview composition:
 
