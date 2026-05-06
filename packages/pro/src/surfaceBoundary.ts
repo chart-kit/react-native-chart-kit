@@ -26,6 +26,18 @@ export type ChartKitProCandidateCapability = {
   featureId: string;
 };
 
+const getChartKitSurfaceKind = (exportName: string): ChartKitSurfaceKind =>
+  exportName.startsWith("use")
+    ? "hook"
+    : exportName.includes("Provider")
+      ? "provider"
+      : exportName.startsWith("get") ||
+          exportName.startsWith("create") ||
+          exportName.startsWith("resolve") ||
+          exportName.startsWith("builtIn")
+        ? "utility"
+        : "component";
+
 export const chartKitCompatibilitySurface = [
   "LineChart",
   "BarChart",
@@ -56,21 +68,22 @@ export const chartKitFreeBaselineSurface = [
   "ChartKitProvider",
   "builtInCartesianChartPresets",
   "createChartPreset",
+  "getBarChartAccessibilitySummary",
+  "getBarChartDataTable",
+  "getContributionGraphAccessibilitySummary",
+  "getContributionGraphDataTable",
+  "getLineChartAccessibilitySummary",
+  "getLineChartDataTable",
+  "getPieChartAccessibilitySummary",
+  "getPieChartDataTable",
+  "getProgressChartAccessibilitySummary",
+  "getProgressChartDataTable",
   "resolveCartesianChartThemeConfig",
   "useChartKitTheme"
 ].map(
   (exportName): ChartKitSurfaceExport => ({
     exportName,
-    kind: exportName.startsWith("use")
-      ? "hook"
-      : exportName.includes("Provider")
-        ? "provider"
-        : exportName.startsWith("get") ||
-            exportName.startsWith("create") ||
-            exportName.startsWith("resolve") ||
-            exportName.startsWith("builtIn")
-          ? "utility"
-          : "component",
+    kind: getChartKitSurfaceKind(exportName),
     packageName: "@chart-kit/react-native",
     status: "free-baseline"
   })
@@ -78,18 +91,20 @@ export const chartKitFreeBaselineSurface = [
 
 export const chartKitProCandidateSurface = [
   "CandlestickChart",
-  "CombinedChart",
   "ChartSelectionProvider",
+  "CombinedChart",
+  "getCandlestickChartAccessibilitySummary",
+  "getCandlestickChartDataTable",
+  "getCandlestickChartFinancialNarrative",
+  "getCandlestickEmergencyClosureSessions",
+  "getCombinedChartAccessibilitySummary",
+  "getCombinedChartDataTable",
   "useChartSelection",
   "useDismissChartSelection"
 ].map(
   (exportName): ChartKitSurfaceExport => ({
     exportName,
-    kind: exportName.startsWith("use")
-      ? "hook"
-      : exportName.includes("Provider")
-        ? "provider"
-        : "component",
+    kind: getChartKitSurfaceKind(exportName),
     packageName: "@chart-kit/react-native/pro-preview",
     status: "pro-candidate"
   })

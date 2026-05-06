@@ -5,6 +5,12 @@ export const chartKitProReactNativePreviewExports = [
   "CombinedChart",
   "DonutChart",
   "LineChart",
+  "getCandlestickChartAccessibilitySummary",
+  "getCandlestickChartDataTable",
+  "getCandlestickChartFinancialNarrative",
+  "getCandlestickEmergencyClosureSessions",
+  "getCombinedChartAccessibilitySummary",
+  "getCombinedChartDataTable",
   "useChartSelection",
   "useDismissChartSelection"
 ] as const;

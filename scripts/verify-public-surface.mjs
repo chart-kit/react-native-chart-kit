@@ -28,6 +28,16 @@ const expectedV2ValueExports = [
   "StackedBarChart",
   "builtInCartesianChartPresets",
   "createChartPreset",
+  "getBarChartAccessibilitySummary",
+  "getBarChartDataTable",
+  "getContributionGraphAccessibilitySummary",
+  "getContributionGraphDataTable",
+  "getLineChartAccessibilitySummary",
+  "getLineChartDataTable",
+  "getPieChartAccessibilitySummary",
+  "getPieChartDataTable",
+  "getProgressChartAccessibilitySummary",
+  "getProgressChartDataTable",
   "resolveCartesianChartThemeConfig",
   "useChartKitTheme"
 ];
@@ -46,6 +56,12 @@ const expectedProCandidateSurfaceExports = [
   "CandlestickChart",
   "CombinedChart",
   "ChartSelectionProvider",
+  "getCandlestickChartAccessibilitySummary",
+  "getCandlestickChartDataTable",
+  "getCandlestickChartFinancialNarrative",
+  "getCandlestickEmergencyClosureSessions",
+  "getCombinedChartAccessibilitySummary",
+  "getCombinedChartDataTable",
   "useChartSelection",
   "useDismissChartSelection"
 ];

@@ -168,8 +168,14 @@ describe("Chart Kit Pro preview boundary", () => {
       chartKitProCandidateSurface.map((surface) => surface.exportName)
     ).toEqual([
       "CandlestickChart",
-      "CombinedChart",
       "ChartSelectionProvider",
+      "CombinedChart",
+      "getCandlestickChartAccessibilitySummary",
+      "getCandlestickChartDataTable",
+      "getCandlestickChartFinancialNarrative",
+      "getCandlestickEmergencyClosureSessions",
+      "getCombinedChartAccessibilitySummary",
+      "getCombinedChartDataTable",
       "useChartSelection",
       "useDismissChartSelection"
     ]);
@@ -228,6 +234,12 @@ describe("Chart Kit Pro preview boundary", () => {
       "CombinedChart",
       "DonutChart",
       "LineChart",
+      "getCandlestickChartAccessibilitySummary",
+      "getCandlestickChartDataTable",
+      "getCandlestickChartFinancialNarrative",
+      "getCandlestickEmergencyClosureSessions",
+      "getCombinedChartAccessibilitySummary",
+      "getCombinedChartDataTable",
       "useChartSelection",
       "useDismissChartSelection"
     ]);
@@ -240,6 +252,12 @@ describe("Chart Kit Pro preview boundary", () => {
     });
     expect(missingExports).toEqual([
       "ChartSelectionProvider",
+      "getCandlestickChartAccessibilitySummary",
+      "getCandlestickChartDataTable",
+      "getCandlestickChartFinancialNarrative",
+      "getCandlestickEmergencyClosureSessions",
+      "getCombinedChartAccessibilitySummary",
+      "getCombinedChartDataTable",
       "useChartSelection",
       "useDismissChartSelection"
     ]);
