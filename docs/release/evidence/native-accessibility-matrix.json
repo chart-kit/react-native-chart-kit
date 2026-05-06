@@ -1,0 +1,202 @@
+{
+  "schemaVersion": 1,
+  "status": "pending",
+  "lastUpdated": "2026-05-05",
+  "source": "docs/release/accessibility-qa.md",
+  "assistiveTech": [
+    {
+      "id": "ios-voiceover",
+      "platform": "ios",
+      "label": "iOS VoiceOver",
+      "requiredBuildSurface": "Expo showcase or iOS release app"
+    },
+    {
+      "id": "android-talkback",
+      "platform": "android",
+      "label": "Android TalkBack",
+      "requiredBuildSurface": "Expo showcase or Android release app"
+    }
+  ],
+  "checkGroups": {
+    "global": [
+      "chart is reachable by screen-reader swipe navigation",
+      "focused chart announces a concise summary instead of raw SVG internals",
+      "summary names chart type and key data insight",
+      "selection, tooltip, range selector, and legend controls do not trap screen-reader focus",
+      "visually selected value is also available through summary, table fallback, or app text",
+      "menu controls, legend toggles, and story controls are reachable and named",
+      "theme switching preserves text, tooltip, and control contrast",
+      "decorative gridlines, markers, and session-gap bands are not announced separately"
+    ],
+    "tableFallback": [
+      "details control announces expanded or collapsed state where used",
+      "rows read in a stable order",
+      "null or missing values are announced as no value or equivalent app copy",
+      "dual-axis values are not compared as if they shared units"
+    ]
+  },
+  "pages": [
+    {
+      "id": "line-charts",
+      "title": "Line Charts",
+      "showcasePageId": "line-area",
+      "requiredCheckGroups": ["global", "tableFallback"]
+    },
+    {
+      "id": "bar-charts",
+      "title": "Bar Charts",
+      "showcasePageId": "bar",
+      "requiredCheckGroups": ["global", "tableFallback"]
+    },
+    {
+      "id": "combined-preview",
+      "title": "Combined Preview",
+      "showcasePageId": "combined",
+      "requiredCheckGroups": ["global", "tableFallback"]
+    },
+    {
+      "id": "financial-preview",
+      "title": "Financial Preview",
+      "showcasePageId": "financial",
+      "requiredCheckGroups": ["global", "tableFallback"]
+    },
+    {
+      "id": "pie-donut",
+      "title": "Pie & Donut",
+      "showcasePageId": "pie-donut",
+      "requiredCheckGroups": ["global", "tableFallback"]
+    },
+    {
+      "id": "progress",
+      "title": "Progress",
+      "showcasePageId": "progress",
+      "requiredCheckGroups": ["global", "tableFallback"]
+    },
+    {
+      "id": "heatmaps",
+      "title": "Heatmaps",
+      "showcasePageId": "heatmaps",
+      "requiredCheckGroups": ["global", "tableFallback"]
+    },
+    {
+      "id": "compatibility",
+      "title": "Compatibility",
+      "showcasePageId": "compat",
+      "requiredCheckGroups": ["global"]
+    }
+  ],
+  "rows": [
+    {
+      "id": "ios-voiceover-line-charts",
+      "assistiveTechId": "ios-voiceover",
+      "pageId": "line-charts",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-voiceover-bar-charts",
+      "assistiveTechId": "ios-voiceover",
+      "pageId": "bar-charts",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-voiceover-combined-preview",
+      "assistiveTechId": "ios-voiceover",
+      "pageId": "combined-preview",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-voiceover-financial-preview",
+      "assistiveTechId": "ios-voiceover",
+      "pageId": "financial-preview",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-voiceover-pie-donut",
+      "assistiveTechId": "ios-voiceover",
+      "pageId": "pie-donut",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-voiceover-progress",
+      "assistiveTechId": "ios-voiceover",
+      "pageId": "progress",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-voiceover-heatmaps",
+      "assistiveTechId": "ios-voiceover",
+      "pageId": "heatmaps",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "ios-voiceover-compatibility",
+      "assistiveTechId": "ios-voiceover",
+      "pageId": "compatibility",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-talkback-line-charts",
+      "assistiveTechId": "android-talkback",
+      "pageId": "line-charts",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-talkback-bar-charts",
+      "assistiveTechId": "android-talkback",
+      "pageId": "bar-charts",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-talkback-combined-preview",
+      "assistiveTechId": "android-talkback",
+      "pageId": "combined-preview",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-talkback-financial-preview",
+      "assistiveTechId": "android-talkback",
+      "pageId": "financial-preview",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-talkback-pie-donut",
+      "assistiveTechId": "android-talkback",
+      "pageId": "pie-donut",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-talkback-progress",
+      "assistiveTechId": "android-talkback",
+      "pageId": "progress",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-talkback-heatmaps",
+      "assistiveTechId": "android-talkback",
+      "pageId": "heatmaps",
+      "status": "pending",
+      "evidence": []
+    },
+    {
+      "id": "android-talkback-compatibility",
+      "assistiveTechId": "android-talkback",
+      "pageId": "compatibility",
+      "status": "pending",
+      "evidence": []
+    }
+  ]
+}

@@ -24,6 +24,7 @@ const requiredFiles = [
   "docs/release/native-release-results.md",
   "docs/release/native-runtime-qa.md",
   "docs/release/accessibility-qa.md",
+  "docs/release/evidence/native-accessibility-matrix.json",
   "docs/release/evidence/native-accessibility-qa.json",
   "docs/release/evidence/native-performance-benchmark.json",
   "docs/release/evidence/native-release-workflow.json",
@@ -98,7 +99,9 @@ const releaseEvidenceManifests = [
   },
   {
     id: "native-accessibility-qa",
-    file: "docs/release/evidence/native-accessibility-qa.json"
+    file: "docs/release/evidence/native-accessibility-qa.json",
+    matrixFile: "docs/release/evidence/native-accessibility-matrix.json",
+    matrixLabel: "native accessibility matrix rows"
   },
   {
     id: "native-performance",
@@ -275,7 +278,9 @@ for (const manifestConfig of releaseEvidenceManifests) {
   const detail = [
     ...missingEvidence,
     pendingMatrixRows.length > 0
-      ? `${pendingMatrixRows.length} pending native runtime matrix rows`
+      ? `${pendingMatrixRows.length} pending ${
+          manifestConfig.matrixLabel ?? "native runtime matrix rows"
+        }`
       : ""
   ]
     .filter(Boolean)

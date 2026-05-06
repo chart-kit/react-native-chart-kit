@@ -52,4 +52,20 @@ describe("release gate checker", () => {
       "16 pending native runtime matrix rows"
     );
   });
+
+  it("surfaces pending native accessibility matrix rows", () => {
+    const report = runGateReportJson();
+    const nativeAccessibilityCheck = report.checks.find(
+      (check) => check.id === "blocker:native-accessibility-qa"
+    );
+
+    expect(nativeAccessibilityCheck).toMatchObject({
+      evidence:
+        "docs/release/evidence/native-accessibility-qa.json; docs/release/evidence/native-accessibility-matrix.json",
+      status: "block"
+    });
+    expect(nativeAccessibilityCheck?.detail).toContain(
+      "16 pending native accessibility matrix rows"
+    );
+  });
 });

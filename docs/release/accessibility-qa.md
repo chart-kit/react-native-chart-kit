@@ -1,6 +1,6 @@
 # Accessibility QA Protocol
 
-Status on May 5, 2026: protocol ready, native screen-reader evidence missing. Structured gate evidence lives in [native-accessibility-qa.json](evidence/native-accessibility-qa.json).
+Status on May 5, 2026: protocol ready, native screen-reader evidence missing. Structured gate evidence lives in [native-accessibility-qa.json](evidence/native-accessibility-qa.json), with the page-by-page assistive-technology matrix in [native-accessibility-matrix.json](evidence/native-accessibility-matrix.json).
 
 This protocol covers the manual VoiceOver and TalkBack checks required before H5/H6 can claim native accessibility confidence. Automated tests verify generated summaries and data table helpers, but they do not prove native assistive-technology behavior.
 
@@ -45,6 +45,8 @@ Review these showcase pages:
 - Progress
 - Heatmaps
 - Compatibility
+
+The machine-readable matrix in [native-accessibility-matrix.json](evidence/native-accessibility-matrix.json) expands these screens across iOS VoiceOver and Android TalkBack. Fill each row with `status: "pass"` and evidence links only after the global and table-fallback checks below have passed on that platform.
 
 ## Acceptance Checks
 

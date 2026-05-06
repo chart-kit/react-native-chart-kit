@@ -4,6 +4,7 @@
   "requiredFor": ["H5", "H6"],
   "lastUpdated": "2026-05-05",
   "summary": "Automated summary and data-table helper coverage exists, but native VoiceOver and TalkBack evidence has not been captured.",
+  "matrix": "docs/release/evidence/native-accessibility-matrix.json",
   "completedEntries": [],
   "requiredAssistiveTech": [
     {
