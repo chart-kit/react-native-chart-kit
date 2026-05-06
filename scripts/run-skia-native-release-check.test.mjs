@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   buildSkiaNativeCommandPlan,
+  getPackageNameFromSpec,
   parseSkiaNativeArgs
 } from "./run-skia-native-release-check.mjs";
 
@@ -46,6 +47,13 @@ describe("Skia native release check runner", () => {
     ).toThrow("--platform must be one of ios, android, or all");
   });
 
+  it("extracts package names from versioned npm specs", () => {
+    expect(getPackageNameFromSpec("@shopify/react-native-skia@2")).toBe(
+      "@shopify/react-native-skia"
+    );
+    expect(getPackageNameFromSpec("left-pad@1.3.0")).toBe("left-pad");
+  });
+
   it("builds a temporary-workspace command plan", () => {
     const plan = buildSkiaNativeCommandPlan({
       archivePath: "/tmp/chartkit-skia.tar",
@@ -59,11 +67,18 @@ describe("Skia native release check runner", () => {
       "tar",
       "npm",
       "npm",
+      "npm",
       "node"
     ]);
     expect(plan[2].args).toEqual(["ci"]);
     expect(plan[3].args).toContain("@shopify/react-native-skia@2");
     expect(plan[4].args).toEqual([
+      "ls",
+      "@shopify/react-native-skia",
+      "--workspace=@chart-kit/expo-showcase",
+      "--depth=0"
+    ]);
+    expect(plan[5].args).toEqual([
       "scripts/run-expo-native-release-check.mjs",
       "--platform",
       "ios",

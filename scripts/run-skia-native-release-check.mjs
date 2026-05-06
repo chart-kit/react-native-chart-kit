@@ -74,6 +74,14 @@ export const parseSkiaNativeArgs = (argv) => {
   return options;
 };
 
+export const getPackageNameFromSpec = (packageSpec) => {
+  if (packageSpec.startsWith("@")) {
+    return packageSpec.split("@").slice(0, 2).join("@");
+  }
+
+  return packageSpec.split("@")[0];
+};
+
 const commandText = (command, args) =>
   [command, ...args.map((arg) => (arg.includes(" ") ? `"${arg}"` : arg))].join(
     " "
@@ -119,46 +127,54 @@ export const buildSkiaNativeCommandPlan = ({
   platform,
   skiaPackage,
   workspaceDir
-}) => [
-  {
-    args: ["archive", "--format=tar", `--output=${archivePath}`, "HEAD"],
-    command: "git",
-    cwd: repoRoot
-  },
-  {
-    args: ["-xf", archivePath, "-C", workspaceDir],
-    command: "tar",
-    cwd: repoRoot
-  },
-  {
-    args: ["ci"],
-    command: "npm",
-    cwd: workspaceDir
-  },
-  {
-    args: [
-      "install",
-      "--workspace",
-      "@chart-kit/expo-showcase",
-      skiaPackage,
-      "--no-save",
-      "--package-lock=false"
-    ],
-    command: "npm",
-    cwd: workspaceDir
-  },
-  {
-    args: [
-      "scripts/run-expo-native-release-check.mjs",
-      "--platform",
-      platform,
-      "--app-dir",
-      "apps/expo-showcase"
-    ],
-    command: "node",
-    cwd: workspaceDir
-  }
-];
+}) => {
+  const packageName = getPackageNameFromSpec(skiaPackage);
+
+  return [
+    {
+      args: ["archive", "--format=tar", `--output=${archivePath}`, "HEAD"],
+      command: "git",
+      cwd: repoRoot
+    },
+    {
+      args: ["-xf", archivePath, "-C", workspaceDir],
+      command: "tar",
+      cwd: repoRoot
+    },
+    {
+      args: ["ci"],
+      command: "npm",
+      cwd: workspaceDir
+    },
+    {
+      args: [
+        "install",
+        skiaPackage,
+        "--workspace=@chart-kit/expo-showcase",
+        "--no-save",
+        "--package-lock=false"
+      ],
+      command: "npm",
+      cwd: workspaceDir
+    },
+    {
+      args: ["ls", packageName, "--workspace=@chart-kit/expo-showcase", "--depth=0"],
+      command: "npm",
+      cwd: workspaceDir
+    },
+    {
+      args: [
+        "scripts/run-expo-native-release-check.mjs",
+        "--platform",
+        platform,
+        "--app-dir",
+        "apps/expo-showcase"
+      ],
+      command: "node",
+      cwd: workspaceDir
+    }
+  ];
+};
 
 const createArtifact = ({
   artifactPath,
@@ -191,6 +207,7 @@ ${commands.map((item) => item.command).join("\n")}
 
 - Temporary workspace created from the current committed repository state.
 - \`${skiaPackage}\` installed only in the temporary showcase workspace.
+- \`${getPackageNameFromSpec(skiaPackage)}\` verified with \`npm ls\`.
 - Existing native release check completed for \`${platform}\`.
 
 ## Caveats
