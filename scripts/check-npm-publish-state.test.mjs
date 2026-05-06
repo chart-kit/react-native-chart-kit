@@ -37,7 +37,8 @@ const createNpmView = (publishedPackages) => async ({ name, version }) => {
     exists: true,
     value: {
       "dist-tags": value.distTags ?? { next: version },
-      version: value.version ?? version
+      version: value.version ?? version,
+      versions: value.versions ?? [value.version ?? version]
     }
   };
 };
@@ -111,7 +112,8 @@ describe("npm publish state checker", () => {
       manifest,
       npmView: createNpmView({
         "@chart-kit/core": {
-          distTags: { latest: "7.0.0-next.0", next: "7.0.0-next.0" }
+          distTags: { latest: "7.0.0-next.0", next: "7.0.0-next.0" },
+          versions: ["6.12.2", "7.0.0-next.0"]
         },
         "@chart-kit/react-native": {},
         "react-native-chart-kit": {
@@ -128,5 +130,33 @@ describe("npm publish state checker", () => {
       ["react-native-chart-kit", "pass"],
       ["@chart-kit/pro", "pass"]
     ]);
+  });
+
+  it("allows npm's forced latest tag when a scoped preview package has no stable version yet", async () => {
+    const state = await buildNpmPublishState({
+      distTag: "next",
+      manifest,
+      npmView: createNpmView({
+        "@chart-kit/core": {
+          distTags: { latest: "7.0.0-next.0", next: "7.0.0-next.0" },
+          versions: ["7.0.0-next.0"]
+        },
+        "@chart-kit/react-native": {},
+        "react-native-chart-kit": {
+          distTags: { latest: "6.12.2", next: "7.0.0-next.0" },
+          versions: ["6.12.2", "7.0.0-next.0"]
+        }
+      }),
+      version: "7.0.0-next.0"
+    });
+
+    expect(state.status).toBe("complete");
+    expect(state.entries.map((entry) => [entry.name, entry.status])).toEqual([
+      ["@chart-kit/core", "pass"],
+      ["@chart-kit/react-native", "pass"],
+      ["react-native-chart-kit", "pass"],
+      ["@chart-kit/pro", "pass"]
+    ]);
+    expect(state.entries[0].hasForcedPreviewLatestTag).toBe(true);
   });
 });

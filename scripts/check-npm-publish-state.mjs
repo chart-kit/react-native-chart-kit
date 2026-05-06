@@ -11,7 +11,7 @@ export const readJson = async (filePath) =>
 export const npmViewPackage = ({ name, version }) => {
   const result = spawnSync(
     "npm",
-    ["view", `${name}@${version}`, "version", "dist-tags", "--json"],
+    ["view", `${name}@${version}`, "version", "dist-tags", "versions", "--json"],
     {
       encoding: "utf8"
     }
@@ -36,14 +36,16 @@ const normalizeNpmView = (viewResult) => {
     return {
       distTags: {},
       published: false,
-      version: undefined
+      version: undefined,
+      versions: []
     };
   }
 
   return {
     distTags: viewResult.value?.["dist-tags"] ?? {},
     published: true,
-    version: viewResult.value?.version
+    version: viewResult.value?.version,
+    versions: viewResult.value?.versions ?? []
   };
 };
 
@@ -71,11 +73,21 @@ export const buildNpmPublishState = async ({
     );
     const taggedVersion = viewResult.distTags[distTag];
     const latestVersion = viewResult.distTags.latest;
+    const hasStableVersion = viewResult.versions.some(
+      (publishedVersion) => !publishedVersion.includes("-")
+    );
     const hasUnexpectedLatestTag =
       packageInfo.publishInBeta &&
       distTag !== "latest" &&
       version.includes("-") &&
-      latestVersion === version;
+      latestVersion === version &&
+      hasStableVersion;
+    const hasForcedPreviewLatestTag =
+      packageInfo.publishInBeta &&
+      distTag !== "latest" &&
+      version.includes("-") &&
+      latestVersion === version &&
+      !hasStableVersion;
 
     let status = "pass";
     const expected = packageInfo.publishInBeta
@@ -95,6 +107,8 @@ export const buildNpmPublishState = async ({
     entries.push({
       distTag,
       expected,
+      hasForcedPreviewLatestTag,
+      hasStableVersion,
       name: packageInfo.name,
       publishInBeta: packageInfo.publishInBeta === true,
       published: viewResult.published,
@@ -142,11 +156,21 @@ const formatState = (state) => {
     return `- ${entry.name}@${entry.version}: ${entry.status} (${publishedText}, ${tagText}${latestText}; expected ${entry.expected})`;
   });
 
+  const forcedLatestRows = state.entries
+    .filter((entry) => entry.hasForcedPreviewLatestTag)
+    .map(
+      (entry) =>
+        `- ${entry.name}: npm keeps latest=${entry.version} because no stable version has been published yet.`
+    );
+
   return [
     `NPM publish state: ${state.status}`,
     `Version: ${state.version}`,
     `Dist-tag: ${state.distTag}`,
-    ...rows
+    ...rows,
+    ...(forcedLatestRows.length > 0
+      ? ["Preview latest-tag notes:", ...forcedLatestRows]
+      : [])
   ].join("\n");
 };
 

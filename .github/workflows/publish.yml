@@ -172,7 +172,9 @@ jobs:
 
             if [ "${CURRENT_LATEST}" = "${PACKAGE_VERSION}" ]; then
               echo "Removing unintended latest tag from ${WORKSPACE_NAME}@${PACKAGE_VERSION}"
-              npm dist-tag rm "${WORKSPACE_NAME}" latest
+              if ! npm dist-tag rm "${WORKSPACE_NAME}" latest; then
+                echo "::warning::npm did not allow removing latest from ${WORKSPACE_NAME}. This is expected for a new package with no stable version yet; release verification will fail if a stable latest was overwritten."
+              fi
             else
               echo "Leaving ${WORKSPACE_NAME} latest tag unchanged (${CURRENT_LATEST:-missing})."
             fi
