@@ -1,0 +1,464 @@
+--------- beginning of system
+05-06 17:37:20.619   671   721 V WindowManager: Sent Transition (#11) createdAt=05-06 17:37:20.547 via request=TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=23 effectiveUid=10213 displayId=0 isRunning=true baseIntent=Intent { act=android.intent.action.VIEW dat=chartkitshowcase://showcase/... flg=0x10000000 pkg=io.chartkit.showcase cmp=io.chartkit.showcase/.MainActivity } baseActivity=ComponentInfo{io.chartkit.showcase/io.chartkit.showcase.MainActivity} topActivity=ComponentInfo{io.chartkit.showcase/io.chartkit.showcase.MainActivity} origActivity=null realActivity=ComponentInfo{io.chartkit.showcase/io.chartkit.showcase.MainActivity} numActivities=1 lastActiveTime=50099 supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{RemoteToken{742d0de Task{38f94d7 #23 type=standard A=10213:io.chartkit.showcase}}} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 136 - 0, 0) topActivityInfo=ActivityInfo{ccac2bf io.chartkit.showcase.MainActivity} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=false isVisible=false isVisibleRequested=false isTopActivityNoDisplay=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false isActivityStackTransparent=false lastNonFullscreenBounds=Rect(276, 696 - 805, 1776) capturedLink=null capturedLinkTimestamp=0 requestedVisibleTypes=-9 topActivityRequestOpenInBrowserEducationTimestamp=0 appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false eligibleForLetterboxEducation= false isLetterboxEducationEnabled= true isLetterboxDoubleTapEnabled= false eligibleForUserAspectRatioButton= false topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 topActivityAppBounds=Rect(0, 0 - 1080, 2400) isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false hasMinAspectRatioOverride=false topActivityLetterboxBounds=null cameraCompatTaskInfo=CameraCompatTaskInfo { freeformCameraCompatMode=inactive}} topActivityMainWindowFrame=null}, pipChange = null, remoteTransition = null, displayChange = null, flags = 0, debugId = 11 }
+05-06 17:37:20.619   671   721 V WindowManager:     startWCT=WindowContainerTransaction { changes= {} hops= [] errorCallbackToken=null taskFragmentOrganizer=null }
+05-06 17:37:20.619   671   721 V WindowManager:     info={id=11 t=OPEN f=0x0 trk=0 r=[0@Point(0, 0)] c=[
+05-06 17:37:20.619   671   721 V WindowManager:         {WCT{RemoteToken{742d0de Task{38f94d7 #23 type=standard A=10213:io.chartkit.showcase}}} m=OPEN f=NONE leash=Surface(name=Task=23)/@0xa1f6d92 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1},
+05-06 17:37:20.619   671   721 V WindowManager:         {WCT{RemoteToken{8654d8c Task{85b6e4d #1 type=home}}} m=TO_BACK f=SHOW_WALLPAPER leash=Surface(name=Task=1)/@0xef4e71d sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1},
+05-06 17:37:20.619   671   721 V WindowManager:         {m=TO_BACK f=IS_WALLPAPER leash=Surface(name=WallpaperWindowToken{a012b3f showWhenLocked=false})/@0xd3373f4 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0}
+05-06 17:37:20.619   671   721 V WindowManager:     ]}
+05-06 17:37:20.629   941  1007 V WindowManagerShell: Playing animation for (#11) android.os.BinderProxy@2e39242@0
+05-06 17:37:20.629   941  1007 V ShellRecents: RecentsTransitionHandler.startAnimation: no controller found
+05-06 17:37:20.629   941  1007 V WindowManagerShell: Transition doesn't have explicit remote, search filters for match for {id=11 t=OPEN f=0x0 trk=0 r=[0@Point(0, 0)] c=[{m=OPEN f=NONE leash=Surface(name=Task=23)/@0x33d591c sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1},{m=TO_BACK f=SHOW_WALLPAPER leash=Surface(name=Task=1)/@0x9eda925 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1},{m=TO_BACK f=IS_WALLPAPER leash=Surface(name=WallpaperWindowToken{a012b3f showWhenLocked=false})/@0xb587afa sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0}]}
+05-06 17:37:20.630   941  1007 V WindowManagerShell:  Checking filter Pair{{types=[] flags=0x0] notFlags=0x0 checks=[{atype=undefined independent=true modes=[CLOSE,TO_BACK] flags=IN_TASK_WITH_EMBEDDED_ACTIVITY mustBeTask=false order=ANY topActivity=null launchCookie=null taskFragmentToken=android.os.BinderProxy@2f4b2a1 windowingMode=undefined}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@a234cc6, appThread = android.app.IApplicationThread$Stub$Proxy@9903487, debugName = overlayBackTransition }}
+05-06 17:37:20.630   941  1007 V WindowManagerShell:  Checking filter Pair{{types=[] flags=0x0] notFlags=0x0 checks=[{atype=dream independent=true modes=[OPEN,TO_FRONT] flags=NONE mustBeTask=false order=ANY topActivity=null launchCookie=null windowingMode=undefined},{atype=home independent=true modes=[CLOSE,TO_BACK] flags=NONE mustBeTask=false order=ANY topActivity=null launchCookie=null windowingMode=undefined}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@9d1afb4, appThread = android.app.IApplicationThread$Stub$Proxy@b08d7dd, debugName = LauncherToDream }}
+05-06 17:37:20.630   941  1007 V WindowManagerShell:  Checking filter Pair{{types=[] flags=0x0] notFlags=0x100 checks=[{atype=home independent=true modes=[OPEN,TO_FRONT] flags=NONE mustBeTask=false order=TOP topActivity=ComponentInfo{com.google.android.apps.nexuslauncher/com.google.android.apps.nexuslauncher.NexusLauncherActivity} launchCookie=null windowingMode=undefined},{atype=standard independent=true modes=[CLOSE,TO_BACK] flags=NONE mustBeTask=false order=ANY topActivity=null launchCookie=null windowingMode=undefined},{NOT atype=undefined independent=true modes=[] flags=NONE mustBeTask=true order=ANY topActivity=null launchCookie=null customAnim=true windowingMode=undefined}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@6776f52, appThread = android.app.IApplicationThread$Stub$Proxy@319223, debugName = QuickstepLaunchHome }}
+05-06 17:37:20.630   941  1007 V WindowManagerShell:  Delegate animation for (#11) to null
+05-06 17:37:20.630   941  1007 V WindowManagerShell: start default transition animation, info = {id=11 t=OPEN f=0x0 trk=0 r=[0@Point(0, 0)] c=[{m=OPEN f=NONE leash=Surface(name=Task=23)/@0x33d591c sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1},{m=TO_BACK f=SHOW_WALLPAPER leash=Surface(name=Task=1)/@0x9eda925 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1},{m=TO_BACK f=IS_WALLPAPER leash=Surface(name=WallpaperWindowToken{a012b3f showWhenLocked=false})/@0xb587afa sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0}]}
+05-06 17:37:20.632   941  1007 V WindowManagerShell: loadAnimation: anim=android.view.animation.AnimationSet@c792e9e animAttr=0x13 type=OPEN isEntrance=false
+05-06 17:37:20.633   941  1007 V WindowManagerShell: loadAnimation: anim=android.view.animation.AnimationSet@44596aa animAttr=0x12 type=OPEN isEntrance=true
+--------- beginning of main
+05-06 17:37:20.633  3518  3518 E artkit.showcase: Not starting debugger since process cannot load the jdwp agent.
+05-06 17:37:20.633   941  1007 V WindowManagerShell:  animated by com.android.wm.shell.transition.DefaultTransitionHandler@885b383
+05-06 17:37:20.646  3518  3518 D nativeloader: Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+05-06 17:37:20.666   671   794 D ActivityManager: freezing 2792 com.google.android.apps.safetyhub
+05-06 17:37:20.667   671   849 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+05-06 17:37:20.667   671   849 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+05-06 17:37:20.668   671   849 D InetDiagMessage: Destroyed live tcp sockets for uids={10137} in 1ms
+05-06 17:37:20.679   671   895 D BackgroundInstallControlService: Package event received: 0
+05-06 17:37:20.687  3518  3518 D nativeloader: Configuring clns-9 for other apk /data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk. target_sdk_version=36, uses_libraries=, library_path=/data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/lib/arm64:/data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk!/lib/arm64-v8a, permitted_path=/data:/mnt/expand:/data/user/0/io.chartkit.showcase
+05-06 17:37:20.688  3518  3518 I artkit.showcase: AssetManager2(0xb4000071a606b938) locale list changing from [] to [en-US]
+05-06 17:37:20.692  3518  3518 V GraphicsEnvironment: Currently set values for:
+05-06 17:37:20.692  3518  3518 V GraphicsEnvironment:   angle_gl_driver_selection_pkgs=[]
+05-06 17:37:20.692  3518  3518 V GraphicsEnvironment:   angle_gl_driver_selection_values=[]
+05-06 17:37:20.692  3518  3518 V GraphicsEnvironment: io.chartkit.showcase is not listed in per-application setting
+05-06 17:37:20.692  3518  3518 V GraphicsEnvironment: ANGLE allowlist from config: com.dreamgames.royalmatch com.dts.freefiremax com.dxx.firenow com.gramgames.mergedragons com.ludo.king com.mojang.minecraftpe com.my.defense com.nintendo.zaka com.os.airforce com.playrix.fishdomdd.gplay io.teslatech.callbreak jp.konami.prospia net.peakgames.toonblast
+05-06 17:37:20.692  3518  3518 V GraphicsEnvironment: io.chartkit.showcase is not listed in ANGLE allowlist or settings, returning default
+05-06 17:37:20.692  3518  3518 V GraphicsEnvironment: Neither updatable production driver nor prerelease driver is supported.
+05-06 17:37:20.694   671   782 D ActivityManager: sync unfroze 1364 com.google.android.dialer for 6
+05-06 17:37:20.701  1364  2055 D WM-DelayedWorkTracker: Scheduling work 26087c7a-08fa-4226-ad7e-050f2de01db5
+05-06 17:37:20.702   671   782 W JobServiceContext: Sending onNetworkChanged for a job that isn't started. JobStatus{d9da430 androidx.work.systemjobscheduler:u0a140/85 @androidx.work.systemjobscheduler@com.google.android.dialer/androidx.work.impl.background.systemjob.SystemJobService u=0 s=10140 TIME=-1s750ms:none NET READY}
+05-06 17:37:20.703  1364  2055 D WM-GreedyScheduler: Starting tracking for 26087c7a-08fa-4226-ad7e-050f2de01db5
+05-06 17:37:20.710  3518  3518 W SoLoader: Initializing SoLoader: 0
+05-06 17:37:20.710  3518  3518 W SoLoader: Recording new base apk path: /data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk
+05-06 17:37:20.710  3518  3518 W SoLoader: Previously recorded 0 base apk paths.
+05-06 17:37:20.711  3518  3518 I SoLoader: Preparing SO source: DirectorySoSource[root = /vendor/lib64 flags = 2]
+05-06 17:37:20.711  3518  3518 I SoLoader: Preparing SO source: DirectorySoSource[root = /system/lib64 flags = 2]
+05-06 17:37:20.711  3518  3518 I SoLoader: Preparing SO source: DirectApkSoSource[root = [/data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk!/lib/arm64-v8a]]
+05-06 17:37:20.714  1364  2055 D WM-DelayedWorkTracker: Scheduling work 6b6ab375-9c09-4f66-9bfd-9ec5e2900055
+05-06 17:37:20.714  1364  2055 D WM-GreedyScheduler: Starting tracking for 6b6ab375-9c09-4f66-9bfd-9ec5e2900055
+05-06 17:37:20.715  3518  3518 I SoLoader: Preparing SO source: ApplicationSoSource[DirectorySoSource[root = /data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/lib/arm64 flags = 0]]
+05-06 17:37:20.716  3518  3518 I SoLoader: init finish: 4 SO sources prepared
+05-06 17:37:20.716  3518  3518 W SoLoader: SoLoader initialized: 8
+05-06 17:37:20.717   671   794 D ActivityManager: freezing 2861 com.google.android.healthconnect.controller
+05-06 17:37:20.720  3518  3518 D nativeloader: Load /data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk!/lib/arm64-v8a/libc++_shared.so using class loader ns clns-9 (caller=/data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk): ok
+05-06 17:37:20.721   671   849 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+05-06 17:37:20.721   671   849 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+05-06 17:37:20.721   671   849 D InetDiagMessage: Destroyed live tcp sockets for uids={10192} in 0ms
+05-06 17:37:20.734  3518  3518 D nativeloader: Load /data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk!/lib/arm64-v8a/libjsi.so using class loader ns clns-9 (caller=/data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk): ok
+05-06 17:37:20.739   671   794 D ActivityManager: freezing 2886 com.google.android.ondevicepersonalization.services
+05-06 17:37:20.743  3518  3518 D nativeloader: Load /data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk!/lib/arm64-v8a/libfbjni.so using class loader ns clns-9 (caller=/data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk): ok
+05-06 17:37:20.744  1364  1379 D WM-ConstraintTracker: fkd: initial state = NetworkState(isConnected=true, isValidated=true, isMetered=false, isNotRoaming=true)
+05-06 17:37:20.744  1364  1379 D WM-NetworkStateTracker: Registering network callback
+05-06 17:37:20.744   671   849 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+05-06 17:37:20.745   671   849 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+05-06 17:37:20.745   671   849 D InetDiagMessage: Destroyed live tcp sockets for uids={10206} in 1ms
+05-06 17:37:20.745  3518  3518 D nativeloader: Load /data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk!/lib/arm64-v8a/libreactnative.so using class loader ns clns-9 (caller=/data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk): ok
+05-06 17:37:20.745  3518  3518 D jni_lib_merge: Entering merged library JNI_OnLoad.
+05-06 17:37:20.745  3518  3518 D jni_lib_merge: Preparing 12 pre-merged libs (including stub)
+05-06 17:37:20.745  3518  3518 D jni_lib_merge: Preparing to register libfabricjni_so.  onload_func: 0x6f5fed6edc
+05-06 17:37:20.745  3518  3518 D jni_lib_merge: Preparing to register libreact_devsupportjni_so.  onload_func: 0x6f5ffa7f40
+05-06 17:37:20.745  3518  3518 D jni_lib_merge: Preparing to register libreact_featureflagsjni_so.  onload_func: 0x6f5ffba9f8
+05-06 17:37:20.745  3518  3518 D jni_lib_merge: Preparing to register libreact_newarchdefaults_so.  onload_func: 0x6f5ffdfe30
+05-06 17:37:20.745  3518  3518 D jni_lib_merge: Preparing to register libreactnativeblob_so.  onload_func: 0x6f600725b0
+05-06 17:37:20.745  3518  3518 D jni_lib_merge: Preparing to register libreactnativejni_so.  onload_func: 0x6f6008cb24
+05-06 17:37:20.745  3518  3518 D jni_lib_merge: Preparing to register libreactnativejni_common_so.  onload_func: 0x6f60093458
+05-06 17:37:20.745  3518  3518 D jni_lib_merge: Preparing to register librninstance_so.  onload_func: 0x6f600af070
+05-06 17:37:20.745  3518  3518 D jni_lib_merge: Preparing to register libturbomodulejsijni_so.  onload_func: 0x6f601471a4
+05-06 17:37:20.745  3518  3518 D jni_lib_merge: Preparing to register libuimanagerjni_so.  onload_func: 0x6f6014e7e0
+05-06 17:37:20.745  3518  3518 D jni_lib_merge: Preparing to register libyoga_so.  onload_func: 0x6f60155da4
+05-06 17:37:20.745  3518  3518 D jni_lib_merge: About to register 11 actual methods.
+05-06 17:37:20.748  3518  3518 D nativeloader: Load /data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk!/lib/arm64-v8a/libreact_codegen_rnsvg.so using class loader ns clns-9 (caller=/data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk): ok
+05-06 17:37:20.748  3518  3518 D jni_lib_merge: Entering merged library JNI_OnLoad.
+05-06 17:37:20.748  3518  3518 D jni_lib_merge: Preparing 12 pre-merged libs (including stub)
+05-06 17:37:20.748  3518  3518 D jni_lib_merge: Preparing to register libfabricjni_so.  onload_func: 0x6f5fed6edc
+05-06 17:37:20.748  3518  3518 D jni_lib_merge: Preparing to register libreact_devsupportjni_so.  onload_func: 0x6f5ffa7f40
+05-06 17:37:20.748  3518  3518 D jni_lib_merge: Preparing to register libreact_featureflagsjni_so.  onload_func: 0x6f5ffba9f8
+05-06 17:37:20.748  3518  3518 D jni_lib_merge: Preparing to register libreact_newarchdefaults_so.  onload_func: 0x6f5ffdfe30
+05-06 17:37:20.748  3518  3518 D jni_lib_merge: Preparing to register libreactnativeblob_so.  onload_func: 0x6f600725b0
+05-06 17:37:20.748  3518  3518 D jni_lib_merge: Preparing to register libreactnativejni_so.  onload_func: 0x6f6008cb24
+05-06 17:37:20.748  3518  3518 D jni_lib_merge: Preparing to register libreactnativejni_common_so.  onload_func: 0x6f60093458
+05-06 17:37:20.748  3518  3518 D jni_lib_merge: Preparing to register librninstance_so.  onload_func: 0x6f600af070
+05-06 17:37:20.748  3518  3518 D jni_lib_merge: Preparing to register libturbomodulejsijni_so.  onload_func: 0x6f601471a4
+05-06 17:37:20.748  3518  3518 D jni_lib_merge: Preparing to register libuimanagerjni_so.  onload_func: 0x6f6014e7e0
+05-06 17:37:20.748  3518  3518 D jni_lib_merge: Preparing to register libyoga_so.  onload_func: 0x6f60155da4
+05-06 17:37:20.748  3518  3518 D jni_lib_merge: About to register 11 actual methods.
+05-06 17:37:20.752  3518  3518 D nativeloader: Load /data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk!/lib/arm64-v8a/libappmodules.so using class loader ns clns-9 (caller=/data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk): ok
+05-06 17:37:20.754   671  2057 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ENABLE_FAKE_FOCUS
+05-06 17:37:20.754   671   699 D ConnectivityService: requestNetwork for uid/pid:10140/1364 activeRequest: null callbackRequest: 134 [NetworkRequest [ REQUEST id=135, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED&NOT_BANDWIDTH_CONSTRAINED Uid: 10140 RequestorUid: 10140 RequestorPkg: com.google.android.dialer UnderlyingNetworks: Null] ]] callback flags: 0 order: 2147483647 isUidTracked: false declaredMethods: AVAIL|LOST|NC
+05-06 17:37:20.755   671   794 D ActivityManager: freezing 2916 com.google.android.packageinstaller
+05-06 17:37:20.756   671   895 D BackgroundInstallControlService: Package event received: 0
+05-06 17:37:20.756   671   895 D BackgroundInstallControlService: Package event received: 0
+05-06 17:37:20.762  1364  2534 D WM-NetworkStateTracker: Network capabilities changed: [ Transports: WIFI Capabilities: NOT_METERED&INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN&VALIDATED&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED&NOT_VCN_MANAGED&NOT_BANDWIDTH_CONSTRAINED LinkUpBandwidth>=12000Kbps LinkDnBandwidth>=30000Kbps TransportInfo: <SSID: <unknown ssid>, BSSID: 02:00:00:00:00:00, MAC: 02:00:00:00:00:00, IP: /10.0.2.16, Security type: 0, Supplicant state: COMPLETED, Wi-Fi standard: legacy, RSSI: -50, Link speed: 1Mbps, Tx Link speed: 1Mbps, Max Supported Tx Link speed: 11Mbps, Rx Link speed: 2Mbps, Max Supported Rx Link speed: 11Mbps, Frequency: 2447MHz, Net ID: -1, Metered hint: false, score: 60, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: -1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none><none>MLO Information: , Is TID-To-Link negotiation supported by the AP: false, AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>, Vendor Data: <none>> SignalStrength: -50 UnderlyingNetworks: Null]
+05-06 17:37:20.765   671   843 D WifiNetworkFactory: got request NetworkRequest [ REQUEST id=135, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED&NOT_BANDWIDTH_CONSTRAINED Uid: 10140 RequestorUid: 10140 RequestorPkg: com.google.android.dialer UnderlyingNetworks: Null] ]
+05-06 17:37:20.766   671   843 V WifiNetworkFactory: Accepted network request NetworkRequest [ REQUEST id=135, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED&NOT_BANDWIDTH_CONSTRAINED Uid: 10140 RequestorUid: 10140 RequestorPkg: com.google.android.dialer UnderlyingNetworks: Null] ]
+05-06 17:37:20.766   671   843 D UntrustedWifiNetworkFactory: got request NetworkRequest [ REQUEST id=135, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED&NOT_BANDWIDTH_CONSTRAINED Uid: 10140 RequestorUid: 10140 RequestorPkg: com.google.android.dialer UnderlyingNetworks: Null] ]
+05-06 17:37:20.766  3518  3534 I DisplayManager: Choreographer implicitly registered for the refresh rate.
+05-06 17:37:20.767   671   849 D ConnectivityService: NetReassign [135 : null → 101] [c 1] [a 5] [i 6]
+05-06 17:37:20.767   671   843 D OemPaidWifiNetworkFactory: got request NetworkRequest [ REQUEST id=135, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED&NOT_BANDWIDTH_CONSTRAINED Uid: 10140 RequestorUid: 10140 RequestorPkg: com.google.android.dialer UnderlyingNetworks: Null] ]
+05-06 17:37:20.767   671   843 D MultiInternetWifiNetworkFactory: got request NetworkRequest [ REQUEST id=135, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED&NOT_BANDWIDTH_CONSTRAINED Uid: 10140 RequestorUid: 10140 RequestorPkg: com.google.android.dialer UnderlyingNetworks: Null] ]
+05-06 17:37:20.767   671   849 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+05-06 17:37:20.767   671   849 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+05-06 17:37:20.767   671   849 D InetDiagMessage: Destroyed live tcp sockets for uids={10104} in 0ms
+05-06 17:37:20.768   671  1951 W ProcessStats: Tracking association SourceState{c38949a system/1000 ImpBg #1802} whose proc state 6 is better than process ProcessState{56d3c5 com.google.android.dialer/10140 pkg=com.google.android.dialer} proc state 14 (0 skipped)
+05-06 17:37:20.768  1364  1364 D WM-SystemJobService: onStartJob for WorkGenerationalId(workSpecId=26087c7a-08fa-4226-ad7e-050f2de01db5, generation=0)
+05-06 17:37:20.769  3518  3518 I artkit.showcase: AssetManager2(0xb4000071a60793f8) locale list changing from [] to [en-US]
+05-06 17:37:20.769  1364  1391 D WM-GreedyScheduler: Constraints met: Scheduling work ID WorkGenerationalId(workSpecId=26087c7a-08fa-4226-ad7e-050f2de01db5, generation=0)
+05-06 17:37:20.770  1364  1961 D WM-GreedyScheduler: Constraints met: Scheduling work ID WorkGenerationalId(workSpecId=6b6ab375-9c09-4f66-9bfd-9ec5e2900055, generation=0)
+05-06 17:37:20.776  1364  1961 D WM-Processor: fgy: processing WorkGenerationalId(workSpecId=26087c7a-08fa-4226-ad7e-050f2de01db5, generation=0)
+05-06 17:37:20.776  1364  1961 D WM-Processor: Work WorkGenerationalId(workSpecId=26087c7a-08fa-4226-ad7e-050f2de01db5, generation=0) is already enqueued for processing
+05-06 17:37:20.777  1364  1960 D WM-Processor: fgy: processing WorkGenerationalId(workSpecId=6b6ab375-9c09-4f66-9bfd-9ec5e2900055, generation=0)
+05-06 17:37:20.781  3518  3518 D AppCompatDelegate: Checking for metadata for AppLocalesMetadataHolderService : Service not found
+05-06 17:37:20.781  3518  3518 I artkit.showcase: AssetManager2(0xb4000071a60761f8) locale list changing from [] to [en-US]
+05-06 17:37:20.784  3518  3518 E ashmem  : Pinning is deprecated since Android Q. Please use trim or other methods.
+05-06 17:37:20.799  1364  1364 D WM-WorkerWrapper: Starting work for com.google.apps.tiktok.contrib.work.TikTokListenableWorker
+05-06 17:37:20.806   671   794 D ActivityManager: freezing 2929 com.google.android.partnersetup
+05-06 17:37:20.810   671   849 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+05-06 17:37:20.810   671   849 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+05-06 17:37:20.810   671   849 D InetDiagMessage: Destroyed live tcp sockets for uids={10136} in 1ms
+05-06 17:37:20.812  1364  1384 I DialerSingletonScopedExternalsLogging: com.google.android.dialershared.externals.logging.SingletonScopedExternalsLogging.recordCallMethodInvocation:75 event: TIKTOK_WORK_EXECUTION_MONITOR_ON_WORK_STARTED, function parameters: [26087c7a-08fa-4226-ad7e-050f2de01db5,com.android.dialer.voicemail.service.impl.VvmTaskWorker], return value: <empty>
+05-06 17:37:20.812  1364  1385 I DialerVvmTaskWorkerDelegate: com.android.dialer.voicemail.service.impl.scheduler.VvmTaskWorker$VvmTaskWorkerDelegate.executeVvmJob:191 Beginning execution of job ID: 0
+05-06 17:37:20.813  1364  1385 I DialerSingletonScopedExternalsLogging: com.google.android.dialershared.externals.logging.SingletonScopedExternalsLogging.recordCallMethodInvocation:66 event: VVM_TASK_WORKER_EXECUTE_VVM_JOB, function parameters: [0], return value: <empty> [CONTEXT enable_persistent_logger=true ]
+05-06 17:37:20.814  1364  1364 D WM-WorkerWrapper: Starting work for com.google.apps.tiktok.contrib.work.TikTokListenableWorker
+05-06 17:37:20.815  1364  1384 I DialerSingletonScopedExternalsLogging: com.google.android.dialershared.externals.logging.SingletonScopedExternalsLogging.recordCallMethodInvocation:75 event: TIKTOK_WORK_EXECUTION_MONITOR_ON_WORK_STARTED, function parameters: [6b6ab375-9c09-4f66-9bfd-9ec5e2900055,com.android.dialer.voicemail.service.impl.VvmTaskWorker], return value: <empty>
+05-06 17:37:20.815  3518  3518 W unknown:BridgelessReact: ReactHost{0}.startSurface(surfaceId = 0): Schedule
+05-06 17:37:20.815  3518  3518 W unknown:BridgelessReact: ReactHost{0}.attachSurface(surfaceId = 0)
+05-06 17:37:20.816  3518  3538 W unknown:BridgelessReact: ReactHost{0}.getOrCreateReactInstanceTask()
+05-06 17:37:20.816  3518  3538 W unknown:BridgelessReact: ReactHost{0}.getOrCreateReactInstanceTask(): Start
+05-06 17:37:20.816  3518  3538 W unknown:BridgelessReact: ReactHost{0}.getJSBundleLoader()
+05-06 17:37:20.816  3518  3538 W unknown:BridgelessReact: ReactHost{0}.getOrCreateReactContext(): Creating BridgelessReactContext
+05-06 17:37:20.816  3518  3538 W unknown:BridgelessReact: ReactHost{0}.getOrCreateReactInstanceTask(): Creating ReactInstance
+05-06 17:37:20.817  3518  3518 D CompatChangeReporter: Compat change id reported: 377864165; UID 10213; state: ENABLED
+05-06 17:37:20.818  3518  3518 D DesktopModeFlags: Toggle override initialized to: OVERRIDE_UNSET
+05-06 17:37:20.825  3518  3534 I EGL_emulation: Opening libGLESv1_CM_emulation.so
+05-06 17:37:20.825  3518  3534 I EGL_emulation: Opening libGLESv2_emulation.so
+05-06 17:37:20.833   671   794 D ActivityManager: freezing 2945 com.google.android.projection.gearhead:car
+05-06 17:37:20.834   671   849 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+05-06 17:37:20.834   671   849 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+05-06 17:37:20.834   671   849 D InetDiagMessage: Destroyed live tcp sockets for uids={10133} in 0ms
+05-06 17:37:20.834  3518  3534 W HWUI    : Failed to choose config with EGL_SWAP_BEHAVIOR_PRESERVED, retrying without...
+05-06 17:37:20.834  3518  3534 W HWUI    : Failed to initialize 101010-2 format, error = EGL_SUCCESS
+05-06 17:37:20.835  3518  3538 D nativeloader: Load /data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk!/lib/arm64-v8a/libhermes.so using class loader ns clns-9 (caller=/data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk): ok
+05-06 17:37:20.836  3518  3538 D nativeloader: Load /data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk!/lib/arm64-v8a/libhermestooling.so using class loader ns clns-9 (caller=/data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk): ok
+05-06 17:37:20.836  3518  3538 D jni_lib_merge: Entering merged library JNI_OnLoad.
+05-06 17:37:20.836  3518  3538 D jni_lib_merge: Preparing 4 pre-merged libs (including stub)
+05-06 17:37:20.836  3518  3538 D jni_lib_merge: Preparing to register libhermes_executor_so.  onload_func: 0x6f67ead4b0
+05-06 17:37:20.836  3518  3538 D jni_lib_merge: Preparing to register libhermesinstancejni_so.  onload_func: 0x6f67eb4900
+05-06 17:37:20.836  3518  3538 D jni_lib_merge: Preparing to register libjsijniprofiler_so.  onload_func: 0x6f67eb50ec
+05-06 17:37:20.836  3518  3538 D jni_lib_merge: About to register 3 actual methods.
+05-06 17:37:20.840  3518  3518 W WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+05-06 17:37:20.840  3518  3518 W WindowOnBackDispatcher: Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+05-06 17:37:20.846  1364  1385 I DialerVvmExecutorImpl: com.android.dialer.voicemail.service.impl.scheduler.VvmExecutorImpl.execute:229 Beginning VVM action: ACTIVATE with retryCount: 1 for ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 1, UserHandle{0} [CONTEXT enable_persistent_logger=true ]
+05-06 17:37:20.847  3518  3518 W unknown:BridgelessReact: ReactHost{0}.onHostResume(activity)
+05-06 17:37:20.847  3518  3518 W unknown:BridgelessReact: ReactContext.onHostResume()
+05-06 17:37:20.851  1364  1385 E DialerRestVvmCarrierService: com.android.dialer.voicemail.service.impl.vvmclients.rest.RestVvmCarrierService.getMsisdn:420 Retrieved phone number in an unexpected format: +15551234567 [CONTEXT disable_client_error_logging=true ]
+05-06 17:37:20.851  1364  1385 E DialerRestVvmCarrierService: zxo: MEDIUM
+05-06 17:37:20.851  1364  1385 E DialerRestVvmCarrierService: 	at a.cN(PG:15)
+05-06 17:37:20.851  1364  1385 E DialerRestVvmCarrierService: 	at pxq.apply(PG:489)
+05-06 17:37:20.851  1364  1385 E DialerRestVvmCarrierService: 	at zcp.apply(PG:13)
+05-06 17:37:20.851  1364  1385 E DialerRestVvmCarrierService: 	at aaka.d(PG:3)
+05-06 17:37:20.851  1364  1385 E DialerRestVvmCarrierService: 	at aakb.run(PG:38)
+05-06 17:37:20.851  1364  1385 E DialerRestVvmCarrierService: 	at umz.run(PG:7)
+05-06 17:37:20.851  1364  1385 E DialerRestVvmCarrierService: 	at aadu.run(PG:44)
+05-06 17:37:20.851  1364  1385 E DialerRestVvmCarrierService: 	at tdt.run(PG:78)
+05-06 17:37:20.851  1364  1385 E DialerRestVvmCarrierService: 	at cp.run(PG:143)
+05-06 17:37:20.851  1364  1385 E DialerRestVvmCarrierService: 	at java.lang.Thread.run(Thread.java:1119)
+05-06 17:37:20.851  1364  1385 E DialerRestVvmCarrierService: 	at uoe.run(PG:61)
+05-06 17:37:20.866  3518  3518 W HWUI    : Unknown dataspace 0
+--------- beginning of kernel
+05-06 17:37:20.867   219   219 I servicemanager: Caller(pid=3518,uid=10213,sid=u:r:untrusted_app:s0:c213,c256,c512,c768) Found android.hardware.graphics.allocator.IAllocator/default in device VINTF manifest.
+05-06 17:37:20.868   219   219 I servicemanager: Caller(pid=3518,uid=10213,sid=u:r:untrusted_app:s0:c213,c256,c512,c768) Found android.hardware.graphics.allocator.IAllocator/default in device VINTF manifest.
+05-06 17:37:20.869  1364  1384 I DialerVvmActivation: com.android.dialer.voicemail.service.impl.vvmclients.rest.VvmActivation.activate:73 activate
+05-06 17:37:20.870   219   219 I servicemanager: Caller(pid=3518,uid=10213,sid=u:r:untrusted_app:s0:c213,c256,c512,c768) Found mapper/ranchu in device VINTF manifest.
+05-06 17:37:20.881   671   689 I system_server: Background concurrent mark compact GC freed 22MB AllocSpace bytes, 53(1516KB) LOS objects, 45% free, 28MB/52MB, paused 418us,1.233ms total 115.640ms
+05-06 17:37:20.883  1364  1385 I DialerLogcatLoggingBindings: com.android.dialer.logging.logcat.LogcatLoggingBindings.logImpression:54 Impression: ANDROID_API_UNEXPECTED_PHONE_NUMBER_FORMAT
+05-06 17:37:20.896  1364  1385 I DialerLoggingConsentCheckerImpl: com.google.android.dialershared.logging.consent.impl.LoggingConsentCheckerImpl.getConsent:72 timer stop with success, timer present: false
+05-06 17:37:20.898  3518  3538 I ExpoModulesCore: ✅ AppContext was initialized
+05-06 17:37:20.900  1364  1384 I DialerSingletonScopedExternalsLogging: com.google.android.dialershared.externals.logging.SingletonScopedExternalsLogging.recordCallMethodInvocation:75 event: TELEPHONY_BOOTSTRAP_AUTHENTICATION_REQUEST, function parameters: [], return value: Default
+05-06 17:37:20.900  1364  1385 W DialerGbaCredentialProvider: com.android.dialer.voicemail.service.impl.vvmclients.rest.GbaCredentialProvider$1.onAuthenticationFailure:93 GBA failed with reason: 1 [CONTEXT disable_client_error_logging=true ]
+05-06 17:37:20.901  1364  1385 W DialerVvmExecutorImpl: com.android.dialer.voicemail.service.impl.scheduler.VvmExecutorImpl.executeWorkOnCarrierService:444 Could not complete vvm work with action: ACTIVATE. Error: [GeneralFailureReason: UNSPECIFIED, RestFailureReason: GBA_AUTHENTICATION_FAILURE_FEATURE_NOT_SUPPORTED, OmtpFailureReason: OMTP_UNSPECIFIED] for ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 1, UserHandle{0} [CONTEXT disable_client_error_logging=true enable_persistent_logger=true ]
+05-06 17:37:20.901   671   794 D ActivityManager: freezing 2958 com.google.android.rkpdapp
+05-06 17:37:20.901  1364  1385 I DialerVvmExecutorImpl: com.android.dialer.voicemail.service.impl.scheduler.VvmExecutorImpl.executeWork:194 VvmResult is: # pug@1db0ddb for ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 1, UserHandle{0}
+05-06 17:37:20.902   671   849 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+05-06 17:37:20.905   671   849 D InetDiagMessage: Destroyed 1 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+05-06 17:37:20.905   671   849 D InetDiagMessage: Destroyed live tcp sockets for uids={10200} in 4ms
+05-06 17:37:20.908  1364  1385 I DialerLoggingConsentCheckerImpl: com.google.android.dialershared.logging.consent.impl.LoggingConsentCheckerImpl.getConsent:72 timer stop with success, timer present: false
+05-06 17:37:20.914  1364  1385 I DialerVvmTaskWorkerDelegate: com.android.dialer.voicemail.service.impl.scheduler.VvmTaskWorker$VvmTaskWorkerDelegate.executeVvmJob:191 Beginning execution of job ID: 1
+05-06 17:37:20.914  1364  1385 I DialerSingletonScopedExternalsLogging: com.google.android.dialershared.externals.logging.SingletonScopedExternalsLogging.recordCallMethodInvocation:66 event: VVM_TASK_WORKER_EXECUTE_VVM_JOB, function parameters: [1], return value: <empty> [CONTEXT enable_persistent_logger=true ]
+05-06 17:37:20.914  1364  1384 I DialerSingletonScopedExternalsLogging: com.google.android.dialershared.externals.logging.SingletonScopedExternalsLogging.recordCallMethodInvocation:75 event: TIKTOK_WORK_EXECUTION_MONITOR_ON_WORK_FINISHED, function parameters: [26087c7a-08fa-4226-ad7e-050f2de01db5,com.android.dialer.voicemail.service.impl.VvmTaskWorker], return value: Retry
+05-06 17:37:20.917  1364  1961 I WM-WorkerWrapper: Worker result RETRY for Work [ id=26087c7a-08fa-4226-ad7e-050f2de01db5, tags={ com.google.apps.tiktok.contrib.work.TikTokListenableWorker,1,ACTIVATE,TikTokWorker#com.android.dialer.voicemail.service.impl.VvmTaskWorker } ]
+05-06 17:37:20.917  1364  1384 I DialerLoggingConsentCheckerImpl: com.google.android.dialershared.logging.consent.impl.LoggingConsentCheckerImpl.getConsent:72 timer stop with success, timer present: false
+05-06 17:37:20.918  1364  1364 D WM-Processor: fgy 26087c7a-08fa-4226-ad7e-050f2de01db5 executed; reschedule = true
+05-06 17:37:20.918  1364  1364 D WM-GreedyScheduler: Stopping tracking for WorkGenerationalId(workSpecId=26087c7a-08fa-4226-ad7e-050f2de01db5, generation=0)
+05-06 17:37:20.918  1364  1364 D WM-SystemJobService: 26087c7a-08fa-4226-ad7e-050f2de01db5 executed on JobScheduler
+05-06 17:37:20.921   941  1007 V WindowManagerShell: Transition animation finished (aborted=false), notifying core (#11) android.os.BinderProxy@2e39242@0
+05-06 17:37:20.921   671   721 V WindowManager: Finish Transition (#11): created at 05-06 17:37:20.547 collect-started=0.158ms request-sent=8.954ms started=16.213ms ready=69.622ms sent=70.397ms commit=17.792ms finished=374.698ms
+05-06 17:37:20.922   941  1007 V WindowManagerShell: Track 0 became idle
+05-06 17:37:20.922   941  1007 V WindowManagerShell: All active transition animations finished
+05-06 17:37:20.922  1066  1066 D VRI[NexusLauncherActivity]: visibilityChanged oldVisibility=true newVisibility=false
+05-06 17:37:20.923  1364  1961 D WM-GreedyScheduler: Cancelling work ID 26087c7a-08fa-4226-ad7e-050f2de01db5
+05-06 17:37:20.923   671  1871 W JobScheduler: Job didn't exist in JobStore: d9da430 {androidx.work.systemjobscheduler} #u0a140/85 @androidx.work.systemjobscheduler@com.google.android.dialer/androidx.work.impl.background.systemjob.SystemJobService
+05-06 17:37:20.923  1364  1385 I DialerVvmExecutorImpl: com.android.dialer.voicemail.service.impl.scheduler.VvmExecutorImpl.execute:229 Beginning VVM action: UPDATE_STATUS with retryCount: 1 for ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 1, UserHandle{0} [CONTEXT enable_persistent_logger=true ]
+05-06 17:37:20.925  3518  3538 W unknown:BridgelessReact: ReactHost{0}.getOrCreateReactInstanceTask(): Loading JS Bundle
+05-06 17:37:20.925  1364  1364 D WM-SystemJobService: onStopJob for WorkGenerationalId(workSpecId=26087c7a-08fa-4226-ad7e-050f2de01db5, generation=0)
+05-06 17:37:20.927   671  1955 D CoreBackPreview: Window{37556f9 u0 io.chartkit.showcase/io.chartkit.showcase.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@c6e81ec, mPriority=0, mIsAnimationCallback=false, mOverrideBehavior=0}
+05-06 17:37:20.929  1364  1384 E DialerRestVvmCarrierService: com.android.dialer.voicemail.service.impl.vvmclients.rest.RestVvmCarrierService.getMsisdn:420 Retrieved phone number in an unexpected format: +15551234567 [CONTEXT disable_client_error_logging=true ]
+05-06 17:37:20.929  1364  1384 E DialerRestVvmCarrierService: zxo: MEDIUM
+05-06 17:37:20.929  1364  1384 E DialerRestVvmCarrierService: 	at a.cN(PG:15)
+05-06 17:37:20.929  1364  1384 E DialerRestVvmCarrierService: 	at pxq.apply(PG:489)
+05-06 17:37:20.929  1364  1384 E DialerRestVvmCarrierService: 	at zcp.apply(PG:13)
+05-06 17:37:20.929  1364  1384 E DialerRestVvmCarrierService: 	at aaka.d(PG:3)
+05-06 17:37:20.929  1364  1384 E DialerRestVvmCarrierService: 	at aakb.run(PG:38)
+05-06 17:37:20.929  1364  1384 E DialerRestVvmCarrierService: 	at umz.run(PG:7)
+05-06 17:37:20.929  1364  1384 E DialerRestVvmCarrierService: 	at aadu.run(PG:44)
+05-06 17:37:20.929  1364  1384 E DialerRestVvmCarrierService: 	at tdt.run(PG:78)
+05-06 17:37:20.929  1364  1384 E DialerRestVvmCarrierService: 	at cp.run(PG:143)
+05-06 17:37:20.929  1364  1384 E DialerRestVvmCarrierService: 	at java.lang.Thread.run(Thread.java:1119)
+05-06 17:37:20.929  1364  1384 E DialerRestVvmCarrierService: 	at uoe.run(PG:61)
+05-06 17:37:20.929  3518  3538 W unknown:BridgelessReact: ReactHost{0}.getOrCreateReactInstanceTask(): Calling DevSupportManagerBase.onNewReactContextCreated(reactContext)
+05-06 17:37:20.930  1364  1384 I DialerStatusCheck: com.android.dialer.voicemail.service.impl.vvmclients.rest.StatusCheck.updateStatus:55 updateStatus
+05-06 17:37:20.930  3518  3538 W unknown:BridgelessReact: ReactHost{0}.startSurface(surfaceId = 0): Execute
+05-06 17:37:20.930  1364  1385 I DialerLogcatLoggingBindings: com.android.dialer.logging.logcat.LogcatLoggingBindings.logImpression:54 Impression: ANDROID_API_UNEXPECTED_PHONE_NUMBER_FORMAT
+05-06 17:37:20.930  1364  1384 I DialerSingletonScopedExternalsLogging: com.google.android.dialershared.externals.logging.SingletonScopedExternalsLogging.recordCallMethodInvocation:75 event: TELEPHONY_BOOTSTRAP_AUTHENTICATION_REQUEST, function parameters: [], return value: Default
+05-06 17:37:20.930  1364  1384 W DialerGbaCredentialProvider: com.android.dialer.voicemail.service.impl.vvmclients.rest.GbaCredentialProvider$1.onAuthenticationFailure:93 GBA failed with reason: 1 [CONTEXT disable_client_error_logging=true ]
+05-06 17:37:20.931  1364  1384 W DialerVvmExecutorImpl: com.android.dialer.voicemail.service.impl.scheduler.VvmExecutorImpl.executeWorkOnCarrierService:444 Could not complete vvm work with action: UPDATE_STATUS. Error: [GeneralFailureReason: UNSPECIFIED, RestFailureReason: GBA_AUTHENTICATION_FAILURE_FEATURE_NOT_SUPPORTED, OmtpFailureReason: OMTP_UNSPECIFIED] for ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 1, UserHandle{0} [CONTEXT disable_client_error_logging=true enable_persistent_logger=true ]
+05-06 17:37:20.931  1364  1384 I DialerVvmExecutorImpl: com.android.dialer.voicemail.service.impl.scheduler.VvmExecutorImpl.executeWork:194 VvmResult is: # pug@1db0ddb for ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, 1, UserHandle{0}
+05-06 17:37:20.933  1364  1961 D WM-SystemJobScheduler: Scheduling work ID 26087c7a-08fa-4226-ad7e-050f2de01db5Job ID 89
+05-06 17:37:20.933  1364  1385 I DialerLoggingConsentCheckerImpl: com.google.android.dialershared.logging.consent.impl.LoggingConsentCheckerImpl.getConsent:72 timer stop with success, timer present: false
+05-06 17:37:20.934  1364  1961 D WM-GreedyScheduler: Ignoring {WorkSpec: f5910689-10c1-4888-af85-4aae364258fb}. Requires device idle.
+05-06 17:37:20.934  1364  1961 D WM-GreedyScheduler: Ignoring {WorkSpec: ad181222-3619-4101-9df5-ef8c19a11ecc}. Requires device idle.
+05-06 17:37:20.934  1364  1961 D WM-GreedyScheduler: Ignoring {WorkSpec: 15662b8a-2e88-4f73-ac78-9e67b4abc350}. Requires device idle.
+05-06 17:37:20.934  1364  1961 D WM-GreedyScheduler: Ignoring {WorkSpec: 2cee1497-3388-477e-a23f-652bfa4ca299}. Requires device idle.
+05-06 17:37:20.934  1364  1961 D WM-GreedyScheduler: Ignoring {WorkSpec: 3812583e-7e8b-4cdc-90a9-f04fd3a6e68d}. Requires device idle.
+05-06 17:37:20.934  1364  1961 D WM-GreedyScheduler: Ignoring {WorkSpec: f090f02a-733e-4162-ad19-6d029b1a5782}. Requires device idle.
+05-06 17:37:20.934  1364  1961 D WM-GreedyScheduler: Ignoring {WorkSpec: fa1980f0-ddcb-4b92-9b6f-da8bfde27780}. Requires device idle.
+05-06 17:37:20.935  1066  1066 D NexusLauncherModelDelegate: notifySmartspaceEvent: SmartspaceTargetEvent{mSmartspaceTarget=null, mSmartspaceActionId='null', mEventType=7}
+05-06 17:37:20.936  1364  1385 I DialerLoggingConsentCheckerImpl: com.google.android.dialershared.logging.consent.impl.LoggingConsentCheckerImpl.getConsent:72 timer stop with success, timer present: false
+05-06 17:37:20.939  1364  1385 I DialerSingletonScopedExternalsLogging: com.google.android.dialershared.externals.logging.SingletonScopedExternalsLogging.recordCallMethodInvocation:75 event: TIKTOK_WORK_EXECUTION_MONITOR_ON_WORK_FINISHED, function parameters: [6b6ab375-9c09-4f66-9bfd-9ec5e2900055,com.android.dialer.voicemail.service.impl.VvmTaskWorker], return value: Retry
+05-06 17:37:20.939   517  1170 W ServiceManagerCppClient: Permission failure: android.permission.ACCESS_SURFACE_FLINGER from uid=10213 pid=3518
+05-06 17:37:20.939   517  1170 D PermissionCache: checking android.permission.ACCESS_SURFACE_FLINGER for uid=10213 => denied (521 us)
+05-06 17:37:20.939   517  1170 W ServiceManagerCppClient: Permission failure: android.permission.ROTATE_SURFACE_FLINGER from uid=10213 pid=3518
+05-06 17:37:20.939   517  1170 D PermissionCache: checking android.permission.ROTATE_SURFACE_FLINGER for uid=10213 => denied (476 us)
+05-06 17:37:20.940   517  1170 W ServiceManagerCppClient: Permission failure: android.permission.INTERNAL_SYSTEM_WINDOW from uid=10213 pid=3518
+05-06 17:37:20.940   517  1170 D PermissionCache: checking android.permission.INTERNAL_SYSTEM_WINDOW for uid=10213 => denied (63 us)
+05-06 17:37:20.940  1364  1960 I WM-WorkerWrapper: Worker result RETRY for Work [ id=6b6ab375-9c09-4f66-9bfd-9ec5e2900055, tags={ com.google.apps.tiktok.contrib.work.TikTokListenableWorker,1,UPDATE_STATUS,TikTokWorker#com.android.dialer.voicemail.service.impl.VvmTaskWorker } ]
+05-06 17:37:20.941   517   567 W ServiceManagerCppClient: Permission failure: android.permission.ACCESS_SURFACE_FLINGER from uid=10213 pid=0
+05-06 17:37:20.941   517   567 D PermissionCache: checking android.permission.ACCESS_SURFACE_FLINGER for uid=10213 => denied (3371 us)
+05-06 17:37:20.946  1364  1364 D WM-Processor: fgy 6b6ab375-9c09-4f66-9bfd-9ec5e2900055 executed; reschedule = true
+05-06 17:37:20.946  1364  1364 D WM-GreedyScheduler: Stopping tracking for WorkGenerationalId(workSpecId=6b6ab375-9c09-4f66-9bfd-9ec5e2900055, generation=0)
+05-06 17:37:20.946  1364  1379 D WM-GreedyScheduler: Cancelling work ID 6b6ab375-9c09-4f66-9bfd-9ec5e2900055
+05-06 17:37:20.947  1364  1384 I DialerLoggingConsentCheckerImpl: com.google.android.dialershared.logging.consent.impl.LoggingConsentCheckerImpl.getConsent:72 timer stop with success, timer present: false
+05-06 17:37:20.947  1364  1379 D WM-GreedyScheduler: Ignoring {WorkSpec: f5910689-10c1-4888-af85-4aae364258fb}. Requires device idle.
+05-06 17:37:20.947  1364  1379 D WM-GreedyScheduler: Ignoring {WorkSpec: ad181222-3619-4101-9df5-ef8c19a11ecc}. Requires device idle.
+05-06 17:37:20.947  1364  1379 D WM-GreedyScheduler: Ignoring {WorkSpec: 15662b8a-2e88-4f73-ac78-9e67b4abc350}. Requires device idle.
+05-06 17:37:20.947  1364  1379 D WM-GreedyScheduler: Ignoring {WorkSpec: 2cee1497-3388-477e-a23f-652bfa4ca299}. Requires device idle.
+05-06 17:37:20.947  1364  1379 D WM-GreedyScheduler: Ignoring {WorkSpec: 3812583e-7e8b-4cdc-90a9-f04fd3a6e68d}. Requires device idle.
+05-06 17:37:20.947  1364  1379 D WM-GreedyScheduler: Ignoring {WorkSpec: f090f02a-733e-4162-ad19-6d029b1a5782}. Requires device idle.
+05-06 17:37:20.947  1364  1379 D WM-GreedyScheduler: Ignoring {WorkSpec: fa1980f0-ddcb-4b92-9b6f-da8bfde27780}. Requires device idle.
+05-06 17:37:20.948  3518  3539 D nativeloader: Load /data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk!/lib/arm64-v8a/libexpo-modules-core.so using class loader ns clns-9 (caller=/data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk): ok
+05-06 17:37:20.948  1364  1379 D WM-NetworkStateTracker: Unregistering network callback
+05-06 17:37:20.949  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class expo.modules.kotlin.views.GroupViewManagerWrapper
+05-06 17:37:20.950  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.uimanager.LayoutShadowNode
+05-06 17:37:20.951  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$DefsViewManager
+05-06 17:37:20.953   671  1940 W ServiceManagerCppClient: Permission failure: android.permission.ACCESS_SURFACE_FLINGER from uid=10213 pid=0
+05-06 17:37:20.953   671  1940 D PermissionCache: checking android.permission.ACCESS_SURFACE_FLINGER for uid=10213 => denied (2452 us)
+05-06 17:37:20.953   671  1940 W ServiceManagerCppClient: Permission failure: android.permission.ROTATE_SURFACE_FLINGER from uid=10213 pid=0
+05-06 17:37:20.953   671  1940 D PermissionCache: checking android.permission.ROTATE_SURFACE_FLINGER for uid=10213 => denied (17 us)
+05-06 17:37:20.953   671  1940 W ServiceManagerCppClient: Permission failure: android.permission.INTERNAL_SYSTEM_WINDOW from uid=10213 pid=0
+05-06 17:37:20.953   671  1940 D PermissionCache: checking android.permission.INTERNAL_SYSTEM_WINDOW for uid=10213 => denied (6 us)
+05-06 17:37:20.953  3518  3518 W unknown:BridgelessReact: ReactContext.onHostResume()
+05-06 17:37:20.953  3518  3518 W unknown:BridgelessReact: ReactHost{0}.getOrCreateReactInstanceTask(): Executing ReactInstanceEventListeners
+05-06 17:37:20.953  3518  3518 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.uimanager.RootViewManager
+05-06 17:37:20.957   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 17:37:20.957   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 17:37:20.958   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 17:37:20.958   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 17:37:20.958   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 17:37:20.958   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 17:37:20.958   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 17:37:20.959  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.VirtualViewManager$RenderableShadowNode
+05-06 17:37:20.959  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeMergeManager
+05-06 17:37:20.960  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.safeareaview.ReactSafeAreaViewManager
+05-06 17:37:20.960  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.safeareaview.ReactSafeAreaViewShadowNode
+05-06 17:37:20.960  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$LinearGradientManager
+05-06 17:37:20.961  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeGaussianBlurManager
+05-06 17:37:20.961  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.progressbar.ReactProgressBarViewManager
+05-06 17:37:20.962  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.progressbar.ProgressBarShadowNode
+05-06 17:37:20.962  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.scroll.ReactHorizontalScrollViewManager
+05-06 17:37:20.963  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.ReactTextViewManager
+05-06 17:37:20.965  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.ReactTextShadowNode
+05-06 17:37:20.965  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeColorMatrixManager
+05-06 17:37:20.966  1066  1066 D BaseDepthController: setSurface:
+05-06 17:37:20.966  1066  1066 D BaseDepthController: 	mWaitingOnSurfaceValidity: false
+05-06 17:37:20.966  1066  1066 D BaseDepthController: 	mBaseSurface: null
+05-06 17:37:20.966  1066  1066 D BaseDepthController: mSurface is null and mCurrentBlur is: 0
+05-06 17:37:20.966  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.scroll.ReactHorizontalScrollContainerViewManager
+05-06 17:37:20.967  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$ClipPathViewManager
+05-06 17:37:20.967  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$SymbolManager
+05-06 17:37:20.967  1066  1066 D StateManager: goToState - fromState: Normal, toState: Normal, partial trace:
+05-06 17:37:20.967  1066  1066 D StateManager: 	at com.android.launcher3.statemanager.StateManager.moveToRestState(go/retraceme 43e00d9cd0eb17b3d9dd30fc1741b1c71445c4c0f7c8c9b81300265c86c5b873:4)
+05-06 17:37:20.967  1066  1066 D StateManager: 	at com.android.launcher3.statemanager.StateManager.moveToRestState(go/retraceme 43e00d9cd0eb17b3d9dd30fc1741b1c71445c4c0f7c8c9b81300265c86c5b873:1)
+05-06 17:37:20.967  1066  1066 D StateManager: 	at com.android.launcher3.statemanager.StatefulActivity.onStop(go/retraceme 43e00d9cd0eb17b3d9dd30fc1741b1c71445c4c0f7c8c9b81300265c86c5b873:34)
+05-06 17:37:20.967  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$PatternManager
+05-06 17:37:20.968  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeBlendManager
+05-06 17:37:20.968  1066  1066 D StatsLog: LAUNCHER_ONSTOP
+05-06 17:37:20.969  1066  1066 D StatsLog: LAUNCHER_GOOGLE_SEARCH_RESTORE_LIST_SIZE_AFTER_ACTIVITY_RESTART
+05-06 17:37:20.969   671   721 I ActivityTaskManager: Displayed io.chartkit.showcase/.MainActivity for user 0: +423ms
+05-06 17:37:20.969  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.view.ReactViewManager
+05-06 17:37:20.972   671   764 I AppWidgetServiceImpl: setAppWidgetHidden() 0
+05-06 17:37:20.973  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.SvgViewManager
+05-06 17:37:20.974  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.switchview.ReactSwitchManager
+05-06 17:37:20.975  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.switchview.ReactSwitchShadowNode
+05-06 17:37:20.975  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$UseViewManager
+05-06 17:37:20.976  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$CircleViewManager
+05-06 17:37:20.976  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$TSpanViewManager
+05-06 17:37:20.977  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FilterManager
+05-06 17:37:20.977  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$MarkerManager
+05-06 17:37:20.978  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.swmansion.gesturehandler.react.RNGestureHandlerButtonViewManager
+05-06 17:37:20.978  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.modal.ReactModalHostManager
+05-06 17:37:20.978  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$ForeignObjectManager
+05-06 17:37:20.979   671   849 D ConnectivityService: handleLingerComplete for [100 CELLULAR]
+05-06 17:37:20.979  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$EllipseViewManager
+05-06 17:37:20.979  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$LineViewManager
+05-06 17:37:20.980  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.frescosupport.FrescoBasedReactTextInlineImageViewManager
+05-06 17:37:20.980  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.frescosupport.FrescoBasedReactTextInlineImageShadowNode
+05-06 17:37:20.980  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeFloodManager
+05-06 17:37:20.980  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$GroupViewManager
+05-06 17:37:20.981  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$TextViewManager
+05-06 17:37:20.981  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$ImageViewManager
+05-06 17:37:20.981  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeCompositeManager
+05-06 17:37:20.982  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.image.ReactImageManager
+05-06 17:37:20.982  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$RadialGradientManager
+05-06 17:37:20.982  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$MaskManager
+05-06 17:37:20.983  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.unimplementedview.ReactUnimplementedViewManager
+05-06 17:37:20.983  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$RectViewManager
+05-06 17:37:20.983  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$TextPathViewManager
+05-06 17:37:20.984  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.scroll.ReactScrollViewManager
+05-06 17:37:20.993  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeOffsetManager
+05-06 17:37:20.994  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$PathViewManager
+05-06 17:37:20.994  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.drawer.ReactDrawerLayoutManager
+05-06 17:37:20.994  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.ReactVirtualTextViewManager
+05-06 17:37:20.994  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.ReactVirtualTextShadowNode
+05-06 17:37:20.995  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.swiperefresh.SwipeRefreshLayoutManager
+05-06 17:37:20.995  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.ReactRawTextManager
+05-06 17:37:20.995  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.ReactRawTextShadowNode
+05-06 17:37:20.995  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.textinput.ReactTextInputManager
+05-06 17:37:20.996  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.textinput.ReactTextInputShadowNode
+05-06 17:37:20.996  3518  3539 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.swmansion.gesturehandler.react.RNGestureHandlerRootViewManager
+05-06 17:37:21.011   671   814 I ImeTracker: io.chartkit.showcase:935e8977: onRequestHide at ORIGIN_SERVER reason HIDE_UNSPECIFIED_WINDOW fromUser false
+05-06 17:37:21.012   671   895 D BackgroundInstallControlService: Package event received: 0
+05-06 17:37:21.013  3518  3518 D InsetsController: hide(ime(), fromIme=false)
+05-06 17:37:21.013  3518  3518 I ImeTracker: io.chartkit.showcase:935e8977: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+05-06 17:37:21.014  3518  3539 W BridgelessReactContext: [WARNING] Bridgeless doesn't support CatalystInstance. Accessing an API that's not part of the new architecture is not encouraged usage.
+05-06 17:37:21.015  3518  3539 I ExpoModulesCore: ✅ JSI interop was installed
+05-06 17:37:21.016  3518  3539 I ExpoModulesCore: ✅ Constants were exported
+05-06 17:37:21.017   671   699 I ImeTracker: system_server:c71e98ab: onRequestHide at ORIGIN_SERVER reason IME_REQUESTED_CHANGED_LISTENER fromUser false
+05-06 17:37:21.017   671   724 I ImeTracker: system_server:c71e98ab: onCancelled at PHASE_SERVER_SHOULD_HIDE
+05-06 17:37:21.025  3518  3539 I ReactNativeJS: Running "main"
+05-06 17:37:21.028  1511  1511 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():2043 
+05-06 17:37:21.035  1511  1511 I Module  : DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatus():100 repeatCheckTimes = 0, locked = false
+05-06 17:37:21.045  1511  1511 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1293 onStartInput(EditorInfo{EditorInfo{packageName=io.chartkit.showcase, inputType=0, inputTypeString=NULL, enableLearning=false, autoCorrection=false, autoComplete=false, imeOptions=0, privateImeOptions=null, actionName=UNSPECIFIED, actionLabel=null, initialSelStart=-1, initialSelEnd=-1, initialCapsMode=0, label=null, fieldId=0, fieldName=null, extras=null, hintText=null, hintLocales=[]}}, false)
+05-06 17:37:21.048  1511  1511 I Module  : DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatus():100 repeatCheckTimes = 1, locked = false
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: EmojiCompatManager.getEmojiCompatIfLoaded():343 EmojiCompat.init() was never called.
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: java.lang.IllegalStateException: EmojiCompat is not initialized. Please call EmojiCompat.init() first
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at asx.p(PG:6)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at axb.b(PG:13)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at jnr.b(PG:2)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at jnr.c(PG:4)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at jnr.f(PG:3)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at jnx.c(PG:3)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at kif.cz(PG:47)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at lhl.run(PG:1025)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at jaf.execute(PG:12)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at nco.v(PG:13)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at lhn.m(PG:96)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at lhn.k(PG:25)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at kgn.onStartInput(PG:250)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at android.inputmethodservice.InputMethodService.doStartInput(InputMethodService.java:3521)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at android.inputmethodservice.InputMethodService$InputMethodImpl.startInput(InputMethodService.java:879)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at android.inputmethodservice.InputMethodService$InputMethodImpl.dispatchStartInput(InputMethodService.java:908)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at android.inputmethodservice.IInputMethodWrapper.executeMessage(IInputMethodWrapper.java:201)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at com.android.internal.os.HandlerCaller$MyHandler.handleMessage(HandlerCaller.java:44)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at android.os.Handler.dispatchMessage(Handler.java:110)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at android.os.Looper.loopOnce(Looper.java:248)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at android.os.Looper.loop(Looper.java:338)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at android.app.ActivityThread.main(ActivityThread.java:9067)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at java.lang.reflect.Method.invoke(Native Method)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:593)
+05-06 17:37:21.049  1511  1511 I EmojiCompatManager: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:932)
+05-06 17:37:21.052   671   699 W PackageConfigPersister: App-specific configuration not found for packageName: io.chartkit.showcase and userId: 0
+05-06 17:37:21.310  1255  1255 I NearbyUWB: Initiating shutdown of ServiceControllerRouter dfko@47769c0. [CONTEXT service_id=49 ]
+05-06 17:37:21.317  1255  2614 I NearbyUWB: Completed shutdown of ServiceControllerRouter dfko@47769c0. [CONTEXT service_id=49 ]
+05-06 17:37:21.317  1255  1255 I Nearby  : Successfully shutdown executor ServiceControllerRouter.offBinderSerializer. [CONTEXT service_id=49 ]
+05-06 17:37:21.318  1255  1255 I Nearby  : Successfully shutdown executor NearbyUwbServiceExecutor. [CONTEXT service_id=49 ]
+05-06 17:37:21.347   941  1146 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=false callback=android.view.ViewRootImpl$$ExternalSyntheticLambda13@ef9b96d
+05-06 17:37:21.348   671  1871 D CoreBackPreview: Window{1dc1065 u0 Splash Screen io.chartkit.showcase EXITING}: Setting back callback null
+05-06 17:37:21.351  1255  2230 I FontLog : Received query Noto Color Emoji Compat, URI content://com.google.android.gms.fonts [CONTEXT service_id=132 ]
+05-06 17:37:21.351  1255  2230 I FontLog : Query [emojicompat-emoji-font] resolved to {Noto Color Emoji Compat, wdth 100.0, wght 400, ital 0.0, bestEffort false}, isVf false} [CONTEXT service_id=132 ]
+05-06 17:37:21.362  1255  2230 I FontLog : Fetch {Noto Color Emoji Compat, wdth 100.0, wght 400, ital 0.0, bestEffort false}, isVf false} end status Status{statusCode=SUCCESS, resolution=null} [CONTEXT service_id=132 ]
+05-06 17:37:21.364  1255  2230 I FontLog : Pulling font file for id = 12, cache size = 12 [CONTEXT service_id=132 ]
+05-06 17:37:21.378  1255  2230 I FontLog : Pulling font file for id = 12, cache size = 12 [CONTEXT service_id=132 ]
+05-06 17:37:21.417   671   723 I DropBoxManagerService: add tag=system_app_strictmode isTagEnabled=true flags=0x2
+05-06 17:37:21.495  3518  3540 W unknown:ReactNative: StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+05-06 17:37:21.495  3518  3540 W unknown:ReactNative: StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+05-06 17:37:21.498  3518  3539 D nativeloader: Load /data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk!/lib/arm64-v8a/libgesturehandler.so using class loader ns clns-9 (caller=/data/app/~~gQJ9Avr_pj1Ibw1L9-EyoA==/io.chartkit.showcase-QlfU6QuzO1wKiUjJBt0b8Q==/base.apk): ok
+05-06 17:37:21.498  3518  3539 D jni_lib_merge: Entering merged library JNI_OnLoad.
+05-06 17:37:21.498  3518  3539 D jni_lib_merge: Preparing 12 pre-merged libs (including stub)
+05-06 17:37:21.498  3518  3539 D jni_lib_merge: Preparing to register libfabricjni_so.  onload_func: 0x6f5fed6edc
+05-06 17:37:21.498  3518  3539 D jni_lib_merge: Preparing to register libreact_devsupportjni_so.  onload_func: 0x6f5ffa7f40
+05-06 17:37:21.498  3518  3539 D jni_lib_merge: Preparing to register libreact_featureflagsjni_so.  onload_func: 0x6f5ffba9f8
+05-06 17:37:21.498  3518  3539 D jni_lib_merge: Preparing to register libreact_newarchdefaults_so.  onload_func: 0x6f5ffdfe30
+05-06 17:37:21.498  3518  3539 D jni_lib_merge: Preparing to register libreactnativeblob_so.  onload_func: 0x6f600725b0
+05-06 17:37:21.498  3518  3539 D jni_lib_merge: Preparing to register libreactnativejni_so.  onload_func: 0x6f6008cb24
+05-06 17:37:21.498  3518  3539 D jni_lib_merge: Preparing to register libreactnativejni_common_so.  onload_func: 0x6f60093458
+05-06 17:37:21.498  3518  3539 D jni_lib_merge: Preparing to register librninstance_so.  onload_func: 0x6f600af070
+05-06 17:37:21.498  3518  3539 D jni_lib_merge: Preparing to register libturbomodulejsijni_so.  onload_func: 0x6f601471a4
+05-06 17:37:21.498  3518  3539 D jni_lib_merge: Preparing to register libuimanagerjni_so.  onload_func: 0x6f6014e7e0
+05-06 17:37:21.498  3518  3539 D jni_lib_merge: Preparing to register libyoga_so.  onload_func: 0x6f60155da4
+05-06 17:37:21.498  3518  3539 D jni_lib_merge: About to register 11 actual methods.
+05-06 17:37:21.503  3518  3518 I ReactNative: [GESTURE HANDLER] Initialize gesture handler for root view com.facebook.react.runtime.ReactSurfaceView{aef1681 V.E...... ......ID 0,0-1080,2400 #1}
+05-06 17:37:21.562   671   843 D WifiClientModeImpl[8610:wlan0]: updateLinkLayerStatsRssiSpeedFrequencyCapabilities rssi=-50 TxLinkspeed=1 freq=2447 RxLinkSpeed=2
+05-06 17:37:21.562   671   843 D WifiDataStall: tx tput in kbps: 11000
+05-06 17:37:21.562   671   843 D WifiDataStall: rx tput in kbps: 11000
+05-06 17:37:21.563   671   843 V WifiConfigManager: Updating scan detail cache freq=2447 BSSID=00:13:10:85:fe:01 RSSI=-50 for "AndroidWifi"NONE
+05-06 17:37:21.563   671   843 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 17:37:21.563   671   843 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 17:37:21.563   671   843 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 17:37:21.563   671   843 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 17:37:21.563   671   843 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 17:37:21.563   671   843 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 17:37:21.563   671   843 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 17:37:21.563   671   843 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 17:37:21.563   671   843 D WifiScoreCard: BSSID update SIGNAL_POLL ID: 786848858 SSID: "AndroidWifi", BSSID: 00:13:10:85:fe:01, MAC: 02:15:b2:00:00:00, IP: /10.0.2.16, Security type: 0, Supplicant state: COMPLETED, Wi-Fi standard: legacy, RSSI: -50, Link speed: 1Mbps, Tx Link speed: 1Mbps, Max Supported Tx Link speed: 11Mbps, Rx Link speed: 2Mbps, Max Supported Rx Link speed: 11Mbps, Frequency: 2447MHz, Net ID: 0, Metered hint: false, score: 60, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: 1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none>"AndroidWifi"openMLO Information: , Is TID-To-Link negotiation supported by the AP: false, AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>, Vendor Data: <none>
+05-06 17:37:21.563   671   843 D WifiScoreCard: txRate: 1 txSpeed: 1
+05-06 17:37:21.563   671   843 D WifiScoreCard: network update SIGNAL_POLL "AndroidWifi" ID: 1628418683 RSSI -50 txSpeed -1
+05-06 17:37:21.564   671   843 D WifiClientModeImpl[8610:wlan0]:  ClientModeImpl$L2ConnectedState screen=on 1 0 "AndroidWifi" 00:13:10:85:fe:01 rssi=-50 f=2447 sc=60 link=1 tx=0.9, 0.0, 0.0 rx=0.7 bcn=0 [on:0 tx:0 rx:0 period:3002] from screen [on:0 period:-13018980] score=60
+05-06 17:37:21.594  1632  2087 I ChimeraPrvdrProxy: Shutting down chimera ContentProvider com.google.android.gms.reminders.provider.RemindersChimeraProvider
+05-06 17:37:22.381  1255  2614 I NearbyPresence: NetworkMonitorImpl stopped. [CONTEXT service_id=317 ]
+05-06 17:37:22.381  1255  1255 D BoundBrokerSvc: onRebind: Intent { act=com.google.android.gms.nearby.uwb.service.START dat=chimera-action:/... xflg=0x4 cmp=com.google.android.gms/.chimera.PersistentApiServiceNoInstantApps }
+05-06 17:37:22.381  1255  2614 I NearbyPresence: BroadcastEngineImplV1: Disabling engine. [CONTEXT service_id=317 ]
+05-06 17:37:22.384  1255  2614 I NearbyUWB: Use AOSP Backend in UWB API. [CONTEXT service_id=49 ]
+05-06 17:37:22.385  1255  1309 I NearbyConnections: Removed DeviceProvider(type 2).
+05-06 17:37:22.385  1255  1309 I NearbyConnections: Successfully unregister device provider for endpointType 2 by client 211591341
+05-06 17:37:22.385  1255  1309 I NearbyUWB: onGetService: Create client bridge with key com.google.android.gms146476152 [CONTEXT service_id=49 ]
+05-06 17:37:22.386  1255  2614 I NearbyUWB: Screen unlocked: true [CONTEXT service_id=49 ]
+05-06 17:37:22.388  1255  1309 I NearbyUWB: Analytics is enabled for package uwb.client.3p [CONTEXT service_id=49 ]
+05-06 17:37:22.388  1255  1309 I NearbyUWB: Use the cached context to create the client bridge [CONTEXT service_id=49 ]
+05-06 17:37:22.388  1255  1309 I NearbyUWB: Client 146476152 with package name com.google.android.gms, 0p Identifier null, and sdk version 252635000 has connected. [CONTEXT service_id=49 ]
+05-06 17:37:22.718  3560  3560 W screencap: Thread Pool max thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. serviceName: SurfaceFlingerAIDL
+05-06 17:37:22.719  3560  3560 W BpBinder: Linking to death on android.gui.ISurfaceComposer but there are no threads (yet?) listening to incoming transactions. See ProcessState::startThreadPool and ProcessState::setThreadPoolMaxThreadCount. Generally you should setup the binder threadpool before other initialization steps.
+05-06 17:37:22.719  3560  3560 W ProcessState: Extra binder thread started, but 0 threads requested. Do not use *startThreadPool when zero threads are requested.
+05-06 17:37:22.724   517   567 E HwcComposer: getLuts failed Status(-8, EX_SERVICE_SPECIFIC): '8: '
+05-06 17:37:22.724   517   567 E HWComposer: getLuts: getLuts failed for display 4619827259835644672: UNSUPPORTED (8)
+05-06 17:37:22.731   219   219 I servicemanager: Caller(pid=3560,uid=2000,sid=u:r:shell:s0) Found android.hardware.graphics.allocator.IAllocator/default in device VINTF manifest.
+05-06 17:37:22.732   219   219 I servicemanager: Caller(pid=3560,uid=2000,sid=u:r:shell:s0) Found android.hardware.graphics.allocator.IAllocator/default in device VINTF manifest.
+05-06 17:37:22.732   219   219 I servicemanager: Caller(pid=3560,uid=2000,sid=u:r:shell:s0) Found mapper/ranchu in device VINTF manifest.

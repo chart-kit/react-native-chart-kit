@@ -3,7 +3,7 @@
   "status": "partial",
   "requiredFor": ["H5", "H6"],
   "lastUpdated": "2026-05-06",
-  "summary": "Release simulator/emulator smoke evidence exists for iOS and Android, but the full gesture/runtime device matrix is incomplete.",
+  "summary": "Release simulator/emulator row-level screenshots and logs exist for iOS and Android, but the full gesture/runtime device matrix is incomplete.",
   "matrix": "docs/release/evidence/native-runtime-matrix.json",
   "completedEntries": [
     {
@@ -22,7 +22,7 @@
         "docs/release/artifacts/ios-runtime-heatmaps.png",
         "docs/release/artifacts/ios-runtime-compatibility.png"
       ],
-      "notes": "Release simulator launch-smoke screenshots cover all required showcase pages; full interaction, rotation, and physical-device runtime matrix still pending."
+      "notes": "Release simulator row-level screenshots/logs and prior launch-smoke screenshots cover all required showcase pages; full interaction, rotation, and physical-device runtime matrix still pending."
     },
     {
       "date": "2026-05-06",
@@ -40,7 +40,7 @@
         "docs/release/artifacts/android-runtime-heatmaps.png",
         "docs/release/artifacts/android-runtime-compatibility.png"
       ],
-      "notes": "Release emulator launch-smoke screenshots cover all required showcase pages; full gesture, rotation, and physical-device runtime matrix still pending."
+      "notes": "Release emulator row-level screenshots/logs and prior launch-smoke screenshots cover all required showcase pages; full gesture, rotation, and physical-device runtime matrix still pending."
     }
   ],
   "requiredPages": [
