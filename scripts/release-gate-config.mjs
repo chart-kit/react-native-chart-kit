@@ -40,6 +40,7 @@ export const requiredFiles = [
   "scripts/record-native-qa-evidence.mjs",
   "scripts/capture-native-qa-screenshot.mjs",
   "scripts/capture-android-performance-evidence.mjs",
+  "scripts/android-performance-evidence-format.mjs",
   "packages/core/package.json",
   "packages/react-native/package.json",
   "packages/svg-renderer/package.json",

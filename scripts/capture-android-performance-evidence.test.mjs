@@ -16,6 +16,11 @@ const createTempRepo = async () => {
 
   await mkdir(evidenceDir, { recursive: true });
   await writeFile(
+    join(tempRepo, "package.json"),
+    `${JSON.stringify({ version: "7.0.0-test.0" }, null, 2)}\n`,
+    "utf8"
+  );
+  await writeFile(
     join(evidenceDir, "native-performance-matrix.json"),
     `${JSON.stringify(
       {
@@ -165,6 +170,7 @@ describe("Android performance evidence capture", () => {
       runner: (command) => {
         calls.push(command);
 
+        if (command.command === "git") return "abc1234\n";
         if (command.encoding === "buffer") return Buffer.from("png-bytes");
         if (command.args.includes("ro.build.version.release")) return "36\n";
         if (command.args.includes("ro.product.model")) return "Pixel Test\n";
@@ -201,6 +207,8 @@ describe("Android performance evidence capture", () => {
     );
 
     expect(screenshot).toBe("png-bytes");
+    expect(markdown).toContain("Commit: `abc1234`");
+    expect(markdown).toContain("Package version: `7.0.0-test.0`");
     expect(markdown).toContain("Build: release APK, `io.test.showcase`");
     expect(markdown).toContain("| TotalTime | 812 ms |");
     expect(markdown).toContain("| p95 frame time | 18 ms |");
