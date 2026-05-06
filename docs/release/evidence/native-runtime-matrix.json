@@ -21,6 +21,7 @@
       "app-level menu, theme mode, and preset switching work after chart interactions",
       "tooltips render above chart content, legends, axes, labels, and overlays",
       "tooltips shift or flip instead of clipping against chart or screen edges",
+      "chart labels do not trigger text selection on web, Expo web, or native-web surfaces",
       "theme switching does not leave stale colors in chart surfaces",
       "rotation or width changes keep charts inside parent bounds without clipped labels"
     ],
