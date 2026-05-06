@@ -51,6 +51,8 @@ The `pack:check` command runs `npm pack --dry-run --json --ignore-scripts` for e
 
 Use `npm run release:qa:record -- --matrix runtime --list` to inspect native QA matrix rows, and use the same command with `--row`, `--status`, and `--evidence` after a manual device pass. The recorder rejects `pass` rows without evidence links and regenerates [native QA checklist](native-qa-checklists.md).
 
+Use `npm run release:owner:record -- --list` to inspect H4/H5/H6 owner gates. Owner approval should be recorded through the same command with `--gate`, `--approved-by`, and one `--decision` value for each pending decision.
+
 ## Manual Review
 
 - Expo showcase opens on a phone with `npm run example:expo`.

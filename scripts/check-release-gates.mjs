@@ -37,6 +37,7 @@ const requiredFiles = [
   "docs/release/evidence/skia-renderer-evidence.json",
   ".github/workflows/native-release.yml",
   "scripts/generate-native-qa-checklists.mjs",
+  "scripts/record-owner-gate-decision.mjs",
   "scripts/record-native-qa-evidence.mjs",
   "packages/core/package.json",
   "packages/react-native/package.json",
@@ -70,6 +71,7 @@ const requiredScripts = [
   "release:qa:checklists",
   "release:qa:checklists:check",
   "release:qa:record",
+  "release:owner:record",
   "release:gate",
   "release:gate:report"
 ];
