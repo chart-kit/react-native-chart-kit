@@ -151,6 +151,9 @@ jobs:
         env:
           NPM_TAG: ${{ steps.package.outputs.npm_tag }}
 
+      - name: Verify npm registry publish state
+        run: npm run release:publish:status -- --strict
+
       - name: Create GitHub release
         env:
           GH_TOKEN: ${{ github.token }}

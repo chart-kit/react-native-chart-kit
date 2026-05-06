@@ -517,6 +517,7 @@ const publishWorkflowSafetyChecks = [
   "npm whoami",
   "npm access list packages @chart-kit --json",
   "scripts/list-release-packages.mjs --publishable",
+  "npm run release:publish:status -- --strict",
   "npm publish \"${PUBLISH_TARGET}\" --ignore-scripts --access public --provenance --tag"
 ].filter((needle) => !publishWorkflowSource.includes(needle));
 
