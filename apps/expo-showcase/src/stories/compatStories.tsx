@@ -47,7 +47,7 @@ const legacyChartStyle = (
   >
 ) => ({
   ...fixture.style,
-  paddingRight: Math.min(fixture.style?.paddingRight ?? 28, 28),
+  paddingRight: Math.max(fixture.style?.paddingRight ?? 44, 44),
   width: undefined
 });
 
