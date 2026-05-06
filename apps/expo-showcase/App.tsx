@@ -36,6 +36,7 @@ import {
 import { ShowcaseMenu } from "./src/ShowcaseMenu";
 import {
   getPresetFromParams,
+  getShowcaseSearchParamsFromBuildEnv,
   getShowcaseSearchParamsFromUrl,
   getThemeModeFromParams,
   type ShowcaseSearchParams
@@ -56,24 +57,27 @@ const getWebSearchParams = (): URLSearchParams | null => {
   return new URLSearchParams(window.location.search);
 };
 
+const getInitialSearchParams = (): ShowcaseSearchParams | null =>
+  getWebSearchParams() ?? getShowcaseSearchParamsFromBuildEnv();
+
 const getInitialStory = () => {
-  const storyId = getWebSearchParams()?.get("story");
+  const storyId = getInitialSearchParams()?.get("story");
 
   return stories.find((story) => story.id === storyId) ?? defaultStory;
 };
 
 const getInitialVisualMode = () => {
-  const params = getWebSearchParams();
+  const params = getInitialSearchParams();
 
   return params?.get("visual") === "1" || params?.get("mode") === "visual";
 };
 
 const getInitialThemeMode = (): ShowcaseThemeMode => {
-  return getThemeModeFromParams(getWebSearchParams());
+  return getThemeModeFromParams(getInitialSearchParams());
 };
 
 const getInitialPreset = (): ShowcasePresetId => {
-  return getPresetFromParams(getWebSearchParams());
+  return getPresetFromParams(getInitialSearchParams());
 };
 
 type PageSelection = {
@@ -125,7 +129,7 @@ const getPageSelection = ({
 };
 
 const getInitialPageSelection = () => {
-  const params = getWebSearchParams();
+  const params = getInitialSearchParams();
 
   return getPageSelection({
     pageId: params?.get("page"),

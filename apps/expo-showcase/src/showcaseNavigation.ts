@@ -4,6 +4,10 @@ export type ShowcaseSearchParams = {
   get: (key: string) => string | null;
 };
 
+type ShowcaseBuildEnv = {
+  EXPO_PUBLIC_CHARTKIT_SHOWCASE_QA_QUERY?: string;
+};
+
 const presetIds = new Set<ShowcasePresetId>([
   "default",
   "analytics",
@@ -77,6 +81,20 @@ export const getShowcaseSearchParamsFromUrl = (
   }
 
   return createShowcaseSearchParams(getQueryString(url));
+};
+
+export const getShowcaseSearchParamsFromBuildEnv = (
+  env: ShowcaseBuildEnv | undefined = typeof process === "undefined"
+    ? undefined
+    : process.env
+): ShowcaseSearchParams | null => {
+  const query = env?.EXPO_PUBLIC_CHARTKIT_SHOWCASE_QA_QUERY?.trim();
+
+  if (!query) {
+    return null;
+  }
+
+  return createShowcaseSearchParams(getQueryString(query) || query);
 };
 
 export const getThemeModeFromParams = (
