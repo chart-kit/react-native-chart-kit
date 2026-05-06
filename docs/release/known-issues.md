@@ -14,7 +14,7 @@ Impact: Developer Preview can be used for preview and API feedback, but producti
 
 `react-native-chart-kit@7.0.0-next.0` is published under the `next` npm dist-tag, while `latest` remains `6.12.2`. The scoped modern packages are not published yet. A May 6, 2026 publish rerun failed before package installation because GitHub Actions received an empty npm auth token (`NODE_AUTH_TOKEN`), so npm returned `ENEEDAUTH`.
 
-The structured status lives in [npm-publish-evidence.json](evidence/npm-publish-evidence.json). The publish workflow now verifies npm auth/scope access before expensive checks, skips already-published package versions, and publishes the scoped dependency packages before the root compatibility package on the next rerun. The next unblock is to add or repair the GitHub Actions `NPM_TOKEN` secret and ensure that token can create and publish public packages under the `@chart-kit` scope.
+The structured status lives in [npm-publish-evidence.json](evidence/npm-publish-evidence.json), and the exact rerun procedure is documented in [npm-publish-runbook.md](npm-publish-runbook.md). The publish workflow now verifies npm auth/scope access before expensive checks, skips already-published package versions, and publishes the scoped dependency packages before the root compatibility package on the next rerun. The next unblock is to add or repair the GitHub Actions `NPM_TOKEN` secret and ensure that token can create and publish public packages under the `@chart-kit` scope.
 
 Impact: existing users can install the root preview package with the `next` dist-tag, but new adopters cannot install the modern `@chart-kit/react-native` package until the npm `@chart-kit` scope access is fixed and the publish workflow is rerun.
 

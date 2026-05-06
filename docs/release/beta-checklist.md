@@ -56,6 +56,8 @@ Use `npm run release:native-workflow:record -- --list` to inspect native release
 
 Use `npm run release:publish:status` to compare the Developer Preview package manifest against actual npm registry state. It should report the scoped free packages and root compatibility package under `next`, while `@chart-kit/pro` and `@chart-kit/skia-renderer` remain unpublished for Developer Preview. Add `-- --strict` when a complete publish is expected.
 
+Use [npm-publish-runbook.md](npm-publish-runbook.md) when rerunning the Developer Preview publish workflow after fixing the `NPM_TOKEN` secret. It documents the required token properties, idempotent rerun command, and post-publish registry checks.
+
 Use `npm run release:owner:record -- --list` to inspect H4/H5/H6 owner gates. Owner approval should be recorded through the same command with `--gate`, `--approved-by`, and one `--decision` value for each pending decision.
 
 ## Manual Review
@@ -80,6 +82,7 @@ Use `npm run release:owner:record -- --list` to inspect H4/H5/H6 owner gates. Ow
 - [Production recipes](../recipes/README.md)
 - [Troubleshooting guide](../troubleshooting.md)
 - [Known issues](known-issues.md)
+- [NPM publish runbook](npm-publish-runbook.md)
 - [H4 Pro scope decision packet](h4-pro-scope.md)
 - [H4 owner decision memo](h4-owner-decision-memo.md)
 - [H5 Developer Preview evidence](h5-beta-gate-evidence.md)
