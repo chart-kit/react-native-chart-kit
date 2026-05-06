@@ -150,6 +150,7 @@ const validMatrixRowStatuses = new Set([
   "blocked",
   "fail",
   "not-applicable",
+  "partial",
   "pass",
   "pending"
 ]);
@@ -204,7 +205,7 @@ const getMatrixStatus = (rows = []) => {
     return "blocked";
   }
 
-  if (rows.some((row) => row.status === "pass")) {
+  if (rows.some((row) => ["partial", "pass"].includes(row.status))) {
     return "partial";
   }
 
@@ -263,14 +264,14 @@ const validateEvidenceMatrix = async (matrix) => {
       errors.push(`${row.id} has invalid status ${row.status}`);
     }
 
-    if (row.status === "pass") {
+    if (["partial", "pass"].includes(row.status)) {
       const evidence = Array.isArray(row.evidence) ? row.evidence : [];
 
       if (
         evidence.length === 0 ||
         evidence.some((item) => typeof item !== "string" || item.length === 0)
       ) {
-        errors.push(`${row.id} is passed without evidence links`);
+        errors.push(`${row.id} is ${row.status} without evidence links`);
       } else {
         for (const evidenceItem of evidence) {
           if (
@@ -705,13 +706,13 @@ for (const manifestConfig of releaseEvidenceManifests) {
     matrix,
     matrixFile: manifestConfig.matrixFile
   });
-  const pendingMatrixRows = Array.isArray(matrix?.rows)
+  const incompleteMatrixRows = Array.isArray(matrix?.rows)
     ? matrix.rows.filter((row) => row.status !== "pass")
     : [];
   const detail = [
     ...missingEvidence,
-    pendingMatrixRows.length > 0
-      ? `${pendingMatrixRows.length} pending ${
+    incompleteMatrixRows.length > 0
+      ? `${incompleteMatrixRows.length} incomplete ${
           manifestConfig.matrixLabel ?? "native runtime matrix rows"
         }`
       : ""

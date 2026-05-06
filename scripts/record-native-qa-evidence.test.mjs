@@ -58,7 +58,7 @@ describe("native QA evidence recorder", () => {
 
     expect(rows[0]).toMatchObject({
       id: "ios-line-charts",
-      status: "pending",
+      status: "partial",
       target: "iOS / Line Charts"
     });
     expect(rows).toHaveLength(16);
@@ -101,6 +101,15 @@ describe("native QA evidence recorder", () => {
         repoRoot,
         rowId: "ios-line-charts",
         status: "pass"
+      })
+    ).rejects.toThrow("--evidence is required");
+
+    await expect(
+      recordNativeQaEvidence({
+        matrixName: "runtime",
+        repoRoot,
+        rowId: "ios-line-charts",
+        status: "partial"
       })
     ).rejects.toThrow("--evidence is required");
   });
@@ -156,7 +165,7 @@ describe("native QA evidence recorder", () => {
       notes: "Release simulator pass",
       status: "pass"
     });
-    expect(checklist).toContain("| Runtime QA | 16 | 1 | 15 | 0 | 0 | 0 |");
+    expect(checklist).toContain("| Runtime QA | 16 | 1 | 1 | 14 | 0 | 0 | 0 |");
     expect(checklist).toContain(
       "`docs/release/artifacts/ios-line-charts-runtime.md`"
     );
@@ -172,6 +181,47 @@ describe("native QA evidence recorder", () => {
     });
     expect(manifest.missingEvidence).toContain(
       "ios-bar-charts is pending; evidence is required before this matrix can be complete."
+    );
+  });
+
+  it("records partial row evidence without treating the row as passed", async () => {
+    const tempRepo = await createTempRepo();
+    await createArtifact(
+      tempRepo,
+      "docs/release/artifacts/ios-line-charts-smoke.png"
+    );
+    const result = await recordNativeQaEvidence({
+      evidence: ["docs/release/artifacts/ios-line-charts-smoke.png"],
+      matrixName: "runtime",
+      notes: "Release simulator launch smoke only",
+      repoRoot: tempRepo,
+      rowId: "ios-line-charts",
+      status: "partial",
+      updated: "2026-05-06"
+    });
+    const matrix = JSON.parse(
+      await readFile(
+        join(tempRepo, "docs/release/evidence/native-runtime-matrix.json"),
+        "utf8"
+      )
+    );
+    const checklist = await readFile(
+      join(tempRepo, "docs/release/native-qa-checklists.md"),
+      "utf8"
+    );
+
+    expect(result).toMatchObject({
+      manifestStatus: "partial",
+      status: "partial"
+    });
+    expect(matrix.rows[0]).toMatchObject({
+      evidence: ["docs/release/artifacts/ios-line-charts-smoke.png"],
+      notes: "Release simulator launch smoke only",
+      status: "partial"
+    });
+    expect(checklist).toContain("| Runtime QA | 16 | 0 | 2 | 14 | 0 | 0 | 0 |");
+    expect(checklist).toContain(
+      "`docs/release/artifacts/ios-line-charts-smoke.png`"
     );
   });
 
@@ -199,8 +249,8 @@ describe("native QA evidence recorder", () => {
 
     expect(result.dryRun).toBe(true);
     expect(matrix.rows[0]).toMatchObject({
-      evidence: [],
-      status: "pending"
+      evidence: ["docs/release/artifacts/ios-runtime-smoke.png"],
+      status: "partial"
     });
   });
 
@@ -241,7 +291,7 @@ describe("native QA evidence recorder", () => {
       evidence: ["docs/release/artifacts/skia-ios-install.md"],
       status: "pass"
     });
-    expect(checklist).toContain("| Skia Renderer | 8 | 1 | 7 | 0 | 0 | 0 |");
+    expect(checklist).toContain("| Skia Renderer | 8 | 1 | 0 | 7 | 0 | 0 | 0 |");
     expect(checklist).toContain("`ios-skia-native-install`");
   });
 

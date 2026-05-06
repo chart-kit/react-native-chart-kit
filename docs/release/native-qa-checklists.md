@@ -6,12 +6,12 @@ Generated from native and Skia evidence matrices last updated 2026-05-06. Regene
 
 ## Matrix Summary
 
-| Matrix | Rows | Pass | Pending | Blocked | Fail | Not Applicable |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Runtime QA | 16 | 0 | 16 | 0 | 0 | 0 |
-| Accessibility QA | 16 | 0 | 16 | 0 | 0 | 0 |
-| Native Performance | 18 | 0 | 18 | 0 | 0 | 0 |
-| Skia Renderer | 8 | 0 | 8 | 0 | 0 | 0 |
+| Matrix | Rows | Pass | Partial | Pending | Blocked | Fail | Not Applicable |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Runtime QA | 16 | 0 | 2 | 14 | 0 | 0 | 0 |
+| Accessibility QA | 16 | 0 | 0 | 16 | 0 | 0 | 0 |
+| Native Performance | 18 | 0 | 0 | 18 | 0 | 0 | 0 |
+| Skia Renderer | 8 | 0 | 0 | 8 | 0 | 0 | 0 |
 
 ## Runtime QA
 
@@ -73,7 +73,7 @@ Source: [docs/release/native-runtime-qa.md](native-runtime-qa.md) and [docs/rele
 
 | Row | Target | Build Surface | Showcase Page | Check Groups | Status | Evidence |
 | --- | --- | --- | --- | --- | --- | --- |
-| `ios-line-charts` | iOS / Line Charts | Expo showcase and iOS release build | `line-area` | `global`, `line` | pending | None |
+| `ios-line-charts` | iOS / Line Charts | Expo showcase and iOS release build | `line-area` | `global`, `line` | partial | `docs/release/artifacts/ios-runtime-smoke.png` |
 | `ios-bar-charts` | iOS / Bar Charts | Expo showcase and iOS release build | `bar` | `global`, `bar` | pending | None |
 | `ios-combined-preview` | iOS / Combined Preview | Expo showcase and iOS release build | `combined` | `global`, `combinedFinancial` | pending | None |
 | `ios-financial-preview` | iOS / Financial Preview | Expo showcase and iOS release build | `financial` | `global`, `combinedFinancial` | pending | None |
@@ -81,7 +81,7 @@ Source: [docs/release/native-runtime-qa.md](native-runtime-qa.md) and [docs/rele
 | `ios-progress` | iOS / Progress | Expo showcase and iOS release build | `progress` | `global`, `radialHeatmap` | pending | None |
 | `ios-heatmaps` | iOS / Heatmaps | Expo showcase and iOS release build | `heatmaps` | `global`, `radialHeatmap` | pending | None |
 | `ios-compatibility` | iOS / Compatibility | Expo showcase and iOS release build | `compat` | `global`, `compat` | pending | None |
-| `android-line-charts` | Android / Line Charts | Expo showcase and Android release build | `line-area` | `global`, `line` | pending | None |
+| `android-line-charts` | Android / Line Charts | Expo showcase and Android release build | `line-area` | `global`, `line` | partial | `docs/release/artifacts/android-runtime-smoke.png` |
 | `android-bar-charts` | Android / Bar Charts | Expo showcase and Android release build | `bar` | `global`, `bar` | pending | None |
 | `android-combined-preview` | Android / Combined Preview | Expo showcase and Android release build | `combined` | `global`, `combinedFinancial` | pending | None |
 | `android-financial-preview` | Android / Financial Preview | Expo showcase and Android release build | `financial` | `global`, `combinedFinancial` | pending | None |

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "pending",
-  "lastUpdated": "2026-05-05",
+  "status": "partial",
+  "lastUpdated": "2026-05-06",
   "source": "docs/release/native-runtime-qa.md",
   "platforms": [
     {
@@ -116,8 +116,9 @@
       "id": "ios-line-charts",
       "platform": "ios",
       "pageId": "line-charts",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": ["docs/release/artifacts/ios-runtime-smoke.png"],
+      "notes": "Release simulator launch smoke: Line Charts rendered; full interaction matrix still pending."
     },
     {
       "id": "ios-bar-charts",
@@ -172,8 +173,9 @@
       "id": "android-line-charts",
       "platform": "android",
       "pageId": "line-charts",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": ["docs/release/artifacts/android-runtime-smoke.png"],
+      "notes": "Release APK emulator launch smoke: Line Charts rendered; full interaction matrix still pending."
     },
     {
       "id": "android-bar-charts",

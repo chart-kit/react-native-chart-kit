@@ -37,11 +37,11 @@ describe("release gate checker", () => {
       status: "block"
     });
     expect(skiaCheck?.detail).toContain(
-      "8 pending Skia renderer evidence rows"
+      "8 incomplete Skia renderer evidence rows"
     );
   });
 
-  it("surfaces pending native runtime matrix rows", () => {
+  it("surfaces incomplete native runtime matrix rows", () => {
     const report = runGateReportJson();
     const nativeRuntimeCheck = report.checks.find(
       (check) => check.id === "blocker:native-runtime-qa"
@@ -53,11 +53,11 @@ describe("release gate checker", () => {
       status: "block"
     });
     expect(nativeRuntimeCheck?.detail).toContain(
-      "16 pending native runtime matrix rows"
+      "16 incomplete native runtime matrix rows"
     );
   });
 
-  it("surfaces pending native accessibility matrix rows", () => {
+  it("surfaces incomplete native accessibility matrix rows", () => {
     const report = runGateReportJson();
     const nativeAccessibilityCheck = report.checks.find(
       (check) => check.id === "blocker:native-accessibility-qa"
@@ -69,11 +69,11 @@ describe("release gate checker", () => {
       status: "block"
     });
     expect(nativeAccessibilityCheck?.detail).toContain(
-      "16 pending native accessibility matrix rows"
+      "16 incomplete native accessibility matrix rows"
     );
   });
 
-  it("surfaces pending native performance matrix rows", () => {
+  it("surfaces incomplete native performance matrix rows", () => {
     const report = runGateReportJson();
     const nativePerformanceCheck = report.checks.find(
       (check) => check.id === "blocker:native-performance"
@@ -85,7 +85,7 @@ describe("release gate checker", () => {
       status: "block"
     });
     expect(nativePerformanceCheck?.detail).toContain(
-      "18 pending native performance matrix rows"
+      "18 incomplete native performance matrix rows"
     );
   });
 

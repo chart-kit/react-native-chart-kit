@@ -11,6 +11,7 @@ const validStatuses = new Set([
   "blocked",
   "fail",
   "not-applicable",
+  "partial",
   "pass",
   "pending"
 ]);
@@ -139,7 +140,7 @@ const getMatrixStatus = (rows) => {
     return "blocked";
   }
 
-  if (rows.some((row) => row.status === "pass")) {
+  if (rows.some((row) => ["partial", "pass"].includes(row.status))) {
     return "partial";
   }
 
@@ -282,11 +283,13 @@ export const recordNativeQaEvidence = async ({
     );
   }
 
-  if (status === "pass" && evidence.length === 0) {
-    throw new Error("--evidence is required when --status pass is used");
+  if (["partial", "pass"].includes(status) && evidence.length === 0) {
+    throw new Error(
+      "--evidence is required when --status partial or pass is used"
+    );
   }
 
-  if (status === "pass") {
+  if (["partial", "pass"].includes(status)) {
     const missingLocalEvidence = [];
 
     for (const evidenceItem of evidence) {

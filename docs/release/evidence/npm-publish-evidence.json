@@ -21,9 +21,10 @@
       ]
     },
     {
-      "result": "A May 6, 2026 publish rerun on next failed before package installation because GitHub Actions received an empty NODE_AUTH_TOKEN for npm.",
+      "result": "May 6, 2026 publish reruns on next failed before package installation because GitHub Actions received an empty NODE_AUTH_TOKEN for npm.",
       "artifacts": [
-        "https://github.com/indiespirit/react-native-chart-kit/actions/runs/25415346511"
+        "https://github.com/indiespirit/react-native-chart-kit/actions/runs/25415346511",
+        "https://github.com/indiespirit/react-native-chart-kit/actions/runs/25416750710"
       ]
     }
   ],

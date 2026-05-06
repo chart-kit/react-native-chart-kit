@@ -12,7 +12,14 @@ const matrixPaths = {
   skia: "docs/release/evidence/skia-renderer-matrix.json"
 };
 
-const statusOrder = ["pass", "pending", "blocked", "fail", "not-applicable"];
+const statusOrder = [
+  "pass",
+  "partial",
+  "pending",
+  "blocked",
+  "fail",
+  "not-applicable"
+];
 
 const readRepoJson = async (repoRoot, relativePath) =>
   JSON.parse(await readFile(path.join(repoRoot, relativePath), "utf8"));
@@ -43,7 +50,7 @@ const formatStatusSummary = (label, matrix) => {
   const counts = countRowsByStatus(matrix.rows);
   const total = matrix.rows?.length ?? 0;
 
-  return `| ${label} | ${total} | ${counts.pass} | ${counts.pending} | ${counts.blocked} | ${counts.fail} | ${counts["not-applicable"]} |`;
+  return `| ${label} | ${total} | ${counts.pass} | ${counts.partial} | ${counts.pending} | ${counts.blocked} | ${counts.fail} | ${counts["not-applicable"]} |`;
 };
 
 const formatCheckGroups = (checkGroups = {}) =>
@@ -208,8 +215,8 @@ export const generateNativeQaChecklist = async ({
     "",
     "## Matrix Summary",
     "",
-    "| Matrix | Rows | Pass | Pending | Blocked | Fail | Not Applicable |",
-    "| --- | ---: | ---: | ---: | ---: | ---: | ---: |",
+    "| Matrix | Rows | Pass | Partial | Pending | Blocked | Fail | Not Applicable |",
+    "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     formatStatusSummary("Runtime QA", runtime),
     formatStatusSummary("Accessibility QA", accessibility),
     formatStatusSummary("Native Performance", performance),

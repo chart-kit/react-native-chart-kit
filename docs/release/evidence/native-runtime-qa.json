@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "status": "partial",
   "requiredFor": ["H5", "H6"],
-  "lastUpdated": "2026-05-05",
+  "lastUpdated": "2026-05-06",
   "summary": "Release simulator/emulator smoke evidence exists for iOS and Android, but the full gesture/runtime device matrix is incomplete.",
   "matrix": "docs/release/evidence/native-runtime-matrix.json",
   "completedEntries": [
@@ -38,11 +38,21 @@
     "Compatibility"
   ],
   "missingEvidence": [
-    "completed iOS gesture/runtime matrix",
-    "completed Android gesture/runtime matrix",
-    "tooltip stacking checks on every required page",
-    "nested scroll conflict checks for scrub, pan, pinch, and range selector",
-    "rotation or width-change checks",
-    "physical-device behavior or explicitly accepted simulator/emulator substitute"
+    "ios-line-charts is partial; evidence is required before this matrix can be complete.",
+    "ios-bar-charts is pending; evidence is required before this matrix can be complete.",
+    "ios-combined-preview is pending; evidence is required before this matrix can be complete.",
+    "ios-financial-preview is pending; evidence is required before this matrix can be complete.",
+    "ios-pie-donut is pending; evidence is required before this matrix can be complete.",
+    "ios-progress is pending; evidence is required before this matrix can be complete.",
+    "ios-heatmaps is pending; evidence is required before this matrix can be complete.",
+    "ios-compatibility is pending; evidence is required before this matrix can be complete.",
+    "android-line-charts is partial; evidence is required before this matrix can be complete.",
+    "android-bar-charts is pending; evidence is required before this matrix can be complete.",
+    "android-combined-preview is pending; evidence is required before this matrix can be complete.",
+    "android-financial-preview is pending; evidence is required before this matrix can be complete.",
+    "android-pie-donut is pending; evidence is required before this matrix can be complete.",
+    "android-progress is pending; evidence is required before this matrix can be complete.",
+    "android-heatmaps is pending; evidence is required before this matrix can be complete.",
+    "android-compatibility is pending; evidence is required before this matrix can be complete."
   ]
 }
