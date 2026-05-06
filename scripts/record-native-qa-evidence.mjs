@@ -11,6 +11,7 @@ import {
   getNativeQaMissingEvidence,
   validNativeQaStatuses
 } from "./native-qa-matrix-config.mjs";
+import { createShowcaseLaunchUrl } from "./native-showcase-launch-url.mjs";
 
 const defaultRepoRoot = process.cwd();
 const checklistPath = "docs/release/native-qa-checklists.md";
@@ -127,21 +128,6 @@ const getRowTarget = (matrix, row) => {
   ]
     .filter(Boolean)
     .join(" / ");
-};
-
-const createShowcaseLaunchUrl = ({ pageId, storyId }) => {
-  const params = new URLSearchParams();
-  params.set("view", "charts");
-
-  if (storyId) {
-    params.set("story", storyId);
-  } else if (pageId) {
-    params.set("page", pageId);
-  } else {
-    return "";
-  }
-
-  return `chartkitshowcase://showcase?${params.toString()}`;
 };
 
 const getRowLaunchTarget = (matrix, row) => {

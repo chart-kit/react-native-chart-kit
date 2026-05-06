@@ -7,6 +7,7 @@ import {
   getNativeQaMatrixConfig,
   nativeQaMatrixConfigs
 } from "./native-qa-matrix-config.mjs";
+import { createShowcaseLaunchUrl } from "./native-showcase-launch-url.mjs";
 
 const defaultRepoRoot = process.cwd();
 const matrixNames = Object.keys(nativeQaMatrixConfigs);
@@ -73,22 +74,7 @@ const getLaunchUrl = (matrix, row) => {
   const pageId = page?.showcasePageId;
   const storyId = scenario?.showcaseStoryId;
 
-  return getTargetLaunchUrl({ pageId, storyId });
-};
-
-const getTargetLaunchUrl = ({ pageId, storyId, viewId = "charts" }) => {
-  const params = new URLSearchParams();
-  params.set("view", viewId);
-
-  if (storyId) {
-    params.set("story", storyId);
-  } else if (pageId) {
-    params.set("page", pageId);
-  } else {
-    return "";
-  }
-
-  return `chartkitshowcase://showcase?${params.toString()}`;
+  return createShowcaseLaunchUrl({ pageId, storyId });
 };
 
 const getScenarioTargets = (matrix, row) => {
@@ -106,7 +92,7 @@ const getScenarioTargets = (matrix, row) => {
 
   return targets.map((target) => ({
     label: target.label ?? target.storyId ?? target.pageId ?? "target",
-    launchUrl: getTargetLaunchUrl({
+    launchUrl: createShowcaseLaunchUrl({
       pageId: target.pageId,
       storyId: target.storyId,
       viewId: target.viewId ?? "charts"

@@ -46,7 +46,7 @@ describe("release QA status", () => {
     );
 
     expect(row?.launchUrl).toBe(
-      "chartkitshowcase://showcase?view=charts&story=v2-perf-line-1000-scrub"
+      "chartkitshowcase://showcase?story=v2-perf-line-1000-scrub&visual=1"
     );
     expect(row?.captureCommand).toBe(
       "npm run release:qa:capture -- --matrix performance --row android-svg-standard-line-scrub --platform android --output docs/release/artifacts/android-svg-standard-line-scrub.png --android-log-output docs/release/artifacts/android-svg-standard-line-scrub.log"
@@ -87,7 +87,7 @@ describe("release QA status", () => {
 
     expect(section.openRows[0]?.captureCommands).toHaveLength(6);
     expect(section.openRows[0]?.captureCommand).toBe(
-      'npm run release:qa:capture -- --matrix skia --row ios-skia-performance-comparison --platform ios --output docs/release/artifacts/ios-skia-performance-comparison-1-dense-line.png --launch-url "chartkitshowcase://showcase?view=charts&story=v2-perf-line-10000-overview" --ios-log-output docs/release/artifacts/ios-skia-performance-comparison-1-dense-line.log'
+      'npm run release:qa:capture -- --matrix skia --row ios-skia-performance-comparison --platform ios --output docs/release/artifacts/ios-skia-performance-comparison-1-dense-line.png --launch-url "chartkitshowcase://showcase?story=v2-perf-line-10000-overview&visual=1" --ios-log-output docs/release/artifacts/ios-skia-performance-comparison-1-dense-line.log'
     );
   });
 

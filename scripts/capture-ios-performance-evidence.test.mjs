@@ -73,7 +73,7 @@ describe("iOS performance evidence capture", () => {
     expect(plan.row).toMatchObject({
       id: "ios-svg-standard-line-scrub",
       launchUrl:
-        "chartkitshowcase://showcase?view=charts&story=v2-perf-line-1000-scrub",
+        "chartkitshowcase://showcase?story=v2-perf-line-1000-scrub&visual=1",
       showcaseStoryId: "v2-perf-line-1000-scrub"
     });
     expect(plan.commands.slice(0, 4)).toEqual([
@@ -92,7 +92,7 @@ describe("iOS performance evidence capture", () => {
           "simctl",
           "openurl",
           "A706C6A5-26A2-499F-B24A-A9FB574888B0",
-          "chartkitshowcase://showcase?view=charts&story=v2-perf-line-1000-scrub"
+          "chartkitshowcase://showcase?story=v2-perf-line-1000-scrub&visual=1"
         ],
         command: "xcrun"
       },

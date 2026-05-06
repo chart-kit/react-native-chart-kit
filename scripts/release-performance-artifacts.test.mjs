@@ -49,7 +49,7 @@ Build: release APK, \`io.chartkit.showcase\`
 Renderer: svg through React Native SVG
 Scenario: Android / Standard line scrub
 Showcase story: \`v2-perf-line-1000-scrub\`
-Deep link: \`chartkitshowcase://showcase?view=charts&story=v2-perf-line-1000-scrub\`
+Deep link: \`chartkitshowcase://showcase?story=v2-perf-line-1000-scrub&visual=1\`
 
 Expected fixture:
 - Chart type: line

@@ -105,7 +105,7 @@ xcrun simctl openurl booted "chartkitshowcase://showcase?page=bar-charts&theme=d
 adb shell am start -W -a android.intent.action.VIEW -d "chartkitshowcase://showcase?page=bar-charts&theme=dark&preset=analytics" io.chartkit.showcase
 ```
 
-Supported params match the web preview URLs: `page`, `story`, `view`, `theme`, and `preset`. Use `story` to jump to a single visual fixture, or `page` to jump to a full public preview page such as `line-charts`, `bar-charts`, `combined-charts`, `financial-charts`, `pie-donut`, `progress`, or `heatmaps`.
+Supported params match the web preview URLs: `page`, `story`, `view`, `visual`, `theme`, and `preset`. Use `story` with `visual=1` to jump to a single visual fixture, or `page` to jump to a full public preview page such as `line-charts`, `bar-charts`, `combined-charts`, `financial-charts`, `pie-donut`, `progress`, or `heatmaps`.
 
 On iOS, `simctl openurl` may show a first-use custom-scheme confirmation dialog. For headless release-simulator smoke capture, build the showcase with `EXPO_PUBLIC_CHARTKIT_SHOWCASE_QA_QUERY` instead of using a deep link:
 
@@ -115,7 +115,7 @@ EXPO_PUBLIC_CHARTKIT_SHOWCASE_QA_QUERY="view=charts&page=bar" \
   run:ios --configuration Release --device <simulator-uuid> --no-bundler
 ```
 
-The value accepts the same query params as the deep-link and web URLs, including full values such as `chartkitshowcase://showcase?story=v2-range-selector&theme=dark&preset=analytics`. This is only a launch helper; row evidence still requires the manual checks and screenshots or recordings listed below.
+The value accepts the same query params as the deep-link and web URLs, including full values such as `chartkitshowcase://showcase?story=v2-range-selector&visual=1&theme=dark&preset=analytics`. This is only a launch helper; row evidence still requires the manual checks and screenshots or recordings listed below.
 
 For row-by-row screenshot evidence, use the capture helper after the release app is installed and launchable on a simulator, emulator, or attached device:
 

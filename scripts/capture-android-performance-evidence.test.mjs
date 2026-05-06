@@ -74,7 +74,7 @@ describe("Android performance evidence capture", () => {
     expect(plan.row).toMatchObject({
       id: "android-svg-standard-line-scrub",
       launchUrl:
-        "chartkitshowcase://showcase?view=charts&story=v2-perf-line-1000-scrub",
+        "chartkitshowcase://showcase?story=v2-perf-line-1000-scrub&visual=1",
       showcaseStoryId: "v2-perf-line-1000-scrub"
     });
     expect(plan.commands.slice(0, 5)).toEqual([
@@ -112,7 +112,7 @@ describe("Android performance evidence capture", () => {
           "-a",
           "android.intent.action.VIEW",
           "-d",
-          "'chartkitshowcase://showcase?view=charts&story=v2-perf-line-1000-scrub'",
+          "'chartkitshowcase://showcase?story=v2-perf-line-1000-scrub&visual=1'",
           "io.chartkit.showcase"
         ],
         command: "adb"

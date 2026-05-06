@@ -3,6 +3,8 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 
+import { createShowcaseLaunchUrl } from "./native-showcase-launch-url.mjs";
+
 const defaultRepoRoot = process.cwd();
 const outputPath = "docs/release/native-qa-checklists.md";
 const matrixPaths = {
@@ -92,11 +94,7 @@ const getShowcaseLaunchUrl = (page) => {
     return "";
   }
 
-  const params = new URLSearchParams();
-  params.set("view", "charts");
-  params.set("page", page.showcasePageId);
-
-  return `chartkitshowcase://showcase?${params.toString()}`;
+  return createShowcaseLaunchUrl({ pageId: page.showcasePageId });
 };
 
 const getStoryLaunchUrl = (storyId) => {
@@ -104,26 +102,7 @@ const getStoryLaunchUrl = (storyId) => {
     return "";
   }
 
-  const params = new URLSearchParams();
-  params.set("view", "charts");
-  params.set("story", storyId);
-
-  return `chartkitshowcase://showcase?${params.toString()}`;
-};
-
-const getTargetLaunchUrl = ({ pageId, storyId, viewId = "charts" }) => {
-  const params = new URLSearchParams();
-  params.set("view", viewId);
-
-  if (storyId) {
-    params.set("story", storyId);
-  } else if (pageId) {
-    params.set("page", pageId);
-  } else {
-    return "";
-  }
-
-  return `chartkitshowcase://showcase?${params.toString()}`;
+  return createShowcaseLaunchUrl({ storyId });
 };
 
 const formatShowcaseTargets = (targets = []) =>
@@ -138,7 +117,7 @@ const formatShowcaseTargetLinks = (targets = []) =>
   targets.length > 0
     ? targets
         .map((target) =>
-          getTargetLaunchUrl({
+          createShowcaseLaunchUrl({
             pageId: target.pageId,
             storyId: target.storyId,
             viewId: target.viewId

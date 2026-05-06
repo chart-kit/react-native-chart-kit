@@ -335,7 +335,7 @@ describe("native QA screenshot capture", () => {
   it("allows a launch URL override for multi-target matrix rows", async () => {
     const plan = await createNativeQaScreenshotPlan({
       launchUrl:
-        "chartkitshowcase://showcase?view=charts&story=v2-perf-line-10000-overview",
+        "chartkitshowcase://showcase?story=v2-perf-line-10000-overview&visual=1",
       matrixName: "skia",
       platform: "ios",
       repoRoot,
@@ -343,14 +343,14 @@ describe("native QA screenshot capture", () => {
     });
 
     expect(plan.launchUrl).toBe(
-      "chartkitshowcase://showcase?view=charts&story=v2-perf-line-10000-overview"
+      "chartkitshowcase://showcase?story=v2-perf-line-10000-overview&visual=1"
     );
     expect(plan.commands[0]).toMatchObject({
       args: [
         "simctl",
         "openurl",
         "booted",
-        "chartkitshowcase://showcase?view=charts&story=v2-perf-line-10000-overview"
+        "chartkitshowcase://showcase?story=v2-perf-line-10000-overview&visual=1"
       ],
       command: "xcrun"
     });

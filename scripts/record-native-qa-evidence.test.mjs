@@ -101,7 +101,7 @@ describe("native QA evidence recorder", () => {
         visiblePoints: 100
       },
       launchUrl:
-        "chartkitshowcase://showcase?view=charts&story=v2-perf-line-100",
+        "chartkitshowcase://showcase?story=v2-perf-line-100&visual=1",
       showcaseStoryId: "v2-perf-line-100"
     });
     expect(performanceRow.checks).toContain(

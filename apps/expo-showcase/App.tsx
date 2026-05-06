@@ -66,6 +66,14 @@ const getInitialStory = () => {
   return stories.find((story) => story.id === storyId) ?? defaultStory;
 };
 
+const getStoryFromParams = (
+  params: ShowcaseSearchParams | null | undefined
+) => {
+  const storyId = params?.get("story");
+
+  return stories.find((story) => story.id === storyId) ?? defaultStory;
+};
+
 const getInitialVisualMode = () => {
   const params = getInitialSearchParams();
 
@@ -164,8 +172,9 @@ const updateShowcaseUrl = ({
 
 export default function App() {
   const { width } = useWindowDimensions();
-  const [isVisualMode] = useState(getInitialVisualMode);
-  const [visualStory] = useState<ShowcaseStory>(getInitialStory);
+  const [isVisualMode, setIsVisualMode] = useState(getInitialVisualMode);
+  const [visualStory, setVisualStory] =
+    useState<ShowcaseStory>(getInitialStory);
   const [pageSelection, setPageSelection] = useState<PageSelection>(
     getInitialPageSelection
   );
@@ -215,6 +224,10 @@ export default function App() {
       }
 
       setIsScrubbing(false);
+      setIsVisualMode(
+        params.get("visual") === "1" || params.get("mode") === "visual"
+      );
+      setVisualStory(getStoryFromParams(params));
       setPageSelection(
         getPageSelection({
           pageId: params.get("page"),
