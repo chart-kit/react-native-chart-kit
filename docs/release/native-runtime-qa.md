@@ -90,6 +90,15 @@ npm run native:release:android
 
 If a local native toolchain is unavailable, record the missing toolchain and use the GitHub `Native Release Checks` workflow as the release-build evidence source. Do not count Expo Go alone as release-build evidence.
 
+The native showcase also accepts deep-link query params for faster matrix execution:
+
+```sh
+xcrun simctl openurl booted "chartkitshowcase://showcase?page=bar-charts&theme=dark&preset=analytics"
+adb shell am start -W -a android.intent.action.VIEW -d "chartkitshowcase://showcase?page=bar-charts&theme=dark&preset=analytics" io.chartkit.showcase
+```
+
+Supported params match the web preview URLs: `page`, `story`, `view`, `theme`, and `preset`. Use `story` to jump to a single visual fixture, or `page` to jump to a full public preview page such as `line-charts`, `bar-charts`, `combined-charts`, `financial-charts`, `pie-donut`, `progress`, or `heatmaps`.
+
 ## Required Pages
 
 Review these showcase pages:

@@ -33,6 +33,15 @@ Run the checks on:
 
 Use `npm run example:expo` for preview review. Use `npm run native:release:ios` and `npm run native:release:android` for release-build review once the native toolchains are available.
 
+For faster native navigation during screen-reader review, open a specific page with the showcase deep link:
+
+```sh
+xcrun simctl openurl booted "chartkitshowcase://showcase?page=line-charts&theme=dark&preset=highContrast"
+adb shell am start -W -a android.intent.action.VIEW -d "chartkitshowcase://showcase?page=line-charts&theme=dark&preset=highContrast" io.chartkit.showcase
+```
+
+Supported params match the web preview URLs: `page`, `story`, `view`, `theme`, and `preset`.
+
 ## Required Screens
 
 Review these showcase pages:

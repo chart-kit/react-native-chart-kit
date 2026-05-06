@@ -1,5 +1,6 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
+  Linking,
   Platform,
   ScrollView,
   StatusBar,
@@ -33,6 +34,12 @@ import {
   type ShowcaseThemeMode
 } from "./src/showcaseTheme";
 import { ShowcaseMenu } from "./src/ShowcaseMenu";
+import {
+  getPresetFromParams,
+  getShowcaseSearchParamsFromUrl,
+  getThemeModeFromParams,
+  type ShowcaseSearchParams
+} from "./src/showcaseNavigation";
 
 const defaultStory =
   stories.find((story) => story.id === "v2-basic") ?? stories[0];
@@ -41,7 +48,7 @@ const allShowcaseModes = [publicChartMode, ...showcaseModes];
 
 const isWebRuntime = Platform.OS === "web" && typeof window !== "undefined";
 
-const getWebSearchParams = () => {
+const getWebSearchParams = (): URLSearchParams | null => {
   if (!isWebRuntime) {
     return null;
   }
@@ -62,25 +69,11 @@ const getInitialVisualMode = () => {
 };
 
 const getInitialThemeMode = (): ShowcaseThemeMode => {
-  const theme = getWebSearchParams()?.get("theme");
-
-  return theme === "dark" ? "dark" : "light";
+  return getThemeModeFromParams(getWebSearchParams());
 };
 
 const getInitialPreset = (): ShowcasePresetId => {
-  const preset = getWebSearchParams()?.get("preset");
-
-  return preset === "analytics" ||
-    preset === "fintech" ||
-    preset === "health" ||
-    preset === "ios" ||
-    preset === "material" ||
-    preset === "minimal" ||
-    preset === "highContrast" ||
-    preset === "darkFintech" ||
-    preset === "studio"
-    ? preset
-    : "default";
+  return getPresetFromParams(getWebSearchParams());
 };
 
 type PageSelection = {
@@ -210,6 +203,54 @@ export default function App() {
     : previewWidth;
   const chartWidth = Math.max(256, storyBlockWidth);
   const VisualStoryComponent = visualStory.Component;
+
+  const applySearchParams = useCallback(
+    (params: ShowcaseSearchParams | null | undefined) => {
+      if (!params) {
+        return;
+      }
+
+      setIsScrubbing(false);
+      setPageSelection(
+        getPageSelection({
+          pageId: params.get("page"),
+          storyId: params.get("story"),
+          viewId: params.get("view")
+        })
+      );
+      setThemeMode(getThemeModeFromParams(params));
+      setChartPreset(getPresetFromParams(params));
+    },
+    []
+  );
+
+  useEffect(() => {
+    if (isWebRuntime) {
+      return undefined;
+    }
+
+    let isMounted = true;
+    const applyUrl = (url: string | null | undefined) => {
+      if (isMounted) {
+        applySearchParams(getShowcaseSearchParamsFromUrl(url));
+      }
+    };
+    const subscription = Linking.addEventListener("url", ({ url }) => {
+      applyUrl(url);
+    });
+
+    Linking.getInitialURL()
+      .then(applyUrl)
+      .catch(() => {
+        // The default preview page is still valid if the native shell cannot
+        // provide the initial URL.
+      });
+
+    return () => {
+      isMounted = false;
+      subscription.remove();
+    };
+  }, [applySearchParams]);
 
   const selectPage = (selection: PageSelection) => {
     setIsScrubbing(false);
