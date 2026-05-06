@@ -65,32 +65,44 @@
       "platform": "ios",
       "scenarioId": "free-chart-parity",
       "status": "partial",
-      "evidence": ["docs/release/artifacts/skia-local-baseline-2026-05-06.md"],
-      "notes": "Local renderer-contract parity only; native iOS screenshot/interaction parity still required."
+      "evidence": [
+        "docs/release/artifacts/skia-local-baseline-2026-05-06.md",
+        "docs/release/artifacts/ios-skia-renderer-build.md"
+      ],
+      "notes": "Local renderer-contract parity and renderer-injected iOS Release build evidence exist; native iOS screenshots plus text, gradients, clipping, tooltip, legend, and interaction parity review still required."
     },
     {
       "id": "android-skia-free-chart-parity",
       "platform": "android",
       "scenarioId": "free-chart-parity",
       "status": "partial",
-      "evidence": ["docs/release/artifacts/skia-local-baseline-2026-05-06.md"],
-      "notes": "Local renderer-contract parity only; native Android screenshot/interaction parity still required."
+      "evidence": [
+        "docs/release/artifacts/skia-local-baseline-2026-05-06.md",
+        "docs/release/artifacts/android-skia-renderer-build.md"
+      ],
+      "notes": "Local renderer-contract parity and renderer-injected Android Release build evidence exist; native Android screenshots plus text, gradients, clipping, tooltip, legend, and interaction parity review still required."
     },
     {
       "id": "ios-skia-pro-preview-parity",
       "platform": "ios",
       "scenarioId": "pro-preview-parity",
       "status": "partial",
-      "evidence": ["docs/release/artifacts/skia-local-baseline-2026-05-06.md"],
-      "notes": "Local Pro-preview renderer-contract parity only; native iOS screenshot/interaction parity still required."
+      "evidence": [
+        "docs/release/artifacts/skia-local-baseline-2026-05-06.md",
+        "docs/release/artifacts/ios-skia-renderer-build.md"
+      ],
+      "notes": "Local Pro-preview renderer-contract parity and renderer-injected iOS Release build evidence exist; native iOS CombinedChart, CandlestickChart, range-selector, sticky-axis, crosshair, tooltip, and debug-layout screenshot/interaction review still required."
     },
     {
       "id": "android-skia-pro-preview-parity",
       "platform": "android",
       "scenarioId": "pro-preview-parity",
       "status": "partial",
-      "evidence": ["docs/release/artifacts/skia-local-baseline-2026-05-06.md"],
-      "notes": "Local Pro-preview renderer-contract parity only; native Android screenshot/interaction parity still required."
+      "evidence": [
+        "docs/release/artifacts/skia-local-baseline-2026-05-06.md",
+        "docs/release/artifacts/android-skia-renderer-build.md"
+      ],
+      "notes": "Local Pro-preview renderer-contract parity and renderer-injected Android Release build evidence exist; native Android CombinedChart, CandlestickChart, range-selector, sticky-axis, crosshair, tooltip, and debug-layout screenshot/interaction review still required."
     },
     {
       "id": "ios-skia-performance-comparison",

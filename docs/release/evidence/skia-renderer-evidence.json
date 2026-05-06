@@ -3,7 +3,7 @@
   "status": "partial",
   "requiredFor": ["H4", "H5", "H6"],
   "lastUpdated": "2026-05-06",
-  "summary": "The Skia preview package, injected primitive adapter, local renderer contract coverage, and iOS/Android optional-Skia install/build evidence exist, but native renderer parity and Skia performance evidence are incomplete.",
+  "summary": "The Skia preview package, injected primitive adapter, local renderer contract coverage, iOS/Android optional-Skia install/build evidence, and iOS/Android renderer-injected release build evidence exist, but native screenshot parity and Skia performance evidence are incomplete.",
   "matrix": "docs/release/evidence/skia-renderer-matrix.json",
   "completedEntries": [
     {
@@ -52,6 +52,16 @@
       "result": "partial-pass",
       "artifacts": ["docs/release/artifacts/ios-skia-native-install.md"],
       "notes": "iOS temporary showcase app installed @shopify/react-native-skia@2.6.2, verified it with npm ls, autolinked the react-native-skia CocoaPods target, and completed Release xcodebuild. This is install/build evidence only; renderer parity screenshots and Skia performance comparison remain required."
+    },
+    {
+      "date": "2026-05-06",
+      "scope": "native-renderer-build",
+      "result": "partial-pass",
+      "artifacts": [
+        "docs/release/artifacts/ios-skia-renderer-build.md",
+        "docs/release/artifacts/android-skia-renderer-build.md"
+      ],
+      "notes": "Temporary iOS and Android showcase apps installed @shopify/react-native-skia@2.6.2, injected the Skia renderer through ChartKitProvider, typechecked the patched showcase, and completed Release native builds. This proves the injected renderer can bundle and build natively; screenshot parity, interaction review, and Skia performance comparisons remain required."
     }
   ],
   "coveredSurfaces": [
@@ -59,6 +69,7 @@
     "Group",
     "Path",
     "Rect",
+    "RoundedRect",
     "Circle",
     "Line",
     "Text",
@@ -100,10 +111,10 @@
   "missingEvidence": [
     "ios-skia-native-install is partial; iOS install/build evidence exists, but renderer parity and Skia performance rows are still required before Skia can be complete.",
     "android-skia-native-install is partial; Android install/build evidence exists, but renderer parity and Skia performance rows are still required before Skia can be complete.",
-    "ios-skia-free-chart-parity is partial; evidence is required before this matrix can be complete.",
-    "android-skia-free-chart-parity is partial; evidence is required before this matrix can be complete.",
-    "ios-skia-pro-preview-parity is partial; evidence is required before this matrix can be complete.",
-    "android-skia-pro-preview-parity is partial; evidence is required before this matrix can be complete.",
+    "ios-skia-free-chart-parity is partial; renderer-injected iOS Release build evidence exists, but native screenshots, visible text/gradient/clip/tooltip/legend parity review, and interaction review are still required.",
+    "android-skia-free-chart-parity is partial; renderer-injected Android Release build evidence exists, but native screenshots, visible text/gradient/clip/tooltip/legend parity review, and interaction review are still required.",
+    "ios-skia-pro-preview-parity is partial; renderer-injected iOS Release build evidence exists, but native CombinedChart, CandlestickChart, range-selector, sticky-axis, crosshair, tooltip, and debug-layout screenshot parity review is still required.",
+    "android-skia-pro-preview-parity is partial; renderer-injected Android Release build evidence exists, but native CombinedChart, CandlestickChart, range-selector, sticky-axis, crosshair, tooltip, and debug-layout screenshot parity review is still required.",
     "ios-skia-performance-comparison is pending; evidence is required before this matrix can be complete.",
     "android-skia-performance-comparison is pending; evidence is required before this matrix can be complete."
   ]

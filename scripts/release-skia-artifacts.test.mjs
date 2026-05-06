@@ -66,6 +66,37 @@ Platform target: ios
 - Performance comparison rows still require SVG-vs-Skia timing and memory data.
 `;
 
+const androidRendererBuildArtifact = `# Skia Native Install Evidence
+
+Date: 2026-05-06
+Commit: \`abc1234\`
+Build surface: temporary native QA workspace
+Platform target: android
+Showcase renderer mode: skia
+
+## Commands
+
+node scripts/prepare-skia-showcase-renderer-preview.mjs --app-dir apps/expo-showcase
+npm --workspace @chart-kit/expo-showcase run typecheck
+
+## Result
+
+- Showcase renderer mode stayed \`skia\`.
+
+## Verified Output
+
+- Installed package: \`@shopify/react-native-skia@2.6.2\`
+- Showcase renderer mode: skia
+- Skia Gradle project configured: yes
+- Release build successful: yes
+- Showcase Skia renderer injected: yes
+
+## Caveats
+
+- This install evidence does not by itself prove renderer parity screenshots.
+- Performance comparison rows still require SVG-vs-Skia timing and memory data.
+`;
+
 describe("Skia artifact validation", () => {
   it("accepts checked-in Skia baseline artifacts", async () => {
     const matrix = JSON.parse(
@@ -122,6 +153,54 @@ describe("Skia artifact validation", () => {
 
     expect(errors.join("; ")).toContain(
       "Skia CocoaPods target autolinked: yes"
+    );
+  });
+
+  it("requires renderer-injected build proof for Skia renderer build artifacts", async () => {
+    const matrix = {
+      rows: [
+        {
+          evidence: ["docs/release/artifacts/android-skia-renderer-build.md"],
+          id: "android-skia-free-chart-parity",
+          platform: "android",
+          scenarioId: "free-chart-parity",
+          status: "partial"
+        }
+      ]
+    };
+    const errors = await validateSkiaMatrixArtifacts(matrix, {
+      exists: async () => true,
+      readText: async () =>
+        androidRendererBuildArtifact.replace(
+          "Showcase Skia renderer injected: yes",
+          ""
+        )
+    });
+
+    expect(errors.join("; ")).toContain(
+      "Showcase Skia renderer injected: yes"
+    );
+  });
+
+  it("does not allow renderer-injected build proof as final Skia parity evidence", async () => {
+    const matrix = {
+      rows: [
+        {
+          evidence: ["docs/release/artifacts/android-skia-renderer-build.md"],
+          id: "android-skia-free-chart-parity",
+          platform: "android",
+          scenarioId: "free-chart-parity",
+          status: "pass"
+        }
+      ]
+    };
+    const errors = await validateSkiaMatrixArtifacts(matrix, {
+      exists: async () => true,
+      readText: async () => androidRendererBuildArtifact
+    });
+
+    expect(errors.join("; ")).toContain(
+      "must not use Skia renderer-build evidence as final parity or performance evidence"
     );
   });
 });

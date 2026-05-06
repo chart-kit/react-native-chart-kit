@@ -20,6 +20,7 @@ const isExternalEvidenceLink = (value) => /^https?:\/\//.test(value);
 
 const baselineArtifactName = "skia-local-baseline";
 const nativeInstallArtifactName = "skia-native-install";
+const rendererBuildArtifactName = "skia-renderer-build";
 const requiredBaselineTokens = [
   "Date:",
   "Commit:",
@@ -46,6 +47,14 @@ const requiredNativeInstallTokens = [
   "Release build successful: yes",
   "This install evidence does not by itself prove renderer parity screenshots",
   "Performance comparison rows still require SVG-vs-Skia timing and memory data"
+];
+const requiredRendererBuildTokens = [
+  ...requiredNativeInstallTokens,
+  "Showcase renderer mode: skia",
+  "node scripts/prepare-skia-showcase-renderer-preview.mjs",
+  "npm --workspace @chart-kit/expo-showcase run typecheck",
+  "Showcase renderer mode stayed `skia`",
+  "Showcase Skia renderer injected: yes"
 ];
 
 const missingTokens = (source, tokens) =>
@@ -123,6 +132,45 @@ const validateNativeInstallArtifact = async ({
   return errors;
 };
 
+const validateRendererBuildArtifact = async ({
+  artifact,
+  exists,
+  readText,
+  row
+}) => {
+  const errors = [];
+
+  if (isExternalEvidenceLink(artifact) || !artifact.endsWith(".md")) {
+    return errors;
+  }
+
+  if (!(await exists(artifact))) {
+    return errors;
+  }
+
+  if (!artifact.includes(rendererBuildArtifactName)) {
+    return errors;
+  }
+
+  const source = await readText(artifact);
+  const platformTokens =
+    row.platform === "ios"
+      ? ["Platform target: ios", "Skia CocoaPods target autolinked: yes"]
+      : ["Platform target: android", "Skia Gradle project configured: yes"];
+  const missing = missingTokens(source, [
+    ...requiredRendererBuildTokens,
+    ...platformTokens
+  ]);
+
+  if (missing.length > 0) {
+    errors.push(
+      `${row.id} Skia renderer-build artifact ${artifact} is missing required fields: ${missing.join(", ")}`
+    );
+  }
+
+  return errors;
+};
+
 export const validateSkiaMatrixArtifacts = async (
   matrix,
   { exists = localExists, readText = readLocalText } = {}
@@ -138,6 +186,19 @@ export const validateSkiaMatrixArtifacts = async (
     const baselineArtifacts = artifacts.filter((artifact) =>
       artifact.includes(baselineArtifactName)
     );
+    const rendererBuildArtifacts = artifacts.filter((artifact) =>
+      artifact.includes(rendererBuildArtifactName)
+    );
+
+    if (
+      row.status === "pass" &&
+      rendererBuildArtifacts.length > 0 &&
+      rendererBuildArtifacts.length === artifacts.length
+    ) {
+      errors.push(
+        `${row.id} must not use Skia renderer-build evidence as final parity or performance evidence`
+      );
+    }
 
     for (const artifact of baselineArtifacts) {
       errors.push(
@@ -148,6 +209,14 @@ export const validateSkiaMatrixArtifacts = async (
     for (const artifact of artifacts) {
       errors.push(
         ...(await validateNativeInstallArtifact({
+          artifact,
+          exists,
+          readText,
+          row
+        }))
+      );
+      errors.push(
+        ...(await validateRendererBuildArtifact({
           artifact,
           exists,
           readText,
