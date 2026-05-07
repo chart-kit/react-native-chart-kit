@@ -1,3 +1,5 @@
+import "./ensureConsole";
+
 import { ClipPath, LinearGradient, Rect, Stop } from "react-native-svg";
 
 import type { SvgClipRectProps, SvgLinearGradientDefProps } from "./types";

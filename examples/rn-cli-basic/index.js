@@ -1,3 +1,6 @@
+import "./runtimePrelude";
+import "@react-native/js-polyfills/error-guard";
+import "react-native/Libraries/Core/InitializeCore";
 import { AppRegistry } from "react-native";
 
 import App from "./App";

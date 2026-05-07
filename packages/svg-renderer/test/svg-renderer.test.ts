@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { createSvgRendererCapabilities } from "../src/capabilities";
 import { createClipPathRef, resolveSvgClipPolicy } from "../src/clipPath";
+import { ensureRuntimeConsole } from "../src/ensureConsole";
 import { createSvgHitRegionProps } from "../src/hitRegions";
 import {
   chartRenderLayerOrder,
@@ -40,6 +41,42 @@ describe("SVG text measurement fallback", () => {
 });
 
 describe("SVG renderer helpers", () => {
+  it("installs a minimal console before SVG primitives load", () => {
+    const originalDescriptor = Object.getOwnPropertyDescriptor(
+      globalThis,
+      "console"
+    );
+
+    try {
+      Object.defineProperty(globalThis, "console", {
+        configurable: true,
+        value: undefined,
+        writable: true
+      });
+
+      const runtimeConsole = ensureRuntimeConsole();
+
+      expect(typeof runtimeConsole.error).toBe("function");
+      expect(typeof runtimeConsole.warn).toBe("function");
+      expect(typeof runtimeConsole.assert).toBe("function");
+      const nodeGlobal = (
+        globalThis as unknown as {
+          global?: { console?: unknown };
+        }
+      ).global;
+      if (nodeGlobal && typeof nodeGlobal === "object") {
+        expect(nodeGlobal.console).toBe(runtimeConsole);
+      }
+      expect(() => {
+        (runtimeConsole.error as (...args: unknown[]) => void)("ignored");
+      }).not.toThrow();
+    } finally {
+      if (originalDescriptor) {
+        Object.defineProperty(globalThis, "console", originalDescriptor);
+      }
+    }
+  });
+
   it("creates stable test ids", () => {
     expect(createSvgTestId("Line Chart", "Series 1", 4)).toBe(
       "line-chart.series-1.4"

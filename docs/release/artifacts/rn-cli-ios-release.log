@@ -1,5 +1,5 @@
 # RN CLI Native Check Log
-Date: 2026-05-06T19:16:18.262Z
+Date: 2026-05-06T20:02:30.099Z
 Repo: /Users/berman/Documents/react-native-chart-kit
 $ cd . && npm run build
 
@@ -95,10 +95,11 @@ $ cd . && /Users/berman/Documents/react-native-chart-kit/node_modules/.bin/rnc-c
 copy examples/rn-cli-basic/App.tsx -> ../../../../var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cli-native-check/App.tsx
 copy examples/rn-cli-basic/index.js -> ../../../../var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cli-native-check/index.js
 copy examples/rn-cli-basic/babel.config.js -> ../../../../var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cli-native-check/babel.config.js
+copy examples/rn-cli-basic/runtimePrelude.js -> ../../../../var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cli-native-check/runtimePrelude.js
 write ../../../../var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cli-native-check/package.json
 $ cd ../../../../var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cli-native-check && npm install
 
-added 578 packages, and audited 582 packages in 5s
+added 578 packages, and audited 582 packages in 12s
 
 77 packages are looking for funding
   run `npm fund` for details
@@ -262,14 +263,14 @@ Integrating client project
 Pod installation complete! There are 81 dependencies from the Podfile and 80 total pods installed.
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 45 29.0M   45 13.1M    0     0  38.5M      0 --:--:-- --:--:-- --:--:-- 38.4M100 29.0M  100 29.0M    0     0  58.8M      0 --:--:-- --:--:-- --:--:-- 58.8M
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 29.0M  100 29.0M    0     0  79.0M      0 --:--:-- --:--:-- --:--:-- 79.1M
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 20.7M  100 20.7M    0     0  58.1M      0 --:--:-- --:--:-- --:--:-- 58.2M
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  8 20.7M    8 1874k    0     0  15.4M      0  0:00:01 --:--:--  0:00:01 15.3M100 20.7M  100 20.7M    0     0  60.3M      0 --:--:-- --:--:-- --:--:-- 60.3M
 
 [!] hermes-engine has added 1 script phase. Please inspect before executing a build. See `https://guides.cocoapods.org/syntax/podspec.html#script_phases` for more information.
 $ cd ../../../../var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cli-native-check/ios && xcodebuild -workspace ChartKitRnCliNative.xcworkspace -scheme ChartKitRnCliNative -configuration Release -destination generic/platform=iOS CODE_SIGNING_ALLOWED=NO -quiet build
-[xcodebuild output summarized: 5831 lines, 3 kept]
+[xcodebuild output summarized: 5607 lines, 3 kept]
 warning: The value for NSLocationWhenInUseUsageDescription must be a non-empty string. (in target 'ChartKitRnCliNative' from project 'ChartKitRnCliNative')
 warning: Run script build phase '[CP-User] [Hermes] Replace Hermes for the right configuration, if needed' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking "Based on dependency analysis" in the script phase. (in target 'hermes-engine' from project 'Pods')
 warning: Run script build phase 'Bundle React Native code and images' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking "Based on dependency analysis" in the script phase. (in target 'ChartKitRnCliNative' from project 'ChartKitRnCliNative')

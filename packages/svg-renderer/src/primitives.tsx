@@ -1,3 +1,5 @@
+import "./ensureConsole";
+
 import Svg, { Circle, Defs, G, Line, Path, Rect, Text } from "react-native-svg";
 
 import { createSvgHitRegionProps } from "./hitRegions";

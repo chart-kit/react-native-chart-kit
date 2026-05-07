@@ -309,7 +309,12 @@ module.exports = {
 const overlayExampleSource = ({ dryRun, workDir }) => {
   const exampleDir = path.join(repoRoot, "examples/rn-cli-basic");
 
-  for (const fileName of ["App.tsx", "index.js", "babel.config.js"]) {
+  for (const fileName of [
+    "App.tsx",
+    "index.js",
+    "babel.config.js",
+    "runtimePrelude.js"
+  ]) {
     const sourcePath = path.join(exampleDir, fileName);
     const targetPath = path.join(workDir, fileName);
 

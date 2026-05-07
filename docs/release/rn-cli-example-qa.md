@@ -1,6 +1,6 @@
 # React Native CLI Example QA
 
-Status on May 6, 2026: source-level example coverage exists, but native CLI runtime evidence is incomplete. Structured evidence lives in [rn-cli-example-evidence.json](evidence/rn-cli-example-evidence.json).
+Status on May 6, 2026: source-level example coverage and iOS release runtime smoke evidence exist, but Android native CLI runtime evidence is incomplete. Structured evidence lives in [rn-cli-example-evidence.json](evidence/rn-cli-example-evidence.json).
 
 The Expo showcase is the main visual and release-build QA surface today. The full v2 plan also requires a React Native CLI example so teams that do not use Expo can validate the package in a plain RN app.
 
@@ -34,13 +34,14 @@ Android release-build evidence is captured in [rn-cli-android-release.log](artif
 
 iOS release-build evidence is captured in [rn-cli-ios-release.log](artifacts/rn-cli-ios-release.log). It proves the generated RN CLI app can install pods, auto-link only `RNSVG` as the chart native dependency, and complete generic Release `xcodebuild` with signing disabled.
 
-These logs are build evidence, not simulator/device launch or screenshot evidence.
+iOS release runtime smoke evidence is captured in [rn-cli-ios-runtime-smoke.png](artifacts/rn-cli-ios-runtime-smoke.png). It shows a Release iphonesimulator build of the generated RN CLI app rendering Chart Kit v2 line and bar charts without the Expo runtime.
+
+The Android log is build evidence, not emulator/device launch or screenshot evidence.
 
 ## Required Native Evidence
 
-Before H6 can be approved, capture real RN CLI evidence for:
+Before H6 can be approved, capture the remaining RN CLI evidence for:
 
-- iOS release-build launch and chart rendering
 - Android release-build launch and chart rendering
 - gesture sanity checks for at least line selection, bar selection, and vertical scroll containment
 - confirmation that the app does not require Expo runtime APIs

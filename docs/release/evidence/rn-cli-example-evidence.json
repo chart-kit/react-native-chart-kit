@@ -3,7 +3,7 @@
   "status": "partial",
   "requiredFor": ["H5", "H6"],
   "lastUpdated": "2026-05-06",
-  "summary": "The React Native CLI example source, Metro aliases, peer dependency surface, CLI dependency, TypeScript check, and Android/iOS release build evidence exist, but native runtime launch evidence is incomplete.",
+  "summary": "The React Native CLI example source, Metro aliases, peer dependency surface, CLI dependency, TypeScript check, Android/iOS release build evidence, and iOS release runtime smoke evidence exist, but Android native runtime launch evidence is incomplete.",
   "completedEntries": [
     {
       "date": "2026-05-06",
@@ -33,11 +33,20 @@
       "scope": "ios-release-build",
       "result": "partial-pass",
       "artifacts": ["docs/release/artifacts/rn-cli-ios-release.log"],
-      "notes": "npm run example:rn-cli:ios generated a temporary React Native CLI 0.83.9 app, overlaid examples/rn-cli-basic, installed local Chart Kit packages, auto-linked only RNSVG as the chart native dependency, ran pod install, and completed a generic iOS Release xcodebuild with CODE_SIGNING_ALLOWED=NO. This is build evidence only; simulator/device launch and screenshot evidence are still missing."
+      "notes": "npm run example:rn-cli:ios generated a temporary React Native CLI 0.83.9 app, overlaid examples/rn-cli-basic, installed local Chart Kit packages, auto-linked only RNSVG as the chart native dependency, ran pod install, and completed a generic iOS Release xcodebuild with CODE_SIGNING_ALLOWED=NO."
+    },
+    {
+      "date": "2026-05-06",
+      "scope": "ios-release-runtime-smoke",
+      "result": "pass",
+      "artifacts": [
+        "docs/release/artifacts/rn-cli-ios-release.log",
+        "docs/release/artifacts/rn-cli-ios-runtime-smoke.png"
+      ],
+      "notes": "A Release iphonesimulator build of the generated RN CLI app was installed and launched on the booted iPhone 17 simulator. The screenshot artifact shows the native RN CLI smoke app rendering Chart Kit v2 line and bar charts without the Expo runtime."
     }
   ],
   "missingEvidence": [
-    "RN CLI iOS release-build runtime launch and chart rendering evidence is missing.",
     "RN CLI Android release-build runtime launch and chart rendering evidence is missing."
   ]
 }
