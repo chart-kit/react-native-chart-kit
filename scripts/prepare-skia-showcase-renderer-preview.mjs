@@ -72,6 +72,10 @@ const fontFamily = Platform.select({
 const font = matchFont({ fontFamily, fontSize: 12 }) as unknown as SkiaFontLike;
 
 export const skiaPreviewRenderer = createSkiaRenderer({
+  capabilities: {
+    maxSurfaceWidth: 8192,
+    viewportWindowing: false
+  },
   font,
   skia: {
     Canvas,

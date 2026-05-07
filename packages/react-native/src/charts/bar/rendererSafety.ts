@@ -10,7 +10,13 @@ export const getSafeBarChartRenderer = ({
   renderer: BarChartRenderer | undefined;
   scrollable: boolean | undefined;
 }) => {
-  const maxSurfaceWidth = renderer?.capabilities?.maxSurfaceWidth;
+  const isInjectedRenderer =
+    renderer !== undefined &&
+    renderer !== lineChartSvgRenderer &&
+    renderer.name !== "svg";
+  const maxSurfaceWidth =
+    renderer?.capabilities?.maxSurfaceWidth ??
+    (isInjectedRenderer ? 8192 : undefined);
   const supportsViewportWindowing =
     renderer?.capabilities?.viewportWindowing === true;
 

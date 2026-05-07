@@ -199,4 +199,24 @@ describe("BarChart renderer parity contract", () => {
       })
     ).toBe(renderer);
   });
+
+  it("uses a conservative native cap for injected renderers without metadata", () => {
+    const { maxSurfaceWidth: _maxSurfaceWidth, ...capabilitiesWithoutMax } =
+      skiaLikeRenderer.capabilities ?? {};
+    const renderer: BarChartRenderer = {
+      ...skiaLikeRenderer,
+      capabilities: {
+        ...capabilitiesWithoutMax,
+        viewportWindowing: false
+      }
+    };
+
+    expect(
+      getSafeBarChartRenderer({
+        contentWidth: 22623,
+        renderer,
+        scrollable: true
+      })
+    ).toBe(lineChartSvgRenderer);
+  });
 });

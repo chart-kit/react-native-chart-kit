@@ -34,8 +34,10 @@ describe("Skia showcase renderer preview preparer", () => {
     expect(source).toContain("@shopify/react-native-skia");
     expect(source).toContain("@chart-kit/skia-renderer");
     expect(source).toContain("matchFont");
+    expect(source).toContain("maxSurfaceWidth: 8192");
     expect(source).toContain("RoundedRect");
     expect(source).toContain("createSkiaRenderer");
+    expect(source).toContain("viewportWindowing: false");
   });
 
   it("injects the Skia renderer into every showcase provider", () => {
