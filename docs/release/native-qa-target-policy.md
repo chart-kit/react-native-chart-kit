@@ -55,6 +55,7 @@ Use:
 
 ```sh
 npm run release:qa:signoff
+npm run release:qa:status -- --matrix runtime --status partial --details --limit 1
 npm run release:qa:record -- --matrix <runtime|accessibility|performance> --row <row-id> --status pass --evidence <artifact> --reviewed-by "<name>" --device "<device / OS>" --build-surface "<release build surface>" --notes "<checks passed and target policy used>"
 ```
 

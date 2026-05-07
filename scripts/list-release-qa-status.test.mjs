@@ -45,6 +45,18 @@ describe("release QA status", () => {
     );
   });
 
+  it("limits open rows for focused manual QA", async () => {
+    const [section] = await buildReleaseQaStatus({
+      limit: 1,
+      matrixName: "runtime",
+      status: "partial"
+    });
+
+    expect(section.openRowCount).toBeGreaterThan(1);
+    expect(section.openRows).toHaveLength(1);
+    expect(section.openRows[0].id).toBe("ios-line-charts");
+  });
+
   it("includes launch URLs for performance story rows", async () => {
     const [section] = await buildReleaseQaStatus({
       matrixName: "performance",
@@ -194,5 +206,25 @@ describe("release QA status", () => {
     expect(output).toContain(
       "check: line: scrub selection updates continuously and does not flicker"
     );
+  });
+
+  it("prints limited row output from the CLI", () => {
+    const output = execFileSync(
+      process.execPath,
+      [
+        path.join(repoRoot, "scripts/list-release-qa-status.mjs"),
+        "--matrix",
+        "runtime",
+        "--status",
+        "partial",
+        "--limit",
+        "1"
+      ],
+      { cwd: repoRoot, encoding: "utf8" }
+    );
+
+    expect(output).toContain("showing: 1 of");
+    expect(output).toContain("ios-line-charts");
+    expect(output).not.toContain("android-line-charts");
   });
 });

@@ -36,6 +36,14 @@ const parseArgs = (argv) => {
       options.json = true;
     } else if (arg === "--details") {
       options.details = true;
+    } else if (arg === "--limit") {
+      const value = Number.parseInt(readValue(), 10);
+
+      if (!Number.isInteger(value) || value < 1) {
+        throw new Error("--limit must be a positive integer");
+      }
+
+      options.limit = value;
     } else if (arg === "--matrix") {
       options.matrix = readValue();
     } else if (arg === "--status") {
@@ -220,6 +228,7 @@ const getRowCommand = ({ matrixName, row }) =>
 
 export const buildReleaseQaStatus = async ({
   includeDetails = false,
+  limit,
   matrixName,
   repoRoot = defaultRepoRoot,
   status
@@ -234,13 +243,17 @@ export const buildReleaseQaStatus = async ({
     const openRows = rows.filter((row) =>
       status ? row.status === status : openStatuses.has(row.status)
     );
+    const visibleOpenRows = Number.isInteger(limit)
+      ? openRows.slice(0, limit)
+      : openRows;
 
     sections.push({
       counts: getCounts(rows),
       label: config.label,
       matrix: name,
       matrixPath: config.path,
-      openRows: openRows.map((row) => {
+      openRowCount: openRows.length,
+      openRows: visibleOpenRows.map((row) => {
         const launchTargets = getScenarioTargets(matrix, row);
         const launchUrl = launchTargets[0]?.launchUrl ?? "";
         const platform = getRowPlatform(matrix, row);
@@ -293,6 +306,9 @@ const formatStatus = (sections) =>
       `  counts: ${Object.entries(section.counts)
         .map(([status, count]) => `${status}=${count}`)
         .join(", ")}`,
+      section.openRows.length < section.openRowCount
+        ? `  showing: ${section.openRows.length} of ${section.openRowCount} open rows`
+        : "",
       ...section.openRows.flatMap((row) => [
         `  - ${row.id} [${row.status}] ${row.target}`,
         row.launchUrl ? `    launch: ${row.launchUrl}` : "",
@@ -315,6 +331,7 @@ const main = async () => {
   const options = parseArgs(process.argv.slice(2));
   const sections = await buildReleaseQaStatus({
     includeDetails: options.details,
+    limit: options.limit,
     matrixName: options.matrix,
     status: options.status
   });
