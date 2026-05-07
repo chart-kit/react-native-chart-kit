@@ -1,0 +1,85 @@
+--------- beginning of system
+05-06 22:03:35.270   671  1878 W ActivityTaskManager: callingPackage for (uid=2000, pid=4724) has no WPC
+--------- beginning of main
+05-06 22:03:35.270   671  1878 V GrammaticalInflectionUtils: AttributionSource: AttributionSource { uid = 10213, packageName = null, attributionTag = null, token = android.os.Binder@f2c5a12, deviceId = 0, next = null } does not have READ_SYSTEM_GRAMMATICAL_GENDER permission.
+05-06 22:03:35.270   671  1878 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_USER_ASPECT_RATIO_OVERRIDE
+05-06 22:03:35.270   671  1878 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_USER_ASPECT_RATIO_FULLSCREEN_OVERRIDE
+05-06 22:03:35.270   671  1878 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_RESIZEABLE_ACTIVITY_OVERRIDES
+05-06 22:03:35.270   671  1878 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_MIN_ASPECT_RATIO_OVERRIDE
+05-06 22:03:35.271   941   954 D KeyguardService: setOccluded(false)
+05-06 22:03:35.271   941   954 D KeyguardViewMediator: setOccluded(false)
+05-06 22:03:35.271   941   941 D KeyguardViewMediator: handleSetOccluded(false)
+05-06 22:03:35.271   941   941 D KeyguardViewMediator: KeyguardViewMediator queue processing message: SET_OCCLUDED
+05-06 22:03:35.272   671  1878 I ActivityTaskManager: START u0 {act=android.intent.action.VIEW dat=chartkitshowcase://showcase/... flg=0x10000000 xflg=0x4 pkg=io.chartkit.showcase cmp=io.chartkit.showcase/.MainActivity} with LAUNCH_SINGLE_TASK from uid 2000 (BAL_ALLOW_PERMISSION) result code=3
+05-06 22:03:35.272   517   566 I BpBinder: onLastStrongRef automatically unlinking death recipients: 
+05-06 22:03:35.272   941  1007 D WindowManagerShell: onActivityRestartAttempt: topActivity=ComponentInfo{io.chartkit.showcase/io.chartkit.showcase.MainActivity}, wasVisible=true
+05-06 22:03:35.273  4534  4534 W unknown:BridgelessReact: ReactHost{0}.onHostPause(activity)
+05-06 22:03:35.273  4534  4534 W unknown:BridgelessReact: ReactContext.onHostPause()
+05-06 22:03:35.273  4534  4534 W unknown:BridgelessReact: ReactHost{0}.onHostResume(activity)
+05-06 22:03:35.273  4534  4534 W unknown:BridgelessReact: ReactContext.onHostResume()
+05-06 22:03:35.273   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.274   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:03:35.287  4534  4534 E Surface : freeAllBuffers: 1 buffers were freed while being dequeued!
+05-06 22:03:35.288  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:03:35.288  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:03:35.288  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  975x682
+05-06 22:03:35.289  4534  4534 E Surface : getSlotFromBufferLocked: unknown buffer: 0x0
+05-06 22:03:35.303  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-31] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:03:35.303  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:03:35.309  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-31] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:03:35.309  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:03:35.421   671   794 D ActivityManager: freezing 1632 com.google.android.gms
+05-06 22:03:36.366   923   923 D wpa_supplicant: nl80211: Drv Event 64 (NL80211_CMD_NOTIFY_CQM) received for wlan0
+05-06 22:03:36.366   923   923 D wpa_supplicant: nl80211: Beacon loss event
+05-06 22:03:36.366   923   923 D wpa_supplicant: wlan0: Event BEACON_LOSS (53) received
+05-06 22:03:36.366   923   923 I wpa_supplicant: wlan0: CTRL-EVENT-BEACON-LOSS 
+05-06 22:03:36.845  4729  4729 W screencap: Thread Pool max thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. serviceName: SurfaceFlingerAIDL
+05-06 22:03:36.845  4729  4729 W BpBinder: Linking to death on android.gui.ISurfaceComposer but there are no threads (yet?) listening to incoming transactions. See ProcessState::startThreadPool and ProcessState::setThreadPoolMaxThreadCount. Generally you should setup the binder threadpool before other initialization steps.
+05-06 22:03:36.845  4729  4729 W ProcessState: Extra binder thread started, but 0 threads requested. Do not use *startThreadPool when zero threads are requested.
+05-06 22:03:36.846   517   566 E HwcComposer: getLuts failed Status(-8, EX_SERVICE_SPECIFIC): '8: '
+05-06 22:03:36.846   517   566 E HWComposer: getLuts: getLuts failed for display 4619827259835644672: UNSUPPORTED (8)
+--------- beginning of kernel
+05-06 22:03:36.852   219   219 I servicemanager: Caller(pid=4729,uid=2000,sid=u:r:shell:s0) Found android.hardware.graphics.allocator.IAllocator/default in device VINTF manifest.
+05-06 22:03:36.852   219   219 I servicemanager: Caller(pid=4729,uid=2000,sid=u:r:shell:s0) Found android.hardware.graphics.allocator.IAllocator/default in device VINTF manifest.
+05-06 22:03:36.853   219   219 I servicemanager: Caller(pid=4729,uid=2000,sid=u:r:shell:s0) Found mapper/ranchu in device VINTF manifest.

@@ -1,0 +1,435 @@
+--------- beginning of main
+05-06 22:02:35.110  4534  4534 D jni_lib_merge: Preparing to register libreact_newarchdefaults_so.  onload_func: 0x6f63de3e30
+05-06 22:02:35.110  4534  4534 D jni_lib_merge: Preparing to register libreactnativeblob_so.  onload_func: 0x6f63e765b0
+05-06 22:02:35.110  4534  4534 D jni_lib_merge: Preparing to register libreactnativejni_so.  onload_func: 0x6f63e90b24
+05-06 22:02:35.110  4534  4534 D jni_lib_merge: Preparing to register libreactnativejni_common_so.  onload_func: 0x6f63e97458
+05-06 22:02:35.110  4534  4534 D jni_lib_merge: Preparing to register librninstance_so.  onload_func: 0x6f63eb3070
+05-06 22:02:35.110  4534  4534 D jni_lib_merge: Preparing to register libturbomodulejsijni_so.  onload_func: 0x6f63f4b1a4
+05-06 22:02:35.110  4534  4534 D jni_lib_merge: Preparing to register libuimanagerjni_so.  onload_func: 0x6f63f527e0
+05-06 22:02:35.110  4534  4534 D jni_lib_merge: Preparing to register libyoga_so.  onload_func: 0x6f63f59da4
+05-06 22:02:35.110  4534  4534 D jni_lib_merge: About to register 11 actual methods.
+05-06 22:02:35.114  4534  4534 D nativeloader: Load /data/app/~~OaJPcghEwecOiNwOHXP47A==/io.chartkit.showcase-ekIt1z7E47yztOwawAyDsQ==/base.apk!/lib/arm64-v8a/libreact_codegen_rnsvg.so using class loader ns clns-9 (caller=/data/app/~~OaJPcghEwecOiNwOHXP47A==/io.chartkit.showcase-ekIt1z7E47yztOwawAyDsQ==/base.apk): ok
+05-06 22:02:35.114  4534  4534 D jni_lib_merge: Entering merged library JNI_OnLoad.
+05-06 22:02:35.114  4534  4534 D jni_lib_merge: Preparing 12 pre-merged libs (including stub)
+05-06 22:02:35.114  4534  4534 D jni_lib_merge: Preparing to register libfabricjni_so.  onload_func: 0x6f63cdaedc
+05-06 22:02:35.114  4534  4534 D jni_lib_merge: Preparing to register libreact_devsupportjni_so.  onload_func: 0x6f63dabf40
+05-06 22:02:35.114  4534  4534 D jni_lib_merge: Preparing to register libreact_featureflagsjni_so.  onload_func: 0x6f63dbe9f8
+05-06 22:02:35.114  4534  4534 D jni_lib_merge: Preparing to register libreact_newarchdefaults_so.  onload_func: 0x6f63de3e30
+05-06 22:02:35.114  4534  4534 D jni_lib_merge: Preparing to register libreactnativeblob_so.  onload_func: 0x6f63e765b0
+05-06 22:02:35.114  4534  4534 D jni_lib_merge: Preparing to register libreactnativejni_so.  onload_func: 0x6f63e90b24
+05-06 22:02:35.114  4534  4534 D jni_lib_merge: Preparing to register libreactnativejni_common_so.  onload_func: 0x6f63e97458
+05-06 22:02:35.114  4534  4534 D jni_lib_merge: Preparing to register librninstance_so.  onload_func: 0x6f63eb3070
+05-06 22:02:35.114  4534  4534 D jni_lib_merge: Preparing to register libturbomodulejsijni_so.  onload_func: 0x6f63f4b1a4
+05-06 22:02:35.114  4534  4534 D jni_lib_merge: Preparing to register libuimanagerjni_so.  onload_func: 0x6f63f527e0
+05-06 22:02:35.114  4534  4534 D jni_lib_merge: Preparing to register libyoga_so.  onload_func: 0x6f63f59da4
+05-06 22:02:35.114  4534  4534 D jni_lib_merge: About to register 11 actual methods.
+05-06 22:02:35.116  4534  4534 D nativeloader: Load /data/app/~~OaJPcghEwecOiNwOHXP47A==/io.chartkit.showcase-ekIt1z7E47yztOwawAyDsQ==/base.apk!/lib/arm64-v8a/libappmodules.so using class loader ns clns-9 (caller=/data/app/~~OaJPcghEwecOiNwOHXP47A==/io.chartkit.showcase-ekIt1z7E47yztOwawAyDsQ==/base.apk): ok
+--------- beginning of system
+05-06 22:02:35.119   671   764 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ENABLE_FAKE_FOCUS
+05-06 22:02:35.121   671   895 D BackgroundInstallControlService: Package event received: 0
+05-06 22:02:35.122   671   895 D BackgroundInstallControlService: Package event received: 0
+05-06 22:02:35.125  4534  4548 I DisplayManager: Choreographer implicitly registered for the refresh rate.
+05-06 22:02:35.130  4534  4534 I artkit.showcase: AssetManager2(0xb4000071a60793f8) locale list changing from [] to [en-US]
+05-06 22:02:35.137  4534  4534 D AppCompatDelegate: Checking for metadata for AppLocalesMetadataHolderService : Service not found
+05-06 22:02:35.142  4534  4534 I artkit.showcase: AssetManager2(0xb4000071a6073c78) locale list changing from [] to [en-US]
+05-06 22:02:35.145  4534  4534 E ashmem  : Pinning is deprecated since Android Q. Please use trim or other methods.
+05-06 22:02:35.184  4534  4534 W unknown:BridgelessReact: ReactHost{0}.startSurface(surfaceId = 0): Schedule
+05-06 22:02:35.184  4534  4534 W unknown:BridgelessReact: ReactHost{0}.attachSurface(surfaceId = 0)
+05-06 22:02:35.185  4534  4552 W unknown:BridgelessReact: ReactHost{0}.getOrCreateReactInstanceTask()
+05-06 22:02:35.185  4534  4552 W unknown:BridgelessReact: ReactHost{0}.getOrCreateReactInstanceTask(): Start
+05-06 22:02:35.185  4534  4552 W unknown:BridgelessReact: ReactHost{0}.getJSBundleLoader()
+05-06 22:02:35.185  4534  4552 W unknown:BridgelessReact: ReactHost{0}.getOrCreateReactContext(): Creating BridgelessReactContext
+05-06 22:02:35.185  4534  4552 W unknown:BridgelessReact: ReactHost{0}.getOrCreateReactInstanceTask(): Creating ReactInstance
+05-06 22:02:35.187   941  1007 V WindowManagerShell: Transition animation finished (aborted=false), notifying core (#32) android.os.BinderProxy@99fcfb9@0
+05-06 22:02:35.188  4534  4534 D CompatChangeReporter: Compat change id reported: 377864165; UID 10213; state: ENABLED
+05-06 22:02:35.191  4534  4534 D DesktopModeFlags: Toggle override initialized to: OVERRIDE_UNSET
+05-06 22:02:35.197   671   721 V WindowManager: Finish Transition (#32): created at 05-06 22:02:34.851 collect-started=0.01ms request-sent=2.343ms started=10.541ms ready=34.988ms sent=39.025ms commit=13.709ms finished=338.89ms
+05-06 22:02:35.200   941  1007 V WindowManagerShell: Track 0 became idle
+05-06 22:02:35.200  1066  1066 D VRI[NexusLauncherActivity]: visibilityChanged oldVisibility=true newVisibility=false
+05-06 22:02:35.200   941  1007 V WindowManagerShell: All active transition animations finished
+05-06 22:02:35.201  4534  4548 I EGL_emulation: Opening libGLESv1_CM_emulation.so
+05-06 22:02:35.201  4534  4548 I EGL_emulation: Opening libGLESv2_emulation.so
+05-06 22:02:35.203  4534  4534 W WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+05-06 22:02:35.203  4534  4534 W WindowOnBackDispatcher: Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+05-06 22:02:35.203  1066  1066 D NexusLauncherModelDelegate: notifySmartspaceEvent: SmartspaceTargetEvent{mSmartspaceTarget=null, mSmartspaceActionId='null', mEventType=7}
+05-06 22:02:35.204   671   794 D ActivityManager: freezing 1689 com.google.android.googlequicksearchbox:search
+05-06 22:02:35.209  4534  4548 W HWUI    : Failed to choose config with EGL_SWAP_BEHAVIOR_PRESERVED, retrying without...
+05-06 22:02:35.209  4534  4548 W HWUI    : Failed to initialize 101010-2 format, error = EGL_SUCCESS
+05-06 22:02:35.214  4534  4534 W unknown:BridgelessReact: ReactHost{0}.onHostResume(activity)
+05-06 22:02:35.214  4534  4534 W unknown:BridgelessReact: ReactContext.onHostResume()
+05-06 22:02:35.215  4534  4552 D nativeloader: Load /data/app/~~OaJPcghEwecOiNwOHXP47A==/io.chartkit.showcase-ekIt1z7E47yztOwawAyDsQ==/base.apk!/lib/arm64-v8a/libhermes.so using class loader ns clns-9 (caller=/data/app/~~OaJPcghEwecOiNwOHXP47A==/io.chartkit.showcase-ekIt1z7E47yztOwawAyDsQ==/base.apk): ok
+05-06 22:02:35.216  4534  4552 D nativeloader: Load /data/app/~~OaJPcghEwecOiNwOHXP47A==/io.chartkit.showcase-ekIt1z7E47yztOwawAyDsQ==/base.apk!/lib/arm64-v8a/libhermestooling.so using class loader ns clns-9 (caller=/data/app/~~OaJPcghEwecOiNwOHXP47A==/io.chartkit.showcase-ekIt1z7E47yztOwawAyDsQ==/base.apk): ok
+05-06 22:02:35.216  4534  4552 D jni_lib_merge: Entering merged library JNI_OnLoad.
+05-06 22:02:35.216  4534  4552 D jni_lib_merge: Preparing 4 pre-merged libs (including stub)
+05-06 22:02:35.216  4534  4552 D jni_lib_merge: Preparing to register libhermes_executor_so.  onload_func: 0x6fbafea4b0
+05-06 22:02:35.216  4534  4552 D jni_lib_merge: Preparing to register libhermesinstancejni_so.  onload_func: 0x6fbaff1900
+05-06 22:02:35.216  4534  4552 D jni_lib_merge: Preparing to register libjsijniprofiler_so.  onload_func: 0x6fbaff20ec
+05-06 22:02:35.216  4534  4552 D jni_lib_merge: About to register 3 actual methods.
+05-06 22:02:35.228  4534  4534 W HWUI    : Unknown dataspace 0
+--------- beginning of kernel
+05-06 22:02:35.228   219   219 I servicemanager: Caller(pid=4534,uid=10213,sid=u:r:untrusted_app:s0:c213,c256,c512,c768) Found android.hardware.graphics.allocator.IAllocator/default in device VINTF manifest.
+05-06 22:02:35.229   219   219 I servicemanager: Caller(pid=4534,uid=10213,sid=u:r:untrusted_app:s0:c213,c256,c512,c768) Found android.hardware.graphics.allocator.IAllocator/default in device VINTF manifest.
+05-06 22:02:35.230   219   219 I servicemanager: Caller(pid=4534,uid=10213,sid=u:r:untrusted_app:s0:c213,c256,c512,c768) Found mapper/ranchu in device VINTF manifest.
+05-06 22:02:35.237  4534  4552 I ExpoModulesCore: ✅ AppContext was initialized
+05-06 22:02:35.241   671  1955 D CoreBackPreview: Window{60fb9db u0 io.chartkit.showcase/io.chartkit.showcase.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@8b30f51, mPriority=0, mIsAnimationCallback=false, mOverrideBehavior=0}
+05-06 22:02:35.251   671   721 I ActivityTaskManager: Displayed io.chartkit.showcase/.MainActivity for user 0: +399ms
+05-06 22:02:35.252  1066  1066 D BaseDepthController: setSurface:
+05-06 22:02:35.252  1066  1066 D BaseDepthController: 	mWaitingOnSurfaceValidity: false
+05-06 22:02:35.252  1066  1066 D BaseDepthController: 	mBaseSurface: null
+05-06 22:02:35.252  1066  1066 D BaseDepthController: mSurface is null and mCurrentBlur is: 0
+05-06 22:02:35.253   671   724 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 22:02:35.257  1066  1066 D StateManager: goToState - fromState: Normal, toState: Normal, partial trace:
+05-06 22:02:35.257  1066  1066 D StateManager: 	at com.android.launcher3.statemanager.StateManager.moveToRestState(go/retraceme 43e00d9cd0eb17b3d9dd30fc1741b1c71445c4c0f7c8c9b81300265c86c5b873:4)
+05-06 22:02:35.257  1066  1066 D StateManager: 	at com.android.launcher3.statemanager.StateManager.moveToRestState(go/retraceme 43e00d9cd0eb17b3d9dd30fc1741b1c71445c4c0f7c8c9b81300265c86c5b873:1)
+05-06 22:02:35.257  1066  1066 D StateManager: 	at com.android.launcher3.statemanager.StatefulActivity.onStop(go/retraceme 43e00d9cd0eb17b3d9dd30fc1741b1c71445c4c0f7c8c9b81300265c86c5b873:34)
+05-06 22:02:35.257  1066  1066 D StatsLog: LAUNCHER_ONSTOP
+05-06 22:02:35.259   671  2067 I AppWidgetServiceImpl: setAppWidgetHidden() 0
+05-06 22:02:35.261  1066  1066 D StatsLog: LAUNCHER_GOOGLE_SEARCH_RESTORE_LIST_SIZE_AFTER_ACTIVITY_RESTART
+05-06 22:02:35.298  4534  4552 W unknown:BridgelessReact: ReactHost{0}.getOrCreateReactInstanceTask(): Loading JS Bundle
+05-06 22:02:35.323   671   814 I ImeTracker: io.chartkit.showcase:2cb85480: onRequestHide at ORIGIN_SERVER reason HIDE_UNSPECIFIED_WINDOW fromUser false
+05-06 22:02:35.326  4534  4534 D InsetsController: hide(ime(), fromIme=false)
+05-06 22:02:35.326  4534  4534 I ImeTracker: io.chartkit.showcase:2cb85480: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+05-06 22:02:35.326  4534  4552 W unknown:BridgelessReact: ReactHost{0}.getOrCreateReactInstanceTask(): Calling DevSupportManagerBase.onNewReactContextCreated(reactContext)
+05-06 22:02:35.327  4534  4552 W unknown:BridgelessReact: ReactHost{0}.startSurface(surfaceId = 0): Execute
+05-06 22:02:35.327  4534  4534 W unknown:BridgelessReact: ReactContext.onHostResume()
+05-06 22:02:35.327  4534  4534 W unknown:BridgelessReact: ReactHost{0}.getOrCreateReactInstanceTask(): Executing ReactInstanceEventListeners
+05-06 22:02:35.328  1511  1511 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():2043 
+05-06 22:02:35.328   671  2067 I ImeTracker: system_server:4d4842a7: onRequestHide at ORIGIN_SERVER reason IME_REQUESTED_CHANGED_LISTENER fromUser false
+05-06 22:02:35.329  1511  1511 I Module  : DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatus():100 repeatCheckTimes = 0, locked = false
+05-06 22:02:35.329  1511  1511 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1293 onStartInput(EditorInfo{EditorInfo{packageName=io.chartkit.showcase, inputType=0, inputTypeString=NULL, enableLearning=false, autoCorrection=false, autoComplete=false, imeOptions=0, privateImeOptions=null, actionName=UNSPECIFIED, actionLabel=null, initialSelStart=-1, initialSelEnd=-1, initialCapsMode=0, label=null, fieldId=0, fieldName=null, extras=null, hintText=null, hintLocales=[]}}, false)
+05-06 22:02:35.329   671   724 I ImeTracker: system_server:4d4842a7: onCancelled at PHASE_SERVER_SHOULD_HIDE
+05-06 22:02:35.329  1511  1511 I Module  : DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatus():100 repeatCheckTimes = 1, locked = false
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: EmojiCompatManager.getEmojiCompatIfLoaded():343 EmojiCompat.init() was never called.
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: java.lang.IllegalStateException: EmojiCompat is not initialized. Please call EmojiCompat.init() first
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at asx.p(PG:6)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at axb.b(PG:13)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at jnr.b(PG:2)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at jnr.c(PG:4)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at jnr.f(PG:3)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at jnx.c(PG:3)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at kif.cz(PG:47)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at lhl.run(PG:1025)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at jaf.execute(PG:12)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at nco.v(PG:13)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at lhn.m(PG:96)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at lhn.k(PG:25)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at kgn.onStartInput(PG:250)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at android.inputmethodservice.InputMethodService.doStartInput(InputMethodService.java:3521)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at android.inputmethodservice.InputMethodService$InputMethodImpl.startInput(InputMethodService.java:879)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at android.inputmethodservice.InputMethodService$InputMethodImpl.dispatchStartInput(InputMethodService.java:908)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at android.inputmethodservice.IInputMethodWrapper.executeMessage(IInputMethodWrapper.java:201)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at com.android.internal.os.HandlerCaller$MyHandler.handleMessage(HandlerCaller.java:44)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at android.os.Handler.dispatchMessage(Handler.java:110)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at android.os.Looper.loopOnce(Looper.java:248)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at android.os.Looper.loop(Looper.java:338)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at android.app.ActivityThread.main(ActivityThread.java:9067)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at java.lang.reflect.Method.invoke(Native Method)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:593)
+05-06 22:02:35.329  1511  1511 I EmojiCompatManager: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:932)
+05-06 22:02:35.330   671   895 D BackgroundInstallControlService: Package event received: 0
+05-06 22:02:35.330   671  2057 W PackageConfigPersister: App-specific configuration not found for packageName: io.chartkit.showcase and userId: 0
+05-06 22:02:35.348  4534  4553 D nativeloader: Load /data/app/~~OaJPcghEwecOiNwOHXP47A==/io.chartkit.showcase-ekIt1z7E47yztOwawAyDsQ==/base.apk!/lib/arm64-v8a/libexpo-modules-core.so using class loader ns clns-9 (caller=/data/app/~~OaJPcghEwecOiNwOHXP47A==/io.chartkit.showcase-ekIt1z7E47yztOwawAyDsQ==/base.apk): ok
+05-06 22:02:35.350  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.shopify.reactnative.skia.WebGPUViewManager
+05-06 22:02:35.350  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.uimanager.LayoutShadowNode
+05-06 22:02:35.351  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.shopify.reactnative.skia.SkiaPictureViewManager
+05-06 22:02:35.352  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$DefsViewManager
+05-06 22:02:35.352  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.VirtualViewManager$RenderableShadowNode
+05-06 22:02:35.352  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeMergeManager
+05-06 22:02:35.353  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.safeareaview.ReactSafeAreaViewManager
+05-06 22:02:35.353  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.safeareaview.ReactSafeAreaViewShadowNode
+05-06 22:02:35.353  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$LinearGradientManager
+05-06 22:02:35.354  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeGaussianBlurManager
+05-06 22:02:35.354  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.progressbar.ReactProgressBarViewManager
+05-06 22:02:35.354  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.progressbar.ProgressBarShadowNode
+05-06 22:02:35.355  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.scroll.ReactHorizontalScrollViewManager
+05-06 22:02:35.355  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.ReactTextViewManager
+05-06 22:02:35.356  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.ReactTextShadowNode
+05-06 22:02:35.357  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeColorMatrixManager
+05-06 22:02:35.357  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.scroll.ReactHorizontalScrollContainerViewManager
+05-06 22:02:35.358  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$ClipPathViewManager
+05-06 22:02:35.359  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$SymbolManager
+05-06 22:02:35.360  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$PatternManager
+05-06 22:02:35.361  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeBlendManager
+05-06 22:02:35.361  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.view.ReactViewManager
+05-06 22:02:35.362  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.SvgViewManager
+05-06 22:02:35.366  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.switchview.ReactSwitchManager
+05-06 22:02:35.367  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.switchview.ReactSwitchShadowNode
+05-06 22:02:35.367  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$UseViewManager
+05-06 22:02:35.367  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$CircleViewManager
+05-06 22:02:35.368  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$TSpanViewManager
+05-06 22:02:35.368  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FilterManager
+05-06 22:02:35.368  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$MarkerManager
+05-06 22:02:35.369  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.modal.ReactModalHostManager
+05-06 22:02:35.369  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$ForeignObjectManager
+05-06 22:02:35.370  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$EllipseViewManager
+05-06 22:02:35.370  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$LineViewManager
+05-06 22:02:35.370  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.frescosupport.FrescoBasedReactTextInlineImageViewManager
+05-06 22:02:35.370  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.frescosupport.FrescoBasedReactTextInlineImageShadowNode
+05-06 22:02:35.373  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeFloodManager
+05-06 22:02:35.375  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$GroupViewManager
+05-06 22:02:35.376  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$TextViewManager
+05-06 22:02:35.376  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$ImageViewManager
+05-06 22:02:35.377  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeCompositeManager
+05-06 22:02:35.377  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.image.ReactImageManager
+05-06 22:02:35.378  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$RadialGradientManager
+05-06 22:02:35.378  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$MaskManager
+05-06 22:02:35.379  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.unimplementedview.ReactUnimplementedViewManager
+05-06 22:02:35.379  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$RectViewManager
+05-06 22:02:35.379  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$TextPathViewManager
+05-06 22:02:35.380  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.scroll.ReactScrollViewManager
+05-06 22:02:35.380  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeOffsetManager
+05-06 22:02:35.381  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$PathViewManager
+05-06 22:02:35.381  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.drawer.ReactDrawerLayoutManager
+05-06 22:02:35.382  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.ReactVirtualTextViewManager
+05-06 22:02:35.382  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.ReactVirtualTextShadowNode
+05-06 22:02:35.382  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.swiperefresh.SwipeRefreshLayoutManager
+05-06 22:02:35.383  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.ReactRawTextManager
+05-06 22:02:35.383  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.ReactRawTextShadowNode
+05-06 22:02:35.383  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.textinput.ReactTextInputManager
+05-06 22:02:35.383  4534  4553 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.textinput.ReactTextInputShadowNode
+05-06 22:02:35.385  4534  4553 W BridgelessReactContext: [WARNING] Bridgeless doesn't support CatalystInstance. Accessing an API that's not part of the new architecture is not encouraged usage.
+05-06 22:02:35.386  4534  4553 I ExpoModulesCore: ✅ JSI interop was installed
+05-06 22:02:35.387  4534  4553 I ExpoModulesCore: ✅ Constants were exported
+05-06 22:02:35.400  4534  4553 D nativeloader: Load /data/app/~~OaJPcghEwecOiNwOHXP47A==/io.chartkit.showcase-ekIt1z7E47yztOwawAyDsQ==/base.apk!/lib/arm64-v8a/librnskia.so using class loader ns clns-9 (caller=/data/app/~~OaJPcghEwecOiNwOHXP47A==/io.chartkit.showcase-ekIt1z7E47yztOwawAyDsQ==/base.apk): ok
+05-06 22:02:35.400  4534  4553 W BridgelessReactContext: [WARNING] Bridgeless doesn't support CatalystInstance. Accessing an API that's not part of the new architecture is not encouraged usage.
+05-06 22:02:35.548  4534  4553 D nativeloader: Load /data/app/~~OaJPcghEwecOiNwOHXP47A==/io.chartkit.showcase-ekIt1z7E47yztOwawAyDsQ==/base.apk!/lib/arm64-v8a/libworklets.so using class loader ns clns-9 (caller=/data/app/~~OaJPcghEwecOiNwOHXP47A==/io.chartkit.showcase-ekIt1z7E47yztOwawAyDsQ==/base.apk): ok
+05-06 22:02:35.566  4534  4553 D nativeloader: Load /data/app/~~OaJPcghEwecOiNwOHXP47A==/io.chartkit.showcase-ekIt1z7E47yztOwawAyDsQ==/base.apk!/lib/arm64-v8a/libreanimated.so using class loader ns clns-9 (caller=/data/app/~~OaJPcghEwecOiNwOHXP47A==/io.chartkit.showcase-ekIt1z7E47yztOwawAyDsQ==/base.apk): ok
+05-06 22:02:35.614  4534  4553 I ReactNativeJS: Running "main"
+05-06 22:02:35.632   941  1146 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=false callback=android.view.ViewRootImpl$$ExternalSyntheticLambda13@f08a60c
+05-06 22:02:35.633   671   764 D CoreBackPreview: Window{b9e8471 u0 Splash Screen io.chartkit.showcase EXITING}: Setting back callback null
+05-06 22:02:35.718  1255  2312 I FontLog : Received query Noto Color Emoji Compat, URI content://com.google.android.gms.fonts [CONTEXT service_id=132 ]
+05-06 22:02:35.718  1255  2312 I FontLog : Query [emojicompat-emoji-font] resolved to {Noto Color Emoji Compat, wdth 100.0, wght 400, ital 0.0, bestEffort false}, isVf false} [CONTEXT service_id=132 ]
+05-06 22:02:35.719  1255  2312 I FontLog : Fetch {Noto Color Emoji Compat, wdth 100.0, wght 400, ital 0.0, bestEffort false}, isVf false} end status Status{statusCode=SUCCESS, resolution=null} [CONTEXT service_id=132 ]
+05-06 22:02:35.721  1255  2230 I FontLog : Pulling font file for id = 14, cache size = 8 [CONTEXT service_id=132 ]
+05-06 22:02:35.733  1255  2230 I FontLog : Pulling font file for id = 14, cache size = 8 [CONTEXT service_id=132 ]
+05-06 22:02:35.895  4534  4554 W unknown:ReactNative: StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+05-06 22:02:35.895  4534  4554 W unknown:ReactNative: StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+05-06 22:02:35.917  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  975x651
+05-06 22:02:35.952  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-0] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:35.953  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:35.954  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:02:35.954  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:02:35.954  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  975x619
+05-06 22:02:35.963  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-1] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:35.963  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:35.964  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:02:35.964  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:02:35.964  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  975x173
+05-06 22:02:35.966  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-2] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:35.966  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:35.967  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:02:35.967  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:02:35.967  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  975x603
+05-06 22:02:35.968  4534  4554 W unknown:ReactNative: StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+05-06 22:02:35.969  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-3] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:35.969  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:35.969  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:02:35.969  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:02:35.969  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  975x651
+05-06 22:02:35.979  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-4] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:35.979  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:35.981  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:02:35.981  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:02:35.981  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  975x625
+05-06 22:02:35.987  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-5] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:35.987  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:35.993  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:02:35.993  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:02:35.993  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  975x552
+05-06 22:02:35.996  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-6] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:35.996  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:35.997  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:02:35.997  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:02:35.997  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  975x515
+05-06 22:02:35.999  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-7] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:35.999  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.000  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:02:36.000  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:02:36.000  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  975x625
+05-06 22:02:36.002  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-8] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.002  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.003  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:02:36.003  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:02:36.003  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  3315x688
+05-06 22:02:36.014  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-9] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.014  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.014  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:02:36.014  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:02:36.014  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  975x688
+05-06 22:02:36.018  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-10] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.018  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.018  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:02:36.018  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:02:36.018  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  2925x651
+05-06 22:02:36.022  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-11] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.022  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.027  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:02:36.027  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:02:36.027  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  975x651
+05-06 22:02:36.031  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-12] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.031  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.032  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:02:36.032  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:02:36.032  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  975x604
+05-06 22:02:36.034  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-13] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.034  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.035  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:02:36.035  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:02:36.035  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  975x625
+05-06 22:02:36.044  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-14] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.044  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.045  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:02:36.045  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:02:36.045  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  975x624
+05-06 22:02:36.048  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-15] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.048  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.048  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:02:36.048  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:02:36.048  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  975x625
+05-06 22:02:36.050  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-16] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.050  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.051  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:02:36.051  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:02:36.051  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  975x625
+05-06 22:02:36.054  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-17] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.054  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.059  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:02:36.059  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:02:36.060  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  975x624
+05-06 22:02:36.063  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-18] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.063  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.064  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:02:36.064  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:02:36.064  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  975x604
+05-06 22:02:36.066  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-19] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.067  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.325  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-0] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.325  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.389  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-1] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.389  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.434  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-2] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.434  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.463  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-3] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.463  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.498  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-4] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.498  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.509  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-5] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.509  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.514  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-6] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.514  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.519  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-7] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.519  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.523  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-8] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.523  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.646  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-9] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.646  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.656  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-10] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.657  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.702  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-11] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.703  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.712  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-12] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.712  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.717  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-13] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.717  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.748  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-14] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.748  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.779  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-15] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.779  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.785  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-16] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.785  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.789  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-17] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.789  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.794  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-18] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.794  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.800  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-19] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.800  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.802  4534  4534 I Choreographer: Skipped 52 frames!  The application may be doing too much work on its main thread.
+05-06 22:02:36.803  4534  4534 E Surface : freeAllBuffers: 1 buffers were freed while being dequeued!
+05-06 22:02:36.817  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:02:36.817  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:02:36.817  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  975x735
+05-06 22:02:36.823  4534  4534 E Surface : getSlotFromBufferLocked: unknown buffer: 0x0
+05-06 22:02:36.852  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-20] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.852  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.853  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:02:36.853  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:02:36.853  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  975x735
+05-06 22:02:36.858  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-21] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.858  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.860  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:02:36.860  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:02:36.860  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  975x746
+05-06 22:02:36.890  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-22] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.890  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.891  4534  4534 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 22:02:36.891  4534  4534 E EGL_emulation: tid 4534: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 22:02:36.891  4534  4534 I SkiaTextureView: onSurfaceTextureAvailable:  975x735
+05-06 22:02:36.897  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-23] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.897  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.905  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-21] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.905  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.921  4534  4566 I HWUI    : Davey! duration=993ms; Flags=0, FrameTimelineVsyncId=311683, IntendedVsync=792511287818, Vsync=793377954450, InputEventId=0, HandleInputStart=793394112543, AnimationStart=793394113168, PerformTraversalsStart=793407568418, DrawStart=793407891418, FrameDeadline=792761287808, FrameStartTime=793393484585, FrameInterval=16666666, WorkloadTarget=16666666, SyncQueued=793489466752, SyncStart=793492265418, IssueDrawCommandsStart=793492792127, SwapBuffers=793494396002, FrameCompleted=793507706418, DequeueBufferDuration=1083, QueueBufferDuration=124083, GpuCompleted=793507706418, SwapBuffersCompleted=793496684543, DisplayPresentTime=0, CommandSubmissionCompleted=793494396002, 
+05-06 22:02:36.926  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-21] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.926  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.948  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-21] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.948  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.950  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-21] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.950  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.952  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-21] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.952  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.966  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-21] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.966  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.970  4534  4541 W System  : A resource failed to call Surface.release. 
+05-06 22:02:36.980  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-21] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.980  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:36.997  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-21] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:36.997  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:37.013  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-21] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:37.013  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:37.030  4575  4575 W screencap: Thread Pool max thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. serviceName: SurfaceFlingerAIDL
+05-06 22:02:37.030  4575  4575 W BpBinder: Linking to death on android.gui.ISurfaceComposer but there are no threads (yet?) listening to incoming transactions. See ProcessState::startThreadPool and ProcessState::setThreadPoolMaxThreadCount. Generally you should setup the binder threadpool before other initialization steps.
+05-06 22:02:37.030  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-21] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:37.030  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:37.030  4575  4575 W ProcessState: Extra binder thread started, but 0 threads requested. Do not use *startThreadPool when zero threads are requested.
+05-06 22:02:37.033   517   566 E HwcComposer: getLuts failed Status(-8, EX_SERVICE_SPECIFIC): '8: '
+05-06 22:02:37.033   517   566 E HWComposer: getLuts: getLuts failed for display 4619827259835644672: UNSUPPORTED (8)
+05-06 22:02:37.040   219   219 I servicemanager: Caller(pid=4575,uid=2000,sid=u:r:shell:s0) Found android.hardware.graphics.allocator.IAllocator/default in device VINTF manifest.
+05-06 22:02:37.047  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-21] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:37.048  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:37.045   219   219 I servicemanager: Caller(pid=4575,uid=2000,sid=u:r:shell:s0) Found android.hardware.graphics.allocator.IAllocator/default in device VINTF manifest.
+05-06 22:02:37.046   219   219 I servicemanager: Caller(pid=4575,uid=2000,sid=u:r:shell:s0) Found mapper/ranchu in device VINTF manifest.
+05-06 22:02:37.064  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-21] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:37.064  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:37.079  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-21] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:37.079  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:37.097  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-21] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:37.097  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:37.113  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-21] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:37.113  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:37.133  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-21] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:37.133  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 22:02:37.146  4534  4534 E artkit.showcase: [SurfaceTexture-0-4534-21] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 22:02:37.147  4534  4534 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored

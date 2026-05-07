@@ -37,7 +37,7 @@ describe("release gate checker", () => {
       status: "block"
     });
     expect(skiaCheck?.detail).toContain(
-      "3 incomplete Skia renderer evidence rows"
+      "2 incomplete Skia renderer evidence rows"
     );
   });
 

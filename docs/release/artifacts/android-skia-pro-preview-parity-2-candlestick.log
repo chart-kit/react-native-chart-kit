@@ -1,0 +1,403 @@
+--------- beginning of main
+05-06 22:02:49.005   671   809 D BluetoothAdapter: HEARING_AID connected
+05-06 22:02:49.005   671   671 I AS.BtHelper: BT profile service: connecting A2DP profile
+05-06 22:02:49.005   671   809 E BluetoothAdapter: Failed to retrieve a binder for LE_AUDIO
+05-06 22:02:49.006   671   863 I AS.BtHelper: BT profile A2DP connected to proxy android.bluetooth.BluetoothA2dp@1794a73
+05-06 22:02:49.006   671   863 D BluetoothAdapter: getActiveDevices(A2DP)
+05-06 22:02:49.006   671   809 D BluetoothAdapter: A2DP connected
+05-06 22:02:49.006   671   809 D BluetoothAdapter: HEADSET connected
+05-06 22:02:49.006   671   809 D BluetoothAdapter: HEARING_AID connected
+--------- beginning of system
+05-06 22:02:49.006   671   671 I Telecom : BluetoothDeviceManager: Got BluetoothHeadset: android.bluetooth.BluetoothHeadset@20b7f43: BPSL.oSC@AK0❗
+05-06 22:02:49.006   671   809 E BluetoothAdapter: Failed to retrieve a binder for LE_AUDIO
+05-06 22:02:49.006  1607  4013 D BluetoothAdapter: onBluetoothOn
+05-06 22:02:49.006  4598  4608 I BluetoothAdapterService: getActiveDevices: A2dp device: null
+05-06 22:02:49.007  1689  1689 W djgl    : (REDACTED) Caller %s is not allowed to use the news media browser service
+05-06 22:02:49.007  1607  4013 D BluetoothAdapter: HEADSET connected
+05-06 22:02:49.006   671   671 I Telecom : BluetoothDeviceManager: Got BluetoothHearingAid: android.bluetooth.BluetoothHearingAid@7dc9c0: BPSL.oSC@AK4❗
+05-06 22:02:49.007   671  1878 D MediaSessionService: onSessionPlaybackStateChanged: record=com.google.android.bluetooth/BluetoothMediaBrowserService/7 (userId=0) playbackState=PlaybackState {state=ERROR(7), position=0, buffered position=0, speed=0.0, updated=805599, actions=0, custom actions=[], active item id=-1, error=Bluetooth audio disconnected}
+05-06 22:02:49.007   941  1494 D BluetoothAdapter: onBluetoothOn
+05-06 22:02:49.007  1607  2079 I etle    : #audio# BT-headset-profile connected
+05-06 22:02:49.008   941  1494 D BluetoothAdapter: MAP connected
+05-06 22:02:49.008   941  1494 D BluetoothAdapter: HID_DEVICE connected
+05-06 22:02:49.008   941   941 D BluetoothMap: getConnectedDevices()
+05-06 22:02:49.008  4598  4598 I BluetoothMediaBrowserService: Service set to com.android.bluetooth.avrcpcontroller.BluetoothMediaBrowserService@9a22560
+05-06 22:02:49.008  1689  1689 I MediaBrowserService: No root for client com.google.android.bluetooth from service android.service.media.MediaBrowserService$ServiceState
+05-06 22:02:49.008  1689  1689 W djgl    : (REDACTED) Caller %s is not allowed to use the news media browser service
+05-06 22:02:49.008  1689  1689 I MediaBrowserService: No root for client com.google.android.bluetooth from service android.service.media.MediaBrowserService$ServiceState
+05-06 22:02:49.009  1607  2079 I etle    : (REDACTED) #audio# observed BT-devices connection changes, # of available devices(%s)
+05-06 22:02:49.011  1607  2079 I bmes    : #onBluetoothAudioInputDevicesChanged
+05-06 22:02:49.008   941  1494 D BluetoothAdapter: A2DP connected
+05-06 22:02:49.012   941  1494 D BluetoothAdapter: HEARING_AID connected
+05-06 22:02:49.012   671  2059 W BluetoothSystemServer: BluetoothServiceBinder: getAddress(): Client does not have LOCAL_MAC_ADDRESS permission
+05-06 22:02:49.012   941  1494 D BluetoothAdapter: HEADSET connected
+05-06 22:02:49.012   941  1494 D BluetoothAdapter: HID_HOST connected
+05-06 22:02:49.012   941  1494 D BluetoothAdapter: PBAP connected
+05-06 22:02:49.012   941  1494 D BluetoothAdapter: PAN connected
+05-06 22:02:49.012  4598  4598 I BluetoothSocketManagerBinder: createSocketChannel: type=1, serviceName=null, uuid=00000000-0000-0000-0000-000000000000, port=-2, from uid/pid=1002/4598
+05-06 22:02:49.012  4598  4598 I bt_btif_sock: system/btif/src/btif_sock.cc:173 btsock_listen: Attempting listen for socket connections for device: 00:00:00:00:00:00, type: 1, channel: -2, app_uid: 1002, data_path: 0, hub_id: 0, endpoint_id: 0, max_rx_packet_size: 0
+05-06 22:02:49.012  4598  4598 I bt_btif_sock_rfcomm: system/btif/src/btif_sock_rfc.cc:401 btsock_rfc_listen: Adding listening socket service_name: (nullptr) - channel: -2
+05-06 22:02:49.013  4598  4623 I bt_btif_sock_rfcomm: system/btif/src/btif_sock_rfc.cc:1011 jv_dm_cback: handling event:BTA_JV_GET_SCN_EVT, slot_id:3
+05-06 22:02:49.013  4598  4623 W rfcomm_port_utils: system/stack/rfcomm/port_utils.cc:289 port_find_mcb: not found, bd_addr:ff:ff:ff:ff:ff:ff
+05-06 22:02:49.013  4598  4623 I bt_port_api: system/stack/rfcomm/port_api.cc:226 RFCOMM_CreateConnectionWithSecurity: bd_addr=ff:ff:ff:ff:ff:ff, scn=6, is_server=true, mtu=990, uuid=0x0, dlci=12, signal_state=0xb, p_port=0x6f5b9f00b8
+05-06 22:02:49.013  4598  4623 I bt_btif_sock_rfcomm: system/btif/src/btif_sock_rfc.cc:963 rfcomm_cback: handling BTA_JV_RFCOMM_START_EVT, slot_id:3
+05-06 22:02:49.013  4598  4623 I bt_btif_sock_rfcomm: system/btif/src/btif_sock_rfc.cc:651 on_srv_rfc_listen_started: listening for RFCOMM socket connections for device: 00:00:00:00:00:00, scn: 6, app_uid: 1002, id: 3
+05-06 22:02:49.013   671  2059 W BluetoothSystemServer: BluetoothServiceBinder: getAddress(): Client does not have LOCAL_MAC_ADDRESS permission
+05-06 22:02:49.013  4598  4598 I BluetoothSocketManagerBinder: createSocketChannel: type=3, serviceName=null, uuid=00000000-0000-0000-0000-000000000000, port=-2, from uid/pid=1002/4598
+05-06 22:02:49.013  4598  4598 I bt_btif_sock: system/btif/src/btif_sock.cc:173 btsock_listen: Attempting listen for socket connections for device: 00:00:00:00:00:00, type: 3, channel: -2, app_uid: 1002, data_path: 0, hub_id: 0, endpoint_id: 0, max_rx_packet_size: 0
+05-06 22:02:49.013  4598  4598 I bluetooth: system/btif/src/btif_sock_l2cap.cc:405 btsock_l2cap_alloc_l: Allocated l2cap socket structure socket_id:3
+05-06 22:02:49.013  4598  4623 I bt_btif_sock_rfcomm: system/btif/src/btif_sock_rfc.cc:1011 jv_dm_cback: handling event:BTA_JV_GET_PSM_EVT, slot_id:3
+05-06 22:02:49.013  4598  4623 I bt_l2cap: system/stack/l2cap/l2c_api.cc:158 L2CA_Register: L2CAP Registered service classic PSM: 0x1005
+05-06 22:02:49.013  4598  4623 I bluetooth: system/btif/src/btif_sock_l2cap.cc:513 on_srv_l2cap_listen_started: Listening for L2CAP connection for device: 00:00:00:00:00:00, channel: 4101, app_uid: 1002, id: 3, is_le: false
+05-06 22:02:49.013  4598  4623 I bluetooth: system/btif/src/btif_sock_l2cap.cc:431 send_app_psm_or_chan_l: Sending l2cap socket socket_id:3 channel:4101
+05-06 22:02:49.014  4598  4598 I PlayerSettingsManager: getPlayerRepeatMode: no active player
+05-06 22:02:49.014  4598  4598 I PlayerSettingsManager: getPlayerShuffleMode: no active player
+05-06 22:02:49.014  4598  4598 I PlayerSettingsManager: updateRemoteDevice: STATE_REPEAT_OFF, STATE_SHUFFLE_OFF
+05-06 22:02:49.014  4598  4598 I bluetooth: system/btif/avrcp/avrcp_service.cc:582 SendPlayerSettingsChanged: {attribute=PlayerAttribute::REPEAT : value=PlayerRepeatValue::OFF}, {attribute=PlayerAttribute::SHUFFLE : value=PlayerShuffleValue::OFF}
+05-06 22:02:49.014  4598  4623 I bt_bta_dm: system/bta/dm/bta_dm_act.cc:1359 bta_dm_eir_update_uuid: EIR Adding UUID=0x1105 into extended inquiry response
+05-06 22:02:49.014  4598  4598 I PlayerSettingsManager: getPlayerRepeatMode: no active player
+05-06 22:02:49.014  4598  4623 I bt_bta_dm: system/bta/dm/bta_dm_act.cc:1090 bta_dm_set_eir: Generating extended inquiry response packet EIR
+05-06 22:02:49.014  4598  4598 I PlayerSettingsManager: getPlayerShuffleMode: no active player
+05-06 22:02:49.014  4598  4598 I PlayerSettingsManager: updateRemoteDevice: STATE_REPEAT_OFF, STATE_SHUFFLE_OFF
+05-06 22:02:49.014  4598  4598 I bluetooth: system/btif/avrcp/avrcp_service.cc:582 SendPlayerSettingsChanged: {attribute=PlayerAttribute::REPEAT : value=PlayerRepeatValue::OFF}, {attribute=PlayerAttribute::SHUFFLE : value=PlayerShuffleValue::OFF}
+05-06 22:02:49.014  4598  4598 E MediaBrowser: onConnectFailed for ComponentInfo{com.google.android.googlequicksearchbox/com.google.android.libraries.assistant.auto.tng.media.mediabrowser.NewsMediaBrowserService}
+05-06 22:02:49.014  4598  4598 W BrowsedPlayerWrapper: onConnectionFailed: Connection Failed with com.google.android.googlequicksearchbox
+05-06 22:02:49.014  4598  4598 E MediaBrowser: onConnectFailed for ComponentInfo{com.google.android.googlequicksearchbox/com.google.android.libraries.assistant.auto.tng.media.mediabrowser.NewsMediaBrowserService}
+05-06 22:02:49.015  4598  4598 W BrowsedPlayerWrapper: onConnectionFailed: Connection Failed with com.google.android.googlequicksearchbox
+05-06 22:02:49.015  4598  4598 I AvrcpBrowsablePlayerConnector: com.google.android.googlequicksearchbox is not browsable
+05-06 22:02:49.015  4598  4598 I AvrcpBrowsablePlayerConnector: com.google.android.googlequicksearchbox is not browsable
+05-06 22:02:49.015  4598  4598 I BluetoothMediaBrowserService: Browser Client Connection Request, client='com.google.android.bluetooth')
+05-06 22:02:49.015  4598  4598 I BluetoothMediaBrowserService: Browser Client Connection Request, client='com.google.android.bluetooth')
+05-06 22:02:49.015  4598  4598 I BrowsedPlayerWrapper: onConnected: com.google.android.bluetooth is connected
+05-06 22:02:49.015  4598  4598 I BrowsedPlayerWrapper: getFolderItems: Connected to browsable player: com.google.android.bluetooth
+05-06 22:02:49.015  4598  4598 I BrowsedPlayerWrapper: onConnected: com.google.android.bluetooth is connected
+05-06 22:02:49.015  4598  4598 I BrowsedPlayerWrapper: getFolderItems: Connected to browsable player: com.google.android.bluetooth
+05-06 22:02:49.015  4598  4598 W BluetoothMediaBrowserService: getContents(id=__ROOT__): AVRCP Controller Service not ready
+05-06 22:02:49.015  4598  4598 W BluetoothMediaBrowserService: getContents(id=__ROOT__): AVRCP Controller Service not ready
+05-06 22:02:49.015  4598  4598 E BrowsedPlayerWrapper: BrowserSubscriptionCallback: Could not get folder items
+05-06 22:02:49.015  4598  4598 E BrowsedPlayerWrapper: BrowserSubscriptionCallback: Could not get folder items
+05-06 22:02:49.015  4598  4598 I AvrcpBrowsablePlayerConnector: Successfully connected to 0 browsable players.
+05-06 22:02:49.015  4598  4598 I MediaPlayerList: init: Browsable Player list size is 0
+05-06 22:02:49.015  4598  4598 I AvrcpBrowsablePlayerConnector: Successfully connected to 0 browsable players.
+05-06 22:02:49.015  4598  4598 I MediaPlayerList: init: Browsable Player list size is 0
+05-06 22:02:49.016   671  1878 I MediaSessionStack: removeSession | record: com.google.android.bluetooth/BluetoothMediaBrowserService/7 (userId=0)
+05-06 22:02:49.016   671  1878 D MediaSessionService: destroySessionLocked: record=com.google.android.bluetooth/BluetoothMediaBrowserService/7 (userId=0)
+05-06 22:02:49.017  4598  4598 I BluetoothMediaBrowserService: Service set to null
+05-06 22:02:49.017  4598  4598 I PlayerSettingsManager: getPlayerRepeatMode: no active player
+05-06 22:02:49.017  4598  4598 I PlayerSettingsManager: getPlayerShuffleMode: no active player
+05-06 22:02:49.017  4598  4598 I PlayerSettingsManager: updateRemoteDevice: STATE_REPEAT_OFF, STATE_SHUFFLE_OFF
+05-06 22:02:49.017  4598  4598 I bluetooth: system/btif/avrcp/avrcp_service.cc:582 SendPlayerSettingsChanged: {attribute=PlayerAttribute::REPEAT : value=PlayerRepeatValue::OFF}, {attribute=PlayerAttribute::SHUFFLE : value=PlayerShuffleValue::OFF}
+05-06 22:02:49.018  1607  2079 I bmdg    : (REDACTED) starting updateConfig, reason: %s
+05-06 22:02:49.018  1689  1689 I djgl    : onDestroy()
+05-06 22:02:49.019  1607  2079 I bmnn    : #getEarcons
+05-06 22:02:49.020  1607  2079 I bnnl    : (REDACTED) #isBluetoothOrWiredHeadsetConnected Number of connected audio devices: %s
+05-06 22:02:49.021  1607  2079 I bpph    : (REDACTED) #isRobinOnlyLocale checkedLocale:%s language:%s list:%s
+05-06 22:02:49.023  1607  2149 I bteo    : OptInSetting is UNKNOWN or UNRECOGNIZED [CONTEXT ratelimit_period="10 SECONDS" skipped=24 ]
+05-06 22:02:49.024  1607  2229 I bpnr    : Manufacturer not matched [CONTEXT ratelimit_period="10 SECONDS" skipped=24 ]
+05-06 22:02:49.024  1607  2229 I bpnr    : Device not matched [CONTEXT ratelimit_period="10 SECONDS" skipped=24 ]
+05-06 22:02:49.024  1607  2229 I ccjr    : (REDACTED) getInitialSimplifiedOobeViaDeeplinkUser: %b
+05-06 22:02:49.024  1607  2079 I ccjr    : (REDACTED) getInitialSimplifiedOobeViaDeeplinkUser: %b
+05-06 22:02:49.024  1607  2229 I bteo    : (REDACTED) isDeeplinkEnabled %s, isInitialSimplifiedOobeViaDeeplinkUser %s
+05-06 22:02:49.024  1607  2079 I bteo    : (REDACTED) isDeeplinkEnabled %s, isInitialSimplifiedOobeViaDeeplinkUser %s
+05-06 22:02:49.024  1607  2079 I bteo    : #getOobeStatus: BeforeOobe [CONTEXT ratelimit_period="10 SECONDS" skipped=24 ]
+05-06 22:02:49.024  1607  2149 I ccjr    : (REDACTED) getInitialSimplifiedOobeViaDeeplinkUser: %b
+05-06 22:02:49.024  1607  2079 I bmvl    : User not OptedIn. Skipping Eligibility Checks.
+05-06 22:02:49.024  1607  2229 I bmvl    : User not OptedIn. Skipping Eligibility Checks.
+05-06 22:02:49.024  1607  2149 I bteo    : (REDACTED) isDeeplinkEnabled %s, isInitialSimplifiedOobeViaDeeplinkUser %s
+05-06 22:02:49.025  1607  2079 I bmtt    : Robin is not eligible or not opted-in
+05-06 22:02:49.025  1607  2079 I bmtt    : Headphone voice queries disabled: HEADPHONE_VOICE_QUERIES flag not enabled
+05-06 22:02:49.025  1607  2079 I bmtt    : (REDACTED) Headphone Integration status: %s
+05-06 22:02:49.025  1607  2149 I bmok    : (REDACTED) FCF System FeatureName to check: %s
+05-06 22:02:49.025  1607  2149 I bmok    : (REDACTED) FCF: Device model check status : %s
+05-06 22:02:49.025  1607  2149 I bmvp    : #isGeminiDefaultSystemFeatureEnabled: false
+05-06 22:02:49.026  1607  2229 I bsmc    : (REDACTED) DelegationStatus: %s
+05-06 22:02:49.026  1607  2229 I bmkm    : (REDACTED) Populated bump behaviors: %s
+05-06 22:02:49.026  1607  2229 I bmkt    : (REDACTED) Client type %s set for %s
+05-06 22:02:49.026  1607  2229 I bmkt    : (REDACTED) Client type %s set for %s
+05-06 22:02:49.026  1607  2229 I bmkt    : (REDACTED) Client type %s set for %s
+05-06 22:02:49.027  1607  2229 I rnp     : no assistant invocation found, returning 0.
+05-06 22:02:49.027  1607  2228 I rnp     : no assistant invocation found, returning max duration.
+05-06 22:02:49.028  1607  2149 I bpph    : (REDACTED) #isRobinOnlyLocale checkedLocale:%s language:%s list:%s
+05-06 22:02:49.028  1607  2149 I bmok    : (REDACTED) FCF System FeatureName to check: %s
+05-06 22:02:49.028  1607  2149 I bmok    : (REDACTED) FCF: Device model check status : %s
+05-06 22:02:49.028  1607  2149 I bmul    : (REDACTED) #evaluate: isEnabled = %s failure reasons: %s
+05-06 22:02:49.028  1607  2149 I bmbg    : (REDACTED) #initialConfig Current Locale set to: %s
+05-06 22:02:49.028  1607  2149 I bmbg    : (REDACTED) #initialConfig Assistant is currently enabled: %s
+05-06 22:02:49.028  1607  2149 I bmbg    : (REDACTED) #initialConfig InputModality is currently: %s
+05-06 22:02:49.028  1607  2149 I bmbg    : (REDACTED) #initialConfig Speed Bump entry points: %s
+05-06 22:02:49.028  1607  2149 I bmbg    : (REDACTED) #initialConfig Long Press Power Education entrypoints: %s
+05-06 22:02:49.028  1607  2149 I bmbg    : (REDACTED) #initialConfig Robin entrypoints: %s
+05-06 22:02:49.028  1607  2149 I bmbg    : (REDACTED) #initialConfig Preferred audio route type: %s
+05-06 22:02:49.029  1607  2149 I bmbg    : (REDACTED) #initialConfig Earcons to be added: %s
+05-06 22:02:49.029  1607  2149 I bmbg    : (REDACTED) #initialConfig Mic occupied behavior: %s
+05-06 22:02:49.029  1607  2149 I bmbg    : (REDACTED) #initialConfig Headphone voice queries and spoken notifications status: %s
+05-06 22:02:49.029  1607  2149 I bsmc    : (REDACTED) DelegationStatus: %s
+05-06 22:02:49.031  1607  2079 I bmnr    : (REDACTED) #FCF: Preferred assistant locale set %s 
+05-06 22:02:49.031  1607  2149 I bmnr    : (REDACTED) #FCF: Preferred assistant locale set %s 
+05-06 22:02:49.031  1607  2079 I bmok    : (REDACTED) FCF System FeatureName to check: %s
+05-06 22:02:49.031  1607  2079 I bmok    : (REDACTED) FCF: Device model check status : %s
+05-06 22:02:49.031  1607  2079 I bmok    : (REDACTED) FCF System FeatureName to check: %s
+05-06 22:02:49.031  1607  2149 I bmok    : (REDACTED) FCF System FeatureName to check: %s
+05-06 22:02:49.031  1607  2079 I bmok    : (REDACTED) FCF: Device model check status : %s
+05-06 22:02:49.031  1607  2149 I bmok    : (REDACTED) FCF: Device model check status : %s
+05-06 22:02:49.031  1607  2079 I bmul    : (REDACTED) #evaluate: isEnabled = %s failure reasons: %s
+05-06 22:02:49.031  1607  2149 I bmuw    : (REDACTED) #evaluate: isEnabled[ = %s failure reasons: %s
+05-06 22:02:49.031  1607  2079 I bmun    : (REDACTED) #evaluate: isEnabled = %s failure reasons: %s
+05-06 22:02:49.031  1607  2079 I bmur    : (REDACTED) #evaluate: isEnabled = %s failure reasons: %s
+05-06 22:02:49.031  1607  2149 I bmuv    : (REDACTED) #evaluate: isEnabled = %s failure reasons: %s
+05-06 22:02:49.032  1607  2149 I bmbg    : (REDACTED) Needs to download files: %s
+05-06 22:02:49.032  1607  2149 I bsmc    : (REDACTED) DelegationStatus: %s
+05-06 22:02:49.032  1607  2149 I ccjr    : (REDACTED) getInitialSimplifiedOobeViaDeeplinkUser: %b
+05-06 22:02:49.033  1607  2149 I bteo    : (REDACTED) isDeeplinkEnabled %s, isInitialSimplifiedOobeViaDeeplinkUser %s
+05-06 22:02:49.033  1607  2149 I bmvl    : User not OptedIn. Skipping Eligibility Checks.
+05-06 22:02:49.033  1607  2149 I bmdg    : No changes in config detected
+05-06 22:02:49.261   671   843 D WifiClientModeImpl[8610:wlan0]: updateLinkLayerStatsRssiSpeedFrequencyCapabilities rssi=-50 TxLinkspeed=1 freq=2447 RxLinkSpeed=2
+05-06 22:02:49.262   671   843 D WifiDataStall: tx tput in kbps: 11000
+05-06 22:02:49.262   671   843 D WifiDataStall: rx tput in kbps: 11000
+05-06 22:02:49.262   671   843 V WifiConfigManager: Updating scan detail cache freq=2447 BSSID=00:13:10:85:fe:01 RSSI=-50 for "AndroidWifi"NONE
+05-06 22:02:49.262   671   843 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 22:02:49.262   671   843 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 22:02:49.262   671   843 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 22:02:49.262   671   843 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 22:02:49.262   671   843 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 22:02:49.262   671   843 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 22:02:49.262   671   843 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 22:02:49.262   671   843 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 22:02:49.262   671   843 D WifiScoreCard: BSSID update SIGNAL_POLL ID: 786848858 SSID: "AndroidWifi", BSSID: 00:13:10:85:fe:01, MAC: 02:15:b2:00:00:00, IP: /10.0.2.16, Security type: 0, Supplicant state: COMPLETED, Wi-Fi standard: legacy, RSSI: -50, Link speed: 1Mbps, Tx Link speed: 1Mbps, Max Supported Tx Link speed: 11Mbps, Rx Link speed: 2Mbps, Max Supported Rx Link speed: 11Mbps, Frequency: 2447MHz, Net ID: 0, Metered hint: false, score: 60, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: 1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none>"AndroidWifi"openMLO Information: , Is TID-To-Link negotiation supported by the AP: false, AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>, Vendor Data: <none>
+05-06 22:02:49.262   671   843 D WifiScoreCard: txRate: 1 txSpeed: 1
+05-06 22:02:49.262   671   843 D WifiScoreCard: network update SIGNAL_POLL "AndroidWifi" ID: 1628418683 RSSI -50 txSpeed -1
+05-06 22:02:49.262   671   843 D WifiClientModeImpl[8610:wlan0]:  ClientModeImpl$L2ConnectedState screen=on 1 0 "AndroidWifi" 00:13:10:85:fe:01 rssi=-50 f=2447 sc=60 link=1 tx=0.0, 0.0, 0.0 rx=0.0 bcn=0 [on:0 tx:0 rx:0 period:3005] from screen [on:0 period:2908718] score=60
+05-06 22:02:49.279  1255  2306 I NearbyDiscovery: FastPairHandler: Received action android.bluetooth.adapter.action.BLE_STATE_CHANGED [CONTEXT service_id=265 ]
+05-06 22:02:49.279  1255  2614 D BluetoothAdapter: isLeEnabled(): ON
+05-06 22:02:49.280  1255  2306 I NearbyDiscovery: FastPairHandler: Received action android.bluetooth.adapter.action.BLE_STATE_CHANGED [CONTEXT service_id=265 ]
+05-06 22:02:49.280  1255  2614 D BluetoothAdapter: isLeEnabled(): ON
+05-06 22:02:49.281  1255  2306 I NearbyDiscovery: FastPairHandler: Received action android.bluetooth.adapter.action.STATE_CHANGED [CONTEXT service_id=265 ]
+05-06 22:02:49.282  1255  3509 I NearbySharing: Bluetooth is enabled
+05-06 22:02:49.282  1255  1255 I MagicTether: [TetherService] BluetoothStateChangeReceiver: 11 [CONTEXT service_id=276 ]
+05-06 22:02:49.282  1255  3509 I NearbySharing: Uwb feature is off.
+05-06 22:02:49.282  1255  3509 I NearbySharing: Stopping scanning because Nearby Sharing is disabled.
+05-06 22:02:49.282  1255  3509 I NearbySharing: Stopping Fast Init advertisement because we're not scanning in the foreground.
+05-06 22:02:49.282  1255  3509 I NearbySharing: Stopping advertising because Nearby Sharing is disabled.
+05-06 22:02:49.283  1255  3509 I NearbySharing: There is no account metadata, return default instance.
+05-06 22:02:49.283  1255  3509 I NearbySharing: There is no account metadata, return default instance.
+05-06 22:02:49.283  1255  3509 I NearbySharing: Stopping FastInitiation scanning because visibility is hidden.
+05-06 22:02:49.283  1255  3509 I NearbySharing: Fast Initiation Scanning has stopped
+05-06 22:02:49.283  1255  2306 I NearbyDiscovery: FastPairHandler: Received action android.bluetooth.adapter.action.BLE_STATE_CHANGED [CONTEXT service_id=265 ]
+05-06 22:02:49.283  1255  2306 I NearbyDiscovery: OffloadFastPairScanner: eventType=BLE_ON, isInternalReq=false, isOffloadScanning=false, isOffloadScanningAllowed=false [CONTEXT service_id=265 ]
+05-06 22:02:49.283  1255  2306 I NearbyDiscovery: FastPairScanner: isScreenOn=true, isLocationEnabled=true, disableLocationRequirement=true, isDiscoveryScanningEnabled=true, during24GhzWifiWarmingUpPeriod=false [CONTEXT service_id=265 ]
+05-06 22:02:49.284  1255  2306 D BluetoothAdapter: isLeEnabled(): ON
+05-06 22:02:49.284  1255  2306 I NearbyDiscovery: FastPairScanner: eventType=BLE_ON, intReq=false, scanning=false, scanAllowed=true, bleEnabled=true, lockScanRate=false, startScanningByLowPowerMode=false [CONTEXT service_id=265 ]
+05-06 22:02:49.284  1255  3509 I NearbySharing: Dismissing HUN as there's no device nearby.
+05-06 22:02:49.284  1255  4635 I MagicTether: [TetherService] starting runnable [CONTEXT service_id=276 ]
+05-06 22:02:49.284  1255  4635 I MagicTether: [TetherService] Starting Instant Hotspot feature. [CONTEXT service_id=276 ]
+05-06 22:02:49.288  1255  3509 I NearbySharing: Broadcasting NearbySharing state change.
+05-06 22:02:49.289  1255  1255 D BoundBrokerSvc: onRebind: Intent { act=com.google.android.gms.findmydevice.spot.service.locationreport.START dat=chimera-action:/... xflg=0x4 cmp=com.google.android.gms/.chimera.PersistentApiService }
+05-06 22:02:49.289  1255  4621 I ProximityAuth: [PhoneHubService] Bluetooth state has changed. Calling startService.
+05-06 22:02:49.290  1255  4619 I Nearby  : is blocked device type false, isAuto=false, isIot=false, isLatchsky=false, isChinaWearable=false, isTv=false, isWearable=false (supportWearOs=false), isChromeOsDevice=false (supportChromeOs=false) [CONTEXT service_id=49 ]
+05-06 22:02:49.290  1255  4620 I NearbyMediums: ModuleInitializer handles incoming intent android.bluetooth.adapter.action.STATE_CHANGED
+05-06 22:02:49.291  1255  1255 I NearbyDiscovery: DiscoveryService onStartCommand action: android.bluetooth.adapter.action.STATE_CHANGED [CONTEXT service_id=265 ]
+05-06 22:02:49.291  1255  1255 I NearbyDiscovery: FastPair: onAdapterStateChange: state=11 [CONTEXT service_id=265 ]
+05-06 22:02:49.291  1255  4635 I MagicTether: [LaunchUtils] No accounts found for enabling Instant Wifi. [CONTEXT service_id=276 ]
+05-06 22:02:49.291  1255  3509 I NearbySharing: There is no account metadata, return default instance.
+05-06 22:02:49.292  1255  3509 I Nearby  : Beginning attempt #1 out of 3 for RestoreDeviceName... [CONTEXT service_id=49 ]
+05-06 22:02:49.292  1255  3509 I NearbyMediums: BluetoothAdapter's name was not set by Nearby Connections, ignoring call to restore default scan mode.
+05-06 22:02:49.292   671  1194 I WifiService: getWifiEnabledState uid=10144 state=3
+05-06 22:02:49.292   671  1194 I WifiService: is5GHzBandSupported uid=10144
+05-06 22:02:49.292  1255  3509 I NearbyMediums: BluetoothAdapter's name was not set by Nearby Connections, ignoring call to restore device name
+05-06 22:02:49.292   671  1194 I WifiService: getWifiEnabledState uid=10144 state=3
+05-06 22:02:49.292   671  1194 I WifiService: is6GHzBandSupported uid=10144
+05-06 22:02:49.292  1255  2614 I NearbyFastPair: DynamicSupportModule: onSupportStateUpdate start [CONTEXT service_id=265 ]
+05-06 22:02:49.294  1255  2614 I NearbyFastPair: DynamicSupportModule: onSupportStateUpdate end [CONTEXT service_id=265 ]
+05-06 22:02:49.294  1255  1255 I ProximityAuth: [PhoneHubService] Handling intent for PhoneHubChimeraService.
+05-06 22:02:49.295  1255  4442 I ProximityAuth: [PhoneHubService] No enabled account, stopping service
+05-06 22:02:49.296  1255  1255 I ProximityAuth: [PhoneHubService] Destroying PhoneHubChimeraService.
+05-06 22:02:49.296  1255  1255 W ProximityAuth: [PhoneHubNotificationProcessor] shutdown(): context is null.
+05-06 22:02:49.296  1255  1255 I ProximityAuth: [PhoneHubService] All devices have disconnected. Performing cleanup...
+05-06 22:02:49.296  1255  1255 W ChimeraUtils: Module com.google.android.gms.auth_proximity missing resource null(0)
+05-06 22:02:49.296  1255  2614 I NearbySharing: There is no account metadata, return default instance.
+05-06 22:02:49.298   671   895 D BackgroundInstallControlService: Package event received: 0
+05-06 22:02:49.299  1255  4635 I MagicTether: [HostTetherRole] enableProximityAuth: true [CONTEXT service_id=276 ]
+05-06 22:02:49.301  1255  1255 D BoundBrokerSvc: onRebind: Intent { act=com.google.android.gms.auth.aang.events.services.START dat=chimera-action:/... xflg=0x4 cmp=com.google.android.gms/.chimera.PersistentApiService }
+05-06 22:02:49.303  1255  2306 I NearbyDiscovery: FastPairScanner: isScreenOn=true, isLocationEnabled=true, disableLocationRequirement=true, isDiscoveryScanningEnabled=true, during24GhzWifiWarmingUpPeriod=false [CONTEXT service_id=265 ]
+05-06 22:02:49.303  1255  2306 I NearbyDiscovery: FastPairScanner: Start scanning internally, scan-mode=balanced [CONTEXT service_id=265 ]
+05-06 22:02:49.303  1255  2306 D BluetoothAdapter: isLeEnabled(): ON
+05-06 22:02:49.303  1255  4635 W MagicTether: [HostEnablementUtils] Invalid account list. [CONTEXT service_id=276 ]
+05-06 22:02:49.305  4598  4607 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:135 RegisterScanner: in shim layer, UUID=3a41b095-1ec1-4341-b3d2-107ad06e087c
+05-06 22:02:49.306  1255  1811 D BluetoothLeScanner: onScannerRegistered() - status=0 scannerId=1 mScannerId=0
+05-06 22:02:49.306  1255  4635 I MagicTether: [TetherService] Registering Tidepool update listener [CONTEXT service_id=276 ]
+05-06 22:02:49.307  1255  4635 I MagicTether: [LaunchUtils] No accounts found for enabling Instant Wifi. [CONTEXT service_id=276 ]
+05-06 22:02:49.307  1255  4635 I MagicTether: [LaunchUtils] No accounts found for enabling Instant Wifi. [CONTEXT service_id=276 ]
+05-06 22:02:49.307  1255  1309 I Multidevice: [FeatureSettingsApiService] registerXdFeatureStatusListener(featureKeys: [4], enableImmediateCallback: true) [CONTEXT service_id=348 ]
+05-06 22:02:49.309  1255  1255 I MagicTether: [AutoDisconnectIntentOperation] Canceling task. [CONTEXT service_id=276 ]
+05-06 22:02:49.309  1255  1255 I MagicTether: [TidepoolFeatureStatusManager] Successfully registered TidepoolListener [CONTEXT service_id=276 ]
+05-06 22:02:49.309  1255  1255 I MagicTether: [LaunchUtils] No accounts found for enabling Instant Wifi. [CONTEXT service_id=276 ]
+05-06 22:02:49.309  1255  1255 I MagicTether: [TidepoolFeatureStatusManager] onFeatureStatusChanged: INTERNET_SHARING_HOTSPOT=false [CONTEXT service_id=276 ]
+05-06 22:02:49.309  1255  1255 I MagicTether: [TetherService] TidepoolUpdateListener#onInstantHotspotUpdate isInstantHotspotEnabled=false [CONTEXT service_id=276 ]
+05-06 22:02:49.310  1255  4442 I MagicTether: [TetherService] starting runnable [CONTEXT service_id=276 ]
+05-06 22:02:49.310  1255  2306 I NearbyDiscovery: FastPairScanner: Start scanning, mode=LOW_POWER_SCANNING [CONTEXT service_id=265 ]
+05-06 22:02:49.310  1255  4442 I MagicTether: [TetherService] Starting Instant Hotspot feature. [CONTEXT service_id=276 ]
+05-06 22:02:49.310  1255  4442 I MagicTether: [HostTetherRole] enableProximityAuth: true [CONTEXT service_id=276 ]
+05-06 22:02:49.310  1255  2306 I NearbyDiscovery: FastPairScanner: isScreenOn=true, isLocationEnabled=true, disableLocationRequirement=true, isDiscoveryScanningEnabled=true, during24GhzWifiWarmingUpPeriod=false [CONTEXT service_id=265 ]
+05-06 22:02:49.310  1255  2306 I NearbyDiscovery: OffloadFastPairScanner: isScanningAllowed, try startScanning. [CONTEXT service_id=265 ]
+05-06 22:02:49.310  1255  2306 D BluetoothAdapter: isLeEnabled(): ON
+05-06 22:02:49.310  1255  2306 I NearbyDiscovery: OffloadFastPairScanner: Ble is already enabled, start offload scanning. [CONTEXT service_id=265 ]
+05-06 22:02:49.310  1255  2306 I NearbyDiscovery: OffloadFastPairScanner: Skipping start offload scanning, scanning not allowed now. [CONTEXT service_id=265 ]
+05-06 22:02:49.310  1255  2306 I NearbyDiscovery: FastPairHandler: Received action android.bluetooth.adapter.action.STATE_CHANGED [CONTEXT service_id=265 ]
+05-06 22:02:49.311  1255  4620 I MagicTether: [AutoDisconnectIntentOperation] Canceling task. [CONTEXT service_id=276 ]
+05-06 22:02:49.311  4598  4653 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:236 ScanFilterEnable: in shim layer
+05-06 22:02:49.311  1255  4442 W MagicTether: [HostEnablementUtils] Invalid account list. [CONTEXT service_id=276 ]
+05-06 22:02:49.312  4598  4653 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:213 ScanFilterAdd: in shim layer
+05-06 22:02:49.312  1255  4620 I MagicTether: [AutoDisconnectIntentOperation] Canceling task. [CONTEXT service_id=276 ]
+05-06 22:02:49.312  4598  4653 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:180 ScanFilterParamSetup: in shim layer, clientIf=1
+05-06 22:02:49.312  4598  4653 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:213 ScanFilterAdd: in shim layer
+05-06 22:02:49.312  4598  4653 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:180 ScanFilterParamSetup: in shim layer, clientIf=1
+05-06 22:02:49.312  4598  4653 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:147 Scan: in shim layer started
+05-06 22:02:49.313  4598  4629 I bluetooth: system/gd/hci/le_scanning_manager.cc:601 stop_scan: Scanning already stopped, return!
+05-06 22:02:49.313  4598  4629 I bluetooth: system/gd/hci/le_address_manager.cc:576 GetNextPrivateAddressIntervalRange: client=LeAddressManager, nonwake=8m18s, wake=14m46s
+05-06 22:02:49.313  4598  4629 I bluetooth: system/gd/hci/le_address_manager.cc:259 register_client: Scheduled address rotation for first client registered
+05-06 22:02:49.313  4598  4629 I bluetooth: system/gd/hci/le_address_manager.cc:263 register_client: Client registered
+05-06 22:02:49.313  4598  4629 I bluetooth: system/gd/hci/le_scanning_manager.cc:1380 on_advertising_filter_complete: Got a Command complete LE_ADV_FILTER(0xfd57), status UNKNOWN_CONNECTION(0x02)
+05-06 22:02:49.313  1255  4442 I MagicTether: [TidepoolFeatureStatusManager] isInstantHotspotEnabled=false [CONTEXT service_id=276 ]
+05-06 22:02:49.313  4598  4653 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:147 Scan: in shim layer stopped
+05-06 22:02:49.314  4598  4629 I bluetooth: system/gd/hci/le_address_manager.cc:278 unregister_client: Client unregistered
+05-06 22:02:49.314  4598  4629 I bluetooth: system/gd/hci/le_address_manager.cc:293 unregister_client: Cancelled address rotation alarm
+05-06 22:02:49.314  1255  4442 I MagicTether: [LaunchUtils] No accounts found for enabling Instant Wifi. [CONTEXT service_id=276 ]
+05-06 22:02:49.314  1255  4442 I MagicTether: [TetherService] Stopping Nearby component. [CONTEXT service_id=276 ]
+05-06 22:02:49.314  4598  4653 W ScanManager: There is no scan radio to stop
+05-06 22:02:49.314  4598  4653 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:311 SetScanParameters: in shim layer, scannerId1m=1, scannerIdCoded=0
+05-06 22:02:49.314  4598  4653 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:147 Scan: in shim layer started
+05-06 22:02:49.314  4598  4629 I bluetooth: system/gd/hci/le_scanning_manager.cc:601 stop_scan: Scanning already stopped, return!
+05-06 22:02:49.314  4598  4629 I bluetooth: system/gd/hci/le_address_manager.cc:576 GetNextPrivateAddressIntervalRange: client=LeAddressManager, nonwake=7m57s, wake=13m43s
+05-06 22:02:49.314  4598  4629 I bluetooth: system/gd/hci/le_address_manager.cc:259 register_client: Scheduled address rotation for first client registered
+05-06 22:02:49.314  4598  4629 I bluetooth: system/gd/hci/le_address_manager.cc:263 register_client: Client registered
+05-06 22:02:49.314  1255  4442 I MagicTether: [LaunchUtils] No accounts found for enabling Instant Wifi. [CONTEXT service_id=276 ]
+05-06 22:02:49.314  1255  4442 I MagicTether: [HostTetherRole] Nearby host role already stopped [CONTEXT service_id=276 ]
+05-06 22:02:49.314  4598  4629 I bluetooth: system/gd/hci/le_scanning_manager.cc:1380 on_advertising_filter_complete: Got a Command complete LE_ADV_FILTER(0xfd57), status UNKNOWN_CONNECTION(0x02)
+05-06 22:02:49.315  1255  4442 I MagicTether: [LaunchUtils] No accounts found for enabling Instant Wifi. [CONTEXT service_id=276 ]
+05-06 22:02:49.315  1255  4442 I MagicTether: [TetherService] Stopping Nearby client role [CONTEXT service_id=276 ]
+05-06 22:02:49.315  1255  4442 I MagicTether: [ClientTetherRole] Client role already stopped [CONTEXT service_id=276 ]
+05-06 22:02:49.315  1255  1255 I MagicTether: [AutoDisconnectIntentOperation] Canceling task. [CONTEXT service_id=276 ]
+05-06 22:02:49.317  1255  1255 I MagicTether: [AutoDisconnectIntentOperation] Canceling task. [CONTEXT service_id=276 ]
+05-06 22:02:49.319  1255  4620 I MagicTether: [AutoDisconnectIntentOperation] Canceling task. [CONTEXT service_id=276 ]
+05-06 22:02:49.319  1255  4620 I MagicTether: [AutoDisconnectIntentOperation] Canceling task. [CONTEXT service_id=276 ]
+05-06 22:02:49.320  1255  4620 I MagicTether: [AutoDisconnectIntentOperation] Canceling task. [CONTEXT service_id=276 ]
+05-06 22:02:49.320  1255  4620 I MagicTether: [AutoDisconnectIntentOperation] Canceling task. [CONTEXT service_id=276 ]
+05-06 22:02:49.434  1607  1607 I fiis    : (REDACTED) O received %s
+05-06 22:02:49.434  1607  1607 I fiis    : (REDACTED) O received %s
+05-06 22:02:49.434  1607  2229 I bcdr    : (REDACTED) isGrpcDeviceIntent: %s
+05-06 22:02:49.435  1607  1901 I bcdr    : (REDACTED) isGrpcDeviceIntent: %s
+05-06 22:02:49.435   671   895 D BackgroundInstallControlService: Package event received: 0
+05-06 22:02:49.437  1689  2151 W adua    : Abort, client detached.
+05-06 22:02:49.500  1255  2614 D BluetoothAdapter: isLeEnabled(): ON
+05-06 22:02:49.501  1255  3509 I NearbySharing: Bluetooth is enabled
+05-06 22:02:49.501  1255  3509 I NearbySharing: Uwb feature is off.
+05-06 22:02:49.501  1255  2306 I NearbyDiscovery: FastPairHandler: Received action android.bluetooth.adapter.action.STATE_CHANGED [CONTEXT service_id=265 ]
+05-06 22:02:49.501  1255  2614 W NearbyMediums: [BLUETOOTH_RADIO] State was changed outside of our control. Updating the snapshot to match current radio state.
+05-06 22:02:49.501  1255  1255 I MagicTether: [TetherService] BluetoothStateChangeReceiver: 12 [CONTEXT service_id=276 ]
+05-06 22:02:49.502  1255  3509 I NearbySharing: Stopping scanning because Nearby Sharing is disabled.
+05-06 22:02:49.502  1255  2306 I NearbyDiscovery: OffloadFastPairScanner: eventType=BLUETOOTH_ON, isInternalReq=false, isOffloadScanning=false, isOffloadScanningAllowed=false [CONTEXT service_id=265 ]
+05-06 22:02:49.502  1255  2306 I NearbyDiscovery: FastPairScanner: isScreenOn=true, isLocationEnabled=true, disableLocationRequirement=true, isDiscoveryScanningEnabled=true, during24GhzWifiWarmingUpPeriod=false [CONTEXT service_id=265 ]
+05-06 22:02:49.502  1255  2306 D BluetoothAdapter: isLeEnabled(): ON
+05-06 22:02:49.502  1255  2306 I NearbyDiscovery: FastPairScanner: eventType=BLUETOOTH_ON, intReq=false, scanning=true, scanAllowed=true, bleEnabled=true, lockScanRate=false, startScanningByLowPowerMode=false [CONTEXT service_id=265 ]
+05-06 22:02:49.502  1255  2306 I NearbyDiscovery: FastPairScanner: Stopping scan, scan-mode=balanced [CONTEXT service_id=265 ]
+05-06 22:02:49.502  1255  2306 D BluetoothAdapter: isLeEnabled(): ON
+05-06 22:02:49.502  1255  3509 I NearbySharing: Stopping Fast Init advertisement because we're not scanning in the foreground.
+05-06 22:02:49.503  1255  3509 I NearbySharing: Stopping advertising because Nearby Sharing is disabled.
+05-06 22:02:49.503  1255  3509 I NearbySharing: There is no account metadata, return default instance.
+05-06 22:02:49.503  1255  3509 I NearbySharing: There is no account metadata, return default instance.
+05-06 22:02:49.503  1255  3509 I NearbySharing: Stopping FastInitiation scanning because visibility is hidden.
+05-06 22:02:49.503  4598  4653 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:147 Scan: in shim layer stopped
+05-06 22:02:49.503  4598  4629 I bluetooth: system/gd/hci/le_address_manager.cc:278 unregister_client: Client unregistered
+05-06 22:02:49.503  4598  4629 I bluetooth: system/gd/hci/le_address_manager.cc:293 unregister_client: Cancelled address rotation alarm
+05-06 22:02:49.503  4598  4607 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:141 Unregister: in shim layer, scannerId=1
+05-06 22:02:49.503  4598  4653 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:180 ScanFilterParamSetup: in shim layer, clientIf=1
+05-06 22:02:49.504  4598  4653 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:180 ScanFilterParamSetup: in shim layer, clientIf=1
+05-06 22:02:49.504  1255  2306 I NearbyDiscovery: FastPairScanner: StartScanning with stop current scanning in OFF [CONTEXT service_id=265 ]
+05-06 22:02:49.504  1255  3509 I NearbySharing: Fast Initiation Scanning has stopped
+05-06 22:02:49.504  1255  4643 I MagicTether: [TetherService] starting runnable [CONTEXT service_id=276 ]
+05-06 22:02:49.504  1255  2306 I NearbyDiscovery: FastPairScanner: isScreenOn=true, isLocationEnabled=true, disableLocationRequirement=true, isDiscoveryScanningEnabled=true, during24GhzWifiWarmingUpPeriod=false [CONTEXT service_id=265 ]
+05-06 22:02:49.504  1255  2306 I NearbyDiscovery: FastPairScanner: Start scanning internally, scan-mode=balanced [CONTEXT service_id=265 ]
+05-06 22:02:49.504  1255  2306 D BluetoothAdapter: isLeEnabled(): ON
+05-06 22:02:49.504  1255  3509 I NearbySharing: Dismissing HUN as there's no device nearby.
+05-06 22:02:49.504  1255  4643 I MagicTether: [TetherService] Starting Instant Hotspot feature. [CONTEXT service_id=276 ]
+05-06 22:02:49.504  1255  4643 I MagicTether: [HostTetherRole] enableProximityAuth: true [CONTEXT service_id=276 ]
+05-06 22:02:49.504  4598  4607 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:135 RegisterScanner: in shim layer, UUID=fc9680bf-7a5f-4194-b369-b724b1c609ae
+05-06 22:02:49.505  1255  3509 I NearbySharing: Broadcasting NearbySharing state change.
+05-06 22:02:49.505  1255  1811 D BluetoothLeScanner: onScannerRegistered() - status=0 scannerId=1 mScannerId=0
+05-06 22:02:49.505  1255  3509 I NearbySharing: There is no account metadata, return default instance.
+05-06 22:02:49.506  1255  1321 I NearbySharing: There is no account metadata, return default instance.
+05-06 22:02:49.506  1255  4643 W MagicTether: [HostEnablementUtils] Invalid account list. [CONTEXT service_id=276 ]
+05-06 22:02:49.507  1255  2306 I NearbyDiscovery: FastPairScanner: Start scanning, mode=LOW_POWER_SCANNING [CONTEXT service_id=265 ]
+05-06 22:02:49.507  4598  4653 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:236 ScanFilterEnable: in shim layer
+05-06 22:02:49.507  4598  4653 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:213 ScanFilterAdd: in shim layer
+05-06 22:02:49.507  4598  4653 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:180 ScanFilterParamSetup: in shim layer, clientIf=1
+05-06 22:02:49.507  4598  4653 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:213 ScanFilterAdd: in shim layer
+05-06 22:02:49.507  4598  4653 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:180 ScanFilterParamSetup: in shim layer, clientIf=1
+05-06 22:02:49.507  4598  4653 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:147 Scan: in shim layer started
+05-06 22:02:49.507  4598  4629 I bluetooth: system/gd/hci/le_scanning_manager.cc:601 stop_scan: Scanning already stopped, return!
+05-06 22:02:49.508  4598  4629 I bluetooth: system/gd/hci/le_address_manager.cc:576 GetNextPrivateAddressIntervalRange: client=LeAddressManager, nonwake=8m32s, wake=13m56s
+05-06 22:02:49.508  4598  4629 I bluetooth: system/gd/hci/le_address_manager.cc:259 register_client: Scheduled address rotation for first client registered
+05-06 22:02:49.508  4598  4629 I bluetooth: system/gd/hci/le_address_manager.cc:263 register_client: Client registered
+05-06 22:02:49.508  1255  4643 I MagicTether: [TidepoolFeatureStatusManager] isInstantHotspotEnabled=false [CONTEXT service_id=276 ]
+05-06 22:02:49.508  4598  4629 I bluetooth: system/gd/hci/le_scanning_manager.cc:1380 on_advertising_filter_complete: Got a Command complete LE_ADV_FILTER(0xfd57), status UNKNOWN_CONNECTION(0x02)
+05-06 22:02:49.508  1255  4643 I MagicTether: [LaunchUtils] No accounts found for enabling Instant Wifi. [CONTEXT service_id=276 ]
+05-06 22:02:49.508  1255  4643 I MagicTether: [TetherService] Stopping Nearby component. [CONTEXT service_id=276 ]
+05-06 22:02:49.508  4598  4653 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:147 Scan: in shim layer stopped
+05-06 22:02:49.508  4598  4653 W ScanManager: There is no scan radio to stop
+05-06 22:02:49.508  4598  4653 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:311 SetScanParameters: in shim layer, scannerId1m=1, scannerIdCoded=0
+05-06 22:02:49.508  4598  4653 I bt_shim_scanner: system/main/shim/le_scanning_manager.cc:147 Scan: in shim layer started
+05-06 22:02:49.508  4598  4629 I bluetooth: system/gd/hci/le_address_manager.cc:278 unregister_client: Client unregistered
+05-06 22:02:49.508  4598  4629 I bluetooth: system/gd/hci/le_address_manager.cc:293 unregister_client: Cancelled address rotation alarm
+05-06 22:02:49.508  4598  4629 I bluetooth: system/gd/hci/le_scanning_manager.cc:601 stop_scan: Scanning already stopped, return!
+05-06 22:02:49.508  4598  4629 I bluetooth: system/gd/hci/le_address_manager.cc:576 GetNextPrivateAddressIntervalRange: client=LeAddressManager, nonwake=8m24s, wake=13m24s
+05-06 22:02:49.508  4598  4629 I bluetooth: system/gd/hci/le_address_manager.cc:259 register_client: Scheduled address rotation for first client registered
+05-06 22:02:49.508  4598  4629 I bluetooth: system/gd/hci/le_address_manager.cc:263 register_client: Client registered
+05-06 22:02:49.508  1255  4643 I MagicTether: [LaunchUtils] No accounts found for enabling Instant Wifi. [CONTEXT service_id=276 ]
+05-06 22:02:49.508  1255  4643 I MagicTether: [HostTetherRole] Nearby host role already stopped [CONTEXT service_id=276 ]
+05-06 22:02:49.509  1255  4643 I MagicTether: [LaunchUtils] No accounts found for enabling Instant Wifi. [CONTEXT service_id=276 ]
+05-06 22:02:49.509  1255  4643 I MagicTether: [TetherService] Stopping Nearby client role [CONTEXT service_id=276 ]
+05-06 22:02:49.509  1255  4643 I MagicTether: [ClientTetherRole] Client role already stopped [CONTEXT service_id=276 ]
+05-06 22:02:49.510  4598  4629 I bluetooth: system/gd/hci/le_scanning_manager.cc:1380 on_advertising_filter_complete: Got a Command complete LE_ADV_FILTER(0xfd57), status UNKNOWN_CONNECTION(0x02)
+05-06 22:02:49.510  1255  1255 I MagicTether: [AutoDisconnectIntentOperation] Canceling task. [CONTEXT service_id=276 ]
+05-06 22:02:49.515  1255  1255 I MagicTether: [AutoDisconnectIntentOperation] Canceling task. [CONTEXT service_id=276 ]
+05-06 22:02:49.516   671   895 D BackgroundInstallControlService: Package event received: 0
+05-06 22:02:49.516  1255  4620 I MagicTether: [AutoDisconnectIntentOperation] Canceling task. [CONTEXT service_id=276 ]
+05-06 22:02:49.517  1255  4620 I MagicTether: [AutoDisconnectIntentOperation] Canceling task. [CONTEXT service_id=276 ]
+05-06 22:02:49.517  1255  4679 I ProximityAuth: [PhoneHubService] Bluetooth state has changed. Calling startService.
+05-06 22:02:49.518  1255  4678 I Nearby  : is blocked device type false, isAuto=false, isIot=false, isLatchsky=false, isChinaWearable=false, isTv=false, isWearable=false (supportWearOs=false), isChromeOsDevice=false (supportChromeOs=false) [CONTEXT service_id=49 ]
+05-06 22:02:49.518  1255  4679 I NearbyMediums: ModuleInitializer handles incoming intent android.bluetooth.adapter.action.STATE_CHANGED
+05-06 22:02:49.518  1255  1321 I Nearby  : Beginning attempt #1 out of 3 for RestoreDeviceName... [CONTEXT service_id=49 ]
+05-06 22:02:49.518   671  2067 I WifiService: getWifiEnabledState uid=10144 state=3
+05-06 22:02:49.518  1255  1321 I NearbyMediums: BluetoothAdapter's name was not set by Nearby Connections, ignoring call to restore default scan mode.
+05-06 22:02:49.518   671  1196 I WifiService: is5GHzBandSupported uid=10144
+05-06 22:02:49.518  1255  1321 I NearbyMediums: BluetoothAdapter's name was not set by Nearby Connections, ignoring call to restore device name
+05-06 22:02:49.518   671   926 I WifiService: getWifiEnabledState uid=10144 state=3
+05-06 22:02:49.518   671   926 I WifiService: is6GHzBandSupported uid=10144
+05-06 22:02:49.519  1255  4621 I MagicTether: [AutoDisconnectIntentOperation] Canceling task. [CONTEXT service_id=276 ]
+05-06 22:02:49.520  1255  1255 I ProximityAuth: [PhoneHubService] Handling intent for PhoneHubChimeraService.
+05-06 22:02:49.520  1255  1255 I NearbyDiscovery: DiscoveryService onStartCommand action: android.bluetooth.adapter.action.STATE_CHANGED [CONTEXT service_id=265 ]
+05-06 22:02:49.521  1255  1255 I NearbyDiscovery: FastPair: onAdapterStateChange: state=12 [CONTEXT service_id=265 ]
+05-06 22:02:49.521  1255  1255 I NearbyDiscovery: DiscoveryService onStartCommand action: com.google.android.gms.nearby.discovery:ACTION_PERMISSION_CHANGE [CONTEXT service_id=265 ]
+05-06 22:02:49.521  1255  4636 I ProximityAuth: [PhoneHubService] No enabled account, stopping service
+05-06 22:02:49.521  1255  4621 I MagicTether: [AutoDisconnectIntentOperation] Canceling task. [CONTEXT service_id=276 ]
+05-06 22:02:49.521  1255  4643 I Nearby  : is blocked device type false, isAuto=false, isIot=false, isLatchsky=false, isChinaWearable=false, isTv=false, isWearable=false (supportWearOs=false), isChromeOsDevice=false (supportChromeOs=false) [CONTEXT service_id=49 ]
+05-06 22:02:49.521  1255  1321 I NearbyFastPair: DynamicSupportModule: onSupportStateUpdate start [CONTEXT service_id=265 ]
+05-06 22:02:49.521  1255  1321 I NearbyFastPair: DynamicSupportModule: onSupportStateUpdate end [CONTEXT service_id=265 ]
+05-06 22:02:49.521  1255  2306 I NearbyDiscovery: FastPairHandler: Received action android.bluetooth.adapter.action.STATE_CHANGED [CONTEXT service_id=265 ]
+05-06 22:02:49.521  1255  1255 I ProximityAuth: [PhoneHubService] Destroying PhoneHubChimeraService.
+05-06 22:02:49.521  1255  1255 W ProximityAuth: [PhoneHubNotificationProcessor] shutdown(): context is null.
+05-06 22:02:49.521  1255  1255 I ProximityAuth: [PhoneHubService] All devices have disconnected. Performing cleanup...
+05-06 22:02:49.521  1255  2306 I Nearby  : is blocked device type false, isAuto=false, isIot=false, isLatchsky=false, isChinaWearable=false, isTv=false, isWearable=false (supportWearOs=false), isChromeOsDevice=false (supportChromeOs=false) [CONTEXT service_id=49 ]
+05-06 22:02:49.522  1255  2306 I NearbyDiscovery: DiscoveryController, showNotification, itemSize=0 [CONTEXT service_id=265 ]
+05-06 22:02:49.522  1255  1255 W ChimeraUtils: Module com.google.android.gms.auth_proximity missing resource null(0)
+05-06 22:02:49.522  1255  2306 I NearbyDiscovery: Show notifications: 0 total, no changes since last shown, no-op. [CONTEXT service_id=265 ]
+05-06 22:02:49.522  1255  4442 W EasyUnlock: [HostValidator] Invalid account list. [CONTEXT service_id=234 ]
+05-06 22:02:49.622  4682  4682 W screencap: Thread Pool max thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. serviceName: SurfaceFlingerAIDL
+05-06 22:02:49.623  4682  4682 W BpBinder: Linking to death on android.gui.ISurfaceComposer but there are no threads (yet?) listening to incoming transactions. See ProcessState::startThreadPool and ProcessState::setThreadPoolMaxThreadCount. Generally you should setup the binder threadpool before other initialization steps.
+05-06 22:02:49.623  4682  4682 W ProcessState: Extra binder thread started, but 0 threads requested. Do not use *startThreadPool when zero threads are requested.
+05-06 22:02:49.624   517   805 E HwcComposer: getLuts failed Status(-8, EX_SERVICE_SPECIFIC): '8: '
+05-06 22:02:49.624   517   805 E HWComposer: getLuts: getLuts failed for display 4619827259835644672: UNSUPPORTED (8)
+--------- beginning of kernel
+05-06 22:02:49.629   219   219 I servicemanager: Caller(pid=4682,uid=2000,sid=u:r:shell:s0) Found android.hardware.graphics.allocator.IAllocator/default in device VINTF manifest.
+05-06 22:02:49.630   219   219 I servicemanager: Caller(pid=4682,uid=2000,sid=u:r:shell:s0) Found android.hardware.graphics.allocator.IAllocator/default in device VINTF manifest.
+05-06 22:02:49.631   219   219 I servicemanager: Caller(pid=4682,uid=2000,sid=u:r:shell:s0) Found mapper/ranchu in device VINTF manifest.

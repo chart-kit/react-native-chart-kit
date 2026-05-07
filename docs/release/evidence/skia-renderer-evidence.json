@@ -109,7 +109,6 @@
     "debug-layout surfaces"
   ],
   "missingEvidence": [
-    "android-skia-pro-preview-parity is partial; evidence is required before this matrix can be complete.",
     "ios-skia-performance-comparison is partial; evidence is required before this matrix can be complete.",
     "android-skia-performance-comparison is partial; evidence is required before this matrix can be complete."
   ]
