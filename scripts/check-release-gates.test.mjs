@@ -180,6 +180,22 @@ describe("release gate checker", () => {
     });
   });
 
+  it("checks the generated native QA signoff worksheet is synchronized", () => {
+    const report = runGateReportJson();
+
+    expect(
+      report.checks.find(
+        (check) => check.id === "generated:native-qa-signoff"
+      )
+    ).toMatchObject({
+      evidence:
+        "docs/release/native-qa-signoff-worksheet.md; scripts/generate-native-qa-signoff.mjs",
+      message:
+        "Generated native QA signoff worksheet is in sync with open rows",
+      status: "pass"
+    });
+  });
+
   it("tracks completed Developer Preview npm publish state", () => {
     const report = runGateReportJson();
     const publishManifest = JSON.parse(

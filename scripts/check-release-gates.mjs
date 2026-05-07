@@ -74,6 +74,27 @@ addCheck({
   status: qaChecklistResult.status === 0 ? "pass" : "fail"
 });
 
+const qaSignoffResult = spawnSync(
+  process.execPath,
+  ["scripts/generate-native-qa-signoff.mjs", "--check"],
+  { cwd: repoRoot, encoding: "utf8" }
+);
+
+addCheck({
+  detail:
+    qaSignoffResult.status === 0
+      ? ""
+      : [qaSignoffResult.stdout, qaSignoffResult.stderr]
+          .filter(Boolean)
+          .join("\n")
+          .trim(),
+  evidence:
+    "docs/release/native-qa-signoff-worksheet.md; scripts/generate-native-qa-signoff.mjs",
+  id: "generated:native-qa-signoff",
+  message: "Generated native QA signoff worksheet is in sync with open rows",
+  status: qaSignoffResult.status === 0 ? "pass" : "fail"
+});
+
 const nativeReleaseWorkflowSource = await readRepoFile(
   ".github/workflows/native-release.yml"
 );
