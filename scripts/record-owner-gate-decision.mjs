@@ -13,6 +13,12 @@ const h6EvidenceManifestPaths = [
   "docs/release/evidence/native-performance-benchmark.json",
   "docs/release/evidence/skia-renderer-evidence.json"
 ];
+const h6RequiredDecisionPatterns = [
+  {
+    label: "native QA target policy",
+    pattern: /native\s+QA\s+target\s+policy/i
+  }
+];
 
 const readOwnerGates = async (repoRoot) =>
   JSON.parse(await readFile(path.join(repoRoot, ownerGatesPath), "utf8"));
@@ -169,6 +175,18 @@ export const approveOwnerGate = async ({
   }
 
   if (gateId === "h6") {
+    const missingDecisionLabels = h6RequiredDecisionPatterns
+      .filter(({ pattern }) =>
+        decisions.every((decision) => !pattern.test(decision))
+      )
+      .map(({ label }) => label);
+
+    if (missingDecisionLabels.length > 0) {
+      throw new Error(
+        `h6 requires explicit decision for ${missingDecisionLabels.join(", ")}`
+      );
+    }
+
     const h6Blockers = await getH6ApprovalBlockers({ manifest, repoRoot });
 
     if (h6Blockers.length > 0) {

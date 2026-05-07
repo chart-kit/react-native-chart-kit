@@ -48,7 +48,8 @@
       "requiredFor": ["H6"],
       "evidence": [
         "docs/internal/completion-audit.md",
-        "docs/release/h6-owner-decision-memo.md"
+        "docs/release/h6-owner-decision-memo.md",
+        "docs/release/native-qa-target-policy.md"
       ],
       "pendingDecisions": [
         "release candidate approval",
