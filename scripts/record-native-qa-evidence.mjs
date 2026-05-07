@@ -428,6 +428,7 @@ const main = async () => {
     evidence: options.evidence,
     matrixName: options.matrix,
     notes: options.notes,
+    review: options.review,
     rowId: options.rowId,
     status: options.status,
     updated: options.updated

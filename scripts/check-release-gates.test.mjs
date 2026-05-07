@@ -89,7 +89,7 @@ describe("release gate checker", () => {
     );
   });
 
-  it("surfaces incomplete RN CLI native example evidence", () => {
+  it("accepts complete RN CLI native example evidence", () => {
     const report = runGateReportJson();
     const rnCliCheck = report.checks.find(
       (check) => check.id === "blocker:rn-cli-example"
@@ -97,11 +97,9 @@ describe("release gate checker", () => {
 
     expect(rnCliCheck).toMatchObject({
       evidence: "docs/release/evidence/rn-cli-example-evidence.json",
-      status: "block"
+      status: "pass"
     });
-    expect(rnCliCheck?.detail).toContain(
-      "RN CLI iOS release-build runtime launch and chart rendering"
-    );
+    expect(rnCliCheck?.detail).toBe("");
   });
 
   it("validates evidence matrix structure", () => {
