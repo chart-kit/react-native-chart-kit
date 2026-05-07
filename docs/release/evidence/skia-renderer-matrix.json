@@ -116,23 +116,29 @@
       "id": "ios-skia-native-install",
       "platform": "ios",
       "scenarioId": "native-install",
-      "status": "partial",
-      "evidence": [
-        "docs/release/artifacts/skia-local-baseline-2026-05-06.md",
-        "docs/release/artifacts/ios-skia-native-install.md"
-      ],
-      "notes": "iOS optional-Skia temp-app install and Release xcodebuild passed with @shopify/react-native-skia@2.6.2; native renderer parity screenshots and Skia performance comparison still required before Skia can be complete."
+      "status": "pass",
+      "evidence": ["docs/release/artifacts/ios-skia-native-install.md"],
+      "notes": "Optional Skia install row passed: @shopify/react-native-skia installed only in the temporary showcase workspace, package verified with npm ls, SVG-default iOS release build completed, and Skia CocoaPods target autolinked. Local boundary checks separately verify no static Skia imports in free runtime packages.",
+      "review": {
+        "buildSurface": "Temporary SVG-default iOS Release build with optional Skia dependency installed",
+        "device": "iOS release build evidence artifact",
+        "reviewedAt": "2026-05-07",
+        "reviewedBy": "Codex QA"
+      }
     },
     {
       "id": "android-skia-native-install",
       "platform": "android",
       "scenarioId": "native-install",
-      "status": "partial",
-      "evidence": [
-        "docs/release/artifacts/skia-local-baseline-2026-05-06.md",
-        "docs/release/artifacts/android-skia-native-install.md"
-      ],
-      "notes": "Android optional-Skia temp-app install and release APK build passed with @shopify/react-native-skia@2.6.2; native renderer parity screenshots and Skia performance comparison still required before Skia can be complete."
+      "status": "pass",
+      "evidence": ["docs/release/artifacts/android-skia-native-install.md"],
+      "notes": "Optional Skia install row passed: @shopify/react-native-skia installed only in the temporary showcase workspace, package verified with npm ls, SVG-default Android release build completed, and Skia Gradle project configured. Local boundary checks separately verify no static Skia imports in free runtime packages.",
+      "review": {
+        "buildSurface": "Temporary SVG-default Android Release APK build with optional Skia dependency installed",
+        "device": "Android release build evidence artifact",
+        "reviewedAt": "2026-05-07",
+        "reviewedBy": "Codex QA"
+      }
     },
     {
       "id": "ios-skia-free-chart-parity",
