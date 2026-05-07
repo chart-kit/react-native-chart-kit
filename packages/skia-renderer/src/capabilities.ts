@@ -13,6 +13,7 @@ export const createSkiaRendererCapabilities = (
   gradients: true,
   hitRegions: false,
   layers: true,
+  maxSurfaceWidth: 8192,
   pathGradients: false,
   rectClips: false,
   shadows: false,
@@ -20,7 +21,7 @@ export const createSkiaRendererCapabilities = (
   testIds: true,
   text: false,
   textMeasurement: "unavailable",
-  viewportWindowing: true,
+  viewportWindowing: false,
   ...overrides
 });
 

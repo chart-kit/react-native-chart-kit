@@ -26,6 +26,7 @@ import {
 } from "./interaction";
 import { buildBarChartModel } from "./model";
 import { getBarChartTooltipConfig } from "./options";
+import { getSafeBarChartRenderer } from "./rendererSafety";
 import { getBarChartTooltipModel } from "./tooltip";
 import {
   resolveBarChartViewport,
@@ -88,6 +89,11 @@ export const BarChart = <TData extends Record<string, unknown>>(
     [chartKitTheme, props, viewport.contentWidth]
   );
   const { bars, boxes, resolvedTheme } = model;
+  const safeRenderer = getSafeBarChartRenderer({
+    contentWidth: viewport.contentWidth,
+    renderer,
+    scrollable: viewport.scrollable
+  });
   const scrollInitialOffset =
     viewport.scrollable && props.initialIndex === "end"
       ? Math.max(0, initialScrollOffset - boxes.plot.x * 0.66)
@@ -220,7 +226,7 @@ export const BarChart = <TData extends Record<string, unknown>>(
       model={model}
       responderProps={responderProps}
       renderBar={props.renderBar}
-      renderer={renderer}
+      renderer={safeRenderer}
       selectedBarKey={selectedBarKey}
       selectionAnimation={props.selectionAnimation}
       showYAxis={!viewport.scrollable}
@@ -235,7 +241,7 @@ export const BarChart = <TData extends Record<string, unknown>>(
       tooltipModel={tooltipModel}
       viewportOffsetX={viewport.scrollable ? scrollOffsetX : 0}
       width={props.width}
-      renderer={renderer}
+      renderer={safeRenderer}
     />
   );
 
@@ -296,7 +302,7 @@ export const BarChart = <TData extends Record<string, unknown>>(
           <StickyBarChartYAxis
             height={props.height}
             model={model}
-            renderer={renderer}
+            renderer={safeRenderer}
             width={props.width}
           />
           {tooltipOverlay}

@@ -456,9 +456,11 @@ export type LineChartRenderer = {
   capabilities?: {
     clipPaths?: boolean;
     gradients?: boolean;
+    maxSurfaceWidth?: number;
     pathGradients?: boolean;
     rectClips?: boolean;
     text?: boolean;
+    viewportWindowing?: boolean;
   };
   name?: string;
 };

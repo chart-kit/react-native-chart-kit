@@ -17,6 +17,7 @@ export type SkiaRendererCapabilities = {
   gradients: boolean;
   hitRegions: boolean;
   layers: boolean;
+  maxSurfaceWidth: number;
   pathGradients: boolean;
   rectClips: boolean;
   shadows: boolean;
@@ -206,4 +207,5 @@ export type SkiaRenderer = {
   LinearGradient: ComponentType<SkiaLinearGradientProps>;
   capabilities: SkiaRendererCapabilities;
   measureText: SkiaTextMeasurer;
+  name: "skia";
 };

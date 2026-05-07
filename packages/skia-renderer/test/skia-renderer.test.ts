@@ -48,6 +48,7 @@ describe("Skia renderer preview boundary", () => {
       gradients: true,
       hitRegions: false,
       layers: true,
+      maxSurfaceWidth: 8192,
       pathGradients: false,
       rectClips: false,
       shadows: false,
@@ -55,7 +56,7 @@ describe("Skia renderer preview boundary", () => {
       testIds: true,
       text: false,
       textMeasurement: "unavailable",
-      viewportWindowing: true
+      viewportWindowing: false
     });
   });
 
@@ -112,7 +113,8 @@ describe("Skia renderer preview boundary", () => {
       pathGradients: true,
       rectClips: true,
       text: true,
-      textMeasurement: "skia"
+      textMeasurement: "skia",
+      viewportWindowing: false
     });
     expect(renderer.measureText("ABC")).toEqual({ height: 16.8, width: 21 });
     expect(path).toMatchObject({

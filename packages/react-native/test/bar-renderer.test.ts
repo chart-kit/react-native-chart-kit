@@ -24,7 +24,9 @@ vi.mock("@chart-kit/svg-renderer", () => {
   };
 });
 
+import { getSafeBarChartRenderer } from "../src/charts/bar/rendererSafety";
 import { renderDefaultBarChartTooltip } from "../src/charts/bar/tooltip";
+import { lineChartSvgRenderer } from "../src/charts/line/renderer";
 import type {
   BarChartBarModel,
   BarChartRenderer,
@@ -139,5 +141,62 @@ describe("BarChart renderer parity contract", () => {
     );
 
     expect(getRenderedChildren(tooltip)).toEqual([]);
+  });
+
+  it("falls back to SVG for oversized scrollable surfaces without windowing", () => {
+    const renderer: BarChartRenderer = {
+      ...skiaLikeRenderer,
+      capabilities: {
+        ...skiaLikeRenderer.capabilities,
+        maxSurfaceWidth: 8192,
+        viewportWindowing: false
+      }
+    };
+
+    expect(
+      getSafeBarChartRenderer({
+        contentWidth: 22623,
+        renderer,
+        scrollable: true
+      })
+    ).toBe(lineChartSvgRenderer);
+  });
+
+  it("keeps the injected renderer when its surface is safe", () => {
+    const renderer: BarChartRenderer = {
+      ...skiaLikeRenderer,
+      capabilities: {
+        ...skiaLikeRenderer.capabilities,
+        maxSurfaceWidth: 8192,
+        viewportWindowing: false
+      }
+    };
+
+    expect(
+      getSafeBarChartRenderer({
+        contentWidth: 4096,
+        renderer,
+        scrollable: true
+      })
+    ).toBe(renderer);
+  });
+
+  it("keeps the injected renderer when it supports viewport windowing", () => {
+    const renderer: BarChartRenderer = {
+      ...skiaLikeRenderer,
+      capabilities: {
+        ...skiaLikeRenderer.capabilities,
+        maxSurfaceWidth: 8192,
+        viewportWindowing: true
+      }
+    };
+
+    expect(
+      getSafeBarChartRenderer({
+        contentWidth: 22623,
+        renderer,
+        scrollable: true
+      })
+    ).toBe(renderer);
   });
 });

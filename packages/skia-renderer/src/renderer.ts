@@ -22,6 +22,7 @@ export const createSkiaRenderer = ({
         measureText || font?.measureText ? "skia" : "unavailable",
       ...capabilities
     }),
-    measureText: measureText ?? createSkiaTextMeasurer(font)
+    measureText: measureText ?? createSkiaTextMeasurer(font),
+    name: "skia"
   };
 };

@@ -406,7 +406,7 @@ describe("native QA evidence recorder", () => {
       status: "pass"
     });
     expect(checklist).toContain(
-      "| Skia Renderer | 8 | 1 | 5 | 2 | 0 | 0 | 0 |"
+      "| Skia Renderer | 8 | 3 | 3 | 2 | 0 | 0 | 0 |"
     );
     expect(checklist).toContain("`ios-skia-native-install`");
   });
