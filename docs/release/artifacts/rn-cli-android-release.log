@@ -1,5 +1,5 @@
 # RN CLI Native Check Log
-Date: 2026-05-06T19:05:41.308Z
+Date: 2026-05-06T20:18:07.454Z
 Repo: /Users/berman/Documents/react-native-chart-kit
 $ cd . && npm run build
 
@@ -95,6 +95,7 @@ $ cd . && /Users/berman/Documents/react-native-chart-kit/node_modules/.bin/rnc-c
 copy examples/rn-cli-basic/App.tsx -> ../../../../var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cli-native-check/App.tsx
 copy examples/rn-cli-basic/index.js -> ../../../../var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cli-native-check/index.js
 copy examples/rn-cli-basic/babel.config.js -> ../../../../var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cli-native-check/babel.config.js
+copy examples/rn-cli-basic/runtimePrelude.js -> ../../../../var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cli-native-check/runtimePrelude.js
 write ../../../../var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cli-native-check/package.json
 $ cd ../../../../var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cli-native-check && npm install
 
@@ -156,17 +157,12 @@ $ cd ../../../../var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cli
 > Task :react-native-svg:generateReleaseResources
 > Task :react-native-svg:packageReleaseResources
 > Task :react-native-svg:javaPreCompileRelease
-> Task :react-native-svg:parseReleaseLocalResources
 > Task :app:buildKotlinToolingMetadata
 > Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
-> Task :react-native-svg:generateReleaseRFile
 > Task :app:generateReleaseBuildConfig
-> Task :app:checkReleaseDuplicateClasses
-
-> Task :react-native-svg:compileReleaseJavaWithJavac
-
 > Task :react-native-svg:writeReleaseAarMetadata
-> Task :react-native-svg:bundleLibRuntimeToDirRelease
+> Task :react-native-svg:parseReleaseLocalResources
+> Task :app:checkReleaseDuplicateClasses
 > Task :app:mergeReleaseNativeLibs
 
 > Task :app:createBundleReleaseJsAndAssets
@@ -190,23 +186,23 @@ $ cd ../../../../var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cli
               Fast - Scalable - Integrated
 
 
-transform[stderr]: (node:14181) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+transform[stderr]: (node:69766) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 transform[stderr]: (Use `node --trace-warnings ...` to show where the warning was created)
-transform[stderr]: (node:14184) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+transform[stderr]: (node:69772) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 transform[stderr]: (Use `node --trace-warnings ...` to show where the warning was created)
-transform[stderr]: (node:14183) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+transform[stderr]: (node:69767) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 transform[stderr]: (Use `node --trace-warnings ...` to show where the warning was created)
-transform[stderr]: (node:14182) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+transform[stderr]: (node:69769) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 transform[stderr]: (Use `node --trace-warnings ...` to show where the warning was created)
-transform[stderr]: (node:14189) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+transform[stderr]: (node:69771) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 transform[stderr]: (Use `node --trace-warnings ...` to show where the warning was created)
-transform[stderr]: (node:14185) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+transform[stderr]: (node:69768) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 transform[stderr]: (Use `node --trace-warnings ...` to show where the warning was created)
-transform[stderr]: (node:14188) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+transform[stderr]: (node:69770) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 transform[stderr]: (Use `node --trace-warnings ...` to show where the warning was created)
-transform[stderr]: (node:14187) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+transform[stderr]: (node:69773) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 transform[stderr]: (Use `node --trace-warnings ...` to show where the warning was created)
-transform[stderr]: (node:14186) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+transform[stderr]: (node:69774) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 transform[stderr]: (Use `node --trace-warnings ...` to show where the warning was created)
 LOG:Writing bundle output to: /private/var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cli-native-check/android/app/build/generated/assets/react/release/index.android.bundle
 LOG:Writing sourcemap output to: /private/var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cli-native-check/android/app/build/intermediates/sourcemaps/react/release/index.android.bundle.packager.map
@@ -216,65 +212,62 @@ LOG:Done writing sourcemap output
 > Task :app:generateReleaseResValues
 > Task :app:mapReleaseSourceSetPaths
 > Task :app:generateReleaseResources
+> Task :react-native-svg:generateReleaseRFile
 > Task :app:checkReleaseAarMetadata
 > Task :app:stripReleaseDebugSymbols
-> Task :app:packageReleaseResources
-> Task :app:createReleaseCompatibleScreenManifests
-> Task :app:extractDeepLinksRelease
-> Task :react-native-svg:extractDeepLinksRelease
-> Task :app:parseReleaseLocalResources
-> Task :react-native-svg:compileReleaseLibraryResources
-> Task :app:javaPreCompileRelease
-> Task :app:desugarReleaseFileDependencies
-> Task :app:mergeReleaseStartupProfile
-> Task :react-native-svg:processReleaseManifest
-> Task :react-native-svg:bundleLibCompileToJarRelease
 > Task :app:extractReleaseNativeSymbolTables
 > Task :app:mergeReleaseResources
+
+> Task :react-native-svg:compileReleaseJavaWithJavac
+
+> Task :app:packageReleaseResources
+> Task :app:createReleaseCompatibleScreenManifests
+> Task :app:parseReleaseLocalResources
+> Task :app:extractDeepLinksRelease
+> Task :react-native-svg:extractDeepLinksRelease
+> Task :react-native-svg:compileReleaseLibraryResources
+> Task :react-native-svg:processReleaseManifest
+> Task :app:javaPreCompileRelease
+> Task :app:desugarReleaseFileDependencies
+> Task :react-native-svg:bundleLibCompileToJarRelease
 > Task :app:processReleaseMainManifest
 > Task :app:processReleaseManifest
+> Task :app:mergeReleaseStartupProfile
 > Task :react-native-svg:prepareReleaseArtProfile
 > Task :app:mergeReleaseShaders
-> Task :app:processReleaseManifestForPackage
-> Task :app:mergeReleaseArtProfile
-> Task :react-native-svg:bundleLibRuntimeToJarRelease
 > Task :app:compileReleaseShaders NO-SOURCE
 > Task :app:generateReleaseAssets UP-TO-DATE
 > Task :react-native-svg:mergeReleaseShaders
 > Task :react-native-svg:compileReleaseShaders NO-SOURCE
 > Task :react-native-svg:generateReleaseAssets UP-TO-DATE
 > Task :react-native-svg:mergeReleaseAssets
+> Task :app:mergeReleaseArtProfile
+> Task :react-native-svg:bundleLibRuntimeToJarRelease
 > Task :app:mergeReleaseAssets
-> Task :app:compressReleaseAssets
 > Task :app:extractReleaseVersionControlInfo
+> Task :app:compressReleaseAssets
 > Task :app:extractProguardFiles
 > Task :react-native-svg:processReleaseJavaRes NO-SOURCE
+> Task :react-native-svg:bundleLibRuntimeToDirRelease
 > Task :react-native-svg:createFullJarRelease
 > Task :react-native-svg:extractProguardFiles
-> Task :app:mergeReleaseNativeDebugMetadata
-> Task :app:processReleaseResources
-> Task :app:mergeExtDexRelease
 > Task :react-native-svg:generateReleaseLintModel
-> Task :react-native-svg:stripReleaseDebugSymbols NO-SOURCE
+> Task :app:processReleaseManifestForPackage
 > Task :react-native-svg:prepareLintJarForPublish
+> Task :react-native-svg:stripReleaseDebugSymbols NO-SOURCE
 > Task :react-native-svg:copyReleaseJniLibsProjectAndLocalJars
 > Task :react-native-svg:extractDeepLinksForAarRelease
-> Task :app:compileReleaseKotlin
 > Task :react-native-svg:extractReleaseAnnotations
-> Task :app:compileReleaseJavaWithJavac
-> Task :app:dexBuilderRelease
-> Task :app:mergeReleaseGlobalSynthetics
-> Task :app:generateReleaseLintVitalReportModel
 > Task :react-native-svg:mergeReleaseGeneratedProguardFiles
 > Task :react-native-svg:mergeReleaseConsumerProguardFiles
-> Task :react-native-svg:writeReleaseLintModelMetadata
 > Task :react-native-svg:mergeReleaseJavaResource
-> Task :react-native-svg:generateReleaseLintVitalModel
 > Task :react-native-svg:syncReleaseLibJars
 > Task :react-native-svg:bundleReleaseLocalLintAar
-> Task :app:processReleaseJavaRes
-> Task :app:mergeDexRelease
-> Task :app:mergeReleaseJavaResource
+> Task :react-native-svg:writeReleaseLintModelMetadata
+> Task :react-native-svg:generateReleaseLintVitalModel
+> Task :app:processReleaseResources
+> Task :app:mergeReleaseNativeDebugMetadata
+> Task :app:mergeExtDexRelease
 > Task :app:collectReleaseDependencies
 > Task :app:sdkReleaseDependencyData
 > Task :app:validateSigningRelease
@@ -282,15 +275,23 @@ LOG:Done writing sourcemap output
 > Task :app:writeReleaseSigningConfigVersions
 > Task :react-native-svg:bundleReleaseAar
 > Task :react-native-svg:mapReleaseSourceSetPaths
-> Task :app:compileReleaseArtProfile
-> Task :react-native-svg:mergeReleaseResources
-> Task :app:optimizeReleaseResources
-> Task :react-native-svg:verifyReleaseResources
-> Task :react-native-svg:assembleRelease
 > Task :react-native-svg:lintVitalAnalyzeRelease
+> Task :app:compileReleaseKotlin
+> Task :react-native-svg:mergeReleaseResources
+> Task :app:compileReleaseJavaWithJavac
+> Task :app:dexBuilderRelease
+> Task :app:mergeReleaseGlobalSynthetics
+> Task :app:generateReleaseLintVitalReportModel
+> Task :app:processReleaseJavaRes
+> Task :app:optimizeReleaseResources
+> Task :app:mergeReleaseJavaResource
 > Task :app:lintVitalAnalyzeRelease
 > Task :app:lintVitalReportRelease
 > Task :app:lintVitalRelease
+> Task :react-native-svg:verifyReleaseResources
+> Task :react-native-svg:assembleRelease
+> Task :app:mergeDexRelease
+> Task :app:compileReleaseArtProfile
 > Task :app:packageRelease
 > Task :app:createReleaseApkListingFileRedirect
 > Task :app:assembleRelease
@@ -303,16 +304,17 @@ You can use '--warning-mode all' to show the individual deprecation warnings and
 
 For more on this, please refer to https://docs.gradle.org/9.0.0/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
 
-BUILD SUCCESSFUL in 56s
+BUILD SUCCESSFUL in 46s
 114 actionable tasks: 114 executed
 Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.0.0/userguide/configuration_cache_enabling.html
-Note: Some input files use or override a deprecated API.
-Note: Recompile with -Xlint:deprecation for details.
-Note: Some input files use unchecked or unsafe operations.
-Note: Recompile with -Xlint:unchecked for details.
 =================================================================================================
 From React Native 0.73, your project's Metro config should extend '@react-native/metro-config'
 or it will fail to build. Please copy the template at:
 https://github.com/react-native-community/template/blob/main/template/metro.config.js
 This warning will be removed in future (https://github.com/facebook/metro/issues/1018).
 =================================================================================================
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+Android release build completed successfully.

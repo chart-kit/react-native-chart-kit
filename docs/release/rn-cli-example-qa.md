@@ -1,6 +1,6 @@
 # React Native CLI Example QA
 
-Status on May 6, 2026: source-level example coverage and iOS release runtime smoke evidence exist, but Android native CLI runtime evidence is incomplete. Structured evidence lives in [rn-cli-example-evidence.json](evidence/rn-cli-example-evidence.json).
+Status on May 6, 2026: source-level example coverage, Android/iOS release builds, and Android/iOS release runtime smoke evidence are complete for the non-Expo RN CLI smoke app. Structured evidence lives in [rn-cli-example-evidence.json](evidence/rn-cli-example-evidence.json).
 
 The Expo showcase is the main visual and release-build QA surface today. The full v2 plan also requires a React Native CLI example so teams that do not use Expo can validate the package in a plain RN app.
 
@@ -32,18 +32,19 @@ These are useful evidence for TypeScript, Metro-resolution intent, and CLI avail
 
 Android release-build evidence is captured in [rn-cli-android-release.log](artifacts/rn-cli-android-release.log). It proves the generated RN CLI app can install the local Chart Kit packages, bundle JavaScript, and complete `./gradlew assembleRelease` without Expo, Gesture Handler, or Reanimated.
 
+Android release runtime smoke evidence is captured in [rn-cli-android-runtime-smoke.png](artifacts/rn-cli-android-runtime-smoke.png). It shows the generated Release APK installed and launched on the `chartkit_api36` emulator, rendering Chart Kit v2 line, bar, and progress charts without the Expo runtime.
+
 iOS release-build evidence is captured in [rn-cli-ios-release.log](artifacts/rn-cli-ios-release.log). It proves the generated RN CLI app can install pods, auto-link only `RNSVG` as the chart native dependency, and complete generic Release `xcodebuild` with signing disabled.
 
 iOS release runtime smoke evidence is captured in [rn-cli-ios-runtime-smoke.png](artifacts/rn-cli-ios-runtime-smoke.png). It shows a Release iphonesimulator build of the generated RN CLI app rendering Chart Kit v2 line and bar charts without the Expo runtime.
 
-The Android log is build evidence, not emulator/device launch or screenshot evidence.
+The RN CLI evidence is intentionally scoped to a plain native app build and runtime smoke. Full gesture, accessibility, and performance behavior remain tracked by the native runtime, accessibility, and performance evidence matrices.
 
 ## Required Native Evidence
 
-Before H6 can be approved, capture the remaining RN CLI evidence for:
+Before H6 can be approved, keep the RN CLI evidence fresh for:
 
-- Android release-build launch and chart rendering
-- gesture sanity checks for at least line selection, bar selection, and vertical scroll containment
+- Android and iOS release-build launch and chart rendering
 - confirmation that the app does not require Expo runtime APIs
 
 The evidence can come from a temporary QA branch, a checked-in native example, or CI artifacts. If the repo keeps generated native projects out of source control, link the exact command log and artifact bundle used to generate and build the projects.
@@ -59,6 +60,6 @@ npm run example:rn-cli:ios -- --log-file docs/release/artifacts/rn-cli-ios-relea
 npm run example:rn-cli:android -- --log-file docs/release/artifacts/rn-cli-android-release.log
 ```
 
-The native commands generate a transient React Native CLI app under the system temp directory, overlay the example chart screen, install local Chart Kit packages, install pods for iOS, and run release builds on both platforms. Attach build logs and screenshots or recordings to [rn-cli-example-evidence.json](evidence/rn-cli-example-evidence.json) before changing its status to `complete`.
+The native commands generate a transient React Native CLI app under the system temp directory, overlay the example chart screen, install local Chart Kit packages, install pods for iOS, and run release builds on both platforms. Attach refreshed build logs and screenshots or recordings to [rn-cli-example-evidence.json](evidence/rn-cli-example-evidence.json) when rerunning the smoke check.
 
 Do not mark this evidence complete from the Expo showcase, web visual tests, or source typecheck alone.
