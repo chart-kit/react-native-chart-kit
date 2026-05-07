@@ -391,9 +391,9 @@ describe("native QA evidence recorder", () => {
     expect(result).toMatchObject({
       checklistPath: "docs/release/native-qa-checklists.md",
       manifestPath: "docs/release/evidence/skia-renderer-evidence.json",
-      manifestStatus: "partial",
+      manifestStatus: "complete",
       matrixPath: "docs/release/evidence/skia-renderer-matrix.json",
-      status: "partial"
+      status: "complete"
     });
     expect(matrix.rows[0]).toMatchObject({
       evidence: ["docs/release/artifacts/skia-ios-install.md"],
@@ -406,7 +406,7 @@ describe("native QA evidence recorder", () => {
       status: "pass"
     });
     expect(checklist).toContain(
-      "| Skia Renderer | 8 | 6 | 2 | 0 | 0 | 0 | 0 |"
+      "| Skia Renderer | 8 | 8 | 0 | 0 | 0 | 0 | 0 |"
     );
     expect(checklist).toContain("`ios-skia-native-install`");
   });

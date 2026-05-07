@@ -166,6 +166,7 @@ describe("Android performance evidence capture", () => {
       device: "emulator-5554",
       output: "docs/release/artifacts/android-small.md",
       repoRoot: tempRepo,
+      rendererLabel: "skia through @shopify/react-native-skia",
       rowId: "android-svg-small-line-initial-render",
       runner: (command) => {
         calls.push(command);
@@ -210,6 +211,9 @@ describe("Android performance evidence capture", () => {
     expect(markdown).toContain("Commit: `abc1234`");
     expect(markdown).toContain("Package version: `7.0.0-test.0`");
     expect(markdown).toContain("Build: release APK, `io.test.showcase`");
+    expect(markdown).toContain(
+      "Renderer: skia through @shopify/react-native-skia"
+    );
     expect(markdown).toContain("| TotalTime | 812 ms |");
     expect(markdown).toContain("| p95 frame time | 18 ms |");
     expect(markdown).toContain("| Total PSS | 123,456 KB | 123,456 KB |");

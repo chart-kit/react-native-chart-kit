@@ -1,6 +1,6 @@
 # Skia Renderer QA Protocol
 
-Status on May 6, 2026: protocol ready, local baseline recorded, iOS/Android optional-Skia install/build evidence captured, and iOS/Android renderer-injected Release build evidence captured. Native screenshot parity, interaction review, and Skia performance evidence are still missing. Structured gate evidence lives in [skia-renderer-evidence.json](evidence/skia-renderer-evidence.json), with install, renderer-parity, and performance rows in [skia-renderer-matrix.json](evidence/skia-renderer-matrix.json). Use the generated [native QA checklist](native-qa-checklists.md) for row-by-row execution.
+Status on May 7, 2026: protocol ready, local baseline recorded, iOS/Android optional-Skia install/build evidence captured, iOS/Android renderer-injected Release build evidence captured, and all native renderer-parity and Skia performance rows passed. Structured gate evidence lives in [skia-renderer-evidence.json](evidence/skia-renderer-evidence.json), with install, renderer-parity, and performance rows in [skia-renderer-matrix.json](evidence/skia-renderer-matrix.json). Use the generated [native QA checklist](native-qa-checklists.md) for row-by-row execution.
 
 This protocol covers the native evidence required before `@chart-kit/skia-renderer` can move beyond preview. Local renderer-contract tests prove that the injected primitive adapter can satisfy chart renderer contracts, but they do not prove native installation, native text rendering, native gradients, native clipping, or release-build performance.
 
@@ -125,4 +125,4 @@ The Skia performance row should include both SVG and Skia measurements, not just
 - Use `pass` only after the row-specific native install, parity, or performance checks are complete on that platform.
 - Record failures with `fail` and link the issue, screenshot, log, or recording.
 
-Skia remains a preview renderer until all rows in [skia-renderer-matrix.json](evidence/skia-renderer-matrix.json) are complete or explicitly deferred by the owner for the release candidate.
+Skia remains a preview renderer for product/package-boundary reasons until H6 owner approval, even though all rows in [skia-renderer-matrix.json](evidence/skia-renderer-matrix.json) are now complete.

@@ -44,6 +44,7 @@ export const createAndroidPerformanceMarkdown = ({
   meminfoBeforeSummary,
   meminfoSummary,
   packageVersion,
+  rendererLabel,
   row,
   screenshotPath
 }) =>
@@ -55,7 +56,7 @@ export const createAndroidPerformanceMarkdown = ({
     `Package version: \`${packageVersion || "n/a"}\``,
     "Platform: Android emulator",
     `Build: release APK, \`${androidPackage}\``,
-    `Renderer: ${row.renderer ?? "svg"} through React Native SVG`,
+    `Renderer: ${rendererLabel ?? `${row.renderer ?? "svg"} through React Native SVG`}`,
     `Scenario: ${row.target}`,
     `Showcase story: \`${row.showcaseStoryId}\``,
     `Deep link: \`${row.launchUrl}\``,

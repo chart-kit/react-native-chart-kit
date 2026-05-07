@@ -146,6 +146,7 @@ describe("iOS performance evidence capture", () => {
       device: "ios-device",
       output: "docs/release/artifacts/ios-small.md",
       repoRoot: tempRepo,
+      rendererLabel: "skia through @shopify/react-native-skia",
       rowId: "ios-svg-small-line-initial-render",
       runner: (command) => {
         calls.push(command);
@@ -167,6 +168,9 @@ describe("iOS performance evidence capture", () => {
     expect(markdown).toContain("Commit: `abc1234`");
     expect(markdown).toContain("Package version: `7.0.0-test.0`");
     expect(markdown).toContain("Build: release app, `io.test.showcase`");
+    expect(markdown).toContain(
+      "Renderer: skia through @shopify/react-native-skia"
+    );
     expect(markdown).toContain("| RSS | 412,240 KB | 412,240 KB |");
     expect(markdown).toContain("It does not replace Instruments frame timing");
     expect(calls).toContainEqual({

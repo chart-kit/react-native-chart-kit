@@ -23,6 +23,7 @@ Options:
   --dry-run              Print commands without executing them.
   --executable <name>    App executable name. Defaults to ChartKitShowcase.
   --output <path>        Markdown artifact path. Defaults to docs/release/artifacts/<row-id>.md.
+  --renderer-label <txt> Renderer label written to the artifact.
   --wait-ms <number>     Delay after launch before measurement. Defaults to 1800.
   --help                 Show this help.
 `;
@@ -61,6 +62,8 @@ const parseArgs = (argv) => {
       options.output = readValue();
     } else if (arg === "--row") {
       options.rowId = readValue();
+    } else if (arg === "--renderer-label") {
+      options.rendererLabel = readValue();
     } else if (arg === "--wait-ms") {
       options.waitMs = Number(readValue());
     } else {
@@ -295,6 +298,7 @@ export const captureIosPerformanceEvidence = async ({
       packageVersion,
       processAfterLaunch,
       processAfterScenario,
+      rendererLabel: options.rendererLabel,
       row: plan.row,
       screenshotPath: plan.screenshotPath
     }),

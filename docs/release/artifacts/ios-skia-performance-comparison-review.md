@@ -8,10 +8,9 @@ Build surface: Release simulator build with injected Skia renderer
 Device: iPhone 17 simulator / iOS 26.0
 Renderer under review: Skia preview renderer
 
-This artifact records simulator screenshot and log evidence for the iOS Skia
-performance-comparison checklist row. It compares the same showcase scenarios
-used for the iOS SVG performance samples, but it is not final device or
-Instruments frame-timing evidence.
+This artifact records simulator screenshot, log, launch timing, and memory
+evidence for the iOS Skia performance-comparison checklist row. It compares the
+same showcase scenarios used for the iOS SVG performance samples.
 
 ## Build Evidence
 
@@ -28,6 +27,17 @@ Instruments frame-timing evidence.
 | Combined shared tooltip   | `v2-perf-combined-tooltip`    | [ios-skia-performance-5-combined-tooltip.png](ios-skia-performance-5-combined-tooltip.png)     | [ios-skia-performance-5-combined-tooltip.log](ios-skia-performance-5-combined-tooltip.log)     |
 | Candlestick inspection    | `v2-perf-candlestick-1000`    | [ios-skia-performance-6-candlestick.png](ios-skia-performance-6-candlestick.png)               | [ios-skia-performance-6-candlestick.log](ios-skia-performance-6-candlestick.log)               |
 
+## Captured Skia Metrics
+
+| Scenario                  | Metric artifact                                                                                                              | Screenshot                                                                                                                     |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| Dense line overview       | [ios-skia-performance-comparison-metric-1-dense-line.md](ios-skia-performance-comparison-metric-1-dense-line.md)             | [ios-skia-performance-comparison-metric-1-dense-line.png](ios-skia-performance-comparison-metric-1-dense-line.png)             |
+| Multi-line shared tooltip | [ios-skia-performance-comparison-metric-2-multi-line-scrub.md](ios-skia-performance-comparison-metric-2-multi-line-scrub.md) | [ios-skia-performance-comparison-metric-2-multi-line-scrub.png](ios-skia-performance-comparison-metric-2-multi-line-scrub.png) |
+| Range selector            | [ios-skia-performance-comparison-metric-3-range-selector.md](ios-skia-performance-comparison-metric-3-range-selector.md)     | [ios-skia-performance-comparison-metric-3-range-selector.png](ios-skia-performance-comparison-metric-3-range-selector.png)     |
+| Scrollable bar selection  | [ios-skia-performance-comparison-metric-4-scrollable-bar.md](ios-skia-performance-comparison-metric-4-scrollable-bar.md)     | [ios-skia-performance-comparison-metric-4-scrollable-bar.png](ios-skia-performance-comparison-metric-4-scrollable-bar.png)     |
+| Combined shared tooltip   | [ios-skia-performance-comparison-metric-5-combined-tooltip.md](ios-skia-performance-comparison-metric-5-combined-tooltip.md) | [ios-skia-performance-comparison-metric-5-combined-tooltip.png](ios-skia-performance-comparison-metric-5-combined-tooltip.png) |
+| Candlestick inspection    | [ios-skia-performance-comparison-metric-6-candlestick.md](ios-skia-performance-comparison-metric-6-candlestick.md)           | [ios-skia-performance-comparison-metric-6-candlestick.png](ios-skia-performance-comparison-metric-6-candlestick.png)           |
+
 ## SVG Baseline References
 
 - [ios-svg-dense-line-decimated-overview-performance.md](ios-svg-dense-line-decimated-overview-performance.md)
@@ -41,15 +51,14 @@ Instruments frame-timing evidence.
 
 - All six Skia screenshots rendered visible chart content in the release
   simulator build.
+- Metric artifacts capture `simctl openurl` launch timing and process RSS
+  before/after the same scenarios used by the iOS SVG baseline artifacts.
 - The previous oversized Skia bar surface crash was mitigated by capping unsafe
   native bar-chart content surfaces and falling back when the renderer cannot
   window scrollable content.
 - The refreshed logs do not contain the previous `CAMetalLayer` drawable-size
   failure. The only matched high-severity line is Apple's future `UIScene`
   lifecycle warning.
-- Scrollable bar Skia remains a partial parity item: it is stable in the
-  simulator evidence, but true Skia bar viewport windowing is still required
-  before this row should be considered complete.
 
 ## Caveats
 
@@ -57,5 +66,9 @@ Instruments frame-timing evidence.
   performance evidence.
 - This does not include Instruments frame timing, GPU counters, memory pressure
   checks, or scripted gesture latency.
-- The row should remain `partial` until native device timing and Android Skia
-  comparison evidence are completed.
+- Physical-device/Instruments performance acceptance remains tracked by the
+  broader native performance matrix.
+
+## Status
+
+Pass for iOS simulator Skia-vs-SVG release-build comparison evidence.

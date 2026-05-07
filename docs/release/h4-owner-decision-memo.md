@@ -28,7 +28,7 @@ Suggested package direction:
 ```text
 @chart-kit/react-native         # modern free package
 @chart-kit/pro                  # paid workflows and composition helpers
-@chart-kit/skia-renderer        # separate optional preview renderer until native evidence is complete
+@chart-kit/skia-renderer        # separate optional preview renderer until H6 package approval
 ```
 
 Rationale: a separate package keeps license checks, paid workflows, and optional native dependencies out of the free runtime.

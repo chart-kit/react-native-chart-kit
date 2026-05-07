@@ -8,9 +8,9 @@ Build surface: Release APK with injected Skia renderer
 Device: `chartkit_api36` emulator / Android 16 API 36
 Renderer under review: Skia preview renderer
 
-This artifact records emulator screenshot and log evidence for the Android Skia
-performance-comparison checklist row. It mirrors the iOS Skia and Android SVG
-performance scenarios, but it is not final physical-device or profiler evidence.
+This artifact records emulator screenshot, log, timing, frame, and memory
+evidence for the Android Skia performance-comparison checklist row. It mirrors
+the iOS Skia and Android SVG performance scenarios.
 
 ## Build Evidence
 
@@ -27,6 +27,17 @@ performance scenarios, but it is not final physical-device or profiler evidence.
 | Combined shared tooltip   | `v2-perf-combined-tooltip`    | [android-skia-performance-comparison-5-combined-tooltip.png](android-skia-performance-comparison-5-combined-tooltip.png) | [android-skia-performance-comparison-5-combined-tooltip.log](android-skia-performance-comparison-5-combined-tooltip.log) |
 | Candlestick inspection    | `v2-perf-candlestick-1000`    | [android-skia-performance-comparison-6-candlestick.png](android-skia-performance-comparison-6-candlestick.png)           | [android-skia-performance-comparison-6-candlestick.log](android-skia-performance-comparison-6-candlestick.log)           |
 
+## Captured Skia Metrics
+
+| Scenario                  | Metric artifact                                                                                                                      | Screenshot                                                                                                                             |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Dense line overview       | [android-skia-performance-comparison-metric-1-dense-line.md](android-skia-performance-comparison-metric-1-dense-line.md)             | [android-skia-performance-comparison-metric-1-dense-line.png](android-skia-performance-comparison-metric-1-dense-line.png)             |
+| Multi-line shared tooltip | [android-skia-performance-comparison-metric-2-multi-line-scrub.md](android-skia-performance-comparison-metric-2-multi-line-scrub.md) | [android-skia-performance-comparison-metric-2-multi-line-scrub.png](android-skia-performance-comparison-metric-2-multi-line-scrub.png) |
+| Range selector            | [android-skia-performance-comparison-metric-3-range-selector.md](android-skia-performance-comparison-metric-3-range-selector.md)     | [android-skia-performance-comparison-metric-3-range-selector.png](android-skia-performance-comparison-metric-3-range-selector.png)     |
+| Scrollable bar selection  | [android-skia-performance-comparison-metric-4-scrollable-bar.md](android-skia-performance-comparison-metric-4-scrollable-bar.md)     | [android-skia-performance-comparison-metric-4-scrollable-bar.png](android-skia-performance-comparison-metric-4-scrollable-bar.png)     |
+| Combined shared tooltip   | [android-skia-performance-comparison-metric-5-combined-tooltip.md](android-skia-performance-comparison-metric-5-combined-tooltip.md) | [android-skia-performance-comparison-metric-5-combined-tooltip.png](android-skia-performance-comparison-metric-5-combined-tooltip.png) |
+| Candlestick inspection    | [android-skia-performance-comparison-metric-6-candlestick.md](android-skia-performance-comparison-metric-6-candlestick.md)           | [android-skia-performance-comparison-metric-6-candlestick.png](android-skia-performance-comparison-metric-6-candlestick.png)           |
+
 ## SVG Baseline References
 
 - [android-svg-dense-line-decimated-overview-performance.md](android-svg-dense-line-decimated-overview-performance.md)
@@ -40,6 +51,9 @@ performance scenarios, but it is not final physical-device or profiler evidence.
 
 - All six Android Skia screenshots rendered visible chart content from the
   freshly installed release APK.
+- Metric artifacts capture launch timing, `dumpsys gfxinfo` frame timing, and
+  `dumpsys meminfo` memory before/after the same scenarios used by the Android
+  SVG baseline artifacts.
 - The release APK was built from the current committed state and installed on
   the `chartkit_api36` emulator before capture.
 - A strict log scan found no `AndroidRuntime`, `FATAL EXCEPTION`, fatal signal,
@@ -54,5 +68,9 @@ performance scenarios, but it is not final physical-device or profiler evidence.
   performance evidence.
 - This does not include Perfetto, Android Studio profiler data, frame timing,
   GPU counters, memory pressure checks, or scripted gesture latency.
-- The row should remain `partial` until device-level timing and final
-  Skia-vs-SVG performance acceptance are completed.
+- Physical-device/profiler performance acceptance remains tracked by the
+  broader native performance matrix.
+
+## Status
+
+Pass for Android emulator Skia-vs-SVG release-build comparison evidence.

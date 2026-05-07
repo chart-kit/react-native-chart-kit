@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "status": "partial",
   "requiredFor": ["H5", "H6"],
-  "lastUpdated": "2026-05-06",
-  "summary": "Release simulator/emulator samples now cover all iOS and Android SVG performance rows, but Instruments/device acceptance, Skia, and final performance review are incomplete.",
+  "lastUpdated": "2026-05-07",
+  "summary": "Release simulator/emulator samples now cover all iOS and Android SVG performance rows, but Instruments/device acceptance and final performance review are incomplete.",
   "matrix": "docs/release/evidence/native-performance-matrix.json",
   "completedEntries": [
     {

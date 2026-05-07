@@ -17,13 +17,23 @@ describe("release QA status", () => {
       "runtime",
       "skia"
     ]);
-    expect(sections.every((section) => section.openRows.length > 0)).toBe(true);
+    expect(
+      sections
+        .filter((section) => section.matrix !== "skia")
+        .every((section) => section.openRows.length > 0)
+    ).toBe(true);
+    expect(sections.find((section) => section.matrix === "skia")).toMatchObject(
+      {
+        openRows: [],
+        status: "complete"
+      }
+    );
   });
 
   it("filters by matrix and row status", async () => {
     const [section] = await buildReleaseQaStatus({
       matrixName: "skia",
-      status: "partial"
+      status: "pass"
     });
 
     expect(section.matrix).toBe("skia");
@@ -81,7 +91,7 @@ describe("release QA status", () => {
   it("adds capture commands for Skia multi-target rows", async () => {
     const [section] = await buildReleaseQaStatus({
       matrixName: "skia",
-      status: "partial"
+      status: "pass"
     });
     const row = section.openRows.find(
       (item) => item.id === "android-skia-performance-comparison"
@@ -101,12 +111,12 @@ describe("release QA status", () => {
         "--matrix",
         "skia",
         "--status",
-        "partial"
+        "pass"
       ],
       { cwd: repoRoot, encoding: "utf8" }
     );
 
-    expect(output).toContain("Skia Renderer (skia): partial");
+    expect(output).toContain("Skia Renderer (skia): complete");
     expect(output).toContain("android-skia-performance-comparison");
     expect(output).toContain("--launch-url");
     expect(output).toContain("v2-perf-candlestick-1000");

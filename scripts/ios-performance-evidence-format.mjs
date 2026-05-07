@@ -45,6 +45,7 @@ export const createIosPerformanceMarkdown = ({
   packageVersion,
   processAfterLaunch,
   processAfterScenario,
+  rendererLabel,
   row,
   screenshotPath
 }) =>
@@ -57,7 +58,7 @@ export const createIosPerformanceMarkdown = ({
     "Platform: iOS simulator",
     `Build: release app, \`${bundleId}\``,
     `Executable: \`${executableName}\``,
-    `Renderer: ${row.renderer ?? "svg"} through React Native SVG`,
+    `Renderer: ${rendererLabel ?? `${row.renderer ?? "svg"} through React Native SVG`}`,
     `Scenario: ${row.target}`,
     `Showcase story: \`${row.showcaseStoryId}\``,
     `Deep link: \`${row.launchUrl}\``,

@@ -1,6 +1,6 @@
 # Native Performance Benchmark Protocol
 
-Status on May 6, 2026: protocol ready, release simulator/emulator samples captured for all iOS and Android SVG performance rows; Instruments/device acceptance, Skia, and final performance review are still missing. Structured gate evidence lives in [native-performance-benchmark.json](evidence/native-performance-benchmark.json), with the scenario matrix in [native-performance-matrix.json](evidence/native-performance-matrix.json). Use the generated [native QA checklist](native-qa-checklists.md) for row-by-row execution.
+Status on May 7, 2026: protocol ready, release simulator/emulator samples captured for all iOS and Android SVG performance rows; Instruments/device acceptance and final performance review are still missing. Structured gate evidence lives in [native-performance-benchmark.json](evidence/native-performance-benchmark.json), with the scenario matrix in [native-performance-matrix.json](evidence/native-performance-matrix.json). Use the generated [native QA checklist](native-qa-checklists.md) for row-by-row execution.
 
 This protocol defines the native benchmark evidence required before production beta/RC can claim production performance confidence. The current `npm run benchmark` command covers core geometry and web showcase scrub timing. It does not measure native render time, native gesture frame pacing, release-build memory, or renderer-specific device behavior.
 
@@ -95,7 +95,7 @@ Measure these scenarios:
 
 When Skia chart integration exists, run the same scenarios for both `svg` and `skia` where supported.
 
-The machine-readable matrix in [native-performance-matrix.json](evidence/native-performance-matrix.json) expands the required scenarios across iOS and Android for the SVG renderer. Each scenario maps to a current showcase story, and the generated [native QA checklist](native-qa-checklists.md) includes native deep links for opening the relevant story during manual profiling. Dedicated QA fixture sizes are recorded in the showcase [performance story metadata](../../apps/expo-showcase/src/stories/performanceStoryMetadata.json), and `npm run release:gate:report` checks that the matrix expected metrics match that metadata. Skia rows remain deferred until native Skia renderer parity evidence exists.
+The machine-readable matrix in [native-performance-matrix.json](evidence/native-performance-matrix.json) expands the required scenarios across iOS and Android for the SVG renderer. Each scenario maps to a current showcase story, and the generated [native QA checklist](native-qa-checklists.md) includes native deep links for opening the relevant story during manual profiling. Dedicated QA fixture sizes are recorded in the showcase [performance story metadata](../../apps/expo-showcase/src/stories/performanceStoryMetadata.json), and `npm run release:gate:report` checks that the matrix expected metrics match that metadata. Skia performance comparison evidence is tracked separately in [skia-renderer-matrix.json](evidence/skia-renderer-matrix.json).
 
 To open and capture a specific performance fixture before attaching profiler output, use the same row metadata:
 

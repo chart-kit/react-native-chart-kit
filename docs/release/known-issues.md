@@ -8,7 +8,7 @@ Android and iOS release-build checks are configured in `.github/workflows/native
 
 The iOS and Android release builds passed locally on May 5, 2026. Android used OpenJDK 17 plus the Homebrew Android command-line tools SDK (`/opt/homebrew/share/android-commandlinetools`) and completed `assembleRelease`. The release script now fails before prebuild when either Java or the Android SDK is missing. On May 6, 2026, the native release workflow passed on `next` for commit `9b828d4eb891dfa2c6588ea2d4f122e0b470c04b`, with archived iOS and Android artifacts recorded in [native-release-workflow.json](evidence/native-release-workflow.json). The workflow remains documented in [native-workflow-runbook.md](native-workflow-runbook.md) for future RC reruns.
 
-Impact: native release-build workflow evidence is no longer the blocker, but production users should still wait for runtime, accessibility, performance, and Skia evidence before treating v2 as stable.
+Impact: native release-build workflow evidence is no longer the blocker, but production users should still wait for runtime, accessibility, and final native performance evidence before treating v2 as stable.
 
 ## Developer Preview Package Publish
 
@@ -48,13 +48,13 @@ Impact: Developer Preview must keep these features labeled as preview or Pro-can
 
 ## Skia Renderer
 
-`packages/skia-renderer` now provides a preview package boundary, capability metadata, install guidance, and an injected Skia primitive adapter. Local renderer contract coverage exists for the injected primitives plus LineChart, BarChart/PieChart/DonutChart, ProgressChart/ProgressRing, ContributionGraph/CalendarHeatmap, CombinedChart, and CandlestickChart. Sticky-axis labels and measured text anchors are covered locally with a supplied Skia-like font. The local baseline is recorded in [skia-local-baseline-2026-05-06.md](artifacts/skia-local-baseline-2026-05-06.md), optional-Skia temp-app install/build evidence exists for both iOS and Android, and renderer-injected Release build evidence exists for both platforms. The Skia matrix still has 6 partial rows and 2 pending native performance rows because native renderer parity screenshots, interaction review, and native Skia benchmark comparisons are not complete yet. The structured status lives in [skia-renderer-evidence.json](evidence/skia-renderer-evidence.json).
+`packages/skia-renderer` now provides a preview package boundary, capability metadata, install guidance, and an injected Skia primitive adapter. Local renderer contract coverage exists for the injected primitives plus LineChart, BarChart/PieChart/DonutChart, ProgressChart/ProgressRing, ContributionGraph/CalendarHeatmap, CombinedChart, and CandlestickChart. Sticky-axis labels and measured text anchors are covered locally with a supplied Skia-like font. The local baseline is recorded in [skia-local-baseline-2026-05-06.md](artifacts/skia-local-baseline-2026-05-06.md), optional-Skia temp-app install/build evidence exists for both iOS and Android, renderer-injected Release build evidence exists for both platforms, and native renderer parity plus SVG-vs-Skia performance comparison rows are complete. The structured status lives in [skia-renderer-evidence.json](evidence/skia-renderer-evidence.json).
 
-Impact: the optional package boundary is approved for preview, but Skia must stay labeled as preview until native benchmarks and native parity tests are implemented.
+Impact: the optional package boundary is approved for preview, but Skia must stay labeled as preview until the product/package boundary is approved for H6 and a stable package plan exists.
 
 ## Native Performance Evidence
 
-`npm run benchmark` covers core geometry and web showcase scrub timing. The [Native performance benchmark protocol](native-performance-benchmark.md) defines the release-device measurements needed for iOS and Android, including frame timing, memory, renderer, data size, and gesture scenarios. Partial release simulator/emulator samples now cover all iOS and Android SVG performance matrix rows, but they do not replace the required Instruments/device profiling, physical-device or explicitly accepted simulator/emulator sign-off, manual visible-correctness, and renderer-parity evidence.
+`npm run benchmark` covers core geometry and web showcase scrub timing. The [Native performance benchmark protocol](native-performance-benchmark.md) defines the release-device measurements needed for iOS and Android, including frame timing, memory, renderer, data size, and gesture scenarios. Partial release simulator/emulator samples now cover all iOS and Android SVG performance matrix rows, but they do not replace the required Instruments/device profiling, physical-device or explicitly accepted simulator/emulator sign-off, and manual visible-correctness evidence.
 
 Impact: benchmark regressions can be caught locally for core geometry and web scrub timing, but production beta/RC should not claim native release-device performance until the native benchmark log is complete.
 

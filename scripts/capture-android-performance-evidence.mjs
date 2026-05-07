@@ -23,6 +23,7 @@ Options:
   --dry-run              Print commands without executing them.
   --output <path>        Markdown artifact path. Defaults to docs/release/artifacts/<row-id>.md.
   --package <id>         Android package id. Defaults to io.chartkit.showcase.
+  --renderer-label <txt> Renderer label written to the artifact.
   --wait-ms <number>     Delay after launch before measurement. Defaults to 1800.
   --help                 Show this help.
 `;
@@ -58,6 +59,8 @@ const parseArgs = (argv) => {
       options.androidPackage = readValue();
     } else if (arg === "--row") {
       options.rowId = readValue();
+    } else if (arg === "--renderer-label") {
+      options.rendererLabel = readValue();
     } else if (arg === "--wait-ms") {
       options.waitMs = Number(readValue());
     } else {
@@ -357,6 +360,7 @@ export const captureAndroidPerformanceEvidence = async ({
       meminfoBeforeSummary: parseMeminfo(meminfoBefore),
       meminfoSummary: parseMeminfo(meminfo),
       packageVersion,
+      rendererLabel: options.rendererLabel,
       row: plan.row,
       screenshotPath: plan.screenshotPath
     }),

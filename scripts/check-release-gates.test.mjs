@@ -18,27 +18,18 @@ const runGateReportJson = () =>
   );
 
 describe("release gate checker", () => {
-  it("uses evidence manifest summaries for manifest-backed blockers", () => {
+  it("accepts complete Skia renderer evidence", () => {
     const report = runGateReportJson();
-    const skiaManifest = JSON.parse(
-      readFileSync(
-        join(repoRoot, "docs/release/evidence/skia-renderer-evidence.json"),
-        "utf8"
-      )
-    );
     const skiaCheck = report.checks.find(
       (check) => check.id === "blocker:skia-backend"
     );
 
     expect(skiaCheck).toMatchObject({
-      evidence:
-        "docs/release/evidence/skia-renderer-evidence.json; docs/release/evidence/skia-renderer-matrix.json",
-      message: skiaManifest.summary,
-      status: "block"
+      message:
+        "Skia renderer native install, renderer parity, and performance evidence matrix is complete.",
+      status: "pass"
     });
-    expect(skiaCheck?.detail).toContain(
-      "2 incomplete Skia renderer evidence rows"
-    );
+    expect(skiaCheck?.detail).toBe("");
   });
 
   it("surfaces incomplete native runtime matrix rows", () => {
