@@ -19,6 +19,7 @@ Run the current check from the repo root:
 
 ```sh
 npm run example:rn-cli:typecheck
+npm run example:rn-cli:native:dry-run
 ```
 
 Also verify the CLI is installed:
@@ -49,8 +50,10 @@ Use a clean working tree or throwaway branch, then:
 ```sh
 npm run build
 npm run example:rn-cli:typecheck
+npm run example:rn-cli:ios -- --log-file docs/release/artifacts/rn-cli-ios-release.log
+npm run example:rn-cli:android -- --log-file docs/release/artifacts/rn-cli-android-release.log
 ```
 
-Generate or refresh the native RN CLI projects with the React Native CLI version used by the example, install pods for iOS, and run release builds on both platforms. Attach build logs and screenshots or recordings to [rn-cli-example-evidence.json](evidence/rn-cli-example-evidence.json) before changing its status to `complete`.
+The native commands generate a transient React Native CLI app under the system temp directory, overlay the example chart screen, install local Chart Kit packages, install pods for iOS, and run release builds on both platforms. Attach build logs and screenshots or recordings to [rn-cli-example-evidence.json](evidence/rn-cli-example-evidence.json) before changing its status to `complete`.
 
 Do not mark this evidence complete from the Expo showcase, web visual tests, or source typecheck alone.

@@ -15,9 +15,11 @@
         "examples/rn-cli-basic/metro.config.js",
         "examples/rn-cli-basic/tsconfig.json",
         "package.json",
-        "package-lock.json"
+        "package-lock.json",
+        "scripts/run-rn-cli-native-check.mjs",
+        "docs/release/artifacts/rn-cli-dry-run.log"
       ],
-      "notes": "The source-level RN CLI smoke app imports @chart-kit/react-native, wraps charts in GestureHandlerRootView, declares the React Native community CLI, and is covered by npm run example:rn-cli:typecheck. The root react-native binary now resolves CLI help successfully."
+      "notes": "The source-level RN CLI smoke app imports @chart-kit/react-native, wraps charts in GestureHandlerRootView, declares the React Native community CLI, and is covered by npm run example:rn-cli:typecheck. The root react-native binary now resolves CLI help successfully, and npm run example:rn-cli:native:dry-run prints the transient native-project generation and release-build commands."
     }
   ],
   "missingEvidence": [
