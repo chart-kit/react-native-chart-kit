@@ -120,6 +120,8 @@ The value accepts the same query params as the deep-link and web URLs, including
 For row-by-row screenshot evidence, use the capture helper after the release app is installed and launchable on a simulator, emulator, or attached device:
 
 ```sh
+npm run release:qa:status -- --matrix runtime --status partial --details
+
 npm run release:qa:capture -- \
   --matrix runtime \
   --row ios-line-charts \

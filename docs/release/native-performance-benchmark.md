@@ -100,6 +100,8 @@ The machine-readable matrix in [native-performance-matrix.json](evidence/native-
 To open and capture a specific performance fixture before attaching profiler output, use the same row metadata:
 
 ```sh
+npm run release:qa:status -- --matrix performance --status partial --details
+
 npm run release:qa:capture -- \
   --matrix performance \
   --row android-svg-standard-line-scrub \

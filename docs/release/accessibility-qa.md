@@ -48,6 +48,8 @@ Supported params match the web preview URLs: `page`, `story`, `view`, `theme`, a
 For row evidence, the native QA capture helper can open the row deep link and save a screenshot before or after screen-reader inspection:
 
 ```sh
+npm run release:qa:status -- --matrix accessibility --status partial --details
+
 npm run release:qa:capture -- \
   --matrix accessibility \
   --row ios-voiceover-line-charts \

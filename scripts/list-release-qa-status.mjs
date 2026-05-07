@@ -34,6 +34,8 @@ const parseArgs = (argv) => {
 
     if (arg === "--json") {
       options.json = true;
+    } else if (arg === "--details") {
+      options.details = true;
     } else if (arg === "--matrix") {
       options.matrix = readValue();
     } else if (arg === "--status") {
@@ -111,6 +113,61 @@ const getRowPlatform = (matrix, row) => {
   return tech?.platform ?? "";
 };
 
+const getRowRequiredCheckGroups = (matrix, row) =>
+  matrix.pages?.find((item) => item.id === row.pageId)?.requiredCheckGroups ??
+  [];
+
+const getRowExpectedStoryMetrics = (matrix, row) =>
+  matrix.scenarios?.find((item) => item.id === row.scenarioId)
+    ?.expectedStoryMetrics;
+
+const formatExpectedStoryMetrics = (metrics) => {
+  if (!metrics) return "";
+
+  return [
+    metrics.chartType && `chart ${metrics.chartType}`,
+    Number.isFinite(metrics.totalPoints) &&
+      `${metrics.totalPoints.toLocaleString("en-US")} total`,
+    Number.isFinite(metrics.visiblePoints) &&
+      `${metrics.visiblePoints.toLocaleString("en-US")} visible`,
+    Number.isFinite(metrics.seriesCount) &&
+      `${metrics.seriesCount.toLocaleString("en-US")} series`
+  ]
+    .filter(Boolean)
+    .join("; ");
+};
+
+const getRowRequiredChecks = (matrix, row) => {
+  const requiredCheckGroups = getRowRequiredCheckGroups(matrix, row);
+  const groupChecks = requiredCheckGroups.flatMap((groupId) => {
+    const checks = matrix.checkGroups?.[groupId] ?? [];
+
+    return checks.map((check) => `${groupId}: ${check}`);
+  });
+  const scenario = matrix.scenarios?.find((item) => item.id === row.scenarioId);
+  const scenarioChecks = [
+    scenario?.requiredDataSize
+      ? `scenario: data size ${scenario.requiredDataSize}`
+      : "",
+    scenario?.expectedStoryMetrics
+      ? `scenario: expected story metrics ${formatExpectedStoryMetrics(
+          scenario.expectedStoryMetrics
+        )}`
+      : "",
+    scenario?.interaction
+      ? `scenario: interaction ${scenario.interaction}`
+      : "",
+    scenario?.requiredEvidence
+      ? `scenario: evidence ${scenario.requiredEvidence}`
+      : ""
+  ].filter(Boolean);
+  const metricChecks = Array.isArray(matrix.metrics)
+    ? matrix.metrics.map((metric) => `metric: ${metric}`)
+    : [];
+
+  return [...groupChecks, ...scenarioChecks, ...metricChecks];
+};
+
 const getCaptureCommand = ({
   includeLaunchUrl = false,
   launchUrl,
@@ -162,6 +219,7 @@ const getRowCommand = ({ matrixName, row }) =>
   ].join(" ");
 
 export const buildReleaseQaStatus = async ({
+  includeDetails = false,
   matrixName,
   repoRoot = defaultRepoRoot,
   status
@@ -201,12 +259,17 @@ export const buildReleaseQaStatus = async ({
             })
           )
           .filter(Boolean);
+        const expectedStoryMetrics = includeDetails
+          ? getRowExpectedStoryMetrics(matrix, row)
+          : undefined;
 
         return {
           captureCommand: captureCommands[0] ?? "",
           captureCommands,
+          checks: includeDetails ? getRowRequiredChecks(matrix, row) : [],
           command: getRowCommand({ matrixName: name, row }),
           evidence: row.evidence ?? [],
+          expectedStoryMetrics,
           id: row.id,
           launchUrl,
           launchTargets,
@@ -234,6 +297,12 @@ const formatStatus = (sections) =>
         `  - ${row.id} [${row.status}] ${row.target}`,
         row.launchUrl ? `    launch: ${row.launchUrl}` : "",
         ...row.captureCommands.map((command) => `    capture: ${command}`),
+        row.expectedStoryMetrics
+          ? `    expected: ${formatExpectedStoryMetrics(
+              row.expectedStoryMetrics
+            )}`
+          : "",
+        ...row.checks.map((check) => `    check: ${check}`),
         `    evidence: ${row.evidence.length > 0 ? row.evidence.join(", ") : "none"}`,
         `    record: ${row.command}`
       ])
@@ -245,6 +314,7 @@ const formatStatus = (sections) =>
 const main = async () => {
   const options = parseArgs(process.argv.slice(2));
   const sections = await buildReleaseQaStatus({
+    includeDetails: options.details,
     matrixName: options.matrix,
     status: options.status
   });

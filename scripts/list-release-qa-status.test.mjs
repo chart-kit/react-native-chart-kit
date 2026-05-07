@@ -88,6 +88,40 @@ describe("release QA status", () => {
     );
   });
 
+  it("includes row acceptance checks when details are requested", async () => {
+    const [runtimeSection] = await buildReleaseQaStatus({
+      includeDetails: true,
+      matrixName: "runtime",
+      status: "partial"
+    });
+    const runtimeRow = runtimeSection.openRows.find(
+      (item) => item.id === "ios-line-charts"
+    );
+
+    expect(runtimeRow?.checks).toContain(
+      "global: page opens without red-screen warnings or console errors"
+    );
+    expect(runtimeRow?.checks).toContain(
+      "line: scrub selection updates continuously and does not flicker"
+    );
+
+    const [performanceSection] = await buildReleaseQaStatus({
+      includeDetails: true,
+      matrixName: "performance",
+      status: "partial"
+    });
+    const performanceRow = performanceSection.openRows.find(
+      (item) => item.id === "android-svg-standard-line-scrub"
+    );
+
+    expect(performanceRow?.checks).toContain(
+      "scenario: expected story metrics chart line; 1,000 total; 1,000 visible; 1 series"
+    );
+    expect(performanceRow?.checks).toContain(
+      "metric: p95 frame time during interaction"
+    );
+  });
+
   it("adds capture commands for Skia multi-target rows", async () => {
     const [section] = await buildReleaseQaStatus({
       matrixName: "skia",
@@ -138,5 +172,27 @@ describe("release QA status", () => {
 
     expect(output).toContain("capture: npm run release:qa:capture --");
     expect(output).toContain("--row ios-line-charts --platform ios");
+  });
+
+  it("prints row acceptance checks from the CLI when details are requested", () => {
+    const output = execFileSync(
+      process.execPath,
+      [
+        path.join(repoRoot, "scripts/list-release-qa-status.mjs"),
+        "--matrix",
+        "runtime",
+        "--status",
+        "partial",
+        "--details"
+      ],
+      { cwd: repoRoot, encoding: "utf8" }
+    );
+
+    expect(output).toContain(
+      "check: global: page opens without red-screen warnings or console errors"
+    );
+    expect(output).toContain(
+      "check: line: scrub selection updates continuously and does not flicker"
+    );
   });
 });
