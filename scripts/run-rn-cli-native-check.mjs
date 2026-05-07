@@ -101,7 +101,21 @@ const commandText = (command, args) =>
     " "
   );
 
-const run = ({ args, command, cwd, dryRun }) => {
+const writeCommandOutput = ({ result, summarizeOutput }) => {
+  const stdout = result.stdout ?? "";
+  const stderr = result.stderr ?? "";
+  const failed = result.status !== 0;
+
+  if (activeLogFile && summarizeOutput && !failed) {
+    emit(summarizeOutput({ stderr, stdout }));
+    return;
+  }
+
+  if (activeLogFile && stdout) emit(stdout);
+  if (activeLogFile && stderr) emitError(stderr);
+};
+
+const run = ({ args, command, cwd, dryRun, summarizeOutput }) => {
   const relativeCwd = path.relative(repoRoot, cwd) || ".";
   emit(`$ cd ${relativeCwd} && ${commandText(command, args)}\n`);
 
@@ -114,10 +128,8 @@ const run = ({ args, command, cwd, dryRun }) => {
     stdio: activeLogFile ? ["inherit", "pipe", "pipe"] : "inherit"
   });
 
-  if (activeLogFile && result.stdout) emit(result.stdout);
-  if (activeLogFile && result.stderr) emitError(result.stderr);
-
   if (result.error) throw result.error;
+  writeCommandOutput({ result, summarizeOutput });
   if (result.status !== 0) {
     throw new Error(
       `${commandText(command, args)} failed with exit code ${result.status ?? 1}`
@@ -131,12 +143,103 @@ const writeJson = (filePath, value) => {
   writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`, "utf8");
 };
 
+const summarizeXcodebuildOutput = ({ stderr, stdout }) => {
+  const output = [stdout, stderr].filter(Boolean).join("\n");
+  const lines = output.split(/\r?\n/);
+  const keepers = lines.filter(
+    (line) =>
+      line.includes("Command line invocation:") ||
+      line.includes("/usr/bin/xcodebuild") ||
+      line.includes("Build settings from command line:") ||
+      line.includes("CODE_SIGNING_ALLOWED") ||
+      line.includes("Auto-linking React Native module") ||
+      line.includes("Found 1 module") ||
+      line.includes("Installing RNSVG") ||
+      line.includes("BUILD SUCCEEDED") ||
+      line.includes("warning: The value for NSLocationWhenInUseUsageDescription") ||
+      line.includes("warning: Run script build phase")
+  );
+
+  return [
+    `[xcodebuild output summarized: ${lines.length} lines, ${keepers.length} kept]`,
+    ...keepers,
+    ""
+  ].join("\n");
+};
+
 const packageVersion = (packageName) =>
   readJson(path.join(repoRoot, "node_modules", packageName, "package.json"))
     .version;
 
 const assertPath = (filePath, hint) => {
   if (!existsSync(filePath)) throw new Error(`${hint}: ${filePath}`);
+};
+
+const candidateJavaHomes = [
+  process.env.JAVA_HOME,
+  "/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home",
+  "/usr/local/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home",
+  "/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home",
+  "/usr/local/opt/openjdk/libexec/openjdk.jdk/Contents/Home"
+].filter(Boolean);
+
+const withPathPrefix = (directory) =>
+  [directory, process.env.PATH].filter(Boolean).join(path.delimiter);
+
+const assertJavaAvailable = () => {
+  const pathResult = spawnSync("java", ["-version"], {
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "pipe"]
+  });
+
+  if (pathResult.status === 0) return;
+
+  for (const javaHome of candidateJavaHomes) {
+    const javaCommand = path.join(javaHome, "bin", "java");
+    if (!existsSync(javaCommand)) continue;
+
+    const homeResult = spawnSync(javaCommand, ["-version"], {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"]
+    });
+
+    if (homeResult.status === 0) {
+      process.env.JAVA_HOME = javaHome;
+      process.env.PATH = withPathPrefix(path.dirname(javaCommand));
+      return;
+    }
+  }
+
+  const detail = (pathResult.stderr || pathResult.stdout || "").trim();
+  const suffix = detail ? `\n\n${detail}` : "";
+
+  throw new Error(
+    `Android RN CLI checks require a Java runtime. Install JDK 17 or set JAVA_HOME.${suffix}`
+  );
+};
+
+const candidateAndroidSdkPaths = [
+  process.env.ANDROID_HOME,
+  process.env.ANDROID_SDK_ROOT,
+  path.join(process.env.HOME ?? "", "Library", "Android", "sdk"),
+  "/opt/homebrew/share/android-commandlinetools",
+  "/usr/local/share/android-commandlinetools"
+].filter(Boolean);
+
+const assertAndroidSdkAvailable = () => {
+  const sdkPath = candidateAndroidSdkPaths.find((candidate) =>
+    existsSync(candidate)
+  );
+
+  if (sdkPath) {
+    process.env.ANDROID_HOME = process.env.ANDROID_HOME ?? sdkPath;
+    process.env.ANDROID_SDK_ROOT = process.env.ANDROID_SDK_ROOT ?? sdkPath;
+    return;
+  }
+
+  throw new Error(
+    "Android RN CLI checks require an Android SDK. Set ANDROID_HOME or ANDROID_SDK_ROOT."
+  );
 };
 
 const cliCommand = () => {
@@ -245,11 +348,11 @@ const updatePackageJson = ({ dryRun, projectName, workDir }) => {
       "@chart-kit/svg-renderer": `file:${path.join(repoRoot, "packages/svg-renderer")}`,
       react: "^19.2.0",
       "react-native": "^0.83.9",
-      "react-native-gesture-handler": "~2.28.0",
       "react-native-svg": "^15.15.4"
     },
     devDependencies: {
       "@react-native-community/cli": "^20.1.3",
+      "@react-native/metro-config": "0.83.9",
       typescript: "^5.9.3"
     }
   });
@@ -290,7 +393,11 @@ const runAndroidReleaseBuild = ({ dryRun, workDir }) => {
   const androidDir = path.join(workDir, "android");
   const gradlew = process.platform === "win32" ? "gradlew.bat" : "./gradlew";
 
-  if (!dryRun) assertPath(androidDir, "Android native project is missing");
+  if (!dryRun) {
+    assertJavaAvailable();
+    assertAndroidSdkAvailable();
+    assertPath(androidDir, "Android native project is missing");
+  }
 
   run({
     args: ["assembleRelease"],
@@ -298,6 +405,7 @@ const runAndroidReleaseBuild = ({ dryRun, workDir }) => {
     cwd: androidDir,
     dryRun
   });
+  if (!dryRun) emit("Android release build completed successfully.\n");
 };
 
 const runIosReleaseBuild = ({ dryRun, iosScheme, projectName, workDir }) => {
@@ -317,12 +425,15 @@ const runIosReleaseBuild = ({ dryRun, iosScheme, projectName, workDir }) => {
       "-destination",
       "generic/platform=iOS",
       "CODE_SIGNING_ALLOWED=NO",
+      "-quiet",
       "build"
     ],
     command: "xcodebuild",
     cwd: iosDir,
-    dryRun
+    dryRun,
+    summarizeOutput: summarizeXcodebuildOutput
   });
+  if (!dryRun) emit("iOS release build completed successfully.\n");
 };
 
 const main = () => {

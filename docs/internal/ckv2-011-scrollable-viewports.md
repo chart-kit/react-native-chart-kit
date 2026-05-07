@@ -12,7 +12,7 @@ Implemented:
 - stable sticky Y-axis overlay for scrollable charts
 - controlled viewport windows through `viewport` and `onViewportChange`
 - direct one-finger main-plot pan for controlled viewports
-- opt-in pinch zoom via `react-native-gesture-handler`
+- opt-in pinch zoom via React Native PanResponder
 - range selector overview with move and resize interactions
 - customizable range selector line, handle, and selected-window rendering
 - parent scroll locking during main-plot and range-selector gestures

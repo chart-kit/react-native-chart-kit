@@ -13,7 +13,7 @@ npm install
 For new apps using the modern v2 API:
 
 ```sh
-npm install @chart-kit/react-native react-native-svg react-native-gesture-handler
+npm install @chart-kit/react-native react-native-svg
 ```
 
 For existing apps, keep using `react-native-chart-kit` during migration and move new screens to `@chart-kit/react-native` when you want the modern object-row API.
@@ -23,22 +23,10 @@ For existing apps, keep using `react-native-chart-kit` during migration and move
 For Expo apps, install the native peer dependencies with Expo so versions match the SDK:
 
 ```sh
-npx expo install react-native-svg react-native-gesture-handler
+npx expo install react-native-svg
 ```
 
-Then wrap your app with `GestureHandlerRootView` if you use pan, scrub, pinch zoom, or range selector interactions.
-
-```tsx
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-
-export function App() {
-  return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <Root />
-    </GestureHandlerRootView>
-  );
-}
-```
+Baseline tap, scrub, pan, pinch zoom, and range-selector interactions use React Native responder APIs, so new apps do not need a gesture-handler wrapper just to render or inspect charts.
 
 ## First Modern Chart
 

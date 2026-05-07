@@ -3,7 +3,7 @@
   "status": "partial",
   "requiredFor": ["H5", "H6"],
   "lastUpdated": "2026-05-06",
-  "summary": "The React Native CLI example source, Metro aliases, peer dependency surface, CLI dependency, and TypeScript check exist, but native iOS and Android CLI project runtime evidence is incomplete.",
+  "summary": "The React Native CLI example source, Metro aliases, peer dependency surface, CLI dependency, TypeScript check, and Android/iOS release build evidence exist, but native runtime launch evidence is incomplete.",
   "completedEntries": [
     {
       "date": "2026-05-06",
@@ -19,13 +19,25 @@
         "scripts/run-rn-cli-native-check.mjs",
         "docs/release/artifacts/rn-cli-dry-run.log"
       ],
-      "notes": "The source-level RN CLI smoke app imports @chart-kit/react-native, wraps charts in GestureHandlerRootView, declares the React Native community CLI, and is covered by npm run example:rn-cli:typecheck. The root react-native binary now resolves CLI help successfully, and npm run example:rn-cli:native:dry-run prints the transient native-project generation and release-build commands."
+      "notes": "The source-level RN CLI smoke app imports @chart-kit/react-native without requiring Gesture Handler or Expo wrappers, declares the React Native community CLI, and is covered by npm run example:rn-cli:typecheck. The root react-native binary now resolves CLI help successfully, and npm run example:rn-cli:native:dry-run prints the transient native-project generation and release-build commands."
+    },
+    {
+      "date": "2026-05-06",
+      "scope": "android-release-build",
+      "result": "partial-pass",
+      "artifacts": ["docs/release/artifacts/rn-cli-android-release.log"],
+      "notes": "npm run example:rn-cli:android generated a temporary React Native CLI 0.83.9 app, overlaid examples/rn-cli-basic, installed local Chart Kit packages without Gesture Handler or Reanimated, bundled Metro assets, and completed ./gradlew assembleRelease successfully. This is build evidence only; device launch and screenshot evidence are still missing."
+    },
+    {
+      "date": "2026-05-06",
+      "scope": "ios-release-build",
+      "result": "partial-pass",
+      "artifacts": ["docs/release/artifacts/rn-cli-ios-release.log"],
+      "notes": "npm run example:rn-cli:ios generated a temporary React Native CLI 0.83.9 app, overlaid examples/rn-cli-basic, installed local Chart Kit packages, auto-linked only RNSVG as the chart native dependency, ran pod install, and completed a generic iOS Release xcodebuild with CODE_SIGNING_ALLOWED=NO. This is build evidence only; simulator/device launch and screenshot evidence are still missing."
     }
   ],
   "missingEvidence": [
-    "RN CLI iOS native project generation or checked-in native project evidence is missing.",
-    "RN CLI Android native project generation or checked-in native project evidence is missing.",
-    "RN CLI iOS release-build runtime evidence is missing.",
-    "RN CLI Android release-build runtime evidence is missing."
+    "RN CLI iOS release-build runtime launch and chart rendering evidence is missing.",
+    "RN CLI Android release-build runtime launch and chart rendering evidence is missing."
   ]
 }

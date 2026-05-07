@@ -9,10 +9,10 @@ The Expo showcase is the main visual and release-build QA surface today. The ful
 The source-level example is in [examples/rn-cli-basic](../../examples/rn-cli-basic):
 
 - `App.tsx` imports `@chart-kit/react-native`
-- `GestureHandlerRootView` wraps gesture-enabled charts
+- baseline charts render without Expo or Gesture Handler runtime wrappers
 - `LineChart`, `BarChart`, and `ProgressRing` render from the modern API
 - `metro.config.js` resolves local workspace packages during development
-- `package.json` declares React Native, Gesture Handler, SVG, and Chart Kit dependencies
+- `package.json` declares React Native, SVG, and Chart Kit dependencies
 - root and example package metadata declare `@react-native-community/cli`, so the installed `react-native` binary can run CLI commands
 
 Run the current check from the repo root:
@@ -30,12 +30,16 @@ Also verify the CLI is installed:
 
 These are useful evidence for TypeScript, Metro-resolution intent, and CLI availability, but they are not native runtime evidence.
 
+Android release-build evidence is captured in [rn-cli-android-release.log](artifacts/rn-cli-android-release.log). It proves the generated RN CLI app can install the local Chart Kit packages, bundle JavaScript, and complete `./gradlew assembleRelease` without Expo, Gesture Handler, or Reanimated.
+
+iOS release-build evidence is captured in [rn-cli-ios-release.log](artifacts/rn-cli-ios-release.log). It proves the generated RN CLI app can install pods, auto-link only `RNSVG` as the chart native dependency, and complete generic Release `xcodebuild` with signing disabled.
+
+These logs are build evidence, not simulator/device launch or screenshot evidence.
+
 ## Required Native Evidence
 
 Before H6 can be approved, capture real RN CLI evidence for:
 
-- generated or maintained iOS native project
-- generated or maintained Android native project
 - iOS release-build launch and chart rendering
 - Android release-build launch and chart rendering
 - gesture sanity checks for at least line selection, bar selection, and vertical scroll containment

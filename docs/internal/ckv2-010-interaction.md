@@ -28,7 +28,7 @@ The interaction baseline is opt-in. Charts do not claim responder ownership unle
 
 Selection lifecycle is named around selection, not tooltip. That allows Wealthsimple-style external consumers, such as a balance header, to respond through `onSelect` and `onDeselect` while keeping `tooltip={false}`.
 
-Tap and scrub selection still use React Native responder events. Viewport pinch zoom now uses `react-native-gesture-handler` because native pinch recognition is worth the dependency for real portfolio/price-history workflows. Main-plot pan remains responder-based so one-finger drag works in the same controlled viewport model.
+Tap and scrub selection use React Native responder events. Main-plot pan and opt-in pinch zoom also use responder/PanResponder APIs so the free package does not force Gesture Handler or Reanimated into basic RN CLI apps.
 
 ## Future Selection Scope
 

@@ -1,5 +1,5 @@
 # RN CLI Native Check Log
-Date: 2026-05-06T18:50:51.679Z
+Date: 2026-05-06T19:12:00.166Z
 Repo: /Users/berman/Documents/react-native-chart-kit
 $ cd . && npm run build
 $ cd . && /Users/berman/Documents/react-native-chart-kit/node_modules/.bin/rnc-cli init ChartKitRnCliNative --directory /var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cli-native-check --version 0.83.9 --pm npm --skip-install --install-pods false --skip-git-init --replace-directory true --package-name io.chartkit.rnclibasic --title "Chart Kit RN CLI Basic"
@@ -10,4 +10,4 @@ write ../../../../var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cl
 $ cd ../../../../var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cli-native-check && npm install
 $ cd ../../../../var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cli-native-check/android && ./gradlew assembleRelease
 $ cd ../../../../var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cli-native-check/ios && pod install
-$ cd ../../../../var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cli-native-check/ios && xcodebuild -workspace ChartKitRnCliNative.xcworkspace -scheme ChartKitRnCliNative -configuration Release -destination generic/platform=iOS CODE_SIGNING_ALLOWED=NO build
+$ cd ../../../../var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-rn-cli-native-check/ios && xcodebuild -workspace ChartKitRnCliNative.xcworkspace -scheme ChartKitRnCliNative -configuration Release -destination generic/platform=iOS CODE_SIGNING_ALLOWED=NO -quiet build

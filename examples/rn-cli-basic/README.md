@@ -5,7 +5,7 @@ This example is the non-Expo smoke surface for the modern Chart Kit v2 package. 
 ## What It Covers
 
 - `@chart-kit/react-native` import path
-- `GestureHandlerRootView` setup for gesture-enabled charts
+- dependency-light chart rendering without Expo or Gesture Handler
 - `LineChart`, `BarChart`, and `ProgressRing`
 - Metro aliases back to local workspace source
 - TypeScript verification through the root repo

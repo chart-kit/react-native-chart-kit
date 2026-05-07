@@ -1,10 +1,7 @@
-/* eslint-disable react-hooks/refs -- Gesture Handler stores callbacks outside React; refs keep active pinch state stable across controlled viewport rerenders. */
-import { useCallback, useEffect, useMemo, useRef, type ReactNode } from "react";
-import {
-  Gesture,
-  GestureDetector,
-  type GestureType
-} from "react-native-gesture-handler";
+/* eslint-disable react-hooks/refs -- PanResponder stores callbacks during creation; refs keep active pinch state stable across controlled viewport rerenders. */
+import { useMemo, useRef, type ReactNode } from "react";
+import { PanResponder, View } from "react-native";
+import type { GestureResponderEvent, PanResponderInstance } from "react-native";
 
 import {
   resolveChartViewportWindowFromZoom,
@@ -18,20 +15,53 @@ import {
 import type {
   ChartViewportBounds,
   ChartViewportChangeEvent,
-  ChartViewportInteractionConfig,
-  ResolvedChartViewportInteractionConfig
+  ChartViewportInteractionConfig
 } from "./types";
+
+type TouchPoint = {
+  locationX: number;
+  locationY: number;
+};
 
 type ViewportPinchZoomState = {
   lastWindow: ResolvedChartViewportWindow;
+  startDistance: number;
+  startFocalX: number;
   startWindow: ResolvedChartViewportWindow;
 };
+
+const minPinchDistance = 4;
 
 const isSameViewportWindow = (
   first: ResolvedChartViewportWindow,
   second: ResolvedChartViewportWindow
 ) =>
   first.startIndex === second.startIndex && first.endIndex === second.endIndex;
+
+const getTouches = (event: GestureResponderEvent): TouchPoint[] =>
+  event.nativeEvent.touches
+    .map((touch) => ({
+      locationX: touch.locationX,
+      locationY: touch.locationY
+    }))
+    .filter(
+      (touch) =>
+        Number.isFinite(touch.locationX) && Number.isFinite(touch.locationY)
+    );
+
+const getPinchMetrics = (event: GestureResponderEvent) => {
+  const [first, second] = getTouches(event);
+
+  if (!first || !second) return undefined;
+
+  const dx = second.locationX - first.locationX;
+  const dy = second.locationY - first.locationY;
+
+  return {
+    distance: Math.hypot(dx, dy),
+    focalX: (first.locationX + second.locationX) / 2
+  };
+};
 
 const getAnchorIndex = ({
   focalX,
@@ -56,11 +86,9 @@ const getAnchorIndex = ({
 };
 
 const emitViewportChange = ({
-  interaction,
   nextWindow,
   onViewportChange
 }: {
-  interaction: "pinchZoom";
   nextWindow: ResolvedChartViewportWindow;
   onViewportChange: ((event: ChartViewportChangeEvent) => void) | undefined;
 }) => {
@@ -75,7 +103,7 @@ const emitViewportChange = ({
     itemCount: nextWindow.itemCount,
     isWindowed: nextWindow.isWindowed,
     source: "mainPlot",
-    interaction
+    interaction: "pinchZoom"
   });
 };
 
@@ -93,102 +121,97 @@ export const useChartViewportPinchZoom = ({
   plotBounds: ChartViewportBounds;
   viewportInteraction: boolean | ChartViewportInteractionConfig | undefined;
   viewportWindow: ResolvedChartViewportWindow;
-}) => {
-  const config = useMemo(
-    () => resolveChartViewportInteractionConfig(viewportInteraction),
-    [viewportInteraction]
-  );
-  const configRef = useRef<ResolvedChartViewportInteractionConfig>(config);
-  const onViewportChangeRef = useRef(onViewportChange);
-  const plotBoundsRef = useRef(plotBounds);
+}): PanResponderInstance | undefined => {
   const pinchStateRef = useRef<ViewportPinchZoomState | undefined>(undefined);
-  const viewportWindowRef = useRef(viewportWindow);
 
-  useEffect(() => {
-    configRef.current = config;
-    onViewportChangeRef.current = onViewportChange;
-    plotBoundsRef.current = plotBounds;
-    viewportWindowRef.current = viewportWindow;
-  }, [config, onViewportChange, plotBounds, viewportWindow]);
+  return useMemo(() => {
+    const config = resolveChartViewportInteractionConfig(viewportInteraction);
+    const canPinch =
+      enabled &&
+      config.pinchZoom &&
+      onViewportChange !== undefined &&
+      dataLength > 1 &&
+      viewportWindow.visibleCount > 0 &&
+      plotBounds.width > 0;
 
-  const canPinch =
-    enabled &&
-    config.pinchZoom &&
-    onViewportChange !== undefined &&
-    dataLength > 1 &&
-    viewportWindow.visibleCount > 0 &&
-    plotBounds.width > 0;
+    if (!canPinch) return undefined;
 
-  const handleStart = useCallback(() => {
-    const startWindow = viewportWindowRef.current;
+    const startPinch = (event: GestureResponderEvent) => {
+      const metrics = getPinchMetrics(event);
 
-    pinchStateRef.current = {
-      lastWindow: startWindow,
-      startWindow
+      if (!metrics || metrics.distance < minPinchDistance) return;
+
+      pinchStateRef.current = {
+        lastWindow: viewportWindow,
+        startDistance: metrics.distance,
+        startFocalX: metrics.focalX,
+        startWindow: viewportWindow
+      };
+      config.onGestureStart?.({ interaction: "pinchZoom" });
     };
-    configRef.current.onGestureStart?.({ interaction: "pinchZoom" });
-  }, []);
-  const handleUpdate = useCallback(
-    (event: { focalX: number; scale: number }) => {
-      const pinchState = pinchStateRef.current;
+    const updatePinch = (event: GestureResponderEvent) => {
+      if (!pinchStateRef.current) startPinch(event);
 
-      if (!pinchState) {
+      const pinchState = pinchStateRef.current;
+      const metrics = getPinchMetrics(event);
+
+      if (!pinchState || !metrics || metrics.distance < minPinchDistance) {
         return;
       }
 
-      const currentConfig = configRef.current;
       const nextWindow = resolveChartViewportWindowFromZoom({
         anchorIndex: getAnchorIndex({
-          focalX: event.focalX,
-          plotBounds: plotBoundsRef.current,
+          focalX: pinchState.startFocalX,
+          plotBounds,
           viewportWindow: pinchState.startWindow
         }),
         currentWindow: pinchState.startWindow,
         itemCount: dataLength,
-        maxVisibleCount: currentConfig.maxVisiblePoints,
-        minVisibleCount: currentConfig.minVisiblePoints,
+        maxVisibleCount: config.maxVisiblePoints,
+        minVisibleCount: config.minVisiblePoints,
         zoomFactor: getChartViewportPinchZoomFactor({
-          scale: event.scale,
-          sensitivity: currentConfig.pinchSensitivity
+          scale: metrics.distance / pinchState.startDistance,
+          sensitivity: config.pinchSensitivity
         })
       });
 
-      if (isSameViewportWindow(nextWindow, pinchState.lastWindow)) {
-        return;
-      }
+      if (isSameViewportWindow(nextWindow, pinchState.lastWindow)) return;
 
       pinchStateRef.current = {
         ...pinchState,
         lastWindow: nextWindow
       };
-      emitViewportChange({
-        interaction: "pinchZoom",
-        nextWindow,
-        onViewportChange: onViewportChangeRef.current
-      });
-    },
-    [dataLength]
-  );
-  const handleFinalize = useCallback(() => {
-    if (!pinchStateRef.current) {
-      return;
-    }
+      emitViewportChange({ nextWindow, onViewportChange });
+    };
+    const endPinch = () => {
+      if (!pinchStateRef.current) return;
 
-    pinchStateRef.current = undefined;
-    configRef.current.onGestureEnd?.({ interaction: "pinchZoom" });
-  }, []);
+      pinchStateRef.current = undefined;
+      config.onGestureEnd?.({ interaction: "pinchZoom" });
+    };
+    const hasTwoTouches = (event: GestureResponderEvent) =>
+      getTouches(event).length >= 2;
 
-  return useMemo(() => {
-    if (!canPinch) {
-      return undefined;
-    }
-
-    return Gesture.Pinch()
-      .runOnJS(true)
-      .onStart(handleStart)
-      .onUpdate(handleUpdate)
-      .onFinalize(handleFinalize);
-  }, [canPinch, handleFinalize, handleStart, handleUpdate]);
+    return PanResponder.create({
+      onMoveShouldSetPanResponderCapture: (event) =>
+        canPinch && hasTwoTouches(event),
+      onPanResponderGrant: startPinch,
+      onPanResponderMove: updatePinch,
+      onPanResponderRelease: endPinch,
+      onPanResponderTerminate: endPinch,
+      onPanResponderTerminationRequest: () => !pinchStateRef.current,
+      onShouldBlockNativeResponder: () => config.lockParentScroll,
+      onStartShouldSetPanResponderCapture: (event) =>
+        canPinch && hasTwoTouches(event)
+    });
+  }, [
+    dataLength,
+    enabled,
+    onViewportChange,
+    plotBounds,
+    viewportInteraction,
+    viewportWindow
+  ]);
 };
 
 export const ChartViewportGesture = ({
@@ -196,12 +219,12 @@ export const ChartViewportGesture = ({
   gesture
 }: {
   children: ReactNode;
-  gesture: GestureType | undefined;
+  gesture: PanResponderInstance | undefined;
 }) =>
   gesture ? (
-    <GestureDetector gesture={gesture} touchAction="none" userSelect="none">
+    <View collapsable={false} {...gesture.panHandlers}>
       {children}
-    </GestureDetector>
+    </View>
   ) : (
     <>{children}</>
   );

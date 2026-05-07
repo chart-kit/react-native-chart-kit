@@ -16,7 +16,6 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-native": "0.81.5",
-    "react-native-gesture-handler": "~2.28.0",
     "react-native-svg": "15.12.1",
     "react-native-web": "0.21.0"
   },

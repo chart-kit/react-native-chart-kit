@@ -12,11 +12,11 @@
     "@chart-kit/react-native": "file:../../packages/react-native",
     "react": "^19.2.0",
     "react-native": "^0.83.9",
-    "react-native-gesture-handler": "~2.28.0",
     "react-native-svg": "^15.15.4"
   },
   "devDependencies": {
     "@react-native-community/cli": "^20.1.3",
+    "@react-native/metro-config": "0.83.9",
     "typescript": "^5.9.3"
   }
 }

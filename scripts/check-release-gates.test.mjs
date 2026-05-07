@@ -100,7 +100,7 @@ describe("release gate checker", () => {
       status: "block"
     });
     expect(rnCliCheck?.detail).toContain(
-      "RN CLI iOS native project generation"
+      "RN CLI iOS release-build runtime launch and chart rendering"
     );
   });
 

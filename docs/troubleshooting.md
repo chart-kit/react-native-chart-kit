@@ -24,19 +24,11 @@ npm run example:expo -- --tunnel
 
 ## Gestures Do Not Work
 
-Pan, scrub, pinch zoom, and range selector interactions require `react-native-gesture-handler`.
-
-For app roots, wrap content with `GestureHandlerRootView`:
-
-```tsx
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-
-<GestureHandlerRootView style={{ flex: 1 }}>
-  <App />
-</GestureHandlerRootView>;
-```
+Baseline tap, scrub, pan, pinch zoom, and range selector interactions use React Native responder APIs. They do not require `GestureHandlerRootView` or Reanimated.
 
 When a chart lives inside a vertical scroll view, use chart interaction props that lock parent scrolling during the gesture, such as `viewportInteraction={{ pan: true, lockParentScroll: true }}` or range-selector interaction settings.
+
+If an app has its own gesture system, keep chart selection controlled with `selectedIndex`, `viewport`, and `onViewportChange` so parent screens can coordinate dismissal, scrolling, and navigation.
 
 ## Labels Clip Or Overlap
 

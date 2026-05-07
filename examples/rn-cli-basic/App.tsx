@@ -1,5 +1,4 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import {
   BarChart,
@@ -28,7 +27,7 @@ const chartWidth = 340;
 
 export default function App() {
   return (
-    <GestureHandlerRootView style={styles.root}>
+    <View style={styles.root}>
       <ChartKitProvider mode="system" preset="analytics">
         <ScrollView contentContainerStyle={styles.content}>
           <Text style={styles.kicker}>React Native CLI</Text>
@@ -77,7 +76,7 @@ export default function App() {
           </View>
         </ScrollView>
       </ChartKitProvider>
-    </GestureHandlerRootView>
+    </View>
   );
 }
 
