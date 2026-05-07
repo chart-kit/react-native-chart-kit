@@ -1,0 +1,563 @@
+--------- beginning of system
+05-06 21:52:35.417   672   915 W ActivityTaskManager: callingPackage for (uid=2000, pid=3987) has no WPC
+--------- beginning of main
+05-06 21:52:35.418   672   915 V GrammaticalInflectionUtils: AttributionSource: AttributionSource { uid = 10213, packageName = null, attributionTag = null, token = android.os.Binder@908430e, deviceId = 0, next = null } does not have READ_SYSTEM_GRAMMATICAL_GENDER permission.
+05-06 21:52:35.418   672   915 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_USER_ASPECT_RATIO_OVERRIDE
+05-06 21:52:35.418   672   915 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_USER_ASPECT_RATIO_FULLSCREEN_OVERRIDE
+05-06 21:52:35.418   672   915 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_RESIZEABLE_ACTIVITY_OVERRIDES
+05-06 21:52:35.418   672   915 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_MIN_ASPECT_RATIO_OVERRIDE
+05-06 21:52:35.421   941  3866 D KeyguardService: setOccluded(false)
+05-06 21:52:35.421   941  3866 D KeyguardViewMediator: setOccluded(false)
+05-06 21:52:35.421   672   915 I ActivityTaskManager: START u0 {act=android.intent.action.VIEW dat=chartkitshowcase://showcase/... flg=0x10000000 xflg=0x4 pkg=io.chartkit.showcase cmp=io.chartkit.showcase/.MainActivity} with LAUNCH_SINGLE_TASK from uid 2000 (BAL_ALLOW_PERMISSION) result code=3
+05-06 21:52:35.422   941   941 D KeyguardViewMediator: handleSetOccluded(false)
+05-06 21:52:35.422   519   568 I BpBinder: onLastStrongRef automatically unlinking death recipients: 
+05-06 21:52:35.422   941  1055 D WindowManagerShell: onActivityRestartAttempt: topActivity=ComponentInfo{io.chartkit.showcase/io.chartkit.showcase.MainActivity}, wasVisible=true
+05-06 21:52:35.422   941   941 D KeyguardViewMediator: KeyguardViewMediator queue processing message: SET_OCCLUDED
+05-06 21:52:35.424  3867  3867 W unknown:BridgelessReact: ReactHost{0}.onHostPause(activity)
+05-06 21:52:35.424  3867  3867 W unknown:BridgelessReact: ReactContext.onHostPause()
+05-06 21:52:35.426  3867  3867 W unknown:BridgelessReact: ReactHost{0}.onHostResume(activity)
+05-06 21:52:35.426  3867  3867 W unknown:BridgelessReact: ReactContext.onHostResume()
+05-06 21:52:35.428   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.429   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.429   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.429   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.429   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.429   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.429   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.429   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.429   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.429   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.429   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.429   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.429   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.429   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.429   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.429   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.429   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.429   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.429   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.429   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.430   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.430   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.430   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.430   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.430   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.430   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.430   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.430   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.430   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.430   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.430   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.430   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.430   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.430   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.430   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.430   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.430   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:52:35.474  3867  3888 W unknown:ReactNative: StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+05-06 21:52:35.487  3867  3867 E Surface : freeAllBuffers: 1 buffers were freed while being dequeued!
+05-06 21:52:35.520  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:52:35.520  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:52:35.520  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x787
+05-06 21:52:35.553  3867  3867 E Surface : getSlotFromBufferLocked: unknown buffer: 0x0
+05-06 21:52:35.569  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-37] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.569  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.574  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:52:35.574  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:52:35.574  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x787
+05-06 21:52:35.586  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-38] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.586  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.590  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:52:35.590  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:52:35.590  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x683
+05-06 21:52:35.601  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-39] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.601  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.605  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:52:35.605  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:52:35.605  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x683
+05-06 21:52:35.618  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-40] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.618  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.622  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:52:35.622  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:52:35.623  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x657
+05-06 21:52:35.636  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.636  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.640  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:52:35.640  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:52:35.640  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x657
+05-06 21:52:35.654  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.654  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.660  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:52:35.660  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:52:35.660  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x724
+05-06 21:52:35.674  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.674  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.677  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:52:35.677  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:52:35.677  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x724
+05-06 21:52:35.686  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.686  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.690  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:52:35.690  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:52:35.690  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  3510x657
+05-06 21:52:35.703  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-45] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.703  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.707  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:52:35.707  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:52:35.707  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x657
+05-06 21:52:35.718  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-46] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.718  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.721  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:52:35.721  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:52:35.721  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x657
+05-06 21:52:35.729  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-47] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.730  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.734  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:52:35.734  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:52:35.735  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  3510x683
+05-06 21:52:35.749  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-48] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.749  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.753  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:52:35.753  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:52:35.753  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x683
+05-06 21:52:35.763  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-49] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.764  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.769  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:52:35.769  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:52:35.769  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x683
+05-06 21:52:35.776  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-50] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.776  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.779  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:52:35.779  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:52:35.779  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x657
+05-06 21:52:35.785  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-51] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.786  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.787  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:52:35.788  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:52:35.788  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x657
+05-06 21:52:35.794  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-52] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.795  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.797  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:52:35.797  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:52:35.798  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x683
+05-06 21:52:35.806  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-53] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.807  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.809  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:52:35.809  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:52:35.809  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x683
+05-06 21:52:35.818  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-54] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.818  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.821  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:52:35.821  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:52:35.821  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x657
+05-06 21:52:35.831  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-55] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.831  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.835  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:52:35.835  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:52:35.835  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x657
+05-06 21:52:35.843  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-56] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.843  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.846  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:52:35.846  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:52:35.846  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x656
+05-06 21:52:35.853  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-57] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.853  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.856  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:52:35.856  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:52:35.856  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x656
+05-06 21:52:35.865  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-58] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.865  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.895  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-37] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.896  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.903  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-38] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.903  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.913  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-39] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.913  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.928  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-40] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.928  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.939  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.939  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.947  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.947  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.957  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.957  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.964  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.965  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.974  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-45] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.974  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.985  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-46] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.985  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:35.992  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-47] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:35.992  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.002  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-48] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.002  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.013  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-49] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.014  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.028  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-50] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.029  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.038  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-51] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.039  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.053  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-52] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.053  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.063  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-53] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.063  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.072  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-54] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.072  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.082  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-55] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.082  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.091  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-56] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.092  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.101  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-57] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.101  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.107  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-58] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.107  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.108  3867  3867 I Choreographer: Skipped 37 frames!  The application may be doing too much work on its main thread.
+05-06 21:52:36.166  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-40] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.167  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.180  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-45] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.181  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.193  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-46] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.193  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.196  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-47] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.197  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.205  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-48] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.205  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.213  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-49] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.214  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.219  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-50] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.219  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.230  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.231  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.235  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.235  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.244  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.244  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.254  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.254  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.256  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-45] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.257  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.262  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-45] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.262  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.267  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-46] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.267  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.271  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-46] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.272  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.275  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-47] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.276  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.277  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-47] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.277  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.282  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-48] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.282  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.287  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-48] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.287  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.290  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-49] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.291  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.294  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-49] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.295  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.296  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-50] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.297  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.299  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-50] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.299  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.384  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.384  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.392  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.393  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.397  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.397  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.408  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.409  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.411  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.411  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.430  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.430  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.437  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.437  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.439   930   930 D wpa_supplicant: nl80211: Drv Event 64 (NL80211_CMD_NOTIFY_CQM) received for wlan0
+05-06 21:52:36.444  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.446  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.449   930   930 D wpa_supplicant: nl80211: Beacon loss event
+05-06 21:52:36.449   930   930 D wpa_supplicant: wlan0: Event BEACON_LOSS (53) received
+05-06 21:52:36.449   930   930 I wpa_supplicant: wlan0: CTRL-EVENT-BEACON-LOSS 
+05-06 21:52:36.453  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.453  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.457  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.457  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.461  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.461  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.465  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.465  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.469  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.469  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.471  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.472  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.509  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.509  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.514  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.514  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.523  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.523  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.531  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.531  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.533  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.533  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.535  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.535  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.539  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.539  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.545  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.545  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.549  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.549  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.550  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.551  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.555  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.555  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.559  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.559  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.561  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.562  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.590  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.591  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.598  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.598  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.610  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.610  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.616  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.616  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.631  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.633  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.638  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.638  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.643  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.646  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.651  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.651  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.653  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.653  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.657  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.657  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.660  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.660  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.662  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.662  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.747  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.747  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.768  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.768  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.775  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.776  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.779  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.779  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.785  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.785  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.790  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.790  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.793  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.794  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.797  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.797  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.798  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.798  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.801  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.802  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.807  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.807  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.810  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.811  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.814  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.814  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.816  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.817  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.818  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.819  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.850  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.850  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.867  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.867  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.878  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.878  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.884  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.884  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.886  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.887  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.892  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.893  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.899  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.900  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.902  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.902  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.904  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.905  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.910  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.910  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.915  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.915  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.917  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.917  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.985  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.985  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.990  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.990  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:36.993  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:36.993  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.006  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.007  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.011  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.011  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.019  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.019  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.022  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.022  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.026  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.026  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.029  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.029  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.035  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.035  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.037  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.038  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.041  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.041  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.046  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.046  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.049  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.049  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.056  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.057  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.075   672   846 D WifiClientModeImpl[7910:wlan0]: updateLinkLayerStatsRssiSpeedFrequencyCapabilities rssi=-50 TxLinkspeed=1 freq=2447 RxLinkSpeed=2
+05-06 21:52:37.075   672   846 D WifiDataStall: tx tput in kbps: 11000
+05-06 21:52:37.075   672   846 D WifiDataStall: rx tput in kbps: 11000
+05-06 21:52:37.075   672   846 V WifiConfigManager: Updating scan detail cache freq=2447 BSSID=00:13:10:85:fe:01 RSSI=-50 for "AndroidWifi"NONE
+05-06 21:52:37.075   672   846 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 21:52:37.075   672   846 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 21:52:37.076   672   846 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 21:52:37.076   672   846 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 21:52:37.076   672   846 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 21:52:37.076   672   846 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 21:52:37.076   672   846 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 21:52:37.076   672   846 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 21:52:37.077   672   846 D WifiScoreCard: BSSID update SIGNAL_POLL ID: 786848858 SSID: "AndroidWifi", BSSID: 00:13:10:85:fe:01, MAC: 02:15:b2:00:00:00, IP: /10.0.2.16, Security type: 0, Supplicant state: COMPLETED, Wi-Fi standard: legacy, RSSI: -50, Link speed: 1Mbps, Tx Link speed: 1Mbps, Max Supported Tx Link speed: 11Mbps, Rx Link speed: 2Mbps, Max Supported Rx Link speed: 11Mbps, Frequency: 2447MHz, Net ID: 0, Metered hint: false, score: 60, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: 1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none>"AndroidWifi"openMLO Information: , Is TID-To-Link negotiation supported by the AP: false, AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>, Vendor Data: <none>
+05-06 21:52:37.077   672   846 D WifiScoreCard: txRate: 1 txSpeed: 1
+05-06 21:52:37.077   672   846 D WifiScoreCard: network update SIGNAL_POLL "AndroidWifi" ID: 1628418683 RSSI -50 txSpeed -1
+05-06 21:52:37.077   672   846 D WifiClientModeImpl[7910:wlan0]:  ClientModeImpl$L2ConnectedState screen=on 1 0 "AndroidWifi" 00:13:10:85:fe:01 rssi=-50 f=2447 sc=60 link=1 tx=0.0, 0.0, 0.0 rx=0.0 bcn=0 [on:0 tx:0 rx:0 period:3008] from screen [on:0 period:2296533] score=60
+05-06 21:52:37.099  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.100  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.105  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.106  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.116  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.116  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.121  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.121  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.127  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.127  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.129  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.129  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.133  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.134  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.137  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.137  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.188  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.189  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.195  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.196  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.198  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.198  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.206  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.206  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.209  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.210  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.222  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.223  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.225  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.226  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.230  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.230  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.234  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.234  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.237  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.237  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.241  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.241  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.243  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.243  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.249  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.249  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.254  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.254  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.257  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.257  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.289  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.289  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.300  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.301  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.311  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.311  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.316  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.316  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.359  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.359  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.367  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.369  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.378  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.378  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.388  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.389  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.393  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.393  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.427  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.427  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.434  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.435  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.443  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.443  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.445  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.446  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.453  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.453  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.458  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.458  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.462  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.462  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.485  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.485  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.523  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.523  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.533  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.533  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.543  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.544  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.552  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.552  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.594  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.594  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.601  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.602  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.611  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.612  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.623  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.624  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.626  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.627  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.634  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-41] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.634  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.638  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.638  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.641  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-42] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.642  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.646  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.646  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.651  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-43] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.651  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.656  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.656  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:37.658  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-44] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:52:37.658  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:52:38.571  3992  3992 W screencap: Thread Pool max thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. serviceName: SurfaceFlingerAIDL
+05-06 21:52:38.572  3992  3992 W BpBinder: Linking to death on android.gui.ISurfaceComposer but there are no threads (yet?) listening to incoming transactions. See ProcessState::startThreadPool and ProcessState::setThreadPoolMaxThreadCount. Generally you should setup the binder threadpool before other initialization steps.
+05-06 21:52:38.573  3992  3992 W ProcessState: Extra binder thread started, but 0 threads requested. Do not use *startThreadPool when zero threads are requested.
+05-06 21:52:38.577   519   568 E HwcComposer: getLuts failed Status(-8, EX_SERVICE_SPECIFIC): '8: '
+05-06 21:52:38.577   519   568 E HWComposer: getLuts: getLuts failed for display 4619827259835644672: UNSUPPORTED (8)
+--------- beginning of kernel
+05-06 21:52:38.583   225   225 I servicemanager: Caller(pid=3992,uid=2000,sid=u:r:shell:s0) Found android.hardware.graphics.allocator.IAllocator/default in device VINTF manifest.
+05-06 21:52:38.585   225   225 I servicemanager: Caller(pid=3992,uid=2000,sid=u:r:shell:s0) Found android.hardware.graphics.allocator.IAllocator/default in device VINTF manifest.
+05-06 21:52:38.586   225   225 I servicemanager: Caller(pid=3992,uid=2000,sid=u:r:shell:s0) Found mapper/ranchu in device VINTF manifest.

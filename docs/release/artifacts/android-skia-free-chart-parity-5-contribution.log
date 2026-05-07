@@ -1,0 +1,99 @@
+--------- beginning of system
+05-06 21:53:26.129   672  1868 W ActivityTaskManager: callingPackage for (uid=2000, pid=4038) has no WPC
+--------- beginning of main
+05-06 21:53:26.130   672  1868 V GrammaticalInflectionUtils: AttributionSource: AttributionSource { uid = 10213, packageName = null, attributionTag = null, token = android.os.Binder@908430e, deviceId = 0, next = null } does not have READ_SYSTEM_GRAMMATICAL_GENDER permission.
+05-06 21:53:26.130   672  1868 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_USER_ASPECT_RATIO_OVERRIDE
+05-06 21:53:26.130   672  1868 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_USER_ASPECT_RATIO_FULLSCREEN_OVERRIDE
+05-06 21:53:26.130   672  1868 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_RESIZEABLE_ACTIVITY_OVERRIDES
+05-06 21:53:26.130   672  1868 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_MIN_ASPECT_RATIO_OVERRIDE
+05-06 21:53:26.133   672  1868 I ActivityTaskManager: START u0 {act=android.intent.action.VIEW dat=chartkitshowcase://showcase/... flg=0x10000000 xflg=0x4 pkg=io.chartkit.showcase cmp=io.chartkit.showcase/.MainActivity} with LAUNCH_SINGLE_TASK from uid 2000 (BAL_ALLOW_PERMISSION) result code=3
+05-06 21:53:26.133   519  1165 I BpBinder: onLastStrongRef automatically unlinking death recipients: 
+05-06 21:53:26.134   941  1406 D KeyguardService: setOccluded(false)
+05-06 21:53:26.134   941  1406 D KeyguardViewMediator: setOccluded(false)
+05-06 21:53:26.134   941   941 D KeyguardViewMediator: handleSetOccluded(false)
+05-06 21:53:26.134   941   941 D KeyguardViewMediator: KeyguardViewMediator queue processing message: SET_OCCLUDED
+05-06 21:53:26.135  3867  3867 W unknown:BridgelessReact: ReactHost{0}.onHostPause(activity)
+05-06 21:53:26.135  3867  3867 W unknown:BridgelessReact: ReactContext.onHostPause()
+05-06 21:53:26.136   941  1055 D WindowManagerShell: onActivityRestartAttempt: topActivity=ComponentInfo{io.chartkit.showcase/io.chartkit.showcase.MainActivity}, wasVisible=true
+05-06 21:53:26.138  3867  3867 W unknown:BridgelessReact: ReactHost{0}.onHostResume(activity)
+05-06 21:53:26.139  3867  3867 W unknown:BridgelessReact: ReactContext.onHostResume()
+05-06 21:53:26.141   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.144   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.144   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.145   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.146   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.146   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.146   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.146   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.146   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.146   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.146   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.146   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.146   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.146   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:53:26.161  3867  3888 W unknown:ReactNative: StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+05-06 21:53:26.164  3867  3867 E Surface : freeAllBuffers: 1 buffers were freed while being dequeued!
+05-06 21:53:26.174  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:53:26.174  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:53:26.174  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x425
+05-06 21:53:26.185  3867  3867 E Surface : getSlotFromBufferLocked: unknown buffer: 0xb4000076cf1e0a40
+05-06 21:53:26.197  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-67] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:53:26.197  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:53:26.202  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:53:26.202  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:53:26.202  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x394
+05-06 21:53:26.210  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-68] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:53:26.210  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:53:26.228  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-67] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:53:26.228  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:53:26.237  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-68] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:53:26.237  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:53:28.187   672   846 D WifiClientModeImpl[7910:wlan0]: updateLinkLayerStatsRssiSpeedFrequencyCapabilities rssi=-50 TxLinkspeed=1 freq=2447 RxLinkSpeed=2
+05-06 21:53:28.187   672   846 D WifiDataStall: tx tput in kbps: 11000
+05-06 21:53:28.187   672   846 D WifiDataStall: rx tput in kbps: 11000
+05-06 21:53:28.187   672   846 V WifiConfigManager: Updating scan detail cache freq=2447 BSSID=00:13:10:85:fe:01 RSSI=-50 for "AndroidWifi"NONE
+05-06 21:53:28.187   672   846 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 21:53:28.187   672   846 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 21:53:28.187   672   846 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 21:53:28.187   672   846 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 21:53:28.187   672   846 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 21:53:28.187   672   846 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 21:53:28.187   672   846 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 21:53:28.187   672   846 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 21:53:28.188   672   846 D WifiScoreCard: BSSID update SIGNAL_POLL ID: 786848858 SSID: "AndroidWifi", BSSID: 00:13:10:85:fe:01, MAC: 02:15:b2:00:00:00, IP: /10.0.2.16, Security type: 0, Supplicant state: COMPLETED, Wi-Fi standard: legacy, RSSI: -50, Link speed: 1Mbps, Tx Link speed: 1Mbps, Max Supported Tx Link speed: 11Mbps, Rx Link speed: 2Mbps, Max Supported Rx Link speed: 11Mbps, Frequency: 2447MHz, Net ID: 0, Metered hint: false, score: 60, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: 1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none>"AndroidWifi"openMLO Information: , Is TID-To-Link negotiation supported by the AP: false, AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>, Vendor Data: <none>
+05-06 21:53:28.188   672   846 D WifiScoreCard: txRate: 1 txSpeed: 1
+05-06 21:53:28.188   672   846 D WifiScoreCard: network update SIGNAL_POLL "AndroidWifi" ID: 1628418683 RSSI -50 txSpeed -1
+05-06 21:53:28.188   672   846 D WifiClientModeImpl[7910:wlan0]:  ClientModeImpl$L2ConnectedState screen=on 1 0 "AndroidWifi" 00:13:10:85:fe:01 rssi=-50 f=2447 sc=60 link=1 tx=0.0, 0.0, 0.0 rx=0.0 bcn=0 [on:0 tx:0 rx:0 period:3005] from screen [on:0 period:2347644] score=60
+05-06 21:53:29.227  1056  1247 D SatelliteController: iisInCarrierRoamingNbIotNtn: satellite is disabled
+05-06 21:53:29.294  4043  4043 W screencap: Thread Pool max thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. serviceName: SurfaceFlingerAIDL
+05-06 21:53:29.295  4043  4043 W BpBinder: Linking to death on android.gui.ISurfaceComposer but there are no threads (yet?) listening to incoming transactions. See ProcessState::startThreadPool and ProcessState::setThreadPoolMaxThreadCount. Generally you should setup the binder threadpool before other initialization steps.
+05-06 21:53:29.295  4043  4043 W ProcessState: Extra binder thread started, but 0 threads requested. Do not use *startThreadPool when zero threads are requested.
+05-06 21:53:29.301   519  1165 E HwcComposer: getLuts failed Status(-8, EX_SERVICE_SPECIFIC): '8: '
+05-06 21:53:29.301   519  1165 E HWComposer: getLuts: getLuts failed for display 4619827259835644672: UNSUPPORTED (8)
+--------- beginning of kernel
+05-06 21:53:29.308   225   225 I servicemanager: Caller(pid=4043,uid=2000,sid=u:r:shell:s0) Found android.hardware.graphics.allocator.IAllocator/default in device VINTF manifest.
+05-06 21:53:29.309   225   225 I servicemanager: Caller(pid=4043,uid=2000,sid=u:r:shell:s0) Found android.hardware.graphics.allocator.IAllocator/default in device VINTF manifest.
+05-06 21:53:29.311   225   225 I servicemanager: Caller(pid=4043,uid=2000,sid=u:r:shell:s0) Found mapper/ranchu in device VINTF manifest.
