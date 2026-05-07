@@ -56,7 +56,8 @@
         "final changelog",
         "docs freeze",
         "visual baseline freeze",
-        "deprecation policy"
+        "deprecation policy",
+        "native QA target policy"
       ]
     }
   ]

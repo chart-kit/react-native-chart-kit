@@ -201,7 +201,8 @@ describe("owner gate decision recorder", () => {
           "Final changelog approved.",
           "Docs freeze approved.",
           "Visual baseline freeze approved.",
-          "Deprecation policy approved."
+          "Deprecation policy approved.",
+          "Native QA target policy approved."
         ],
         gateId: "h6",
         repoRoot: tempRepo

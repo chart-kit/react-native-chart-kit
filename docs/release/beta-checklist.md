@@ -76,6 +76,7 @@ Use `npm run release:owner:record -- --list` to inspect H4/H5/H6 owner gates. Ow
 - [Accessibility QA protocol](accessibility-qa.md)
 - [Native QA checklist](native-qa-checklists.md)
 - [Native QA signoff worksheet](native-qa-signoff-worksheet.md)
+- [Native QA target policy](native-qa-target-policy.md)
 - [Native performance benchmark protocol](native-performance-benchmark.md)
 - [Native runtime QA protocol](native-runtime-qa.md)
 - [Migration guide](../migration/from-v1.md)

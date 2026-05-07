@@ -14,6 +14,7 @@ export const requiredFiles = [
   "docs/release/native-workflow-runbook.md",
   "docs/release/native-qa-checklists.md",
   "docs/release/native-qa-signoff-worksheet.md",
+  "docs/release/native-qa-target-policy.md",
   "docs/release/native-performance-benchmark.md",
   "docs/release/native-release-checks.md",
   "docs/release/native-release-results.md",

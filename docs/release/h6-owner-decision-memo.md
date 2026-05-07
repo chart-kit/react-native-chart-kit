@@ -17,6 +17,7 @@ Required before RC:
 - completed native runtime QA matrix
 - completed native accessibility QA matrix
 - completed native performance matrix
+- owner-approved native QA target policy
 - final semver, changelog, docs freeze, visual baseline freeze, and deprecation policy decisions
 
 ## Decision 2: Final Semver
@@ -69,7 +70,7 @@ Record approval only after the owner accepts or edits these decisions and the ga
 
 The recorder enforces H6 prerequisites: H4 and H5 must already be approved, and native workflow, RN CLI example, native runtime, native accessibility, native performance, and Skia evidence manifests must be complete. The currently open evidence work is native runtime, accessibility, and performance.
 
-Use [native QA signoff worksheet](native-qa-signoff-worksheet.md) or `npm run release:qa:status -- --status partial --details` to run the remaining row checks. Do not record H6 approval until those rows have reviewer/device/build metadata and the strict release gate is green.
+Use [native QA target policy](native-qa-target-policy.md), [native QA signoff worksheet](native-qa-signoff-worksheet.md), or `npm run release:qa:status -- --status partial --details` to run the remaining row checks. Do not record H6 approval until those rows have reviewer/device/build metadata and the strict release gate is green.
 
 ```sh
 npm run release:owner:record -- \
@@ -81,5 +82,6 @@ npm run release:owner:record -- \
   --decision "Final changelog approved." \
   --decision "Docs freeze approved." \
   --decision "Visual baseline freeze approved." \
-  --decision "Deprecation policy approved."
+  --decision "Deprecation policy approved." \
+  --decision "Native QA target policy approved."
 ```
