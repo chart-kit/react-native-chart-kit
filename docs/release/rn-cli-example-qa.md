@@ -13,6 +13,7 @@ The source-level example is in [examples/rn-cli-basic](../../examples/rn-cli-bas
 - `LineChart`, `BarChart`, and `ProgressRing` render from the modern API
 - `metro.config.js` resolves local workspace packages during development
 - `package.json` declares React Native, Gesture Handler, SVG, and Chart Kit dependencies
+- root and example package metadata declare `@react-native-community/cli`, so the installed `react-native` binary can run CLI commands
 
 Run the current check from the repo root:
 
@@ -20,7 +21,13 @@ Run the current check from the repo root:
 npm run example:rn-cli:typecheck
 ```
 
-This is useful evidence for TypeScript and Metro-resolution intent, but it is not native runtime evidence.
+Also verify the CLI is installed:
+
+```sh
+./node_modules/.bin/react-native --help
+```
+
+These are useful evidence for TypeScript, Metro-resolution intent, and CLI availability, but they are not native runtime evidence.
 
 ## Required Native Evidence
 

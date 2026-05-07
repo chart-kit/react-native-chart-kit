@@ -3,7 +3,7 @@
   "status": "partial",
   "requiredFor": ["H5", "H6"],
   "lastUpdated": "2026-05-06",
-  "summary": "The React Native CLI example source, Metro aliases, peer dependency surface, and TypeScript check exist, but native iOS and Android CLI project runtime evidence is incomplete.",
+  "summary": "The React Native CLI example source, Metro aliases, peer dependency surface, CLI dependency, and TypeScript check exist, but native iOS and Android CLI project runtime evidence is incomplete.",
   "completedEntries": [
     {
       "date": "2026-05-06",
@@ -13,9 +13,11 @@
         "examples/rn-cli-basic/App.tsx",
         "examples/rn-cli-basic/package.json",
         "examples/rn-cli-basic/metro.config.js",
-        "examples/rn-cli-basic/tsconfig.json"
+        "examples/rn-cli-basic/tsconfig.json",
+        "package.json",
+        "package-lock.json"
       ],
-      "notes": "The source-level RN CLI smoke app imports @chart-kit/react-native, wraps charts in GestureHandlerRootView, and is covered by npm run example:rn-cli:typecheck."
+      "notes": "The source-level RN CLI smoke app imports @chart-kit/react-native, wraps charts in GestureHandlerRootView, declares the React Native community CLI, and is covered by npm run example:rn-cli:typecheck. The root react-native binary now resolves CLI help successfully."
     }
   ],
   "missingEvidence": [
