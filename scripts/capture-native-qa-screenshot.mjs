@@ -14,6 +14,8 @@ const usage = `Usage:
   node scripts/capture-native-qa-screenshot.mjs --matrix <runtime|accessibility|performance> --row <row-id> --platform <ios|android> [options]
 
 Options:
+  --android-log-output <path>  Also clear/capture Android logcat to this repo-relative path.
+  --android-log-lines <number> Number of trailing logcat lines to capture. Defaults to 400.
   --device <id>             iOS simulator UDID or Android adb serial. Defaults to booted/default device.
   --dry-run                 Print launch and screenshot commands without executing them.
   --no-launch               Capture current screen without opening the row deep link first.
@@ -26,6 +28,7 @@ Options:
 const parseArgs = (argv) => {
   const options = {
     androidPackage: defaultAndroidPackage,
+    androidLogLines: 400,
     launch: true,
     waitMs: 1500
   };
@@ -43,7 +46,11 @@ const parseArgs = (argv) => {
       return value;
     };
 
-    if (arg === "--device") {
+    if (arg === "--android-log-lines") {
+      options.androidLogLines = Number(readValue());
+    } else if (arg === "--android-log-output") {
+      options.androidLogOutput = readValue();
+    } else if (arg === "--device") {
       options.device = readValue();
     } else if (arg === "--dry-run") {
       options.dryRun = true;
@@ -84,6 +91,17 @@ const parseArgs = (argv) => {
     throw new Error("--platform must be ios or android");
   }
 
+  if (options.androidLogOutput && options.platform !== "android") {
+    throw new Error("--android-log-output can only be used with Android");
+  }
+
+  if (
+    !Number.isInteger(options.androidLogLines) ||
+    options.androidLogLines <= 0
+  ) {
+    throw new Error("--android-log-lines must be a positive integer");
+  }
+
   if (!Number.isFinite(options.waitMs) || options.waitMs < 0) {
     throw new Error("--wait-ms must be a non-negative number");
   }
@@ -114,6 +132,24 @@ const defaultOutputForRow = (rowId) =>
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+const shouldWaitAfterCommand = ({ args, command }) =>
+  (command === "xcrun" && args[1] === "openurl") ||
+  (command === "adb" && args.includes("start"));
+
+const validateCaptureOptions = ({
+  androidLogLines,
+  androidLogOutput,
+  platform
+}) => {
+  if (androidLogOutput && platform !== "android") {
+    throw new Error("--android-log-output can only be used with Android");
+  }
+
+  if (!Number.isInteger(androidLogLines) || androidLogLines <= 0) {
+    throw new Error("--android-log-lines must be a positive integer");
+  }
+};
+
 const runCommand = ({ args, command, encoding = "utf8" }) => {
   const result = spawnSync(command, args, {
     encoding,
@@ -127,13 +163,9 @@ const runCommand = ({ args, command, encoding = "utf8" }) => {
 
   if (result.status !== 0) {
     const stderr =
-      encoding === "buffer"
-        ? result.stderr?.toString("utf8")
-        : result.stderr;
+      encoding === "buffer" ? result.stderr?.toString("utf8") : result.stderr;
     const stdout =
-      encoding === "buffer"
-        ? result.stdout?.toString("utf8")
-        : result.stdout;
+      encoding === "buffer" ? result.stdout?.toString("utf8") : result.stdout;
     const detail = (stderr || stdout || "").trim();
     const suffix = detail ? `\n\n${detail}` : "";
 
@@ -182,12 +214,21 @@ const buildAndroidLaunchArgs = ({ androidPackage, device, launchUrl }) => [
 ];
 
 const buildAndroidCommands = ({
+  androidLogLines,
+  androidLogOutputPath,
   androidPackage,
   device,
   launch,
   launchUrl
 }) => {
   const commands = [];
+
+  if (androidLogOutputPath) {
+    commands.push({
+      args: [...(device ? ["-s", device] : []), "shell", "logcat", "-c"],
+      command: "adb"
+    });
+  }
 
   if (launch) {
     commands.push({
@@ -201,6 +242,22 @@ const buildAndroidCommands = ({
     command: "adb",
     writesStdoutToFile: true
   });
+
+  if (androidLogOutputPath) {
+    commands.push({
+      args: [
+        ...(device ? ["-s", device] : []),
+        "logcat",
+        "-d",
+        "-t",
+        String(androidLogLines)
+      ],
+      command: "adb",
+      encoding: "utf8",
+      outputPath: androidLogOutputPath,
+      writesStdoutToFile: true
+    });
+  }
 
   return commands;
 };
@@ -227,6 +284,8 @@ const findRow = async ({ matrixName, repoRoot, rowId }) => {
 };
 
 export const createNativeQaScreenshotPlan = async ({
+  androidLogLines = 400,
+  androidLogOutput,
   androidPackage = defaultAndroidPackage,
   device,
   launch = true,
@@ -237,10 +296,17 @@ export const createNativeQaScreenshotPlan = async ({
   rowId,
   waitMs = 1500
 }) => {
+  validateCaptureOptions({ androidLogLines, androidLogOutput, platform });
+
   const row = await findRow({ matrixName, repoRoot, rowId });
   const outputPath = output ?? defaultOutputForRow(rowId);
   const absoluteOutputPath = path.resolve(repoRoot, outputPath);
+  const absoluteAndroidLogOutputPath = androidLogOutput
+    ? path.resolve(repoRoot, androidLogOutput)
+    : undefined;
   const commandOptions = {
+    androidLogLines,
+    androidLogOutputPath: absoluteAndroidLogOutputPath,
     androidPackage,
     device,
     launch,
@@ -253,11 +319,20 @@ export const createNativeQaScreenshotPlan = async ({
       : buildAndroidCommands(commandOptions);
 
   return {
+    absoluteAndroidLogOutputPath,
     absoluteOutputPath,
+    androidLogOutput,
     commands,
     launchUrl: row.launchUrl,
     outputPath,
-    recordCommand: `npm run release:qa:record -- --matrix ${matrixName} --row ${rowId} --status partial --evidence ${outputPath}`,
+    recordCommand: [
+      `npm run release:qa:record -- --matrix ${matrixName} --row ${rowId}`,
+      "--status partial",
+      `--evidence ${outputPath}`,
+      androidLogOutput ? `--evidence ${androidLogOutput}` : ""
+    ]
+      .filter(Boolean)
+      .join(" "),
     row,
     waitMs
   };
@@ -275,22 +350,28 @@ export const captureNativeQaScreenshot = async ({
   }
 
   await mkdir(path.dirname(plan.absoluteOutputPath), { recursive: true });
+  if (plan.absoluteAndroidLogOutputPath) {
+    await mkdir(path.dirname(plan.absoluteAndroidLogOutputPath), {
+      recursive: true
+    });
+  }
 
-  for (const [index, command] of plan.commands.entries()) {
-    const isLastCommand = index === plan.commands.length - 1;
-
-    if (isLastCommand && command.writesStdoutToFile) {
-      const screenshot = runner({
+  for (const command of plan.commands) {
+    if (command.writesStdoutToFile) {
+      const commandOutput = runner({
         args: command.args,
         command: command.command,
-        encoding: "buffer"
+        encoding: command.encoding ?? "buffer"
       });
-      await writeFile(plan.absoluteOutputPath, screenshot);
+      await writeFile(
+        command.outputPath ?? plan.absoluteOutputPath,
+        commandOutput
+      );
     } else {
       runner(command);
     }
 
-    if (!isLastCommand && plan.waitMs > 0) {
+    if (shouldWaitAfterCommand(command) && plan.waitMs > 0) {
       await sleep(plan.waitMs);
     }
   }
@@ -310,7 +391,11 @@ const main = async () => {
 
   for (const command of result.commands) {
     const suffix = command.writesStdoutToFile
-      ? ` > ${shellQuote(result.outputPath)}`
+      ? ` > ${shellQuote(
+          command.outputPath
+            ? path.relative(defaultRepoRoot, command.outputPath)
+            : result.outputPath
+        )}`
       : "";
     console.log(`$ ${commandText(command.command, command.args)}${suffix}`);
   }

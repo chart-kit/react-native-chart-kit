@@ -133,6 +133,58 @@ describe("native QA screenshot capture", () => {
     expect(screenshot).toBe("png-bytes");
   });
 
+  it("can capture Android screenshot and logcat evidence together", async () => {
+    const tempRepo = await createTempRepo();
+    const calls = [];
+    const result = await captureNativeQaScreenshot({
+      androidLogLines: 250,
+      androidLogOutput: "docs/release/artifacts/android-line.log",
+      matrixName: "runtime",
+      output: "docs/release/artifacts/android-line.png",
+      platform: "android",
+      repoRoot: tempRepo,
+      rowId: "android-line-charts",
+      runner: (command) => {
+        calls.push(command);
+
+        return command.encoding === "buffer"
+          ? Buffer.from("png-bytes")
+          : "logcat lines";
+      },
+      waitMs: 0
+    });
+    const screenshot = await readFile(
+      join(tempRepo, "docs/release/artifacts/android-line.png"),
+      "utf8"
+    );
+    const logcat = await readFile(
+      join(tempRepo, "docs/release/artifacts/android-line.log"),
+      "utf8"
+    );
+
+    expect(result.recordCommand).toBe(
+      "npm run release:qa:record -- --matrix runtime --row android-line-charts --status partial --evidence docs/release/artifacts/android-line.png --evidence docs/release/artifacts/android-line.log"
+    );
+    expect(calls.map((call) => call.args)).toEqual([
+      ["shell", "logcat", "-c"],
+      [
+        "shell",
+        "am",
+        "start",
+        "-W",
+        "-a",
+        "android.intent.action.VIEW",
+        "-d",
+        "'chartkitshowcase://showcase?view=charts&page=line-area'",
+        "io.chartkit.showcase"
+      ],
+      ["exec-out", "screencap", "-p"],
+      ["logcat", "-d", "-t", "250"]
+    ]);
+    expect(screenshot).toBe("png-bytes");
+    expect(logcat).toBe("logcat lines");
+  });
+
   it("can skip launching and capture the current Android screen", async () => {
     const plan = await createNativeQaScreenshotPlan({
       launch: false,
@@ -160,5 +212,18 @@ describe("native QA screenshot capture", () => {
         rowId: "ios-skia-native-install"
       })
     ).rejects.toThrow("does not have a showcase deep link");
+  });
+
+  it("rejects Android log output for iOS captures", async () => {
+    await expect(
+      captureNativeQaScreenshot({
+        androidLogOutput: "docs/release/artifacts/ios-line.log",
+        dryRun: true,
+        matrixName: "runtime",
+        platform: "ios",
+        repoRoot,
+        rowId: "ios-line-charts"
+      })
+    ).rejects.toThrow("--android-log-output can only be used with Android");
   });
 });

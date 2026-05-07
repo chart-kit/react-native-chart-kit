@@ -134,10 +134,11 @@ npm run release:qa:capture -- \
   --matrix runtime \
   --row android-bar-charts \
   --platform android \
-  --output docs/release/artifacts/android-bar-charts-runtime.png
+  --output docs/release/artifacts/android-bar-charts-runtime.png \
+  --android-log-output docs/release/artifacts/android-bar-charts-runtime.log
 ```
 
-Use `--device <simulator-udid-or-adb-serial>` for a specific target, `--dry-run` to print the native commands, and `--no-launch` when the row is already open and only the current screen should be captured. After manual checks pass, attach the captured file to the structured matrix with `npm run release:qa:record -- --matrix runtime --row <row-id> --status pass --evidence <artifact> --reviewed-by <name> --device "<device/os>" --build-surface "<build>" --notes "<checks passed>"`.
+Use `--device <simulator-udid-or-adb-serial>` for a specific target, `--dry-run` to print the native commands, and `--no-launch` when the row is already open and only the current screen should be captured. On Android, `--android-log-output <path>` clears logcat before launch and captures trailing logcat after the screenshot, so the row evidence can include both visual and runtime-log artifacts. After manual checks pass, attach the captured files to the structured matrix with `npm run release:qa:record -- --matrix runtime --row <row-id> --status pass --evidence <artifact> --evidence <log-artifact> --reviewed-by <name> --device "<device/os>" --build-surface "<build>" --notes "<checks passed>"`.
 
 ## Required Pages
 
