@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "status": "partial",
   "requiredFor": ["H4", "H5", "H6"],
-  "lastUpdated": "2026-05-06",
+  "lastUpdated": "2026-05-07",
   "summary": "The Skia preview package, injected primitive adapter, local renderer contract coverage, iOS/Android optional-Skia install/build evidence, and iOS/Android renderer-injected release build evidence exist, but native screenshot parity and Skia performance evidence are incomplete.",
   "matrix": "docs/release/evidence/skia-renderer-matrix.json",
   "completedEntries": [

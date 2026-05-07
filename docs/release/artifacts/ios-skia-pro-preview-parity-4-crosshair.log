@@ -1,0 +1,9 @@
+Timestamp               Ty Process[PID:TID]
+2026-05-06 20:36:12.176 Df ChartKitShowcase[40301:937905] [com.apple.FrontBoard:SceneClient] [(FBSceneManager):sceneID:io.chartkit.showcase-default] Received action(s) in scene-update: UIOpenURLAction
+2026-05-06 20:36:12.176 Df ChartKitShowcase[40301:937905] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338
+2026-05-06 20:36:13.214 Df ChartKitShowcase[40301:937905] [com.apple.FrontBoard:SceneClient] [(FBSceneManager):sceneID:io.chartkit.showcase-default] Received action(s) in scene-update: UIOpenURLAction
+2026-05-06 20:36:13.214 Df ChartKitShowcase[40301:937905] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338
+2026-05-06 20:36:13.224 A  ChartKitShowcase[40301:93f848] (Metal) Metal Compiling Shader
+2026-05-06 20:36:13.232 A  ChartKitShowcase[40301:93817f] (Metal) Metal Compiling Shader
+2026-05-06 20:36:56.099 Df ChartKitShowcase[40301:937905] [com.apple.FrontBoard:SceneClient] [(FBSceneManager):sceneID:io.chartkit.showcase-default] Received action(s) in scene-update: UIOpenURLAction
+2026-05-06 20:36:56.099 Df ChartKitShowcase[40301:937905] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338
