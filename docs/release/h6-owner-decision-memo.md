@@ -69,6 +69,8 @@ Record approval only after the owner accepts or edits these decisions and the ga
 
 The recorder enforces H6 prerequisites: H4 and H5 must already be approved, and native workflow, RN CLI example, native runtime, native accessibility, native performance, and Skia evidence manifests must be complete. The currently open evidence work is native runtime, accessibility, and performance.
 
+Use [native QA signoff worksheet](native-qa-signoff-worksheet.md) or `npm run release:qa:status -- --status partial --details` to run the remaining row checks. Do not record H6 approval until those rows have reviewer/device/build metadata and the strict release gate is green.
+
 ```sh
 npm run release:owner:record -- \
   --gate h6 \

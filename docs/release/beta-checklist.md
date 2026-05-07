@@ -50,7 +50,7 @@ The `docs:build` command validates local links, balanced code fences, JS/TS mark
 
 The `pack:check` command runs `npm pack --dry-run --json --ignore-scripts` for every package in the release package manifest, using a repo-local temp npm cache. It verifies package names, package metadata, README files, built `dist` entrypoints, and the modern `pro-preview` subpath artifacts. The publish workflow reads the same manifest for the Developer Preview publish list so preview-only packages cannot be published by an unrelated hardcoded loop. Keep dependency packages before the root compatibility package in the manifest so scoped package access failures happen before the root package is published. After publishing, the workflow runs `npm run release:publish:status -- --strict` and creates the GitHub prerelease only if the npm registry shows the publishable packages under `next`, the preview-only packages unpublished, and the release does not already exist; idempotent reruns skip already-published package versions and existing releases.
 
-Use `npm run release:qa:status` to list every open runtime, accessibility, performance, and Skia evidence row with its launch target and recording command. Use `npm run release:qa:record -- --matrix runtime --list` to inspect one matrix in detail, and add `--details` to print the required checks for each row. Use the same command with `--row`, `--status`, and `--evidence` after a manual device pass. Use `--matrix skia` for Skia renderer install, parity, and performance evidence. The recorder rejects `pass` rows without evidence links, reviewer/device/build metadata, notes, or missing repo-relative evidence files and regenerates [native QA checklist](native-qa-checklists.md).
+Use `npm run release:qa:status` to list every open runtime, accessibility, performance, and Skia evidence row with its launch target and recording command. Use `npm run release:qa:status -- --status partial --details` or [native QA signoff worksheet](native-qa-signoff-worksheet.md) to print the required checks for each open row. Use `npm run release:qa:record -- --matrix runtime --list` to inspect one matrix in detail. Use the same command with `--row`, `--status`, and `--evidence` after a manual device pass. Use `--matrix skia` for Skia renderer install, parity, and performance evidence. The recorder rejects `pass` rows without evidence links, reviewer/device/build metadata, notes, or missing repo-relative evidence files and regenerates [native QA checklist](native-qa-checklists.md).
 
 Use `npm run release:native-workflow:record -- --list` to inspect native release workflow evidence. After a green workflow run, record the run URL, commit, and both platform artifact links with `--run-url`, `--commit`, `--ios-artifact`, and `--android-artifact`.
 
@@ -75,6 +75,7 @@ Use `npm run release:owner:record -- --list` to inspect H4/H5/H6 owner gates. Ow
 
 - [Accessibility QA protocol](accessibility-qa.md)
 - [Native QA checklist](native-qa-checklists.md)
+- [Native QA signoff worksheet](native-qa-signoff-worksheet.md)
 - [Native performance benchmark protocol](native-performance-benchmark.md)
 - [Native runtime QA protocol](native-runtime-qa.md)
 - [Migration guide](../migration/from-v1.md)
