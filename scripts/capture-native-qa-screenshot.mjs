@@ -4,110 +4,14 @@ import process from "node:process";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
+import {
+  captureNativeQaUsage,
+  defaultAndroidPackage,
+  parseCaptureNativeQaArgs
+} from "./capture-native-qa-options.mjs";
 import { listNativeQaRows } from "./record-native-qa-evidence.mjs";
 
 const defaultRepoRoot = process.cwd();
-const defaultAndroidPackage = "io.chartkit.showcase";
-const validPlatforms = new Set(["android", "ios"]);
-
-const usage = `Usage:
-  node scripts/capture-native-qa-screenshot.mjs --matrix <runtime|accessibility|performance> --row <row-id> --platform <ios|android> [options]
-
-Options:
-  --android-log-output <path>  Also clear/capture Android logcat to this repo-relative path.
-  --android-log-lines <number> Number of trailing logcat lines to capture. Defaults to 400.
-  --device <id>             iOS simulator UDID or Android adb serial. Defaults to booted/default device.
-  --dry-run                 Print launch and screenshot commands without executing them.
-  --no-launch               Capture current screen without opening the row deep link first.
-  --output <path>           Repo-relative screenshot path. Defaults to docs/release/artifacts/<row-id>-screenshot.png.
-  --package <id>            Android package id. Defaults to io.chartkit.showcase.
-  --wait-ms <number>        Delay between launch and capture. Defaults to 1500.
-  --help                    Show this help.
-`;
-
-const parseArgs = (argv) => {
-  const options = {
-    androidPackage: defaultAndroidPackage,
-    androidLogLines: 400,
-    launch: true,
-    waitMs: 1500
-  };
-
-  for (let index = 0; index < argv.length; index += 1) {
-    const arg = argv[index];
-    const readValue = () => {
-      const value = argv[index + 1];
-
-      if (!value || value.startsWith("--")) {
-        throw new Error(`${arg} requires a value`);
-      }
-
-      index += 1;
-      return value;
-    };
-
-    if (arg === "--android-log-lines") {
-      options.androidLogLines = Number(readValue());
-    } else if (arg === "--android-log-output") {
-      options.androidLogOutput = readValue();
-    } else if (arg === "--device") {
-      options.device = readValue();
-    } else if (arg === "--dry-run") {
-      options.dryRun = true;
-    } else if (arg === "--help" || arg === "-h") {
-      options.help = true;
-    } else if (arg === "--matrix") {
-      options.matrixName = readValue();
-    } else if (arg === "--no-launch") {
-      options.launch = false;
-    } else if (arg === "--output") {
-      options.output = readValue();
-    } else if (arg === "--package") {
-      options.androidPackage = readValue();
-    } else if (arg === "--platform") {
-      options.platform = readValue();
-    } else if (arg === "--row") {
-      options.rowId = readValue();
-    } else if (arg === "--wait-ms") {
-      options.waitMs = Number(readValue());
-    } else {
-      throw new Error(`Unknown argument: ${arg}`);
-    }
-  }
-
-  if (options.help) {
-    return options;
-  }
-
-  if (!options.matrixName) {
-    throw new Error("--matrix is required");
-  }
-
-  if (!options.rowId) {
-    throw new Error("--row is required");
-  }
-
-  if (!validPlatforms.has(options.platform)) {
-    throw new Error("--platform must be ios or android");
-  }
-
-  if (options.androidLogOutput && options.platform !== "android") {
-    throw new Error("--android-log-output can only be used with Android");
-  }
-
-  if (
-    !Number.isInteger(options.androidLogLines) ||
-    options.androidLogLines <= 0
-  ) {
-    throw new Error("--android-log-lines must be a positive integer");
-  }
-
-  if (!Number.isFinite(options.waitMs) || options.waitMs < 0) {
-    throw new Error("--wait-ms must be a non-negative number");
-  }
-
-  return options;
-};
 
 const shellQuote = (value) => {
   const text = String(value);
@@ -139,14 +43,33 @@ const shouldWaitAfterCommand = ({ args, command }) =>
 const validateCaptureOptions = ({
   androidLogLines,
   androidLogOutput,
+  iosLogLast,
+  iosLogOutput,
+  iosLogPredicate,
   platform
 }) => {
+  if (platform !== "android" && platform !== "ios") {
+    throw new Error("--platform must be ios or android");
+  }
+
   if (androidLogOutput && platform !== "android") {
     throw new Error("--android-log-output can only be used with Android");
   }
 
+  if (iosLogOutput && platform !== "ios") {
+    throw new Error("--ios-log-output can only be used with iOS");
+  }
+
   if (!Number.isInteger(androidLogLines) || androidLogLines <= 0) {
     throw new Error("--android-log-lines must be a positive integer");
+  }
+
+  if (iosLogOutput && !iosLogLast) {
+    throw new Error("--ios-log-last must be a non-empty duration");
+  }
+
+  if (iosLogOutput && !iosLogPredicate) {
+    throw new Error("--ios-log-predicate must be non-empty");
   }
 };
 
@@ -181,7 +104,15 @@ const runCommand = ({ args, command, encoding = "utf8" }) => {
 
 const getIosDeviceTarget = (device) => device ?? "booted";
 
-const buildIosCommands = ({ device, launch, launchUrl, outputPath }) => {
+const buildIosCommands = ({
+  device,
+  iosLogLast,
+  iosLogOutputPath,
+  iosLogPredicate,
+  launch,
+  launchUrl,
+  outputPath
+}) => {
   const target = getIosDeviceTarget(device);
   const commands = [];
 
@@ -196,6 +127,28 @@ const buildIosCommands = ({ device, launch, launchUrl, outputPath }) => {
     args: ["simctl", "io", target, "screenshot", outputPath],
     command: "xcrun"
   });
+
+  if (iosLogOutputPath) {
+    commands.push({
+      args: [
+        "simctl",
+        "spawn",
+        target,
+        "log",
+        "show",
+        "--style",
+        "compact",
+        "--last",
+        iosLogLast,
+        "--predicate",
+        iosLogPredicate
+      ],
+      command: "xcrun",
+      encoding: "utf8",
+      outputPath: iosLogOutputPath,
+      writesStdoutToFile: true
+    });
+  }
 
   return commands;
 };
@@ -288,6 +241,9 @@ export const createNativeQaScreenshotPlan = async ({
   androidLogOutput,
   androidPackage = defaultAndroidPackage,
   device,
+  iosLogLast = "2m",
+  iosLogOutput,
+  iosLogPredicate = 'process == "ChartKitShowcase"',
   launch = true,
   matrixName,
   output,
@@ -296,7 +252,14 @@ export const createNativeQaScreenshotPlan = async ({
   rowId,
   waitMs = 1500
 }) => {
-  validateCaptureOptions({ androidLogLines, androidLogOutput, platform });
+  validateCaptureOptions({
+    androidLogLines,
+    androidLogOutput,
+    iosLogLast,
+    iosLogOutput,
+    iosLogPredicate,
+    platform
+  });
 
   const row = await findRow({ matrixName, repoRoot, rowId });
   const outputPath = output ?? defaultOutputForRow(rowId);
@@ -304,11 +267,17 @@ export const createNativeQaScreenshotPlan = async ({
   const absoluteAndroidLogOutputPath = androidLogOutput
     ? path.resolve(repoRoot, androidLogOutput)
     : undefined;
+  const absoluteIosLogOutputPath = iosLogOutput
+    ? path.resolve(repoRoot, iosLogOutput)
+    : undefined;
   const commandOptions = {
     androidLogLines,
     androidLogOutputPath: absoluteAndroidLogOutputPath,
     androidPackage,
     device,
+    iosLogLast,
+    iosLogOutputPath: absoluteIosLogOutputPath,
+    iosLogPredicate,
     launch,
     launchUrl: row.launchUrl,
     outputPath: absoluteOutputPath
@@ -320,16 +289,19 @@ export const createNativeQaScreenshotPlan = async ({
 
   return {
     absoluteAndroidLogOutputPath,
+    absoluteIosLogOutputPath,
     absoluteOutputPath,
     androidLogOutput,
     commands,
+    iosLogOutput,
     launchUrl: row.launchUrl,
     outputPath,
     recordCommand: [
       `npm run release:qa:record -- --matrix ${matrixName} --row ${rowId}`,
       "--status partial",
       `--evidence ${outputPath}`,
-      androidLogOutput ? `--evidence ${androidLogOutput}` : ""
+      androidLogOutput ? `--evidence ${androidLogOutput}` : "",
+      iosLogOutput ? `--evidence ${iosLogOutput}` : ""
     ]
       .filter(Boolean)
       .join(" "),
@@ -352,6 +324,11 @@ export const captureNativeQaScreenshot = async ({
   await mkdir(path.dirname(plan.absoluteOutputPath), { recursive: true });
   if (plan.absoluteAndroidLogOutputPath) {
     await mkdir(path.dirname(plan.absoluteAndroidLogOutputPath), {
+      recursive: true
+    });
+  }
+  if (plan.absoluteIosLogOutputPath) {
+    await mkdir(path.dirname(plan.absoluteIosLogOutputPath), {
       recursive: true
     });
   }
@@ -380,10 +357,10 @@ export const captureNativeQaScreenshot = async ({
 };
 
 const main = async () => {
-  const options = parseArgs(process.argv.slice(2));
+  const options = parseCaptureNativeQaArgs(process.argv.slice(2));
 
   if (options.help) {
-    console.log(usage.trim());
+    console.log(captureNativeQaUsage.trim());
     return;
   }
 

@@ -85,6 +85,62 @@ describe("native QA screenshot capture", () => {
     );
   });
 
+  it("can include iOS simulator logs in the screenshot plan", async () => {
+    const plan = await createNativeQaScreenshotPlan({
+      iosLogLast: "3m",
+      iosLogOutput: "docs/release/artifacts/ios-bar-row.log",
+      matrixName: "runtime",
+      output: "docs/release/artifacts/ios-bar-row.png",
+      platform: "ios",
+      repoRoot,
+      rowId: "ios-bar-charts"
+    });
+
+    expect(plan.commands).toEqual([
+      {
+        args: [
+          "simctl",
+          "openurl",
+          "booted",
+          "chartkitshowcase://showcase?view=charts&page=bar"
+        ],
+        command: "xcrun"
+      },
+      {
+        args: [
+          "simctl",
+          "io",
+          "booted",
+          "screenshot",
+          resolve(repoRoot, "docs/release/artifacts/ios-bar-row.png")
+        ],
+        command: "xcrun"
+      },
+      {
+        args: [
+          "simctl",
+          "spawn",
+          "booted",
+          "log",
+          "show",
+          "--style",
+          "compact",
+          "--last",
+          "3m",
+          "--predicate",
+          'process == "ChartKitShowcase"'
+        ],
+        command: "xcrun",
+        encoding: "utf8",
+        outputPath: resolve(repoRoot, "docs/release/artifacts/ios-bar-row.log"),
+        writesStdoutToFile: true
+      }
+    ]);
+    expect(plan.recordCommand).toBe(
+      "npm run release:qa:record -- --matrix runtime --row ios-bar-charts --status partial --evidence docs/release/artifacts/ios-bar-row.png --evidence docs/release/artifacts/ios-bar-row.log"
+    );
+  });
+
   it("can capture an Android screenshot with an injected command runner", async () => {
     const tempRepo = await createTempRepo();
     const calls = [];
@@ -225,5 +281,18 @@ describe("native QA screenshot capture", () => {
         rowId: "ios-line-charts"
       })
     ).rejects.toThrow("--android-log-output can only be used with Android");
+  });
+
+  it("rejects iOS log output for Android captures", async () => {
+    await expect(
+      captureNativeQaScreenshot({
+        dryRun: true,
+        iosLogOutput: "docs/release/artifacts/android-line.log",
+        matrixName: "runtime",
+        platform: "android",
+        repoRoot,
+        rowId: "android-line-charts"
+      })
+    ).rejects.toThrow("--ios-log-output can only be used with iOS");
   });
 });
