@@ -1,0 +1,538 @@
+--------- beginning of system
+05-06 21:45:08.376   672  1868 W ActivityTaskManager: callingPackage for (uid=2000, pid=3862) has no WPC
+--------- beginning of main
+05-06 21:45:08.378   672  1868 V GrammaticalInflectionUtils: AttributionSource: AttributionSource { uid = 10213, packageName = null, attributionTag = null, token = android.os.Binder@908430e, deviceId = 0, next = null } does not have READ_SYSTEM_GRAMMATICAL_GENDER permission.
+05-06 21:45:08.378   672  1868 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_USER_ASPECT_RATIO_OVERRIDE
+05-06 21:45:08.378   672  1868 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_USER_ASPECT_RATIO_FULLSCREEN_OVERRIDE
+05-06 21:45:08.378   672  1868 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_RESIZEABLE_ACTIVITY_OVERRIDES
+05-06 21:45:08.379   672  1868 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_MIN_ASPECT_RATIO_OVERRIDE
+05-06 21:45:08.383   672  1868 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_ORIENTATION_OVERRIDE
+05-06 21:45:08.385   519   757 I BpBinder: onLastStrongRef automatically unlinking death recipients: 
+05-06 21:45:08.388   672  1092 D CompatChangeReporter: Compat change id reported: 377864165; UID 10213; state: ENABLED
+05-06 21:45:08.389   941  1055 V WindowManagerShell: Transition requested (#21): android.os.BinderProxy@aebcf50 TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=26 effectiveUid=10213 displayId=0 isRunning=true baseIntent=Intent { act=android.intent.action.VIEW dat=chartkitshowcase://showcase/... flg=0x10000000 pkg=io.chartkit.showcase cmp=io.chartkit.showcase/.MainActivity } baseActivity=ComponentInfo{io.chartkit.showcase/io.chartkit.showcase.MainActivity} topActivity=ComponentInfo{io.chartkit.showcase/io.chartkit.showcase.MainActivity} origActivity=null realActivity=ComponentInfo{io.chartkit.showcase/io.chartkit.showcase.MainActivity} numActivities=1 lastActiveTime=440751 supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{android.window.IWindowContainerToken$Stub$Proxy@771d549} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 136 - 0, 0) topActivityInfo=ActivityInfo{9ea3e4e io.chartkit.showcase.MainActivity} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=false isVisible=false isVisibleRequested=false isTopActivityNoDisplay=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false isActivityStackTransparent=false lastNonFullscreenBounds=Rect(276, 696 - 805, 1776) capturedLink=null capturedLinkTimestamp=0 requestedVisibleTypes=-9 topActivityRequestOpenInBrowserEducationTimestamp=0 appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false eligibleForLetterboxEducation= false isLetterboxEducationEnabled= true isLetterboxDoubleTapEnabled= false eligibleForUserAspectRatioButton= false topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 topActivityAppBounds=Rect(0, 0 - 1080, 2400) isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false hasMinAspectRatioOverride=false topActivityLetterboxBounds=null cameraCompatTaskInfo=CameraCompatTaskInfo { freeformCameraCompatMode=inactive}} topActivityMainWindowFrame=null}, pipChange = null, remoteTransition = null, displayChange = null, flags = 0, debugId = 21 }
+05-06 21:45:08.389   672  1868 I ActivityTaskManager: START u0 {act=android.intent.action.VIEW dat=chartkitshowcase://showcase/... flg=0x10000000 xflg=0x4 pkg=io.chartkit.showcase cmp=io.chartkit.showcase/.MainActivity} with LAUNCH_SINGLE_TASK from uid 2000 (BAL_ALLOW_PERMISSION) result code=0
+05-06 21:45:08.389   941  1055 D ShellSplitScreen: logExit: no-op, mLoggerSessionId is null
+05-06 21:45:08.392   672   728 V GrammaticalInflectionUtils: AttributionSource: AttributionSource { uid = 10213, packageName = null, attributionTag = null, token = android.os.Binder@908430e, deviceId = 0, next = null } does not have READ_SYSTEM_GRAMMATICAL_GENDER permission.
+05-06 21:45:08.393   941  1157 W HWUI    : Image decoding logging dropped!
+05-06 21:45:08.394  1070  1070 W SplitSelectStateCtor: Missing session instanceIds
+05-06 21:45:08.394  1070  1070 D StatsLog: LAUNCHER_SPLIT_SELECTION_EXIT_INTERRUPTED
+05-06 21:45:08.405   672  1187 D OomAdjuster: Not killing cached processes
+05-06 21:45:08.412   519   519 I BpBinder: onLastStrongRef automatically unlinking death recipients: 
+05-06 21:45:08.413   941  1055 D WindowManagerShell: setLauncherKeepClearAreaHeight: visible=false, height=527
+05-06 21:45:08.414   462   462 I Zygote  : Entering forkRepeatedly native zygote loop
+05-06 21:45:08.418   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.418   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.418   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.418   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.418   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.418   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.418   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.418   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.418   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.418   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.418   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.418   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.418   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.430   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.430   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.432   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.434   459   542 I netd    : tetherGetStats() -> {[]} <6.46ms>
+05-06 21:45:08.434   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.436   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.437   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.437   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.437   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.437   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.437   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.437   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.437   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.437   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.437   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.437   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.437   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.437   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.437   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.437   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.437   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.437   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.437   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.437   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.437   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:45:08.449   672   880 I AppWidgetServiceImpl: Received broadcast: android.intent.action.PACKAGE_UNSTOPPED on user 0
+05-06 21:45:08.448   462   462 D Zygote  : Forked child process 3867
+05-06 21:45:08.449   672   880 I AppWidgetServiceImpl: Updating package stopped masked state for uid 10213 package io.chartkit.showcase isStopped false
+05-06 21:45:08.452   672   735 W ActivityManager: Slow operation: 60ms so far, now at startProcess: returned from zygote!
+05-06 21:45:08.452   672   735 W ActivityManager: Slow operation: 60ms so far, now at startProcess: done updating battery stats
+05-06 21:45:08.452   672   735 W ActivityManager: Slow operation: 60ms so far, now at startProcess: building log message
+05-06 21:45:08.453   672   735 I ActivityManager: Start proc 3867:io.chartkit.showcase/u0a213 for next-top-activity {io.chartkit.showcase/io.chartkit.showcase.MainActivity}
+05-06 21:45:08.453   672   735 W ActivityManager: Slow operation: 61ms so far, now at startProcess: starting to update pids map
+05-06 21:45:08.454   672   735 I ActivityManager: ProcessObserver broadcast disabled
+05-06 21:45:08.454   672   735 W ActivityManager: Slow operation: 61ms so far, now at startProcess: done updating pids map
+05-06 21:45:08.454   672   899 D BackgroundInstallControlService: Package event received: 0
+05-06 21:45:08.465  3867  3867 I artkit.showcase: Using CollectorTypeCMC GC.
+05-06 21:45:08.492   941  1157 D SplashScreenView: Build android.window.SplashScreenView{4391e5f V.E...... ......ID 0,0-0,0}
+05-06 21:45:08.492   941  1157 D SplashScreenView: Icon: view: android.widget.ImageView{d10ac V.ED..... ......I. 0,0-0,0 #1020542 android:id/splashscreen_icon_view} drawable: com.android.wm.shell.startingsurface.SplashscreenIconDrawableFactory$ImmobileIconDrawable@1acb175 size: 420
+05-06 21:45:08.492   941  1157 D SplashScreenView: Branding: view: android.view.View{a17650a G.ED..... ......I. 0,0-0,0 #1020541 android:id/splashscreen_branding_view} drawable: null size w: 0 h: 0
+05-06 21:45:08.495  3867  3867 E artkit.showcase: Not starting debugger since process cannot load the jdwp agent.
+05-06 21:45:08.502  3867  3867 D nativeloader: Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+05-06 21:45:08.508   672  1092 D CoreBackPreview: Window{bc06a53 u0 Splash Screen io.chartkit.showcase}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@add58af, mPriority=0, mIsAnimationCallback=false, mOverrideBehavior=0}
+05-06 21:45:08.554   672   725 V WindowManager: Sent Transition (#21) createdAt=05-06 21:45:08.379 via request=TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=26 effectiveUid=10213 displayId=0 isRunning=true baseIntent=Intent { act=android.intent.action.VIEW dat=chartkitshowcase://showcase/... flg=0x10000000 pkg=io.chartkit.showcase cmp=io.chartkit.showcase/.MainActivity } baseActivity=ComponentInfo{io.chartkit.showcase/io.chartkit.showcase.MainActivity} topActivity=ComponentInfo{io.chartkit.showcase/io.chartkit.showcase.MainActivity} origActivity=null realActivity=ComponentInfo{io.chartkit.showcase/io.chartkit.showcase.MainActivity} numActivities=1 lastActiveTime=440751 supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{RemoteToken{175f9a Task{92e2bde #26 type=standard A=10213:io.chartkit.showcase}}} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 136 - 0, 0) topActivityInfo=ActivityInfo{430d0cb io.chartkit.showcase.MainActivity} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=false isVisible=false isVisibleRequested=false isTopActivityNoDisplay=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false isActivityStackTransparent=false lastNonFullscreenBounds=Rect(276, 696 - 805, 1776) capturedLink=null capturedLinkTimestamp=0 requestedVisibleTypes=-9 topActivityRequestOpenInBrowserEducationTimestamp=0 appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false eligibleForLetterboxEducation= false isLetterboxEducationEnabled= true isLetterboxDoubleTapEnabled= false eligibleForUserAspectRatioButton= false topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 topActivityAppBounds=Rect(0, 0 - 1080, 2400) isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false hasMinAspectRatioOverride=false topActivityLetterboxBounds=null cameraCompatTaskInfo=CameraCompatTaskInfo { freeformCameraCompatMode=inactive}} topActivityMainWindowFrame=null}, pipChange = null, remoteTransition = null, displayChange = null, flags = 0, debugId = 21 }
+05-06 21:45:08.554   672   725 V WindowManager:     startWCT=WindowContainerTransaction { changes= {} hops= [] errorCallbackToken=null taskFragmentOrganizer=null }
+05-06 21:45:08.554   672   725 V WindowManager:     info={id=21 t=OPEN f=0x0 trk=0 r=[0@Point(0, 0)] c=[
+05-06 21:45:08.554   672   725 V WindowManager:         {WCT{RemoteToken{175f9a Task{92e2bde #26 type=standard A=10213:io.chartkit.showcase}}} m=OPEN f=NONE leash=Surface(name=Task=26)/@0x79e44bc sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1},
+05-06 21:45:08.554   672   725 V WindowManager:         {WCT{RemoteToken{363bb86 Task{64599e1 #1 type=home}}} m=TO_BACK f=SHOW_WALLPAPER leash=Surface(name=Task=1)/@0xf7df929 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1},
+05-06 21:45:08.554   672   725 V WindowManager:         {m=TO_BACK f=IS_WALLPAPER leash=Surface(name=WallpaperWindowToken{d093838 showWhenLocked=false})/@0x98496b0 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0}
+05-06 21:45:08.554   672   725 V WindowManager:     ]}
+05-06 21:45:08.557   941   956 V WindowManagerShell: onTransitionReady(transaction=2886218023412)
+05-06 21:45:08.558   941  1055 V WindowManagerShell: onTransitionReady (#21) android.os.BinderProxy@aebcf50: {id=21 t=OPEN f=0x0 trk=0 r=[0@Point(0, 0)] c=[
+05-06 21:45:08.558   941  1055 V WindowManagerShell:         {m=OPEN f=NONE leash=Surface(name=Task=26)/@0x19135b0 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1},
+05-06 21:45:08.558   941  1055 V WindowManagerShell:         {m=TO_BACK f=SHOW_WALLPAPER leash=Surface(name=Task=1)/@0xf4fac29 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1},
+05-06 21:45:08.558   941  1055 V WindowManagerShell:         {m=TO_BACK f=IS_WALLPAPER leash=Surface(name=WallpaperWindowToken{d093838 showWhenLocked=false})/@0xc16fbae sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0}
+05-06 21:45:08.558   941  1055 V WindowManagerShell:     ]}
+05-06 21:45:08.558   941  1055 V WindowManagerShell: Playing animation for (#21) android.os.BinderProxy@aebcf50@0
+05-06 21:45:08.558   941  1055 V ShellRecents: RecentsTransitionHandler.startAnimation: no controller found
+05-06 21:45:08.559   941  1055 V WindowManagerShell: Transition doesn't have explicit remote, search filters for match for {id=21 t=OPEN f=0x0 trk=0 r=[0@Point(0, 0)] c=[{m=OPEN f=NONE leash=Surface(name=Task=26)/@0x19135b0 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1},{m=TO_BACK f=SHOW_WALLPAPER leash=Surface(name=Task=1)/@0xf4fac29 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1},{m=TO_BACK f=IS_WALLPAPER leash=Surface(name=WallpaperWindowToken{d093838 showWhenLocked=false})/@0xc16fbae sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0}]}
+05-06 21:45:08.560   941  1055 V WindowManagerShell:  Checking filter Pair{{types=[] flags=0x0] notFlags=0x0 checks=[{atype=undefined independent=true modes=[CLOSE,TO_BACK] flags=IN_TASK_WITH_EMBEDDED_ACTIVITY mustBeTask=false order=ANY topActivity=null launchCookie=null taskFragmentToken=android.os.BinderProxy@104d5fd windowingMode=undefined}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@6f062f2, appThread = android.app.IApplicationThread$Stub$Proxy@bac0d43, debugName = overlayBackTransition }}
+05-06 21:45:08.560   941  1055 V WindowManagerShell:  Checking filter Pair{{types=[] flags=0x0] notFlags=0x0 checks=[{atype=dream independent=true modes=[OPEN,TO_FRONT] flags=NONE mustBeTask=false order=ANY topActivity=null launchCookie=null windowingMode=undefined},{atype=home independent=true modes=[CLOSE,TO_BACK] flags=NONE mustBeTask=false order=ANY topActivity=null launchCookie=null windowingMode=undefined}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@91e3fc0, appThread = android.app.IApplicationThread$Stub$Proxy@7cdd4f9, debugName = LauncherToDream }}
+05-06 21:45:08.560   941  1055 V WindowManagerShell:  Checking filter Pair{{types=[] flags=0x0] notFlags=0x100 checks=[{atype=home independent=true modes=[OPEN,TO_FRONT] flags=NONE mustBeTask=false order=TOP topActivity=ComponentInfo{com.google.android.apps.nexuslauncher/com.google.android.apps.nexuslauncher.NexusLauncherActivity} launchCookie=null windowingMode=undefined},{atype=standard independent=true modes=[CLOSE,TO_BACK] flags=NONE mustBeTask=false order=ANY topActivity=null launchCookie=null windowingMode=undefined},{NOT atype=undefined independent=true modes=[] flags=NONE mustBeTask=true order=ANY topActivity=null launchCookie=null customAnim=true windowingMode=undefined}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@b1dbc3e, appThread = android.app.IApplicationThread$Stub$Proxy@f83a9f, debugName = QuickstepLaunchHome }}
+05-06 21:45:08.560   941  1055 V WindowManagerShell:  Delegate animation for (#21) to null
+05-06 21:45:08.561   941  1055 V WindowManagerShell: start default transition animation, info = {id=21 t=OPEN f=0x0 trk=0 r=[0@Point(0, 0)] c=[{m=OPEN f=NONE leash=Surface(name=Task=26)/@0x19135b0 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1},{m=TO_BACK f=SHOW_WALLPAPER leash=Surface(name=Task=1)/@0xf4fac29 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1},{m=TO_BACK f=IS_WALLPAPER leash=Surface(name=WallpaperWindowToken{d093838 showWhenLocked=false})/@0xc16fbae sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0}]}
+05-06 21:45:08.565   672   899 D BackgroundInstallControlService: Package event received: 0
+05-06 21:45:08.566   672  1187 W ActivityTaskManager: takeTaskSnapshot: taskId=22 not found or not visible
+05-06 21:45:08.571   941  1055 V WindowManagerShell: loadAnimation: anim=android.view.animation.AnimationSet@4db24ba animAttr=0x13 type=OPEN isEntrance=false
+05-06 21:45:08.605   941  1055 V WindowManagerShell: loadAnimation: anim=android.view.animation.AnimationSet@c5f689d animAttr=0x12 type=OPEN isEntrance=true
+05-06 21:45:08.605   941  1055 V WindowManagerShell:  animated by com.android.wm.shell.transition.DefaultTransitionHandler@ae2ad83
+05-06 21:45:08.606   941  1055 W Looper  : Slow dispatch took 48ms wmshell.main app=com.android.systemui main=false group=TOP_APP h=android.os.Handler c=com.android.wm.shell.transition.Transitions$TransitionPlayerImpl$$ExternalSyntheticLambda0@ced9112 m=0
+05-06 21:45:08.606   941  1055 W Looper  : Slow delivery took 48ms wmshell.main app=com.android.systemui main=false group=TOP_APP h=android.os.Handler c=android.window.TaskOrganizer$1$$ExternalSyntheticLambda7@94670e3 m=0
+05-06 21:45:08.615   941  1055 W Looper  : Drained
+05-06 21:45:08.690   930   930 D wpa_supplicant: nl80211: Drv Event 64 (NL80211_CMD_NOTIFY_CQM) received for wlan0
+05-06 21:45:08.690   930   930 D wpa_supplicant: nl80211: Beacon loss event
+05-06 21:45:08.690   930   930 D wpa_supplicant: wlan0: Event BEACON_LOSS (53) received
+05-06 21:45:08.690   930   930 I wpa_supplicant: wlan0: CTRL-EVENT-BEACON-LOSS 
+05-06 21:45:08.704  3867  3867 D nativeloader: Configuring clns-9 for other apk /data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk. target_sdk_version=36, uses_libraries=, library_path=/data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/lib/arm64:/data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk!/lib/arm64-v8a, permitted_path=/data:/mnt/expand:/data/user/0/io.chartkit.showcase
+05-06 21:45:08.719  3867  3867 I artkit.showcase: AssetManager2(0xb40000758f14bb38) locale list changing from [] to [en-US]
+05-06 21:45:08.725  3867  3867 V GraphicsEnvironment: Currently set values for:
+05-06 21:45:08.725  3867  3867 V GraphicsEnvironment:   angle_gl_driver_selection_pkgs=[]
+05-06 21:45:08.725  3867  3867 V GraphicsEnvironment:   angle_gl_driver_selection_values=[]
+05-06 21:45:08.725  3867  3867 V GraphicsEnvironment: io.chartkit.showcase is not listed in per-application setting
+05-06 21:45:08.725  3867  3867 V GraphicsEnvironment: ANGLE allowlist from config: com.dreamgames.royalmatch com.dts.freefiremax com.dxx.firenow com.gramgames.mergedragons com.ludo.king com.mojang.minecraftpe com.my.defense com.nintendo.zaka com.os.airforce com.playrix.fishdomdd.gplay io.teslatech.callbreak jp.konami.prospia net.peakgames.toonblast
+05-06 21:45:08.725  3867  3867 V GraphicsEnvironment: io.chartkit.showcase is not listed in ANGLE allowlist or settings, returning default
+05-06 21:45:08.725  3867  3867 V GraphicsEnvironment: Neither updatable production driver nor prerelease driver is supported.
+05-06 21:45:08.751  3867  3867 W SoLoader: Initializing SoLoader: 0
+05-06 21:45:08.751  3867  3867 W SoLoader: Recording new base apk path: /data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk
+05-06 21:45:08.751  3867  3867 W SoLoader: Previously recorded 0 base apk paths.
+05-06 21:45:08.753  3867  3867 I SoLoader: Preparing SO source: DirectorySoSource[root = /vendor/lib64 flags = 2]
+05-06 21:45:08.753  3867  3867 I SoLoader: Preparing SO source: DirectorySoSource[root = /system/lib64 flags = 2]
+05-06 21:45:08.753  3867  3867 I SoLoader: Preparing SO source: DirectApkSoSource[root = [/data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk!/lib/arm64-v8a]]
+05-06 21:45:08.755  3867  3867 I SoLoader: Preparing SO source: ApplicationSoSource[DirectorySoSource[root = /data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/lib/arm64 flags = 0]]
+05-06 21:45:08.755  3867  3867 I SoLoader: init finish: 4 SO sources prepared
+05-06 21:45:08.755  3867  3867 W SoLoader: SoLoader initialized: 8
+05-06 21:45:08.770  3867  3867 D nativeloader: Load /data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk!/lib/arm64-v8a/libc++_shared.so using class loader ns clns-9 (caller=/data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk): ok
+05-06 21:45:08.776  3867  3867 D nativeloader: Load /data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk!/lib/arm64-v8a/libjsi.so using class loader ns clns-9 (caller=/data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk): ok
+05-06 21:45:08.783  3867  3867 D nativeloader: Load /data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk!/lib/arm64-v8a/libfbjni.so using class loader ns clns-9 (caller=/data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk): ok
+05-06 21:45:08.787  3867  3867 D nativeloader: Load /data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk!/lib/arm64-v8a/libreactnative.so using class loader ns clns-9 (caller=/data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk): ok
+05-06 21:45:08.787  3867  3867 D jni_lib_merge: Entering merged library JNI_OnLoad.
+05-06 21:45:08.787  3867  3867 D jni_lib_merge: Preparing 12 pre-merged libs (including stub)
+05-06 21:45:08.787  3867  3867 D jni_lib_merge: Preparing to register libfabricjni_so.  onload_func: 0x74a38baedc
+05-06 21:45:08.787  3867  3867 D jni_lib_merge: Preparing to register libreact_devsupportjni_so.  onload_func: 0x74a398bf40
+05-06 21:45:08.787  3867  3867 D jni_lib_merge: Preparing to register libreact_featureflagsjni_so.  onload_func: 0x74a399e9f8
+05-06 21:45:08.787  3867  3867 D jni_lib_merge: Preparing to register libreact_newarchdefaults_so.  onload_func: 0x74a39c3e30
+05-06 21:45:08.787  3867  3867 D jni_lib_merge: Preparing to register libreactnativeblob_so.  onload_func: 0x74a3a565b0
+05-06 21:45:08.787  3867  3867 D jni_lib_merge: Preparing to register libreactnativejni_so.  onload_func: 0x74a3a70b24
+05-06 21:45:08.787  3867  3867 D jni_lib_merge: Preparing to register libreactnativejni_common_so.  onload_func: 0x74a3a77458
+05-06 21:45:08.787  3867  3867 D jni_lib_merge: Preparing to register librninstance_so.  onload_func: 0x74a3a93070
+05-06 21:45:08.787  3867  3867 D jni_lib_merge: Preparing to register libturbomodulejsijni_so.  onload_func: 0x74a3b2b1a4
+05-06 21:45:08.787  3867  3867 D jni_lib_merge: Preparing to register libuimanagerjni_so.  onload_func: 0x74a3b327e0
+05-06 21:45:08.787  3867  3867 D jni_lib_merge: Preparing to register libyoga_so.  onload_func: 0x74a3b39da4
+05-06 21:45:08.787  3867  3867 D jni_lib_merge: About to register 11 actual methods.
+05-06 21:45:08.797  3867  3867 D nativeloader: Load /data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk!/lib/arm64-v8a/libreact_codegen_rnsvg.so using class loader ns clns-9 (caller=/data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk): ok
+05-06 21:45:08.797  3867  3867 D jni_lib_merge: Entering merged library JNI_OnLoad.
+05-06 21:45:08.797  3867  3867 D jni_lib_merge: Preparing 12 pre-merged libs (including stub)
+05-06 21:45:08.797  3867  3867 D jni_lib_merge: Preparing to register libfabricjni_so.  onload_func: 0x74a38baedc
+05-06 21:45:08.797  3867  3867 D jni_lib_merge: Preparing to register libreact_devsupportjni_so.  onload_func: 0x74a398bf40
+05-06 21:45:08.797  3867  3867 D jni_lib_merge: Preparing to register libreact_featureflagsjni_so.  onload_func: 0x74a399e9f8
+05-06 21:45:08.797  3867  3867 D jni_lib_merge: Preparing to register libreact_newarchdefaults_so.  onload_func: 0x74a39c3e30
+05-06 21:45:08.797  3867  3867 D jni_lib_merge: Preparing to register libreactnativeblob_so.  onload_func: 0x74a3a565b0
+05-06 21:45:08.797  3867  3867 D jni_lib_merge: Preparing to register libreactnativejni_so.  onload_func: 0x74a3a70b24
+05-06 21:45:08.797  3867  3867 D jni_lib_merge: Preparing to register libreactnativejni_common_so.  onload_func: 0x74a3a77458
+05-06 21:45:08.797  3867  3867 D jni_lib_merge: Preparing to register librninstance_so.  onload_func: 0x74a3a93070
+05-06 21:45:08.797  3867  3867 D jni_lib_merge: Preparing to register libturbomodulejsijni_so.  onload_func: 0x74a3b2b1a4
+05-06 21:45:08.797  3867  3867 D jni_lib_merge: Preparing to register libuimanagerjni_so.  onload_func: 0x74a3b327e0
+05-06 21:45:08.797  3867  3867 D jni_lib_merge: Preparing to register libyoga_so.  onload_func: 0x74a3b39da4
+05-06 21:45:08.797  3867  3867 D jni_lib_merge: About to register 11 actual methods.
+05-06 21:45:08.799  3867  3867 D nativeloader: Load /data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk!/lib/arm64-v8a/libappmodules.so using class loader ns clns-9 (caller=/data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk): ok
+05-06 21:45:08.804   672  2472 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ENABLE_FAKE_FOCUS
+05-06 21:45:08.813  3867  3882 I DisplayManager: Choreographer implicitly registered for the refresh rate.
+05-06 21:45:08.817   672   899 D BackgroundInstallControlService: Package event received: 0
+05-06 21:45:08.817  3867  3867 I artkit.showcase: AssetManager2(0xb40000758f151f38) locale list changing from [] to [en-US]
+05-06 21:45:08.818   672   899 D BackgroundInstallControlService: Package event received: 0
+05-06 21:45:08.829  3867  3867 D AppCompatDelegate: Checking for metadata for AppLocalesMetadataHolderService : Service not found
+05-06 21:45:08.830  3867  3867 I artkit.showcase: AssetManager2(0xb40000758f150958) locale list changing from [] to [en-US]
+05-06 21:45:08.835  3867  3867 E ashmem  : Pinning is deprecated since Android Q. Please use trim or other methods.
+05-06 21:45:08.869  3867  3882 I EGL_emulation: Opening libGLESv1_CM_emulation.so
+05-06 21:45:08.869  3867  3882 I EGL_emulation: Opening libGLESv2_emulation.so
+05-06 21:45:08.872  3867  3867 W unknown:BridgelessReact: ReactHost{0}.startSurface(surfaceId = 0): Schedule
+05-06 21:45:08.872  3867  3867 W unknown:BridgelessReact: ReactHost{0}.attachSurface(surfaceId = 0)
+05-06 21:45:08.873  3867  3886 W unknown:BridgelessReact: ReactHost{0}.getOrCreateReactInstanceTask()
+05-06 21:45:08.874  3867  3886 W unknown:BridgelessReact: ReactHost{0}.getOrCreateReactInstanceTask(): Start
+05-06 21:45:08.874  3867  3886 W unknown:BridgelessReact: ReactHost{0}.getJSBundleLoader()
+05-06 21:45:08.874  3867  3886 W unknown:BridgelessReact: ReactHost{0}.getOrCreateReactContext(): Creating BridgelessReactContext
+05-06 21:45:08.874  3867  3886 W unknown:BridgelessReact: ReactHost{0}.getOrCreateReactInstanceTask(): Creating ReactInstance
+05-06 21:45:08.877  3867  3867 D CompatChangeReporter: Compat change id reported: 377864165; UID 10213; state: ENABLED
+05-06 21:45:08.881  3867  3867 D DesktopModeFlags: Toggle override initialized to: OVERRIDE_UNSET
+05-06 21:45:08.888  3867  3882 W HWUI    : Failed to choose config with EGL_SWAP_BEHAVIOR_PRESERVED, retrying without...
+05-06 21:45:08.889  3867  3882 W HWUI    : Failed to initialize 101010-2 format, error = EGL_SUCCESS
+05-06 21:45:08.892  3867  3886 D nativeloader: Load /data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk!/lib/arm64-v8a/libhermes.so using class loader ns clns-9 (caller=/data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk): ok
+05-06 21:45:08.894  3867  3886 D nativeloader: Load /data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk!/lib/arm64-v8a/libhermestooling.so using class loader ns clns-9 (caller=/data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk): ok
+05-06 21:45:08.894  3867  3886 D jni_lib_merge: Entering merged library JNI_OnLoad.
+05-06 21:45:08.894  3867  3886 D jni_lib_merge: Preparing 4 pre-merged libs (including stub)
+05-06 21:45:08.894  3867  3886 D jni_lib_merge: Preparing to register libhermes_executor_so.  onload_func: 0x74f85224b0
+05-06 21:45:08.894  3867  3886 D jni_lib_merge: Preparing to register libhermesinstancejni_so.  onload_func: 0x74f8529900
+05-06 21:45:08.894  3867  3886 D jni_lib_merge: Preparing to register libjsijniprofiler_so.  onload_func: 0x74f852a0ec
+05-06 21:45:08.894  3867  3886 D jni_lib_merge: About to register 3 actual methods.
+05-06 21:45:08.899  3867  3867 W WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+05-06 21:45:08.899  3867  3867 W WindowOnBackDispatcher: Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+05-06 21:45:08.902   941  1055 V WindowManagerShell: Transition animation finished (aborted=false), notifying core (#21) android.os.BinderProxy@aebcf50@0
+05-06 21:45:08.908   672   725 V WindowManager: Finish Transition (#21): created at 05-06 21:45:08.379 collect-started=0.065ms request-sent=8.347ms started=11.632ms ready=166.278ms sent=171.808ms commit=57.532ms finished=523.501ms
+05-06 21:45:08.914   941  1055 V WindowManagerShell: Track 0 became idle
+05-06 21:45:08.915   941  1055 V WindowManagerShell: All active transition animations finished
+05-06 21:45:08.917   672   846 D WifiClientModeImpl[7910:wlan0]: updateLinkLayerStatsRssiSpeedFrequencyCapabilities rssi=-50 TxLinkspeed=1 freq=2447 RxLinkSpeed=2
+05-06 21:45:08.921  3867  3867 W unknown:BridgelessReact: ReactHost{0}.onHostResume(activity)
+05-06 21:45:08.921  3867  3867 W unknown:BridgelessReact: ReactContext.onHostResume()
+05-06 21:45:08.925   672   846 D WifiDataStall: tx tput in kbps: 11000
+05-06 21:45:08.925   672   846 D WifiDataStall: rx tput in kbps: 11000
+05-06 21:45:08.925   672   846 V WifiConfigManager: Updating scan detail cache freq=2447 BSSID=00:13:10:85:fe:01 RSSI=-50 for "AndroidWifi"NONE
+05-06 21:45:08.925   672   846 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 21:45:08.925   672   846 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 21:45:08.925   672   846 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 21:45:08.925   672   846 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 21:45:08.926   672   846 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 21:45:08.926   672   846 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 21:45:08.926   672   846 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 21:45:08.926   672   846 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 21:45:08.929   672   846 D WifiScoreCard: BSSID update SIGNAL_POLL ID: 786848858 SSID: "AndroidWifi", BSSID: 00:13:10:85:fe:01, MAC: 02:15:b2:00:00:00, IP: /10.0.2.16, Security type: 0, Supplicant state: COMPLETED, Wi-Fi standard: legacy, RSSI: -50, Link speed: 1Mbps, Tx Link speed: 1Mbps, Max Supported Tx Link speed: 11Mbps, Rx Link speed: 2Mbps, Max Supported Rx Link speed: 11Mbps, Frequency: 2447MHz, Net ID: 0, Metered hint: false, score: 60, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: 1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none>"AndroidWifi"openMLO Information: , Is TID-To-Link negotiation supported by the AP: false, AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>, Vendor Data: <none>
+05-06 21:45:08.929   672   846 D WifiScoreCard: txRate: 1 txSpeed: 1
+05-06 21:45:08.929   672   846 D WifiScoreCard: network update SIGNAL_POLL "AndroidWifi" ID: 1628418683 RSSI -50 txSpeed -1
+05-06 21:45:08.929  1070  1070 D VRI[NexusLauncherActivity]: visibilityChanged oldVisibility=true newVisibility=false
+05-06 21:45:08.929   672   846 D WifiClientModeImpl[7910:wlan0]:  ClientModeImpl$L2ConnectedState screen=on 1 0 "AndroidWifi" 00:13:10:85:fe:01 rssi=-50 f=2447 sc=60 link=1 tx=0.0, 0.0, 0.0 rx=0.0 bcn=0 [on:0 tx:0 rx:0 period:3042] from screen [on:0 period:1848385] score=60
+05-06 21:45:08.930  1070  1070 D NexusLauncherModelDelegate: notifySmartspaceEvent: SmartspaceTargetEvent{mSmartspaceTarget=null, mSmartspaceActionId='null', mEventType=7}
+--------- beginning of kernel
+05-06 21:45:08.954   225   225 I servicemanager: Caller(pid=3867,uid=10213,sid=u:r:untrusted_app:s0:c213,c256,c512,c768) Found android.hardware.graphics.allocator.IAllocator/default in device VINTF manifest.
+05-06 21:45:08.952  3867  3867 W HWUI    : Unknown dataspace 0
+05-06 21:45:08.959   225   225 I servicemanager: Caller(pid=3867,uid=10213,sid=u:r:untrusted_app:s0:c213,c256,c512,c768) Found android.hardware.graphics.allocator.IAllocator/default in device VINTF manifest.
+05-06 21:45:08.970   225   225 I servicemanager: Caller(pid=3867,uid=10213,sid=u:r:untrusted_app:s0:c213,c256,c512,c768) Found mapper/ranchu in device VINTF manifest.
+05-06 21:45:08.983  3867  3886 I ExpoModulesCore: ✅ AppContext was initialized
+05-06 21:45:08.998   672  1092 D CoreBackPreview: Window{63091a2 u0 io.chartkit.showcase/io.chartkit.showcase.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@1e745f0, mPriority=0, mIsAnimationCallback=false, mOverrideBehavior=0}
+05-06 21:45:09.031  3867  3886 W unknown:BridgelessReact: ReactHost{0}.getOrCreateReactInstanceTask(): Loading JS Bundle
+05-06 21:45:09.032  3867  3886 W unknown:BridgelessReact: ReactHost{0}.getOrCreateReactInstanceTask(): Calling DevSupportManagerBase.onNewReactContextCreated(reactContext)
+05-06 21:45:09.032  3867  3886 W unknown:BridgelessReact: ReactHost{0}.startSurface(surfaceId = 0): Execute
+05-06 21:45:09.066  3867  3867 W unknown:BridgelessReact: ReactContext.onHostResume()
+05-06 21:45:09.067  3867  3867 W unknown:BridgelessReact: ReactHost{0}.getOrCreateReactInstanceTask(): Executing ReactInstanceEventListeners
+05-06 21:45:09.081  3867  3887 D nativeloader: Load /data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk!/lib/arm64-v8a/libexpo-modules-core.so using class loader ns clns-9 (caller=/data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk): ok
+05-06 21:45:09.081  1070  1070 D BaseDepthController: setSurface:
+05-06 21:45:09.081  1070  1070 D BaseDepthController: 	mWaitingOnSurfaceValidity: false
+05-06 21:45:09.081  1070  1070 D BaseDepthController: 	mBaseSurface: null
+05-06 21:45:09.082  1070  1070 D BaseDepthController: mSurface is null and mCurrentBlur is: 0
+05-06 21:45:09.083  1070  1070 D StateManager: goToState - fromState: Normal, toState: Normal, partial trace:
+05-06 21:45:09.083  1070  1070 D StateManager: 	at com.android.launcher3.statemanager.StateManager.moveToRestState(go/retraceme 43e00d9cd0eb17b3d9dd30fc1741b1c71445c4c0f7c8c9b81300265c86c5b873:4)
+05-06 21:45:09.083  1070  1070 D StateManager: 	at com.android.launcher3.statemanager.StateManager.moveToRestState(go/retraceme 43e00d9cd0eb17b3d9dd30fc1741b1c71445c4c0f7c8c9b81300265c86c5b873:1)
+05-06 21:45:09.083  1070  1070 D StateManager: 	at com.android.launcher3.statemanager.StatefulActivity.onStop(go/retraceme 43e00d9cd0eb17b3d9dd30fc1741b1c71445c4c0f7c8c9b81300265c86c5b873:34)
+05-06 21:45:09.086  1070  1070 D StatsLog: LAUNCHER_ONSTOP
+05-06 21:45:09.087  1070  1070 D StatsLog: LAUNCHER_GOOGLE_SEARCH_RESTORE_LIST_SIZE_AFTER_ACTIVITY_RESTART
+05-06 21:45:09.108   672  1868 I AppWidgetServiceImpl: setAppWidgetHidden() 0
+05-06 21:45:09.125  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.shopify.reactnative.skia.WebGPUViewManager
+05-06 21:45:09.125   672   725 I ActivityTaskManager: Displayed io.chartkit.showcase/.MainActivity for user 0: +697ms
+05-06 21:45:09.126   672   817 I ImeTracker: io.chartkit.showcase:7e130994: onRequestHide at ORIGIN_SERVER reason HIDE_UNSPECIFIED_WINDOW fromUser false
+05-06 21:45:09.127  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.uimanager.LayoutShadowNode
+05-06 21:45:09.143   672   899 D BackgroundInstallControlService: Package event received: 0
+05-06 21:45:09.128  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.shopify.reactnative.skia.SkiaPictureViewManager
+05-06 21:45:09.147  3867  3867 D InsetsController: hide(ime(), fromIme=false)
+05-06 21:45:09.147  3867  3867 I ImeTracker: io.chartkit.showcase:7e130994: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+05-06 21:45:09.156  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$DefsViewManager
+05-06 21:45:09.157  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.VirtualViewManager$RenderableShadowNode
+05-06 21:45:09.158  1460  1460 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():2043 
+05-06 21:45:09.162  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeMergeManager
+05-06 21:45:09.165   672  1187 I ImeTracker: system_server:6255ce06: onRequestHide at ORIGIN_SERVER reason IME_REQUESTED_CHANGED_LISTENER fromUser false
+05-06 21:45:09.166  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.safeareaview.ReactSafeAreaViewManager
+05-06 21:45:09.167   672   728 I ImeTracker: system_server:6255ce06: onCancelled at PHASE_SERVER_SHOULD_HIDE
+05-06 21:45:09.169  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.safeareaview.ReactSafeAreaViewShadowNode
+05-06 21:45:09.169  1460  1460 I Module  : DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatus():100 repeatCheckTimes = 0, locked = false
+05-06 21:45:09.169  1460  1460 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1293 onStartInput(EditorInfo{EditorInfo{packageName=io.chartkit.showcase, inputType=0, inputTypeString=NULL, enableLearning=false, autoCorrection=false, autoComplete=false, imeOptions=0, privateImeOptions=null, actionName=UNSPECIFIED, actionLabel=null, initialSelStart=-1, initialSelEnd=-1, initialCapsMode=0, label=null, fieldId=0, fieldName=null, extras=null, hintText=null, hintLocales=[]}}, false)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: EmojiCompatManager.getEmojiCompatIfLoaded():343 EmojiCompat.init() was never called.
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: java.lang.IllegalStateException: EmojiCompat is not initialized. Please call EmojiCompat.init() first
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at asx.p(PG:6)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at axb.b(PG:13)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at jnr.b(PG:2)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at jnr.c(PG:4)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at jnr.f(PG:3)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at jnx.c(PG:3)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at kif.cz(PG:47)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at lhl.run(PG:1025)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at jaf.execute(PG:12)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at nco.v(PG:13)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at lhn.m(PG:96)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at lhn.k(PG:25)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at kgn.onStartInput(PG:250)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at android.inputmethodservice.InputMethodService.doStartInput(InputMethodService.java:3521)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at android.inputmethodservice.InputMethodService$InputMethodImpl.startInput(InputMethodService.java:879)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at android.inputmethodservice.InputMethodService$InputMethodImpl.dispatchStartInput(InputMethodService.java:908)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at android.inputmethodservice.IInputMethodWrapper.executeMessage(IInputMethodWrapper.java:201)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at com.android.internal.os.HandlerCaller$MyHandler.handleMessage(HandlerCaller.java:44)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at android.os.Handler.dispatchMessage(Handler.java:110)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at android.os.Looper.loopOnce(Looper.java:248)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at android.os.Looper.loop(Looper.java:338)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at android.app.ActivityThread.main(ActivityThread.java:9067)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at java.lang.reflect.Method.invoke(Native Method)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:593)
+05-06 21:45:09.170  1460  1460 I EmojiCompatManager: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:932)
+05-06 21:45:09.181  1460  1460 I Module  : DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatus():100 repeatCheckTimes = 1, locked = false
+05-06 21:45:09.181  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$LinearGradientManager
+05-06 21:45:09.182   672  1187 W PackageConfigPersister: App-specific configuration not found for packageName: io.chartkit.showcase and userId: 0
+05-06 21:45:09.185  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeGaussianBlurManager
+05-06 21:45:09.187  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.progressbar.ReactProgressBarViewManager
+05-06 21:45:09.187  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.progressbar.ProgressBarShadowNode
+05-06 21:45:09.190  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.scroll.ReactHorizontalScrollViewManager
+05-06 21:45:09.194  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.ReactTextViewManager
+05-06 21:45:09.195  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.ReactTextShadowNode
+05-06 21:45:09.203  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeColorMatrixManager
+05-06 21:45:09.206  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.scroll.ReactHorizontalScrollContainerViewManager
+05-06 21:45:09.215  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$ClipPathViewManager
+05-06 21:45:09.220  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$SymbolManager
+05-06 21:45:09.223  1056  1247 D SatelliteController: iisInCarrierRoamingNbIotNtn: satellite is disabled
+05-06 21:45:09.225  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$PatternManager
+05-06 21:45:09.228  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeBlendManager
+05-06 21:45:09.230  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.view.ReactViewManager
+05-06 21:45:09.232  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.SvgViewManager
+05-06 21:45:09.238  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.switchview.ReactSwitchManager
+05-06 21:45:09.245  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.switchview.ReactSwitchShadowNode
+05-06 21:45:09.246  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$UseViewManager
+05-06 21:45:09.253  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$CircleViewManager
+05-06 21:45:09.261  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$TSpanViewManager
+05-06 21:45:09.263  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FilterManager
+05-06 21:45:09.266  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$MarkerManager
+05-06 21:45:09.271  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.modal.ReactModalHostManager
+05-06 21:45:09.274  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$ForeignObjectManager
+05-06 21:45:09.277  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$EllipseViewManager
+05-06 21:45:09.282  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$LineViewManager
+05-06 21:45:09.291  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.frescosupport.FrescoBasedReactTextInlineImageViewManager
+05-06 21:45:09.291  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.frescosupport.FrescoBasedReactTextInlineImageShadowNode
+05-06 21:45:09.294  1070  1078 W System  : A resource failed to call release. 
+05-06 21:45:09.296  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeFloodManager
+05-06 21:45:09.299  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$GroupViewManager
+05-06 21:45:09.301  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$TextViewManager
+05-06 21:45:09.302  1070  1078 W System  : A resource failed to call release. 
+05-06 21:45:09.302  1070  1078 W System  : A resource failed to call release. 
+05-06 21:45:09.302  1070  1078 W System  : A resource failed to call release. 
+05-06 21:45:09.309  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$ImageViewManager
+05-06 21:45:09.314  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeCompositeManager
+05-06 21:45:09.317  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.image.ReactImageManager
+05-06 21:45:09.320  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$RadialGradientManager
+05-06 21:45:09.323  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$MaskManager
+05-06 21:45:09.328  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.unimplementedview.ReactUnimplementedViewManager
+05-06 21:45:09.330  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$RectViewManager
+05-06 21:45:09.332  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$TextPathViewManager
+05-06 21:45:09.335  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.scroll.ReactScrollViewManager
+05-06 21:45:09.340  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeOffsetManager
+05-06 21:45:09.343  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.horcrux.svg.RenderableViewManager$PathViewManager
+05-06 21:45:09.346  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.drawer.ReactDrawerLayoutManager
+05-06 21:45:09.349  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.ReactVirtualTextViewManager
+05-06 21:45:09.349  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.ReactVirtualTextShadowNode
+05-06 21:45:09.351  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.swiperefresh.SwipeRefreshLayoutManager
+05-06 21:45:09.352  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.ReactRawTextManager
+05-06 21:45:09.352  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.text.ReactRawTextShadowNode
+05-06 21:45:09.353  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.textinput.ReactTextInputManager
+05-06 21:45:09.354  3867  3887 W unknown:ViewManagerPropertyUpdater: Could not find generated setter for class com.facebook.react.views.textinput.ReactTextInputShadowNode
+05-06 21:45:09.359  3867  3887 W BridgelessReactContext: [WARNING] Bridgeless doesn't support CatalystInstance. Accessing an API that's not part of the new architecture is not encouraged usage.
+05-06 21:45:09.364  3867  3887 I ExpoModulesCore: ✅ JSI interop was installed
+05-06 21:45:09.366  3867  3887 I ExpoModulesCore: ✅ Constants were exported
+05-06 21:45:09.387  3867  3887 D nativeloader: Load /data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk!/lib/arm64-v8a/librnskia.so using class loader ns clns-9 (caller=/data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk): ok
+05-06 21:45:09.388  3867  3887 W BridgelessReactContext: [WARNING] Bridgeless doesn't support CatalystInstance. Accessing an API that's not part of the new architecture is not encouraged usage.
+05-06 21:45:09.446  3867  3887 D nativeloader: Load /data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk!/lib/arm64-v8a/libworklets.so using class loader ns clns-9 (caller=/data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk): ok
+05-06 21:45:09.449  1277  1707 I FontLog : Received query Noto Color Emoji Compat, URI content://com.google.android.gms.fonts [CONTEXT service_id=132 ]
+05-06 21:45:09.450  1277  1707 I FontLog : Query [emojicompat-emoji-font] resolved to {Noto Color Emoji Compat, wdth 100.0, wght 400, ital 0.0, bestEffort false}, isVf false} [CONTEXT service_id=132 ]
+05-06 21:45:09.455  1277  1707 I FontLog : Fetch {Noto Color Emoji Compat, wdth 100.0, wght 400, ital 0.0, bestEffort false}, isVf false} end status Status{statusCode=SUCCESS, resolution=null} [CONTEXT service_id=132 ]
+05-06 21:45:09.466  1277  1707 I FontLog : Pulling font file for id = 13, cache size = 10 [CONTEXT service_id=132 ]
+05-06 21:45:09.473   459   542 I netd    : tetherGetStats() -> {[]} <0.46ms>
+05-06 21:45:09.484  1277  1707 I FontLog : Pulling font file for id = 13, cache size = 10 [CONTEXT service_id=132 ]
+05-06 21:45:09.498   941  1156 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=false callback=android.view.ViewRootImpl$$ExternalSyntheticLambda13@da3eff1
+05-06 21:45:09.498   672  1868 D CoreBackPreview: Window{bc06a53 u0 Splash Screen io.chartkit.showcase EXITING}: Setting back callback null
+05-06 21:45:09.543  3867  3887 D nativeloader: Load /data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk!/lib/arm64-v8a/libreanimated.so using class loader ns clns-9 (caller=/data/app/~~bYjHPr2e5Wy19pZZYeydyw==/io.chartkit.showcase-pyI7Zr7IHzLLJcDdssW-fw==/base.apk): ok
+05-06 21:45:09.834  3867  3887 I ReactNativeJS: Running "main"
+05-06 21:45:09.925   672   727 I DropBoxManagerService: add tag=system_app_strictmode isTagEnabled=true flags=0x2
+05-06 21:45:11.293  3867  3888 W unknown:ReactNative: StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+05-06 21:45:11.293  3867  3888 W unknown:ReactNative: StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+05-06 21:45:11.367  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x651
+05-06 21:45:11.444  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-0] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:11.445  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:11.454  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:45:11.454  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:45:11.455  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x619
+05-06 21:45:11.499  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-1] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:11.500  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:11.512  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:45:11.513  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:45:11.513  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x173
+05-06 21:45:11.542  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-2] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:11.544  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:11.555  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:45:11.555  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:45:11.555  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x603
+05-06 21:45:11.575  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-3] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:11.575  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:11.583  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:45:11.583  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:45:11.583  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x651
+05-06 21:45:11.601  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-4] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:11.602  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:11.610  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:45:11.611  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:45:11.611  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x625
+05-06 21:45:11.625  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-5] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:11.625  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:11.630  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:45:11.630  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:45:11.631  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x552
+05-06 21:45:11.649  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-6] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:11.650  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:11.656  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:45:11.656  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:45:11.656  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x515
+05-06 21:45:11.671  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-7] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:11.671  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:11.677  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:45:11.677  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:45:11.677  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x625
+05-06 21:45:11.692  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-8] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:11.695  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:11.700  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:45:11.700  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:45:11.700  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  3315x688
+05-06 21:45:11.723  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-9] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:11.724  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:11.730  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:45:11.730  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:45:11.730  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x688
+05-06 21:45:11.750  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-10] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:11.750  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:11.756  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:45:11.757  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:45:11.757  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  2925x651
+05-06 21:45:11.772  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-11] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:11.772  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:11.775  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:45:11.775  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:45:11.775  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x651
+05-06 21:45:11.789  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-12] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:11.790  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:11.794  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:45:11.794  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:45:11.794  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x604
+05-06 21:45:11.809  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-13] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:11.809  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:11.814  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:45:11.814  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:45:11.814  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x625
+05-06 21:45:11.830  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-14] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:11.830  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:11.837  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:45:11.837  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:45:11.837  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x624
+05-06 21:45:11.848  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-15] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:11.849  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:11.855  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:45:11.855  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:45:11.855  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x625
+05-06 21:45:11.870  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-16] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:11.870  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:11.876  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:45:11.876  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:45:11.876  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x625
+05-06 21:45:11.890  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-17] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:11.891  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:11.897  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:45:11.897  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:45:11.897  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x624
+05-06 21:45:11.907   672  1617 E TaskPersister: File error accessing recents directory (directory doesn't exist?).
+05-06 21:45:11.914  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-18] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:11.914  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:11.924  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:45:11.924  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:45:11.925  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x604
+05-06 21:45:11.930   672   846 D WifiClientModeImpl[7910:wlan0]: updateLinkLayerStatsRssiSpeedFrequencyCapabilities rssi=-50 TxLinkspeed=1 freq=2447 RxLinkSpeed=2
+05-06 21:45:11.930   672   846 D WifiDataStall: tx tput in kbps: 11000
+05-06 21:45:11.930   672   846 D WifiDataStall: rx tput in kbps: 11000
+05-06 21:45:11.930   672   846 V WifiConfigManager: Updating scan detail cache freq=2447 BSSID=00:13:10:85:fe:01 RSSI=-50 for "AndroidWifi"NONE
+05-06 21:45:11.930   672   846 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 21:45:11.930   672   846 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 21:45:11.930   672   846 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 21:45:11.930   672   846 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 21:45:11.930   672   846 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 21:45:11.930   672   846 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 21:45:11.930   672   846 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 21:45:11.930   672   846 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 21:45:11.931   672   846 D WifiScoreCard: BSSID update SIGNAL_POLL ID: 786848858 SSID: "AndroidWifi", BSSID: 00:13:10:85:fe:01, MAC: 02:15:b2:00:00:00, IP: /10.0.2.16, Security type: 0, Supplicant state: COMPLETED, Wi-Fi standard: legacy, RSSI: -50, Link speed: 1Mbps, Tx Link speed: 1Mbps, Max Supported Tx Link speed: 11Mbps, Rx Link speed: 2Mbps, Max Supported Rx Link speed: 11Mbps, Frequency: 2447MHz, Net ID: 0, Metered hint: false, score: 60, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: 1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none>"AndroidWifi"openMLO Information: , Is TID-To-Link negotiation supported by the AP: false, AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>, Vendor Data: <none>
+05-06 21:45:11.931   672   846 D WifiScoreCard: txRate: 1 txSpeed: 1
+05-06 21:45:11.931   672   846 D WifiScoreCard: network update SIGNAL_POLL "AndroidWifi" ID: 1628418683 RSSI -50 txSpeed -1
+05-06 21:45:11.931   672   846 D WifiClientModeImpl[7910:wlan0]:  ClientModeImpl$L2ConnectedState screen=on 1 0 "AndroidWifi" 00:13:10:85:fe:01 rssi=-50 f=2447 sc=60 link=1 tx=0.0, 0.0, 0.0 rx=0.0 bcn=0 [on:0 tx:0 rx:0 period:3002] from screen [on:0 period:1851387] score=60
+05-06 21:45:11.939  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-19] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:11.939  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:12.074  3867  3875 I HWUI    : Davey! duration=738ms; Flags=0, FrameTimelineVsyncId=58642, IntendedVsync=443670134572, Vsync=443670134572, InputEventId=0, HandleInputStart=443671644461, AnimationStart=443671645461, PerformTraversalsStart=443720485294, DrawStart=443727416586, FrameDeadline=443686801238, FrameStartTime=443671640544, FrameInterval=16666666, WorkloadTarget=16666666, SyncQueued=444307542711, SyncStart=444319500169, IssueDrawCommandsStart=444320568794, SwapBuffers=444401471753, FrameCompleted=444420955419, DequeueBufferDuration=4708, QueueBufferDuration=641375, GpuCompleted=444420955419, SwapBuffersCompleted=444410933503, DisplayPresentTime=0, CommandSubmissionCompleted=444401471753, 
+05-06 21:45:12.107  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-0] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:12.107  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:12.152  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-1] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:12.153  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:12.201  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-2] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:12.202  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:12.236  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-3] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:12.237  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:12.263  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-4] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:12.263  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:12.286  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-5] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:12.286  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:12.303  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-6] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:12.303  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:12.318  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-7] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:12.320  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:12.357  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-8] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:12.357  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:12.433  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-9] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:12.433  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:12.463  3867  3888 W unknown:ReactNative: StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+05-06 21:45:12.464  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-10] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:12.464  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:12.511  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-11] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:12.512  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:12.538  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-12] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:12.539  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:12.549  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-13] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:12.549  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:12.570  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-14] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:12.570  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:12.592  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-15] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:12.593  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:12.607  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-16] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:12.607  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:12.619  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-17] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:12.620  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:12.633  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-18] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:12.634  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:12.649  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-19] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:12.649  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:12.655  3867  3867 I Choreographer: Skipped 79 frames!  The application may be doing too much work on its main thread.
+05-06 21:45:12.661  3867  3867 E Surface : freeAllBuffers: 1 buffers were freed while being dequeued!
+05-06 21:45:12.691  3867  3867 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:45:12.691  3867  3867 E EGL_emulation: tid 3867: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:45:12.691  3867  3867 I SkiaTextureView: onSurfaceTextureAvailable:  975x640
+05-06 21:45:12.778  3867  3867 E Surface : getSlotFromBufferLocked: unknown buffer: 0x0
+05-06 21:45:12.796  3867  3867 E artkit.showcase: [SurfaceTexture-0-3867-20] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:45:12.796  3867  3867 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:45:12.834  3867  3875 I HWUI    : Davey! duration=1492ms; Flags=0, FrameTimelineVsyncId=58649, IntendedVsync=443686801238, Vsync=445003467852, InputEventId=0, HandleInputStart=445019633503, AnimationStart=445019634795, PerformTraversalsStart=445053141461, DrawStart=445053915003, FrameDeadline=444453467874, FrameStartTime=445019038545, FrameInterval=16666666, WorkloadTarget=16666666, SyncQueued=445165990961, SyncStart=445168766045, IssueDrawCommandsStart=445170017086, SwapBuffers=445176611170, FrameCompleted=445182471711, DequeueBufferDuration=5166, QueueBufferDuration=299625, GpuCompleted=445182396378, SwapBuffersCompleted=445182471711, DisplayPresentTime=0, CommandSubmissionCompleted=445176611170, 
+05-06 21:45:13.934  3867  3910 D ProfileInstaller: Installing profile for io.chartkit.showcase
+05-06 21:45:14.283  3913  3913 W screencap: Thread Pool max thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. serviceName: SurfaceFlingerAIDL
+05-06 21:45:14.283  3913  3913 W BpBinder: Linking to death on android.gui.ISurfaceComposer but there are no threads (yet?) listening to incoming transactions. See ProcessState::startThreadPool and ProcessState::setThreadPoolMaxThreadCount. Generally you should setup the binder threadpool before other initialization steps.
+05-06 21:45:14.285  3913  3913 W ProcessState: Extra binder thread started, but 0 threads requested. Do not use *startThreadPool when zero threads are requested.
+05-06 21:45:14.291   519   569 E HwcComposer: getLuts failed Status(-8, EX_SERVICE_SPECIFIC): '8: '
+05-06 21:45:14.291   519   569 E HWComposer: getLuts: getLuts failed for display 4619827259835644672: UNSUPPORTED (8)
+05-06 21:45:14.311   225   225 I servicemanager: Caller(pid=3913,uid=2000,sid=u:r:shell:s0) Found android.hardware.graphics.allocator.IAllocator/default in device VINTF manifest.
+05-06 21:45:14.316   225   225 I servicemanager: Caller(pid=3913,uid=2000,sid=u:r:shell:s0) Found android.hardware.graphics.allocator.IAllocator/default in device VINTF manifest.
+05-06 21:45:14.317   225   225 I servicemanager: Caller(pid=3913,uid=2000,sid=u:r:shell:s0) Found mapper/ranchu in device VINTF manifest.

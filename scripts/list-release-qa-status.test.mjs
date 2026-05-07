@@ -23,13 +23,13 @@ describe("release QA status", () => {
   it("filters by matrix and row status", async () => {
     const [section] = await buildReleaseQaStatus({
       matrixName: "skia",
-      status: "pending"
+      status: "partial"
     });
 
     expect(section.matrix).toBe("skia");
-    expect(section.openRows.map((row) => row.id)).toEqual([
+    expect(section.openRows.map((row) => row.id)).toContain(
       "android-skia-performance-comparison"
-    ]);
+    );
     expect(section.openRows[0].command).toContain(
       "npm run release:qa:record --"
     );
@@ -81,11 +81,14 @@ describe("release QA status", () => {
   it("adds capture commands for Skia multi-target rows", async () => {
     const [section] = await buildReleaseQaStatus({
       matrixName: "skia",
-      status: "pending"
+      status: "partial"
     });
+    const row = section.openRows.find(
+      (item) => item.id === "android-skia-performance-comparison"
+    );
 
-    expect(section.openRows[0]?.captureCommands).toHaveLength(6);
-    expect(section.openRows[0]?.captureCommand).toBe(
+    expect(row?.captureCommands).toHaveLength(6);
+    expect(row?.captureCommand).toBe(
       'npm run release:qa:capture -- --matrix skia --row android-skia-performance-comparison --platform android --output docs/release/artifacts/android-skia-performance-comparison-1-dense-line.png --launch-url "chartkitshowcase://showcase?story=v2-perf-line-10000-overview&visual=1" --android-log-output docs/release/artifacts/android-skia-performance-comparison-1-dense-line.log'
     );
   });
@@ -98,7 +101,7 @@ describe("release QA status", () => {
         "--matrix",
         "skia",
         "--status",
-        "pending"
+        "partial"
       ],
       { cwd: repoRoot, encoding: "utf8" }
     );

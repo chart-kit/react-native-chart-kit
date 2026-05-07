@@ -1,0 +1,336 @@
+--------- beginning of system
+05-06 21:43:57.315   672  1852 W ActivityTaskManager: callingPackage for (uid=2000, pid=3818) has no WPC
+--------- beginning of main
+05-06 21:43:57.317   672  1852 V GrammaticalInflectionUtils: AttributionSource: AttributionSource { uid = 10213, packageName = null, attributionTag = null, token = android.os.Binder@908430e, deviceId = 0, next = null } does not have READ_SYSTEM_GRAMMATICAL_GENDER permission.
+05-06 21:43:57.317   672  1852 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_USER_ASPECT_RATIO_OVERRIDE
+05-06 21:43:57.317   672  1852 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_USER_ASPECT_RATIO_FULLSCREEN_OVERRIDE
+05-06 21:43:57.318   672  1852 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_RESIZEABLE_ACTIVITY_OVERRIDES
+05-06 21:43:57.318   672  1852 W OptProp : Cannot read opt property android.window.PROPERTY_COMPAT_ALLOW_MIN_ASPECT_RATIO_OVERRIDE
+05-06 21:43:57.326   519   568 I BpBinder: onLastStrongRef automatically unlinking death recipients: 
+05-06 21:43:57.327   941   956 D KeyguardService: setOccluded(false)
+05-06 21:43:57.327   941   956 D KeyguardViewMediator: setOccluded(false)
+05-06 21:43:57.328   941   941 D KeyguardViewMediator: handleSetOccluded(false)
+05-06 21:43:57.329   941   941 D KeyguardViewMediator: KeyguardViewMediator queue processing message: SET_OCCLUDED
+05-06 21:43:57.330   672  1852 I ActivityTaskManager: START u0 {act=android.intent.action.VIEW dat=chartkitshowcase://showcase/... flg=0x10000000 xflg=0x4 pkg=io.chartkit.showcase cmp=io.chartkit.showcase/.MainActivity} with LAUNCH_SINGLE_TASK from uid 2000 (BAL_ALLOW_PERMISSION) result code=3
+05-06 21:43:57.331  3659  3659 W unknown:BridgelessReact: ReactHost{0}.onHostPause(activity)
+05-06 21:43:57.332  3659  3659 W unknown:BridgelessReact: ReactContext.onHostPause()
+05-06 21:43:57.332   941  1055 D WindowManagerShell: onActivityRestartAttempt: topActivity=ComponentInfo{io.chartkit.showcase/io.chartkit.showcase.MainActivity}, wasVisible=true
+05-06 21:43:57.335  3659  3659 W unknown:BridgelessReact: ReactHost{0}.onHostResume(activity)
+05-06 21:43:57.335  3659  3659 W unknown:BridgelessReact: ReactContext.onHostResume()
+05-06 21:43:57.338   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.338   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.338   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.338   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.338   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.338   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.339   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.339   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.339   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.339   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.339   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.339   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.339   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.339   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.339   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.339   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.339   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.343   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.343   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.343   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.344   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.344   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.344   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.344   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.344   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.344   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.344   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.344   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.344   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.344   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.344   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.344   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.344   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.344   672   728 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:57.413  3659  3659 E EGL_emulation: eglQueryContext 32c0  EGL_BAD_ATTRIBUTE
+05-06 21:43:57.413  3659  3659 E EGL_emulation: tid 3659: eglQueryContext(2159): error 0x3004 (EGL_BAD_ATTRIBUTE)
+05-06 21:43:57.413  3659  3659 I SkiaTextureView: onSurfaceTextureAvailable:  975x724
+05-06 21:43:57.421  3659  3659 E Surface : getSlotFromBufferLocked: unknown buffer: 0xb40000760f3ee250
+05-06 21:43:57.441  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:57.441  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:57.504  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:57.504  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:57.519  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:57.520  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:57.536  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:57.536  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:57.541  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:57.542  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:57.547  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:57.548  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:57.670  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:57.670  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:57.710  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:57.710  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:57.782  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:57.782  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:57.791  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:57.791  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:57.826  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:57.826  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:57.890  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:57.891  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:57.897  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:57.897  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:57.934  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:57.934  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:57.973  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:57.974  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.005  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.006  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.068  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.069  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.075  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.075  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.112  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.113  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.138  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.138  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.172  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.172  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.202  1544  1930 I bdee    : (REDACTED) getHotwordActive::active query: %s, watch: %s, devices connected: %s
+05-06 21:43:58.214  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.214  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.257  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.258  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.285  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.285  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.304  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.305  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.356  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.358  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.368  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.368  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.377  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.377  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.387  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.387  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.424  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.424  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.470  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.471  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.479  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.480  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.489  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.490  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.518  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.518  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.554  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.554  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.561  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.562  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.566  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.566  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.624   519   519 D DisplayModeController: setDesiredMode 4619827259835644672 {mode={fps=30.00 Hz, modePtr={id=0, vsyncRate=60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=true, force=false}
+05-06 21:43:58.633   672   728 I DisplayDeviceRepository: Display device changed render timings: "Built-in Screen", renderFrameRate=30.000002, presentationDeadlineNanos=16666666, appVsyncOffsetNanos=1000000, frameRateOverrides=[]
+05-06 21:43:58.656  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.656  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.726  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.726  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.730  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.730  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.794  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.795  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.810  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.810  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.844  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.844  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.888  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.888  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.894  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.894  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.899  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.899  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.928  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.928  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:58.966  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:58.966  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.031  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.032  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.037  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.037  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.093  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.093  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.099  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.099  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.155  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.156  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.165  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.165  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.169  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.169  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.221  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.221  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.226  1056  1247 D SatelliteController: iisInCarrierRoamingNbIotNtn: satellite is disabled
+05-06 21:43:59.277  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.278  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.285  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.285  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.289  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.289  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.361   672   733 W IPCThreadState: Sending oneway calls to frozen process.
+05-06 21:43:59.402  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.402  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.475  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.476  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.502   672   798 D ActivityManager: freezing 2969 com.google.android.photopicker
+05-06 21:43:59.504   672   852 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+05-06 21:43:59.505   672   852 D InetDiagMessage: Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+05-06 21:43:59.505   672   852 D InetDiagMessage: Destroyed live tcp sockets for uids={10198} in 3ms
+05-06 21:43:59.539  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.539  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.563  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.564  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.574  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.574  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.655   672   846 D WifiClientModeImpl[7910:wlan0]: updateLinkLayerStatsRssiSpeedFrequencyCapabilities rssi=-50 TxLinkspeed=1 freq=2447 RxLinkSpeed=2
+05-06 21:43:59.658  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.658  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.663   672   846 D WifiDataStall: tx tput in kbps: 11000
+05-06 21:43:59.664   672   846 D WifiDataStall: rx tput in kbps: 11000
+05-06 21:43:59.664   672   846 V WifiConfigManager: Updating scan detail cache freq=2447 BSSID=00:13:10:85:fe:01 RSSI=-50 for "AndroidWifi"NONE
+05-06 21:43:59.664   672   846 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 21:43:59.665   672   846 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 21:43:59.665   672   846 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 21:43:59.665   672   846 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 21:43:59.671   672   846 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 21:43:59.671   672   846 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 21:43:59.671   672   846 D WifiThroughputPredictor:  utilization (LLS) 80 isBluetoothConnected: false final utilization: 80
+05-06 21:43:59.671   672   846 D WifiThroughputPredictor:  BW: 0 RSSI: -50 Nss: 1 Mode: 1 symDur: 4000 snrDb 30 bitPerTone: 4500 rate: 54 throughput: 11
+05-06 21:43:59.672   672   846 D WifiScoreCard: BSSID update SIGNAL_POLL ID: 786848858 SSID: "AndroidWifi", BSSID: 00:13:10:85:fe:01, MAC: 02:15:b2:00:00:00, IP: /10.0.2.16, Security type: 0, Supplicant state: COMPLETED, Wi-Fi standard: legacy, RSSI: -50, Link speed: 1Mbps, Tx Link speed: 1Mbps, Max Supported Tx Link speed: 11Mbps, Rx Link speed: 2Mbps, Max Supported Rx Link speed: 11Mbps, Frequency: 2447MHz, Net ID: 0, Metered hint: false, score: 60, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: 1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none>"AndroidWifi"openMLO Information: , Is TID-To-Link negotiation supported by the AP: false, AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>, Vendor Data: <none>
+05-06 21:43:59.672   672   846 D WifiScoreCard: txRate: 1 txSpeed: 1
+05-06 21:43:59.672   672   846 D WifiScoreCard: network update SIGNAL_POLL "AndroidWifi" ID: 1628418683 RSSI -50 txSpeed -1
+05-06 21:43:59.688   672   846 D WifiClientModeImpl[7910:wlan0]:  ClientModeImpl$L2ConnectedState screen=on 1 0 "AndroidWifi" 00:13:10:85:fe:01 rssi=-50 f=2447 sc=60 link=1 tx=0.0, 0.0, 0.0 rx=0.0 bcn=0 [on:0 tx:0 rx:0 period:3041] from screen [on:0 period:1779144] score=60
+05-06 21:43:59.725  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.725  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.731  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.731  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.743  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.743  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.770  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.771  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.833  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.833  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.880  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.885  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:43:59.917  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:43:59.918  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.056  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.056  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.081  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.081  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.098  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.099  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.105  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.106  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.158  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.158  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.167  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.167  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.199   459   542 I netd    : tetherGetStats() -> {[]} <0.96ms>
+05-06 21:44:00.227  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.228  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.237  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.238  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.245  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.245  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.274   519   519 D DisplayModeController: setDesiredMode 4619827259835644672 {mode={fps=60.00 Hz, modePtr={id=0, vsyncRate=60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=true, force=false}
+05-06 21:44:00.275   672   728 I DisplayDeviceRepository: Display device changed render timings: "Built-in Screen", renderFrameRate=60.000004, presentationDeadlineNanos=16666666, appVsyncOffsetNanos=1000000, frameRateOverrides=[]
+05-06 21:44:00.358  1515  1644 D PickerSyncController: Attempting to enable cloud media queries.
+05-06 21:44:00.358  1515  1644 D PickerSyncLockManager: Trying to acquire lock com.android.providers.media.photopicker.sync.CloseableReentrantLock@e908b94[Unlocked]. Lock Name = CLOUD_SYNC_LOCK. Threads that may be waiting to acquire this lock = [] with timeout.
+05-06 21:44:00.358  1515  1644 D CloseableReentrantLock: Successfully acquired lock com.android.providers.media.photopicker.sync.CloseableReentrantLock@e908b94[Locked by thread com.android.providers.media.internal.modules.utils.BackgroundThread]. Lock Name = CLOUD_SYNC_LOCK. Threads that may be waiting to acquire this lock = []
+05-06 21:44:00.358  1515  1644 D PickerSyncLockManager: Trying to acquire lock com.android.providers.media.photopicker.sync.CloseableReentrantLock@b647f81[Unlocked]. Lock Name = CLOUD_PROVIDER_LOCK. Threads that may be waiting to acquire this lock = [] with timeout.
+05-06 21:44:00.358  1515  1644 D CloseableReentrantLock: Successfully acquired lock com.android.providers.media.photopicker.sync.CloseableReentrantLock@b647f81[Locked by thread com.android.providers.media.internal.modules.utils.BackgroundThread]. Lock Name = CLOUD_PROVIDER_LOCK. Threads that may be waiting to acquire this lock = []
+05-06 21:44:00.358  1515  1644 D CloseableReentrantLock: Successfully released lock com.android.providers.media.photopicker.sync.CloseableReentrantLock@b647f81[Unlocked]. Lock Name = CLOUD_PROVIDER_LOCK. Threads that may be waiting to acquire this lock = []
+05-06 21:44:00.358  1515  1644 D PickerSyncLockManager: Trying to acquire lock com.android.providers.media.photopicker.sync.CloseableReentrantLock@b647f81[Unlocked]. Lock Name = CLOUD_PROVIDER_LOCK. Threads that may be waiting to acquire this lock = [] with timeout.
+05-06 21:44:00.358  1515  1644 D CloseableReentrantLock: Successfully acquired lock com.android.providers.media.photopicker.sync.CloseableReentrantLock@b647f81[Locked by thread com.android.providers.media.internal.modules.utils.BackgroundThread]. Lock Name = CLOUD_PROVIDER_LOCK. Threads that may be waiting to acquire this lock = []
+05-06 21:44:00.358  1515  1644 D PickerSyncController: getSyncRequestParams() CLOUD, auth=com.google.android.apps.photos.cloudpicker
+05-06 21:44:00.366   672   997 D OomAdjuster: Not killing cached processes
+05-06 21:44:00.368  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.368  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.386  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.386  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.401  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.401  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.410   672   997 D ActivityManager: sync unfroze 1645 com.google.android.apps.photos for 7
+05-06 21:44:00.412  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.413  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.414   672   899 D BackgroundInstallControlService: Package event received: 0
+05-06 21:44:00.508  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.510  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.521  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.522  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.573  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.573  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.569  1645  1645 W binder:1645_8: type=1400 audit(0.0:25): avc:  denied  { read } for  name="u:object_r:userdebug_or_eng_prop:s0" dev="tmpfs" ino=366 scontext=u:r:untrusted_app:s0:c167,c256,c512,c768 tcontext=u:object_r:userdebug_or_eng_prop:s0 tclass=file permissive=0 app=com.google.android.apps.photos
+05-06 21:44:00.575  1645  3513 W libc    : Access denied finding property "ro.debuggable"
+05-06 21:44:00.579  1515  1644 D PickerSyncController:    Latest ID/Gen=null/0
+05-06 21:44:00.579  1515  1644 D PickerSyncController:    Cached ID/Gen=null/-1
+05-06 21:44:00.579  1515  1644 D CloseableReentrantLock: Successfully released lock com.android.providers.media.photopicker.sync.CloseableReentrantLock@b647f81[Unlocked]. Lock Name = CLOUD_PROVIDER_LOCK. Threads that may be waiting to acquire this lock = []
+05-06 21:44:00.581  1515  1644 D CloseableReentrantLock: Successfully released lock com.android.providers.media.photopicker.sync.CloseableReentrantLock@e908b94[Unlocked]. Lock Name = CLOUD_SYNC_LOCK. Threads that may be waiting to acquire this lock = []
+05-06 21:44:00.583  1515  1644 D PickerSyncController: Error occurred, remaining retry count: 1
+05-06 21:44:00.583  1515  1644 D PickerSyncController: java.lang.IllegalStateException: Unexpected Latest Media Collection Info: ID/Gen=null/0
+05-06 21:44:00.583  1515  1644 D PickerSyncController: 	at com.android.providers.media.photopicker.PickerSyncController.getSyncRequestParamsLocked(PickerSyncController.java:1554)
+05-06 21:44:00.583  1515  1644 D PickerSyncController: 	at com.android.providers.media.photopicker.PickerSyncController.getSyncRequestParams(PickerSyncController.java:1514)
+05-06 21:44:00.583  1515  1644 D PickerSyncController: 	at com.android.providers.media.photopicker.PickerSyncController.maybeEnableCloudMediaQueries(PickerSyncController.java:355)
+05-06 21:44:00.583  1515  1644 D PickerSyncController: 	at com.android.providers.media.photopicker.PickerSyncController.lambda$tryEnablingCloudMediaQueries$0(PickerSyncController.java:286)
+05-06 21:44:00.583  1515  1644 D PickerSyncController: 	at com.android.providers.media.photopicker.PickerSyncController.$r8$lambda$igHbLHRBgFxI5G0Bp5TN28PcQJ4(PickerSyncController.java:0)
+05-06 21:44:00.583  1515  1644 D PickerSyncController: 	at com.android.providers.media.photopicker.PickerSyncController$$ExternalSyntheticLambda1.run(R8$$SyntheticClass:0)
+05-06 21:44:00.583  1515  1644 D PickerSyncController: 	at android.os.Handler.handleCallback(Handler.java:995)
+05-06 21:44:00.583  1515  1644 D PickerSyncController: 	at android.os.Handler.dispatchMessage(Handler.java:103)
+05-06 21:44:00.583  1515  1644 D PickerSyncController: 	at android.os.Looper.loopOnce(Looper.java:248)
+05-06 21:44:00.583  1515  1644 D PickerSyncController: 	at android.os.Looper.loop(Looper.java:338)
+05-06 21:44:00.583  1515  1644 D PickerSyncController: 	at android.os.HandlerThread.run(HandlerThread.java:85)
+05-06 21:44:00.584  1515  1644 D PickerSyncController: Schedule enable cloud media query task.
+05-06 21:44:00.601  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.602  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.608  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.608  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.651  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.652  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.713  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.714  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.722  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.722  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.744  3824  3824 W screencap: Thread Pool max thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. serviceName: SurfaceFlingerAIDL
+05-06 21:44:00.747  3824  3824 W BpBinder: Linking to death on android.gui.ISurfaceComposer but there are no threads (yet?) listening to incoming transactions. See ProcessState::startThreadPool and ProcessState::setThreadPoolMaxThreadCount. Generally you should setup the binder threadpool before other initialization steps.
+05-06 21:44:00.747  3824  3824 W ProcessState: Extra binder thread started, but 0 threads requested. Do not use *startThreadPool when zero threads are requested.
+05-06 21:44:00.756   519   568 E HwcComposer: getLuts failed Status(-8, EX_SERVICE_SPECIFIC): '8: '
+05-06 21:44:00.756   519   568 E HWComposer: getLuts: getLuts failed for display 4619827259835644672: UNSUPPORTED (8)
+--------- beginning of kernel
+05-06 21:44:00.769   225   225 I servicemanager: Caller(pid=3824,uid=2000,sid=u:r:shell:s0) Found android.hardware.graphics.allocator.IAllocator/default in device VINTF manifest.
+05-06 21:44:00.771   225   225 I servicemanager: Caller(pid=3824,uid=2000,sid=u:r:shell:s0) Found android.hardware.graphics.allocator.IAllocator/default in device VINTF manifest.
+05-06 21:44:00.771   225   225 I servicemanager: Caller(pid=3824,uid=2000,sid=u:r:shell:s0) Found mapper/ranchu in device VINTF manifest.
+05-06 21:44:00.824  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.824  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.830  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.830  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.835  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.836  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:00.926  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:00.930  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:01.002  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:01.002  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:01.012  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:01.013  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:01.017  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:01.017  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:01.123  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:01.123  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:01.160  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:01.162  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:01.174  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:01.174  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:01.187  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:01.187  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
+05-06 21:44:01.238  3659  3659 E artkit.showcase: [SurfaceTexture-0-3659-24] updateAndRelease: EGLConsumer is not attached to an OpenGL ES context
+05-06 21:44:01.238  3659  3659 I RNSkia  : updateAndRelease() failed. The exception above can safely be ignored
