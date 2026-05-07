@@ -24,7 +24,10 @@ vi.mock("@chart-kit/svg-renderer", () => {
   };
 });
 
-import { getSafeBarChartRenderer } from "../src/charts/bar/rendererSafety";
+import {
+  getSafeBarChartContentWidth,
+  getSafeBarChartRenderer
+} from "../src/charts/bar/rendererSafety";
 import { renderDefaultBarChartTooltip } from "../src/charts/bar/tooltip";
 import { lineChartSvgRenderer } from "../src/charts/line/renderer";
 import type {
@@ -218,5 +221,43 @@ describe("BarChart renderer parity contract", () => {
         scrollable: true
       })
     ).toBe(lineChartSvgRenderer);
+  });
+
+  it("caps oversized scrollable content width for native renderers", () => {
+    const renderer: BarChartRenderer = {
+      ...skiaLikeRenderer,
+      capabilities: {
+        ...skiaLikeRenderer.capabilities,
+        maxSurfaceWidth: 2730,
+        viewportWindowing: false
+      }
+    };
+
+    expect(
+      getSafeBarChartContentWidth({
+        contentWidth: 7541,
+        renderer,
+        scrollable: true
+      })
+    ).toBe(2730);
+  });
+
+  it("does not cap content width when renderer supports windowing", () => {
+    const renderer: BarChartRenderer = {
+      ...skiaLikeRenderer,
+      capabilities: {
+        ...skiaLikeRenderer.capabilities,
+        maxSurfaceWidth: 2730,
+        viewportWindowing: true
+      }
+    };
+
+    expect(
+      getSafeBarChartContentWidth({
+        contentWidth: 7541,
+        renderer,
+        scrollable: true
+      })
+    ).toBe(7541);
   });
 });

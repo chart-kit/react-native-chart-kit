@@ -26,7 +26,10 @@ import {
 } from "./interaction";
 import { buildBarChartModel } from "./model";
 import { getBarChartTooltipConfig } from "./options";
-import { getSafeBarChartRenderer } from "./rendererSafety";
+import {
+  getSafeBarChartContentWidth,
+  getSafeBarChartRenderer
+} from "./rendererSafety";
 import { getBarChartTooltipModel } from "./tooltip";
 import {
   resolveBarChartViewport,
@@ -71,22 +74,37 @@ export const BarChart = <TData extends Record<string, unknown>>(
       }),
     [props.data.length, props.scrollable, props.visiblePoints, props.width]
   );
+  const safeContentWidth = getSafeBarChartContentWidth({
+    contentWidth: viewport.contentWidth,
+    renderer,
+    scrollable: viewport.scrollable
+  });
+  const safeViewport = useMemo(
+    () => ({
+      ...viewport,
+      contentWidth: safeContentWidth,
+      maxOffset: Math.max(0, safeContentWidth - viewport.viewportWidth),
+      scrollable:
+        viewport.scrollable && safeContentWidth > viewport.viewportWidth
+    }),
+    [safeContentWidth, viewport]
+  );
   const initialScrollOffset = useMemo(
     () =>
       resolveBarChartViewportInitialOffset({
         initialIndex: props.initialIndex,
-        viewport
+        viewport: safeViewport
       }),
-    [props.initialIndex, viewport]
+    [props.initialIndex, safeViewport]
   );
   const model = useMemo(
     () =>
       buildBarChartModel({
         ...props,
         chartKitTheme,
-        width: viewport.contentWidth
+        width: safeViewport.contentWidth
       }),
-    [chartKitTheme, props, viewport.contentWidth]
+    [chartKitTheme, props, safeViewport.contentWidth]
   );
   const { bars, boxes, resolvedTheme } = model;
   const safeRenderer = getSafeBarChartRenderer({
@@ -95,7 +113,7 @@ export const BarChart = <TData extends Record<string, unknown>>(
     scrollable: viewport.scrollable
   });
   const scrollInitialOffset =
-    viewport.scrollable && props.initialIndex === "end"
+    safeViewport.scrollable && props.initialIndex === "end"
       ? Math.max(0, initialScrollOffset - boxes.plot.x * 0.66)
       : initialScrollOffset;
   const barRadius = Math.max(0, props.barRadius ?? 5);
@@ -229,8 +247,8 @@ export const BarChart = <TData extends Record<string, unknown>>(
       renderer={safeRenderer}
       selectedBarKey={selectedBarKey}
       selectionAnimation={props.selectionAnimation}
-      showYAxis={!viewport.scrollable}
-      width={viewport.contentWidth}
+      showYAxis={!safeViewport.scrollable}
+      width={safeViewport.contentWidth}
     />
   );
   const tooltipOverlay = (
@@ -239,14 +257,14 @@ export const BarChart = <TData extends Record<string, unknown>>(
       model={model}
       tooltipConfig={tooltipConfig}
       tooltipModel={tooltipModel}
-      viewportOffsetX={viewport.scrollable ? scrollOffsetX : 0}
+      viewportOffsetX={safeViewport.scrollable ? scrollOffsetX : 0}
       width={props.width}
       renderer={safeRenderer}
     />
   );
 
   useEffect(() => {
-    if (!viewport.scrollable) {
+    if (!safeViewport.scrollable) {
       const frame = requestAnimationFrame(() => {
         setScrollOffsetX(0);
       });
@@ -267,7 +285,7 @@ export const BarChart = <TData extends Record<string, unknown>>(
     return () => {
       cancelAnimationFrame(frame);
     };
-  }, [scrollInitialOffset, viewport.scrollable]);
+  }, [safeViewport.scrollable, scrollInitialOffset]);
 
   return (
     <View
@@ -277,7 +295,7 @@ export const BarChart = <TData extends Record<string, unknown>>(
       style={{ width: props.width, height: props.height }}
       testID={props.testID}
     >
-      {viewport.scrollable ? (
+      {safeViewport.scrollable ? (
         <>
           <ScrollView
             ref={scrollViewRef}
@@ -290,7 +308,7 @@ export const BarChart = <TData extends Record<string, unknown>>(
             ]}
             contentContainerStyle={[
               styles.scrollerContent,
-              { width: viewport.contentWidth, height: props.height }
+              { width: safeViewport.contentWidth, height: props.height }
             ]}
             onScroll={(event) => {
               setScrollOffsetX(event.nativeEvent.contentOffset.x);

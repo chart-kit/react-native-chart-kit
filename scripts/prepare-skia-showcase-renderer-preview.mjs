@@ -73,7 +73,7 @@ const font = matchFont({ fontFamily, fontSize: 12 }) as unknown as SkiaFontLike;
 
 export const skiaPreviewRenderer = createSkiaRenderer({
   capabilities: {
-    maxSurfaceWidth: 8192,
+    maxSurfaceWidth: 2730,
     viewportWindowing: false
   },
   font,

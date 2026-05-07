@@ -13,7 +13,7 @@ export const createSkiaRendererCapabilities = (
   gradients: true,
   hitRegions: false,
   layers: true,
-  maxSurfaceWidth: 8192,
+  maxSurfaceWidth: 2730,
   pathGradients: false,
   rectClips: false,
   shadows: false,
