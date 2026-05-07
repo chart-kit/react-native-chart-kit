@@ -51,10 +51,23 @@ npm run release:qa:capture -- \
   --matrix accessibility \
   --row ios-voiceover-line-charts \
   --platform ios \
-  --output docs/release/artifacts/ios-voiceover-line-charts.png
+  --output docs/release/artifacts/ios-voiceover-line-charts.png \
+  --ios-log-output docs/release/artifacts/ios-voiceover-line-charts.log
 ```
 
-Use `--device <simulator-udid-or-adb-serial>` for a specific target and `--no-launch` when the screen-reader state is already positioned on the target page. Record the artifact with `npm run release:qa:record -- --matrix accessibility --row <row-id> --status pass --evidence <artifact> --reviewed-by <name> --device "<device/os>" --build-surface "<build>" --notes "<screen-reader checks passed>"` only after the required VoiceOver or TalkBack checks pass.
+Android TalkBack rows can also capture a UIAutomator hierarchy snapshot:
+
+```sh
+npm run release:qa:capture -- \
+  --matrix accessibility \
+  --row android-talkback-line-charts \
+  --platform android \
+  --output docs/release/artifacts/android-talkback-line-charts.png \
+  --android-log-output docs/release/artifacts/android-talkback-line-charts.log \
+  --android-ui-output docs/release/artifacts/android-talkback-line-charts.xml
+```
+
+Use `--device <simulator-udid-or-adb-serial>` for a specific target and `--no-launch` when the screen-reader state is already positioned on the target page. The iOS log and Android UI hierarchy artifacts are supporting evidence; they do not replace the required VoiceOver or TalkBack manual review. Record the artifacts with `npm run release:qa:record -- --matrix accessibility --row <row-id> --status pass --evidence <artifact> --evidence <log-or-ui-artifact> --reviewed-by <name> --device "<device/os>" --build-surface "<build>" --notes "<screen-reader checks passed>"` only after the required VoiceOver or TalkBack checks pass.
 
 Representative stories on the Line, Bar, Combined, Financial, Pie & Donut, Progress, and Heatmaps pages include a collapsed `Data details` panel. Use those panels during VoiceOver and TalkBack review to verify the table-fallback checks without making the public preview visually dense by default.
 

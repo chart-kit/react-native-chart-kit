@@ -8,6 +8,7 @@ export const captureNativeQaUsage = `Usage:
 Options:
   --android-log-output <path>  Also clear/capture Android logcat to this repo-relative path.
   --android-log-lines <number> Number of trailing logcat lines to capture. Defaults to 400.
+  --android-ui-output <path>   Also capture Android UIAutomator hierarchy XML.
   --device <id>             iOS simulator UDID or Android adb serial. Defaults to booted/default device.
   --dry-run                 Print launch and screenshot commands without executing them.
   --ios-log-output <path>    Also capture iOS simulator logs to this repo-relative path.
@@ -47,6 +48,8 @@ export const parseCaptureNativeQaArgs = (argv) => {
       options.androidLogLines = Number(readValue());
     } else if (arg === "--android-log-output") {
       options.androidLogOutput = readValue();
+    } else if (arg === "--android-ui-output") {
+      options.androidUiOutput = readValue();
     } else if (arg === "--device") {
       options.device = readValue();
     } else if (arg === "--dry-run") {

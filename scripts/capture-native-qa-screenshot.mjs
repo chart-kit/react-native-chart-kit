@@ -43,6 +43,7 @@ const shouldWaitAfterCommand = ({ args, command }) =>
 const validateCaptureOptions = ({
   androidLogLines,
   androidLogOutput,
+  androidUiOutput,
   iosLogLast,
   iosLogOutput,
   iosLogPredicate,
@@ -54,6 +55,10 @@ const validateCaptureOptions = ({
 
   if (androidLogOutput && platform !== "android") {
     throw new Error("--android-log-output can only be used with Android");
+  }
+
+  if (androidUiOutput && platform !== "android") {
+    throw new Error("--android-ui-output can only be used with Android");
   }
 
   if (iosLogOutput && platform !== "ios") {
@@ -170,11 +175,13 @@ const buildAndroidCommands = ({
   androidLogLines,
   androidLogOutputPath,
   androidPackage,
+  androidUiOutputPath,
   device,
   launch,
   launchUrl
 }) => {
   const commands = [];
+  const uiDumpPath = "/sdcard/chartkit-native-qa-window.xml";
 
   if (androidLogOutputPath) {
     commands.push({
@@ -195,6 +202,26 @@ const buildAndroidCommands = ({
     command: "adb",
     writesStdoutToFile: true
   });
+
+  if (androidUiOutputPath) {
+    commands.push({
+      args: [
+        ...(device ? ["-s", device] : []),
+        "shell",
+        "uiautomator",
+        "dump",
+        uiDumpPath
+      ],
+      command: "adb"
+    });
+    commands.push({
+      args: [...(device ? ["-s", device] : []), "exec-out", "cat", uiDumpPath],
+      command: "adb",
+      encoding: "utf8",
+      outputPath: androidUiOutputPath,
+      writesStdoutToFile: true
+    });
+  }
 
   if (androidLogOutputPath) {
     commands.push({
@@ -240,6 +267,7 @@ export const createNativeQaScreenshotPlan = async ({
   androidLogLines = 400,
   androidLogOutput,
   androidPackage = defaultAndroidPackage,
+  androidUiOutput,
   device,
   iosLogLast = "2m",
   iosLogOutput,
@@ -255,6 +283,7 @@ export const createNativeQaScreenshotPlan = async ({
   validateCaptureOptions({
     androidLogLines,
     androidLogOutput,
+    androidUiOutput,
     iosLogLast,
     iosLogOutput,
     iosLogPredicate,
@@ -267,6 +296,9 @@ export const createNativeQaScreenshotPlan = async ({
   const absoluteAndroidLogOutputPath = androidLogOutput
     ? path.resolve(repoRoot, androidLogOutput)
     : undefined;
+  const absoluteAndroidUiOutputPath = androidUiOutput
+    ? path.resolve(repoRoot, androidUiOutput)
+    : undefined;
   const absoluteIosLogOutputPath = iosLogOutput
     ? path.resolve(repoRoot, iosLogOutput)
     : undefined;
@@ -274,6 +306,7 @@ export const createNativeQaScreenshotPlan = async ({
     androidLogLines,
     androidLogOutputPath: absoluteAndroidLogOutputPath,
     androidPackage,
+    androidUiOutputPath: absoluteAndroidUiOutputPath,
     device,
     iosLogLast,
     iosLogOutputPath: absoluteIosLogOutputPath,
@@ -289,9 +322,11 @@ export const createNativeQaScreenshotPlan = async ({
 
   return {
     absoluteAndroidLogOutputPath,
+    absoluteAndroidUiOutputPath,
     absoluteIosLogOutputPath,
     absoluteOutputPath,
     androidLogOutput,
+    androidUiOutput,
     commands,
     iosLogOutput,
     launchUrl: row.launchUrl,
@@ -301,6 +336,7 @@ export const createNativeQaScreenshotPlan = async ({
       "--status partial",
       `--evidence ${outputPath}`,
       androidLogOutput ? `--evidence ${androidLogOutput}` : "",
+      androidUiOutput ? `--evidence ${androidUiOutput}` : "",
       iosLogOutput ? `--evidence ${iosLogOutput}` : ""
     ]
       .filter(Boolean)
@@ -324,6 +360,11 @@ export const captureNativeQaScreenshot = async ({
   await mkdir(path.dirname(plan.absoluteOutputPath), { recursive: true });
   if (plan.absoluteAndroidLogOutputPath) {
     await mkdir(path.dirname(plan.absoluteAndroidLogOutputPath), {
+      recursive: true
+    });
+  }
+  if (plan.absoluteAndroidUiOutputPath) {
+    await mkdir(path.dirname(plan.absoluteAndroidUiOutputPath), {
       recursive: true
     });
   }

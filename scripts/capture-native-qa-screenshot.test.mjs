@@ -241,6 +241,68 @@ describe("native QA screenshot capture", () => {
     expect(logcat).toBe("logcat lines");
   });
 
+  it("can capture Android UI hierarchy evidence with the screenshot", async () => {
+    const tempRepo = await createTempRepo();
+    const calls = [];
+    const result = await captureNativeQaScreenshot({
+      androidUiOutput: "docs/release/artifacts/android-line-ui.xml",
+      matrixName: "runtime",
+      output: "docs/release/artifacts/android-line.png",
+      platform: "android",
+      repoRoot: tempRepo,
+      rowId: "android-line-charts",
+      runner: (command) => {
+        calls.push(command);
+
+        return command.encoding === "buffer"
+          ? Buffer.from("png-bytes")
+          : "<hierarchy />";
+      },
+      waitMs: 0
+    });
+    const uiHierarchy = await readFile(
+      join(tempRepo, "docs/release/artifacts/android-line-ui.xml"),
+      "utf8"
+    );
+
+    expect(result.recordCommand).toBe(
+      "npm run release:qa:record -- --matrix runtime --row android-line-charts --status partial --evidence docs/release/artifacts/android-line.png --evidence docs/release/artifacts/android-line-ui.xml"
+    );
+    expect(calls.map((call) => call.args)).toEqual([
+      [
+        "shell",
+        "am",
+        "start",
+        "-W",
+        "-a",
+        "android.intent.action.VIEW",
+        "-d",
+        "'chartkitshowcase://showcase?view=charts&page=line-area'",
+        "io.chartkit.showcase"
+      ],
+      ["exec-out", "screencap", "-p"],
+      ["shell", "uiautomator", "dump", "/sdcard/chartkit-native-qa-window.xml"],
+      ["exec-out", "cat", "/sdcard/chartkit-native-qa-window.xml"]
+    ]);
+    expect(uiHierarchy).toBe("<hierarchy />");
+  });
+
+  it("can combine Android screenshot, UI hierarchy, and logcat evidence", async () => {
+    const plan = await createNativeQaScreenshotPlan({
+      androidLogOutput: "docs/release/artifacts/android-line.log",
+      androidUiOutput: "docs/release/artifacts/android-line-ui.xml",
+      matrixName: "runtime",
+      output: "docs/release/artifacts/android-line.png",
+      platform: "android",
+      repoRoot,
+      rowId: "android-line-charts"
+    });
+
+    expect(plan.recordCommand).toBe(
+      "npm run release:qa:record -- --matrix runtime --row android-line-charts --status partial --evidence docs/release/artifacts/android-line.png --evidence docs/release/artifacts/android-line.log --evidence docs/release/artifacts/android-line-ui.xml"
+    );
+  });
+
   it("can skip launching and capture the current Android screen", async () => {
     const plan = await createNativeQaScreenshotPlan({
       launch: false,
@@ -294,5 +356,18 @@ describe("native QA screenshot capture", () => {
         rowId: "android-line-charts"
       })
     ).rejects.toThrow("--ios-log-output can only be used with iOS");
+  });
+
+  it("rejects Android UI output for iOS captures", async () => {
+    await expect(
+      captureNativeQaScreenshot({
+        androidUiOutput: "docs/release/artifacts/ios-line.xml",
+        dryRun: true,
+        matrixName: "runtime",
+        platform: "ios",
+        repoRoot,
+        rowId: "ios-line-charts"
+      })
+    ).rejects.toThrow("--android-ui-output can only be used with Android");
   });
 });
