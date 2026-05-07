@@ -28,7 +28,6 @@ describe("release QA status", () => {
 
     expect(section.matrix).toBe("skia");
     expect(section.openRows.map((row) => row.id)).toEqual([
-      "ios-skia-performance-comparison",
       "android-skia-performance-comparison"
     ]);
     expect(section.openRows[0].command).toContain(
@@ -87,7 +86,7 @@ describe("release QA status", () => {
 
     expect(section.openRows[0]?.captureCommands).toHaveLength(6);
     expect(section.openRows[0]?.captureCommand).toBe(
-      'npm run release:qa:capture -- --matrix skia --row ios-skia-performance-comparison --platform ios --output docs/release/artifacts/ios-skia-performance-comparison-1-dense-line.png --launch-url "chartkitshowcase://showcase?story=v2-perf-line-10000-overview&visual=1" --ios-log-output docs/release/artifacts/ios-skia-performance-comparison-1-dense-line.log'
+      'npm run release:qa:capture -- --matrix skia --row android-skia-performance-comparison --platform android --output docs/release/artifacts/android-skia-performance-comparison-1-dense-line.png --launch-url "chartkitshowcase://showcase?story=v2-perf-line-10000-overview&visual=1" --android-log-output docs/release/artifacts/android-skia-performance-comparison-1-dense-line.log'
     );
   });
 
@@ -105,7 +104,7 @@ describe("release QA status", () => {
     );
 
     expect(output).toContain("Skia Renderer (skia): partial");
-    expect(output).toContain("ios-skia-performance-comparison");
+    expect(output).toContain("android-skia-performance-comparison");
     expect(output).toContain("--launch-url");
     expect(output).toContain("v2-perf-candlestick-1000");
     expect(output).not.toContain("Runtime QA (runtime)");

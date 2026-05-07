@@ -222,8 +222,24 @@
       "id": "ios-skia-performance-comparison",
       "platform": "ios",
       "scenarioId": "performance-comparison",
-      "status": "pending",
-      "evidence": []
+      "status": "partial",
+      "evidence": [
+        "docs/release/artifacts/ios-skia-renderer-build.md",
+        "docs/release/artifacts/ios-skia-performance-comparison-review.md",
+        "docs/release/artifacts/ios-skia-performance-1-dense-line.png",
+        "docs/release/artifacts/ios-skia-performance-1-dense-line.log",
+        "docs/release/artifacts/ios-skia-performance-2-multi-line-tooltip.png",
+        "docs/release/artifacts/ios-skia-performance-2-multi-line-tooltip.log",
+        "docs/release/artifacts/ios-skia-performance-3-range-selector.png",
+        "docs/release/artifacts/ios-skia-performance-3-range-selector.log",
+        "docs/release/artifacts/ios-skia-performance-4-scrollable-bar.png",
+        "docs/release/artifacts/ios-skia-performance-4-scrollable-bar.log",
+        "docs/release/artifacts/ios-skia-performance-5-combined-tooltip.png",
+        "docs/release/artifacts/ios-skia-performance-5-combined-tooltip.log",
+        "docs/release/artifacts/ios-skia-performance-6-candlestick.png",
+        "docs/release/artifacts/ios-skia-performance-6-candlestick.log"
+      ],
+      "notes": "Simulator screenshot/log comparison captured for dense line, multi-line tooltip, range selector, capped scrollable bar fallback, combined tooltip, and candlestick. Row remains partial pending Instruments/device timing and true Skia bar viewport windowing."
     },
     {
       "id": "android-skia-performance-comparison",

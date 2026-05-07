@@ -1,0 +1,179 @@
+Timestamp               Ty Process[PID:TID]
+2026-05-06 21:29:49.543 Df ChartKitShowcase[89418:9620d4] [com.apple.BoardServices:XPCErrors] [C:1] Alloc com.apple.frontboard.systemappservices
+2026-05-06 21:29:49.543 Df ChartKitShowcase[89418:9620d3] [com.apple.xpc:connection] [0x1027055a0] activating connection: mach=true listener=false peer=false name=com.apple.cfprefsd.daemon
+2026-05-06 21:29:49.544 Df ChartKitShowcase[89418:9620d4] [com.apple.xpc:connection] [0x1027056b0] activating connection: mach=false listener=false peer=false name=(anonymous)
+2026-05-06 21:29:49.546 Df ChartKitShowcase[89418:9620cc] (libMobileGestalt.dylib) No persisted cache on this platform.
+2026-05-06 21:29:49.551 A  ChartKitShowcase[89418:9620d3] (CoreFoundation) Loading Preferences From User Session CFPrefsD
+2026-05-06 21:29:49.553 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:Application] Deactivation reason added: 10; deactivation reasons: 0 -> 1024; animating application lifecycle event: 0
+2026-05-06 21:29:49.553 Df ChartKitShowcase[89418:9620cc] [com.apple.runningboard:connection] Initializing connection
+2026-05-06 21:29:49.553 Df ChartKitShowcase[89418:9620cc] [com.apple.runningboard:process] Removing all cached process handles
+2026-05-06 21:29:49.553 Df ChartKitShowcase[89418:9620d3] [com.apple.runningboard:connection] Sending handshake request attempt #1 to server
+2026-05-06 21:29:49.553 Df ChartKitShowcase[89418:9620cc] [com.apple.BoardServices:Injection] activating monitor for service com.apple.frontboard.open
+2026-05-06 21:29:49.553 Df ChartKitShowcase[89418:9620d3] [com.apple.runningboard:connection] Creating connection to com.apple.runningboard
+2026-05-06 21:29:49.553 Df ChartKitShowcase[89418:9620d3] [com.apple.xpc:connection] [0x1029045e0] activating connection: mach=true listener=false peer=false name=com.apple.runningboard
+2026-05-06 21:29:49.553 Df ChartKitShowcase[89418:9620cc] [com.apple.BoardServices:Injection] activating monitor for service com.apple.frontboard.workspace-service
+2026-05-06 21:29:49.554 Df ChartKitShowcase[89418:9620cc] [com.apple.FrontBoard:Common] FBSWorkspace registering source: com.apple.frontboard.systemappservices
+2026-05-06 21:29:49.554 Df ChartKitShowcase[89418:9620d2] [com.apple.UIKit:BackgroundTask] Creating new assertion because there is no existing background assertion.
+2026-05-06 21:29:49.554 Df ChartKitShowcase[89418:9620d2] [com.apple.UIKit:BackgroundTask] Creating new background assertion
+2026-05-06 21:29:49.554 Df ChartKitShowcase[89418:9620d2] [com.apple.UIKit:BackgroundTask] Created new background assertion <BKSProcessAssertion: 0x6000021180a0>
+2026-05-06 21:29:49.554 A  ChartKitShowcase[89418:9620d6] (RunningBoardServices) didChangeInheritances
+2026-05-06 21:29:49.554 Df ChartKitShowcase[89418:9620d3] [com.apple.runningboard:connection] Handshake succeeded
+2026-05-06 21:29:49.554 Df ChartKitShowcase[89418:9620d3] [com.apple.runningboard:connection] Identity resolved as app<io.chartkit.showcase((null))>
+2026-05-06 21:29:49.554 Df ChartKitShowcase[89418:9620d2] [com.apple.UIKit:BackgroundTask] Incrementing reference count for background assertion <BKSProcessAssertion: 0x6000021180a0>
+2026-05-06 21:29:49.554 Df ChartKitShowcase[89418:9620d2] [com.apple.UIKit:BackgroundTask] Created background task <_UIBackgroundTaskInfo: 0x60000170c440>: taskID = 1, taskName = Launch Background Task for Coalescing, creationTime = 530587 (elapsed = 0).
+2026-05-06 21:29:49.554 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UIApplicationSceneKeyboardSettings on FBSSceneSettings
+2026-05-06 21:29:49.555 Df ChartKitShowcase[89418:9620cc] [com.apple.FrontBoard:Common] FBSWorkspace connected to endpoint : <BSServiceConnectionEndpoint: 0x600000220180; target: com.apple.frontboard.systemappservices; service: com.apple.frontboard.workspace-service>
+2026-05-06 21:29:49.555 Df ChartKitShowcase[89418:9620cc] [com.apple.FrontBoard:Common] <FBSWorkspaceScenesClient:0x6000030045a0 com.apple.frontboard.systemappservices> attempting immediate handshake from activate
+2026-05-06 21:29:49.555 Df ChartKitShowcase[89418:9620cc] [com.apple.FrontBoard:Common] <FBSWorkspaceScenesClient:0x6000030045a0 com.apple.frontboard.systemappservices> sent handshake
+2026-05-06 21:29:49.555 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneOcclusionSettings> on FBSSceneSettings
+2026-05-06 21:29:49.555 Df ChartKitShowcase[89418:9620cc] [com.apple.runningboard:general] Added observer for process assertions expiration warning: <_RBSExpirationWarningClient: 0x600000209be0>
+2026-05-06 21:29:49.555 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneInterfaceProtectionSettings> on FBSSceneSettings
+2026-05-06 21:29:49.555 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneLayoutPreferencesHostSettingsExtension on FBSSceneSettings
+2026-05-06 21:29:49.555 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneSafeAreaSettingsExtension on FBSSceneSettings
+2026-05-06 21:29:49.555 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneLayoutPreferenceClientSettingsExtension on FBSSceneClientSettings
+2026-05-06 21:29:49.556 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UIHomeAffordanceHostSceneSettings> on FBSSceneSettings
+2026-05-06 21:29:49.556 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISystemShellSceneHostingEnvironmentSettings on FBSSceneSettings
+2026-05-06 21:29:49.556 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneRenderingEnvironmentSettings on FBSSceneSettings
+2026-05-06 21:29:49.556 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneRenderingEnvironmentClientSettings> on FBSSceneClientSettings
+2026-05-06 21:29:49.556 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneTransitioningHostSettings> on FBSSceneSettings
+2026-05-06 21:29:49.556 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneFocusSystemSettings> on FBSSceneSettings
+2026-05-06 21:29:49.556 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneMainMenuSettings> on FBSSceneSettings
+2026-05-06 21:29:49.556 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneOrientationSettingsExtension on FBSSceneSettings
+2026-05-06 21:29:49.556 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneOrientationClientSettingsExtension on FBSSceneClientSettings
+2026-05-06 21:29:49.556 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneWindowingControlClientSettings on FBSSceneClientSettings
+2026-05-06 21:29:49.556 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneHostingContentSizePreferenceClientSettings> on FBSSceneClientSettings
+2026-05-06 21:29:49.556 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension _UISceneHostingTraitCollectionPropagationSettings on FBSSceneSettings
+2026-05-06 21:29:49.557 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneHostingSheetPresentationSettings> on FBSSceneSettings
+2026-05-06 21:29:49.557 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneHostingSheetPresentationClientSettings> on FBSSceneClientSettings
+2026-05-06 21:29:49.557 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneHostingEventDeferringSettings> on FBSSceneSettings
+2026-05-06 21:29:49.557 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <UIKit__UITypedKeyValueSceneSettings> on FBSSceneSettings
+2026-05-06 21:29:49.557 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <UIKit__UITypedKeyValueSceneSettings> on FBSSceneClientSettings
+2026-05-06 21:29:49.557 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneHostingViewControllerPreferencePropagationClientSettings> on FBSSceneClientSettings
+2026-05-06 21:29:49.557 Df ChartKitShowcase[89418:9620d2] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneZoomTransitionSettings> on FBSSceneSettings
+2026-05-06 21:29:49.557 Df ChartKitShowcase[89418:9620dc] [com.apple.FrontBoard:SceneExtension] Realizing settings extension FBSSceneSettingsCore on FBSSceneSettings
+2026-05-06 21:29:49.557 Df ChartKitShowcase[89418:9620dc] [com.apple.FrontBoard:SceneExtension] Realizing settings extension FBSSceneClientSettingsCore on FBSSceneClientSettings
+2026-05-06 21:29:49.558 Df ChartKitShowcase[89418:9620dc] [com.apple.FrontBoard:SceneExtension] UIMutableApplicationSceneSettings setting counterpart class: UIApplicationSceneSettings
+2026-05-06 21:29:49.558 Df ChartKitShowcase[89418:9620dc] [com.apple.FrontBoard:SceneExtension] UIMutableApplicationSceneClientSettings setting counterpart class: UIApplicationSceneClientSettings
+2026-05-06 21:29:49.558 Df ChartKitShowcase[89418:9620dc] [com.apple.FrontBoard:SceneExtension] Realizing settings extension FBSSceneTransitionContextCore on FBSSceneTransitionContext
+2026-05-06 21:29:49.569 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:UIScreen] Evaluated capturing state as 0 on <UIScreen: 0x103605460> for initial
+2026-05-06 21:29:49.570 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:UIScreen] Evaluated capturing state as 0 on <UIScreen: 0x103605460> for CADisplay KVO
+2026-05-06 21:29:49.571 Df ChartKitShowcase[89418:9620cc] [com.apple.Accessibility:AXSupportCommon] Read CategoryName: per-app = 1, category name = (null)
+2026-05-06 21:29:49.571 Df ChartKitShowcase[89418:9620cc] [com.apple.Accessibility:AXSupportCommon] Read CategoryName: per-app = 0, category name = (null)
+2026-05-06 21:29:50.317 A  ChartKitShowcase[89418:9620d2] (CoreFoundation) Updating Key-Value Observers Of Preferences
+2026-05-06 21:29:50.321 Df ChartKitShowcase[89418:9620cc] [com.apple.dt.xctest:Default] Registering for test daemon availability notify post.
+2026-05-06 21:29:50.321 Df ChartKitShowcase[89418:9620cc] [com.apple.dt.xctest:Default] notify_get_state check indicated test daemon not ready.
+2026-05-06 21:29:50.321 Df ChartKitShowcase[89418:9620cc] [com.apple.dt.xctest:Default] notify_get_state check indicated test daemon not ready.
+2026-05-06 21:29:50.321 Df ChartKitShowcase[89418:9620cc] [com.apple.dt.xctest:Default] notify_get_state check indicated test daemon not ready.
+2026-05-06 21:29:50.322 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:UpdateScheduler] Selected display: name=LCD (PurpleMain), id=1
+2026-05-06 21:29:50.322 Df ChartKitShowcase[89418:9620cc] [com.apple.FrontBoard:SceneClient] [(FBSceneManager):sceneID:io.chartkit.showcase-default] Received action(s) in scene-create: UIOpenURLAction
+2026-05-06 21:29:50.334 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:BackgroundTask] Will add backgroundTask with taskName: Persistent SceneSession Map Update, expirationHandler: <__NSGlobalBlock__: 0x1e632d818>
+2026-05-06 21:29:50.334 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:BackgroundTask] Reusing background assertion <BKSProcessAssertion: 0x6000021180a0>
+2026-05-06 21:29:50.334 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:BackgroundTask] Incrementing reference count for background assertion <BKSProcessAssertion: 0x6000021180a0>
+2026-05-06 21:29:50.334 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:BackgroundTask] Created background task <_UIBackgroundTaskInfo: 0x60000172bd00>: taskID = 2, taskName = Persistent SceneSession Map Update, creationTime = 530587 (elapsed = 0).
+2026-05-06 21:29:50.334 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:Application] Deactivation reason added: 5; deactivation reasons: 1024 -> 1056; animating application lifecycle event: 1
+2026-05-06 21:29:50.334 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x104304720> (B904C529-BD84-4858-8C3C-69ED4F140338)
+2026-05-06 21:29:50.335 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:InterfaceStyle] Should send trait collection or coordinate space update, interface style 1 -> 1, <UIWindowScene: 0x104304720> (B904C529-BD84-4858-8C3C-69ED4F140338)
+2026-05-06 21:29:50.335 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x104304720> (B904C529-BD84-4858-8C3C-69ED4F140338)
+2026-05-06 21:29:50.335 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:HomeAffordanceObservation] Initializing: <_UIHomeAffordanceSceneNotifier: 0x600002925110>; with scene: <UIWindowScene: 0x104304720>
+2026-05-06 21:29:50.335 Df ChartKitShowcase[89418:9620cc] [com.apple.BacklightServices:scenes] 0x600000c2ce70 setDelegate:<0x600000c2d050 _UIBacklightEnvironment> hasDelegate:YES for environment:sceneID:io.chartkit.showcase-default
+2026-05-06 21:29:50.335 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x104304720> (B904C529-BD84-4858-8C3C-69ED4F140338)
+2026-05-06 21:29:50.335 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:EventDeferring] [0x6000029250a0] Initialized with scene: <UIWindowScene: 0x104304720>; behavior: <_UIEventDeferringBehavior_iOS: 0x600000248100>; availableForProcess: 1, systemShellManagesKeyboardFocus: 1
+2026-05-06 21:29:50.335 Df ChartKitShowcase[89418:9620cc] [com.apple.BoardServices:XPCErrors] [C:2] Alloc com.apple.backboard.hid-services.xpc
+2026-05-06 21:29:50.335 Df ChartKitShowcase[89418:9620cc] [com.apple.xpc:connection] [0x102c0a4e0] activating connection: mach=false listener=false peer=false name=(anonymous)
+2026-05-06 21:29:50.336 Df ChartKitShowcase[89418:9620e7] [com.apple.BackBoard:EventDelivery] BKSHIDEventObserver - connection activation
+2026-05-06 21:29:50.336 Df ChartKitShowcase[89418:9620cc] [com.apple.BackBoard:EventDelivery] policyStatus:<BKSHIDEventDeliveryPolicyObserver: 0x600002620300; process scope; status: target> was:none
+2026-05-06 21:29:50.336 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:KeyWindow] Setting default evaluation strategy for UIUserInterfaceIdiomPhone to LastOneWins
+2026-05-06 21:29:50.336 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:KeyWindow] Scene target of keyboard event deferring environment did change: 1; scene: UIWindowScene: 0x104304720; scene identity: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Aio.chartkit.showcase-default
+2026-05-06 21:29:50.336 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:EventDeferring] [0x6000029250a0] Scene target of event deferring environments did update: scene: 0x104304720; current systemShellManagesKeyboardFocus: 1; systemShellManagesKeyboardFocusForScene: 1; eligibleForRecordRemoval: 1;
+2026-05-06 21:29:50.336 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:KeyWindow] Scene became target of keyboard event deferring environment: UIWindowScene: 0x104304720; scene identity: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Aio.chartkit.showcase-default
+2026-05-06 21:29:50.336 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:KeyWindow] Stack[KeyWindow] 0x600000c2d830: Taking no further action for migration from LastOneWins -> SystemShellManaged as there are no scenes
+2026-05-06 21:29:50.336 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:KeyWindow] Setting default evaluation strategy for UIUserInterfaceIdiomPhone to SystemShellManaged
+2026-05-06 21:29:50.336 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:KeyWindow] Key window needs update: 0; currentKeyWindowScene: 0x0; evaluatedKeyWindowScene: 0x104304720; currentApplicationKeyWindow: 0x0; evaluatedApplicationKeyWindow: 0x0; reason: UIWindowScene: 0x104304720: Window scene became target of keyboard environment
+2026-05-06 21:29:50.336 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x104304720> (B904C529-BD84-4858-8C3C-69ED4F140338)
+2026-05-06 21:29:50.337 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x104304720> (B904C529-BD84-4858-8C3C-69ED4F140338)
+2026-05-06 21:29:50.338 F  ChartKitShowcase[89418:9620cc] [com.apple.runtime-issues:UIKit App Config] `UIScene` lifecycle will soon be required. Failure to adopt will result in an assert in the future.
+2026-05-06 21:29:50.338 A  ChartKitShowcase[89418:9620cc] (libsystem_trace.dylib) Activity for state dumps
+2026-05-06 21:29:50.338 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x104304720> (B904C529-BD84-4858-8C3C-69ED4F140338)
+2026-05-06 21:29:50.338 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338
+2026-05-06 21:29:50.338 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:Application] Ignoring already applied deactivation reason: 5; deactivation reasons: 1056
+2026-05-06 21:29:50.338 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:Application] Deactivation reason added: 11; deactivation reasons: 1056 -> 3104; animating application lifecycle event: 1
+2026-05-06 21:29:50.338 Df ChartKitShowcase[89418:9620cc] [com.apple.KeyboardArbiter:Client] startConnection
+2026-05-06 21:29:50.338 Df ChartKitShowcase[89418:9620cc] [com.apple.xpc:connection] [0x1043068a0] activating connection: mach=true listener=false peer=false name=com.apple.UIKit.KeyboardManagement.hosted
+2026-05-06 21:29:50.338 Df ChartKitShowcase[89418:9620cc] (UIKitCore) You've implemented -[<UIApplicationDelegate> application:performFetchWithCompletionHandler:], but you still need to add "fetch" to the list of your supported UIBackgroundModes in your Info.plist.
+2026-05-06 21:29:50.339 Df ChartKitShowcase[89418:9620cc] (UIKitCore) You've implemented -[<UIApplicationDelegate> application:didReceiveRemoteNotification:fetchCompletionHandler:], but you still need to add "remote-notification" to the list of your supported UIBackgroundModes in your Info.plist.
+2026-05-06 21:29:50.339 Df ChartKitShowcase[89418:9620cc] (React) _setUpFeatureFlags called with release level 2
+2026-05-06 21:29:50.346 Df ChartKitShowcase[89418:9620cc] [com.apple.network:] networkd_settings_read_from_file initialized networkd settings by reading plist directly
+2026-05-06 21:29:50.369 Df ChartKitShowcase[89418:9620cc] [com.apple.network:] networkd_settings_read_from_file initialized networkd settings by reading plist directly
+2026-05-06 21:29:50.385 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:Orientation] <UIWindowScene: 0x104304720> (B904C529-BD84-4858-8C3C-69ED4F140338) Scene updated orientation preferences: none -> ( Pu )
+2026-05-06 21:29:50.385 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:KeyWindow] Key window API is scene-level: YES
+2026-05-06 21:29:50.385 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:KeyWindow] UIWindowScene: 0x104304720: Window became key in scene: UIWindow: 0x102c12980; contextId: 0xADDF30FE: reason: UIWindowScene: 0x104304720: Window requested to become key in scene: 0x102c12980
+2026-05-06 21:29:50.385 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:KeyWindow] Key window needs update: 1; currentKeyWindowScene: 0x0; evaluatedKeyWindowScene: 0x104304720; currentApplicationKeyWindow: 0x0; evaluatedApplicationKeyWindow: 0x102c12980; reason: UIWindowScene: 0x104304720: Window requested to become key in scene: 0x102c12980
+2026-05-06 21:29:50.385 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:KeyWindow] Window did become application key: UIWindow: 0x102c12980; contextId: 0xADDF30FE; scene identity: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Aio.chartkit.showcase-default
+2026-05-06 21:29:50.385 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:EventDeferring] [0x6000029250a0] Begin local event deferring requested for token: 0x6000026248a0; environments: 1; reason: UIWindowScene: 0x104304720: Begin event deferring in keyboardFocus for window: 0x102c12980
+2026-05-06 21:29:50.386 Df ChartKitShowcase[89418:9620d2] [com.apple.BackBoard:EventDelivery] BKSHIDEventDeliveryManager - connection activation
+2026-05-06 21:29:50.386 Df ChartKitShowcase[89418:9620df] [com.apple.BackBoard:EventDelivery] policyStatus:<BKSHIDEventDeliveryPolicyObserver: 0x600002620300; token: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Aio.chartkit.showcase-default; status: ancestor> was:target
+2026-05-06 21:29:50.388 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:Application] Deactivation reason removed: 10; deactivation reasons: 3104 -> 2080; animating application lifecycle event: 1
+2026-05-06 21:29:50.388 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:Application] Deactivation reason added: 12; deactivation reasons: 2080 -> 6176; animating application lifecycle event: 1
+2026-05-06 21:29:50.388 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:Application] Deactivation reason removed: 11; deactivation reasons: 6176 -> 4128; animating application lifecycle event: 1
+2026-05-06 21:29:50.388 Df ChartKitShowcase[89418:9620cc] [com.apple.FrontBoard:SceneExtension] Realizing settings extension <_UISceneIntelligenceSupportSettings> on FBSSceneSettings
+2026-05-06 21:29:50.388 Df ChartKitShowcase[89418:9620d2] [com.apple.UIIntelligenceSupport:xpc] establishing connection to agent
+2026-05-06 21:29:50.389 Df ChartKitShowcase[89418:9620d2] [com.apple.xpc:session] [0x600002132990] Session created.
+2026-05-06 21:29:50.389 Df ChartKitShowcase[89418:9620d2] [com.apple.xpc:session] [0x600002132990] Session created from connection [0x102d13420]
+2026-05-06 21:29:50.389 Df ChartKitShowcase[89418:9620d2] [com.apple.xpc:connection] [0x102d13420] activating connection: mach=true listener=false peer=false name=com.apple.uiintelligencesupport.agent
+2026-05-06 21:29:50.389 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x104304720> (B904C529-BD84-4858-8C3C-69ED4F140338)
+2026-05-06 21:29:50.389 Df ChartKitShowcase[89418:9620d2] [com.apple.xpc:session] [0x600002132990] Session activated
+2026-05-06 21:29:50.391 A  ChartKitShowcase[89418:9620e3] (RunningBoardServices) didChangeInheritances
+2026-05-06 21:29:50.392 A  ChartKitShowcase[89418:9620d2] (RunningBoardServices) didChangeInheritances
+2026-05-06 21:29:50.394 Df ChartKitShowcase[89418:9620cc] [com.apple.xpc:connection] [0x102c18000] activating connection: mach=true listener=false peer=false name=com.apple.lsd.mapdb
+2026-05-06 21:29:50.418 Df ChartKitShowcase[89418:9620cc] [com.apple.network:activity] Create activity from XPC object <nw_activity 50:1 [82B8833C-48BE-4860-8E6E-D8BDEBFC75C8] (reporting strategy default)>
+2026-05-06 21:29:50.418 Df ChartKitShowcase[89418:9620cc] [com.apple.network:activity] Create activity from XPC object <nw_activity 50:2 [CC806E85-992B-43C7-AFC4-DE34903F989E] (reporting strategy default)>
+2026-05-06 21:29:50.418 Df ChartKitShowcase[89418:9620cc] [com.apple.network:activity] Set activity <nw_activity 50:1 [82B8833C-48BE-4860-8E6E-D8BDEBFC75C8] (reporting strategy default)> as the global parent
+2026-05-06 21:29:50.418 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:BackgroundTask] Ending background task with UIBackgroundTaskIdentifier: 1
+2026-05-06 21:29:50.419 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:BackgroundTask] Ending task with identifier 1 and description: <_UIBackgroundTaskInfo: 0x60000170c440>: taskID = 1, taskName = Launch Background Task for Coalescing, creationTime = 530587 (elapsed = 0), _expireHandler: (null)
+2026-05-06 21:29:50.419 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:BackgroundTask] Decrementing reference count for assertion <BKSProcessAssertion: 0x6000021180a0> (used by background task with identifier 1: <_UIBackgroundTaskInfo: 0x60000170c440>: taskID = 1, taskName = Launch Background Task for Coalescing, creationTime = 530587 (elapsed = 0))
+2026-05-06 21:29:50.419 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:EventBus] Event Timing Profile for Touch: not found, path="/System/Library/EventTimingProfiles/Sim.Touch.plist"
+2026-05-06 21:29:50.419 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:EventBus] Event Timing Profile for Pencil: not found, path="/System/Library/EventTimingProfiles/Sim.Pencil.plist"
+2026-05-06 21:29:50.419 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:UpdateScheduler] Target list changed: <CADisplay:LCD PurpleMain>
+2026-05-06 21:29:50.419 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338
+2026-05-06 21:29:50.419 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x104304720> (B904C529-BD84-4858-8C3C-69ED4F140338)
+2026-05-06 21:29:50.424 Df ChartKitShowcase[89418:9620cc] [com.apple.Accessibility:AXCommon] Smart invert app status cached: (null)
+2026-05-06 21:29:50.455 Sd ChartKitShowcase[89418:0] (FF2599B1-BA1F-3978-AAEA-946CC6F33BE1) IOHIDManager State
+{
+    DispatchQueue = 0;
+    RunLoop = 1;
+    createOptions = 0;
+    isOpen = 0;
+    openOptions = 0;
+}
+2026-05-06 21:29:50.458 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:EventDeferring] [0x6000029250a0] Scene target of event deferring environments did update: scene: 0x104304720; current systemShellManagesKeyboardFocus: 1; systemShellManagesKeyboardFocusForScene: 1; eligibleForRecordRemoval: 1;
+2026-05-06 21:29:50.458 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:KeyWindow] Scene became target of keyboard event deferring environment: UIWindowScene: 0x104304720; scene identity: com.apple.frontboard.systemappservices/FBSceneManager:sceneID%3Aio.chartkit.showcase-default
+2026-05-06 21:29:50.458 Df ChartKitShowcase[89418:9620cc] [com.apple.FrontBoard:SceneExtension] Realizing settings extension SBUISecureRenderingSettingsExtension on FBSSceneSettings
+2026-05-06 21:29:50.458 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x104304720> (B904C529-BD84-4858-8C3C-69ED4F140338)
+2026-05-06 21:29:50.459 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:InterfaceStyle] Not push traits update to screen for new style 1, <UIWindowScene: 0x104304720> (B904C529-BD84-4858-8C3C-69ED4F140338)
+2026-05-06 21:29:50.459 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338
+2026-05-06 21:29:50.459 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:Application] Deactivation reason removed: 12; deactivation reasons: 4128 -> 32; animating application lifecycle event: 1
+2026-05-06 21:29:50.459 Df ChartKitShowcase[89418:9620cc] [com.apple.KeyboardArbiter:Client] Send setDeactivating: N (-DeactivationReason:SuspendedEventsOnly)
+2026-05-06 21:29:50.459 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:Application] Deactivation reason removed: 5; deactivation reasons: 32 -> 0; animating application lifecycle event: 0
+2026-05-06 21:29:50.460 Df ChartKitShowcase[89418:9620cc] [com.apple.KeyboardArbiter:Client] startConnection
+2026-05-06 21:29:50.460 Df ChartKitShowcase[89418:9620cc] [com.apple.KeyboardArbiter:Client] handleKeyboardChange: set currentKeyboard:N (wasKeyboard:N)
+2026-05-06 21:29:50.461 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:KeyboardSceneDelegate] forceReloadInputViews
+2026-05-06 21:29:50.461 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:KeyboardSceneDelegate] Reloading input views for key-window scene responder: <(null): 0x0; > force:Y
+2026-05-06 21:29:50.463 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:KeyboardArbiterClientLog] isWritingToolsHandlingKeyboardTracking:Y (WT ready:Y, Arbiter ready:Y)
+2026-05-06 21:29:50.498 A  ChartKitShowcase[89418:9620e4] (RunningBoardServices) didChangeInheritances
+2026-05-06 21:29:50.594 Df ChartKitShowcase[89418:9620e7] [com.apple.xpc:connection] [0x104614ac0] activating connection: mach=true listener=false peer=false name=com.apple.fontservicesd
+2026-05-06 21:29:50.637 Df ChartKitShowcase[89418:9620cc] [com.apple.network:activity] <nw_activity 50:1 [82B8833C-48BE-4860-8E6E-D8BDEBFC75C8] (global parent) (reporting strategy default) complete (reason success)> complete with reason 2 (success), duration 1360ms
+2026-05-06 21:29:50.637 Df ChartKitShowcase[89418:9620cc] [com.apple.network:activity] <nw_activity 50:2 [CC806E85-992B-43C7-AFC4-DE34903F989E] (reporting strategy default) complete (reason success)> complete with reason 2 (success), duration 1360ms
+2026-05-06 21:29:50.637 Df ChartKitShowcase[89418:9620cc] [com.apple.network:activity] Unsetting the global parent activity <nw_activity 50:1 [82B8833C-48BE-4860-8E6E-D8BDEBFC75C8] (global parent) (reporting strategy default) complete (reason success)>
+2026-05-06 21:29:50.637 Df ChartKitShowcase[89418:9620cc] [com.apple.network:activity] Unset the global parent activity
+2026-05-06 21:29:50.711 A  ChartKitShowcase[89418:9620e7] (RunningBoardServices) didChangeInheritances
+2026-05-06 21:29:50.743 Df ChartKitShowcase[89418:9620cc] [com.apple.xpc:connection] [0x104682d10] activating connection: mach=true listener=false peer=false name=com.apple.metal.simulator
+2026-05-06 21:29:50.743 Df ChartKitShowcase[89418:9620cc] [com.apple.xpc:connection] [0x102c22db0] activating connection: mach=true listener=false peer=false name=com.apple.metal.simulator
+2026-05-06 21:29:50.744 Df ChartKitShowcase[89418:9620cc] [com.apple.xpc:connection] [0x1044195c0] activating connection: mach=true listener=false peer=false name=com.apple.metal.simulator
+2026-05-06 21:29:50.787 Df ChartKitShowcase[89418:9620cc] [com.apple.xpc:connection] [0x11db2b910] activating connection: mach=true listener=false peer=false name=com.apple.IOSurface.Remote
+2026-05-06 21:29:50.840 Df ChartKitShowcase[89418:9620e4] [com.apple.UIKit:BackgroundTask] Ending background task with UIBackgroundTaskIdentifier: 2
+2026-05-06 21:29:50.840 Df ChartKitShowcase[89418:9620e4] [com.apple.UIKit:BackgroundTask] Ending task with identifier 2 and description: <_UIBackgroundTaskInfo: 0x60000172bd00>: taskID = 2, taskName = Persistent SceneSession Map Update, creationTime = 530587 (elapsed = 1), _expireHandler: <__NSGlobalBlock__: 0x1e632d818>
+2026-05-06 21:29:50.840 Df ChartKitShowcase[89418:9620e4] [com.apple.UIKit:BackgroundTask] Decrementing reference count for assertion <BKSProcessAssertion: 0x6000021180a0> (used by background task with identifier 2: <_UIBackgroundTaskInfo: 0x60000172bd00>: taskID = 2, taskName = Persistent SceneSession Map Update, creationTime = 530587 (elapsed = 1))
+2026-05-06 21:29:50.840 Df ChartKitShowcase[89418:9620e4] [com.apple.UIKit:BackgroundTask] Will invalidate assertion: <BKSProcessAssertion: 0x6000021180a0> for task identifier: 2
+2026-05-06 21:29:51.471 Df ChartKitShowcase[89418:9620cc] [com.apple.BackBoard:Display] [FBSDisplaySource 1-1] silently connecting raw configuration: <FBSDisplayConfiguration: 0x600003d6a490; Main; mode: "402x874@3x 60Hz p3 SDR">
+2026-05-06 21:30:02.564 Df ChartKitShowcase[89418:9620cc] [com.apple.FrontBoard:SceneClient] [(FBSceneManager):sceneID:io.chartkit.showcase-default] Received action(s) in scene-update: UIOpenURLAction
+2026-05-06 21:30:02.565 Df ChartKitShowcase[89418:9620cc] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338

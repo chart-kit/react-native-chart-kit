@@ -113,7 +113,7 @@
     "android-skia-native-install is partial; evidence is required before this matrix can be complete.",
     "android-skia-free-chart-parity is partial; evidence is required before this matrix can be complete.",
     "android-skia-pro-preview-parity is partial; evidence is required before this matrix can be complete.",
-    "ios-skia-performance-comparison is pending; evidence is required before this matrix can be complete.",
+    "ios-skia-performance-comparison is partial; evidence is required before this matrix can be complete.",
     "android-skia-performance-comparison is pending; evidence is required before this matrix can be complete."
   ]
 }
