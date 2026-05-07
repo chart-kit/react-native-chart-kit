@@ -1,8 +1,8 @@
 # iOS Skia Free Chart Parity Review
 
-Date: 2026-05-06
-Commit reviewed: `e02a767`
-Build surface: booted iOS simulator with previously installed renderer-injected showcase app
+Date: 2026-05-07
+Commit reviewed: `dcd83b8`
+Build surface: booted iOS simulator with renderer-injected Skia showcase app
 
 This artifact records a partial iOS Skia renderer parity review for the free chart
 surface. The screenshots were captured from the installed native showcase app via
@@ -16,26 +16,24 @@ surface. The screenshots were captured from the installed native showcase app vi
 - `docs/release/artifacts/ios-skia-free-chart-parity-4-progress.png`
 - `docs/release/artifacts/ios-skia-free-chart-parity-5-contribution.png`
 - `docs/release/artifacts/ios-skia-free-chart-parity-6-compatibility.png`
+- `docs/release/artifacts/ios-skia-free-chart-parity-7-compat-bar-basic.png`
+- `docs/release/artifacts/ios-skia-free-chart-parity-8-line-tooltip.png`
+- `docs/release/artifacts/ios-skia-free-chart-parity-9-bar-tooltip.png`
 
 ## Result
 
-- Line/Area, Bar/StackedBar, Pie/Donut, Progress, and Heatmap pages rendered
-  nonblank native chart surfaces with visible text, legends, labels, and chart
-  geometry.
+- Line/Area, Bar/StackedBar, Pie/Donut, Progress, Heatmap, and Compatibility
+  pages rendered nonblank native chart surfaces with visible text, legends,
+  labels, and chart geometry.
 - Native logs captured for each page did not include renderer errors, invariant
-  failures, fatal exceptions, or warnings.
-- The Compatibility page capture exposed clipped left-side legacy Y-axis labels.
-  The root cause was the showcase compatibility wrapper forcing legacy
-  `paddingRight` too low, which acts as the left Y-axis gutter in the old v1
-  chart implementation.
-- The source fix was committed in `e02a767` by raising the showcase compatibility
-  gutter floor. A rebuilt renderer-injected native showcase app and refreshed
-  compatibility screenshot are still required before this row can be marked pass.
+  failures, fatal exceptions, or missing native dependency failures.
+- The refreshed Compatibility page capture verifies the legacy LineChart gutter
+  fix against the rebuilt renderer-injected app.
+- Focused compat BarChart, LineChart tooltip, and BarChart tooltip captures cover
+  the row's label, legend, and tooltip requirements without page-scroll crop
+  ambiguity.
 
 ## Status
 
-Partial. This evidence narrows the remaining iOS Skia free-chart parity work to:
-
-- rebuild/install the renderer-injected iOS showcase app from `e02a767` or later
-- recapture the Compatibility page
-- perform final visible clipping/legend/tooltip/interaction review
+Pass for iOS simulator visual parity. This row does not cover Android Skia
+parity or Skia performance comparison, which remain separate matrix rows.

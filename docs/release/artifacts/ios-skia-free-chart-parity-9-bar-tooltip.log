@@ -1,0 +1,7 @@
+Timestamp               Ty Process[PID:TID]
+2026-05-06 20:42:04.950 Df ChartKitShowcase[40301:937905] [com.apple.FrontBoard:SceneClient] [(FBSceneManager):sceneID:io.chartkit.showcase-default] Received action(s) in scene-update: UIOpenURLAction
+2026-05-06 20:42:04.950 Df ChartKitShowcase[40301:937905] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338
+2026-05-06 20:42:55.239 Df ChartKitShowcase[40301:937905] [com.apple.FrontBoard:SceneClient] [(FBSceneManager):sceneID:io.chartkit.showcase-default] Received action(s) in scene-update: UIOpenURLAction
+2026-05-06 20:42:55.239 Df ChartKitShowcase[40301:937905] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338
+2026-05-06 20:42:57.750 Df ChartKitShowcase[40301:937905] [com.apple.FrontBoard:SceneClient] [(FBSceneManager):sceneID:io.chartkit.showcase-default] Received action(s) in scene-update: UIOpenURLAction
+2026-05-06 20:42:57.750 Df ChartKitShowcase[40301:937905] [com.apple.UIKit:AppLifecycle] sceneOfRecord: sceneID: sceneID:io.chartkit.showcase-default  persistentID: B904C529-BD84-4858-8C3C-69ED4F140338

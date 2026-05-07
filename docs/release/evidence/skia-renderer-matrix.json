@@ -138,9 +138,8 @@
       "id": "ios-skia-free-chart-parity",
       "platform": "ios",
       "scenarioId": "free-chart-parity",
-      "status": "partial",
+      "status": "pass",
       "evidence": [
-        "docs/release/artifacts/skia-local-baseline-2026-05-06.md",
         "docs/release/artifacts/ios-skia-renderer-build.md",
         "docs/release/artifacts/ios-skia-free-chart-parity-review.md",
         "docs/release/artifacts/ios-skia-free-chart-parity-1-line-and-area.png",
@@ -154,9 +153,21 @@
         "docs/release/artifacts/ios-skia-free-chart-parity-5-contribution.png",
         "docs/release/artifacts/ios-skia-free-chart-parity-5-contribution.log",
         "docs/release/artifacts/ios-skia-free-chart-parity-6-compatibility.png",
-        "docs/release/artifacts/ios-skia-free-chart-parity-6-compatibility.log"
+        "docs/release/artifacts/ios-skia-free-chart-parity-6-compatibility.log",
+        "docs/release/artifacts/ios-skia-free-chart-parity-7-compat-bar-basic.png",
+        "docs/release/artifacts/ios-skia-free-chart-parity-7-compat-bar-basic.log",
+        "docs/release/artifacts/ios-skia-free-chart-parity-8-line-tooltip.png",
+        "docs/release/artifacts/ios-skia-free-chart-parity-8-line-tooltip.log",
+        "docs/release/artifacts/ios-skia-free-chart-parity-9-bar-tooltip.png",
+        "docs/release/artifacts/ios-skia-free-chart-parity-9-bar-tooltip.log"
       ],
-      "notes": "iOS native screenshots now cover the free Line/Area, Bar/StackedBar, Pie/Donut, Progress, Contribution, and Compatibility pages. Compatibility capture exposed clipped legacy Y-axis labels; showcase wrapper fix is committed in e02a767, but this row remains partial until the renderer-injected native app is rebuilt and the compatibility page plus interaction/tooltip parity are reviewed."
+      "notes": "iOS simulator visual review passed for Skia-injected free chart surfaces: free chart pages rendered nonblank with visible labels, legends, gradients, compatibility fixtures, and focused line/bar tooltip captures; no renderer or native dependency errors appeared in captured logs.",
+      "review": {
+        "buildSurface": "Renderer-injected Skia Release simulator build",
+        "device": "iPhone 17 simulator / iOS 26.0",
+        "reviewedAt": "2026-05-07",
+        "reviewedBy": "Codex QA"
+      }
     },
     {
       "id": "android-skia-free-chart-parity",
