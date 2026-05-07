@@ -46,31 +46,56 @@ export const ChartSelectionProvider = ({
   dismissOnPressOutside = false,
   style
 }: ChartSelectionProviderProps) => {
+  const pendingDismissTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null
+  );
   const [state, setState] = useState<ChartSelectionScopeState>({
     activeChartId: undefined,
     dismissRevision: 0
   });
-  const selectChart = useCallback((chartId: string) => {
-    setState((current) =>
-      current.activeChartId === chartId
-        ? current
-        : { ...current, activeChartId: chartId }
-    );
+  const cancelPendingOutsideDismiss = useCallback(() => {
+    if (pendingDismissTimeoutRef.current) {
+      clearTimeout(pendingDismissTimeoutRef.current);
+      pendingDismissTimeoutRef.current = null;
+    }
   }, []);
-  const dismissSelection = useCallback(() => {
+  const applyDismissSelection = useCallback(() => {
     setState((current) => ({
       activeChartId: undefined,
       dismissRevision: current.dismissRevision + 1
     }));
   }, []);
+  const selectChart = useCallback(
+    (chartId: string) => {
+      cancelPendingOutsideDismiss();
+      setState((current) =>
+        current.activeChartId === chartId
+          ? current
+          : { ...current, activeChartId: chartId }
+      );
+    },
+    [cancelPendingOutsideDismiss]
+  );
+  const dismissSelection = useCallback(() => {
+    cancelPendingOutsideDismiss();
+    applyDismissSelection();
+  }, [applyDismissSelection, cancelPendingOutsideDismiss]);
+  const scheduleOutsideDismiss = useCallback(() => {
+    cancelPendingOutsideDismiss();
+    pendingDismissTimeoutRef.current = setTimeout(() => {
+      pendingDismissTimeoutRef.current = null;
+      applyDismissSelection();
+    }, 0);
+  }, [applyDismissSelection, cancelPendingOutsideDismiss]);
   const handleStartShouldSetResponderCapture = useCallback(
     (_event: GestureResponderEvent) => {
-      dismissSelection();
+      scheduleOutsideDismiss();
 
       return false;
     },
-    [dismissSelection]
+    [scheduleOutsideDismiss]
   );
+  useEffect(() => cancelPendingOutsideDismiss, [cancelPendingOutsideDismiss]);
   const value = useMemo<ChartSelectionContextValue>(
     () => ({
       ...state,

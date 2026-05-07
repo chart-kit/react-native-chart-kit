@@ -123,6 +123,30 @@ describe("Cartesian chart theme presets", () => {
     });
   });
 
+  it("uses a visible default tooltip shadow in light and dark modes", () => {
+    expect(
+      resolveCartesianChartThemeConfig({
+        mode: "light"
+      }).tooltip
+    ).toMatchObject({
+      shadowColor: "#020617",
+      shadowOffsetX: 0,
+      shadowOffsetY: 3,
+      shadowOpacity: 0.16
+    });
+
+    expect(
+      resolveCartesianChartThemeConfig({
+        mode: "dark"
+      }).tooltip
+    ).toMatchObject({
+      shadowColor: "#020617",
+      shadowOffsetX: 0,
+      shadowOffsetY: 3,
+      shadowOpacity: 0.16
+    });
+  });
+
   it("layers chart overrides over presets", () => {
     expect(
       resolveCartesianChartThemeConfig({
