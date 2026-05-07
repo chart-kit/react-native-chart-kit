@@ -1,12 +1,12 @@
 # iOS Skia Pro Preview Parity Review
 
-Date: 2026-05-06
-Commit reviewed: `aa44323`
+Date: 2026-05-07
+Commit reviewed: `dcd83b8`
 Build surface: booted iOS simulator with renderer-injected Skia showcase app
 
-This artifact records a partial iOS Skia renderer parity review for current
-Pro-preview chart surfaces. The screenshots were captured from the installed
-native showcase app via `npm run release:qa:capture`.
+This artifact records an iOS Skia renderer parity review for current Pro-preview
+chart surfaces. The screenshots were captured from the installed native showcase
+app via `npm run release:qa:capture`.
 
 ## Captured Screens
 
@@ -28,8 +28,5 @@ native showcase app via `npm run release:qa:capture`.
 
 ## Status
 
-Partial. This evidence narrows the remaining iOS Skia Pro-preview parity work to:
-
-- complete manual interaction parity review for gestures and selection overlays
-- capture or explicitly defer Android Skia Pro-preview parity
-- capture Skia performance comparison evidence before release-candidate approval
+Pass for iOS simulator visual parity. This row does not cover Android Skia
+parity or Skia performance comparison, which remain separate matrix rows.
