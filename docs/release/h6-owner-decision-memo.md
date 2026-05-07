@@ -6,21 +6,18 @@ This memo converts the release-candidate gate into explicit choices. It is a rec
 
 Do not approve a release candidate yet.
 
-Reason: H6 requires final semver, release notes, docs freeze, visual baseline freeze, deprecation policy, owner approval, and complete native/Skia evidence. The repository is prepared for review, and the native release workflow is green, but the release gate still blocks on owner approval plus native runtime, accessibility, performance, and Skia evidence.
+Reason: H6 requires final semver, release notes, docs freeze, visual baseline freeze, deprecation policy, owner approval, and complete native QA evidence. The repository is prepared for review, the native release workflow is green, and the Skia matrix is complete, but the release gate still blocks on owner approval plus native runtime, accessibility, and performance evidence.
 
 ## Decision 1: RC Timing
 
-Recommendation: keep H6 `not-started` until H4 and H5 are approved and all native evidence manifests are complete.
+Recommendation: keep H6 `not-started` until all remaining native evidence manifests are complete.
 
 Required before RC:
 
-- H4 Pro/free boundary approval
-- H5 Developer Preview approval or explicit preview skip decision
 - completed native runtime QA matrix
 - completed native accessibility QA matrix
 - completed native performance matrix
-- completed RN CLI native example evidence
-- completed Skia install/parity/performance matrix if Skia is included in the RC story
+- final semver, changelog, docs freeze, visual baseline freeze, and deprecation policy decisions
 
 ## Decision 2: Final Semver
 
@@ -70,7 +67,7 @@ Keep H6 blocked until the release gate has no blockers.
 
 Record approval only after the owner accepts or edits these decisions and the gate is green:
 
-The recorder enforces H6 prerequisites: H4 and H5 must already be approved, and native workflow, RN CLI example, native runtime, native accessibility, native performance, and Skia evidence manifests must be complete.
+The recorder enforces H6 prerequisites: H4 and H5 must already be approved, and native workflow, RN CLI example, native runtime, native accessibility, native performance, and Skia evidence manifests must be complete. The currently open evidence work is native runtime, accessibility, and performance.
 
 ```sh
 npm run release:owner:record -- \

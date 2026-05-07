@@ -61,7 +61,7 @@ Concrete success criteria:
 - H2/H3: preview implementation and API are reviewable; final design/API freeze still belongs to beta/RC review.
 - H4: approved on May 6, 2026. Pro stays a separate future package, Skia stays a separate optional preview renderer for product/package-boundary reasons, advanced interactions/financial/Skia/large-data workflows stay preview or Pro-candidate for beta, and no license enforcement is added before beta.
 - H5: approved on May 6, 2026 for Developer Preview only. Publishable packages are `react-native-chart-kit`, `@chart-kit/core`, `@chart-kit/svg-renderer`, and `@chart-kit/react-native` under the `next` dist-tag; `@chart-kit/pro` and `@chart-kit/skia-renderer` stay unpublished. Developer Preview npm publish evidence is complete for `7.0.0-next.0`; `react-native-chart-kit@latest` remains `6.12.2`.
-- H6: not started. RC requires final semver, final changelog, docs freeze, visual baseline freeze, deprecation policy approval, owner approval, and completion of the remaining runtime/accessibility/performance/Skia evidence. An owner decision memo is available.
+- H6: not started. RC requires final semver, final changelog, docs freeze, visual baseline freeze, deprecation policy approval, owner approval, and completion of the remaining runtime/accessibility/performance evidence. An owner decision memo is available.
 
 ## Recommended Next Decisions
 

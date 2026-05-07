@@ -110,7 +110,6 @@ These are not covered by the green checks:
 - completed native runtime QA log beyond the web showcase interaction suite
 - completed native performance benchmark log for release builds on iOS and Android
 - checked-in generated RN CLI `ios/` and `android/` native projects; release-build/runtime smoke evidence is captured from generated transient projects instead
-- remaining native Skia renderer parity and performance matrix evidence
 - paid Pro implementation remains deferred; `@chart-kit/pro` is not Developer Preview-published
 
 The example commands `npm run example:ios` and `npm run example:android` launch the Expo showcase through Expo dev tooling. They are manual review commands and must not be counted as passing native release-build or native e2e checks.
@@ -121,7 +120,7 @@ H5 is approved with these decisions:
 
 - publish Chart Kit v2 Developer Preview from free packages only
 - use npm dist-tag `next`
-- disclose native runtime, accessibility, performance, workflow, and Skia evidence gaps
+- disclose native runtime, accessibility, performance, and workflow evidence gaps
 - do not publish `@chart-kit/pro`
 - do not publish `@chart-kit/skia-renderer`
 - keep advanced workflows preview or Pro-candidate
@@ -129,4 +128,4 @@ H5 is approved with these decisions:
 
 See [H5 owner decision memo](h5-owner-decision-memo.md) for the recorded approval.
 
-For release candidate, keep iterating against [known issues](known-issues.md) until native and Skia evidence is complete.
+For release candidate, keep iterating against [known issues](known-issues.md) until native runtime, accessibility, and performance evidence is complete.

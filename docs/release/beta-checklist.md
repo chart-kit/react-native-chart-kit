@@ -102,6 +102,6 @@ H5 is approved for Developer Preview with these constraints:
 - publish free packages only under the `next` dist-tag
 - do not publish `@chart-kit/pro`
 - do not publish `@chart-kit/skia-renderer`
-- native runtime, accessibility, performance, workflow, and Skia evidence gaps must stay disclosed
+- native runtime, accessibility, and performance gaps must stay disclosed
 - advanced workflows remain preview or Pro-candidate
 - `CandlestickChart` remains Financial Preview
