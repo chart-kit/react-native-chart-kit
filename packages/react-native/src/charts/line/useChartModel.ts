@@ -98,10 +98,12 @@ export const useChartModel = <TData extends Record<string, unknown>>({
   formatYLabel = defaultFormatYLabel,
   chartKitTheme,
   dataIndexOffset = 0,
+  selectionPointer,
   stableYAxisData
 }: LineChartProps<TData> & {
   chartKitTheme: ChartKitThemeContextValue;
   dataIndexOffset?: number;
+  selectionPointer?: { index: number; x: number; y: number } | undefined;
   stableYAxisData?: TData[] | undefined;
 }) => {
   const seriesInput = useSeriesInput(yKey, yKeys, series);
@@ -363,7 +365,10 @@ export const useChartModel = <TData extends Record<string, unknown>>({
               measureText: measureLineChartText,
               plotX: boxes.plot.x,
               plotY: boxes.plot.y,
-              selection: selectionBase,
+              selection:
+                selectionPointer?.index === selectionBase.index
+                  ? { ...selectionBase, pointer: selectionPointer }
+                  : selectionBase,
               theme: resolvedTheme
             })
           }
@@ -471,6 +476,7 @@ export const useChartModel = <TData extends Record<string, unknown>>({
     referenceBands,
     referenceLines,
     selectedIndex,
+    selectionPointer,
     seriesInput,
     showDots,
     showHorizontalGridLines,

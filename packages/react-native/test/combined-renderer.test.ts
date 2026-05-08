@@ -50,14 +50,18 @@ const getElementChildren = (node: ReactNode): ReactElement[] => {
 
 const tooltip: CombinedChartTooltipRenderProps<Record<string, unknown>> = {
   config: {
+    anchor: "point",
     backgroundColor: "#ffffff",
     borderColor: "#cbd5e1",
     borderRadius: 8,
+    edgePadding: 4,
     fontFamily: undefined,
     fontSize: 12,
     labelColor: "#64748b",
     labelFontSize: 12,
+    offset: 12,
     padding: 10,
+    placement: "auto",
     positionAnimationDuration: 220,
     shadowColor: "#020617",
     shadowOffsetX: 0,

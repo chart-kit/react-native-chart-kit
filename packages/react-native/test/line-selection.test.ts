@@ -60,6 +60,10 @@ const geometries: Array<LineChartSelectableGeometry<LineChartSelectablePoint>> =
 const tooltipConfig = {
   visible: true,
   shared: true,
+  anchor: "point" as const,
+  placement: "auto" as const,
+  offset: 12,
+  edgePadding: 4,
   width: 120,
   padding: 10,
   borderRadius: 8,
@@ -213,6 +217,41 @@ describe("LineChart selection model", () => {
     });
 
     expect(tooltip?.x).toBe(46);
+  });
+
+  it("can anchor scrub tooltips above the pointer", () => {
+    const selected = getSelectedLineSeries({
+      activeDot: undefined,
+      formatYLabel: (value) => `${value}`,
+      geometries,
+      selectedDataIndex: 2
+    });
+    const tooltip = getLineChartTooltipModel({
+      chartHeight: 180,
+      chartWidth: 240,
+      config: {
+        ...tooltipConfig,
+        anchor: "pointer",
+        placement: "above",
+        offset: 16
+      },
+      measureText: (text) => ({ width: text.length * 6, height: 12 }),
+      plotY: 24,
+      selection: {
+        index: 2,
+        x: 80,
+        y: 130,
+        pointer: { x: 140, y: 108 },
+        xLabel: "March",
+        series: selected
+      },
+      theme: { axis: "#e5e7eb" }
+    });
+
+    expect(tooltip).toMatchObject({
+      x: 80,
+      y: 20
+    });
   });
 
   it("keeps scrollable tooltips inside the visible viewport", () => {

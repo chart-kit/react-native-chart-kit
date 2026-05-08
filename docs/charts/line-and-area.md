@@ -192,7 +192,13 @@ Selection state is shared by tooltips, active dots, crosshairs, and external UI 
       setHeaderValue(event.series[0]?.formattedValue);
     }
   }}
-  tooltip={{ shared: true, positionAnimationDuration: 320 }}
+  tooltip={{
+    shared: true,
+    anchor: "pointer",
+    placement: "above",
+    offset: 18,
+    positionAnimationDuration: 320
+  }}
   crosshair
   width={360}
   height={260}
@@ -210,6 +216,12 @@ Selection persistence:
 - `persist`: keep the last selection after the gesture ends.
 - `whileActive`: clear selection on gesture end.
 - `none`: emit selection events without keeping internal selected state.
+
+Tooltip positioning:
+
+- `anchor: "point"` positions around the selected data point.
+- `anchor: "pointer"` positions around the touch/mouse pointer, useful for scrub.
+- `placement: "auto" | "above" | "below"` controls vertical placement while preserving edge clamping.
 
 ## Selection Scopes
 

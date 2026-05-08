@@ -108,6 +108,10 @@ export type ResolvedLineChartDecimationConfig = {
 export type LineChartTooltipConfig = {
   visible?: boolean;
   shared?: boolean;
+  anchor?: LineChartTooltipAnchor;
+  placement?: LineChartTooltipPlacement;
+  offset?: number;
+  edgePadding?: number;
   width?: number;
   padding?: number;
   borderRadius?: number;
@@ -125,11 +129,18 @@ export type LineChartTooltipConfig = {
   positionAnimationDuration?: number;
 };
 
+export type LineChartTooltipAnchor = "point" | "pointer";
+export type LineChartTooltipPlacement = "auto" | "above" | "below";
+
 export const defaultLineChartTooltipPositionAnimationDuration = 220;
 
 export type ResolvedLineChartTooltipConfig = {
   visible: boolean;
   shared: boolean;
+  anchor: LineChartTooltipAnchor;
+  placement: LineChartTooltipPlacement;
+  offset: number;
+  edgePadding: number;
   width: number | undefined;
   padding: number;
   borderRadius: number;
@@ -383,6 +394,10 @@ export const getLineChartTooltipConfig = ({
   return {
     visible,
     shared: config.shared ?? true,
+    anchor: config.anchor ?? "point",
+    placement: config.placement ?? "auto",
+    offset: resolveNonNegativeNumber(config.offset, 12),
+    edgePadding: resolveNonNegativeNumber(config.edgePadding, 4),
     width: config.width,
     padding: config.padding ?? themeTooltip.padding,
     borderRadius: config.borderRadius ?? themeTooltip.borderRadius,

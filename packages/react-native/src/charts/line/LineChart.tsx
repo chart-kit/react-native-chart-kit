@@ -82,6 +82,9 @@ export const LineChart = <TData extends Record<string, unknown>>(
   const [gestureSelectedIndex, setGestureSelectedIndex] = useState<
     number | undefined
   >(() => normalizeLineChartSelectedIndex(props.defaultSelectedIndex));
+  const [gestureSelectionPointer, setGestureSelectionPointer] = useState<
+    { index: number; x: number; y: number } | undefined
+  >();
   const effectiveSelectedIndex = props.selectedIndex ?? gestureSelectedIndex;
   const rangeSelectorConfig = useMemo(
     () => getRangeSelectorConfig(props.rangeSelector),
@@ -135,25 +138,23 @@ export const LineChart = <TData extends Record<string, unknown>>(
     [props.initialIndex, viewport]
   );
   const [scrollOffset, setScrollOffset] = useState(initialScrollOffset);
-  const chartProps =
-    effectiveSelectedIndex !== undefined
-      ? {
-          ...props,
-          data: mainData,
-          height: mainHeight,
-          width: viewport.contentWidth,
-          selectedIndex: effectiveSelectedIndex
-        }
-      : {
-          ...props,
-          data: mainData,
-          height: mainHeight,
-          width: viewport.contentWidth
-        };
+  const chartProps = {
+    ...props,
+    data: mainData,
+    height: mainHeight,
+    width: viewport.contentWidth,
+    ...(effectiveSelectedIndex !== undefined
+      ? { selectedIndex: effectiveSelectedIndex }
+      : {})
+  };
   const model = useChartModel({
     ...chartProps,
     chartKitTheme,
     dataIndexOffset: viewportWindow.startIndex,
+    selectionPointer:
+      gestureSelectionPointer?.index === effectiveSelectedIndex
+        ? gestureSelectionPointer
+        : undefined,
     stableYAxisData: props.data
   });
   const { boxes, geometries, interactionPoints, selectionModel, formatYLabel } =
@@ -247,6 +248,8 @@ export const LineChart = <TData extends Record<string, unknown>>(
   );
   const clearGestureSelection = useCallback(
     (event: LineChartDeselectEvent) => {
+      setGestureSelectionPointer(undefined);
+
       if (props.selectedIndex === undefined) {
         setGestureSelectedIndex(undefined);
       }
@@ -291,7 +294,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
     (event: GestureResponderEvent) => {
       preventBrowserSelection(event);
 
-      const { locationX } = event.nativeEvent;
+      const { locationX, locationY } = event.nativeEvent;
       const selectedDataIndex = getNearestLineChartInteractionIndex({
         locationX,
         points: interactionPoints
@@ -319,6 +322,12 @@ export const LineChart = <TData extends Record<string, unknown>>(
       if (!selectEvent) {
         return;
       }
+
+      setGestureSelectionPointer({
+        index: selectedDataIndex,
+        x: locationX,
+        y: locationY
+      });
 
       if (
         props.selectedIndex === undefined &&

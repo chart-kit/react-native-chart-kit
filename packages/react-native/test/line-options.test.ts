@@ -312,4 +312,23 @@ describe("LineChart marker and interaction options", () => {
       }).positionAnimationDuration
     ).toBe(0);
   });
+
+  it("resolves configurable tooltip anchor and placement", () => {
+    expect(
+      getLineChartTooltipConfig({
+        tooltip: {
+          anchor: "pointer",
+          placement: "above",
+          offset: 18,
+          edgePadding: 8
+        },
+        themeTooltip
+      })
+    ).toMatchObject({
+      anchor: "pointer",
+      placement: "above",
+      offset: 18,
+      edgePadding: 8
+    });
+  });
 });

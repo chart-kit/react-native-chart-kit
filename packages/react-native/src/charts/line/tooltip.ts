@@ -65,15 +65,46 @@ export const interpolateLineChartTooltipPosition = ({
 
 const getTooltipX = ({
   chartWidth,
-  leftInset = 4,
-  selectionX,
+  edgePadding,
+  anchorX,
+  leftInset = edgePadding,
   width
 }: {
   chartWidth: number;
+  edgePadding: number;
+  anchorX: number;
   leftInset?: number | undefined;
-  selectionX: number;
   width: number;
-}) => clamp(selectionX - width / 2, leftInset, chartWidth - width - 4);
+}) => clamp(anchorX - width / 2, leftInset, chartWidth - width - edgePadding);
+
+const getTooltipY = ({
+  anchorY,
+  chartHeight,
+  config,
+  height,
+  plotY
+}: {
+  anchorY: number;
+  chartHeight: number;
+  config: ResolvedLineChartTooltipConfig;
+  height: number;
+  plotY: number;
+}) => {
+  const minY = config.edgePadding;
+  const maxY = chartHeight - height - config.edgePadding;
+  const aboveY = anchorY - height - config.offset;
+  const belowY = anchorY + config.offset;
+
+  if (config.placement === "above") {
+    return clamp(aboveY, minY, maxY);
+  }
+
+  if (config.placement === "below") {
+    return clamp(belowY, minY, maxY);
+  }
+
+  return aboveY >= plotY ? aboveY : clamp(belowY, minY, maxY);
+};
 
 export const clampLineChartTooltipToViewport = <TPoint, TTheme>(
   tooltip: LineChartTooltipRenderProps<TPoint, TTheme>,
@@ -91,7 +122,7 @@ export const clampLineChartTooltipToViewport = <TPoint, TTheme>(
   x: clamp(
     tooltip.x,
     scrollOffset + leftInset,
-    scrollOffset + viewportWidth - tooltip.width - 4
+    scrollOffset + viewportWidth - tooltip.width - tooltip.config.edgePadding
   )
 });
 
@@ -115,6 +146,7 @@ export const getLineChartTooltipModel = <TPoint, TTheme>({
     index: number;
     x: number;
     y: number;
+    pointer?: { x: number; y: number } | undefined;
     xLabel: string;
     series: Array<LineChartTooltipSeriesItem<TPoint>>;
   };
@@ -143,16 +175,27 @@ export const getLineChartTooltipModel = <TPoint, TTheme>({
     config.padding * 2 +
     lineChartTooltipLabelLineHeight +
     series.length * lineChartTooltipLineHeight;
+  const anchor =
+    config.anchor === "pointer" && selection.pointer
+      ? selection.pointer
+      : selection;
   const x = getTooltipX({
     chartWidth,
-    leftInset: plotX === undefined ? 4 : Math.max(4, plotX + 4),
-    selectionX: selection.x,
+    edgePadding: config.edgePadding,
+    leftInset:
+      plotX === undefined
+        ? config.edgePadding
+        : Math.max(config.edgePadding, plotX + config.edgePadding),
+    anchorX: anchor.x,
     width
   });
-  const aboveY = selection.y - height - 12;
-  const belowY = selection.y + 12;
-  const y =
-    aboveY >= plotY ? aboveY : clamp(belowY, 4, chartHeight - height - 4);
+  const y = getTooltipY({
+    anchorY: anchor.y,
+    chartHeight,
+    config,
+    height,
+    plotY
+  });
 
   return {
     index: selection.index,

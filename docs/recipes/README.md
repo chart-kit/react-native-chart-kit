@@ -15,7 +15,13 @@ Use this for investing, crypto, bank wealth, or subscription analytics history s
   yKeys={["portfolio", "benchmark"]}
   curve="monotone"
   interaction={{ mode: "scrub", selectionPersistence: "whileActive" }}
-  tooltip={{ shared: true, positionAnimationDuration: 360 }}
+  tooltip={{
+    shared: true,
+    anchor: "pointer",
+    placement: "above",
+    offset: 18,
+    positionAnimationDuration: 360
+  }}
   crosshair
   viewport={viewport}
   onViewportChange={(event) => setViewport(event.viewport)}
