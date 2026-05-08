@@ -86,6 +86,7 @@ export const useChartViewportPan = ({
       preventBrowserSelection(event);
 
       panStateRef.current = {
+        lastOffsetX: 0,
         lastWindow: viewportWindow,
         startLocationX: event.nativeEvent.locationX,
         startWindow: viewportWindow

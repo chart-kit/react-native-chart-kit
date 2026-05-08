@@ -33,6 +33,7 @@ export type ChartViewportInteractionConfig = {
   pan?: boolean;
   pinchSensitivity?: number;
   pinchZoom?: boolean;
+  smoothPan?: boolean;
 };
 
 export type ChartViewportChangeEvent = {
@@ -56,10 +57,12 @@ export type ResolvedChartViewportInteractionConfig = {
   pan: boolean;
   pinchSensitivity: number;
   pinchZoom: boolean;
+  smoothPan: boolean;
 };
 
 export type ChartViewportPanState = {
   lastWindow: ResolvedChartViewportWindow;
+  lastOffsetX: number;
   startLocationX: number;
   startWindow: ResolvedChartViewportWindow;
 };

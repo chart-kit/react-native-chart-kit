@@ -35,7 +35,8 @@ export const resolveChartViewportInteractionConfig = (
       onGestureStart: undefined,
       pan: false,
       pinchSensitivity: defaultPinchSensitivity,
-      pinchZoom: false
+      pinchZoom: false,
+      smoothPan: false
     };
   }
 
@@ -49,7 +50,8 @@ export const resolveChartViewportInteractionConfig = (
       onGestureStart: undefined,
       pan: true,
       pinchSensitivity: defaultPinchSensitivity,
-      pinchZoom: false
+      pinchZoom: false,
+      smoothPan: false
     };
   }
 
@@ -78,11 +80,12 @@ export const resolveChartViewportInteractionConfig = (
       defaultPinchSensitivity,
       0.1
     ),
-    pinchZoom: viewportInteraction.pinchZoom === true
+    pinchZoom: viewportInteraction.pinchZoom === true,
+    smoothPan: viewportInteraction.smoothPan === true
   };
 };
 
-export const getChartViewportPanDeltaPoints = ({
+export const getChartViewportContinuousPanDeltaPoints = ({
   currentLocationX,
   plotWidth,
   startLocationX,
@@ -97,7 +100,29 @@ export const getChartViewportPanDeltaPoints = ({
     Number.isFinite(plotWidth) && plotWidth > 0 ? plotWidth : 1;
   const pointSpacing = safePlotWidth / Math.max(1, visibleCount - 1);
 
-  return Math.round((startLocationX - currentLocationX) / pointSpacing);
+  return (startLocationX - currentLocationX) / pointSpacing;
+};
+
+export const getChartViewportPanDeltaPoints = (
+  options: Parameters<typeof getChartViewportContinuousPanDeltaPoints>[0]
+) => Math.round(getChartViewportContinuousPanDeltaPoints(options));
+
+export const getChartViewportPanOffsetX = ({
+  deltaPoints,
+  plotWidth,
+  visibleCount,
+  wholeDeltaPoints
+}: {
+  deltaPoints: number;
+  plotWidth: number;
+  visibleCount: number;
+  wholeDeltaPoints: number;
+}) => {
+  const safePlotWidth =
+    Number.isFinite(plotWidth) && plotWidth > 0 ? plotWidth : 1;
+  const pointSpacing = safePlotWidth / Math.max(1, visibleCount - 1);
+
+  return -(deltaPoints - wholeDeltaPoints) * pointSpacing;
 };
 
 export const getChartViewportPinchZoomFactor = ({

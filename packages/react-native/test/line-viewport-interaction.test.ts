@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 
 import {
+  getChartViewportPanOffsetX,
   getLineChartViewportPanDeltaPoints,
   getLineChartViewportPinchZoomFactor,
   resolveLineChartViewportInteractionConfig
@@ -34,14 +35,16 @@ describe("LineChart viewport interaction helpers", () => {
       pinchZoom: false,
       minPanDistance: 6,
       minVisiblePoints: 6,
-      lockParentScroll: true
+      lockParentScroll: true,
+      smoothPan: false
     });
     expect(resolveLineChartViewportInteractionConfig(true)).toMatchObject({
       pan: true,
       pinchZoom: false,
       minPanDistance: 6,
       minVisiblePoints: 6,
-      lockParentScroll: true
+      lockParentScroll: true,
+      smoothPan: false
     });
   });
 
@@ -58,6 +61,7 @@ describe("LineChart viewport interaction helpers", () => {
         maxVisiblePoints: 42,
         pinchSensitivity: 0.7,
         lockParentScroll: false,
+        smoothPan: true,
         onGestureEnd,
         onGestureStart
       })
@@ -69,6 +73,7 @@ describe("LineChart viewport interaction helpers", () => {
       maxVisiblePoints: 42,
       pinchSensitivity: 0.7,
       lockParentScroll: false,
+      smoothPan: true,
       onGestureEnd,
       onGestureStart
     });
@@ -91,6 +96,25 @@ describe("LineChart viewport interaction helpers", () => {
         visibleCount: 16
       })
     ).toBe(-1);
+  });
+
+  it("maps smooth pan residuals to pixel offsets", () => {
+    expect(
+      getChartViewportPanOffsetX({
+        deltaPoints: 1.25,
+        plotWidth: 300,
+        visibleCount: 16,
+        wholeDeltaPoints: 1
+      })
+    ).toBeCloseTo(-5);
+    expect(
+      getChartViewportPanOffsetX({
+        deltaPoints: -1.5,
+        plotWidth: 300,
+        visibleCount: 16,
+        wholeDeltaPoints: -1
+      })
+    ).toBeCloseTo(10);
   });
 
   it("maps pinch scale to zoom factors with configurable sensitivity", () => {

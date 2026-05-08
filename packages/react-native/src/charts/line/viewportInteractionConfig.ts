@@ -1,4 +1,5 @@
 export {
+  getChartViewportPanOffsetX,
   getChartViewportPanDeltaPoints as getLineChartViewportPanDeltaPoints,
   getChartViewportPinchZoomFactor as getLineChartViewportPinchZoomFactor,
   resolveChartViewportInteractionConfig as resolveLineChartViewportInteractionConfig

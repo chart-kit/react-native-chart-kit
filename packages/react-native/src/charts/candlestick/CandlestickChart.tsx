@@ -65,6 +65,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
   const [gestureSelectedIndex, setGestureSelectedIndex] = useState<
     number | undefined
   >(props.defaultSelectedIndex);
+  const [panOffsetX, setPanOffsetX] = useState(0);
   const rangeSelectorConfig = useMemo(
     () => getCandlestickChartRangeSelectorConfig(props.rangeSelector),
     [props.rangeSelector]
@@ -244,6 +245,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
   const viewportPanResponder = useChartViewportPanResponder({
     dataLength: props.data.length,
     enabled: !scrollViewport.scrollable,
+    onPanOffsetChange: setPanOffsetX,
     onPress: isInteractionEnabled ? handleResponderRelease : undefined,
     onViewportChange: props.onViewportChange,
     plotBounds: boxes.plot,
@@ -279,6 +281,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
           renderer={renderer}
           selectedCandle={selectedCandle}
           testID={props.testID}
+          panOffsetX={panOffsetX}
           tooltipConfig={tooltipConfig}
           tooltipModel={tooltipModel}
         />
