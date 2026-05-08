@@ -18,6 +18,7 @@ import {
 } from "../src/charts/bar/selectionAnimation";
 import { getBarChartTooltipModel } from "../src/charts/bar/tooltipModel";
 import { offsetBarChartTooltipForViewport } from "../src/charts/bar/tooltipPlacement";
+import { getBarChartTooltipAnimationTargetKey } from "../src/charts/bar/useAnimatedTooltipModel";
 import type { BarChartBarModel } from "../src/charts/bar/types";
 
 const bars: Array<BarChartBarModel<{ month: string; paid: number }>> = [
@@ -300,5 +301,24 @@ describe("BarChart interaction helpers", () => {
       x: 78,
       y: 51
     });
+  });
+
+  it("keys tooltip animation targets by selected bar and position", () => {
+    const tooltip = getBarChartTooltipModel({
+      bar: bars[0],
+      boxes: {
+        outer: { x: 0, y: 0, width: 320, height: 220 },
+        plot: { x: 52, y: 24, width: 240, height: 160 }
+      },
+      config: getBarChartTooltipConfig({
+        themeTooltip,
+        tooltip: { width: 132 }
+      })
+    });
+
+    expect(tooltip).toBeDefined();
+    expect(getBarChartTooltipAnimationTargetKey(tooltip!)).toBe(
+      `paid-1:${tooltip!.x}:${tooltip!.y}`
+    );
   });
 });

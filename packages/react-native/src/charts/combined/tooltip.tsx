@@ -12,25 +12,37 @@ import type {
 
 const tooltipPositionThreshold = 0.5;
 
+export const getCombinedChartTooltipAnimationTargetKey = <TData,>(
+  tooltip: CombinedChartTooltipRenderProps<TData>
+) => `${tooltip.index}:${tooltip.x}:${tooltip.y}`;
+
 export const useAnimatedCombinedChartTooltipModel = <TData,>(
   tooltip: CombinedChartTooltipRenderProps<TData> | undefined
 ) => {
   const latestPositionRef = useRef<{ x: number; y: number } | undefined>(
     undefined
   );
-  const previousTooltipRef = useRef<
-    CombinedChartTooltipRenderProps<TData> | undefined
-  >(undefined);
+  const previousTooltipKeyRef = useRef<string | undefined>(undefined);
   const [animatedPosition, setAnimatedPosition] = useState<
     { x: number; y: number } | undefined
   >(undefined);
+  const duration = tooltip?.config.positionAnimationDuration ?? 0;
+  const targetKey = tooltip
+    ? getCombinedChartTooltipAnimationTargetKey(tooltip)
+    : undefined;
+  const targetX = tooltip?.x;
+  const targetY = tooltip?.y;
 
   useEffect(() => {
     let animationFrame = 0;
 
-    if (!tooltip) {
+    if (
+      targetKey === undefined ||
+      targetX === undefined ||
+      targetY === undefined
+    ) {
       latestPositionRef.current = undefined;
-      previousTooltipRef.current = undefined;
+      previousTooltipKeyRef.current = undefined;
       animationFrame = requestAnimationFrame(() => {
         setAnimatedPosition(undefined);
       });
@@ -40,12 +52,11 @@ export const useAnimatedCombinedChartTooltipModel = <TData,>(
       };
     }
 
-    const targetPosition = { x: tooltip.x, y: tooltip.y };
+    const targetPosition = { x: targetX, y: targetY };
     const currentPosition = latestPositionRef.current ?? targetPosition;
-    const hasPreviousTooltip = previousTooltipRef.current !== undefined;
-    const duration = tooltip.config.positionAnimationDuration;
+    const hasPreviousTooltip = previousTooltipKeyRef.current !== undefined;
 
-    previousTooltipRef.current = tooltip;
+    previousTooltipKeyRef.current = targetKey;
 
     if (!hasPreviousTooltip || duration <= 0) {
       latestPositionRef.current = targetPosition;
@@ -100,7 +111,7 @@ export const useAnimatedCombinedChartTooltipModel = <TData,>(
     return () => {
       cancelAnimationFrame(animationFrame);
     };
-  }, [tooltip]);
+  }, [duration, targetKey, targetX, targetY]);
 
   if (!tooltip) {
     return undefined;

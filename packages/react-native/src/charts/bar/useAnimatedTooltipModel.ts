@@ -13,6 +13,10 @@ const easeOutCubic = (progress: number) => {
 const interpolate = (from: number, to: number, progress: number) =>
   from + (to - from) * progress;
 
+export const getBarChartTooltipAnimationTargetKey = <TData>(
+  tooltip: BarChartTooltipModel<TData>
+) => `${tooltip.bar.key}:${tooltip.x}:${tooltip.y}`;
+
 export const useAnimatedBarChartTooltipModel = <TData>(
   tooltip: BarChartTooltipModel<TData> | undefined,
   positionAnimationDuration: number
@@ -20,19 +24,26 @@ export const useAnimatedBarChartTooltipModel = <TData>(
   const latestPositionRef = useRef<{ x: number; y: number } | undefined>(
     undefined
   );
-  const previousTooltipRef = useRef<BarChartTooltipModel<TData> | undefined>(
-    undefined
-  );
+  const previousTooltipKeyRef = useRef<string | undefined>(undefined);
   const [animatedPosition, setAnimatedPosition] = useState<
     { x: number; y: number } | undefined
   >(undefined);
+  const targetKey = tooltip
+    ? getBarChartTooltipAnimationTargetKey(tooltip)
+    : undefined;
+  const targetX = tooltip?.x;
+  const targetY = tooltip?.y;
 
   useEffect(() => {
     let animationFrame = 0;
 
-    if (!tooltip) {
+    if (
+      targetKey === undefined ||
+      targetX === undefined ||
+      targetY === undefined
+    ) {
       latestPositionRef.current = undefined;
-      previousTooltipRef.current = undefined;
+      previousTooltipKeyRef.current = undefined;
       animationFrame = requestAnimationFrame(() => {
         setAnimatedPosition(undefined);
       });
@@ -42,12 +53,12 @@ export const useAnimatedBarChartTooltipModel = <TData>(
       };
     }
 
-    const targetPosition = { x: tooltip.x, y: tooltip.y };
+    const targetPosition = { x: targetX, y: targetY };
     const currentPosition = latestPositionRef.current ?? targetPosition;
-    const hasPreviousTooltip = previousTooltipRef.current !== undefined;
+    const hasPreviousTooltip = previousTooltipKeyRef.current !== undefined;
     const duration = positionAnimationDuration;
 
-    previousTooltipRef.current = tooltip;
+    previousTooltipKeyRef.current = targetKey;
 
     if (!hasPreviousTooltip || duration <= 0) {
       latestPositionRef.current = targetPosition;
@@ -102,7 +113,7 @@ export const useAnimatedBarChartTooltipModel = <TData>(
     return () => {
       cancelAnimationFrame(animationFrame);
     };
-  }, [positionAnimationDuration, tooltip]);
+  }, [positionAnimationDuration, targetKey, targetX, targetY]);
 
   if (!tooltip) {
     return undefined;

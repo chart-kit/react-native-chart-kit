@@ -9,7 +9,10 @@ vi.mock("@chart-kit/svg-renderer", () => ({
   })
 }));
 
-import { renderDefaultCombinedChartTooltip } from "../src/charts/combined/tooltip";
+import {
+  getCombinedChartTooltipAnimationTargetKey,
+  renderDefaultCombinedChartTooltip
+} from "../src/charts/combined/tooltip";
 import { resolveCartesianChartThemeConfig } from "../src/theme/presets";
 import type {
   CombinedChartRenderer,
@@ -122,6 +125,17 @@ describe("CombinedChart renderer parity contract", () => {
       fill: "#0f172a",
       text: "Revenue: $80k"
     });
+  });
+
+  it("keys tooltip animation targets by selected index and position", () => {
+    expect(getCombinedChartTooltipAnimationTargetKey(tooltip)).toBe("0:16:20");
+    expect(
+      getCombinedChartTooltipAnimationTargetKey({
+        ...tooltip,
+        index: 2,
+        x: 120
+      })
+    ).toBe("2:120:20");
   });
 
   it("does not render text-dependent tooltip surfaces when renderer text is disabled", () => {
