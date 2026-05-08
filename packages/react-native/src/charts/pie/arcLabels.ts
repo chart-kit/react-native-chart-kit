@@ -107,6 +107,7 @@ const spreadArcLabelsOnSide = <TData>({
   sorted.forEach((label) => {
     const y = clamp(Math.max(label.y, cursorY), minY, maxY);
     label.y = y;
+    label.connectorBendY = y;
     label.connectorEndY = y;
     cursorY = y + minGap;
   });
@@ -123,9 +124,21 @@ const spreadArcLabelsOnSide = <TData>({
 
     if (label.y > maxAllowedY) {
       label.y = clamp(maxAllowedY, minY, maxY);
+      label.connectorBendY = label.y;
       label.connectorEndY = label.y;
     }
   }
+};
+
+const alignArcLabelConnectors = <TData>(
+  labels: Array<PieChartArcLabelModel<TData>>
+) => {
+  labels.forEach((label) => {
+    label.connectorBendX =
+      label.connectorStartX + (label.connectorEndX - label.connectorStartX) / 2;
+    label.connectorBendY =
+      label.connectorStartY + (label.connectorEndY - label.connectorStartY) / 2;
+  });
 };
 
 export const buildPieChartArcLabels = <TData>({
@@ -165,7 +178,7 @@ export const buildPieChartArcLabels = <TData>({
 
     const angle = getMidAngle(arc);
     const side = Math.cos(angle) >= 0 ? 1 : -1;
-    const startRadius = radius + 2;
+    const startRadius = radius;
     const bendRadius = radius + config.offset;
     const preferredLabelX =
       centerX + side * (radius + config.offset + config.connectorLength + 2);
@@ -233,6 +246,7 @@ export const buildPieChartArcLabels = <TData>({
     labels: labels.filter((label) => label.textAnchor === "end"),
     minGap
   });
+  alignArcLabelConnectors(labels);
 
   return labels;
 };

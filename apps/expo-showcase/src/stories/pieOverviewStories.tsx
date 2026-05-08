@@ -71,6 +71,35 @@ const V2PieExternalLabels = ({ width }: NativeStoryProps) => (
   </ChartSection>
 );
 
+const V2SelectablePie = ({ width }: NativeStoryProps) => {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  return (
+    <ChartSection title="Channel selection" kicker="Selectable pie">
+      <PieChart
+        activeSlice={{
+          activeOffset: 7,
+          activeScale: 1.035,
+          inactiveOpacity: 0.7
+        }}
+        data={acquisitionShare}
+        height={260}
+        interaction={{
+          mode: "tap",
+          onSelect: (event) => setSelectedIndex(event.index)
+        }}
+        labelKey="channel"
+        selectedIndex={selectedIndex}
+        selectionAnimation={{ duration: 220 }}
+        testID="selectable-pie-chart"
+        valueKey="share"
+        width={width}
+        formatPercentage={formatPiePercentage}
+      />
+    </ChartSection>
+  );
+};
+
 const V2DonutRevenue = ({ width }: NativeStoryProps) => (
   <ChartSection title="Revenue mix" kicker="Donut chart">
     <DonutChart
@@ -92,7 +121,11 @@ const V2SelectableDonut = ({ width }: NativeStoryProps) => {
   return (
     <ChartSection title="Plan mix" kicker="Tap selection">
       <DonutChart
-        activeSlice={{ inactiveOpacity: 0.36, strokeWidth: 4 }}
+        activeSlice={{
+          activeOffset: 6,
+          activeScale: 1.035,
+          inactiveOpacity: 0.72
+        }}
         centerLabel={selectedPlan}
         data={subscriptionMix}
         height={260}
@@ -102,6 +135,7 @@ const V2SelectableDonut = ({ width }: NativeStoryProps) => {
         }}
         labelKey="plan"
         selectedIndex={selectedIndex}
+        selectionAnimation={{ duration: 220 }}
         testID="selectable-donut-chart"
         valueKey="revenue"
         width={width}
@@ -175,6 +209,11 @@ export const pieOverviewStories = [
     id: "v2-pie-external-labels",
     title: "External Labels",
     Component: V2PieExternalLabels
+  },
+  {
+    id: "v2-pie-selection",
+    title: "Pie Selection",
+    Component: V2SelectablePie
   },
   {
     id: "v2-donut-revenue",

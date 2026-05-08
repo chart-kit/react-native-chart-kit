@@ -87,6 +87,46 @@ describe("PieChart model", () => {
     expect(model.arcs[0]?.path).toContain(`A ${model.innerRadius}`);
   });
 
+  it("reserves a gutter for active slice zoom and lift", () => {
+    const props = {
+      data: [
+        { label: "Used", value: 75 },
+        { label: "Remaining", value: 25 }
+      ],
+      valueKey: "value" as const,
+      labelKey: "label" as const,
+      width: 300,
+      height: 240,
+      innerRadiusRatio: 0.5,
+      legend: false
+    };
+    const staticModel = buildPieChartModel({
+      chartKitTheme,
+      props
+    });
+    const selectableModel = buildPieChartModel({
+      chartKitTheme,
+      props: {
+        ...props,
+        activeSlice: {
+          activeOffset: 8,
+          activeScale: 1.04,
+          inactiveOpacity: 0.7
+        },
+        interaction: "tap"
+      },
+      selectedIndex: 0
+    });
+
+    expect(selectableModel.radius).toBeLessThan(staticModel.radius);
+    expect(selectableModel.radius * 1.04 + 8).toBeLessThanOrEqual(
+      staticModel.radius
+    );
+    expect(selectableModel.innerRadius).toBeCloseTo(
+      selectableModel.radius * 0.5
+    );
+  });
+
   it("keeps zero-value slices from drawing broken arcs", () => {
     const model = buildPieChartModel({
       chartKitTheme,
@@ -151,6 +191,16 @@ describe("PieChart model", () => {
       model.arcLabels.some((label) => label.text.includes("Lifecycle"))
     ).toBe(false);
     expect(model.arcLabels.every((label) => label.connectorVisible)).toBe(true);
+    model.arcLabels.forEach((label) => {
+      expect(label.connectorBendX).toBeCloseTo(
+        label.connectorStartX +
+          (label.connectorEndX - label.connectorStartX) / 2
+      );
+      expect(label.connectorBendY).toBeCloseTo(
+        label.connectorStartY +
+          (label.connectorEndY - label.connectorStartY) / 2
+      );
+    });
     expect(
       model.arcLabels.every(
         (label) => label.y >= 0 && label.y <= model.chartHeight

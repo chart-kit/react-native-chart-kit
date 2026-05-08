@@ -7,6 +7,7 @@ import { useChartKitTheme } from "../../theme";
 import { useScopedChartSelection } from "../../selection/ChartSelectionProvider";
 import { getLineChartRenderer as getPieChartRenderer } from "../line/renderer";
 import { getPieChartAccessibilitySummary } from "./accessibility";
+import { resolvePieChartActiveSliceConfig } from "./activeSlice";
 import {
   buildPieChartSelectEvent,
   getPieChartInteractionConfig,
@@ -15,6 +16,8 @@ import {
   normalizePieChartSelectedIndex
 } from "./interaction";
 import { buildPieChartModel } from "./model";
+import { usePieChartSelectionAnimation } from "./selectionAnimation";
+import { PieChartSlices } from "./slices";
 import type { PieChartCenterLabelRenderProps, PieChartProps } from "./types";
 
 export type * from "./types";
@@ -66,12 +69,14 @@ export const PieChart = <TData extends Record<string, unknown>>(
     total
   } = model;
   const legendConfig = typeof props.legend === "object" ? props.legend : {};
-  const activeSlice = {
-    activeOpacity: props.activeSlice?.activeOpacity ?? 1,
-    inactiveOpacity: props.activeSlice?.inactiveOpacity ?? 0.42,
-    strokeColor: props.activeSlice?.strokeColor ?? resolvedTheme.background,
-    strokeWidth: props.activeSlice?.strokeWidth ?? 3
-  };
+  const activeSlice = resolvePieChartActiveSliceConfig({
+    activeSlice: props.activeSlice,
+    backgroundColor: resolvedTheme.background
+  });
+  const selectionAnimationState = usePieChartSelectionAnimation({
+    animation: props.selectionAnimation,
+    selectedIndex
+  });
   const isInteractionEnabled = isPieChartInteractionEnabled(interactionConfig);
   const hasSelectedSlice = selectedIndex !== undefined;
   const clearGestureSelection = useCallback(
@@ -212,7 +217,6 @@ export const PieChart = <TData extends Record<string, unknown>>(
   );
   const Layer = renderer.Layer ?? RendererLayer;
   const Line = renderer.Line;
-  const Path = renderer.Path;
   const Surface = renderer.Surface;
   const SvgText = renderer.Text;
   const canRenderText = renderer.capabilities?.text !== false;
@@ -235,34 +239,19 @@ export const PieChart = <TData extends Record<string, unknown>>(
     >
       <Surface width={props.width} height={chartHeight}>
         <Layer name="background">
-          {arcs.map((arc) => {
-            if (!arc.defined) {
-              return null;
-            }
-
-            const isSelected = selectedIndex === arc.index;
-            const opacity = hasSelectedSlice
-              ? isSelected
-                ? activeSlice.activeOpacity
-                : activeSlice.inactiveOpacity
-              : 1;
-
-            return (
-              <Path
-                key={`pie-slice-${arc.index}`}
-                d={arc.path}
-                fill={arc.color ?? resolvedTheme.text}
-                opacity={opacity}
-                testID={`${props.testID ?? "pie-chart"}-slice.${arc.index}`}
-                {...(isSelected
-                  ? {
-                      stroke: activeSlice.strokeColor,
-                      strokeWidth: activeSlice.strokeWidth
-                    }
-                  : {})}
-              />
-            );
-          })}
+          <PieChartSlices
+            activeSlice={activeSlice}
+            arcs={arcs}
+            centerX={centerX}
+            centerY={centerY}
+            innerRadius={model.innerRadius}
+            radius={radius}
+            renderer={renderer}
+            resolvedTheme={resolvedTheme}
+            selectedIndex={selectedIndex}
+            selectionAnimationState={selectionAnimationState}
+            testID={props.testID}
+          />
         </Layer>
         {isTextCenterLabel && canRenderText ? (
           <Layer name="overlays">

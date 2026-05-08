@@ -13,6 +13,11 @@ import {
   getPieChartArcLabelsVisible,
   resolvePieChartArcLabelsConfig
 } from "./arcLabels";
+import {
+  getPieChartActiveSliceGutter,
+  resolvePieChartActiveSliceConfig,
+  shouldReservePieChartActiveSliceGutter
+} from "./activeSlice";
 import type { PieChartModel, PieChartProps } from "./types";
 
 type PieChartThemeContextValue = {
@@ -135,7 +140,7 @@ export const buildPieChartModel = <TData extends Record<string, unknown>>({
   const centerX = width / 2;
   const centerY = chartHeight / 2;
   const arcLabelReserve = arcLabelsVisible ? defaultArcLabelReserve : 0;
-  const radius = Math.max(
+  const availableRadius = Math.max(
     0,
     Math.min(
       Math.max(0, width - arcLabelReserve * 2),
@@ -144,6 +149,20 @@ export const buildPieChartModel = <TData extends Record<string, unknown>>({
       2 -
       6
   );
+  const activeSlice = resolvePieChartActiveSliceConfig({
+    activeSlice: props.activeSlice,
+    backgroundColor: resolvedTheme.background
+  });
+  const activeSliceGutter = shouldReservePieChartActiveSliceGutter({
+    props,
+    selectedIndex
+  })
+    ? getPieChartActiveSliceGutter({
+        activeSlice,
+        radius: availableRadius
+      })
+    : 0;
+  const radius = Math.max(0, availableRadius - activeSliceGutter);
   const resolvedInnerRadius =
     typeof innerRadius === "number" && Number.isFinite(innerRadius)
       ? innerRadius

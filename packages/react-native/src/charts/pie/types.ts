@@ -43,6 +43,12 @@ export type PieChartActiveSliceConfig = {
   strokeWidth?: number;
   activeOpacity?: number;
   inactiveOpacity?: number;
+  activeOffset?: number;
+  activeScale?: number;
+};
+
+export type PieChartSelectionAnimationConfig = {
+  duration?: number;
 };
 
 export type PieChartCenterLabelRenderProps<TData = unknown> = {
@@ -105,6 +111,7 @@ export type PieChartProps<TData extends Record<string, unknown>> = {
   selectedIndex?: number;
   defaultSelectedIndex?: number;
   activeSlice?: PieChartActiveSliceConfig;
+  selectionAnimation?: boolean | PieChartSelectionAnimationConfig;
   interaction?: PieChartInteraction<TData>;
   centerLabel?:
     | string

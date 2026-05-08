@@ -177,6 +177,7 @@ export const storyFeatureTags: Record<string, string[]> = {
     "connector lines",
     "small-slice filter"
   ],
+  "v2-pie-selection": ["tap selection", "active slice", "animated selection"],
   "v2-donut-revenue": ["donut chart", "center label", "bottom legend"],
   "v2-donut-selection": ["tap selection", "active slice", "center label"],
   "v2-donut-custom-legend": [

@@ -197,6 +197,7 @@ export const showcaseModes: ShowcaseMode[] = [
         storyIds: [
           "v2-pie-acquisition",
           "v2-pie-external-labels",
+          "v2-pie-selection",
           "v2-donut-revenue",
           "v2-donut-selection",
           "v2-donut-custom-legend"
