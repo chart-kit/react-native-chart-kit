@@ -89,7 +89,7 @@ const V2SelectablePie = ({ width }: NativeStoryProps) => {
           inactiveOpacity: 0.7
         }}
         data={acquisitionShare}
-        height={276}
+        height={294}
         interaction={{
           mode: "tap",
           onSelect: (event) => setSelectedIndex(event.index)
@@ -98,7 +98,7 @@ const V2SelectablePie = ({ width }: NativeStoryProps) => {
         legend={{
           itemGap: 6,
           maxItemWidth: "48%",
-          reservedHeight: 72,
+          reservedHeight: 96,
           renderItem: ({ item, selected, theme }) => (
             <View
               style={[
