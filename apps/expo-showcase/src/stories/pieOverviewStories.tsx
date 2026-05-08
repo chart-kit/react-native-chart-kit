@@ -56,12 +56,18 @@ const V2PieExternalLabels = ({ width }: NativeStoryProps) => (
   <ChartSection title="Lead sources" kicker="External labels">
     <PieChart
       arcLabels={{
+        connectorColor: "#475569",
+        connectorOpacity: 0.9,
+        connectorWidth: 1.8,
+        fontSize: 11,
         minPercentage: 0.09,
+        offset: 14,
+        reservedWidth: 108,
         formatLabel: ({ label, percentageLabel }) =>
           `${label.split(" ")[0]} ${percentageLabel}`
       }}
       data={acquisitionShare}
-      height={260}
+      height={272}
       labelKey="channel"
       legend={false}
       valueKey="share"

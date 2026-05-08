@@ -30,7 +30,6 @@ type PieChartThemeContextValue = {
 const defaultLabelKey = "name";
 const defaultColorKey = "color";
 const defaultLegendHeight = 54;
-const defaultArcLabelReserve = 86;
 const defaultFormatValue = (value: number) => String(value);
 const defaultFormatPercentage = (percentage: number) =>
   `${Math.round(percentage * 100)}%`;
@@ -152,7 +151,7 @@ export const buildPieChartModel = <TData extends Record<string, unknown>>({
   const chartHeight = Math.max(120, height - legendReservedHeight);
   const centerX = width / 2;
   const centerY = chartHeight / 2;
-  const arcLabelReserve = arcLabelsVisible ? defaultArcLabelReserve : 0;
+  const arcLabelReserve = arcLabelsVisible ? arcLabelConfig.reservedWidth : 0;
   const availableRadius = Math.max(
     0,
     Math.min(

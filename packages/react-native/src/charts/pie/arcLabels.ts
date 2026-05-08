@@ -12,18 +12,26 @@ const defaultArcLabelFontSize = 11;
 const defaultArcLabelMinPercentage = 0.07;
 const defaultArcLabelOffset = 10;
 const defaultConnectorLength = 12;
+const defaultConnectorOpacity = 0.84;
+const defaultConnectorWidth = 1.35;
+const defaultReservedWidth = 86;
+const minConnectorLabelGap = 6;
 const labelEdgePadding = 10;
 const estimatedCharacterWidthRatio = 0.68;
 
 export type ResolvedPieChartArcLabelsConfig<TData = unknown> = {
+  connectorColor: string | undefined;
   connectorLength: number;
   connectorLines: boolean;
+  connectorOpacity: number;
+  connectorWidth: number;
   fontSize: number;
   formatLabel:
     | ((props: PieChartArcLabelRenderProps<TData>) => string | null)
     | undefined;
   minPercentage: number;
   offset: number;
+  reservedWidth: number;
   visible: boolean;
 };
 
@@ -47,12 +55,23 @@ export const resolvePieChartArcLabelsConfig = <TData = unknown>(
   const config = typeof arcLabels === "object" ? arcLabels : {};
 
   return {
+    connectorColor: config.connectorColor,
     connectorLength:
       typeof config.connectorLength === "number" &&
       Number.isFinite(config.connectorLength)
         ? Math.max(0, config.connectorLength)
         : defaultConnectorLength,
     connectorLines: config.connectorLines !== false,
+    connectorOpacity:
+      typeof config.connectorOpacity === "number" &&
+      Number.isFinite(config.connectorOpacity)
+        ? clamp(config.connectorOpacity, 0, 1)
+        : defaultConnectorOpacity,
+    connectorWidth:
+      typeof config.connectorWidth === "number" &&
+      Number.isFinite(config.connectorWidth)
+        ? Math.max(0, config.connectorWidth)
+        : defaultConnectorWidth,
     fontSize:
       typeof config.fontSize === "number" && Number.isFinite(config.fontSize)
         ? Math.max(8, config.fontSize)
@@ -67,6 +86,11 @@ export const resolvePieChartArcLabelsConfig = <TData = unknown>(
       typeof config.offset === "number" && Number.isFinite(config.offset)
         ? Math.max(0, config.offset)
         : defaultArcLabelOffset,
+    reservedWidth:
+      typeof config.reservedWidth === "number" &&
+      Number.isFinite(config.reservedWidth)
+        ? Math.max(0, config.reservedWidth)
+        : defaultReservedWidth,
     visible: getPieChartArcLabelsVisible(arcLabels)
   };
 };
@@ -202,28 +226,41 @@ export const buildPieChartArcLabels = <TData>({
     }
 
     const labelWidth = estimateLabelWidth({ fontSize: config.fontSize, text });
+    const outsideRightX =
+      centerX +
+      radius +
+      config.offset +
+      config.connectorLength +
+      minConnectorLabelGap;
+    const outsideLeftX =
+      centerX -
+      radius -
+      config.offset -
+      config.connectorLength -
+      minConnectorLabelGap;
     const labelX =
       side > 0
-        ? Math.min(
+        ? clamp(
             preferredLabelX,
-            Math.max(centerX, chartWidth - labelEdgePadding - labelWidth)
+            outsideRightX,
+            chartWidth - labelEdgePadding - labelWidth
           )
-        : Math.max(
-            preferredLabelX,
-            Math.min(centerX, labelEdgePadding + labelWidth)
-          );
+        : clamp(preferredLabelX, labelEdgePadding + labelWidth, outsideLeftX);
 
     return [
       {
         arc,
         color: legendItem.color,
+        connectorColor: config.connectorColor ?? theme.mutedText,
         connectorBendX: centerX + side * bendRadius * Math.cos(angle),
         connectorBendY: centerY + bendRadius * Math.sin(angle),
         connectorEndX: labelX - side * 4,
         connectorEndY: labelY,
+        connectorOpacity: config.connectorOpacity,
         connectorStartX: centerX + startRadius * Math.cos(angle),
         connectorStartY: centerY + startRadius * Math.sin(angle),
         connectorVisible: config.connectorLines,
+        connectorWidth: config.connectorWidth,
         fontSize: config.fontSize,
         index: arc.index,
         key: `${arc.index}-${arc.label}-arc-label`,

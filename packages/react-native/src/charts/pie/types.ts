@@ -79,11 +79,15 @@ export type PieChartArcLabelRenderProps<TData = unknown> = {
 
 export type PieChartArcLabelsConfig<TData = unknown> = {
   visible?: boolean;
+  connectorColor?: string;
   connectorLines?: boolean;
   connectorLength?: number;
+  connectorOpacity?: number;
+  connectorWidth?: number;
   fontSize?: number;
   minPercentage?: number;
   offset?: number;
+  reservedWidth?: number;
   formatLabel?: (props: PieChartArcLabelRenderProps<TData>) => string | null;
 };
 
@@ -147,11 +151,14 @@ export type PieChartArcLabelModel<TData = unknown> = {
   y: number;
   connectorStartX: number;
   connectorStartY: number;
+  connectorColor: string;
   connectorBendX: number;
   connectorBendY: number;
   connectorEndX: number;
   connectorEndY: number;
+  connectorOpacity: number;
   connectorVisible: boolean;
+  connectorWidth: number;
   arc: PieArcModel<TData>;
 };
 

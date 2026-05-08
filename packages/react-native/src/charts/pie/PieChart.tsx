@@ -272,7 +272,7 @@ export const PieChart = <TData extends Record<string, unknown>>(
           </Layer>
         ) : null}
         {arcLabels.length > 0 ? (
-          <Layer name="overlays">
+          <Layer name="interaction">
             {arcLabels.map((label) =>
               label.connectorVisible ? (
                 <Line
@@ -281,9 +281,9 @@ export const PieChart = <TData extends Record<string, unknown>>(
                   x2={label.connectorBendX}
                   y1={label.connectorStartY}
                   y2={label.connectorBendY}
-                  stroke={resolvedTheme.grid}
-                  strokeOpacity={0.9}
-                  strokeWidth={1}
+                  stroke={label.connectorColor}
+                  strokeOpacity={label.connectorOpacity}
+                  strokeWidth={label.connectorWidth}
                 />
               ) : null
             )}
@@ -295,9 +295,9 @@ export const PieChart = <TData extends Record<string, unknown>>(
                   x2={label.connectorEndX}
                   y1={label.connectorBendY}
                   y2={label.connectorEndY}
-                  stroke={resolvedTheme.grid}
-                  strokeOpacity={0.9}
-                  strokeWidth={1}
+                  stroke={label.connectorColor}
+                  strokeOpacity={label.connectorOpacity}
+                  strokeWidth={label.connectorWidth}
                 />
               ) : null
             )}

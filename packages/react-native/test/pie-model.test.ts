@@ -182,7 +182,11 @@ describe("PieChart model", () => {
       chartKitTheme,
       props: {
         arcLabels: {
+          connectorColor: "#475569",
+          connectorOpacity: 0.9,
+          connectorWidth: 1.8,
           minPercentage: 0.12,
+          reservedWidth: 108,
           formatLabel: ({ label, percentageLabel, selected }) =>
             `${selected ? "*" : ""}${label}: ${percentageLabel}`
         },
@@ -202,7 +206,7 @@ describe("PieChart model", () => {
     });
 
     expect(model.arcLabelsVisible).toBe(true);
-    expect(model.radius).toBeLessThan(110);
+    expect(model.radius).toBeLessThan(75);
     expect(model.arcLabels.map((label) => label.text)).toEqual([
       "Search: 52%",
       "*Sales: 28%",
@@ -213,6 +217,9 @@ describe("PieChart model", () => {
     ).toBe(false);
     expect(model.arcLabels.every((label) => label.connectorVisible)).toBe(true);
     model.arcLabels.forEach((label) => {
+      expect(label.connectorColor).toBe("#475569");
+      expect(label.connectorOpacity).toBe(0.9);
+      expect(label.connectorWidth).toBe(1.8);
       expect(label.connectorBendX).toBeCloseTo(
         label.connectorStartX +
           (label.connectorEndX - label.connectorStartX) / 2
@@ -228,7 +235,11 @@ describe("PieChart model", () => {
       )
     ).toBe(true);
     expect(
-      model.arcLabels.every((label) => label.x >= 10 && label.x <= 350)
+      model.arcLabels.every((label) =>
+        label.textAnchor === "start"
+          ? label.x >= model.centerX + model.radius
+          : label.x <= model.centerX - model.radius
+      )
     ).toBe(true);
   });
 });
