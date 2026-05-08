@@ -29,6 +29,8 @@ export const publicChartMode: ShowcaseMode = {
             "Selection, tooltip, crosshair, scrolling, and multi-series inspection behavior for Pro-scope review.",
           storyIds: [
             "v2-selected-tooltip",
+            "v2-scrub",
+            "v2-while-active",
             "v2-selection-scope",
             "v2-custom-crosshair",
             "v2-scrollable-stock-comparison",
@@ -47,6 +49,7 @@ export const publicChartMode: ShowcaseMode = {
             "v2-dot-styles",
             "v2-multi-series",
             "v2-reference-targets",
+            "v2-null-gaps",
             "v2-basic"
           ]
         }
