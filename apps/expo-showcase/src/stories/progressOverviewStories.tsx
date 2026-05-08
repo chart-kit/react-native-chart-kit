@@ -63,7 +63,7 @@ const V2ProgressSingle = ({ width }: NativeStoryProps) => (
 );
 
 const V2ProgressZeroMissing = ({ width }: NativeStoryProps) => (
-  <ChartSection title="Launch readiness" kicker="Zero and missing rings">
+  <ChartSection title="Launch readiness" kicker="Zero-value ring">
     <ProgressChart
       centerLabel={({ average }) => `${Math.round(average * 100)}%`}
       data={goalReadinessProgress}
@@ -91,7 +91,7 @@ export const progressOverviewStories = [
   },
   {
     id: "v2-progress-zero-missing",
-    title: "Zero & Missing",
+    title: "Launch Readiness",
     Component: V2ProgressZeroMissing
   }
 ];

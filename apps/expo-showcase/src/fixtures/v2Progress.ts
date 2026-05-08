@@ -10,9 +10,9 @@ export const activityProgress: ActivityProgress[] = [
 ];
 
 export const goalReadinessProgress: ActivityProgress[] = [
-  { metric: "Brief approved", progress: 0 },
-  { metric: "QA pass", progress: null },
-  { metric: "Rollout cap", progress: 1.18 }
+  { metric: "Build signed", progress: 0.76 },
+  { metric: "QA pass", progress: 0 },
+  { metric: "Rollout cap", progress: 0.42 }
 ];
 
 export const onboardingProgress = 0.64;
