@@ -58,6 +58,7 @@ export type CandlestickChartProps<TData extends Record<string, unknown>> =
     visiblePoints?: number;
     defaultSelectedIndex?: number;
     interaction?: CandlestickChartInteraction<TData>;
+    selectionPriceLabel?: boolean;
     selectedIndex?: number;
     tooltip?: boolean | CandlestickChartTooltipConfig;
     onViewportChange?: (event: CandlestickChartViewportChangeEvent) => void;

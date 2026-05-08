@@ -280,6 +280,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
           model={model}
           renderer={renderer}
           selectedCandle={selectedCandle}
+          selectionPriceLabel={props.selectionPriceLabel !== false}
           testID={props.testID}
           panOffsetX={panOffsetX}
           tooltipConfig={tooltipConfig}

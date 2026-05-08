@@ -144,6 +144,7 @@ export const publicChartMode: ShowcaseMode = {
             "Candlestick chart foundation for stock and trading interfaces; not part of the free beta boundary yet.",
           storyIds: [
             "v2-candlestick-price-action",
+            "v2-candlestick-legend-inspector",
             "v2-candlestick-scrollable",
             "v2-candlestick-session-events"
           ]

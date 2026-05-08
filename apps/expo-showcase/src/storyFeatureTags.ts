@@ -157,6 +157,13 @@ export const storyFeatureTags: Record<string, string[]> = {
     "viewport pan",
     "session gaps"
   ],
+  "v2-candlestick-legend-inspector": [
+    "pro candidate",
+    "OHLC",
+    "controlled selection",
+    "top legend",
+    "zoom cap"
+  ],
   "v2-candlestick-scrollable": [
     "pro candidate",
     "OHLC",

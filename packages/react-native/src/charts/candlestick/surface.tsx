@@ -26,6 +26,7 @@ export const CandlestickChartSurface = <TData,>({
   panOffsetX = 0,
   renderer: rendererProp,
   selectedCandle,
+  selectionPriceLabel = true,
   testID,
   tooltipConfig,
   tooltipModel
@@ -37,6 +38,7 @@ export const CandlestickChartSurface = <TData,>({
   panOffsetX?: number | undefined;
   renderer?: CandlestickChartRenderer | undefined;
   selectedCandle: CandlestickChartCandleModel<TData> | undefined;
+  selectionPriceLabel?: boolean | undefined;
   testID?: string | undefined;
   tooltipConfig: ResolvedCandlestickChartTooltipConfig;
   tooltipModel: CandlestickChartTooltipModel<TData> | undefined;
@@ -297,21 +299,23 @@ export const CandlestickChartSurface = <TData,>({
               y1={boxes.plot.y}
               y2={boxes.plot.y + boxes.plot.height}
             />
-            <Rect
-              fill={selectedCandle.color}
-              height={20}
-              rx={5}
-              width={58}
-              x={boxes.plot.x + boxes.plot.width - 58}
-              y={Math.max(
-                boxes.plot.y + 2,
-                Math.min(
-                  boxes.plot.y + boxes.plot.height - 22,
-                  selectedCandle.closeY - 10
-                )
-              )}
-            />
-            {canRenderText ? (
+            {selectionPriceLabel ? (
+              <Rect
+                fill={selectedCandle.color}
+                height={20}
+                rx={5}
+                width={58}
+                x={boxes.plot.x + boxes.plot.width - 58}
+                y={Math.max(
+                  boxes.plot.y + 2,
+                  Math.min(
+                    boxes.plot.y + boxes.plot.height - 22,
+                    selectedCandle.closeY - 10
+                  )
+                )}
+              />
+            ) : null}
+            {selectionPriceLabel && canRenderText ? (
               <SvgText
                 fill={resolvedTheme.background}
                 fontSize={resolvedTheme.typography.axisLabelSize}
