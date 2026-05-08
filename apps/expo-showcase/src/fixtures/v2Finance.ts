@@ -117,4 +117,28 @@ export const getStockCandlesForInterval = (
   return candles;
 };
 
+export const getStockCandlePriceDomain = (
+  candles: StockCandlePoint[],
+  paddingRatio = 0.06
+): [number, number] => {
+  const lows = candles
+    .map((candle) => candle.low)
+    .filter((value) => Number.isFinite(value));
+  const highs = candles
+    .map((candle) => candle.high)
+    .filter((value) => Number.isFinite(value));
+
+  if (lows.length === 0 || highs.length === 0) {
+    return [0, 1];
+  }
+
+  const min = Math.min(...lows);
+  const max = Math.max(...highs);
+  const span = max - min;
+  const padding =
+    span > 0 ? span * paddingRatio : Math.max(1, Math.abs(max) * paddingRatio);
+
+  return [roundPrice(min - padding), roundPrice(max + padding)];
+};
+
 export const stockCandles: StockCandlePoint[] = createOneYearStockCandles();

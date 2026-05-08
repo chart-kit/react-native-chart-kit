@@ -9,6 +9,7 @@ import { CandlestickChart } from "@chart-kit/react-native/pro-preview";
 import type { CandlestickChartViewportConfig } from "@chart-kit/react-native/pro-preview";
 
 import {
+  getStockCandlePriceDomain,
   getStockCandlesForInterval,
   stockCandles,
   type StockCandlePoint
@@ -16,6 +17,7 @@ import {
 import { ChartSection, type NativeStoryProps } from "./storyPrimitives";
 
 const weeklyCandles = getStockCandlesForInterval(stockCandles, "1W");
+const weeklyYDomain = getStockCandlePriceDomain(weeklyCandles);
 const initialVisibleWeeks = 28;
 const minVisibleWeeks = 8;
 const initialSelectedIndex = Math.max(0, weeklyCandles.length - 2);
@@ -187,7 +189,7 @@ export const V2CandlestickLegendInspector = ({
         volumeKey="volume"
         width={width}
         xKey="day"
-        yDomain={{ min: "dataMin", max: "dataMax", nice: true }}
+        yDomain={weeklyYDomain}
       />
     </ChartSection>
   );

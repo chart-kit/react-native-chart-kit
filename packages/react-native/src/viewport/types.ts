@@ -61,6 +61,7 @@ export type ResolvedChartViewportInteractionConfig = {
 };
 
 export type ChartViewportPanState = {
+  lastDeltaPoints: number;
   lastWindow: ResolvedChartViewportWindow;
   lastOffsetX: number;
   startLocationX: number;

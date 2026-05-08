@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  getStockCandlePriceDomain,
   getStockCandlesForInterval,
   stockCandles,
   type StockCandlePoint
@@ -79,5 +80,9 @@ describe("v2 finance showcase fixtures", () => {
         volume: 160
       }
     ]);
+  });
+
+  it("builds a padded full-series price domain for stable financial panning", () => {
+    expect(getStockCandlePriceDomain(fixtureCandles, 0.1)).toEqual([8.1, 18.9]);
   });
 });

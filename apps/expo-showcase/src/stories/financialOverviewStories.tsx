@@ -10,6 +10,7 @@ import {
 import type { CandlestickChartViewportConfig } from "@chart-kit/react-native/pro-preview";
 
 import {
+  getStockCandlePriceDomain,
   getStockCandlesForInterval,
   stockCandles,
   type StockCandleInterval
@@ -188,6 +189,10 @@ const V2CandlestickPriceAction = ({
     () => getStockCandlesForInterval(stockCandles, candleInterval),
     [candleInterval]
   );
+  const candleYDomain = useMemo(
+    () => getStockCandlePriceDomain(candleData),
+    [candleData]
+  );
   const [viewport, setViewport] = useState<CandlestickChartViewportConfig>(() =>
     getInitialCandlestickViewport(stockCandles.length, "1D")
   );
@@ -252,7 +257,7 @@ const V2CandlestickPriceAction = ({
         volumeKey="volume"
         width={width}
         xKey="day"
-        yDomain={{ min: "dataMin", max: "dataMax", nice: true }}
+        yDomain={candleYDomain}
       />
     </ChartSection>
   );

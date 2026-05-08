@@ -25,6 +25,7 @@ import type {
 
 type PanResponderState = {
   didPan: boolean;
+  lastDeltaPoints: number;
   lastOffsetX: number;
   lastWindow: ResolvedChartViewportWindow;
   startWindow: ResolvedChartViewportWindow;
@@ -100,6 +101,7 @@ export const useChartViewportPanResponder = ({
     const startPan = () => {
       panStateRef.current = {
         didPan: false,
+        lastDeltaPoints: 0,
         lastOffsetX: 0,
         lastWindow: viewportWindow,
         startWindow: viewportWindow
@@ -156,6 +158,7 @@ export const useChartViewportPanResponder = ({
           panStateRef.current = {
             ...panState,
             didPan: true,
+            lastDeltaPoints: boundedDeltaPoints,
             lastOffsetX: offsetX
           };
           onPanOffsetChange?.(offsetX);
@@ -179,15 +182,29 @@ export const useChartViewportPanResponder = ({
       panStateRef.current = {
         ...panState,
         didPan: true,
+        lastDeltaPoints: boundedDeltaPoints,
         lastOffsetX: panStateRef.current?.lastOffsetX ?? panState.lastOffsetX,
         lastWindow: nextWindow
       };
       emitViewportChange({ nextWindow, onViewportChange });
     };
     const endPan = (event: GestureResponderEvent) => {
-      const didPan = panStateRef.current?.didPan ?? false;
+      const panState = panStateRef.current;
+      const didPan = panState?.didPan ?? false;
 
-      if (panStateRef.current) {
+      if (panState) {
+        if (config.smoothPan && didPan) {
+          const settledWindow = resolveChartViewportWindowFromPanDelta({
+            currentWindow: panState.startWindow,
+            deltaPoints: Math.round(panState.lastDeltaPoints),
+            itemCount: dataLength
+          });
+
+          if (!isSameViewportWindow(settledWindow, panState.lastWindow)) {
+            emitViewportChange({ nextWindow: settledWindow, onViewportChange });
+          }
+        }
+
         panStateRef.current = undefined;
         onPanOffsetChange?.(0);
         config.onGestureEnd?.({ interaction: "pan" });
