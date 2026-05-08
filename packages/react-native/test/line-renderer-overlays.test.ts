@@ -89,6 +89,7 @@ describe("LineChart renderer overlay contract", () => {
     const resolvedTheme = resolveCartesianChartThemeConfig({ mode: "light" });
     const node = StickyYAxis({
       fadeHeight: 120,
+      fadeOpacity: 1,
       fadeWidth: 16,
       fadeY: 0,
       gradientId: "sticky-y-axis-fade",

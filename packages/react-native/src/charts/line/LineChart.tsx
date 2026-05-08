@@ -37,7 +37,9 @@ import {
 } from "./interaction";
 import { getSelectedLineSeries } from "./selection";
 import { getLineChartOutsidePressSurfaces } from "./outsidePressSurfaces";
+import { getLineChartOverviewProps } from "./overviewProps";
 import { useLineChartResponderProps } from "./responders";
+import { getStickyYAxisFadeOpacity } from "./stickyYAxisLayout";
 import { LineChartRangeSelector } from "./rangeSelector";
 import { getRangeSelectorConfig } from "./rangeSelectorConfig";
 import { useAnimatedTooltipModel } from "./useAnimatedTooltipModel";
@@ -154,21 +156,9 @@ export const LineChart = <TData extends Record<string, unknown>>(
     dataIndexOffset: viewportWindow.startIndex,
     stableYAxisData: props.data
   });
-  const {
-    activeDot: _overviewActiveDot,
-    crosshair: _overviewCrosshair,
-    defaultSelectedIndex: _overviewDefaultSelectedIndex,
-    initialIndex: _overviewInitialIndex,
-    interaction: _overviewInteraction,
-    legend: _overviewLegend,
-    rangeSelector: _overviewRangeSelector,
-    selectedIndex: _overviewSelectedIndex,
-    scrollable: _overviewScrollable,
-    tooltip: _overviewTooltip,
-    viewport: _overviewViewport,
-    visiblePoints: _overviewVisiblePoints,
-    ...overviewBaseProps
-  } = props;
+  const { boxes, geometries, interactionPoints, selectionModel, formatYLabel } =
+    model;
+  const overviewBaseProps = getLineChartOverviewProps(props);
   const overviewModel = useChartModel({
     ...overviewBaseProps,
     activeDot: false,
@@ -181,8 +171,6 @@ export const LineChart = <TData extends Record<string, unknown>>(
     tooltip: false,
     width: props.width
   });
-  const { boxes, geometries, interactionPoints, selectionModel, formatYLabel } =
-    model;
   const isInteractionEnabled = isLineChartInteractionEnabled(interactionConfig);
   const animatedYAxisLabels = useLineChartYAxisLabels(
     model,
@@ -441,6 +429,7 @@ export const LineChart = <TData extends Record<string, unknown>>(
         {viewport.scrollable ? (
           <StickyYAxis
             fadeHeight={Math.max(0, mainHeight - xAxisLabelFadeY)}
+            fadeOpacity={getStickyYAxisFadeOpacity(scrollOffset)}
             fadeWidth={Math.min(12, Math.max(0, props.width - boxes.plot.x))}
             fadeY={xAxisLabelFadeY}
             gradientId={scrollStartFadeId}

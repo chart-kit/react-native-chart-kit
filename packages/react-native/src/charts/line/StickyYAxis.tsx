@@ -1,12 +1,14 @@
 import { View } from "react-native";
 
 import { getLineChartRenderer } from "./renderer";
+import { getStickyYAxisBackgroundHeight } from "./stickyYAxisLayout";
 import { getFontFamilyProps } from "./text";
 import type { LineChartModel } from "./useChartModel";
 import type { LineChartRenderer, LineChartYAxisLabelModel } from "./types";
 
 export const StickyYAxis = <TData extends Record<string, unknown>>({
   fadeHeight,
+  fadeOpacity,
   fadeWidth,
   fadeY,
   gradientId,
@@ -17,6 +19,7 @@ export const StickyYAxis = <TData extends Record<string, unknown>>({
   yAxisLabels
 }: {
   fadeHeight: number;
+  fadeOpacity: number;
   fadeWidth: number;
   fadeY: number;
   gradientId: string;
@@ -67,7 +70,7 @@ export const StickyYAxis = <TData extends Record<string, unknown>>({
             x={0}
             y={0}
             width={boxes.plot.x}
-            height={mainHeight}
+            height={getStickyYAxisBackgroundHeight({ fadeY, mainHeight })}
             fill={resolvedTheme.background}
           />
           {supportsGradients && fadeWidth > 0 ? (
@@ -77,6 +80,7 @@ export const StickyYAxis = <TData extends Record<string, unknown>>({
               width={fadeWidth}
               height={fadeHeight}
               fill={`url(#${gradientId})`}
+              opacity={fadeOpacity}
             />
           ) : null}
         </Layer>
