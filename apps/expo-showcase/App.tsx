@@ -365,21 +365,8 @@ export default function App() {
           >
             <View style={[styles.pageContent, { width: previewWidth }]}>
               <View style={styles.pageIntro}>
-                <Text
-                  style={[styles.pageKicker, { color: appTheme.mutedText }]}
-                >
-                  {pageSelection.mode.title}
-                </Text>
                 <Text style={[styles.pageTitle, { color: appTheme.text }]}>
                   {pageSelection.page.title}
-                </Text>
-                <Text
-                  style={[
-                    styles.pageDescription,
-                    { color: appTheme.mutedText }
-                  ]}
-                >
-                  {pageSelection.page.description}
                 </Text>
               </View>
 
@@ -395,16 +382,6 @@ export default function App() {
                       >
                         {group.title}
                       </Text>
-                      {group.description ? (
-                        <Text
-                          style={[
-                            styles.storyGroupDescription,
-                            { color: appTheme.mutedText }
-                          ]}
-                        >
-                          {group.description}
-                        </Text>
-                      ) : null}
                     </View>
                   ) : null}
                   <View style={styles.storyGrid}>

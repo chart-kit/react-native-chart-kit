@@ -60,14 +60,7 @@ export const styles = StyleSheet.create({
     maxWidth: 940
   },
   pageIntro: {
-    marginBottom: 14
-  },
-  pageKicker: {
-    color: "#64748b",
-    fontSize: 11,
-    fontWeight: "900",
-    letterSpacing: 0,
-    textTransform: "uppercase"
+    marginBottom: 8
   },
   pageTitle: {
     color: "#101828",
@@ -76,16 +69,9 @@ export const styles = StyleSheet.create({
     letterSpacing: 0,
     marginTop: 3
   },
-  pageDescription: {
-    color: "#475569",
-    fontSize: 14,
-    fontWeight: "600",
-    lineHeight: 20,
-    marginTop: 5
-  },
   storyGroup: {
-    gap: 10,
-    marginTop: 20
+    gap: 8,
+    marginTop: 16
   },
   storyGroupHeader: {
     maxWidth: 620
@@ -95,13 +81,6 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "900",
     letterSpacing: 0
-  },
-  storyGroupDescription: {
-    color: "#64748b",
-    fontSize: 13,
-    fontWeight: "600",
-    lineHeight: 18,
-    marginTop: 3
   },
   storyGrid: {
     flexDirection: "row",
@@ -114,7 +93,7 @@ export const styles = StyleSheet.create({
     borderTopWidth: 1,
     gap: 12,
     paddingBottom: 22,
-    paddingTop: 24
+    paddingTop: 20
   },
   featureTags: {
     color: "#94a3b8",

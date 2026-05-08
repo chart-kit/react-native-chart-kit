@@ -46,7 +46,6 @@ export type ShowcaseStoryGroup = {
 
 export const ChartSection = ({
   children,
-  kicker,
   title
 }: {
   children: React.ReactNode;
@@ -58,11 +57,6 @@ export const ChartSection = ({
 
   return (
     <View style={styles.storySection}>
-      {kicker ? (
-        <Text style={[styles.kicker, isDarkSection && styles.darkKicker]}>
-          {kicker}
-        </Text>
-      ) : null}
       <Text style={[styles.storyTitle, isDarkSection && styles.darkStoryTitle]}>
         {title}
       </Text>
@@ -87,17 +81,6 @@ export const EmptyState = ({
 const styles = StyleSheet.create({
   storySection: {
     width: "100%"
-  },
-  kicker: {
-    color: "#64748b",
-    fontSize: 12,
-    fontWeight: "800",
-    letterSpacing: 0,
-    marginBottom: 4,
-    textTransform: "uppercase"
-  },
-  darkKicker: {
-    color: "#94a3b8"
   },
   storyTitle: {
     color: "#0f172a",
