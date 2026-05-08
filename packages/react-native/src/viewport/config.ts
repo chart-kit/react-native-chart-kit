@@ -22,6 +22,19 @@ const normalizePositiveInteger = (
   min: number
 ) => Math.floor(normalizeFiniteNumber(value, fallback, min));
 
+const getChartViewportPointSpacing = ({
+  plotWidth,
+  visibleCount
+}: {
+  plotWidth: number;
+  visibleCount: number;
+}) => {
+  const safePlotWidth =
+    Number.isFinite(plotWidth) && plotWidth > 0 ? plotWidth : 1;
+
+  return safePlotWidth / Math.max(1, visibleCount - 1);
+};
+
 export const resolveChartViewportInteractionConfig = (
   viewportInteraction?: boolean | ChartViewportInteractionConfig
 ): ResolvedChartViewportInteractionConfig => {
@@ -82,6 +95,23 @@ export const resolveChartViewportInteractionConfig = (
   };
 };
 
+export const getChartViewportEffectiveMinPanDistance = ({
+  minPanDistance,
+  plotWidth,
+  visibleCount
+}: {
+  minPanDistance: number;
+  plotWidth: number;
+  visibleCount: number;
+}) => {
+  const pointSpacing = getChartViewportPointSpacing({
+    plotWidth,
+    visibleCount
+  });
+
+  return Math.min(minPanDistance, Math.max(1, pointSpacing / 2));
+};
+
 export const getChartViewportPanDeltaPoints = ({
   currentLocationX,
   plotWidth,
@@ -93,9 +123,10 @@ export const getChartViewportPanDeltaPoints = ({
   startLocationX: number;
   visibleCount: number;
 }) => {
-  const safePlotWidth =
-    Number.isFinite(plotWidth) && plotWidth > 0 ? plotWidth : 1;
-  const pointSpacing = safePlotWidth / Math.max(1, visibleCount - 1);
+  const pointSpacing = getChartViewportPointSpacing({
+    plotWidth,
+    visibleCount
+  });
 
   return Math.round((startLocationX - currentLocationX) / pointSpacing);
 };

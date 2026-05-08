@@ -8,6 +8,7 @@ import {
 
 import { isChartViewportEventInBounds } from "./bounds";
 import {
+  getChartViewportEffectiveMinPanDistance,
   getChartViewportPanDeltaPoints,
   resolveChartViewportInteractionConfig
 } from "./config";
@@ -109,8 +110,13 @@ export const useChartViewportPan = ({
       const deltaX = Math.abs(
         event.nativeEvent.locationX - panState.startLocationX
       );
+      const minPanDistance = getChartViewportEffectiveMinPanDistance({
+        minPanDistance: config.minPanDistance,
+        plotWidth: plotBounds.width,
+        visibleCount: panState.startWindow.visibleCount
+      });
 
-      if (deltaX < config.minPanDistance) {
+      if (deltaX < minPanDistance) {
         return true;
       }
 
