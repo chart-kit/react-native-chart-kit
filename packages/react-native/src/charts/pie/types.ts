@@ -89,6 +89,7 @@ export type PieChartArcLabelsConfig<TData = unknown> = {
 
 export type PieChartLegendConfig<TData = unknown> = {
   visible?: boolean;
+  reservedHeight?: number;
   itemGap?: number;
   maxItemWidth?: ViewStyle["maxWidth"];
   renderItem?: (props: PieChartLegendRenderProps<TData>) => ReactNode;

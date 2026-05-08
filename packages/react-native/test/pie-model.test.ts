@@ -87,6 +87,27 @@ describe("PieChart model", () => {
     expect(model.arcs[0]?.path).toContain(`A ${model.innerRadius}`);
   });
 
+  it("reserves custom legend height for rich legend rows", () => {
+    const model = buildPieChartModel({
+      chartKitTheme,
+      props: {
+        data: [
+          { label: "Organic", value: 54 },
+          { label: "Paid", value: 31 },
+          { label: "Referral", value: 15 }
+        ],
+        valueKey: "value",
+        labelKey: "label",
+        width: 320,
+        height: 280,
+        legend: { reservedHeight: 72 }
+      }
+    });
+
+    expect(model.legendVisible).toBe(true);
+    expect(model.chartHeight).toBe(208);
+  });
+
   it("reserves a gutter for active slice zoom and lift", () => {
     const props = {
       data: [

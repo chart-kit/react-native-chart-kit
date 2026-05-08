@@ -60,6 +60,21 @@ const getLegendVisible = <TData extends Record<string, unknown>>(
   return true;
 };
 
+const getLegendReservedHeight = <TData extends Record<string, unknown>>(
+  legend: PieChartProps<TData>["legend"]
+) => {
+  if (!getLegendVisible(legend)) {
+    return 0;
+  }
+
+  const config = typeof legend === "object" ? legend : {};
+
+  return typeof config.reservedHeight === "number" &&
+    Number.isFinite(config.reservedHeight)
+    ? Math.max(0, config.reservedHeight)
+    : defaultLegendHeight;
+};
+
 const normalizePieInput = <TData extends Record<string, unknown>>({
   colorKey,
   colors,
@@ -131,12 +146,10 @@ export const buildPieChartModel = <TData extends Record<string, unknown>>({
     theme: typeof theme === "object" ? theme : chartKitTheme.theme
   });
   const legendVisible = getLegendVisible(legend);
+  const legendReservedHeight = getLegendReservedHeight(legend);
   const arcLabelConfig = resolvePieChartArcLabelsConfig(arcLabels);
   const arcLabelsVisible = getPieChartArcLabelsVisible(arcLabels);
-  const chartHeight = Math.max(
-    120,
-    height - (legendVisible ? defaultLegendHeight : 0)
-  );
+  const chartHeight = Math.max(120, height - legendReservedHeight);
   const centerX = width / 2;
   const centerY = chartHeight / 2;
   const arcLabelReserve = arcLabelsVisible ? defaultArcLabelReserve : 0;

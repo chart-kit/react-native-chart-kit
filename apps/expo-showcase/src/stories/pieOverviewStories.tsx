@@ -83,12 +83,55 @@ const V2SelectablePie = ({ width }: NativeStoryProps) => {
           inactiveOpacity: 0.7
         }}
         data={acquisitionShare}
-        height={260}
+        height={276}
         interaction={{
           mode: "tap",
           onSelect: (event) => setSelectedIndex(event.index)
         }}
         labelKey="channel"
+        legend={{
+          itemGap: 6,
+          maxItemWidth: "48%",
+          reservedHeight: 72,
+          renderItem: ({ item, selected, theme }) => (
+            <View
+              style={[
+                pieStoryStyles.selectableLegendItem,
+                {
+                  backgroundColor: selected
+                    ? theme.tooltip.background
+                    : "transparent",
+                  borderColor: selected ? item.color : theme.axis,
+                  opacity: selected ? 1 : 0.72
+                }
+              ]}
+            >
+              <View
+                style={[
+                  pieStoryStyles.selectableLegendSwatch,
+                  { backgroundColor: item.color }
+                ]}
+              />
+              <Text
+                numberOfLines={1}
+                style={[
+                  pieStoryStyles.selectableLegendLabel,
+                  { color: selected ? theme.text : theme.mutedText }
+                ]}
+              >
+                {item.label}
+              </Text>
+              <Text
+                style={[
+                  pieStoryStyles.selectableLegendValue,
+                  { color: selected ? item.color : theme.mutedText }
+                ]}
+              >
+                {item.percentageLabel}
+              </Text>
+            </View>
+          )
+        }}
         selectedIndex={selectedIndex}
         selectionAnimation={{ duration: 220 }}
         testID="selectable-pie-chart"
@@ -267,5 +310,29 @@ const pieStoryStyles = StyleSheet.create({
   customLegendValue: {
     fontSize: 10,
     fontWeight: "800"
+  },
+  selectableLegendItem: {
+    alignItems: "center",
+    borderRadius: 7,
+    borderWidth: 1,
+    flexDirection: "row",
+    gap: 5,
+    minHeight: 26,
+    paddingHorizontal: 7,
+    width: "100%"
+  },
+  selectableLegendLabel: {
+    flex: 1,
+    fontSize: 11,
+    fontWeight: "800"
+  },
+  selectableLegendSwatch: {
+    borderRadius: 4,
+    height: 8,
+    width: 8
+  },
+  selectableLegendValue: {
+    fontSize: 10,
+    fontWeight: "900"
   }
 });
