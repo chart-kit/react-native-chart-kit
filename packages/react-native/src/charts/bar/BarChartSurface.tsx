@@ -328,7 +328,8 @@ export const BarChartTooltipOverlay = <TData,>({
   );
   const viewportTooltipModel = animatedTooltipModel
     ? offsetBarChartTooltipForViewport({
-        leftInset: model.boxes.plot.x + 4,
+        leftInset: model.boxes.plot.x + tooltipConfig.edgePadding,
+        rightInset: tooltipConfig.edgePadding,
         tooltip: animatedTooltipModel,
         viewportOffsetX,
         viewportWidth: width

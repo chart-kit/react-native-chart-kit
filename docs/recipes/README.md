@@ -57,7 +57,7 @@ Use this for paid acquisition, product analytics, revenue cohorts, or marketplac
   visiblePoints={8}
   initialIndex="end"
   interaction={{ mode: "tap", deselectOnOutsidePress: true }}
-  tooltip={{ width: 132 }}
+  tooltip={{ anchor: "pointer", placement: "above", width: 132 }}
   selectionAnimation={{ duration: 220 }}
   width={360}
   height={280}

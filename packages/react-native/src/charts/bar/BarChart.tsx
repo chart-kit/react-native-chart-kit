@@ -30,7 +30,7 @@ import {
   getSafeBarChartContentWidth,
   getSafeBarChartRenderer
 } from "./rendererSafety";
-import { getBarChartTooltipModel } from "./tooltip";
+import { getBarChartTooltipModel } from "./tooltipModel";
 import {
   resolveBarChartViewport,
   resolveBarChartViewportInitialOffset
@@ -63,6 +63,9 @@ export const BarChart = <TData extends Record<string, unknown>>(
   const [gestureSelectedBarKey, setGestureSelectedBarKey] = useState<
     string | undefined
   >(() => getBarChartBarKey(props.defaultSelectedBar));
+  const [gestureSelectionPointer, setGestureSelectionPointer] = useState<
+    { key: string; x: number; y: number } | undefined
+  >();
   const [scrollOffsetX, setScrollOffsetX] = useState(0);
   const viewport = useMemo(
     () =>
@@ -121,6 +124,8 @@ export const BarChart = <TData extends Record<string, unknown>>(
   const selectedBarKey = controlledSelectedBarKey ?? gestureSelectedBarKey;
   const clearGestureSelection = useCallback(
     (reason: "outsidePress" | "programmatic") => {
+      setGestureSelectionPointer(undefined);
+
       if (props.selectedBar === undefined) {
         setGestureSelectedBarKey(undefined);
       }
@@ -173,9 +178,13 @@ export const BarChart = <TData extends Record<string, unknown>>(
       getBarChartTooltipModel({
         bar: selectedBar,
         boxes,
-        config: tooltipConfig
+        config: tooltipConfig,
+        pointer:
+          gestureSelectionPointer?.key === selectedBarKey
+            ? gestureSelectionPointer
+            : undefined
       }),
-    [boxes, selectedBar, tooltipConfig]
+    [boxes, gestureSelectionPointer, selectedBar, selectedBarKey, tooltipConfig]
   );
   const isInteractionEnabled = isBarChartInteractionEnabled(interactionConfig);
   const handleResponderRelease = useCallback(
@@ -200,6 +209,12 @@ export const BarChart = <TData extends Record<string, unknown>>(
       if (props.selectedBar === undefined) {
         setGestureSelectedBarKey(tappedBar.key);
       }
+
+      setGestureSelectionPointer({
+        key: tappedBar.key,
+        x: locationX,
+        y: locationY
+      });
 
       scopedSelection.selectChart();
       const selectEvent = buildBarChartSelectEvent(tappedBar);

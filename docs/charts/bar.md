@@ -179,7 +179,11 @@ Bar selection is opt-in. Use `interaction="tap"` for the simplest behavior, or p
       setSelectedChannel(event.seriesLabel);
     }
   }}
-  tooltip={{ width: 132 }}
+  tooltip={{
+    anchor: "pointer",
+    placement: "above",
+    width: 132
+  }}
   defaultSelectedBar={{ dataIndex: 3, seriesKey: "paid" }}
   width={360}
   height={260}
@@ -188,7 +192,7 @@ Bar selection is opt-in. Use `interaction="tap"` for the simplest behavior, or p
 
 The public select event includes `dataIndex`, `seriesKey`, `seriesLabel`, `value`, `formattedValue`, `x`, `xLabel`, `color`, `position`, and the original `raw` row.
 
-Tooltip styling follows the chart theme tooltip tokens by default and can be overridden per chart with `backgroundColor`, `borderColor`, `textColor`, `labelColor`, `padding`, `borderRadius`, `fontFamily`, `fontSize`, `labelFontSize`, and shadow props.
+Tooltip positioning uses `anchor: "bar"` and `placement: "auto"` by default. Use `anchor: "pointer"` with `placement: "above"` when the tooltip should follow the tap position and stay above the finger. Styling follows the chart theme tooltip tokens by default and can be overridden per chart with `backgroundColor`, `borderColor`, `textColor`, `labelColor`, `padding`, `borderRadius`, `fontFamily`, `fontSize`, `labelFontSize`, and shadow props.
 
 ## Scrollable Bars
 
@@ -221,7 +225,7 @@ Use `renderBar` when bars need product-specific styling while keeping the built-
   yKey="spend"
   width={360}
   height={250}
-  renderBar={({ bar, fill, radius, strokeColor, strokeOpacity }) => (
+  renderBar={({ bar, fill, radius }) => (
     <SvgRect
       x={bar.x}
       y={bar.y}
@@ -229,9 +233,6 @@ Use `renderBar` when bars need product-specific styling while keeping the built-
       height={bar.height}
       rx={radius}
       fill={fill}
-      stroke={strokeColor}
-      strokeOpacity={strokeOpacity}
-      strokeWidth={strokeOpacity > 0 ? 1.5 : 0}
     />
   )}
 />

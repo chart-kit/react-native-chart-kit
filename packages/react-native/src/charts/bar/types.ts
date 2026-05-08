@@ -69,6 +69,10 @@ export type BarChartInteraction<TData = unknown> =
 
 export type BarChartTooltipConfig = {
   visible?: boolean;
+  anchor?: BarChartTooltipAnchor;
+  placement?: BarChartTooltipPlacement;
+  offset?: number;
+  edgePadding?: number;
   width?: number;
   positionAnimationDuration?: number;
   padding?: number;
@@ -86,8 +90,15 @@ export type BarChartTooltipConfig = {
   labelFontSize?: number;
 };
 
+export type BarChartTooltipAnchor = "bar" | "pointer";
+export type BarChartTooltipPlacement = "auto" | "above" | "below";
+
 export type ResolvedBarChartTooltipConfig = {
   visible: boolean;
+  anchor: BarChartTooltipAnchor;
+  placement: BarChartTooltipPlacement;
+  offset: number;
+  edgePadding: number;
   width: number;
   positionAnimationDuration: number;
   padding: number;

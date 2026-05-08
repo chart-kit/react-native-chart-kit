@@ -16,6 +16,7 @@ import {
   resolveBarChartSelectionAnimationConfig,
   shouldRenderBarChartGridLines
 } from "../src/charts/bar/selectionAnimation";
+import { getBarChartTooltipModel } from "../src/charts/bar/tooltipModel";
 import { offsetBarChartTooltipForViewport } from "../src/charts/bar/tooltipPlacement";
 import type { BarChartBarModel } from "../src/charts/bar/types";
 
@@ -146,8 +147,12 @@ describe("BarChart interaction helpers", () => {
         }
       })
     ).toMatchObject({
+      anchor: "bar",
       backgroundColor: "#111827",
       borderColor: "#e5e7eb",
+      edgePadding: 4,
+      offset: 8,
+      placement: "auto",
       positionAnimationDuration: 240,
       textColor: "#0f172a",
       visible: true,
@@ -187,10 +192,10 @@ describe("BarChart interaction helpers", () => {
     ).toBe("#5787f0");
     expect(
       getAnimatedBarSelectionStrokeOpacity({ barKey: "paid-1", state })
-    ).toBeCloseTo(0.16);
+    ).toBeCloseTo(0);
     expect(
       getAnimatedBarSelectionStrokeOpacity({ barKey: "organic-1", state })
-    ).toBeCloseTo(0.16);
+    ).toBeCloseTo(0);
 
     expect(
       getAnimatedBarSelectionGridOpacity({
@@ -269,5 +274,31 @@ describe("BarChart interaction helpers", () => {
         viewportWidth: 320
       })
     ).toMatchObject({ x: 184, y: 42 });
+  });
+
+  it("supports pointer-anchored tooltips above taps", () => {
+    const tooltip = getBarChartTooltipModel({
+      bar: bars[0],
+      boxes: {
+        outer: { x: 0, y: 0, width: 320, height: 220 },
+        plot: { x: 52, y: 24, width: 240, height: 160 }
+      },
+      config: getBarChartTooltipConfig({
+        themeTooltip,
+        tooltip: {
+          anchor: "pointer",
+          edgePadding: 6,
+          offset: 14,
+          placement: "above",
+          width: 132
+        }
+      }),
+      pointer: { key: "paid-1", x: 144, y: 116 }
+    });
+
+    expect(tooltip).toMatchObject({
+      x: 78,
+      y: 51
+    });
   });
 });

@@ -5,54 +5,9 @@ import type {
   ResolvedBarChartTooltipConfig
 } from "./types";
 
+export type { BarChartTooltipModel } from "./tooltipModel";
+
 const tooltipLineHeight = 18;
-const tooltipGap = 8;
-
-export type BarChartTooltipModel<TData = unknown> = {
-  bar: BarChartBarModel<TData>;
-  height: number;
-  width: number;
-  x: number;
-  y: number;
-};
-
-export const getBarChartTooltipModel = <TData,>({
-  bar,
-  boxes,
-  config
-}: {
-  bar: BarChartBarModel<TData> | undefined;
-  boxes: { plot: { x: number; y: number; width: number; height: number } };
-  config: ResolvedBarChartTooltipConfig;
-}): BarChartTooltipModel<TData> | undefined => {
-  if (!bar || !config.visible) {
-    return undefined;
-  }
-
-  const height =
-    config.padding * 2 + config.labelFontSize + tooltipLineHeight + 2;
-  const preferredX = bar.x + bar.width / 2 - config.width / 2;
-  const minX = boxes.plot.x + 4;
-  const maxX = boxes.plot.x + boxes.plot.width - config.width - 4;
-  const x = Math.max(minX, Math.min(maxX, preferredX));
-  const aboveY = bar.y - height - tooltipGap;
-  const belowY = bar.y + bar.height + tooltipGap;
-  const y =
-    aboveY >= boxes.plot.y + 2
-      ? aboveY
-      : Math.min(
-          boxes.plot.y + boxes.plot.height - height - 2,
-          Math.max(boxes.plot.y + 2, belowY)
-        );
-
-  return {
-    bar,
-    height,
-    width: config.width,
-    x,
-    y
-  };
-};
 
 export const renderDefaultBarChartTooltip = <TData,>(
   {

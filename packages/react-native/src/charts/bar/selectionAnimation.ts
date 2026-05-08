@@ -6,7 +6,7 @@ const defaultSelectionAnimationDuration = 180;
 const dimmedBarOpacity = 0.54;
 const defaultGridStrokeOpacity = 0.78;
 const selectedGridStrokeOpacity = 0;
-const selectedStrokeOpacity = 0.32;
+const selectedStrokeOpacity = 0;
 
 export type ResolvedBarChartSelectionAnimationConfig = {
   enabled: boolean;

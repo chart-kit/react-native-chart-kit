@@ -208,7 +208,12 @@ const V2SelectableBar = ({ width }: NativeStoryProps) => (
         { yKey: "paid", label: "Paid" }
       ]}
       testID="selectable-bar-chart"
-      tooltip={{ borderColor: "transparent", width: 132 }}
+      tooltip={{
+        anchor: "pointer",
+        borderColor: "transparent",
+        placement: "above",
+        width: 132
+      }}
       width={width}
       xKey="month"
       yDomain={{ min: 0, max: "dataMax", nice: true }}
@@ -313,26 +318,15 @@ const V2CustomBarRenderer = ({ width }: NativeStoryProps) => (
     <BarChart
       data={campaignSpend.slice(10, 16)}
       height={250}
-      renderBar={({ bar, fill, radius, theme }) => (
-        <>
-          <SvgRect
-            x={bar.x}
-            y={bar.y}
-            width={bar.width}
-            height={bar.height}
-            rx={radius}
-            fill={fill}
-          />
-          <SvgRect
-            x={bar.x + bar.width * 0.18}
-            y={bar.y + 4}
-            width={bar.width * 0.64}
-            height={Math.max(0, bar.height - 8)}
-            rx={Math.max(1, radius - 1)}
-            fill={theme.background}
-            opacity={0.18}
-          />
-        </>
+      renderBar={({ bar, fill, radius }) => (
+        <SvgRect
+          x={bar.x}
+          y={bar.y}
+          width={bar.width}
+          height={bar.height}
+          rx={radius}
+          fill={fill}
+        />
       )}
       series={[{ yKey: "spend", label: "Spend" }]}
       width={width}
