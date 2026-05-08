@@ -5,6 +5,12 @@ import { StyleSheet, Text, View } from "react-native";
 import { useChartKitTheme } from "../../theme";
 import { getLineChartRenderer as getProgressChartRenderer } from "../line/renderer";
 import { getProgressChartAccessibilitySummary } from "./accessibility";
+import {
+  getAnimatedProgressRings,
+  getAverageProgress,
+  getProgressChartAnimationTargetKey,
+  useProgressChartAnimation
+} from "./animation";
 import { buildProgressChartModel } from "./model";
 import type {
   ProgressChartProps,
@@ -51,10 +57,40 @@ export const ProgressChart = <
     resolvedTheme,
     rings
   } = model;
+  const animationTargetKey = useMemo(
+    () => getProgressChartAnimationTargetKey(rings),
+    [rings]
+  );
+  const progressAnimation = useProgressChartAnimation({
+    animation: props.animation,
+    targetKey: animationTargetKey
+  });
+  const { progress: animationProgress, stagger: animationStagger } =
+    progressAnimation;
+  const animatedRings = useMemo(
+    () =>
+      getAnimatedProgressRings({
+        centerX,
+        centerY,
+        progress: animationProgress,
+        rings,
+        stagger: animationStagger
+      }),
+    [animationProgress, animationStagger, centerX, centerY, rings]
+  );
+  const displayRings = props.animation ? animatedRings : rings;
+  const animatedAverage = useMemo(
+    () => getAverageProgress(displayRings),
+    [displayRings]
+  );
   const strokeLinecap = props.strokeLinecap ?? defaultStrokeLinecap;
   const centerLabel =
     typeof props.centerLabel === "function"
-      ? props.centerLabel({ average, rings, theme: resolvedTheme })
+      ? props.centerLabel({
+          average: props.animation ? animatedAverage : average,
+          rings: displayRings,
+          theme: resolvedTheme
+        })
       : props.centerLabel;
   const accessibilityLabel =
     props.accessibilityLabel ??
@@ -110,7 +146,7 @@ export const ProgressChart = <
           )}
         </Layer>
         <Layer name="data">
-          {rings.map((ring) =>
+          {displayRings.map((ring) =>
             ring.defined ? (
               <Path
                 key={`progress-ring-${ring.index}`}

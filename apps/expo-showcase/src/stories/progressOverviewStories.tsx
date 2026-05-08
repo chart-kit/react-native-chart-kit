@@ -28,9 +28,10 @@ const activityProgressDetails = {
   }))
 };
 
-const V2ProgressActivity = ({ width }: NativeStoryProps) => (
+const V2ProgressActivity = ({ isVisualMode, width }: NativeStoryProps) => (
   <ChartSection title="Activity rings" kicker="Progress chart">
     <ProgressChart
+      animation={isVisualMode ? false : { duration: 1400, stagger: 0.08 }}
       centerLabel={({ average }) => `${Math.round(average * 100)}%`}
       data={activityProgress}
       height={260}

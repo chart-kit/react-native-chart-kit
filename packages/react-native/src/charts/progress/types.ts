@@ -31,6 +31,11 @@ export type ProgressChartCenterLabelRenderProps = {
   theme: ResolvedCartesianChartTheme;
 };
 
+export type ProgressChartAnimationConfig = {
+  duration?: number;
+  stagger?: number;
+};
+
 export type ProgressChartProps<
   TData extends Record<string, unknown> = ProgressRingDatum
 > = {
@@ -52,6 +57,7 @@ export type ProgressChartProps<
   strokeWidth?: number;
   ringGap?: number;
   radius?: number;
+  animation?: boolean | ProgressChartAnimationConfig;
   strokeLinecap?: ProgressChartStrokeLinecap;
   backgroundRingColor?: string;
   renderer?: ProgressChartRenderer;
