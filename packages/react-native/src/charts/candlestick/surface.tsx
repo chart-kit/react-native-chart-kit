@@ -23,7 +23,6 @@ export const CandlestickChartSurface = <TData,>({
   chartWidth,
   formatYLabel,
   model,
-  panOffsetX = 0,
   renderer: rendererProp,
   selectedCandle,
   selectionPriceLabel = true,
@@ -35,7 +34,6 @@ export const CandlestickChartSurface = <TData,>({
   chartWidth: number;
   formatYLabel: (value: number) => string;
   model: CandlestickChartModel<TData>;
-  panOffsetX?: number | undefined;
   renderer?: CandlestickChartRenderer | undefined;
   selectedCandle: CandlestickChartCandleModel<TData> | undefined;
   selectionPriceLabel?: boolean | undefined;
@@ -69,11 +67,6 @@ export const CandlestickChartSurface = <TData,>({
   const selectedCloseLabel = selectedCandle
     ? formatYLabel(selectedCandle.close)
     : "";
-  const safePanOffsetX = Number.isFinite(panOffsetX) ? panOffsetX : 0;
-  const shiftX = (value: number) => value + safePanOffsetX;
-  const shiftedTooltipModel = tooltipModel
-    ? { ...tooltipModel, x: shiftX(tooltipModel.x) }
-    : undefined;
 
   return (
     <Surface height={chartHeight} width={chartWidth}>
@@ -103,15 +96,15 @@ export const CandlestickChartSurface = <TData,>({
               height={gap.height}
               opacity={gap.fillOpacity}
               width={gap.width}
-              x={shiftX(gap.x)}
+              x={gap.x}
               y={gap.y}
             />
             <Line
               stroke={gap.stroke}
               strokeOpacity={gap.strokeOpacity}
               strokeWidth={gap.strokeWidth}
-              x1={shiftX(gap.x + gap.width / 2)}
-              x2={shiftX(gap.x + gap.width / 2)}
+              x1={gap.x + gap.width / 2}
+              x2={gap.x + gap.width / 2}
               y1={gap.y}
               y2={gap.y + gap.height}
               {...(gap.strokeDasharray
@@ -127,15 +120,15 @@ export const CandlestickChartSurface = <TData,>({
               height={event.height}
               opacity={event.fillOpacity}
               width={event.width}
-              x={shiftX(event.x)}
+              x={event.x}
               y={event.y}
             />
             <Line
               stroke={event.stroke}
               strokeOpacity={event.strokeOpacity}
               strokeWidth={event.strokeWidth}
-              x1={shiftX(event.x + event.width / 2)}
-              x2={shiftX(event.x + event.width / 2)}
+              x1={event.x + event.width / 2}
+              x2={event.x + event.width / 2}
               y1={event.y}
               y2={event.y + event.height}
               {...(event.strokeDasharray
@@ -171,7 +164,7 @@ export const CandlestickChartSurface = <TData,>({
             height={bar.height}
             opacity={bar.opacity}
             width={bar.width}
-            x={shiftX(bar.x)}
+            x={bar.x}
             y={bar.y}
           />
         ))}
@@ -182,8 +175,8 @@ export const CandlestickChartSurface = <TData,>({
             strokeLinecap="round"
             strokeWidth={1.5}
             testID={`${testID ?? "candlestick-chart"}-wick.${candle.dataIndex}`}
-            x1={shiftX(candle.wickX)}
-            x2={shiftX(candle.wickX)}
+            x1={candle.wickX}
+            x2={candle.wickX}
             y1={candle.highY}
             y2={candle.lowY}
           />
@@ -198,7 +191,7 @@ export const CandlestickChartSurface = <TData,>({
               candle.dataIndex
             }`}
             width={candle.bodyWidth}
-            x={shiftX(candle.bodyX)}
+            x={candle.bodyX}
             y={candle.bodyY}
             {...(selectedCandle?.dataIndex === candle.dataIndex
               ? {
@@ -235,7 +228,7 @@ export const CandlestickChartSurface = <TData,>({
                 fontSize={resolvedTheme.typography.axisLabelSize}
                 text={label.text}
                 textAnchor="middle"
-                x={shiftX(label.x)}
+                x={label.x}
                 y={label.y}
                 {...fontProps}
               >
@@ -255,7 +248,7 @@ export const CandlestickChartSurface = <TData,>({
                   )}
                   text={gap.label}
                   textAnchor="middle"
-                  x={shiftX(gap.labelX)}
+                  x={gap.labelX}
                   y={gap.labelY}
                   {...fontProps}
                 >
@@ -276,7 +269,7 @@ export const CandlestickChartSurface = <TData,>({
                   )}
                   text={event.label}
                   textAnchor="middle"
-                  x={shiftX(event.labelX)}
+                  x={event.labelX}
                   y={event.labelY}
                   {...fontProps}
                 >
@@ -294,8 +287,8 @@ export const CandlestickChartSurface = <TData,>({
               strokeDasharray={[4, 4]}
               strokeOpacity={0.42}
               strokeWidth={1}
-              x1={shiftX(selectedCandle.wickX)}
-              x2={shiftX(selectedCandle.wickX)}
+              x1={selectedCandle.wickX}
+              x2={selectedCandle.wickX}
               y1={boxes.plot.y}
               y2={boxes.plot.y + boxes.plot.height}
             />
@@ -337,10 +330,10 @@ export const CandlestickChartSurface = <TData,>({
             ) : null}
           </Group>
         ) : null}
-        {shiftedTooltipModel
+        {tooltipModel
           ? renderDefaultCandlestickTooltip(
               {
-                ...shiftedTooltipModel,
+                ...tooltipModel,
                 config: tooltipConfig
               },
               renderer

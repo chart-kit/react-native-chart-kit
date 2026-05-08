@@ -183,8 +183,7 @@ export const V2CandlestickLegendInspector = ({
           onGestureEnd: onScrubEnd,
           onGestureStart: onScrubStart,
           pan: true,
-          pinchZoom: true,
-          smoothPan: true
+          pinchZoom: true
         }}
         volumeKey="volume"
         width={width}

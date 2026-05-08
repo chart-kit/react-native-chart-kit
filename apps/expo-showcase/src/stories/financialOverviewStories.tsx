@@ -251,8 +251,7 @@ const V2CandlestickPriceAction = ({
           pinchZoom: true,
           minVisiblePoints: intervalMinimumVisiblePoints[candleInterval],
           onGestureEnd: onScrubEnd,
-          onGestureStart: onScrubStart,
-          smoothPan: true
+          onGestureStart: onScrubStart
         }}
         volumeKey="volume"
         width={width}

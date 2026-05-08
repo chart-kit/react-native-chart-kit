@@ -12,9 +12,7 @@ import {
 } from "@chart-kit/core";
 
 import {
-  getChartViewportContinuousPanDeltaPoints,
   getChartViewportPanDeltaPoints,
-  getChartViewportPanOffsetX,
   resolveChartViewportInteractionConfig
 } from "./config";
 import type {
@@ -25,8 +23,6 @@ import type {
 
 type PanResponderState = {
   didPan: boolean;
-  lastDeltaPoints: number;
-  lastOffsetX: number;
   lastWindow: ResolvedChartViewportWindow;
   startWindow: ResolvedChartViewportWindow;
 };
@@ -59,17 +55,10 @@ const emitViewportChange = ({
   });
 };
 
-const clamp = (value: number, min: number, max: number) =>
-  Math.min(Math.max(value, min), max);
-
-const getWholePanDeltaPoints = (value: number) =>
-  value < 0 ? Math.ceil(value) : Math.floor(value);
-
 export const useChartViewportPanResponder = ({
   dataLength,
   enabled,
   onPress,
-  onPanOffsetChange,
   onViewportChange,
   plotBounds,
   preventBrowserSelection,
@@ -79,7 +68,6 @@ export const useChartViewportPanResponder = ({
   dataLength: number;
   enabled: boolean;
   onPress: ((event: GestureResponderEvent) => void) | undefined;
-  onPanOffsetChange?: ((offsetX: number) => void) | undefined;
   onViewportChange: ((event: ChartViewportChangeEvent) => void) | undefined;
   plotBounds: ChartViewportBounds;
   preventBrowserSelection: (event: GestureResponderEvent) => void;
@@ -101,12 +89,9 @@ export const useChartViewportPanResponder = ({
     const startPan = () => {
       panStateRef.current = {
         didPan: false,
-        lastDeltaPoints: 0,
-        lastOffsetX: 0,
         lastWindow: viewportWindow,
         startWindow: viewportWindow
       };
-      onPanOffsetChange?.(0);
       config.onGestureStart?.({ interaction: "pan" });
     };
     const updatePan = (gestureState: PanResponderGestureState) => {
@@ -120,50 +105,12 @@ export const useChartViewportPanResponder = ({
         return;
       }
 
-      const rawDeltaPoints = config.smoothPan
-        ? getChartViewportContinuousPanDeltaPoints({
-            currentLocationX: gestureState.dx,
-            plotWidth: plotBounds.width,
-            startLocationX: 0,
-            visibleCount: panState.startWindow.visibleCount
-          })
-        : getChartViewportPanDeltaPoints({
-            currentLocationX: gestureState.dx,
-            plotWidth: plotBounds.width,
-            startLocationX: 0,
-            visibleCount: panState.startWindow.visibleCount
-          });
-      const boundedDeltaPoints = config.smoothPan
-        ? clamp(
-            rawDeltaPoints,
-            -panState.startWindow.startIndex,
-            dataLength -
-              panState.startWindow.visibleCount -
-              panState.startWindow.startIndex
-          )
-        : rawDeltaPoints;
-      const deltaPoints = config.smoothPan
-        ? getWholePanDeltaPoints(boundedDeltaPoints)
-        : boundedDeltaPoints;
-
-      if (config.smoothPan) {
-        const offsetX = getChartViewportPanOffsetX({
-          deltaPoints: boundedDeltaPoints,
-          plotWidth: plotBounds.width,
-          visibleCount: panState.startWindow.visibleCount,
-          wholeDeltaPoints: deltaPoints
-        });
-
-        if (Math.abs(offsetX - panState.lastOffsetX) >= 0.25) {
-          panStateRef.current = {
-            ...panState,
-            didPan: true,
-            lastDeltaPoints: boundedDeltaPoints,
-            lastOffsetX: offsetX
-          };
-          onPanOffsetChange?.(offsetX);
-        }
-      }
+      const deltaPoints = getChartViewportPanDeltaPoints({
+        currentLocationX: gestureState.dx,
+        plotWidth: plotBounds.width,
+        startLocationX: 0,
+        visibleCount: panState.startWindow.visibleCount
+      });
 
       if (deltaPoints === 0) {
         return;
@@ -182,8 +129,6 @@ export const useChartViewportPanResponder = ({
       panStateRef.current = {
         ...panState,
         didPan: true,
-        lastDeltaPoints: boundedDeltaPoints,
-        lastOffsetX: panStateRef.current?.lastOffsetX ?? panState.lastOffsetX,
         lastWindow: nextWindow
       };
       emitViewportChange({ nextWindow, onViewportChange });
@@ -193,20 +138,7 @@ export const useChartViewportPanResponder = ({
       const didPan = panState?.didPan ?? false;
 
       if (panState) {
-        if (config.smoothPan && didPan) {
-          const settledWindow = resolveChartViewportWindowFromPanDelta({
-            currentWindow: panState.startWindow,
-            deltaPoints: Math.round(panState.lastDeltaPoints),
-            itemCount: dataLength
-          });
-
-          if (!isSameViewportWindow(settledWindow, panState.lastWindow)) {
-            emitViewportChange({ nextWindow: settledWindow, onViewportChange });
-          }
-        }
-
         panStateRef.current = undefined;
-        onPanOffsetChange?.(0);
         config.onGestureEnd?.({ interaction: "pan" });
       }
 
@@ -233,7 +165,6 @@ export const useChartViewportPanResponder = ({
       onPanResponderTerminate: () => {
         if (panStateRef.current) {
           panStateRef.current = undefined;
-          onPanOffsetChange?.(0);
           config.onGestureEnd?.({ interaction: "pan" });
         }
       },
@@ -244,7 +175,6 @@ export const useChartViewportPanResponder = ({
     dataLength,
     enabled,
     onPress,
-    onPanOffsetChange,
     onViewportChange,
     plotBounds.width,
     preventBrowserSelection,
