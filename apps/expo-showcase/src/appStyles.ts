@@ -1,6 +1,9 @@
 import { Platform, StatusBar, StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+  gestureRoot: {
+    flex: 1
+  },
   visualRoot: {
     alignItems: "center",
     backgroundColor: "#f4f7fb",

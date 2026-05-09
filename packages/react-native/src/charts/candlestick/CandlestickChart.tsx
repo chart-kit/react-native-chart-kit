@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import type { GestureResponderEvent, ViewProps } from "react-native";
+import type { GestureResponderEvent } from "react-native";
 
 import {
   resolveChartViewport,
@@ -10,7 +10,10 @@ import {
 } from "@chart-kit/core";
 
 import { useChartKitTheme } from "../../theme";
-import { useChartViewportPanResponder } from "../../viewport/panResponder";
+import {
+  ChartViewportGestureHandler,
+  useChartViewportGestureHandler
+} from "../../viewport/gestureHandler";
 import {
   ChartViewportGesture,
   useChartViewportPinchZoom
@@ -194,11 +197,8 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
       }),
     [boxes, formatXLabel, formatYLabel, selectedCandle, tooltipConfig]
   );
-  const handleResponderRelease = useCallback(
-    (event: GestureResponderEvent) => {
-      preventBrowserSelection(event);
-
-      const { locationX, locationY } = event.nativeEvent;
+  const handleSurfacePress = useCallback(
+    ({ locationX, locationY }: { locationX: number; locationY: number }) => {
       const tappedCandle = getCandlestickAtPoint({
         candles,
         locationX,
@@ -235,23 +235,20 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
       formatXLabel,
       formatYLabel,
       interactionConfig,
-      preventBrowserSelection,
       props.selectedIndex
     ]
   );
   const isInteractionEnabled =
     isCandlestickChartInteractionEnabled(interactionConfig);
-  const viewportPanResponder = useChartViewportPanResponder({
+  const viewportGesture = useChartViewportGestureHandler({
     dataLength: props.data.length,
     enabled: !scrollViewport.scrollable,
-    onPress: isInteractionEnabled ? handleResponderRelease : undefined,
+    onPress: isInteractionEnabled ? handleSurfacePress : undefined,
     onViewportChange: props.onViewportChange,
     plotBounds: boxes.plot,
-    preventBrowserSelection,
     viewportInteraction: props.viewportInteraction,
     viewportWindow
   });
-  const responderProps: ViewProps = viewportPanResponder.panHandlers;
   const accessibilityLabel =
     props.accessibilityLabel ??
     getCandlestickChartAccessibilitySummary({
@@ -265,25 +262,23 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
       xKey: props.xKey
     });
   const mainSurface = (
-    <View
-      collapsable={false}
-      style={{ height: mainHeight, width: chartWidth }}
-      {...responderProps}
-    >
-      <ChartViewportGesture gesture={viewportPinchZoom}>
-        <CandlestickChartSurface
-          chartHeight={mainHeight}
-          chartWidth={chartWidth}
-          formatYLabel={formatYLabel}
-          model={model}
-          renderer={renderer}
-          selectedCandle={selectedCandle}
-          selectionPriceLabel={props.selectionPriceLabel !== false}
-          testID={props.testID}
-          tooltipConfig={tooltipConfig}
-          tooltipModel={tooltipModel}
-        />
-      </ChartViewportGesture>
+    <View collapsable={false} style={{ height: mainHeight, width: chartWidth }}>
+      <ChartViewportGestureHandler gesture={viewportGesture}>
+        <ChartViewportGesture gesture={viewportPinchZoom}>
+          <CandlestickChartSurface
+            chartHeight={mainHeight}
+            chartWidth={chartWidth}
+            formatYLabel={formatYLabel}
+            model={model}
+            renderer={renderer}
+            selectedCandle={selectedCandle}
+            selectionPriceLabel={props.selectionPriceLabel !== false}
+            testID={props.testID}
+            tooltipConfig={tooltipConfig}
+            tooltipModel={tooltipModel}
+          />
+        </ChartViewportGesture>
+      </ChartViewportGestureHandler>
     </View>
   );
 

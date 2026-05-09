@@ -13,6 +13,7 @@ import {
   ChartKitProvider,
   resolveCartesianChartThemeConfig
 } from "@chart-kit/react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import { styles } from "./src/appStyles";
 import {
@@ -306,127 +307,133 @@ export default function App() {
     const visualWidth = Math.min(previewWidth, 430);
 
     return (
-      <View style={styles.visualRoot}>
-        <View
-          testID="visual-frame"
-          style={[styles.visualFrame, { width: visualWidth }]}
-        >
-          <ChartKitProvider
-            mode={themeMode}
-            preset={chartPreset}
-            presets={showcaseCustomPresets}
+      <GestureHandlerRootView style={styles.gestureRoot}>
+        <View style={styles.visualRoot}>
+          <View
+            testID="visual-frame"
+            style={[styles.visualFrame, { width: visualWidth }]}
           >
-            <VisualStoryComponent width={visualWidth} isVisualMode />
-          </ChartKitProvider>
+            <ChartKitProvider
+              mode={themeMode}
+              preset={chartPreset}
+              presets={showcaseCustomPresets}
+            >
+              <VisualStoryComponent width={visualWidth} isVisualMode />
+            </ChartKitProvider>
+          </View>
         </View>
-      </View>
+      </GestureHandlerRootView>
     );
   }
 
   return (
-    <View style={[styles.safeArea, { backgroundColor: appTheme.background }]}>
-      <StatusBar barStyle={isDarkApp ? "light-content" : "dark-content"} />
-      <View style={styles.appShell}>
-        <View style={styles.header}>
-          <View style={styles.headerText}>
-            <Text style={[styles.eyebrow, { color: appTheme.mutedText }]}>
-              React Native Chart Kit
-            </Text>
-            <Text style={[styles.title, { color: appTheme.text }]}>
-              Showcase
-            </Text>
+    <GestureHandlerRootView style={styles.gestureRoot}>
+      <View style={[styles.safeArea, { backgroundColor: appTheme.background }]}>
+        <StatusBar barStyle={isDarkApp ? "light-content" : "dark-content"} />
+        <View style={styles.appShell}>
+          <View style={styles.header}>
+            <View style={styles.headerText}>
+              <Text style={[styles.eyebrow, { color: appTheme.mutedText }]}>
+                React Native Chart Kit
+              </Text>
+              <Text style={[styles.title, { color: appTheme.text }]}>
+                Showcase
+              </Text>
+            </View>
+            <ShowcaseMenu
+              appTheme={appTheme}
+              chartPreset={chartPreset}
+              currentPageId={pageSelection.page.id}
+              isDark={isDarkApp}
+              onSelectChartPreset={selectChartPreset}
+              onSelectPage={(page) =>
+                selectPage({ mode: publicChartMode, page })
+              }
+              onSelectThemeMode={selectThemeMode}
+              pages={publicChartMode.pages}
+              presetOptions={showcasePresetOptions}
+              themeMode={themeMode}
+              themeModeOptions={showcaseModeOptions}
+            />
           </View>
-          <ShowcaseMenu
-            appTheme={appTheme}
-            chartPreset={chartPreset}
-            currentPageId={pageSelection.page.id}
-            isDark={isDarkApp}
-            onSelectChartPreset={selectChartPreset}
-            onSelectPage={(page) => selectPage({ mode: publicChartMode, page })}
-            onSelectThemeMode={selectThemeMode}
-            pages={publicChartMode.pages}
-            presetOptions={showcasePresetOptions}
-            themeMode={themeMode}
-            themeModeOptions={showcaseModeOptions}
-          />
-        </View>
 
-        <ScrollView
-          testID="preview-scroll"
-          style={styles.previewScroll}
-          contentContainerStyle={styles.previewContent}
-          scrollEnabled={!isScrubbing}
-          showsVerticalScrollIndicator
-        >
-          <ChartKitProvider
-            mode={themeMode}
-            preset={chartPreset}
-            presets={showcaseCustomPresets}
+          <ScrollView
+            testID="preview-scroll"
+            style={styles.previewScroll}
+            contentContainerStyle={styles.previewContent}
+            scrollEnabled={!isScrubbing}
+            showsVerticalScrollIndicator
           >
-            <View style={[styles.pageContent, { width: previewWidth }]}>
-              <View style={styles.pageIntro}>
-                <Text style={[styles.pageTitle, { color: appTheme.text }]}>
-                  {pageSelection.page.title}
-                </Text>
-              </View>
+            <ChartKitProvider
+              mode={themeMode}
+              preset={chartPreset}
+              presets={showcaseCustomPresets}
+            >
+              <View style={[styles.pageContent, { width: previewWidth }]}>
+                <View style={styles.pageIntro}>
+                  <Text style={[styles.pageTitle, { color: appTheme.text }]}>
+                    {pageSelection.page.title}
+                  </Text>
+                </View>
 
-              {pageStoryGroups.map((group) => (
-                <View key={group.id} style={styles.storyGroup}>
-                  {group.title ? (
-                    <View style={styles.storyGroupHeader}>
-                      <Text
-                        style={[
-                          styles.storyGroupTitle,
-                          { color: appTheme.text }
-                        ]}
-                      >
-                        {group.title}
-                      </Text>
-                    </View>
-                  ) : null}
-                  <View style={styles.storyGrid}>
-                    {group.stories.map((story) => {
-                      const StoryComponent = story.Component;
-                      const StoryDetails = story.Details;
-                      const tags = storyFeatureTags[story.id] ?? [];
-
-                      return (
-                        <View
-                          key={story.id}
+                {pageStoryGroups.map((group) => (
+                  <View key={group.id} style={styles.storyGroup}>
+                    {group.title ? (
+                      <View style={styles.storyGroupHeader}>
+                        <Text
                           style={[
-                            styles.storyBlock,
-                            { borderTopColor: appTheme.grid },
-                            { width: storyBlockWidth }
+                            styles.storyGroupTitle,
+                            { color: appTheme.text }
                           ]}
                         >
-                          <StoryComponent
-                            width={chartWidth}
-                            onScrubStart={() => setIsScrubbing(true)}
-                            onScrubEnd={() => setIsScrubbing(false)}
-                          />
-                          {StoryDetails ? (
-                            <StoryDetails width={chartWidth} />
-                          ) : null}
-                          {tags.length > 0 ? (
-                            <Text
-                              style={[
-                                styles.featureTags,
-                                { color: appTheme.mutedText }
-                              ]}
-                            >
-                              {tags.join(" / ")}
-                            </Text>
-                          ) : null}
-                        </View>
-                      );
-                    })}
+                          {group.title}
+                        </Text>
+                      </View>
+                    ) : null}
+                    <View style={styles.storyGrid}>
+                      {group.stories.map((story) => {
+                        const StoryComponent = story.Component;
+                        const StoryDetails = story.Details;
+                        const tags = storyFeatureTags[story.id] ?? [];
+
+                        return (
+                          <View
+                            key={story.id}
+                            style={[
+                              styles.storyBlock,
+                              { borderTopColor: appTheme.grid },
+                              { width: storyBlockWidth }
+                            ]}
+                          >
+                            <StoryComponent
+                              width={chartWidth}
+                              onScrubStart={() => setIsScrubbing(true)}
+                              onScrubEnd={() => setIsScrubbing(false)}
+                            />
+                            {StoryDetails ? (
+                              <StoryDetails width={chartWidth} />
+                            ) : null}
+                            {tags.length > 0 ? (
+                              <Text
+                                style={[
+                                  styles.featureTags,
+                                  { color: appTheme.mutedText }
+                                ]}
+                              >
+                                {tags.join(" / ")}
+                              </Text>
+                            ) : null}
+                          </View>
+                        );
+                      })}
+                    </View>
                   </View>
-                </View>
-              ))}
-            </View>
-          </ChartKitProvider>
-        </ScrollView>
+                ))}
+              </View>
+            </ChartKitProvider>
+          </ScrollView>
+        </View>
       </View>
-    </View>
+    </GestureHandlerRootView>
   );
 }
