@@ -145,6 +145,7 @@ export const publicChartMode: ShowcaseMode = {
           storyIds: [
             "v2-candlestick-price-action",
             "v2-candlestick-legend-inspector",
+            "v2-candlestick-price-scale",
             "v2-candlestick-scrollable",
             "v2-candlestick-session-events"
           ]
