@@ -6,7 +6,6 @@ import {
   resolveLineChartViewportInteractionConfig
 } from "../src/charts/line/viewportInteractionConfig";
 import { getRangeSelectorConfig } from "../src/charts/line/rangeSelectorConfig";
-import { getChartViewportEffectiveMinPanDistance } from "../src/viewport/config";
 
 describe("LineChart viewport interaction helpers", () => {
   it("preserves range selector custom render hooks", () => {
@@ -92,23 +91,6 @@ describe("LineChart viewport interaction helpers", () => {
         visibleCount: 16
       })
     ).toBe(-1);
-  });
-
-  it("scales pan activation distance down for dense visible points", () => {
-    expect(
-      getChartViewportEffectiveMinPanDistance({
-        minPanDistance: 6,
-        plotWidth: 300,
-        visibleCount: 16
-      })
-    ).toBe(6);
-    expect(
-      getChartViewportEffectiveMinPanDistance({
-        minPanDistance: 6,
-        plotWidth: 300,
-        visibleCount: 72
-      })
-    ).toBeCloseTo(2.11, 2);
   });
 
   it("maps pinch scale to zoom factors with configurable sensitivity", () => {

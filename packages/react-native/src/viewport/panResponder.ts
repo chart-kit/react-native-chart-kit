@@ -12,7 +12,6 @@ import {
 } from "@chart-kit/core";
 
 import {
-  getChartViewportEffectiveMinPanDistance,
   getChartViewportPanDeltaPoints,
   resolveChartViewportInteractionConfig
 } from "./config";
@@ -102,13 +101,7 @@ export const useChartViewportPanResponder = ({
         return;
       }
 
-      const minPanDistance = getChartViewportEffectiveMinPanDistance({
-        minPanDistance: config.minPanDistance,
-        plotWidth: plotBounds.width,
-        visibleCount: panState.startWindow.visibleCount
-      });
-
-      if (Math.abs(gestureState.dx) < minPanDistance) {
+      if (Math.abs(gestureState.dx) < config.minPanDistance) {
         return;
       }
 
@@ -141,10 +134,9 @@ export const useChartViewportPanResponder = ({
       emitViewportChange({ nextWindow, onViewportChange });
     };
     const endPan = (event: GestureResponderEvent) => {
-      const panState = panStateRef.current;
-      const didPan = panState?.didPan ?? false;
+      const didPan = panStateRef.current?.didPan ?? false;
 
-      if (panState) {
+      if (panStateRef.current) {
         panStateRef.current = undefined;
         config.onGestureEnd?.({ interaction: "pan" });
       }
@@ -155,15 +147,8 @@ export const useChartViewportPanResponder = ({
     };
 
     return PanResponder.create({
-      onMoveShouldSetPanResponder: (_event, gestureState) => {
-        const minPanDistance = getChartViewportEffectiveMinPanDistance({
-          minPanDistance: config.minPanDistance,
-          plotWidth: plotBounds.width,
-          visibleCount: viewportWindow.visibleCount
-        });
-
-        return canPan && Math.abs(gestureState.dx) >= minPanDistance;
-      },
+      onMoveShouldSetPanResponder: (_event, gestureState) =>
+        canPan && Math.abs(gestureState.dx) >= config.minPanDistance,
       onPanResponderGrant: (event) => {
         preventBrowserSelection(event);
 
