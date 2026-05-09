@@ -281,6 +281,7 @@ describe("Chart Kit Pro preview boundary", () => {
     expect(chartKitProReactNativePreviewExports).toEqual([
       "BarChart",
       "CandlestickChart",
+      "CandlestickPriceScale",
       "ChartSelectionProvider",
       "CombinedChart",
       "DonutChart",
@@ -289,6 +290,9 @@ describe("Chart Kit Pro preview boundary", () => {
       "getCandlestickChartDataTable",
       "getCandlestickChartFinancialNarrative",
       "getCandlestickEmergencyClosureSessions",
+      "getCandlestickPriceScaleDomain",
+      "getCandlestickPriceScaleFromDrag",
+      "getCandlestickPriceScaleTicks",
       "getCombinedChartAccessibilitySummary",
       "getCombinedChartDataTable",
       "useChartSelection",
@@ -302,11 +306,15 @@ describe("Chart Kit Pro preview boundary", () => {
       LineChart: "LineChart"
     });
     expect(missingExports).toEqual([
+      "CandlestickPriceScale",
       "ChartSelectionProvider",
       "getCandlestickChartAccessibilitySummary",
       "getCandlestickChartDataTable",
       "getCandlestickChartFinancialNarrative",
       "getCandlestickEmergencyClosureSessions",
+      "getCandlestickPriceScaleDomain",
+      "getCandlestickPriceScaleFromDrag",
+      "getCandlestickPriceScaleTicks",
       "getCombinedChartAccessibilitySummary",
       "getCombinedChartDataTable",
       "useChartSelection",

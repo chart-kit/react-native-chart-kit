@@ -7,6 +7,16 @@ export {
   CandlestickChart
 } from "./charts/candlestick/CandlestickChart";
 export {
+  CandlestickPriceScale,
+  CandlestickPriceScale as FinancialPriceScale,
+  getCandlestickPriceScaleDomain,
+  getCandlestickPriceScaleDomain as getFinancialPriceScaleDomain,
+  getCandlestickPriceScaleFromDrag,
+  getCandlestickPriceScaleFromDrag as getFinancialPriceScaleFromDrag,
+  getCandlestickPriceScaleTicks,
+  getCandlestickPriceScaleTicks as getFinancialPriceScaleTicks
+} from "./charts/candlestick/PriceScale";
+export {
   getCombinedChartAccessibilitySummary,
   getCombinedChartDataTable,
   CombinedChart
@@ -54,6 +64,13 @@ export type {
   CandlestickChartViewportConfig,
   CandlestickChartViewportInteractionConfig
 } from "./charts/candlestick/CandlestickChart";
+export type {
+  CandlestickPriceDomain,
+  CandlestickPriceScaleChangeEvent,
+  CandlestickPriceScaleGestureEvent,
+  CandlestickPriceScaleLabelRenderProps,
+  CandlestickPriceScaleProps
+} from "./charts/candlestick/PriceScale";
 export type {
   CombinedChartAxisId,
   CombinedChartBarMode,

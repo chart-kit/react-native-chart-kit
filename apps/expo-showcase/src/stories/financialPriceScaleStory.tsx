@@ -1,13 +1,12 @@
-/* eslint-disable react-hooks/refs -- RNGH gesture callbacks store the starting scale in refs and read them when the native gesture runs. */
-import { useMemo, useRef, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { useMemo, useState } from "react";
+import { StyleSheet, View } from "react-native";
 
 import {
-  resolveCartesianChartThemeConfig,
-  useChartKitTheme
-} from "@chart-kit/react-native";
-import { CandlestickChart } from "@chart-kit/react-native/pro-preview";
+  CandlestickChart,
+  CandlestickPriceScale,
+  getCandlestickPriceScaleDomain
+} from "@chart-kit/react-native/pro-preview";
+import type { CandlestickChartViewportConfig } from "@chart-kit/react-native/pro-preview";
 
 import {
   getStockCandlePriceDomain,
@@ -17,34 +16,24 @@ import {
 import { ChartSection, type NativeStoryProps } from "./storyPrimitives";
 
 const weeklyCandles = getStockCandlesForInterval(stockCandles, "1W");
-const visibleWeeks = weeklyCandles.slice(-28);
-const basePriceDomain = getStockCandlePriceDomain(visibleWeeks, 0.42);
-const scaleMin = 0.72;
-const scaleMax = 2.1;
+const initialVisibleWeeks = 28;
+const minVisibleWeeks = 8;
+const priceScaleHeight = 292;
+const rangeSelectorGap = 9;
+const rangeSelectorHeight = 72;
 const priceScaleWidth = 62;
 const formatPrice = (value: number) => `$${Math.round(value)}`;
 
-const clamp = (value: number, min: number, max: number) =>
-  Math.min(Math.max(value, min), max);
+const getInitialViewport = (): CandlestickChartViewportConfig => ({
+  endIndex: Math.max(0, weeklyCandles.length - 1),
+  startIndex: Math.max(0, weeklyCandles.length - initialVisibleWeeks)
+});
 
-const getScaledDomain = (scale: number): [number, number] => {
-  const [min, max] = basePriceDomain;
-  const center = (min + max) / 2;
-  const span = (max - min) / scale;
-
-  return [center - span / 2, center + span / 2];
-};
-
-const getPriceTicks = (domain: [number, number], count = 6) => {
-  const [min, max] = domain;
-  const steps = Math.max(1, count - 1);
-
-  return Array.from({ length: count }, (_, index) => {
-    const ratio = index / steps;
-
-    return max - (max - min) * ratio;
-  });
-};
+const getVisibleCandles = (viewport: CandlestickChartViewportConfig) =>
+  weeklyCandles.slice(
+    Math.max(0, viewport.startIndex ?? 0),
+    Math.min(weeklyCandles.length, (viewport.endIndex ?? 0) + 1)
+  );
 
 const formatTradingWeek = (value: unknown) => {
   if (typeof value !== "string") {
@@ -69,88 +58,71 @@ export const V2CandlestickPriceScale = ({
   width
 }: NativeStoryProps) => {
   const [priceScale, setPriceScale] = useState(1);
-  const startScaleRef = useRef(priceScale);
-  const chartKitTheme = useChartKitTheme();
-  const resolvedTheme = useMemo(
-    () => resolveCartesianChartThemeConfig(chartKitTheme),
-    [chartKitTheme]
+  const [viewport, setViewport] =
+    useState<CandlestickChartViewportConfig>(getInitialViewport);
+  const visibleCandles = useMemo(() => getVisibleCandles(viewport), [viewport]);
+  const baseDomain = useMemo(
+    () => getStockCandlePriceDomain(visibleCandles, 0.42),
+    [visibleCandles]
   );
-  const yDomain = useMemo(() => getScaledDomain(priceScale), [priceScale]);
-  const priceTicks = useMemo(() => getPriceTicks(yDomain), [yDomain]);
-  const chartWidth = Math.max(220, width - priceScaleWidth - 8);
-  const scaleGesture = useMemo(
+  const yDomain = useMemo(
     () =>
-      Gesture.Pan()
-        .minPointers(1)
-        .maxPointers(1)
-        .activeOffsetY([-4, 4])
-        .runOnJS(true)
-        .onStart(() => {
-          startScaleRef.current = priceScale;
-          onScrubStart?.();
-        })
-        .onUpdate((event) => {
-          const nextScale = clamp(
-            startScaleRef.current * Math.exp(-event.translationY / 190),
-            scaleMin,
-            scaleMax
-          );
-
-          setPriceScale(nextScale);
-        })
-        .onEnd(() => onScrubEnd?.())
-        .onFinalize(() => onScrubEnd?.()),
-    [onScrubEnd, onScrubStart, priceScale]
+      getCandlestickPriceScaleDomain({
+        baseDomain,
+        scale: priceScale
+      }),
+    [baseDomain, priceScale]
   );
+  const chartWidth = Math.max(220, width - priceScaleWidth - 8);
 
   return (
     <ChartSection title="Price scale" kicker="Candlestick">
       <View style={styles.row}>
-        <GestureDetector gesture={scaleGesture}>
-          <View
-            accessibilityLabel="Drag the price scale up or down"
-            accessibilityRole="adjustable"
-            style={[
-              styles.priceScale,
-              {
-                backgroundColor: resolvedTheme.plotBackground,
-                borderColor: resolvedTheme.grid
-              }
-            ]}
-          >
-            <Text style={[styles.scaleValue, { color: resolvedTheme.text }]}>
-              {priceScale.toFixed(2)}x
-            </Text>
-            <View style={styles.tickStack}>
-              {priceTicks.map((tick) => (
-                <Text
-                  key={tick}
-                  style={[styles.priceTick, { color: resolvedTheme.mutedText }]}
-                >
-                  {formatPrice(tick)}
-                </Text>
-              ))}
-            </View>
-          </View>
-        </GestureDetector>
+        <CandlestickPriceScale
+          baseDomain={baseDomain}
+          formatLabel={formatPrice}
+          height={priceScaleHeight}
+          onGestureEnd={onScrubEnd}
+          onGestureStart={onScrubStart}
+          onScaleChange={(event) => setPriceScale(event.scale)}
+          scale={priceScale}
+          testID="price-scale-axis"
+          width={priceScaleWidth}
+        />
         <CandlestickChart
           candleWidthRatio={0.48}
           closeKey="close"
-          data={visibleWeeks}
+          data={weeklyCandles}
           downColor="#ef4444"
           formatXLabel={formatTradingWeek}
           formatYLabel={formatPrice}
-          height={292}
+          height={priceScaleHeight + rangeSelectorGap + rangeSelectorHeight}
           highKey="high"
           interaction="tap"
           lowKey="low"
+          onViewportChange={(event) => setViewport(event.viewport)}
           openKey="open"
-          rangeSelector={false}
+          rangeSelector={{
+            gap: rangeSelectorGap,
+            height: rangeSelectorHeight,
+            interactive: true,
+            minVisiblePoints: minVisibleWeeks,
+            onGestureEnd: onScrubEnd,
+            onGestureStart: onScrubStart
+          }}
           sessionGaps={false}
           showYAxisLabels={false}
           testID="price-scale-candlestick-chart"
           tooltip={false}
           upColor="#16a34a"
+          viewport={viewport}
+          viewportInteraction={{
+            minVisiblePoints: minVisibleWeeks,
+            onGestureEnd: onScrubEnd,
+            onGestureStart: onScrubStart,
+            pan: true,
+            pinchZoom: true
+          }}
           volumeKey="volume"
           width={chartWidth}
           xKey="day"
@@ -162,35 +134,9 @@ export const V2CandlestickPriceScale = ({
 };
 
 const styles = StyleSheet.create({
-  priceScale: {
-    alignItems: "stretch",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 292,
-    justifyContent: "space-between",
-    paddingHorizontal: 8,
-    paddingVertical: 10,
-    width: priceScaleWidth
-  },
-  priceTick: {
-    fontSize: 11,
-    fontWeight: "800",
-    lineHeight: 15,
-    textAlign: "right"
-  },
   row: {
-    alignItems: "center",
+    alignItems: "flex-start",
     flexDirection: "row",
     gap: 8
-  },
-  scaleValue: {
-    fontSize: 12,
-    fontWeight: "900",
-    textAlign: "right"
-  },
-  tickStack: {
-    flex: 1,
-    justifyContent: "space-between",
-    marginTop: 12
   }
 });

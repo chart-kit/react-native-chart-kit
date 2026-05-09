@@ -1,6 +1,7 @@
 export const chartKitProReactNativePreviewExports = [
   "BarChart",
   "CandlestickChart",
+  "CandlestickPriceScale",
   "ChartSelectionProvider",
   "CombinedChart",
   "DonutChart",
@@ -9,6 +10,9 @@ export const chartKitProReactNativePreviewExports = [
   "getCandlestickChartDataTable",
   "getCandlestickChartFinancialNarrative",
   "getCandlestickEmergencyClosureSessions",
+  "getCandlestickPriceScaleDomain",
+  "getCandlestickPriceScaleFromDrag",
+  "getCandlestickPriceScaleTicks",
   "getCombinedChartAccessibilitySummary",
   "getCombinedChartDataTable",
   "useChartSelection",
