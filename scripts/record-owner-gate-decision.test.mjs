@@ -201,11 +201,36 @@ describe("owner gate decision recorder", () => {
           "Final changelog approved.",
           "Docs freeze approved.",
           "Visual baseline freeze approved.",
-          "Deprecation policy approved."
+          "Deprecation policy approved.",
+          "Pro and Skia package plan approved.",
+          "Release claims approved."
         ],
         gateId: "h6",
         repoRoot: tempRepo
       })
     ).rejects.toThrow("H6 cannot be approved yet");
+  });
+
+  it("requires explicit H6 release-scope decisions", async () => {
+    const tempRepo = await createTempRepo();
+
+    await expect(
+      approveOwnerGate({
+        approvedAt: "2026-05-06",
+        approvedBy: "owner",
+        decisions: [
+          "Release candidate approved.",
+          "Final semver approved.",
+          "Final changelog approved.",
+          "Docs freeze approved.",
+          "Visual baseline freeze approved.",
+          "Deprecation policy approved.",
+          "Pro and Skia package plan approved.",
+          "One more generic decision."
+        ],
+        gateId: "h6",
+        repoRoot: tempRepo
+      })
+    ).rejects.toThrow("h6 requires explicit decision for release claims");
   });
 });

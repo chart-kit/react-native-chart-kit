@@ -84,6 +84,8 @@ To approve H6, the owner must explicitly approve:
 - docs freeze
 - visual baseline freeze
 - deprecation policy
+- Pro and Skia package plan
+- release claims
 
 If any of those are not approved, H6 should remain blocked and the project
 should continue as Developer Preview.
@@ -102,5 +104,7 @@ npm run release:owner:record -- \
   --decision "Final changelog approved." \
   --decision "Docs freeze approved." \
   --decision "Visual baseline freeze approved." \
-  --decision "Deprecation policy approved."
+  --decision "Deprecation policy approved." \
+  --decision "Pro and Skia package plan approved." \
+  --decision "Release claims approved."
 ```

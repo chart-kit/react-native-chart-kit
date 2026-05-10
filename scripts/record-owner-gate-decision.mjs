@@ -10,7 +10,16 @@ const h6EvidenceManifestPaths = [
   "docs/release/evidence/rn-cli-example-evidence.json",
   "docs/release/evidence/skia-renderer-evidence.json"
 ];
-const h6RequiredDecisionPatterns = [];
+const h6RequiredDecisionPatterns = [
+  { label: "release candidate approval", pattern: /release candidate/i },
+  { label: "final semver", pattern: /semver|version/i },
+  { label: "final changelog", pattern: /changelog|release notes/i },
+  { label: "docs freeze", pattern: /docs freeze|documentation freeze/i },
+  { label: "visual baseline freeze", pattern: /visual baseline|visual freeze/i },
+  { label: "deprecation policy", pattern: /deprecation policy/i },
+  { label: "Pro and Skia package plan", pattern: /pro.*skia|skia.*pro/i },
+  { label: "release claims", pattern: /release claims|stable release wording/i }
+];
 
 const readOwnerGates = async (repoRoot) =>
   JSON.parse(await readFile(path.join(repoRoot, ownerGatesPath), "utf8"));

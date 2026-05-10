@@ -67,7 +67,9 @@
         "final changelog",
         "docs freeze",
         "visual baseline freeze",
-        "deprecation policy"
+        "deprecation policy",
+        "Pro and Skia package plan",
+        "release claims"
       ]
     }
   ]

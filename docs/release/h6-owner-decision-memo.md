@@ -91,5 +91,7 @@ npm run release:owner:record -- \
   --decision "Final changelog approved." \
   --decision "Docs freeze approved." \
   --decision "Visual baseline freeze approved." \
-  --decision "Deprecation policy approved."
+  --decision "Deprecation policy approved." \
+  --decision "Pro and Skia package plan approved." \
+  --decision "Release claims approved."
 ```
