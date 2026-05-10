@@ -13,6 +13,8 @@ export const requiredFiles = [
   "docs/release/h6-finalization-checklist.md",
   "docs/release/h6-owner-decision-memo.md",
   "docs/release/h6-rc-readiness-packet.md",
+  "docs/release/h6-release-notes-draft.md",
+  "docs/release/h6-semver-proposal.md",
   "docs/release/known-issues.md",
   "docs/release/native-workflow-runbook.md",
   "docs/release/smoke-test-checks.md",

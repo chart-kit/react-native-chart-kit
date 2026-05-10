@@ -19,6 +19,8 @@ Recommended default:
 
 Owner must approve the final version numbers before H6.
 
+Detailed proposal: [H6 Semver Proposal](h6-semver-proposal.md).
+
 ## Final Changelog
 
 Before H6 approval:
@@ -30,6 +32,8 @@ Before H6 approval:
 - disclose known native/accessibility/performance caveats that remain true
 
 Owner must approve the final changelog wording before H6.
+
+Draft notes: [Chart Kit v2 Stable Release Notes Draft](h6-release-notes-draft.md).
 
 ## Docs Freeze
 
