@@ -35,6 +35,18 @@ Latest release-process cleanup verification on May 10, 2026:
 - `npm run test:unit -- scripts/release-runtime-artifacts.test.mjs scripts/release-accessibility-artifacts.test.mjs scripts/release-performance-artifacts.test.mjs` passed
 - `npm run release:gate:report` reports only the H6 owner-approval blocker
 
+Latest release-hardening verification on May 10, 2026:
+
+- `npm run test:unit -- scripts/check-release-gates.test.mjs scripts/check-npm-publish-state.test.mjs scripts/record-owner-gate-decision.test.mjs` passed
+- `npm run release:preview:gate` passed with the expected unpublished-source
+  warning
+- `npm run release:gate:report` reports only the H6 owner-approval blocker
+- `npm run docs:build` passed
+- H6 dry-run approval is covered by tests and still does not mutate
+  [owner-gates.json](../release/evidence/owner-gates.json)
+- publish workflow channel choices are limited to `next` and `latest`; `beta`
+  remains only as a deprecated-term guard in tests/scripts
+
 Current source version: `7.0.0-next.1`.
 
 Latest published Developer Preview: `7.0.0-next.0`.
