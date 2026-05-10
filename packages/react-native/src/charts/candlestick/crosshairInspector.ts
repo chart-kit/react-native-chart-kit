@@ -11,6 +11,10 @@ import {
 } from "react";
 import type { GestureResponderEvent, ViewProps } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import type {
+  ComposedGesture,
+  GestureType
+} from "react-native-gesture-handler";
 
 import type { ChartBoxes } from "@chart-kit/core";
 
@@ -35,7 +39,7 @@ type CrosshairTouchPoint = {
   locationY: number;
 };
 
-type CandlestickCrosshairGesture = ReturnType<typeof Gesture.Pan>;
+type CandlestickCrosshairGesture = ComposedGesture | GestureType;
 
 const isInPlot = ({
   locationX,
@@ -228,7 +232,14 @@ export const useCandlestickCrosshairInspector = <TData>({
       updateSelectionAt(touchPoint);
     };
 
-    return Gesture.Pan()
+    const longPressGesture = Gesture.LongPress()
+      .minDuration(longPressDelayMs)
+      .maxDistance(10)
+      .numberOfPointers(1)
+      .onStart(selectFromGesture)
+      .onEnd(endGesture)
+      .onFinalize(endGesture);
+    const panGesture = Gesture.Pan()
       .minPointers(1)
       .maxPointers(1)
       .activateAfterLongPress(longPressDelayMs)
@@ -236,6 +247,8 @@ export const useCandlestickCrosshairInspector = <TData>({
       .onUpdate(selectFromGesture)
       .onEnd(endGesture)
       .onFinalize(endGesture);
+
+    return Gesture.Simultaneous(longPressGesture, panGesture);
   }, [
     activation,
     beginGesture,
