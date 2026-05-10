@@ -4,6 +4,7 @@ import {
   buildCandlestickChartSelectEvent,
   getCandlestickAtPoint,
   getCandlestickChartInteractionConfig,
+  getNearestCandlestickByX,
   isCandlestickChartScrollableTap
 } from "../src/charts/candlestick/interaction";
 import {
@@ -66,6 +67,10 @@ describe("CandlestickChart interaction helpers", () => {
       deselectOnOutsidePress: true,
       mode: "tap"
     });
+    expect(getCandlestickChartInteractionConfig("crosshair")).toEqual({
+      deselectOnOutsidePress: true,
+      mode: "crosshair"
+    });
   });
 
   it("hit-tests wick and body regions", () => {
@@ -107,6 +112,22 @@ describe("CandlestickChart interaction helpers", () => {
         startTime: 0
       })
     ).toBe(false);
+  });
+
+  it("finds the nearest candle by x for crosshair inspection", () => {
+    const nextCandle = {
+      ...candle,
+      dataIndex: 3,
+      key: "candle-3",
+      wickX: 150
+    };
+
+    expect(
+      getNearestCandlestickByX({
+        candles: [candle, nextCandle],
+        locationX: 136
+      })?.key
+    ).toBe("candle-3");
   });
 
   it("builds formatted OHLC selection events", () => {

@@ -18,9 +18,12 @@ import { ChartSection, type NativeStoryProps } from "./storyPrimitives";
 
 const weeklyCandles = getStockCandlesForInterval(stockCandles, "1W");
 const weeklyYDomain = getStockCandlePriceDomain(weeklyCandles);
+const crosshairCandles = weeklyCandles.slice(-28);
+const crosshairYDomain = getStockCandlePriceDomain(crosshairCandles);
 const initialVisibleWeeks = 28;
 const minVisibleWeeks = 8;
 const initialSelectedIndex = Math.max(0, weeklyCandles.length - 2);
+const crosshairInitialSelectedIndex = Math.max(0, crosshairCandles.length - 2);
 const upColor = "#16a34a";
 const downColor = "#ef4444";
 
@@ -58,9 +61,11 @@ const getCandleMove = (candle: StockCandlePoint) => {
 };
 
 const SelectedWeekLegend = ({
-  candle
+  candle,
+  eyebrow = "AAPL weekly selection"
 }: {
   candle: StockCandlePoint | undefined;
+  eyebrow?: string;
 }) => {
   const chartKitTheme = useChartKitTheme();
   const resolvedTheme = useMemo(
@@ -100,7 +105,7 @@ const SelectedWeekLegend = ({
       <View style={styles.legendHeader}>
         <View>
           <Text style={[styles.eyebrow, { color: resolvedTheme.mutedText }]}>
-            AAPL weekly selection
+            {eyebrow}
           </Text>
           <Text style={[styles.selectedDate, { color: resolvedTheme.text }]}>
             Week of {formatTradingWeek(candle.day)}
@@ -132,6 +137,54 @@ const SelectedWeekLegend = ({
         ))}
       </View>
     </View>
+  );
+};
+
+export const V2CandlestickCrosshairInspector = ({
+  onScrubEnd,
+  onScrubStart,
+  width
+}: NativeStoryProps) => {
+  const [selectedIndex, setSelectedIndex] = useState(
+    crosshairInitialSelectedIndex
+  );
+  const selectedCandle = crosshairCandles[selectedIndex];
+
+  return (
+    <ChartSection title="Crosshair inspector" kicker="Inspection mode">
+      <SelectedWeekLegend
+        candle={selectedCandle}
+        eyebrow="AAPL crosshair inspector"
+      />
+      <CandlestickChart
+        candleWidthRatio={0.52}
+        closeKey="close"
+        data={crosshairCandles}
+        downColor={downColor}
+        formatXLabel={formatTradingWeek}
+        formatYLabel={formatPrice}
+        height={286}
+        highKey="high"
+        interaction={{
+          mode: "crosshair",
+          onGestureEnd: onScrubEnd,
+          onGestureStart: onScrubStart,
+          onSelect: (event) => setSelectedIndex(event.dataIndex)
+        }}
+        lowKey="low"
+        openKey="open"
+        selectedIndex={selectedIndex}
+        selectionPriceLabel={false}
+        sessionGaps={false}
+        testID="crosshair-inspector-candlestick-chart"
+        tooltip={false}
+        upColor={upColor}
+        volumeKey="volume"
+        width={width}
+        xKey="day"
+        yDomain={crosshairYDomain}
+      />
+    </ChartSection>
   );
 };
 

@@ -26,6 +26,7 @@ import {
   defaultFormatBarChartXLabel,
   defaultFormatBarChartYLabel
 } from "../bar/modelUtils";
+import { useCandlestickCrosshairInspector } from "./crosshairInspector";
 import { getCandlestickChartAccessibilitySummary } from "./accessibility";
 import {
   buildCandlestickChartSelectEvent,
@@ -82,6 +83,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
   const [gestureSelectedIndex, setGestureSelectedIndex] = useState<
     number | undefined
   >(props.defaultSelectedIndex);
+  const [crosshairY, setCrosshairY] = useState<number | undefined>();
   const rangeSelectorConfig = useMemo(
     () => getCandlestickChartRangeSelectorConfig(props.rangeSelector),
     [props.rangeSelector]
@@ -254,17 +256,33 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
   );
   const isInteractionEnabled =
     isCandlestickChartInteractionEnabled(interactionConfig);
+  const isTapInteraction = interactionConfig.mode === "tap";
+  const isCrosshairInteraction = interactionConfig.mode === "crosshair";
   const viewportGesture = useChartViewportGestureHandler({
     dataLength: props.data.length,
     enabled: !scrollViewport.scrollable,
     onPress:
-      !scrollViewport.scrollable && isInteractionEnabled
+      !scrollViewport.scrollable && isTapInteraction
         ? handleSurfacePress
         : undefined,
     onViewportChange: props.onViewportChange,
     plotBounds: boxes.plot,
     viewportInteraction: props.viewportInteraction,
     viewportWindow
+  });
+  const crosshairResponderProps = useCandlestickCrosshairInspector({
+    candles,
+    enabled: !scrollViewport.scrollable && isCrosshairInteraction,
+    formatXLabel,
+    formatYLabel,
+    onGestureEnd: interactionConfig.onGestureEnd,
+    onGestureStart: interactionConfig.onGestureStart,
+    onSelect: interactionConfig.onSelect,
+    plot: boxes.plot,
+    preventBrowserSelection,
+    selectedIndexControlled: props.selectedIndex !== undefined,
+    setCrosshairY,
+    setGestureSelectedIndex
   });
   const handleScrollableTouchStart = useCallback(
     (event: NativeSyntheticEvent<NativeTouchEvent>) => {
@@ -339,7 +357,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
     scrollableTapRef.current = undefined;
   }, []);
   const scrollableTouchProps =
-    scrollViewport.scrollable && isInteractionEnabled
+    scrollViewport.scrollable && isTapInteraction
       ? {
           onTouchCancel: handleScrollableTouchCancel,
           onTouchEnd: handleScrollableTouchEnd,
@@ -347,6 +365,9 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
           onTouchStart: handleScrollableTouchStart
         }
       : {};
+  const mainSurfaceInteractionProps = isCrosshairInteraction
+    ? crosshairResponderProps
+    : scrollableTouchProps;
   const accessibilityLabel =
     props.accessibilityLabel ??
     getCandlestickChartAccessibilitySummary({
@@ -363,13 +384,14 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
     <View
       collapsable={false}
       style={{ height: mainHeight, width: chartWidth }}
-      {...scrollableTouchProps}
+      {...mainSurfaceInteractionProps}
     >
       <ChartViewportGestureHandler gesture={viewportGesture}>
         <ChartViewportGesture gesture={viewportPinchZoom}>
           <CandlestickChartSurface
             chartHeight={mainHeight}
             chartWidth={chartWidth}
+            crosshairY={isCrosshairInteraction ? crosshairY : undefined}
             formatYLabel={formatYLabel}
             model={model}
             renderer={renderer}

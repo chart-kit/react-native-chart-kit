@@ -15,7 +15,10 @@ import {
   stockCandles,
   type StockCandleInterval
 } from "../fixtures/v2Finance";
-import { V2CandlestickLegendInspector } from "./financialInspectorStory";
+import {
+  V2CandlestickCrosshairInspector,
+  V2CandlestickLegendInspector
+} from "./financialInspectorStory";
 import { V2CandlestickPriceScale } from "./financialPriceScaleStory";
 import { ChartSection, type NativeStoryProps } from "./storyPrimitives";
 import { ChartDataDetails } from "./dataDetails";
@@ -374,6 +377,11 @@ export const financialOverviewStories = [
     id: "v2-candlestick-legend-inspector",
     title: "Market Inspector",
     Component: V2CandlestickLegendInspector
+  },
+  {
+    id: "v2-candlestick-crosshair-inspector",
+    title: "Crosshair Inspector",
+    Component: V2CandlestickCrosshairInspector
   },
   {
     id: "v2-candlestick-price-scale",

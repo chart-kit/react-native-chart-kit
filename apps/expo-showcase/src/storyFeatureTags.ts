@@ -164,6 +164,13 @@ export const storyFeatureTags: Record<string, string[]> = {
     "top legend",
     "zoom cap"
   ],
+  "v2-candlestick-crosshair-inspector": [
+    "pro candidate",
+    "OHLC",
+    "crosshair inspector",
+    "nearest candle",
+    "top legend"
+  ],
   "v2-candlestick-price-scale": [
     "pro candidate",
     "OHLC",

@@ -76,7 +76,7 @@ export type CandlestickChartProps<TData extends Record<string, unknown>> =
 
 export type CandlestickChartInitialIndex = ChartViewportInitialIndex;
 
-export type CandlestickChartInteractionMode = "none" | "tap";
+export type CandlestickChartInteractionMode = "none" | "tap" | "crosshair";
 
 export type CandlestickChartInteraction<TData = unknown> =
   | CandlestickChartInteractionMode
@@ -85,6 +85,8 @@ export type CandlestickChartInteraction<TData = unknown> =
 export type CandlestickChartInteractionConfig<TData = unknown> = {
   deselectOnOutsidePress?: boolean;
   mode?: CandlestickChartInteractionMode;
+  onGestureEnd?: () => void;
+  onGestureStart?: () => void;
   onSelect?: (event: CandlestickChartSelectEvent<TData>) => void;
 };
 

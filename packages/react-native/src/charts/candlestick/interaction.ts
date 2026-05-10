@@ -6,7 +6,9 @@ import type {
 
 export type ResolvedCandlestickChartInteractionConfig<TData = unknown> = {
   deselectOnOutsidePress: boolean;
-  mode: "none" | "tap";
+  mode: "none" | "tap" | "crosshair";
+  onGestureEnd?: () => void;
+  onGestureStart?: () => void;
   onSelect?: (event: CandlestickChartSelectEvent<TData>) => void;
 };
 
@@ -51,6 +53,12 @@ export const getCandlestickChartInteractionConfig = <TData>(
   return {
     deselectOnOutsidePress: interaction.deselectOnOutsidePress ?? true,
     mode: interaction.mode ?? "tap",
+    ...(interaction.onGestureEnd
+      ? { onGestureEnd: interaction.onGestureEnd }
+      : {}),
+    ...(interaction.onGestureStart
+      ? { onGestureStart: interaction.onGestureStart }
+      : {}),
     ...(interaction.onSelect ? { onSelect: interaction.onSelect } : {})
   };
 };
@@ -96,6 +104,31 @@ export const getCandlestickAtPoint = <TData>({
       distance: Math.abs(locationX - candle.wickX)
     }))
     .sort((a, b) => a.distance - b.distance)[0]?.candle;
+};
+
+export const getNearestCandlestickByX = <TData>({
+  candles,
+  locationX
+}: {
+  candles: Array<CandlestickChartCandleModel<TData>>;
+  locationX: number;
+}) => {
+  let nearest:
+    | {
+        candle: CandlestickChartCandleModel<TData>;
+        distance: number;
+      }
+    | undefined;
+
+  candles.forEach((candle) => {
+    const distance = Math.abs(candle.wickX - locationX);
+
+    if (!nearest || distance < nearest.distance) {
+      nearest = { candle, distance };
+    }
+  });
+
+  return nearest?.candle;
 };
 
 export const buildCandlestickChartSelectEvent = <TData>({

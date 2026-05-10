@@ -21,6 +21,7 @@ const RendererLayer = ({
 export const CandlestickChartSurface = <TData,>({
   chartHeight,
   chartWidth,
+  crosshairY,
   formatYLabel,
   model,
   renderer: rendererProp,
@@ -32,6 +33,7 @@ export const CandlestickChartSurface = <TData,>({
 }: {
   chartHeight: number;
   chartWidth: number;
+  crosshairY?: number | undefined;
   formatYLabel: (value: number) => string;
   model: CandlestickChartModel<TData>;
   renderer?: CandlestickChartRenderer | undefined;
@@ -59,6 +61,7 @@ export const CandlestickChartSurface = <TData,>({
   const renderer = getCandlestickChartRenderer(rendererProp);
   const Group = renderer.Group;
   const Layer = renderer.Layer ?? RendererLayer;
+  const Circle = renderer.Circle;
   const Line = renderer.Line;
   const Rect = renderer.Rect;
   const Surface = renderer.Surface;
@@ -67,6 +70,10 @@ export const CandlestickChartSurface = <TData,>({
   const selectedCloseLabel = selectedCandle
     ? formatYLabel(selectedCandle.close)
     : "";
+  const isCrosshairVisible = selectedCandle && crosshairY !== undefined;
+  const markerY = selectedCandle
+    ? Math.max(boxes.plot.y + 6, selectedCandle.highY - 8)
+    : boxes.plot.y;
 
   return (
     <Surface height={chartHeight} width={chartWidth}>
@@ -283,16 +290,39 @@ export const CandlestickChartSurface = <TData,>({
         {selectedCandle ? (
           <Group key="candlestick-selection">
             <Line
-              stroke={resolvedTheme.axis}
-              strokeDasharray={[4, 4]}
-              strokeOpacity={0.42}
+              stroke={
+                isCrosshairVisible ? resolvedTheme.text : resolvedTheme.axis
+              }
+              strokeDasharray={isCrosshairVisible ? undefined : [4, 4]}
+              strokeOpacity={isCrosshairVisible ? 0.54 : 0.42}
               strokeWidth={1}
               x1={selectedCandle.wickX}
               x2={selectedCandle.wickX}
               y1={boxes.plot.y}
               y2={boxes.plot.y + boxes.plot.height}
             />
-            {selectionPriceLabel ? (
+            {isCrosshairVisible ? (
+              <Line
+                stroke={resolvedTheme.text}
+                strokeOpacity={0.42}
+                strokeWidth={1}
+                x1={boxes.plot.x}
+                x2={boxes.plot.x + boxes.plot.width}
+                y1={crosshairY}
+                y2={crosshairY}
+              />
+            ) : null}
+            {isCrosshairVisible ? (
+              <Circle
+                cx={selectedCandle.wickX}
+                cy={markerY}
+                fill={resolvedTheme.background}
+                r={4.5}
+                stroke={selectedCandle.color}
+                strokeWidth={2}
+              />
+            ) : null}
+            {selectionPriceLabel && !isCrosshairVisible ? (
               <Rect
                 fill={selectedCandle.color}
                 height={20}
@@ -308,7 +338,7 @@ export const CandlestickChartSurface = <TData,>({
                 )}
               />
             ) : null}
-            {selectionPriceLabel && canRenderText ? (
+            {selectionPriceLabel && !isCrosshairVisible && canRenderText ? (
               <SvgText
                 fill={resolvedTheme.background}
                 fontSize={resolvedTheme.typography.axisLabelSize}
