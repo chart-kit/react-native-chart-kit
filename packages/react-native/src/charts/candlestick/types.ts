@@ -88,6 +88,7 @@ export type CandlestickChartInteractionConfig<TData = unknown> = {
   activation?: CandlestickChartInteractionActivation;
   deselectOnOutsidePress?: boolean;
   longPressDelayMs?: number;
+  longPressMoveTolerance?: number;
   mode?: CandlestickChartInteractionMode;
   onDeselect?: (event: CandlestickChartDeselectEvent) => void;
   onGestureEnd?: () => void;

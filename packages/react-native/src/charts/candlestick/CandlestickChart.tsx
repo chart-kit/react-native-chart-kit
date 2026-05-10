@@ -285,6 +285,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
     formatYLabel,
     hasSelection: selectedCandle !== undefined,
     longPressDelayMs: interactionConfig.longPressDelayMs,
+    longPressMoveTolerance: interactionConfig.longPressMoveTolerance,
     onDeselect: interactionConfig.onDeselect,
     onGestureEnd: interactionConfig.onGestureEnd,
     onGestureStart: interactionConfig.onGestureStart,

@@ -40,6 +40,28 @@ const emergencyClosures = getCandlestickEmergencyClosureSessions([
 />;
 ```
 
+Long-press crosshair inspection can be tuned separately from normal pan and pinch gestures:
+
+```tsx
+<CandlestickChart
+  data={candles}
+  xKey="day"
+  openKey="open"
+  highKey="high"
+  lowKey="low"
+  closeKey="close"
+  width={360}
+  height={280}
+  interaction={{
+    activation: "longPress",
+    longPressDelayMs: 720,
+    longPressMoveTolerance: 12,
+    mode: "crosshair"
+  }}
+  viewportInteraction={{ pan: true, pinchZoom: true }}
+/>
+```
+
 Defaults:
 
 - green candles represent close above open
@@ -59,6 +81,7 @@ Defaults:
 - use `getCandlestickEmergencyClosureSessions()` to map an external closure feed into `specialSessions`
 - use `viewportInteraction` with `onViewportChange` for controlled pan and pinch-zoom windows
 - tap selection can show a vertical inspection line, close-price badge, and theme-aware OHLC tooltip
+- crosshair inspection supports `longPressDelayMs` and `longPressMoveTolerance` so apps can reduce accidental activation when pan and pinch are also enabled
 - y-domain is based on lows and highs, not open and close only
 - `getCandlestickChartDataTable()` returns exact OHLC rows for accessible detail panels and exports
 - `getCandlestickChartAccessibilitySummary()` reports latest close, highest high, and lowest low

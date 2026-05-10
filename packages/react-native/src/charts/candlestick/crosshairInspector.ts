@@ -66,6 +66,7 @@ export const useCandlestickCrosshairInspector = <TData>({
   formatYLabel,
   hasSelection,
   longPressDelayMs,
+  longPressMoveTolerance,
   onDeselect,
   onGestureEnd,
   onGestureStart,
@@ -88,6 +89,7 @@ export const useCandlestickCrosshairInspector = <TData>({
   formatYLabel: (value: number) => string;
   hasSelection: boolean;
   longPressDelayMs: number;
+  longPressMoveTolerance: number;
   onDeselect: ((event: CandlestickChartDeselectEvent) => void) | undefined;
   onGestureEnd: (() => void) | undefined;
   onGestureStart: (() => void) | undefined;
@@ -234,7 +236,7 @@ export const useCandlestickCrosshairInspector = <TData>({
 
     const longPressGesture = Gesture.LongPress()
       .minDuration(longPressDelayMs)
-      .maxDistance(10)
+      .maxDistance(longPressMoveTolerance)
       .numberOfPointers(1)
       .onStart(selectFromGesture);
     const panGesture = Gesture.Pan()
@@ -253,6 +255,7 @@ export const useCandlestickCrosshairInspector = <TData>({
     enabled,
     endGesture,
     longPressDelayMs,
+    longPressMoveTolerance,
     plot,
     updateSelectionAt
   ]);

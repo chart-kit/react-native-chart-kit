@@ -10,6 +10,7 @@ export type ResolvedCandlestickChartInteractionConfig<TData = unknown> = {
   activation: CandlestickChartInteractionActivation;
   deselectOnOutsidePress: boolean;
   longPressDelayMs: number;
+  longPressMoveTolerance: number;
   mode: "none" | "tap" | "crosshair";
   onDeselect?: (event: CandlestickChartDeselectEvent) => void;
   onGestureEnd?: () => void;
@@ -22,7 +23,8 @@ export type CandlestickChartScrollableTapState = {
   startTime: number;
 };
 
-export const defaultCandlestickLongPressDelayMs = 480;
+export const defaultCandlestickLongPressDelayMs = 640;
+export const defaultCandlestickLongPressMoveTolerance = 12;
 
 export const isCandlestickChartScrollableTap = ({
   endTime,
@@ -48,6 +50,7 @@ export const getCandlestickChartInteractionConfig = <TData>(
       activation: "press",
       deselectOnOutsidePress: false,
       longPressDelayMs: defaultCandlestickLongPressDelayMs,
+      longPressMoveTolerance: defaultCandlestickLongPressMoveTolerance,
       mode: "none"
     };
   }
@@ -57,6 +60,7 @@ export const getCandlestickChartInteractionConfig = <TData>(
       activation: "press",
       deselectOnOutsidePress: interaction !== "none",
       longPressDelayMs: defaultCandlestickLongPressDelayMs,
+      longPressMoveTolerance: defaultCandlestickLongPressMoveTolerance,
       mode: interaction
     };
   }
@@ -66,6 +70,9 @@ export const getCandlestickChartInteractionConfig = <TData>(
     deselectOnOutsidePress: interaction.deselectOnOutsidePress ?? true,
     longPressDelayMs:
       interaction.longPressDelayMs ?? defaultCandlestickLongPressDelayMs,
+    longPressMoveTolerance:
+      interaction.longPressMoveTolerance ??
+      defaultCandlestickLongPressMoveTolerance,
     mode: interaction.mode ?? "tap",
     ...(interaction.onDeselect ? { onDeselect: interaction.onDeselect } : {}),
     ...(interaction.onGestureEnd

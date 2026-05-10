@@ -196,6 +196,8 @@ export const V2CandlestickCrosshairInspector = ({
         interaction={{
           activation: "longPress",
           deselectOnOutsidePress: true,
+          longPressDelayMs: 720,
+          longPressMoveTolerance: 12,
           mode: "crosshair",
           onDeselect: handleDeselect,
           onGestureEnd: onScrubEnd,
