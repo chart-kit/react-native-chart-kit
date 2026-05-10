@@ -180,8 +180,11 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
     isCandlestickChartInteractionEnabled(interactionConfig);
   const isTapInteraction = interactionConfig.mode === "tap";
   const isCrosshairInteraction = interactionConfig.mode === "crosshair";
-  const isCrosshairLocked =
-    isCrosshairInteraction && selectedCandle !== undefined;
+  const isCrosshairLocked = isCrosshairInteraction && crosshairY !== undefined;
+  const visibleSelectedCandle =
+    isCrosshairInteraction && crosshairY === undefined
+      ? undefined
+      : selectedCandle;
   const effectiveRangeSelectorConfig = useMemo(
     () =>
       isCrosshairLocked
@@ -191,7 +194,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
   );
   const viewportPinchZoom = useChartViewportPinchZoom({
     dataLength: props.data.length,
-    enabled: !scrollViewport.scrollable && !isCrosshairLocked,
+    enabled: !scrollViewport.scrollable,
     onViewportChange: props.onViewportChange,
     plotBounds: boxes.plot,
     viewportInteraction: props.viewportInteraction,
@@ -209,12 +212,12 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
     () =>
       getCandlestickChartTooltipModel({
         boxes,
-        candle: selectedCandle,
+        candle: visibleSelectedCandle,
         config: tooltipConfig,
         formatXLabel,
         formatYLabel
       }),
-    [boxes, formatXLabel, formatYLabel, selectedCandle, tooltipConfig]
+    [boxes, formatXLabel, formatYLabel, tooltipConfig, visibleSelectedCandle]
   );
   const handleSurfacePress = useCallback(
     ({ locationX, locationY }: { locationX: number; locationY: number }) => {
@@ -263,7 +266,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
   );
   const viewportGesture = useChartViewportGestureHandler({
     dataLength: props.data.length,
-    enabled: !scrollViewport.scrollable && !isCrosshairLocked,
+    enabled: !scrollViewport.scrollable,
     onPress:
       !scrollViewport.scrollable && isTapInteraction
         ? handleSurfacePress
@@ -334,7 +337,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
               formatYLabel={formatYLabel}
               model={model}
               renderer={renderer}
-              selectedCandle={selectedCandle}
+              selectedCandle={visibleSelectedCandle}
               selectionPriceLabel={props.selectionPriceLabel !== false}
               testID={props.testID}
               tooltipConfig={tooltipConfig}

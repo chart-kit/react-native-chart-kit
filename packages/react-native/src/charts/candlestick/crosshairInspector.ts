@@ -236,9 +236,7 @@ export const useCandlestickCrosshairInspector = <TData>({
       .minDuration(longPressDelayMs)
       .maxDistance(10)
       .numberOfPointers(1)
-      .onStart(selectFromGesture)
-      .onEnd(endGesture)
-      .onFinalize(endGesture);
+      .onStart(selectFromGesture);
     const panGesture = Gesture.Pan()
       .minPointers(1)
       .maxPointers(1)
