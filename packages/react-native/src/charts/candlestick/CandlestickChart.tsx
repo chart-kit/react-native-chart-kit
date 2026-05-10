@@ -10,7 +10,6 @@ import {
 } from "@chart-kit/core";
 
 import { useChartKitTheme } from "../../theme";
-import type { ChartViewportInteractionGestureEvent } from "../../viewport/types";
 import {
   ChartViewportGestureHandler,
   useChartViewportGestureHandler
@@ -23,7 +22,10 @@ import {
   defaultFormatBarChartXLabel,
   defaultFormatBarChartYLabel
 } from "../bar/modelUtils";
-import { useCandlestickCrosshairInspector } from "./crosshairInspector";
+import {
+  CandlestickCrosshairGestureHandler,
+  useCandlestickCrosshairInspector
+} from "./crosshairInspector";
 import { getCandlestickChartAccessibilitySummary } from "./accessibility";
 import {
   buildCandlestickChartSelectEvent,
@@ -72,8 +74,6 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
     number | undefined
   >(props.defaultSelectedIndex);
   const [crosshairY, setCrosshairY] = useState<number | undefined>();
-  const [crosshairActivationCancelKey, setCrosshairActivationCancelKey] =
-    useState(0);
   const rangeSelectorConfig = useMemo(
     () => getCandlestickChartRangeSelectorConfig(props.rangeSelector),
     [props.rangeSelector]
@@ -172,30 +172,6 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
     () => getCandlestickChartInteractionConfig(props.interaction),
     [props.interaction]
   );
-  const handleViewportGestureStart = useCallback(
-    (event: ChartViewportInteractionGestureEvent) => {
-      setCrosshairActivationCancelKey((value) => value + 1);
-
-      if (typeof props.viewportInteraction === "object") {
-        props.viewportInteraction.onGestureStart?.(event);
-      }
-    },
-    [props.viewportInteraction]
-  );
-  const effectiveViewportInteraction = useMemo(() => {
-    if (!props.viewportInteraction) {
-      return props.viewportInteraction;
-    }
-
-    if (props.viewportInteraction === true) {
-      return { onGestureStart: handleViewportGestureStart };
-    }
-
-    return {
-      ...props.viewportInteraction,
-      onGestureStart: handleViewportGestureStart
-    };
-  }, [handleViewportGestureStart, props.viewportInteraction]);
   const selectedIndex = props.selectedIndex ?? gestureSelectedIndex;
   const selectedCandle = candles.find(
     (candle) => candle.dataIndex === selectedIndex
@@ -218,7 +194,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
     enabled: !scrollViewport.scrollable && !isCrosshairLocked,
     onViewportChange: props.onViewportChange,
     plotBounds: boxes.plot,
-    viewportInteraction: effectiveViewportInteraction,
+    viewportInteraction: props.viewportInteraction,
     viewportWindow
   });
   const tooltipConfig = useMemo(
@@ -294,12 +270,11 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
         : undefined,
     onViewportChange: props.onViewportChange,
     plotBounds: boxes.plot,
-    viewportInteraction: effectiveViewportInteraction,
+    viewportInteraction: props.viewportInteraction,
     viewportWindow
   });
-  const crosshairResponderProps = useCandlestickCrosshairInspector({
+  const crosshairInteraction = useCandlestickCrosshairInspector({
     activation: interactionConfig.activation,
-    activationCancelKey: crosshairActivationCancelKey,
     candles,
     deselectOnOutsidePress: interactionConfig.deselectOnOutsidePress,
     enabled: !scrollViewport.scrollable && isCrosshairInteraction,
@@ -327,7 +302,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
     scrollable: scrollViewport.scrollable
   });
   const mainSurfaceInteractionProps = isCrosshairInteraction
-    ? crosshairResponderProps
+    ? crosshairInteraction.viewProps
     : scrollableTouchProps;
   const accessibilityLabel =
     props.accessibilityLabel ??
@@ -349,19 +324,23 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
     >
       <ChartViewportGestureHandler gesture={viewportGesture}>
         <ChartViewportGesture gesture={viewportPinchZoom}>
-          <CandlestickChartSurface
-            chartHeight={mainHeight}
-            chartWidth={chartWidth}
-            crosshairY={isCrosshairInteraction ? crosshairY : undefined}
-            formatYLabel={formatYLabel}
-            model={model}
-            renderer={renderer}
-            selectedCandle={selectedCandle}
-            selectionPriceLabel={props.selectionPriceLabel !== false}
-            testID={props.testID}
-            tooltipConfig={tooltipConfig}
-            tooltipModel={tooltipModel}
-          />
+          <CandlestickCrosshairGestureHandler
+            gesture={crosshairInteraction.gesture}
+          >
+            <CandlestickChartSurface
+              chartHeight={mainHeight}
+              chartWidth={chartWidth}
+              crosshairY={isCrosshairInteraction ? crosshairY : undefined}
+              formatYLabel={formatYLabel}
+              model={model}
+              renderer={renderer}
+              selectedCandle={selectedCandle}
+              selectionPriceLabel={props.selectionPriceLabel !== false}
+              testID={props.testID}
+              tooltipConfig={tooltipConfig}
+              tooltipModel={tooltipModel}
+            />
+          </CandlestickCrosshairGestureHandler>
         </ChartViewportGesture>
       </ChartViewportGestureHandler>
     </View>

@@ -1,5 +1,16 @@
-import { useCallback, useEffect, useRef } from "react";
+/* eslint-disable react-hooks/refs -- RNGH stores callbacks during gesture construction; refs are read when native gesture callbacks run. */
+import {
+  Fragment,
+  createElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  type ReactElement,
+  type ReactNode
+} from "react";
 import type { GestureResponderEvent, ViewProps } from "react-native";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 
 import type { ChartBoxes } from "@chart-kit/core";
 
@@ -7,6 +18,11 @@ import {
   buildCandlestickChartSelectEvent,
   getNearestCandlestickByX
 } from "./interaction";
+import {
+  clampCandlestickCrosshairY,
+  isNearCandlestickCrosshairIntersection,
+  type CandlestickCrosshairIntersectionPoint
+} from "./crosshairGeometry";
 import type {
   CandlestickChartCandleModel,
   CandlestickChartDeselectEvent,
@@ -19,21 +35,7 @@ type CrosshairTouchPoint = {
   locationY: number;
 };
 
-type CrosshairIntersectionPoint = {
-  x: number;
-  y: number;
-};
-
-const longPressMoveTolerance = 8;
-const intersectionHitRadius = 24;
-
-export const clampCandlestickCrosshairY = ({
-  locationY,
-  plot
-}: {
-  locationY: number;
-  plot: ChartBoxes["plot"];
-}) => Math.max(plot.y, Math.min(plot.y + plot.height, locationY));
+type CandlestickCrosshairGesture = ReturnType<typeof Gesture.Pan>;
 
 const isInPlot = ({
   locationX,
@@ -51,21 +53,8 @@ const isInPlot = ({
   locationY >= plot.y - touchSlop &&
   locationY <= plot.y + plot.height + touchSlop;
 
-export const isNearCandlestickCrosshairIntersection = ({
-  intersection,
-  locationX,
-  locationY,
-  radius = intersectionHitRadius
-}: CrosshairTouchPoint & {
-  intersection: CrosshairIntersectionPoint | undefined;
-  radius?: number;
-}) =>
-  intersection !== undefined &&
-  Math.hypot(locationX - intersection.x, locationY - intersection.y) <= radius;
-
 export const useCandlestickCrosshairInspector = <TData>({
   activation,
-  activationCancelKey,
   candles,
   deselectOnOutsidePress,
   enabled,
@@ -85,7 +74,6 @@ export const useCandlestickCrosshairInspector = <TData>({
   setGestureSelectedIndex
 }: {
   activation: CandlestickChartInteractionActivation;
-  activationCancelKey?: number;
   candles: Array<CandlestickChartCandleModel<TData>>;
   deselectOnOutsidePress: boolean;
   enabled: boolean;
@@ -103,23 +91,15 @@ export const useCandlestickCrosshairInspector = <TData>({
   plot: ChartBoxes["plot"];
   preventBrowserSelection: (event: GestureResponderEvent) => void;
   selectedIndexControlled: boolean;
-  selectedIntersection: CrosshairIntersectionPoint | undefined;
+  selectedIntersection: CandlestickCrosshairIntersectionPoint | undefined;
   setCrosshairY: (value: number | undefined) => void;
   setGestureSelectedIndex: (value: number | undefined) => void;
-}): ViewProps => {
+}): {
+  gesture: CandlestickCrosshairGesture | undefined;
+  viewProps: ViewProps;
+} => {
   const gestureActiveRef = useRef(false);
   const inspectingRef = useRef(false);
-  const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(
-    undefined
-  );
-  const touchStartRef = useRef<CrosshairTouchPoint | undefined>(undefined);
-
-  const clearLongPressTimer = useCallback(() => {
-    if (longPressTimerRef.current) {
-      clearTimeout(longPressTimerRef.current);
-      longPressTimerRef.current = undefined;
-    }
-  }, []);
 
   const beginGesture = useCallback(() => {
     if (gestureActiveRef.current) {
@@ -141,7 +121,6 @@ export const useCandlestickCrosshairInspector = <TData>({
 
   const clearSelection = useCallback(
     (event: CandlestickChartDeselectEvent) => {
-      clearLongPressTimer();
       inspectingRef.current = false;
       setCrosshairY(undefined);
       endGesture();
@@ -153,7 +132,6 @@ export const useCandlestickCrosshairInspector = <TData>({
       onDeselect?.(event);
     },
     [
-      clearLongPressTimer,
       endGesture,
       onDeselect,
       selectedIndexControlled,
@@ -204,20 +182,6 @@ export const useCandlestickCrosshairInspector = <TData>({
     [preventBrowserSelection, updateSelectionAt]
   );
 
-  const activateLongPressInspection = useCallback(() => {
-    longPressTimerRef.current = undefined;
-
-    const touchStart = touchStartRef.current;
-
-    if (!touchStart) {
-      return;
-    }
-
-    inspectingRef.current = true;
-    beginGesture();
-    updateSelectionAt(touchStart);
-  }, [beginGesture, updateSelectionAt]);
-
   const shouldSetResponder = useCallback(
     (event: GestureResponderEvent) => {
       const { locationX, locationY } = event.nativeEvent;
@@ -247,112 +211,104 @@ export const useCandlestickCrosshairInspector = <TData>({
     }
   }, [hasSelection]);
 
-  useEffect(
-    () => () => {
-      clearLongPressTimer();
-    },
-    [clearLongPressTimer]
-  );
-  useEffect(() => {
-    clearLongPressTimer();
-  }, [activationCancelKey, clearLongPressTimer]);
+  const gesture = useMemo(() => {
+    if (!enabled || activation !== "longPress") {
+      return undefined;
+    }
 
-  if (!enabled) {
-    return {};
-  }
+    const selectFromGesture = (event: { x: number; y: number }) => {
+      const touchPoint = { locationX: event.x, locationY: event.y };
 
-  return {
-    onMoveShouldSetResponder: shouldSetResponder,
-    onResponderGrant: (event) => {
-      clearLongPressTimer();
-
-      const { locationX, locationY } = event.nativeEvent;
-
-      if (!isInPlot({ locationX, locationY, plot })) {
-        clearSelection({ reason: "outsidePress" });
-
-        return;
-      }
-
-      if (
-        activation === "longPress" &&
-        hasSelection &&
-        !isNearCandlestickCrosshairIntersection({
-          intersection: selectedIntersection,
-          locationX,
-          locationY
-        })
-      ) {
-        clearSelection({ reason: "outsidePress" });
-
+      if (!isInPlot({ ...touchPoint, plot })) {
         return;
       }
 
       inspectingRef.current = true;
       beginGesture();
-      updateSelection(event);
-    },
-    onResponderMove: updateSelection,
-    onResponderRelease: endGesture,
-    onResponderTerminate: endGesture,
-    onResponderTerminationRequest: () => false,
-    onStartShouldSetResponder: shouldSetResponder,
-    onTouchCancel: () => {
-      clearLongPressTimer();
-      endGesture();
-    },
-    onTouchEnd: () => {
-      clearLongPressTimer();
-      endGesture();
-    },
-    onTouchMove: (event) => {
-      if (activation !== "longPress" || !longPressTimerRef.current) {
-        return;
-      }
+      updateSelectionAt(touchPoint);
+    };
 
-      if (event.nativeEvent.touches.length > 1) {
-        clearLongPressTimer();
-        return;
-      }
+    return Gesture.Pan()
+      .minPointers(1)
+      .maxPointers(1)
+      .activateAfterLongPress(longPressDelayMs)
+      .onStart(selectFromGesture)
+      .onUpdate(selectFromGesture)
+      .onEnd(endGesture)
+      .onFinalize(endGesture);
+  }, [
+    activation,
+    beginGesture,
+    enabled,
+    endGesture,
+    longPressDelayMs,
+    plot,
+    updateSelectionAt
+  ]);
 
-      const touchStart = touchStartRef.current;
+  if (!enabled) {
+    return { gesture: undefined, viewProps: {} };
+  }
 
-      if (!touchStart) {
-        clearLongPressTimer();
-        return;
-      }
+  return {
+    gesture,
+    viewProps: {
+      onMoveShouldSetResponder: shouldSetResponder,
+      onResponderGrant: (event) => {
+        const { locationX, locationY } = event.nativeEvent;
 
-      const { locationX, locationY } = event.nativeEvent;
-      const distance = Math.hypot(
-        locationX - touchStart.locationX,
-        locationY - touchStart.locationY
-      );
+        if (!isInPlot({ locationX, locationY, plot })) {
+          clearSelection({ reason: "outsidePress" });
 
-      if (distance > longPressMoveTolerance) {
-        clearLongPressTimer();
-      }
-    },
-    onTouchStart: (event) => {
-      if (activation !== "longPress") {
-        return;
-      }
+          return;
+        }
 
-      clearLongPressTimer();
+        if (
+          activation === "longPress" &&
+          hasSelection &&
+          !isNearCandlestickCrosshairIntersection({
+            intersection: selectedIntersection,
+            locationX,
+            locationY
+          })
+        ) {
+          clearSelection({ reason: "outsidePress" });
 
-      const { locationX, locationY } = event.nativeEvent;
+          return;
+        }
 
-      if (
-        event.nativeEvent.touches.length > 1 ||
-        !isInPlot({ locationX, locationY, plot })
-      ) {
-        return;
-      }
+        inspectingRef.current = true;
+        beginGesture();
+        updateSelection(event);
+      },
+      onResponderMove: updateSelection,
+      onResponderRelease: endGesture,
+      onResponderTerminate: endGesture,
+      onResponderTerminationRequest: () => false,
+      onStartShouldSetResponder: shouldSetResponder,
+      onTouchCancel: endGesture,
+      onTouchEnd: endGesture,
+      onTouchMove: (event) => {
+        if (activation !== "longPress") {
+          return;
+        }
 
-      touchStartRef.current = { locationX, locationY };
-      longPressTimerRef.current = setTimeout(
-        activateLongPressInspection,
-        longPressDelayMs
-      );
+        if (event.nativeEvent.touches.length > 1 && hasSelection) {
+          clearSelection({ reason: "outsidePress" });
+        }
+      },
+      onTouchStart: undefined
     }
   };
 };
+
+export const CandlestickCrosshairGestureHandler = ({
+  children,
+  gesture
+}: {
+  children: ReactNode;
+  gesture: CandlestickCrosshairGesture | undefined;
+}): ReactElement =>
+  gesture
+    ? createElement(GestureDetector, { gesture }, children)
+    : createElement(Fragment, null, children);

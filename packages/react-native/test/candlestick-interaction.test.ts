@@ -7,7 +7,7 @@ import {
   getNearestCandlestickByX,
   isCandlestickChartScrollableTap
 } from "../src/charts/candlestick/interaction";
-import { isNearCandlestickCrosshairIntersection } from "../src/charts/candlestick/crosshairInspector";
+import { isNearCandlestickCrosshairIntersection } from "../src/charts/candlestick/crosshairGeometry";
 import {
   getCandlestickChartTooltipConfig,
   getCandlestickChartTooltipModel
