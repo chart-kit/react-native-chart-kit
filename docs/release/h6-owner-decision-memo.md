@@ -6,7 +6,10 @@ This memo converts the release-candidate gate into explicit choices. It is a rec
 
 Do not approve a stable release candidate yet.
 
-Reason: H6 still needs final semver, release notes, docs freeze, visual baseline freeze, deprecation policy, and owner approval. Developer Preview is acceptable with disclosed gaps.
+Reason: H6 still needs release candidate timing, final semver, release notes,
+docs freeze, visual baseline freeze, deprecation policy, Pro/Skia package plan,
+release claims, and owner approval. Developer Preview is acceptable with
+disclosed gaps.
 
 ## Owner Review Scope
 
@@ -27,7 +30,8 @@ Recommendation: keep H6 `not-started` until final release decisions are made.
 Required before stable RC:
 
 - smoke-test risk summary accepted
-- final semver, changelog, docs freeze, visual baseline freeze, and deprecation policy decisions
+- final semver, changelog, docs freeze, visual baseline freeze, deprecation
+  policy, Pro/Skia package plan, and release claims decisions
 
 ## Decision 2: Final Semver
 
@@ -37,7 +41,11 @@ Suggested default:
 
 - `react-native-chart-kit`: next major, likely `7.0.0`
 - `@chart-kit/react-native`: first public modern package version aligned with the release plan
-- `@chart-kit/pro` and `@chart-kit/skia-renderer`: do not publish as paid/stable packages until H4 approves final scope
+- `@chart-kit/pro` and `@chart-kit/skia-renderer`: do not publish as
+  paid/stable packages until the owner explicitly approves their stable package
+  plan
+
+Detailed proposal: [H6 Semver Proposal](h6-semver-proposal.md).
 
 ## Decision 3: Docs Freeze
 
@@ -73,9 +81,34 @@ Recommendation:
 
 Detailed proposal: [Deprecation Policy](deprecation-policy.md).
 
+## Decision 6: Pro And Skia Package Plan
+
+Recommendation:
+
+- keep Pro and Skia unpublished for stable v2 unless the owner explicitly
+  approves a separate paid/optional package release
+- keep Pro-candidate and Skia work documented as preview capability, not a
+  stable public commitment
+- do not add runtime license enforcement before the paid package plan is
+  finalized
+
+Detailed proposal: [H6 Pro Package Plan](h6-pro-package-plan.md).
+
+## Decision 7: Release Claims
+
+Recommendation:
+
+- call this release a Developer Preview until H6 is approved
+- do not claim stable physical Android, TalkBack, Pro, Skia, or financial-chart
+  readiness beyond the evidence that exists
+- keep native/accessibility/performance caveats in known issues unless they are
+  resolved before stable RC
+
+Detailed proposal: [H6 Release Claims](h6-release-claims.md).
+
 ## Recommended H6 Outcome
 
-Keep H6 blocked until the release gate has no blockers.
+Keep H6 blocked until the owner explicitly approves all eight H6 decisions.
 
 The recorder enforces H6 prerequisites: H4 and H5 must already be approved, and native workflow, RN CLI example, and Skia evidence manifests must be complete.
 
