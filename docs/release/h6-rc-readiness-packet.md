@@ -27,6 +27,19 @@ Remaining blocker:
 
 - H6 release-candidate approval is not started.
 
+H6 approval dry-run:
+
+```sh
+npm run release:owner:record -- --dry-run --gate h6 ...
+```
+
+Latest checked state: passes with `Would approve h6 in
+docs/release/evidence/owner-gates.json.`
+
+That means H4, H5, native workflow evidence, RN CLI evidence, Skia evidence, and
+the required eight decision labels are structurally ready. The missing action is
+actual owner approval, not another matrix or evidence task.
+
 ## Current Product State
 
 Ready for Developer Preview:

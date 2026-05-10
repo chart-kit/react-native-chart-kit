@@ -23,6 +23,10 @@ prep is ahead of published npm evidence. That warning should clear after the
 next approved `next` publish succeeds and `npm-publish-evidence.json` is
 updated.
 
+H6 approval dry-run currently passes with all eight required decision labels.
+The stable-RC blocker is therefore explicit owner approval, not missing
+prerequisite evidence.
+
 Current smoke evidence:
 
 - [owner-smoke-notes-2026-05-10.md](../release/artifacts/owner-smoke-notes-2026-05-10.md)
