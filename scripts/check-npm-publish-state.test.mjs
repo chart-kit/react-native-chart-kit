@@ -89,7 +89,7 @@ describe("npm publish state checker", () => {
       distTag: "next",
       manifest,
       npmView: createNpmView({
-        "@chart-kit/core": { distTags: { beta: "7.0.0-next.0" } },
+        "@chart-kit/core": { distTags: { canary: "7.0.0-next.0" } },
         "@chart-kit/pro": {},
         "@chart-kit/react-native": {},
         "react-native-chart-kit": {}
