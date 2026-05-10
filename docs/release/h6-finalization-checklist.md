@@ -47,6 +47,8 @@ Before H6 approval:
 
 Owner must approve docs freeze before H6.
 
+Detailed proposal: [H6 Docs Freeze](h6-docs-freeze.md).
+
 ## Visual Baseline Freeze
 
 Before H6 approval:
@@ -60,6 +62,8 @@ Before H6 approval:
 - visual regression baselines are updated only after owner approval
 
 Owner must approve visual baseline freeze before H6.
+
+Detailed proposal: [H6 Visual Baseline Freeze](h6-visual-baseline-freeze.md).
 
 ## H6 Approval
 

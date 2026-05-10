@@ -13,7 +13,7 @@ Developer Preview is green with one expected local-prep warning:
 npm run release:preview:gate
 ```
 
-Latest checked state: `pass=100 warn=1 block=0 fail=0`.
+Latest checked state: `pass=102 warn=1 block=0 fail=0`.
 
 Stable RC is blocked only by H6 owner approval:
 
@@ -21,7 +21,7 @@ Stable RC is blocked only by H6 owner approval:
 npm run release:gate:report
 ```
 
-Latest checked state: `pass=100 warn=1 block=1 fail=0`.
+Latest checked state: `pass=102 warn=1 block=1 fail=0`.
 
 Remaining blocker:
 
@@ -58,6 +58,8 @@ Concrete drafts:
 
 - [H6 Semver Proposal](h6-semver-proposal.md)
 - [Chart Kit v2 Stable Release Notes Draft](h6-release-notes-draft.md)
+- [H6 Docs Freeze](h6-docs-freeze.md)
+- [H6 Visual Baseline Freeze](h6-visual-baseline-freeze.md)
 
 ## Recommended Decision
 
