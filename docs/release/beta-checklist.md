@@ -50,7 +50,7 @@ The `docs:build` command validates local links, balanced code fences, JS/TS mark
 
 The `pack:check` command runs `npm pack --dry-run --json --ignore-scripts` for every package in the release package manifest, using a repo-local temp npm cache. It verifies package names, package metadata, README files, built `dist` entrypoints, and the modern `pro-preview` subpath artifacts. The publish workflow reads the same manifest for the Developer Preview publish list so preview-only packages cannot be published by an unrelated hardcoded loop. Keep dependency packages before the root compatibility package in the manifest so scoped package access failures happen before the root package is published. After publishing, the workflow runs `npm run release:publish:status -- --strict` and creates the GitHub prerelease only if the npm registry shows the publishable packages under `next`, the preview-only packages unpublished, and the release does not already exist; idempotent reruns skip already-published package versions and existing releases.
 
-Use `npm run release:qa:status` to list every open runtime, accessibility, performance, and Skia evidence row with its launch target and recording command. Use `npm run release:qa:status -- --status partial --details` or [native QA signoff worksheet](native-qa-signoff-worksheet.md) to print the required checks for each open row; add `--limit 1` with a selected matrix for a focused next-row checklist. Use `npm run release:qa:record -- --matrix runtime --list` to inspect one matrix in detail. Use the same command with `--row`, `--status`, and `--evidence` after a manual device pass. Use `--matrix skia` for Skia renderer install, parity, and performance evidence. The recorder rejects `pass` rows without evidence links, reviewer/device/build metadata, notes, or missing repo-relative evidence files and regenerates [native QA checklist](native-qa-checklists.md).
+Use `npm run release:qa:status` to list every open runtime, accessibility, performance, and Skia evidence row with its launch target and recording command. These rows are a release-engineering backlog, not owner homework. Owner review for Developer Preview can be a short smoke-test signoff plus blockers. Release engineering or an agent can use `npm run release:qa:status -- --status partial --details`, [native QA evidence backlog](native-qa-signoff-worksheet.md), and `npm run release:qa:record` when preparing stable RC evidence. The recorder rejects `pass` rows without evidence links, reviewer/device/build metadata, notes, or missing repo-relative evidence files and regenerates [native QA checklist](native-qa-checklists.md).
 
 Use `npm run release:native-workflow:record -- --list` to inspect native release workflow evidence. After a green workflow run, record the run URL, commit, and both platform artifact links with `--run-url`, `--commit`, `--ios-artifact`, and `--android-artifact`.
 
@@ -60,9 +60,9 @@ Use [npm-publish-runbook.md](npm-publish-runbook.md) when rerunning the Develope
 
 Use [native-workflow-runbook.md](native-workflow-runbook.md) when making the native release workflow visible on the default branch, dispatching it for the release-candidate commit, and recording iOS/Android workflow artifacts.
 
-Use `npm run release:owner:record -- --list` to inspect H4/H5/H6 owner gates. Owner approval should be recorded through the same command with `--gate`, `--approved-by`, and one `--decision` value for each pending decision.
+Use `npm run release:owner:record -- --list` to inspect H4/H5/H6 owner gates. Owner approval should be recorded through the same command with `--gate`, `--approved-by`, and one `--decision` value for each pending decision. Do not ask the owner to duplicate the native QA matrix in long-form reports; summarize evidence and unresolved risk instead.
 
-## Manual Review
+## Preview Smoke Review
 
 - Expo showcase opens on a phone with `npm run example:expo`.
 - Line Charts page covers free baseline examples plus Pro-candidate animation, range selector, viewport pan/zoom, scrub tooltip, markers, references, and multi-series examples.

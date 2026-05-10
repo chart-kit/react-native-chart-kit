@@ -7,20 +7,25 @@ import { generateNativeQaSignoffWorksheet } from "./generate-native-qa-signoff.m
 const repoRoot = process.cwd();
 
 describe("native QA signoff worksheet generator", () => {
-  it("expands open rows into reviewer checklists", async () => {
+  it("expands open rows into an engineering-owned evidence backlog", async () => {
     const markdown = await generateNativeQaSignoffWorksheet({
       matrixName: "runtime",
       repoRoot,
       status: "partial"
     });
 
+    expect(markdown).toContain("# Native QA Evidence Backlog");
+    expect(markdown).toContain(
+      "not an owner checklist"
+    );
     expect(markdown).toContain("Open rows: 16");
     expect(markdown).toContain("### ios-line-charts");
     expect(markdown).toContain(
-      "- [ ] line: scrub selection updates continuously and does not flicker"
+      "- line: scrub selection updates continuously and does not flicker"
     );
-    expect(markdown).toContain("- [ ] Device / OS recorded");
-    expect(markdown).toContain("npm run release:qa:record --");
+    expect(markdown).not.toContain("Reviewer Signoff:");
+    expect(markdown).not.toContain("- [ ] Device / OS recorded");
+    expect(markdown).toContain("Record Command (release engineering only):");
   });
 
   it("keeps the committed worksheet in sync with open rows", () => {

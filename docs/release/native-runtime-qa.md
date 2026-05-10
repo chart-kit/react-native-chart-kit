@@ -1,12 +1,12 @@
 # Native Runtime QA Protocol
 
-Status on May 6, 2026: protocol ready, partial iOS and Android simulator/emulator row-level screenshots/logs captured; full native runtime evidence incomplete. Structured gate evidence lives in [native-runtime-qa.json](evidence/native-runtime-qa.json), with the page-by-page manual matrix in [native-runtime-matrix.json](evidence/native-runtime-matrix.json). Use the generated [native QA checklist](native-qa-checklists.md) for row-by-row execution.
+Status on May 6, 2026: protocol ready, partial iOS and Android simulator/emulator row-level screenshots/logs captured; full native runtime evidence incomplete. Structured gate evidence lives in [native-runtime-qa.json](evidence/native-runtime-qa.json), with the page-by-page engineering matrix in [native-runtime-matrix.json](evidence/native-runtime-matrix.json). Use the generated [native QA evidence backlog](native-qa-signoff-worksheet.md) only when release engineering or an agent is collecting stable-RC evidence.
 
-This protocol covers the manual iOS and Android runtime checks required before production beta/RC can claim native interaction confidence. Web Playwright tests, visual screenshots, and native release-build checks are useful, but they do not prove device gesture behavior, nested scrolling, text rendering, tooltip stacking, or release-mode runtime behavior.
+This protocol covers the iOS and Android runtime evidence required before production beta/RC can claim native interaction confidence. Web Playwright tests, visual screenshots, and native release-build checks are useful, but they do not prove device gesture behavior, nested scrolling, text rendering, tooltip stacking, or release-mode runtime behavior.
 
 ## Automated Baseline
 
-Run these before manual native QA:
+Run these before native release QA:
 
 ```sh
 npm run test:e2e
@@ -20,7 +20,7 @@ Current automated coverage:
 - visual regression screenshots for the current chart-story catalog
 - native release command generation for Expo prebuild, Android release, CocoaPods, and iOS release
 
-This baseline does not replace the manual device pass below.
+This baseline does not replace native device evidence for stable RC.
 
 ## Local Smoke Evidence
 

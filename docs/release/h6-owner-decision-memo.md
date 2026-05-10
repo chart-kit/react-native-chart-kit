@@ -4,19 +4,31 @@ This memo converts the release-candidate gate into explicit choices. It is a rec
 
 ## Recommended Decision
 
-Do not approve a release candidate yet.
+Do not approve a stable release candidate yet.
 
-Reason: H6 requires final semver, release notes, docs freeze, visual baseline freeze, deprecation policy, owner approval, and complete native QA evidence. The repository is prepared for review, the native release workflow is green, and the Skia matrix is complete, but the release gate still blocks on owner approval plus native runtime, accessibility, and performance evidence.
+Reason: H6 still needs final semver, release notes, docs freeze, visual baseline freeze, deprecation policy, owner approval, and engineering-owned native QA evidence. Developer Preview is acceptable with disclosed gaps; stable RC should wait for summarized native runtime, accessibility, and performance evidence.
+
+## Owner Review Scope
+
+The owner is not assigned long QA sessions, row-by-row checklists, or evidence reports.
+
+Owner approval should be short and product-focused:
+
+- confirm the preview surface reviewed
+- call out any blockers
+- approve, reject, or request targeted follow-up
+
+The detailed native QA matrix is for release engineering or agents. It should feed a concise risk summary for the owner, not become owner homework.
 
 ## Decision 1: RC Timing
 
-Recommendation: keep H6 `not-started` until all remaining native evidence manifests are complete.
+Recommendation: keep H6 `not-started` until the remaining evidence is complete or explicitly waived for a non-stable release type.
 
-Required before RC:
+Required before stable RC:
 
-- completed native runtime QA matrix
-- completed native accessibility QA matrix
-- completed native performance matrix
+- engineering-owned native runtime QA summary
+- engineering-owned native accessibility QA summary
+- engineering-owned native performance summary
 - owner-approved native QA target policy
 - final semver, changelog, docs freeze, visual baseline freeze, and deprecation policy decisions
 
@@ -66,11 +78,9 @@ Recommendation:
 
 Keep H6 blocked until the release gate has no blockers.
 
-Record approval only after the owner accepts or edits these decisions and the gate is green:
-
 The recorder enforces H6 prerequisites: H4 and H5 must already be approved, and native workflow, RN CLI example, native runtime, native accessibility, native performance, and Skia evidence manifests must be complete. The currently open evidence work is native runtime, accessibility, and performance.
 
-Use [native QA target policy](native-qa-target-policy.md), [native QA signoff worksheet](native-qa-signoff-worksheet.md), or `npm run release:qa:status -- --status partial --details` to run the remaining row checks. For a focused next-row view, run `npm run release:qa:status -- --matrix runtime --status partial --details --limit 1` and swap `runtime` for `accessibility` or `performance`. Do not record H6 approval until those rows have reviewer/device/build metadata and the strict release gate is green.
+Use [native QA target policy](native-qa-target-policy.md), [native QA evidence backlog](native-qa-signoff-worksheet.md), or `npm run release:qa:status -- --status partial --details` when a release engineer or agent is collecting the remaining evidence. The owner should approve based on the resulting summary and known risks.
 
 ```sh
 npm run release:owner:record -- \

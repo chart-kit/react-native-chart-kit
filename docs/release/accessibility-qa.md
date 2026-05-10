@@ -1,8 +1,8 @@
 # Accessibility QA Protocol
 
-Status on May 6, 2026: protocol ready, local baseline recorded, and row-level iOS/Android support captures recorded. Manual native screen-reader review is still missing. Structured gate evidence lives in [native-accessibility-qa.json](evidence/native-accessibility-qa.json), with the page-by-page assistive-technology matrix in [native-accessibility-matrix.json](evidence/native-accessibility-matrix.json). Use the generated [native QA checklist](native-qa-checklists.md) for row-by-row execution.
+Status on May 6, 2026: protocol ready, local baseline recorded, and row-level iOS/Android support captures recorded. Native screen-reader review is still missing. Structured gate evidence lives in [native-accessibility-qa.json](evidence/native-accessibility-qa.json), with the page-by-page assistive-technology matrix in [native-accessibility-matrix.json](evidence/native-accessibility-matrix.json). Use the generated [native QA evidence backlog](native-qa-signoff-worksheet.md) only when release engineering or an agent is collecting stable-RC evidence.
 
-This protocol covers the manual VoiceOver and TalkBack checks required before production beta/RC can claim native accessibility confidence. Automated tests verify generated summaries and data table helpers, but they do not prove native assistive-technology behavior.
+This protocol covers the VoiceOver and TalkBack evidence required before production beta/RC can claim native accessibility confidence. Automated tests verify generated summaries and data table helpers, but they do not prove native assistive-technology behavior.
 
 ## Automated Coverage
 

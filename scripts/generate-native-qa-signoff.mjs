@@ -62,7 +62,7 @@ const formatRow = (row) =>
     "",
     row.launchUrl ? `Launch: \`${row.launchUrl}\`` : "Launch: None",
     "",
-    "Capture:",
+    "Capture Helpers:",
     "",
     formatList(
       row.captureCommands.map((command) => `\`${command}\``),
@@ -76,20 +76,11 @@ const formatRow = (row) =>
       "No evidence recorded yet"
     ),
     "",
-    "Acceptance Checks:",
+    "Engineering Checks:",
     "",
-    formatList(row.checks.map((check) => `[ ] ${check}`), "No checks listed"),
+    formatList(row.checks, "No checks listed"),
     "",
-    "Reviewer Signoff:",
-    "",
-    "- [ ] Device / OS recorded",
-    "- [ ] Build surface recorded",
-    "- [ ] Reviewer recorded",
-    "- [ ] Date recorded",
-    "- [ ] Screenshots, logs, profiler output, or recordings attached",
-    "- [ ] All acceptance checks above passed on the accepted target",
-    "",
-    "Record Command:",
+    "Record Command (release engineering only):",
     "",
     `\`${row.command}\``
   ].join("\n");
@@ -126,15 +117,17 @@ export const generateNativeQaSignoffWorksheet = async ({
   );
 
   return [
-    "# Native QA Signoff Worksheet",
+    "# Native QA Evidence Backlog",
     "",
     "<!-- prettier-ignore-start -->",
     "",
-    "This worksheet expands the still-open release QA matrix rows into a manual review checklist. Screenshots, logs, UI dumps, simulator samples, or benchmark snippets are supporting evidence; do not record a row as `pass` until the reviewer has completed the listed checks on an accepted target.",
+    "This file is an engineering-owned evidence backlog, not an owner checklist. The owner is not expected to run row-by-row QA, fill long reports, or produce the artifacts below.",
+    "",
+    "Owner review should stay lightweight: a short smoke-test statement, the surfaces checked, and any blocking issues. Release engineering or an agent can use the rows below when preparing a stable release candidate.",
     "",
     `Open rows: ${openRowCount}`,
     "",
-    "Use `npm run release:qa:record` only after the row has evidence links, reviewer metadata, device/build metadata, and notes that describe the completed review.",
+    "Use `npm run release:qa:record` only for rows a release engineer or agent actually verified with evidence links, reviewer metadata, device/build metadata, and notes.",
     "",
     ...sections.map(formatSection),
     "",

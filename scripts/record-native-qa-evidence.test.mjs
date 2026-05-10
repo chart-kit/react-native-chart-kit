@@ -67,7 +67,7 @@ describe("native QA evidence recorder", () => {
     expect(rows).toHaveLength(16);
   });
 
-  it("can include required check details for manual QA rows", async () => {
+  it("can include required check details for release-engineering QA rows", async () => {
     const [runtimeRow] = await listNativeQaRows({
       includeDetails: true,
       matrixName: "runtime",

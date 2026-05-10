@@ -1,6 +1,6 @@
 # Skia Renderer QA Protocol
 
-Status on May 7, 2026: protocol ready, local baseline recorded, iOS/Android optional-Skia install/build evidence captured, iOS/Android renderer-injected Release build evidence captured, and all native renderer-parity and Skia performance rows passed. Structured gate evidence lives in [skia-renderer-evidence.json](evidence/skia-renderer-evidence.json), with install, renderer-parity, and performance rows in [skia-renderer-matrix.json](evidence/skia-renderer-matrix.json). Use the generated [native QA checklist](native-qa-checklists.md) for row-by-row execution.
+Status on May 7, 2026: protocol ready, local baseline recorded, iOS/Android optional-Skia install/build evidence captured, iOS/Android renderer-injected Release build evidence captured, and all native renderer-parity and Skia performance rows passed. Structured gate evidence lives in [skia-renderer-evidence.json](evidence/skia-renderer-evidence.json), with install, renderer-parity, and performance rows in [skia-renderer-matrix.json](evidence/skia-renderer-matrix.json). Use the generated [native QA evidence backlog](native-qa-signoff-worksheet.md) only when release engineering or an agent is collecting stable-RC evidence.
 
 This protocol covers the native evidence required before `@chart-kit/skia-renderer` can move beyond preview. Local renderer-contract tests prove that the injected primitive adapter can satisfy chart renderer contracts, but they do not prove native installation, native text rendering, native gradients, native clipping, or release-build performance.
 

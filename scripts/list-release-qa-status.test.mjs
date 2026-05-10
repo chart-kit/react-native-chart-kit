@@ -45,7 +45,7 @@ describe("release QA status", () => {
     );
   });
 
-  it("limits open rows for focused manual QA", async () => {
+  it("limits open rows for focused release-engineering evidence review", async () => {
     const [section] = await buildReleaseQaStatus({
       limit: 1,
       matrixName: "runtime",
