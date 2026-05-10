@@ -200,13 +200,6 @@ export const CandlestickChartSurface = <TData,>({
             width={candle.bodyWidth}
             x={candle.bodyX}
             y={candle.bodyY}
-            {...(selectedCandle?.dataIndex === candle.dataIndex
-              ? {
-                  stroke: resolvedTheme.text,
-                  strokeOpacity: 0.36,
-                  strokeWidth: 1.5
-                }
-              : {})}
           />
         ))}
       </Layer>

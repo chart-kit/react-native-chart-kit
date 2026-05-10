@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
+import type { ReactElement, ReactNode } from "react";
 
 vi.mock("@chart-kit/svg-renderer", () => {
   const MockPrimitive = () => null;
@@ -25,15 +26,19 @@ vi.mock("@chart-kit/svg-renderer", () => {
 });
 
 import { renderDefaultCandlestickTooltip } from "../src/charts/candlestick/tooltip";
+import { CandlestickChartSurface } from "../src/charts/candlestick/surface";
+import { resolveCartesianChartThemeConfig } from "../src/theme/presets";
 import type { CandlestickChartTooltipModel } from "../src/charts/candlestick/tooltipModel";
 import type {
   CandlestickChartCandleModel,
+  CandlestickChartModel,
   CandlestickChartRenderer,
   ResolvedCandlestickChartTooltipConfig
 } from "../src/charts/candlestick/types";
 import type { SkiaRenderer } from "../../skia-renderer/src/types";
 import {
   getFragmentChildren,
+  getRenderedChildren,
   skiaLikeRenderer
 } from "./line-renderer.fixtures";
 
@@ -107,6 +112,41 @@ const tooltip: CandlestickChartTooltipModel<{ date: string }> & {
   y: 32
 };
 
+type PrimitiveElement = ReactElement<Record<string, unknown>>;
+
+const getDescendantElements = (node: ReactNode): PrimitiveElement[] => {
+  const children = getRenderedChildren(node) as PrimitiveElement[];
+  const results = [...children];
+
+  for (const child of children) {
+    results.push(...getDescendantElements(child.props.children as ReactNode));
+  }
+
+  return results;
+};
+
+const model: CandlestickChartModel<{ date: string }> = {
+  boxes: {
+    outer: { height: 160, width: 220, x: 0, y: 0 },
+    padding: { bottom: 32, left: 36, right: 14, top: 18 },
+    plot: { height: 110, width: 170, x: 36, y: 18 }
+  },
+  candles: [candle],
+  downColor: "#dc2626",
+  flatColor: "#64748b",
+  resolvedTheme: resolveCartesianChartThemeConfig({ mode: "light" }),
+  sessionEvents: [],
+  sessionGaps: [],
+  showHorizontalGridLines: false,
+  showXAxisLabels: false,
+  showYAxisLabels: false,
+  upColor: "#16a34a",
+  volumeBars: [],
+  xLabels: [],
+  yLabels: [],
+  yTicks: []
+};
+
 describe("CandlestickChart renderer parity contract", () => {
   it("accepts the shared Skia renderer primitive contract", () => {
     expect(skiaRendererAssignable).toBe(true);
@@ -145,5 +185,31 @@ describe("CandlestickChart renderer parity contract", () => {
         }
       })
     ).toBeNull();
+  });
+
+  it("does not draw a selected candle body border", () => {
+    const surface = CandlestickChartSurface({
+      chartHeight: 160,
+      chartWidth: 220,
+      formatYLabel: (value) => `$${value}`,
+      model,
+      renderer: skiaLikeRenderer,
+      selectedCandle: candle,
+      testID: "financial-chart",
+      tooltipConfig,
+      tooltipModel: undefined
+    });
+    const selectedBody = getDescendantElements(surface).find(
+      (element) => element.props.testID === "financial-chart-candle.0"
+    );
+
+    expect(selectedBody?.props).toMatchObject({
+      fill: "#16a34a",
+      height: 36,
+      width: 12
+    });
+    expect(selectedBody?.props.stroke).toBeUndefined();
+    expect(selectedBody?.props.strokeWidth).toBeUndefined();
+    expect(selectedBody?.props.strokeOpacity).toBeUndefined();
   });
 });
