@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   buildCandlestickChartSelectEvent,
   getCandlestickAtPoint,
+  getCandlestickAtTapX,
   getCandlestickChartInteractionConfig,
   getNearestCandlestickByX,
   isCandlestickChartScrollableTap
@@ -162,6 +163,31 @@ describe("CandlestickChart interaction helpers", () => {
         locationX: 136
       })?.key
     ).toBe("candle-3");
+  });
+
+  it("selects candles by x position for tap inspection", () => {
+    const nextCandle = {
+      ...candle,
+      dataIndex: 3,
+      key: "candle-3",
+      wickX: 150
+    };
+    const plot = { height: 180, width: 240, x: 44, y: 18 };
+
+    expect(
+      getCandlestickAtTapX({
+        candles: [candle, nextCandle],
+        locationX: 139,
+        plot
+      })?.key
+    ).toBe("candle-3");
+    expect(
+      getCandlestickAtTapX({
+        candles: [candle, nextCandle],
+        locationX: 20,
+        plot
+      })
+    ).toBeUndefined();
   });
 
   it("only treats the crosshair intersection center as the active tap target", () => {

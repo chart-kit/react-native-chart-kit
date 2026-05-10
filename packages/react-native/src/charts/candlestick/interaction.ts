@@ -1,3 +1,5 @@
+import type { ChartBoxes } from "@chart-kit/core";
+
 import type {
   CandlestickChartCandleModel,
   CandlestickChartDeselectEvent,
@@ -151,6 +153,27 @@ export const getNearestCandlestickByX = <TData>({
   });
 
   return nearest?.candle;
+};
+
+export const getCandlestickAtTapX = <TData>({
+  candles,
+  hitSlop = 8,
+  locationX,
+  plot
+}: {
+  candles: Array<CandlestickChartCandleModel<TData>>;
+  hitSlop?: number;
+  locationX: number;
+  plot: ChartBoxes["plot"];
+}) => {
+  if (
+    locationX < plot.x - hitSlop ||
+    locationX > plot.x + plot.width + hitSlop
+  ) {
+    return undefined;
+  }
+
+  return getNearestCandlestickByX({ candles, locationX });
 };
 
 export const buildCandlestickChartSelectEvent = <TData>({

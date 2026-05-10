@@ -30,7 +30,7 @@ import { isNearCandlestickCrosshairIntersection } from "./crosshairGeometry";
 import { getCandlestickChartAccessibilitySummary } from "./accessibility";
 import {
   buildCandlestickChartSelectEvent,
-  getCandlestickAtPoint,
+  getCandlestickAtTapX,
   getCandlestickChartInteractionConfig,
   isCandlestickChartInteractionEnabled
 } from "./interaction";
@@ -228,11 +228,11 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
     [boxes, formatXLabel, formatYLabel, tooltipConfig, visibleSelectedCandle]
   );
   const handleSurfacePress = useCallback(
-    ({ locationX, locationY }: { locationX: number; locationY: number }) => {
-      const tappedCandle = getCandlestickAtPoint({
+    ({ locationX }: { locationX: number; locationY: number }) => {
+      const tappedCandle = getCandlestickAtTapX({
         candles,
         locationX,
-        locationY
+        plot: boxes.plot
       });
 
       if (!tappedCandle) {
@@ -266,6 +266,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
     },
     [
       candles,
+      boxes.plot,
       formatXLabel,
       formatYLabel,
       interactionConfig,
