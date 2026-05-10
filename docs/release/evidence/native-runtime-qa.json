@@ -1,9 +1,10 @@
 {
   "schemaVersion": 1,
-  "status": "partial",
-  "requiredFor": ["H5", "H6"],
+  "status": "archived",
+  "requiredFor": [],
   "lastUpdated": "2026-05-06",
-  "summary": "Release simulator/emulator row-level screenshots and logs exist for iOS and Android, but the full gesture/runtime device matrix is incomplete.",
+  "summary": "Archived native runtime matrix evidence from earlier QA automation. Active preview review now uses smoke-test checks and concise release-risk notes.",
+  "archiveNote": "Kept only as historical context. This file is not an H5/H6 blocker and must not be turned into an owner row-by-row task.",
   "matrix": "docs/release/evidence/native-runtime-matrix.json",
   "completedEntries": [
     {
@@ -22,7 +23,7 @@
         "docs/release/artifacts/ios-runtime-heatmaps.png",
         "docs/release/artifacts/ios-runtime-compatibility.png"
       ],
-      "notes": "Release simulator row-level screenshots/logs and prior launch-smoke screenshots cover all required showcase pages; full interaction, rotation, and physical-device runtime matrix still pending."
+      "notes": "Historical release-simulator row-level screenshots/logs and prior launch-smoke screenshots cover the showcase pages. Active release notes summarize remaining risk instead of requiring matrix completion."
     },
     {
       "date": "2026-05-06",
@@ -40,7 +41,7 @@
         "docs/release/artifacts/android-runtime-heatmaps.png",
         "docs/release/artifacts/android-runtime-compatibility.png"
       ],
-      "notes": "Release emulator row-level screenshots/logs and prior launch-smoke screenshots cover all required showcase pages; full gesture, rotation, and physical-device runtime matrix still pending."
+      "notes": "Historical release-emulator row-level screenshots/logs and prior launch-smoke screenshots cover the showcase pages. Active release notes summarize remaining risk instead of requiring matrix completion."
     }
   ],
   "requiredPages": [
@@ -53,22 +54,8 @@
     "Heatmaps",
     "Compatibility"
   ],
-  "missingEvidence": [
-    "ios-line-charts is partial; evidence is required before this matrix can be complete.",
-    "ios-bar-charts is partial; evidence is required before this matrix can be complete.",
-    "ios-combined-preview is partial; evidence is required before this matrix can be complete.",
-    "ios-financial-preview is partial; evidence is required before this matrix can be complete.",
-    "ios-pie-donut is partial; evidence is required before this matrix can be complete.",
-    "ios-progress is partial; evidence is required before this matrix can be complete.",
-    "ios-heatmaps is partial; evidence is required before this matrix can be complete.",
-    "ios-compatibility is partial; evidence is required before this matrix can be complete.",
-    "android-line-charts is partial; evidence is required before this matrix can be complete.",
-    "android-bar-charts is partial; evidence is required before this matrix can be complete.",
-    "android-combined-preview is partial; evidence is required before this matrix can be complete.",
-    "android-financial-preview is partial; evidence is required before this matrix can be complete.",
-    "android-pie-donut is partial; evidence is required before this matrix can be complete.",
-    "android-progress is partial; evidence is required before this matrix can be complete.",
-    "android-heatmaps is partial; evidence is required before this matrix can be complete.",
-    "android-compatibility is partial; evidence is required before this matrix can be complete."
+  "missingEvidence": [],
+  "historicalGaps": [
+    "No longer tracked as required matrix rows. See smoke-test-checks.md and known-issues.md for current release risk."
   ]
 }

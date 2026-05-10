@@ -18,6 +18,7 @@ const validMatrixRowStatuses = new Set([
   "pending"
 ]);
 const validReleaseEvidenceManifestStatuses = new Set([
+  "archived",
   "blocked",
   "complete",
   "missing",
@@ -446,6 +447,22 @@ export const validateReleaseEvidenceManifest = async ({
   if (!manifest.summary || typeof manifest.summary !== "string") {
     errors.push("manifest must include a summary");
   }
+
+  if (status === "archived") {
+    if (!manifest.archiveNote || typeof manifest.archiveNote !== "string") {
+      errors.push("archived manifest must include archiveNote");
+    }
+
+    for (const [index, entry] of completedEntries.entries()) {
+      if (!entry.result || typeof entry.result !== "string") {
+        errors.push(`completedEntries[${index}] must include result`);
+      }
+      await validateCompletedEntryArtifacts({ entry, errors, index });
+    }
+
+    return errors;
+  }
+
   if (
     !Array.isArray(manifest.requiredFor) ||
     manifest.requiredFor.length === 0

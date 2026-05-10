@@ -77,11 +77,11 @@ Use `npm run release:owner:record -- --list` to inspect H4/H5/H6 owner gates. Ow
 
 ## Release Artifacts
 
-- [Accessibility QA protocol](accessibility-qa.md)
+- [Archived accessibility QA notes](accessibility-qa.md)
 - [Smoke test checks](smoke-test-checks.md)
 - [Owner smoke notes](artifacts/owner-smoke-notes-2026-05-10.md)
-- [Native performance benchmark protocol](native-performance-benchmark.md)
-- [Native runtime QA protocol](native-runtime-qa.md)
+- [Archived native performance notes](native-performance-benchmark.md)
+- [Archived native runtime QA notes](native-runtime-qa.md)
 - [Migration guide](../migration/from-v1.md)
 - `chartkit-codemod v1-to-v2`
 - [Prop mapping](../migration/prop-mapping.md)

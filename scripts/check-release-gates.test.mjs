@@ -3,6 +3,8 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
+import { validateReleaseEvidenceManifest } from "./release-gate-validation.mjs";
+
 const repoRoot = process.cwd();
 
 const runGateReportJson = () =>
@@ -52,6 +54,22 @@ describe("release gate checker", () => {
     expect(ids).not.toContain("blocker:native-accessibility-qa");
     expect(ids).not.toContain("blocker:native-performance");
     expect(ids.some((id) => id.startsWith("matrix:"))).toBe(false);
+  });
+
+  it("accepts archived evidence manifests outside active gate requirements", async () => {
+    await expect(
+      validateReleaseEvidenceManifest({
+        manifest: {
+          archiveNote:
+            "Historical evidence only. Use smoke-test checks for active preview readiness.",
+          completedEntries: [],
+          requiredFor: [],
+          schemaVersion: 1,
+          status: "archived",
+          summary: "Archived native QA matrix evidence."
+        }
+      })
+    ).resolves.toEqual([]);
   });
 
   it("accepts complete RN CLI native example evidence", () => {

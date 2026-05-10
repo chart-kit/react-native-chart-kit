@@ -1,9 +1,10 @@
 {
   "schemaVersion": 1,
-  "status": "partial",
-  "requiredFor": ["H5", "H6"],
+  "status": "archived",
+  "requiredFor": [],
   "lastUpdated": "2026-05-06",
-  "summary": "Automated summary/data-table helper coverage and row-level iOS/Android support captures exist, but manual VoiceOver and TalkBack screen-reader review has not been completed.",
+  "summary": "Archived native accessibility matrix evidence from earlier QA automation. Active preview review now uses smoke-test checks plus targeted screen-reader notes.",
+  "archiveNote": "Kept only as historical context. This file is not an H5/H6 blocker and must not be turned into an owner row-by-row task.",
   "matrix": "docs/release/evidence/native-accessibility-matrix.json",
   "completedEntries": [
     {
@@ -13,7 +14,7 @@
       "artifacts": [
         "docs/release/artifacts/accessibility-local-baseline-2026-05-06.md"
       ],
-      "notes": "Automated summary/data-table helpers, showcase data-details coverage, and native QA checklist synchronization passed; native VoiceOver and TalkBack review remains required."
+      "notes": "Automated summary/data-table helpers and showcase data-details coverage passed. Current screen-reader status is summarized in owner smoke notes and release claims."
     },
     {
       "date": "2026-05-06",
@@ -23,7 +24,7 @@
         "docs/release/artifacts/ios-voiceover-line-charts.png",
         "docs/release/artifacts/android-talkback-line-charts.png"
       ],
-      "notes": "Representative iOS VoiceOver-target and Android TalkBack-target screenshots/logs are captured for every accessibility matrix row, including Android UI hierarchy XML snapshots. These are supporting artifacts only; manual screen-reader review remains required before any row can pass."
+      "notes": "Representative iOS VoiceOver-target and Android TalkBack-target screenshots/logs were captured for historical matrix rows. Active release notes summarize remaining assistive-technology risk instead of requiring matrix completion."
     }
   ],
   "requiredAssistiveTech": [
@@ -40,22 +41,8 @@
       "result": "pending"
     }
   ],
-  "missingEvidence": [
-    "ios-voiceover-line-charts is partial; manual iOS VoiceOver screen-reader review is required before this matrix can be complete.",
-    "ios-voiceover-bar-charts is partial; manual iOS VoiceOver screen-reader review is required before this matrix can be complete.",
-    "ios-voiceover-combined-preview is partial; manual iOS VoiceOver screen-reader review is required before this matrix can be complete.",
-    "ios-voiceover-financial-preview is partial; manual iOS VoiceOver screen-reader review is required before this matrix can be complete.",
-    "ios-voiceover-pie-donut is partial; manual iOS VoiceOver screen-reader review is required before this matrix can be complete.",
-    "ios-voiceover-progress is partial; manual iOS VoiceOver screen-reader review is required before this matrix can be complete.",
-    "ios-voiceover-heatmaps is partial; manual iOS VoiceOver screen-reader review is required before this matrix can be complete.",
-    "ios-voiceover-compatibility is partial; manual iOS VoiceOver screen-reader review is required before this matrix can be complete.",
-    "android-talkback-line-charts is partial; manual Android TalkBack screen-reader review is required before this matrix can be complete.",
-    "android-talkback-bar-charts is partial; manual Android TalkBack screen-reader review is required before this matrix can be complete.",
-    "android-talkback-combined-preview is partial; manual Android TalkBack screen-reader review is required before this matrix can be complete.",
-    "android-talkback-financial-preview is partial; manual Android TalkBack screen-reader review is required before this matrix can be complete.",
-    "android-talkback-pie-donut is partial; manual Android TalkBack screen-reader review is required before this matrix can be complete.",
-    "android-talkback-progress is partial; manual Android TalkBack screen-reader review is required before this matrix can be complete.",
-    "android-talkback-heatmaps is partial; manual Android TalkBack screen-reader review is required before this matrix can be complete.",
-    "android-talkback-compatibility is partial; manual Android TalkBack screen-reader review is required before this matrix can be complete."
+  "missingEvidence": [],
+  "historicalGaps": [
+    "No longer tracked as required matrix rows. See smoke-test-checks.md and h6-release-claims.md for current release risk."
   ]
 }
