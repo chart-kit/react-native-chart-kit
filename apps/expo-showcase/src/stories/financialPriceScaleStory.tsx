@@ -21,7 +21,7 @@ const minVisibleWeeks = 8;
 const priceScaleHeight = 292;
 const rangeSelectorGap = 9;
 const rangeSelectorHeight = 72;
-const priceScaleWidth = 62;
+const priceScaleWidth = 46;
 const formatPrice = (value: number) => `$${Math.round(value)}`;
 
 const getInitialViewport = (): CandlestickChartViewportConfig => ({
@@ -73,7 +73,7 @@ export const V2CandlestickPriceScale = ({
       }),
     [baseDomain, priceScale]
   );
-  const chartWidth = Math.max(220, width - priceScaleWidth - 8);
+  const chartWidth = Math.max(220, width - priceScaleWidth - 2);
 
   return (
     <ChartSection title="Price scale" kicker="Candlestick">
@@ -137,6 +137,6 @@ const styles = StyleSheet.create({
   row: {
     alignItems: "flex-start",
     flexDirection: "row",
-    gap: 8
+    gap: 2
   }
 });

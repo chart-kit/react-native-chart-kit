@@ -71,7 +71,7 @@ export type CandlestickPriceScaleProps = {
   preset?: CartesianChartPresetValue;
 };
 
-const defaultWidth = 62;
+const defaultWidth = 46;
 
 export const CandlestickPriceScale = ({
   accessibilityLabel = "Price scale",
@@ -251,11 +251,12 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
     justifyContent: "space-between",
     paddingBottom: 12,
+    paddingRight: 6,
     paddingTop: 18
   },
   priceTick: {
-    fontSize: 11,
-    fontWeight: "800",
+    fontSize: 10,
+    fontWeight: "700",
     lineHeight: 15,
     textAlign: "right"
   },
