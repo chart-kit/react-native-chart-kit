@@ -229,6 +229,10 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
           setGestureSelectedIndex(undefined);
         }
 
+        if (interactionConfig.deselectOnOutsidePress) {
+          interactionConfig.onDeselect?.({ reason: "outsidePress" });
+        }
+
         return;
       }
 
@@ -272,9 +276,12 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
   });
   const crosshairResponderProps = useCandlestickCrosshairInspector({
     candles,
+    deselectOnOutsidePress: interactionConfig.deselectOnOutsidePress,
     enabled: !scrollViewport.scrollable && isCrosshairInteraction,
     formatXLabel,
     formatYLabel,
+    hasSelection: selectedCandle !== undefined,
+    onDeselect: interactionConfig.onDeselect,
     onGestureEnd: interactionConfig.onGestureEnd,
     onGestureStart: interactionConfig.onGestureStart,
     onSelect: interactionConfig.onSelect,

@@ -9,6 +9,7 @@ import {
 } from "./interaction";
 import type {
   CandlestickChartCandleModel,
+  CandlestickChartDeselectEvent,
   CandlestickChartSelectEvent
 } from "./types";
 
@@ -38,9 +39,12 @@ const isInPlot = ({
 
 export const useCandlestickCrosshairInspector = <TData>({
   candles,
+  deselectOnOutsidePress,
   enabled,
   formatXLabel,
   formatYLabel,
+  hasSelection,
+  onDeselect,
   onGestureEnd,
   onGestureStart,
   onSelect,
@@ -51,12 +55,15 @@ export const useCandlestickCrosshairInspector = <TData>({
   setGestureSelectedIndex
 }: {
   candles: Array<CandlestickChartCandleModel<TData>>;
+  deselectOnOutsidePress: boolean;
   enabled: boolean;
   formatXLabel: (
     value: CandlestickChartCandleModel<TData>["xValue"],
     index: number
   ) => string;
   formatYLabel: (value: number) => string;
+  hasSelection: boolean;
+  onDeselect: ((event: CandlestickChartDeselectEvent) => void) | undefined;
   onGestureEnd: (() => void) | undefined;
   onGestureStart: (() => void) | undefined;
   onSelect: ((event: CandlestickChartSelectEvent<TData>) => void) | undefined;
@@ -66,6 +73,23 @@ export const useCandlestickCrosshairInspector = <TData>({
   setCrosshairY: (value: number | undefined) => void;
   setGestureSelectedIndex: (value: number | undefined) => void;
 }): ViewProps => {
+  const clearSelection = useCallback(
+    (event: CandlestickChartDeselectEvent) => {
+      setCrosshairY(undefined);
+
+      if (!selectedIndexControlled) {
+        setGestureSelectedIndex(undefined);
+      }
+
+      onDeselect?.(event);
+    },
+    [
+      onDeselect,
+      selectedIndexControlled,
+      setCrosshairY,
+      setGestureSelectedIndex
+    ]
+  );
   const updateSelection = useCallback(
     (event: GestureResponderEvent) => {
       preventBrowserSelection(event);
@@ -110,9 +134,13 @@ export const useCandlestickCrosshairInspector = <TData>({
     (event: GestureResponderEvent) => {
       const { locationX, locationY } = event.nativeEvent;
 
-      return enabled && isInPlot({ locationX, locationY, plot });
+      return (
+        enabled &&
+        (isInPlot({ locationX, locationY, plot }) ||
+          (deselectOnOutsidePress && hasSelection))
+      );
     },
-    [enabled, plot]
+    [deselectOnOutsidePress, enabled, hasSelection, plot]
   );
 
   if (!enabled) {
@@ -122,12 +150,20 @@ export const useCandlestickCrosshairInspector = <TData>({
   return {
     onMoveShouldSetResponder: shouldSetResponder,
     onResponderGrant: (event) => {
+      const { locationX, locationY } = event.nativeEvent;
+
+      if (!isInPlot({ locationX, locationY, plot })) {
+        clearSelection({ reason: "outsidePress" });
+
+        return;
+      }
+
       onGestureStart?.();
       updateSelection(event);
     },
     onResponderMove: updateSelection,
-    onResponderRelease: onGestureEnd,
-    onResponderTerminate: onGestureEnd,
+    onResponderRelease: () => onGestureEnd?.(),
+    onResponderTerminate: () => onGestureEnd?.(),
     onResponderTerminationRequest: () => false,
     onStartShouldSetResponder: shouldSetResponder
   };

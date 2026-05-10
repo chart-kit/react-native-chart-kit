@@ -59,6 +59,8 @@ const themeTooltip = {
 
 describe("CandlestickChart interaction helpers", () => {
   it("keeps tap interaction opt-in", () => {
+    const onDeselect = () => undefined;
+
     expect(getCandlestickChartInteractionConfig(undefined)).toEqual({
       deselectOnOutsidePress: false,
       mode: "none"
@@ -71,6 +73,12 @@ describe("CandlestickChart interaction helpers", () => {
       deselectOnOutsidePress: true,
       mode: "crosshair"
     });
+    expect(
+      getCandlestickChartInteractionConfig({
+        mode: "crosshair",
+        onDeselect
+      }).onDeselect
+    ).toBe(onDeselect);
   });
 
   it("hit-tests wick and body regions", () => {

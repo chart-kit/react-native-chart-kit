@@ -18,12 +18,9 @@ import { ChartSection, type NativeStoryProps } from "./storyPrimitives";
 
 const weeklyCandles = getStockCandlesForInterval(stockCandles, "1W");
 const weeklyYDomain = getStockCandlePriceDomain(weeklyCandles);
-const crosshairCandles = weeklyCandles.slice(-28);
-const crosshairYDomain = getStockCandlePriceDomain(crosshairCandles);
 const initialVisibleWeeks = 28;
 const minVisibleWeeks = 8;
 const initialSelectedIndex = Math.max(0, weeklyCandles.length - 2);
-const crosshairInitialSelectedIndex = Math.max(0, crosshairCandles.length - 2);
 const upColor = "#16a34a";
 const downColor = "#ef4444";
 
@@ -73,24 +70,22 @@ const SelectedWeekLegend = ({
     [chartKitTheme]
   );
 
-  if (!candle) {
-    return null;
-  }
-
-  const move = getCandleMove(candle);
-  const isPositive = move.value >= 0;
+  const move = candle ? getCandleMove(candle) : undefined;
+  const isPositive = (move?.value ?? 0) >= 0;
   const moveColor = isPositive ? upColor : downColor;
   const moveSign = isPositive ? "+" : "-";
   const moveLabel = `${moveSign}${formatPrice(
-    Math.abs(move.value)
-  )} (${moveSign}${Math.round(Math.abs(move.percent) * 1000) / 10}%)`;
-  const metrics = [
-    { label: "Open", value: formatPrice(candle.open) },
-    { label: "High", value: formatPrice(candle.high) },
-    { label: "Low", value: formatPrice(candle.low) },
-    { label: "Close", value: formatPrice(candle.close) },
-    { label: "Volume", value: formatVolume(candle.volume) }
-  ];
+    Math.abs(move?.value ?? 0)
+  )} (${moveSign}${Math.round(Math.abs(move?.percent ?? 0) * 1000) / 10}%)`;
+  const metrics = candle
+    ? [
+        { label: "Open", value: formatPrice(candle.open) },
+        { label: "High", value: formatPrice(candle.high) },
+        { label: "Low", value: formatPrice(candle.low) },
+        { label: "Close", value: formatPrice(candle.close) },
+        { label: "Volume", value: formatVolume(candle.volume) }
+      ]
+    : [];
 
   return (
     <View
@@ -108,34 +103,40 @@ const SelectedWeekLegend = ({
             {eyebrow}
           </Text>
           <Text style={[styles.selectedDate, { color: resolvedTheme.text }]}>
-            Week of {formatTradingWeek(candle.day)}
+            {candle
+              ? `Week of ${formatTradingWeek(candle.day)}`
+              : "Drag to inspect"}
           </Text>
         </View>
-        <View
-          style={[
-            styles.movePill,
-            { borderColor: moveColor, backgroundColor: "transparent" }
-          ]}
-        >
-          <Text style={[styles.moveText, { color: moveColor }]}>
-            {moveLabel}
-          </Text>
-        </View>
-      </View>
-      <View style={styles.metrics}>
-        {metrics.map((metric) => (
-          <View key={metric.label} style={styles.metricItem}>
-            <Text
-              style={[styles.metricLabel, { color: resolvedTheme.mutedText }]}
-            >
-              {metric.label}
-            </Text>
-            <Text style={[styles.metricValue, { color: resolvedTheme.text }]}>
-              {metric.value}
+        {candle ? (
+          <View
+            style={[
+              styles.movePill,
+              { borderColor: moveColor, backgroundColor: "transparent" }
+            ]}
+          >
+            <Text style={[styles.moveText, { color: moveColor }]}>
+              {moveLabel}
             </Text>
           </View>
-        ))}
+        ) : null}
       </View>
+      {metrics.length > 0 ? (
+        <View style={styles.metrics}>
+          {metrics.map((metric) => (
+            <View key={metric.label} style={styles.metricItem}>
+              <Text
+                style={[styles.metricLabel, { color: resolvedTheme.mutedText }]}
+              >
+                {metric.label}
+              </Text>
+              <Text style={[styles.metricValue, { color: resolvedTheme.text }]}>
+                {metric.value}
+              </Text>
+            </View>
+          ))}
+        </View>
+      ) : null}
     </View>
   );
 };
@@ -145,10 +146,19 @@ export const V2CandlestickCrosshairInspector = ({
   onScrubStart,
   width
 }: NativeStoryProps) => {
-  const [selectedIndex, setSelectedIndex] = useState(
-    crosshairInitialSelectedIndex
+  const [selectedIndex, setSelectedIndex] = useState<number | undefined>(
+    initialSelectedIndex
   );
-  const selectedCandle = crosshairCandles[selectedIndex];
+  const [viewport, setViewport] =
+    useState<CandlestickChartViewportConfig>(getInitialViewport);
+  const selectedCandle =
+    selectedIndex === undefined ? undefined : weeklyCandles[selectedIndex];
+  const handleViewportChange = useCallback(
+    (event: { viewport: CandlestickChartViewportConfig }) => {
+      setViewport(event.viewport);
+    },
+    []
+  );
 
   return (
     <ChartSection title="Crosshair inspector" kicker="Inspection mode">
@@ -159,30 +169,48 @@ export const V2CandlestickCrosshairInspector = ({
       <CandlestickChart
         candleWidthRatio={0.52}
         closeKey="close"
-        data={crosshairCandles}
+        data={weeklyCandles}
         downColor={downColor}
         formatXLabel={formatTradingWeek}
         formatYLabel={formatPrice}
         height={286}
         highKey="high"
         interaction={{
+          deselectOnOutsidePress: true,
           mode: "crosshair",
+          onDeselect: () => setSelectedIndex(undefined),
           onGestureEnd: onScrubEnd,
           onGestureStart: onScrubStart,
           onSelect: (event) => setSelectedIndex(event.dataIndex)
         }}
         lowKey="low"
         openKey="open"
+        onViewportChange={handleViewportChange}
+        rangeSelector={{
+          gap: 9,
+          height: 66,
+          interactive: true,
+          minVisiblePoints: minVisibleWeeks,
+          onGestureEnd: onScrubEnd,
+          onGestureStart: onScrubStart
+        }}
         selectedIndex={selectedIndex}
         selectionPriceLabel={false}
         sessionGaps={false}
         testID="crosshair-inspector-candlestick-chart"
         tooltip={false}
         upColor={upColor}
+        viewport={viewport}
+        viewportInteraction={{
+          minVisiblePoints: minVisibleWeeks,
+          onGestureEnd: onScrubEnd,
+          onGestureStart: onScrubStart,
+          pinchZoom: true
+        }}
         volumeKey="volume"
         width={width}
         xKey="day"
-        yDomain={crosshairYDomain}
+        yDomain={weeklyYDomain}
       />
     </ChartSection>
   );

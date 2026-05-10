@@ -293,7 +293,7 @@ export const CandlestickChartSurface = <TData,>({
               stroke={
                 isCrosshairVisible ? resolvedTheme.text : resolvedTheme.axis
               }
-              strokeDasharray={isCrosshairVisible ? undefined : [4, 4]}
+              strokeDasharray={[4, 4]}
               strokeOpacity={isCrosshairVisible ? 0.54 : 0.42}
               strokeWidth={1}
               x1={selectedCandle.wickX}
@@ -304,6 +304,7 @@ export const CandlestickChartSurface = <TData,>({
             {isCrosshairVisible ? (
               <Line
                 stroke={resolvedTheme.text}
+                strokeDasharray={[4, 4]}
                 strokeOpacity={0.42}
                 strokeWidth={1}
                 x1={boxes.plot.x}

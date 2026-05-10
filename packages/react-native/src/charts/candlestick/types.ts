@@ -85,9 +85,14 @@ export type CandlestickChartInteraction<TData = unknown> =
 export type CandlestickChartInteractionConfig<TData = unknown> = {
   deselectOnOutsidePress?: boolean;
   mode?: CandlestickChartInteractionMode;
+  onDeselect?: (event: CandlestickChartDeselectEvent) => void;
   onGestureEnd?: () => void;
   onGestureStart?: () => void;
   onSelect?: (event: CandlestickChartSelectEvent<TData>) => void;
+};
+
+export type CandlestickChartDeselectEvent = {
+  reason: "outsidePress" | "programmatic";
 };
 
 export type CandlestickChartSelectEvent<TData = unknown> = {
