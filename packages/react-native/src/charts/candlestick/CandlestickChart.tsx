@@ -26,6 +26,7 @@ import {
   CandlestickCrosshairGestureHandler,
   useCandlestickCrosshairInspector
 } from "./crosshairInspector";
+import { isNearCandlestickCrosshairIntersection } from "./crosshairGeometry";
 import { getCandlestickChartAccessibilitySummary } from "./accessibility";
 import {
   buildCandlestickChartSelectEvent,
@@ -185,6 +186,13 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
     isCrosshairInteraction && crosshairY === undefined
       ? undefined
       : selectedCandle;
+  const selectedIntersection = useMemo(
+    () =>
+      selectedCandle && crosshairY !== undefined
+        ? { x: selectedCandle.wickX, y: crosshairY }
+        : undefined,
+    [crosshairY, selectedCandle]
+  );
   const effectiveRangeSelectorConfig = useMemo(
     () =>
       isCrosshairLocked
@@ -264,13 +272,40 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
       props.selectedIndex
     ]
   );
+  const handleCrosshairDismissPress = useCallback(
+    ({ locationX, locationY }: { locationX: number; locationY: number }) => {
+      if (
+        isNearCandlestickCrosshairIntersection({
+          intersection: selectedIntersection,
+          locationX,
+          locationY
+        })
+      ) {
+        return;
+      }
+
+      setCrosshairY(undefined);
+
+      if (props.selectedIndex === undefined) {
+        setGestureSelectedIndex(undefined);
+      }
+
+      interactionConfig.onDeselect?.({ reason: "outsidePress" });
+    },
+    [interactionConfig, props.selectedIndex, selectedIntersection]
+  );
   const viewportGesture = useChartViewportGestureHandler({
     dataLength: props.data.length,
     enabled: !scrollViewport.scrollable,
     onPress:
       !scrollViewport.scrollable && isTapInteraction
         ? handleSurfacePress
-        : undefined,
+        : !scrollViewport.scrollable &&
+            isCrosshairInteraction &&
+            isCrosshairLocked &&
+            interactionConfig.deselectOnOutsidePress
+          ? handleCrosshairDismissPress
+          : undefined,
     onViewportChange: props.onViewportChange,
     plotBounds: boxes.plot,
     viewportInteraction: props.viewportInteraction,
@@ -279,6 +314,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
   const crosshairInteraction = useCandlestickCrosshairInspector({
     activation: interactionConfig.activation,
     candles,
+    crosshairActive: isCrosshairLocked,
     deselectOnOutsidePress: interactionConfig.deselectOnOutsidePress,
     enabled: !scrollViewport.scrollable && isCrosshairInteraction,
     formatXLabel,
@@ -293,10 +329,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
     plot: boxes.plot,
     preventBrowserSelection,
     selectedIndexControlled: props.selectedIndex !== undefined,
-    selectedIntersection:
-      selectedCandle && crosshairY !== undefined
-        ? { x: selectedCandle.wickX, y: crosshairY }
-        : undefined,
+    selectedIntersection,
     setCrosshairY,
     setGestureSelectedIndex
   });

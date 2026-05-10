@@ -7,7 +7,10 @@ import {
   getNearestCandlestickByX,
   isCandlestickChartScrollableTap
 } from "../src/charts/candlestick/interaction";
-import { isNearCandlestickCrosshairIntersection } from "../src/charts/candlestick/crosshairGeometry";
+import {
+  isNearCandlestickCrosshairIntersection,
+  shouldCaptureCandlestickCrosshairResponder
+} from "../src/charts/candlestick/crosshairGeometry";
 import {
   getCandlestickChartTooltipConfig,
   getCandlestickChartTooltipModel
@@ -181,6 +184,50 @@ describe("CandlestickChart interaction helpers", () => {
         intersection: undefined,
         locationX: 100,
         locationY: 80
+      })
+    ).toBe(false);
+  });
+
+  it("does not recapture pan gestures after long-press crosshair selection", () => {
+    const plot = { height: 180, width: 240, x: 44, y: 18 };
+
+    expect(
+      shouldCaptureCandlestickCrosshairResponder({
+        activation: "longPress",
+        crosshairActive: true,
+        deselectOnOutsidePress: true,
+        hasSelection: true,
+        inspecting: false,
+        intersection: { x: 100, y: 80 },
+        locationX: 180,
+        locationY: 82,
+        plot
+      })
+    ).toBe(false);
+    expect(
+      shouldCaptureCandlestickCrosshairResponder({
+        activation: "longPress",
+        crosshairActive: true,
+        deselectOnOutsidePress: true,
+        hasSelection: true,
+        inspecting: false,
+        intersection: { x: 100, y: 80 },
+        locationX: 104,
+        locationY: 84,
+        plot
+      })
+    ).toBe(true);
+    expect(
+      shouldCaptureCandlestickCrosshairResponder({
+        activation: "longPress",
+        crosshairActive: false,
+        deselectOnOutsidePress: true,
+        hasSelection: true,
+        inspecting: false,
+        intersection: undefined,
+        locationX: 180,
+        locationY: 82,
+        plot
       })
     ).toBe(false);
   });

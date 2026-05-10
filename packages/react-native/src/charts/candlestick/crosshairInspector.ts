@@ -24,7 +24,9 @@ import {
 } from "./interaction";
 import {
   clampCandlestickCrosshairY,
+  isInCandlestickCrosshairPlot,
   isNearCandlestickCrosshairIntersection,
+  shouldCaptureCandlestickCrosshairResponder,
   type CandlestickCrosshairIntersectionPoint
 } from "./crosshairGeometry";
 import type {
@@ -41,25 +43,10 @@ type CrosshairTouchPoint = {
 
 type CandlestickCrosshairGesture = ComposedGesture | GestureType;
 
-const isInPlot = ({
-  locationX,
-  locationY,
-  plot,
-  touchSlop = 12
-}: {
-  locationX: number;
-  locationY: number;
-  plot: ChartBoxes["plot"];
-  touchSlop?: number;
-}) =>
-  locationX >= plot.x - touchSlop &&
-  locationX <= plot.x + plot.width + touchSlop &&
-  locationY >= plot.y - touchSlop &&
-  locationY <= plot.y + plot.height + touchSlop;
-
 export const useCandlestickCrosshairInspector = <TData>({
   activation,
   candles,
+  crosshairActive,
   deselectOnOutsidePress,
   enabled,
   formatXLabel,
@@ -80,6 +67,7 @@ export const useCandlestickCrosshairInspector = <TData>({
 }: {
   activation: CandlestickChartInteractionActivation;
   candles: Array<CandlestickChartCandleModel<TData>>;
+  crosshairActive: boolean;
   deselectOnOutsidePress: boolean;
   enabled: boolean;
   formatXLabel: (
@@ -191,24 +179,32 @@ export const useCandlestickCrosshairInspector = <TData>({
   const shouldSetResponder = useCallback(
     (event: GestureResponderEvent) => {
       const { locationX, locationY } = event.nativeEvent;
-      const insidePlot = isInPlot({ locationX, locationY, plot });
 
       if (!enabled) {
         return false;
       }
 
-      const isInspecting = hasSelection || inspectingRef.current;
-
-      if (activation === "press") {
-        return insidePlot || (deselectOnOutsidePress && hasSelection);
-      }
-
-      return (
-        (isInspecting && insidePlot) ||
-        (deselectOnOutsidePress && isInspecting && !insidePlot)
-      );
+      return shouldCaptureCandlestickCrosshairResponder({
+        activation,
+        crosshairActive,
+        deselectOnOutsidePress,
+        hasSelection,
+        inspecting: inspectingRef.current,
+        intersection: selectedIntersection,
+        locationX,
+        locationY,
+        plot
+      });
     },
-    [activation, deselectOnOutsidePress, enabled, hasSelection, plot]
+    [
+      activation,
+      crosshairActive,
+      deselectOnOutsidePress,
+      enabled,
+      hasSelection,
+      plot,
+      selectedIntersection
+    ]
   );
 
   useEffect(() => {
@@ -225,7 +221,7 @@ export const useCandlestickCrosshairInspector = <TData>({
     const selectFromGesture = (event: { x: number; y: number }) => {
       const touchPoint = { locationX: event.x, locationY: event.y };
 
-      if (!isInPlot({ ...touchPoint, plot })) {
+      if (!isInCandlestickCrosshairPlot({ ...touchPoint, plot })) {
         return;
       }
 
@@ -271,7 +267,7 @@ export const useCandlestickCrosshairInspector = <TData>({
       onResponderGrant: (event) => {
         const { locationX, locationY } = event.nativeEvent;
 
-        if (!isInPlot({ locationX, locationY, plot })) {
+        if (!isInCandlestickCrosshairPlot({ locationX, locationY, plot })) {
           clearSelection({ reason: "outsidePress" });
 
           return;
