@@ -4,7 +4,8 @@ This checklist tracks CKV2-017 readiness for the H5-approved Developer Preview. 
 
 ## Package And Version
 
-- Current version: `7.0.0-next.0`
+- Current source version: `7.0.0-next.1`
+- Latest published Developer Preview: `7.0.0-next.0`
 - Current root package name: `react-native-chart-kit`
 - Current modern workspace package: `@chart-kit/react-native`
 - Package strategy: `react-native-chart-kit` remains the compatibility path; `@chart-kit/react-native` is the modern v2 API for new adopters

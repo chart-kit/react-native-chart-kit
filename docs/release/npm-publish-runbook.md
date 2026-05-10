@@ -2,6 +2,10 @@
 
 Status on May 6, 2026: Developer Preview npm publishing is complete for `7.0.0-next.0`. The successful workflow run is [25441203278](https://github.com/indiespirit/react-native-chart-kit/actions/runs/25441203278), and the GitHub prerelease is [v7.0.0-next.0](https://github.com/indiespirit/react-native-chart-kit/releases/tag/v7.0.0-next.0).
 
+The repository may be prepared for a newer unpublished `next` prerelease. For
+future reruns, use the current `package.json` version as the publish target and
+keep the package list controlled by [package-manifest.json](evidence/package-manifest.json).
+
 ## Publish Target
 
 Published under the `next` dist-tag:

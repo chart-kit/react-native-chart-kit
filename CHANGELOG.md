@@ -1,5 +1,11 @@
 # Changelog
 
+## v7.0.0-next.1
+
+- remove deprecated row-by-row native QA matrix tooling from the active release process
+- add a concise H6 RC readiness packet that keeps stable-release approval separate from Developer Preview
+- keep Developer Preview verification focused on smoke-test notes and release-gate output
+
 ## v7.0.0-next.0
 
 - publish the rebuild line under the `@chart-kit/react-native` npm package

@@ -13,7 +13,7 @@ Developer Preview is green:
 npm run release:preview:gate
 ```
 
-Latest checked state: `pass=95 warn=0 block=0 fail=0`.
+Latest checked state: `pass=96 warn=0 block=0 fail=0`.
 
 Stable RC is blocked only by H6 owner approval:
 
@@ -21,7 +21,7 @@ Stable RC is blocked only by H6 owner approval:
 npm run release:gate:report
 ```
 
-Latest checked state: `pass=95 warn=0 block=1 fail=0`.
+Latest checked state: `pass=96 warn=0 block=1 fail=0`.
 
 Remaining blocker:
 
