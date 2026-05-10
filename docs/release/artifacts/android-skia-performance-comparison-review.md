@@ -9,8 +9,8 @@ Device: `chartkit_api36` emulator / Android 16 API 36
 Renderer under review: Skia preview renderer
 
 This artifact records emulator screenshot, log, timing, frame, and memory
-evidence for the Android Skia performance-comparison checklist row. It mirrors
-the iOS Skia and Android SVG performance scenarios.
+evidence for Android Skia performance comparison. It mirrors the iOS Skia and
+Android SVG performance scenarios.
 
 ## Build Evidence
 
@@ -68,8 +68,8 @@ the iOS Skia and Android SVG performance scenarios.
   performance evidence.
 - This does not include Perfetto, Android Studio profiler data, frame timing,
   GPU counters, memory pressure checks, or scripted gesture latency.
-- Physical-device/profiler performance acceptance remains tracked by the
-  broader native performance matrix.
+- Physical-device/profiler performance acceptance remains a separate stable-RC
+  release risk.
 
 ## Status
 

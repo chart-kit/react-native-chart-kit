@@ -6,7 +6,7 @@ Build surface: booted iOS simulator with renderer-injected Skia showcase app
 
 This artifact records an iOS Skia renderer parity review for current Pro-preview
 chart surfaces. The screenshots were captured from the installed native showcase
-app via `npm run release:qa:capture`.
+app through the native screenshot capture workflow.
 
 ## Captured Screens
 
@@ -28,5 +28,5 @@ app via `npm run release:qa:capture`.
 
 ## Status
 
-Pass for iOS simulator visual parity. This row does not cover Android Skia
-parity or Skia performance comparison, which remain separate matrix rows.
+Pass for iOS simulator visual parity. This artifact does not cover Android Skia
+parity or Skia performance comparison, which remain separate release risks.

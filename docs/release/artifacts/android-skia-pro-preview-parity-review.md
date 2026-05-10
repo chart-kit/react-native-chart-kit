@@ -9,7 +9,7 @@ Device: `chartkit_api36` emulator / Android 16 API 36
 
 This artifact records Android Skia renderer parity evidence for Pro-candidate
 preview surfaces. The screenshots were captured from the installed release
-showcase app via `npm run release:qa:capture`.
+showcase app through the native screenshot capture workflow.
 
 ## Build Evidence
 
@@ -42,7 +42,7 @@ showcase app via `npm run release:qa:capture`.
   that the native module logs as safely ignorable, and Android emulator
   `Surface.release` warnings.
 - This is Android emulator visual parity evidence. Physical-device performance
-  and final Skia-vs-SVG performance acceptance are tracked by separate rows.
+  and final Skia-vs-SVG performance acceptance remain separate release risks.
 
 ## Status
 

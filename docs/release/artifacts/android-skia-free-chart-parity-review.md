@@ -9,7 +9,7 @@ Device: `chartkit_api36` emulator / Android 16 API 36
 
 This artifact records Android Skia renderer parity evidence for the free chart
 surface. The screenshots were captured from the installed release showcase app
-via `npm run release:qa:capture`.
+through the native screenshot capture workflow.
 
 ## Build Evidence
 
@@ -46,7 +46,7 @@ via `npm run release:qa:capture`.
   `eglQueryContext(2159): error 0x3004` and RNSkia `updateAndRelease()` lines
   that the native module logs as safely ignorable.
 - This is Android emulator visual parity evidence. Physical-device performance
-  and final Skia-vs-SVG performance acceptance are tracked by separate rows.
+  and final Skia-vs-SVG performance acceptance remain separate release risks.
 
 ## Status
 

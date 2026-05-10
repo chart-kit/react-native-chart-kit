@@ -51,7 +51,7 @@ const iosInstallArtifact = `# Skia Native Install Evidence
 
 Date: 2026-05-06
 Commit: \`abc1234\`
-Build surface: temporary native QA workspace
+Build surface: temporary native release workspace
 Platform target: ios
 
 ## Verified Output
@@ -63,14 +63,14 @@ Platform target: ios
 ## Caveats
 
 - This install evidence does not by itself prove renderer parity screenshots.
-- Performance comparison rows still require SVG-vs-Skia timing and memory data.
+- SVG-vs-Skia timing and memory data remain separate performance evidence.
 `;
 
 const androidRendererBuildArtifact = `# Skia Native Install Evidence
 
 Date: 2026-05-06
 Commit: \`abc1234\`
-Build surface: temporary native QA workspace
+Build surface: temporary native release workspace
 Platform target: android
 Showcase renderer mode: skia
 
@@ -94,7 +94,7 @@ npm --workspace @chart-kit/expo-showcase run typecheck
 ## Caveats
 
 - This install evidence does not by itself prove renderer parity screenshots.
-- Performance comparison rows still require SVG-vs-Skia timing and memory data.
+- SVG-vs-Skia timing and memory data remain separate performance evidence.
 `;
 
 describe("Skia artifact validation", () => {

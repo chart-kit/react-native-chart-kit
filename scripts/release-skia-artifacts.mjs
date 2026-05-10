@@ -42,11 +42,11 @@ const requiredBaselineTokens = [
 const requiredNativeInstallTokens = [
   "Date:",
   "Commit:",
-  "Build surface: temporary native QA workspace",
+  "Build surface: temporary native release workspace",
   "@shopify/react-native-skia@",
   "Release build successful: yes",
   "This install evidence does not by itself prove renderer parity screenshots",
-  "Performance comparison rows still require SVG-vs-Skia timing and memory data"
+  "SVG-vs-Skia timing and memory data remain separate performance evidence"
 ];
 const requiredRendererBuildTokens = [
   ...requiredNativeInstallTokens,

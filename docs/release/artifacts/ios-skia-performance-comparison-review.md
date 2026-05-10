@@ -9,8 +9,8 @@ Device: iPhone 17 simulator / iOS 26.0
 Renderer under review: Skia preview renderer
 
 This artifact records simulator screenshot, log, launch timing, and memory
-evidence for the iOS Skia performance-comparison checklist row. It compares the
-same showcase scenarios used for the iOS SVG performance samples.
+evidence for iOS Skia performance comparison. It compares the same showcase
+scenarios used for the iOS SVG performance samples.
 
 ## Build Evidence
 
@@ -66,8 +66,8 @@ same showcase scenarios used for the iOS SVG performance samples.
   performance evidence.
 - This does not include Instruments frame timing, GPU counters, memory pressure
   checks, or scripted gesture latency.
-- Physical-device/Instruments performance acceptance remains tracked by the
-  broader native performance matrix.
+- Physical-device/Instruments performance acceptance remains a separate stable-RC
+  release risk.
 
 ## Status
 

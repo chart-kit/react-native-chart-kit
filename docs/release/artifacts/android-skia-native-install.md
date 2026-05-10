@@ -2,14 +2,14 @@
 
 Date: 2026-05-06
 Commit: `c602131`
-Build surface: temporary native QA workspace
+Build surface: temporary native release workspace
 Platform target: android
 Skia package: `@shopify/react-native-skia`
 Temporary workspace: `/var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-skia-native-qa-heDfg0`
 
-This artifact records a native optional-Skia install check. It should only be
-used for Skia matrix rows after the command succeeds and the resulting native
-app is reviewed according to `docs/release/skia-renderer-qa.md`.
+This artifact records a native optional-Skia install check. It should be used
+as concise Skia release evidence after the command succeeds and the resulting
+native app is reviewed according to `docs/release/skia-renderer-qa.md`.
 
 ## Commands
 
@@ -38,5 +38,6 @@ $ cd ../../../../var/folders/7s/fkbc25vs3q57wq6k8ttdvxmh0000gn/T/chartkit-skia-n
 ## Caveats
 
 - This install evidence does not by itself prove renderer parity screenshots.
-- Performance comparison rows still require SVG-vs-Skia timing and memory data.
-- Review metadata must still be recorded with `npm run release:qa:record`.
+- SVG-vs-Skia timing and memory data remain separate performance evidence.
+- Review metadata should be summarized in the relevant release evidence file or
+  smoke-test note.

@@ -296,16 +296,16 @@ const createArtifact = ({
 
 Date: ${new Date().toISOString().slice(0, 10)}
 Commit: \`${readGitShortSha()}\`
-Build surface: temporary native QA workspace
+Build surface: temporary native release workspace
 Platform target: ${platform}
 Skia package: \`${skiaPackage}\`
 Skia peer packages: ${skiaPeerPackages.map((item) => `\`${item}\``).join(", ")}
 Showcase renderer mode: ${renderer}
 Temporary workspace: \`${workspaceDir}\`
 
-This artifact records a native optional-Skia install check. It should only be
-used for Skia matrix rows after the command succeeds and the resulting native
-app is reviewed according to \`docs/release/skia-renderer-qa.md\`.
+This artifact records a native optional-Skia install check. It should be used
+as concise Skia release evidence after the command succeeds and the resulting
+native app is reviewed according to \`docs/release/skia-renderer-qa.md\`.
 
 ## Commands
 
