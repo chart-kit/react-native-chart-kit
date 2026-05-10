@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "lastUpdated": "2026-05-06",
+  "lastUpdated": "2026-05-10",
   "gates": [
     {
       "id": "h4",
@@ -49,6 +49,7 @@
       "evidence": [
         "docs/internal/completion-audit.md",
         "docs/release/h6-owner-decision-memo.md",
+        "docs/release/h6-rc-readiness-packet.md",
         "docs/release/smoke-test-checks.md",
         "docs/release/artifacts/owner-smoke-notes-2026-05-10.md"
       ],
