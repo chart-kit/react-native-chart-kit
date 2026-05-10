@@ -49,6 +49,22 @@ for (const scriptName of requiredScripts) {
   });
 }
 
+const publishEvidence = await readRepoJson(
+  "docs/release/evidence/npm-publish-evidence.json"
+);
+const sourceVersion = packageJson.version;
+const publishEvidenceText = JSON.stringify(publishEvidence);
+
+addCheck({
+  detail: publishEvidenceText.includes(sourceVersion)
+    ? ""
+    : `package.json is ${sourceVersion}; publish evidence still records an earlier Developer Preview. This is expected for local release prep until the next publish succeeds and evidence is updated.`,
+  evidence: "package.json; docs/release/evidence/npm-publish-evidence.json",
+  id: "publish:source-version-evidence",
+  message: "Current source version is reflected in Developer Preview publish evidence",
+  status: publishEvidenceText.includes(sourceVersion) ? "pass" : "warn"
+});
+
 const nativeReleaseWorkflowSource = await readRepoFile(
   ".github/workflows/native-release.yml"
 );

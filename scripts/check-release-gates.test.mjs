@@ -128,6 +128,27 @@ describe("release gate checker", () => {
     });
   });
 
+  it("warns when the local source version is prepared but not yet published", () => {
+    const report = runPreviewGateReportJson();
+    const packageJson = JSON.parse(
+      readFileSync(join(repoRoot, "package.json"), "utf8")
+    );
+
+    expect(
+      report.checks.find(
+        (check) => check.id === "publish:source-version-evidence"
+      )
+    ).toMatchObject({
+      evidence: "package.json; docs/release/evidence/npm-publish-evidence.json",
+      status: "warn"
+    });
+    expect(
+      report.checks.find(
+        (check) => check.id === "publish:source-version-evidence"
+      )?.detail
+    ).toContain(`package.json is ${packageJson.version}`);
+  });
+
   it("validates owner gate manifest structure", () => {
     const report = runGateReportJson();
 
