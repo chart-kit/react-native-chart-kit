@@ -5,6 +5,11 @@
 - remove deprecated row-by-row native QA matrix tooling from the active release process
 - add a concise H6 RC readiness packet that keeps stable-release approval separate from Developer Preview
 - keep Developer Preview verification focused on smoke-test notes and release-gate output
+- document that the current source is prepared for `7.0.0-next.1` while the latest published Developer Preview is still `7.0.0-next.0`
+- require the full H6 owner decision set for release-candidate approval
+- guard the required CKV2 command surface and Developer Preview publish manifest in tests
+- rename release docs and publish-manifest fields from beta wording to Developer Preview wording
+- keep Pro and Skia unpublished while preserving pack checks and preview evidence
 
 ## v7.0.0-next.0
 
