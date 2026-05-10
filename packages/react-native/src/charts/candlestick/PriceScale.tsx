@@ -61,6 +61,8 @@ export type CandlestickPriceScaleProps = {
   scale: number;
   scaleLabel?: boolean | ((scale: number) => string);
   sensitivity?: number;
+  signal?: boolean | ReactNode;
+  signalStyle?: StyleProp<ViewStyle>;
   style?: StyleProp<ViewStyle>;
   testID?: string;
   theme?: ChartKitThemeMode | CartesianChartTheme;
@@ -85,8 +87,10 @@ export const CandlestickPriceScale = ({
   preset,
   renderLabel,
   scale,
-  scaleLabel = true,
+  scaleLabel = false,
   sensitivity = defaultCandlestickPriceScaleSensitivity,
+  signal = true,
+  signalStyle,
   style,
   testID,
   theme,
@@ -184,8 +188,6 @@ export const CandlestickPriceScale = ({
         style={[
           styles.container,
           {
-            backgroundColor: resolvedTheme.plotBackground,
-            borderColor: resolvedTheme.grid,
             height,
             width
           },
@@ -193,6 +195,20 @@ export const CandlestickPriceScale = ({
         ]}
         testID={testID}
       >
+        {signal === true ? (
+          <View
+            style={[
+              styles.signal,
+              {
+                backgroundColor: resolvedTheme.mutedText,
+                opacity: 0.34
+              },
+              signalStyle
+            ]}
+          />
+        ) : (
+          signal
+        )}
         {scaleLabelText ? (
           <Text style={[styles.scaleValue, { color: resolvedTheme.text }]}>
             {scaleLabelText}
@@ -233,11 +249,9 @@ export const CandlestickPriceScale = ({
 const styles = StyleSheet.create({
   container: {
     alignItems: "stretch",
-    borderRadius: 8,
-    borderWidth: 1,
     justifyContent: "space-between",
-    paddingHorizontal: 8,
-    paddingVertical: 10
+    paddingBottom: 12,
+    paddingTop: 18
   },
   priceTick: {
     fontSize: 11,
@@ -250,9 +264,15 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     textAlign: "right"
   },
+  signal: {
+    alignSelf: "flex-end",
+    borderRadius: 999,
+    height: 3,
+    marginBottom: 7,
+    width: 18
+  },
   tickStack: {
     flex: 1,
-    justifyContent: "space-between",
-    marginTop: 12
+    justifyContent: "space-between"
   }
 });
