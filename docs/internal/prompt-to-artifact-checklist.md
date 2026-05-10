@@ -69,6 +69,8 @@ npm run pack:check
 
 The old runtime, accessibility, and performance matrices are archived reference data only. They are no longer required commands, owner tasks, or Developer Preview blockers.
 
+The old `release:qa:*` matrix recorder/status/capture scripts were removed. Use `npm run release:preview:gate` for preview readiness and concise smoke-test notes for human feedback.
+
 ## Remaining Stable-RC Decisions
 
 - final semver

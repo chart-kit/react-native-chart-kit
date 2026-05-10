@@ -331,7 +331,9 @@ ${verifiedOutput}
 
 - This install evidence does not by itself prove renderer parity screenshots.
 - Performance comparison rows still require SVG-vs-Skia timing and memory data.
-- Review metadata must still be recorded with \`npm run release:qa:record\`.
+- Review metadata should be summarized in the relevant release evidence file or
+  smoke-test note. The old row-by-row \`release:qa:*\` matrix commands are no
+  longer part of the active release process.
 `;
 
   return writeFile(artifactPath, body, "utf8").then(() => relativeArtifact);

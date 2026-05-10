@@ -11,14 +11,14 @@ This artifact records the automated accessibility baseline required before nativ
 ```sh
 npm run test:unit -- packages/react-native/test/chart-accessibility.test.ts packages/react-native/test/line-accessibility.test.ts apps/expo-showcase/src/showcaseAccessibilityDetails.test.ts
 npm run showcase:typecheck
-npm run release:qa:checklists:check
+npm run release:preview:gate
 ```
 
 ## Results
 
 - Accessibility-focused unit tests passed. Vitest reported 3 test files and 12 tests passing for chart summary/data-table helpers, LineChart accessibility helpers, and the Expo showcase data-details coverage guard.
 - Showcase typecheck passed for `@chart-kit/expo-showcase`.
-- Native QA checklist sync passed; `docs/release/native-qa-checklists.md` is in sync with the accessibility matrix.
+- Developer Preview gate passed; the active smoke-test process is documented in `docs/release/smoke-test-checks.md`.
 
 ## Scope
 
@@ -27,7 +27,7 @@ Covered by this local baseline:
 - generated summary helpers for LineChart, BarChart, CombinedChart, CandlestickChart, PieChart, ProgressChart, and ContributionGraph
 - data-table helper coverage for major chart families
 - representative collapsed `Data details` panels in the Expo showcase for the pages that require table-fallback QA
-- generated row-by-row accessibility checklist consistency
+- Developer Preview gate coverage for the simplified smoke-test process
 - TypeScript coverage for the native showcase wiring
 
 Not covered by this local baseline:

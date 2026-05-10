@@ -26,7 +26,7 @@ const requiredBaselineTokens = [
   "local repository checks only",
   "npm run test:unit",
   "npm run showcase:typecheck",
-  "npm run release:qa:checklists:check",
+  "npm run release:preview:gate",
   "Vitest reported",
   "chart summary/data-table helpers",
   "Expo showcase data-details coverage guard",
