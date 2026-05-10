@@ -220,6 +220,45 @@ describe("release gate checker", () => {
     }
   });
 
+  it("keeps H6 approval commands aligned with pending owner decisions", () => {
+    const ownerGates = JSON.parse(
+      readFileSync(
+        join(repoRoot, "docs/release/evidence/owner-gates.json"),
+        "utf8"
+      )
+    );
+    const h6Gate = ownerGates.gates.find((gate) => gate.id === "h6");
+    const commandDecisionByLabel = {
+      "deprecation policy": "Deprecation policy approved.",
+      "docs freeze": "Docs freeze approved.",
+      "final changelog": "Final changelog approved.",
+      "final semver": "Final semver approved.",
+      "pro and skia package plan": "Pro and Skia package plan approved.",
+      "release candidate approval": "Release candidate approved.",
+      "release claims": "Release claims approved.",
+      "visual baseline freeze": "Visual baseline freeze approved."
+    };
+    const approvalDocs = [
+      "docs/release/h6-finalization-checklist.md",
+      "docs/release/h6-owner-decision-memo.md",
+      "docs/release/h6-rc-readiness-packet.md"
+    ];
+    const expectedCommandDecisions = h6Gate.pendingDecisions.map(
+      (decision) => commandDecisionByLabel[decision.toLowerCase()]
+    );
+
+    expect(expectedCommandDecisions.every(Boolean)).toBe(true);
+
+    for (const docPath of approvalDocs) {
+      const source = readFileSync(join(repoRoot, docPath), "utf8");
+
+      expect(source).toContain("npm run release:owner:record");
+      for (const decision of expectedCommandDecisions) {
+        expect(source).toContain(`--decision "${decision}"`);
+      }
+    }
+  });
+
   it("validates package manifest Developer Preview publish boundary", () => {
     const report = runGateReportJson();
 
