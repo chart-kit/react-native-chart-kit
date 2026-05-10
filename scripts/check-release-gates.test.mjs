@@ -181,7 +181,7 @@ describe("release gate checker", () => {
     });
   });
 
-  it("documents every pending H6 owner decision in the H6 memo", () => {
+  it("documents every pending H6 owner decision in the H6 docs", () => {
     const ownerGates = JSON.parse(
       readFileSync(
         join(repoRoot, "docs/release/evidence/owner-gates.json"),
@@ -191,6 +191,10 @@ describe("release gate checker", () => {
     const h6Gate = ownerGates.gates.find((gate) => gate.id === "h6");
     const memo = readFileSync(
       join(repoRoot, "docs/release/h6-owner-decision-memo.md"),
+      "utf8"
+    ).toLowerCase();
+    const finalizationChecklist = readFileSync(
+      join(repoRoot, "docs/release/h6-finalization-checklist.md"),
       "utf8"
     ).toLowerCase();
     const decisionTextByLabel = {
@@ -212,6 +216,7 @@ describe("release gate checker", () => {
 
     for (const expectedText of Object.values(decisionTextByLabel)) {
       expect(memo).toContain(expectedText);
+      expect(finalizationChecklist).toContain(expectedText);
     }
   });
 

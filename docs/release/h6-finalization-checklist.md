@@ -5,6 +5,19 @@ Status on May 10, 2026: proposed for owner review.
 Use this checklist only when moving from Developer Preview to release
 candidate. It is not required for another `next` prerelease.
 
+## Release Candidate Approval
+
+Before H6 approval:
+
+- RC timing is explicitly approved by the owner
+- owner explicitly chooses to move from Developer Preview toward a release
+  candidate
+- smoke-test risk summary is accepted
+- remaining known gaps are either resolved or accepted as release caveats
+- `npm run release:gate:report` has no blocker other than H6 owner approval
+
+Owner must approve release-candidate timing before H6.
+
 ## Final Semver
 
 Recommended default:
@@ -65,12 +78,48 @@ Owner must approve visual baseline freeze before H6.
 
 Detailed proposal: [H6 Visual Baseline Freeze](h6-visual-baseline-freeze.md).
 
+## Deprecation Policy
+
+Before H6 approval:
+
+- common v1 component names and data shapes remain documented
+- deprecated or behavior-changing props have documented migration guidance
+- undocumented internals, SVG node order, and old layout bugs remain outside the
+  compatibility promise
+- `compatibility="v1"` and legacy-like props are documented only where they
+  exist
+
+Owner must approve the deprecation policy before H6.
+
+Detailed proposal: [Deprecation Policy](deprecation-policy.md).
+
+## Pro And Skia Package Plan
+
+Before H6 approval:
+
+- Pro and Skia either remain unpublished or get an explicitly approved stable
+  package plan
+- advanced workflows remain labeled as preview or Pro-candidate unless promoted
+- no runtime license enforcement is added before the paid-package plan is final
+
+Owner must approve the Pro and Skia package plan before H6.
+
+Detailed proposal: [H6 Pro Package Plan](h6-pro-package-plan.md).
+
+## Release Claims
+
+Before H6 approval:
+
+- stable wording does not overclaim physical Android, TalkBack, Pro, Skia,
+  financial-chart, or native release-device performance evidence
+- Developer Preview caveats are either resolved or carried into known issues
+- release notes match the approved final claims
+
+Owner must approve release claims before H6.
+
+Detailed proposal: [H6 Release Claims](h6-release-claims.md).
+
 ## H6 Approval
-
-Additional release-scope proposals:
-
-- [H6 Pro Package Plan](h6-pro-package-plan.md)
-- [H6 Release Claims](h6-release-claims.md)
 
 After the above decisions are approved, run:
 
