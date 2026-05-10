@@ -22,6 +22,8 @@ export type CandlestickChartScrollableTapState = {
   startTime: number;
 };
 
+export const defaultCandlestickLongPressDelayMs = 480;
+
 export const isCandlestickChartScrollableTap = ({
   endTime,
   maxDistance,
@@ -45,7 +47,7 @@ export const getCandlestickChartInteractionConfig = <TData>(
     return {
       activation: "press",
       deselectOnOutsidePress: false,
-      longPressDelayMs: 320,
+      longPressDelayMs: defaultCandlestickLongPressDelayMs,
       mode: "none"
     };
   }
@@ -54,7 +56,7 @@ export const getCandlestickChartInteractionConfig = <TData>(
     return {
       activation: "press",
       deselectOnOutsidePress: interaction !== "none",
-      longPressDelayMs: 320,
+      longPressDelayMs: defaultCandlestickLongPressDelayMs,
       mode: interaction
     };
   }
@@ -62,7 +64,8 @@ export const getCandlestickChartInteractionConfig = <TData>(
   return {
     activation: interaction.activation ?? "press",
     deselectOnOutsidePress: interaction.deselectOnOutsidePress ?? true,
-    longPressDelayMs: interaction.longPressDelayMs ?? 320,
+    longPressDelayMs:
+      interaction.longPressDelayMs ?? defaultCandlestickLongPressDelayMs,
     mode: interaction.mode ?? "tap",
     ...(interaction.onDeselect ? { onDeselect: interaction.onDeselect } : {}),
     ...(interaction.onGestureEnd

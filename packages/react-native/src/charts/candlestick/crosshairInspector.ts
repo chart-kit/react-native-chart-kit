@@ -65,6 +65,7 @@ export const isNearCandlestickCrosshairIntersection = ({
 
 export const useCandlestickCrosshairInspector = <TData>({
   activation,
+  activationCancelKey,
   candles,
   deselectOnOutsidePress,
   enabled,
@@ -84,6 +85,7 @@ export const useCandlestickCrosshairInspector = <TData>({
   setGestureSelectedIndex
 }: {
   activation: CandlestickChartInteractionActivation;
+  activationCancelKey?: number;
   candles: Array<CandlestickChartCandleModel<TData>>;
   deselectOnOutsidePress: boolean;
   enabled: boolean;
@@ -251,6 +253,9 @@ export const useCandlestickCrosshairInspector = <TData>({
     },
     [clearLongPressTimer]
   );
+  useEffect(() => {
+    clearLongPressTimer();
+  }, [activationCancelKey, clearLongPressTimer]);
 
   if (!enabled) {
     return {};
@@ -305,6 +310,11 @@ export const useCandlestickCrosshairInspector = <TData>({
         return;
       }
 
+      if (event.nativeEvent.touches.length > 1) {
+        clearLongPressTimer();
+        return;
+      }
+
       const touchStart = touchStartRef.current;
 
       if (!touchStart) {
@@ -331,7 +341,10 @@ export const useCandlestickCrosshairInspector = <TData>({
 
       const { locationX, locationY } = event.nativeEvent;
 
-      if (!isInPlot({ locationX, locationY, plot })) {
+      if (
+        event.nativeEvent.touches.length > 1 ||
+        !isInPlot({ locationX, locationY, plot })
+      ) {
         return;
       }
 

@@ -10,6 +10,7 @@ import {
 } from "@chart-kit/core";
 
 import { useChartKitTheme } from "../../theme";
+import type { ChartViewportInteractionGestureEvent } from "../../viewport/types";
 import {
   ChartViewportGestureHandler,
   useChartViewportGestureHandler
@@ -71,6 +72,8 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
     number | undefined
   >(props.defaultSelectedIndex);
   const [crosshairY, setCrosshairY] = useState<number | undefined>();
+  const [crosshairActivationCancelKey, setCrosshairActivationCancelKey] =
+    useState(0);
   const rangeSelectorConfig = useMemo(
     () => getCandlestickChartRangeSelectorConfig(props.rangeSelector),
     [props.rangeSelector]
@@ -169,6 +172,30 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
     () => getCandlestickChartInteractionConfig(props.interaction),
     [props.interaction]
   );
+  const handleViewportGestureStart = useCallback(
+    (event: ChartViewportInteractionGestureEvent) => {
+      setCrosshairActivationCancelKey((value) => value + 1);
+
+      if (typeof props.viewportInteraction === "object") {
+        props.viewportInteraction.onGestureStart?.(event);
+      }
+    },
+    [props.viewportInteraction]
+  );
+  const effectiveViewportInteraction = useMemo(() => {
+    if (!props.viewportInteraction) {
+      return props.viewportInteraction;
+    }
+
+    if (props.viewportInteraction === true) {
+      return { onGestureStart: handleViewportGestureStart };
+    }
+
+    return {
+      ...props.viewportInteraction,
+      onGestureStart: handleViewportGestureStart
+    };
+  }, [handleViewportGestureStart, props.viewportInteraction]);
   const selectedIndex = props.selectedIndex ?? gestureSelectedIndex;
   const selectedCandle = candles.find(
     (candle) => candle.dataIndex === selectedIndex
@@ -191,7 +218,7 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
     enabled: !scrollViewport.scrollable && !isCrosshairLocked,
     onViewportChange: props.onViewportChange,
     plotBounds: boxes.plot,
-    viewportInteraction: props.viewportInteraction,
+    viewportInteraction: effectiveViewportInteraction,
     viewportWindow
   });
   const tooltipConfig = useMemo(
@@ -267,11 +294,12 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
         : undefined,
     onViewportChange: props.onViewportChange,
     plotBounds: boxes.plot,
-    viewportInteraction: props.viewportInteraction,
+    viewportInteraction: effectiveViewportInteraction,
     viewportWindow
   });
   const crosshairResponderProps = useCandlestickCrosshairInspector({
     activation: interactionConfig.activation,
+    activationCancelKey: crosshairActivationCancelKey,
     candles,
     deselectOnOutsidePress: interactionConfig.deselectOnOutsidePress,
     enabled: !scrollViewport.scrollable && isCrosshairInteraction,

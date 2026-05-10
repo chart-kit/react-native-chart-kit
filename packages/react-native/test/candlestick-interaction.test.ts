@@ -65,19 +65,19 @@ describe("CandlestickChart interaction helpers", () => {
     expect(getCandlestickChartInteractionConfig(undefined)).toEqual({
       activation: "press",
       deselectOnOutsidePress: false,
-      longPressDelayMs: 320,
+      longPressDelayMs: 480,
       mode: "none"
     });
     expect(getCandlestickChartInteractionConfig("tap")).toEqual({
       activation: "press",
       deselectOnOutsidePress: true,
-      longPressDelayMs: 320,
+      longPressDelayMs: 480,
       mode: "tap"
     });
     expect(getCandlestickChartInteractionConfig("crosshair")).toEqual({
       activation: "press",
       deselectOnOutsidePress: true,
-      longPressDelayMs: 320,
+      longPressDelayMs: 480,
       mode: "crosshair"
     });
     expect(
