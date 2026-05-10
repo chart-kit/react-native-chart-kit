@@ -14,6 +14,15 @@ The current repository is ready for Developer Preview when these checks pass:
 - Expo showcase smoke review works on available preview surfaces
 - known gaps stay disclosed
 
+Latest local broad verification on May 10, 2026:
+
+- `npm run test` passed: typecheck, 71 unit test files, and compatibility tests
+- `npm run build` passed: core, SVG renderer, Skia renderer, Pro, React Native,
+  and root TypeScript build
+- `npm run pack:check` passed for all 6 package dry-runs
+- `npm run release:preview:gate` passed with the expected unpublished-source
+  warning
+
 Current source version: `7.0.0-next.1`.
 
 Latest published Developer Preview: `7.0.0-next.0`.
