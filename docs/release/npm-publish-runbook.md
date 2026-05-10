@@ -83,21 +83,21 @@ npm dist-tag ls react-native-chart-kit
 Expected version output:
 
 ```text
-7.0.0-next.0
+<current package.json version>
 ```
 
 Expected root package dist-tags:
 
 ```text
 latest: 6.12.2
-next: 7.0.0-next.0
+next: <current package.json version>
 ```
 
 Confirm Pro and Skia remain unpublished:
 
 ```sh
-npm view @chart-kit/pro@7.0.0-next.0 version
-npm view @chart-kit/skia-renderer@7.0.0-next.0 version
+npm view @chart-kit/pro@<current package.json version> version
+npm view @chart-kit/skia-renderer@<current package.json version> version
 ```
 
 Those commands should fail with npm not-found output during Developer Preview.
