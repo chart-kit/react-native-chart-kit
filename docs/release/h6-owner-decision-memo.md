@@ -71,6 +71,8 @@ Recommendation:
 - do not preserve undocumented internals, SVG node order, or old layout bugs
 - document `compatibility="v1"` and explicit legacy-like props only where they exist
 
+Detailed proposal: [Deprecation Policy](deprecation-policy.md).
+
 ## Recommended H6 Outcome
 
 Keep H6 blocked until the release gate has no blockers.
