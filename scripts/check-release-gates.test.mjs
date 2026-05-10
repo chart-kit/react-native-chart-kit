@@ -38,7 +38,7 @@ describe("release gate checker", () => {
 
     expect(skiaCheck).toMatchObject({
       message:
-        "Skia renderer preview boundary, local parity, and native install/build evidence are complete for Developer Preview.",
+        "Skia renderer preview boundary, local parity, native install/build, native parity, and SVG-vs-Skia comparison evidence are complete for Developer Preview.",
       status: "pass"
     });
     expect(skiaCheck?.detail).toBe("");

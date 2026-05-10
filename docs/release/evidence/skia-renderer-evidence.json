@@ -3,7 +3,7 @@
   "status": "complete",
   "requiredFor": ["H4", "H5", "H6"],
   "lastUpdated": "2026-05-07",
-  "summary": "Skia renderer preview boundary, local parity, and native install/build evidence are complete for Developer Preview.",
+  "summary": "Skia renderer preview boundary, local parity, native install/build, native parity, and SVG-vs-Skia comparison evidence are complete for Developer Preview.",
   "completedEntries": [
     {
       "date": "2026-05-06",
@@ -61,6 +61,28 @@
         "docs/release/artifacts/android-skia-renderer-build.md"
       ],
       "notes": "Temporary iOS and Android showcase apps installed @shopify/react-native-skia@2.6.2, injected the Skia renderer through ChartKitProvider, typechecked the patched showcase, and completed Release native builds."
+    },
+    {
+      "date": "2026-05-07",
+      "scope": "native-parity",
+      "result": "partial-pass",
+      "artifacts": [
+        "docs/release/artifacts/ios-skia-free-chart-parity-review.md",
+        "docs/release/artifacts/android-skia-free-chart-parity-review.md",
+        "docs/release/artifacts/ios-skia-pro-preview-parity-review.md",
+        "docs/release/artifacts/android-skia-pro-preview-parity-review.md"
+      ],
+      "notes": "iOS simulator and Android emulator renderer-injected Skia showcase captures rendered free and Pro-preview chart surfaces without native renderer errors in the reviewed logs."
+    },
+    {
+      "date": "2026-05-07",
+      "scope": "svg-vs-skia-comparison",
+      "result": "partial-pass",
+      "artifacts": [
+        "docs/release/artifacts/ios-skia-performance-comparison-review.md",
+        "docs/release/artifacts/android-skia-performance-comparison-review.md"
+      ],
+      "notes": "iOS simulator and Android emulator comparison artifacts record screenshot, log, timing, frame, and memory evidence for the same showcase scenarios used by SVG baseline artifacts."
     }
   ],
   "coveredSurfaces": [
