@@ -78,12 +78,16 @@ export type CandlestickChartInitialIndex = ChartViewportInitialIndex;
 
 export type CandlestickChartInteractionMode = "none" | "tap" | "crosshair";
 
+export type CandlestickChartInteractionActivation = "press" | "longPress";
+
 export type CandlestickChartInteraction<TData = unknown> =
   | CandlestickChartInteractionMode
   | CandlestickChartInteractionConfig<TData>;
 
 export type CandlestickChartInteractionConfig<TData = unknown> = {
+  activation?: CandlestickChartInteractionActivation;
   deselectOnOutsidePress?: boolean;
+  longPressDelayMs?: number;
   mode?: CandlestickChartInteractionMode;
   onDeselect?: (event: CandlestickChartDeselectEvent) => void;
   onGestureEnd?: () => void;

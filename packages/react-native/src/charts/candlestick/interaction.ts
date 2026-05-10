@@ -1,12 +1,15 @@
 import type {
   CandlestickChartCandleModel,
   CandlestickChartDeselectEvent,
+  CandlestickChartInteractionActivation,
   CandlestickChartInteraction,
   CandlestickChartSelectEvent
 } from "./types";
 
 export type ResolvedCandlestickChartInteractionConfig<TData = unknown> = {
+  activation: CandlestickChartInteractionActivation;
   deselectOnOutsidePress: boolean;
+  longPressDelayMs: number;
   mode: "none" | "tap" | "crosshair";
   onDeselect?: (event: CandlestickChartDeselectEvent) => void;
   onGestureEnd?: () => void;
@@ -40,20 +43,26 @@ export const getCandlestickChartInteractionConfig = <TData>(
 ): ResolvedCandlestickChartInteractionConfig<TData> => {
   if (!interaction) {
     return {
+      activation: "press",
       deselectOnOutsidePress: false,
+      longPressDelayMs: 320,
       mode: "none"
     };
   }
 
   if (typeof interaction === "string") {
     return {
+      activation: "press",
       deselectOnOutsidePress: interaction !== "none",
+      longPressDelayMs: 320,
       mode: interaction
     };
   }
 
   return {
+    activation: interaction.activation ?? "press",
     deselectOnOutsidePress: interaction.deselectOnOutsidePress ?? true,
+    longPressDelayMs: interaction.longPressDelayMs ?? 320,
     mode: interaction.mode ?? "tap",
     ...(interaction.onDeselect ? { onDeselect: interaction.onDeselect } : {}),
     ...(interaction.onGestureEnd

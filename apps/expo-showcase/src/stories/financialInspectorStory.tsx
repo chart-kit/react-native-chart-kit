@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 import {
   resolveCartesianChartThemeConfig,
@@ -141,73 +141,11 @@ const SelectedWeekLegend = ({
   );
 };
 
-const InspectorModeControl = ({
-  inspectMode,
-  onInspectModeChange
-}: {
-  inspectMode: boolean;
-  onInspectModeChange: (value: boolean) => void;
-}) => {
-  const chartKitTheme = useChartKitTheme();
-  const resolvedTheme = useMemo(
-    () => resolveCartesianChartThemeConfig(chartKitTheme),
-    [chartKitTheme]
-  );
-  const items = [
-    { label: "Move", value: false },
-    { label: "Inspect", value: true }
-  ];
-
-  return (
-    <View
-      style={[
-        styles.modeControl,
-        {
-          backgroundColor: resolvedTheme.plotBackground,
-          borderColor: resolvedTheme.grid
-        }
-      ]}
-    >
-      {items.map((item) => {
-        const isSelected = inspectMode === item.value;
-
-        return (
-          <Pressable
-            accessibilityRole="button"
-            key={item.label}
-            onPress={() => onInspectModeChange(item.value)}
-            style={[
-              styles.modeButton,
-              isSelected
-                ? { backgroundColor: resolvedTheme.text }
-                : { backgroundColor: "transparent" }
-            ]}
-          >
-            <Text
-              style={[
-                styles.modeButtonText,
-                {
-                  color: isSelected
-                    ? resolvedTheme.background
-                    : resolvedTheme.mutedText
-                }
-              ]}
-            >
-              {item.label}
-            </Text>
-          </Pressable>
-        );
-      })}
-    </View>
-  );
-};
-
 export const V2CandlestickCrosshairInspector = ({
   onScrubEnd,
   onScrubStart,
   width
 }: NativeStoryProps) => {
-  const [inspectMode, setInspectMode] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState<number | undefined>();
   const [viewport, setViewport] =
     useState<CandlestickChartViewportConfig>(getInitialViewport);
@@ -219,28 +157,16 @@ export const V2CandlestickCrosshairInspector = ({
     },
     []
   );
-  const handleInspectModeChange = useCallback((value: boolean) => {
-    setInspectMode(value);
-
-    if (!value) {
-      setSelectedIndex(undefined);
-    }
-  }, []);
   const handleDeselect = useCallback(() => {
     setSelectedIndex(undefined);
-    setInspectMode(false);
   }, []);
 
   return (
     <ChartSection title="Crosshair inspector" kicker="Inspection mode">
       <SelectedWeekLegend
         candle={selectedCandle}
-        eyebrow={inspectMode ? "AAPL inspect mode" : "AAPL move mode"}
-        placeholder={inspectMode ? "Drag to inspect" : "Pan or pinch to zoom"}
-      />
-      <InspectorModeControl
-        inspectMode={inspectMode}
-        onInspectModeChange={handleInspectModeChange}
+        eyebrow="AAPL long-press inspector"
+        placeholder="Hold on the chart to inspect"
       />
       <CandlestickChart
         candleWidthRatio={0.52}
@@ -251,25 +177,22 @@ export const V2CandlestickCrosshairInspector = ({
         formatYLabel={formatPrice}
         height={286}
         highKey="high"
-        interaction={
-          inspectMode
-            ? {
-                deselectOnOutsidePress: true,
-                mode: "crosshair",
-                onDeselect: handleDeselect,
-                onGestureEnd: onScrubEnd,
-                onGestureStart: onScrubStart,
-                onSelect: (event) => setSelectedIndex(event.dataIndex)
-              }
-            : "none"
-        }
+        interaction={{
+          activation: "longPress",
+          deselectOnOutsidePress: true,
+          mode: "crosshair",
+          onDeselect: handleDeselect,
+          onGestureEnd: onScrubEnd,
+          onGestureStart: onScrubStart,
+          onSelect: (event) => setSelectedIndex(event.dataIndex)
+        }}
         lowKey="low"
         openKey="open"
         onViewportChange={handleViewportChange}
         rangeSelector={{
           gap: 9,
           height: 66,
-          interactive: !inspectMode,
+          interactive: selectedIndex === undefined,
           minVisiblePoints: minVisibleWeeks,
           onGestureEnd: onScrubEnd,
           onGestureStart: onScrubStart
@@ -281,17 +204,13 @@ export const V2CandlestickCrosshairInspector = ({
         tooltip={false}
         upColor={upColor}
         viewport={viewport}
-        viewportInteraction={
-          inspectMode
-            ? false
-            : {
-                minVisiblePoints: minVisibleWeeks,
-                onGestureEnd: onScrubEnd,
-                onGestureStart: onScrubStart,
-                pan: true,
-                pinchZoom: true
-              }
-        }
+        viewportInteraction={{
+          minVisiblePoints: minVisibleWeeks,
+          onGestureEnd: onScrubEnd,
+          onGestureStart: onScrubStart,
+          pan: true,
+          pinchZoom: true
+        }}
         volumeKey="volume"
         width={width}
         xKey="day"
@@ -397,26 +316,6 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     gap: 12,
     marginTop: 12
-  },
-  modeButton: {
-    alignItems: "center",
-    borderRadius: 7,
-    minWidth: 74,
-    paddingHorizontal: 13,
-    paddingVertical: 8
-  },
-  modeButtonText: {
-    fontSize: 12,
-    fontWeight: "800"
-  },
-  modeControl: {
-    alignSelf: "flex-start",
-    borderRadius: 9,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: 2,
-    marginBottom: 10,
-    padding: 2
   },
   movePill: {
     borderRadius: 999,

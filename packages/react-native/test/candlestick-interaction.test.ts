@@ -62,15 +62,32 @@ describe("CandlestickChart interaction helpers", () => {
     const onDeselect = () => undefined;
 
     expect(getCandlestickChartInteractionConfig(undefined)).toEqual({
+      activation: "press",
       deselectOnOutsidePress: false,
+      longPressDelayMs: 320,
       mode: "none"
     });
     expect(getCandlestickChartInteractionConfig("tap")).toEqual({
+      activation: "press",
       deselectOnOutsidePress: true,
+      longPressDelayMs: 320,
       mode: "tap"
     });
     expect(getCandlestickChartInteractionConfig("crosshair")).toEqual({
+      activation: "press",
       deselectOnOutsidePress: true,
+      longPressDelayMs: 320,
+      mode: "crosshair"
+    });
+    expect(
+      getCandlestickChartInteractionConfig({
+        activation: "longPress",
+        longPressDelayMs: 260,
+        mode: "crosshair"
+      })
+    ).toMatchObject({
+      activation: "longPress",
+      longPressDelayMs: 260,
       mode: "crosshair"
     });
     expect(
