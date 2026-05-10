@@ -65,7 +65,7 @@ describe("Skia renderer preview boundary", () => {
       evidence: {
         localParity: "partial",
         nativeInstall: "partial",
-        nativeParity: "missing"
+        nativeParity: "partial"
       },
       packageName: "@chart-kit/skia-renderer",
       peerDependency: "@shopify/react-native-skia",
@@ -82,7 +82,7 @@ describe("Skia renderer preview boundary", () => {
       evidence: {
         localParity: "partial",
         nativeInstall: "verified",
-        nativeParity: "missing"
+        nativeParity: "partial"
       },
       status: "available"
     });

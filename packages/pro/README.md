@@ -2,7 +2,7 @@
 
 Preview package boundary for future Chart Kit v2 Pro workflows.
 
-This package intentionally contains no license checks, network activation, or gated chart implementations yet. It only publishes typed feature metadata so the free package can stay clean while H4 reviews the future Pro split.
+This package intentionally contains no license checks, network activation, or gated chart implementations yet. It only publishes typed feature metadata so the free package can stay clean while the future paid Pro split remains under release review.
 
 The current monetization thesis is:
 
@@ -34,7 +34,7 @@ Status:
 - no runtime activation
 - no chart components consume this package yet
 - package-boundary metadata classifies current free baseline, compatibility, and Pro-candidate surfaces without moving chart implementations
-- React Native preview composition is injection-based, so `@chart-kit/pro` can expose Pro-candidate workflows without statically importing the free runtime package before H4
+- React Native preview composition is injection-based, so `@chart-kit/pro` can expose Pro-candidate workflows without statically importing the free runtime package before the paid package plan is approved
 - `@chart-kit/react-native/pro-preview` exists as the package-local preview entrypoint for current Pro-candidate components, hooks, and advanced interaction types
 
 Preview feature buckets:
@@ -70,4 +70,4 @@ ProPreview.CombinedChart;
 ProPreview.CandlestickChart;
 ```
 
-This is not license gating. It is a temporary package-boundary review aid until H4 decides which current previews move into final free exports, Pro exports, or separate packages.
+This is not license gating. It is a temporary package-boundary review aid until H6 or a later paid-package decision decides which current previews move into final free exports, Pro exports, or separate packages.

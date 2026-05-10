@@ -35,7 +35,7 @@ export const createSkiaRendererDescriptor = ({
   evidence: {
     localParity: "partial",
     nativeInstall: "partial",
-    nativeParity: "missing",
+    nativeParity: "partial",
     ...evidence
   },
   installHint,

@@ -15,7 +15,7 @@ Current exports:
 Status:
 
 - injected Skia primitive adapter for Canvas, Group, Path, Rect, RoundedRect, Circle, Line, Text, LinearGradient, and rect-clipped Groups
-- public descriptor evidence reports `localParity: "partial"`, `nativeInstall: "partial"`, and `nativeParity: "missing"` until native parity/performance evidence exists
+- public descriptor evidence reports `localParity: "partial"`, `nativeInstall: "partial"`, and `nativeParity: "partial"` for the Developer Preview renderer boundary
 - `LineChart` can accept the injected renderer through its experimental `renderer` prop for the main plot, range selector, sticky-axis, path-local area gradients, threshold rect clips, default marker, default legend, default tooltip, and debug-layout surfaces
 - `BarChart` can accept the injected renderer through its experimental `renderer` prop for its chart body, sticky Y-axis, and default tooltip overlay
 - `PieChart` and `DonutChart` can accept the injected renderer through their experimental `renderer` prop for slices, connector lines, and SVG text labels
@@ -36,4 +36,4 @@ Status:
 - local CombinedChart renderer contract coverage lives in `packages/react-native/test/combined-renderer.test.ts`
 - local CandlestickChart renderer contract coverage lives in `packages/react-native/test/candlestick-renderer.test.ts`
 - `npm run skia:parity` runs the local Skia primitive tests plus LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, CombinedChart, and CandlestickChart renderer contract tests together
-- iOS and Android optional-Skia install/build evidence exists; native renderer parity coverage is still pending
+- iOS and Android optional-Skia install/build, renderer-injected release build, native parity screenshot/log, and SVG-vs-Skia comparison evidence exists for Developer Preview
