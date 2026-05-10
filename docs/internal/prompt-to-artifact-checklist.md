@@ -35,7 +35,7 @@ This checklist maps the original CKV2 prompt to current artifacts without requir
 | H3 core API direction      | Preview approved through docs/showcase usage |
 | H4 Pro/free split          | Approved for Developer Preview boundary      |
 | H5 Developer Preview       | Approved                                     |
-| H6 stable RC               | Not started                                  |
+| H6 stable RC               | Not started; readiness packet drafted        |
 
 ## Active Commands
 
@@ -77,6 +77,6 @@ The old `release:qa:*` matrix recorder/status/capture scripts were removed. Use 
 - final changelog
 - docs freeze
 - visual baseline freeze
-- deprecation policy
+- deprecation policy approval
 - Pro package timing and licensing
 - whether more native evidence is needed for the exact release claims

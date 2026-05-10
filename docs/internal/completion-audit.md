@@ -14,6 +14,15 @@ The current repository is ready for Developer Preview when these checks pass:
 - Expo showcase smoke review works on available preview surfaces
 - known gaps stay disclosed
 
+Current source version: `7.0.0-next.1`.
+
+Latest published Developer Preview: `7.0.0-next.0`.
+
+The preview gate currently reports one non-blocking warning because local source
+prep is ahead of published npm evidence. That warning should clear after the
+next approved `next` publish succeeds and `npm-publish-evidence.json` is
+updated.
+
 Current smoke evidence:
 
 - [owner-smoke-notes-2026-05-10.md](../release/artifacts/owner-smoke-notes-2026-05-10.md)
@@ -40,6 +49,7 @@ Current known gaps:
 - Expo showcase, visual tests, e2e tests, docs, migration guide, recipes, codemod
 - package publish manifest and Developer Preview publish workflow
 - H4 Pro/free boundary and H5 Developer Preview approval
+- H6 readiness packet and proposed deprecation policy
 
 ## Stable RC Still Open
 
@@ -51,7 +61,7 @@ Remaining RC decisions:
 - final changelog
 - docs freeze
 - visual baseline freeze
-- deprecation policy
+- deprecation policy approval
 - whether Pro is still deferred or split into a real paid package
 - whether more native device or accessibility evidence is needed for the release claim
 
