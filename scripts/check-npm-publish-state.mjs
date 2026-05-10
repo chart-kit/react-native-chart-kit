@@ -76,31 +76,33 @@ export const buildNpmPublishState = async ({
     const hasStableVersion = viewResult.versions.some(
       (publishedVersion) => !publishedVersion.includes("-")
     );
+    const publishInDeveloperPreview =
+      packageInfo.publishInDeveloperPreview === true;
     const hasUnexpectedLatestTag =
-      packageInfo.publishInBeta &&
+      publishInDeveloperPreview &&
       distTag !== "latest" &&
       version.includes("-") &&
       latestVersion === version &&
       hasStableVersion;
     const hasForcedPreviewLatestTag =
-      packageInfo.publishInBeta &&
+      publishInDeveloperPreview &&
       distTag !== "latest" &&
       version.includes("-") &&
       latestVersion === version &&
       !hasStableVersion;
 
     let status = "pass";
-    const expected = packageInfo.publishInBeta
+    const expected = publishInDeveloperPreview
       ? `published under ${distTag}`
       : "unpublished for Developer Preview";
 
-    if (packageInfo.publishInBeta && !viewResult.published) {
+    if (publishInDeveloperPreview && !viewResult.published) {
       status = "missing";
-    } else if (packageInfo.publishInBeta && taggedVersion !== version) {
+    } else if (publishInDeveloperPreview && taggedVersion !== version) {
       status = "wrong-dist-tag";
     } else if (hasUnexpectedLatestTag) {
       status = "unexpected-latest-tag";
-    } else if (!packageInfo.publishInBeta && viewResult.published) {
+    } else if (!publishInDeveloperPreview && viewResult.published) {
       status = "unexpected-published";
     }
 
@@ -110,7 +112,7 @@ export const buildNpmPublishState = async ({
       hasForcedPreviewLatestTag,
       hasStableVersion,
       name: packageInfo.name,
-      publishInBeta: packageInfo.publishInBeta === true,
+      publishInDeveloperPreview,
       published: viewResult.published,
       status,
       taggedVersion,

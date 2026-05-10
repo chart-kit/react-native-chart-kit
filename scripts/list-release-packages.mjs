@@ -19,7 +19,9 @@ if (!Array.isArray(packages) || packages.length === 0) {
 
 const publishableOnly = args.has("--publish") || args.has("--publishable");
 const filteredPackages = publishableOnly
-  ? packages.filter((packageInfo) => packageInfo.publishInBeta === true)
+  ? packages.filter(
+      (packageInfo) => packageInfo.publishInDeveloperPreview === true
+    )
   : packages;
 const field = args.has("--names") ? "name" : "dir";
 

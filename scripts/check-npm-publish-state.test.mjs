@@ -7,19 +7,19 @@ const manifest = {
   packages: [
     {
       name: "@chart-kit/core",
-      publishInBeta: true
+      publishInDeveloperPreview: true
     },
     {
       name: "@chart-kit/react-native",
-      publishInBeta: true
+      publishInDeveloperPreview: true
     },
     {
       name: "react-native-chart-kit",
-      publishInBeta: true
+      publishInDeveloperPreview: true
     },
     {
       name: "@chart-kit/pro",
-      publishInBeta: false
+      publishInDeveloperPreview: false
     }
   ]
 };

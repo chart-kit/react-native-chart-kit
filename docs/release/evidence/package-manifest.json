@@ -7,7 +7,7 @@
     {
       "dir": "packages/core",
       "name": "@chart-kit/core",
-      "publishInBeta": true,
+      "publishInDeveloperPreview": true,
       "requiredFiles": [
         "README.md",
         "dist/index.d.ts",
@@ -18,7 +18,7 @@
     {
       "dir": "packages/svg-renderer",
       "name": "@chart-kit/svg-renderer",
-      "publishInBeta": true,
+      "publishInDeveloperPreview": true,
       "requiredFiles": [
         "README.md",
         "dist/index.d.ts",
@@ -29,7 +29,7 @@
     {
       "dir": "packages/react-native",
       "name": "@chart-kit/react-native",
-      "publishInBeta": true,
+      "publishInDeveloperPreview": true,
       "requiredFiles": [
         "README.md",
         "dist/index.d.ts",
@@ -42,7 +42,7 @@
     {
       "dir": ".",
       "name": "react-native-chart-kit",
-      "publishInBeta": true,
+      "publishInDeveloperPreview": true,
       "requiredFiles": [
         "LICENSE",
         "README.md",
@@ -55,7 +55,7 @@
     {
       "dir": "packages/skia-renderer",
       "name": "@chart-kit/skia-renderer",
-      "publishInBeta": false,
+      "publishInDeveloperPreview": false,
       "requiredFiles": [
         "README.md",
         "dist/index.d.ts",
@@ -66,7 +66,7 @@
     {
       "dir": "packages/pro",
       "name": "@chart-kit/pro",
-      "publishInBeta": false,
+      "publishInDeveloperPreview": false,
       "requiredFiles": [
         "README.md",
         "dist/index.d.ts",
