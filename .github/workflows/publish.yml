@@ -10,7 +10,6 @@ on:
         type: choice
         options:
           - next
-          - beta
           - latest
 
 permissions:

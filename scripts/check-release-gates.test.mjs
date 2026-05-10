@@ -300,4 +300,15 @@ describe("release gate checker", () => {
       status: "pass"
     });
   });
+
+  it("keeps publish workflow dist-tags aligned with release channels", () => {
+    const workflowSource = readFileSync(
+      join(repoRoot, ".github/workflows/publish.yml"),
+      "utf8"
+    );
+
+    expect(workflowSource).toContain("          - next");
+    expect(workflowSource).toContain("          - latest");
+    expect(workflowSource).not.toContain("          - beta");
+  });
 });
