@@ -187,7 +187,7 @@ describe("CandlestickChart renderer parity contract", () => {
     ).toBeNull();
   });
 
-  it("does not draw a selected candle body border", () => {
+  it("draws selected candles with a marker instead of a body border", () => {
     const surface = CandlestickChartSurface({
       chartHeight: 160,
       chartWidth: 220,
@@ -202,6 +202,9 @@ describe("CandlestickChart renderer parity contract", () => {
     const selectedBody = getDescendantElements(surface).find(
       (element) => element.props.testID === "financial-chart-candle.0"
     );
+    const selectedMarker = getDescendantElements(surface).find(
+      (element) => element.props.testID === "financial-chart-selection-marker.0"
+    );
 
     expect(selectedBody?.props).toMatchObject({
       fill: "#16a34a",
@@ -211,5 +214,12 @@ describe("CandlestickChart renderer parity contract", () => {
     expect(selectedBody?.props.stroke).toBeUndefined();
     expect(selectedBody?.props.strokeWidth).toBeUndefined();
     expect(selectedBody?.props.strokeOpacity).toBeUndefined();
+    expect(selectedMarker?.props).toMatchObject({
+      cx: 70,
+      fill: "#16a34a",
+      r: 3.25,
+      stroke: "#16a34a",
+      strokeWidth: 1.5
+    });
   });
 });

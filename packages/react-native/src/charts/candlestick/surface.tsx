@@ -306,16 +306,21 @@ export const CandlestickChartSurface = <TData,>({
                 y2={crosshairY}
               />
             ) : null}
-            {isCrosshairVisible ? (
-              <Circle
-                cx={selectedCandle.wickX}
-                cy={markerY}
-                fill={resolvedTheme.background}
-                r={4.5}
-                stroke={selectedCandle.color}
-                strokeWidth={2}
-              />
-            ) : null}
+            <Circle
+              cx={selectedCandle.wickX}
+              cy={markerY}
+              fill={
+                isCrosshairVisible
+                  ? resolvedTheme.background
+                  : selectedCandle.color
+              }
+              r={isCrosshairVisible ? 4.5 : 3.25}
+              stroke={selectedCandle.color}
+              strokeWidth={isCrosshairVisible ? 2 : 1.5}
+              testID={`${testID ?? "candlestick-chart"}-selection-marker.${
+                selectedCandle.dataIndex
+              }`}
+            />
             {selectionPriceLabel && !isCrosshairVisible ? (
               <Rect
                 fill={selectedCandle.color}
