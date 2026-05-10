@@ -7,6 +7,7 @@ import {
   getNearestCandlestickByX,
   isCandlestickChartScrollableTap
 } from "../src/charts/candlestick/interaction";
+import { isNearCandlestickCrosshairIntersection } from "../src/charts/candlestick/crosshairInspector";
 import {
   getCandlestickChartTooltipConfig,
   getCandlestickChartTooltipModel
@@ -153,6 +154,30 @@ describe("CandlestickChart interaction helpers", () => {
         locationX: 136
       })?.key
     ).toBe("candle-3");
+  });
+
+  it("only treats the crosshair intersection center as the active tap target", () => {
+    expect(
+      isNearCandlestickCrosshairIntersection({
+        intersection: { x: 100, y: 80 },
+        locationX: 110,
+        locationY: 90
+      })
+    ).toBe(true);
+    expect(
+      isNearCandlestickCrosshairIntersection({
+        intersection: { x: 100, y: 80 },
+        locationX: 140,
+        locationY: 80
+      })
+    ).toBe(false);
+    expect(
+      isNearCandlestickCrosshairIntersection({
+        intersection: undefined,
+        locationX: 100,
+        locationY: 80
+      })
+    ).toBe(false);
   });
 
   it("builds formatted OHLC selection events", () => {

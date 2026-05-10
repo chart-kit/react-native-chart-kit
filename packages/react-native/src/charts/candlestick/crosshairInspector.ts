@@ -19,7 +19,13 @@ type CrosshairTouchPoint = {
   locationY: number;
 };
 
+type CrosshairIntersectionPoint = {
+  x: number;
+  y: number;
+};
+
 const longPressMoveTolerance = 8;
+const intersectionHitRadius = 24;
 
 export const clampCandlestickCrosshairY = ({
   locationY,
@@ -45,6 +51,18 @@ const isInPlot = ({
   locationY >= plot.y - touchSlop &&
   locationY <= plot.y + plot.height + touchSlop;
 
+export const isNearCandlestickCrosshairIntersection = ({
+  intersection,
+  locationX,
+  locationY,
+  radius = intersectionHitRadius
+}: CrosshairTouchPoint & {
+  intersection: CrosshairIntersectionPoint | undefined;
+  radius?: number;
+}) =>
+  intersection !== undefined &&
+  Math.hypot(locationX - intersection.x, locationY - intersection.y) <= radius;
+
 export const useCandlestickCrosshairInspector = <TData>({
   activation,
   candles,
@@ -61,6 +79,7 @@ export const useCandlestickCrosshairInspector = <TData>({
   plot,
   preventBrowserSelection,
   selectedIndexControlled,
+  selectedIntersection,
   setCrosshairY,
   setGestureSelectedIndex
 }: {
@@ -82,6 +101,7 @@ export const useCandlestickCrosshairInspector = <TData>({
   plot: ChartBoxes["plot"];
   preventBrowserSelection: (event: GestureResponderEvent) => void;
   selectedIndexControlled: boolean;
+  selectedIntersection: CrosshairIntersectionPoint | undefined;
   setCrosshairY: (value: number | undefined) => void;
   setGestureSelectedIndex: (value: number | undefined) => void;
 }): ViewProps => {
@@ -244,6 +264,20 @@ export const useCandlestickCrosshairInspector = <TData>({
       const { locationX, locationY } = event.nativeEvent;
 
       if (!isInPlot({ locationX, locationY, plot })) {
+        clearSelection({ reason: "outsidePress" });
+
+        return;
+      }
+
+      if (
+        activation === "longPress" &&
+        hasSelection &&
+        !isNearCandlestickCrosshairIntersection({
+          intersection: selectedIntersection,
+          locationX,
+          locationY
+        })
+      ) {
         clearSelection({ reason: "outsidePress" });
 
         return;

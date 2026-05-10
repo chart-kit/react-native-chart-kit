@@ -286,6 +286,10 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
     plot: boxes.plot,
     preventBrowserSelection,
     selectedIndexControlled: props.selectedIndex !== undefined,
+    selectedIntersection:
+      selectedCandle && crosshairY !== undefined
+        ? { x: selectedCandle.wickX, y: crosshairY }
+        : undefined,
     setCrosshairY,
     setGestureSelectedIndex
   });
