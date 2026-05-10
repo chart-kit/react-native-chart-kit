@@ -13,7 +13,7 @@ Developer Preview is green with one expected local-prep warning:
 npm run release:preview:gate
 ```
 
-Latest checked state: `pass=104 warn=1 block=0 fail=0`.
+Latest checked state: `pass=105 warn=1 block=0 fail=0`.
 
 Stable RC is blocked only by H6 owner approval:
 
@@ -21,7 +21,7 @@ Stable RC is blocked only by H6 owner approval:
 npm run release:gate:report
 ```
 
-Latest checked state: `pass=104 warn=1 block=1 fail=0`.
+Latest checked state: `pass=105 warn=1 block=1 fail=0`.
 
 Remaining blocker:
 
@@ -39,6 +39,9 @@ docs/release/evidence/owner-gates.json.`
 That means H4, H5, native workflow evidence, RN CLI evidence, Skia evidence, and
 the required eight decision labels are structurally ready. The missing action is
 actual owner approval, not another matrix or evidence task.
+
+The old native runtime, accessibility, and performance matrix summaries are
+archived historical evidence, not active H6 blockers.
 
 ## Current Product State
 
