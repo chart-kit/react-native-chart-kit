@@ -73,13 +73,15 @@ The old `release:qa:*` matrix recorder/status/capture scripts were removed. Use 
 
 ## Remaining Stable-RC Decisions
 
+- release candidate approval
 - final semver
 - final changelog
 - docs freeze
 - visual baseline freeze
 - deprecation policy approval
-- Pro package timing and licensing
-- whether more native evidence is needed for the exact release claims
+- Pro and Skia package plan
+- exact release claims
 
-Draft H6 artifacts exist for these decisions in `docs/release/`. The active
-release gate remains blocked until the owner explicitly approves H6.
+Draft H6 artifacts exist for these decisions in `docs/release/`. The H6
+approval dry-run passes with all eight labels, so the active release gate
+remains blocked only until the owner explicitly approves H6.

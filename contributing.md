@@ -42,7 +42,7 @@ npm run typecheck
 npm run build
 ```
 
-## CKV2 command matrix
+## CKV2 command reference
 
 The v2 specification defines the final command set in Yarn terms, but this repository currently uses npm and `package-lock.json`. The package scripts are named so either npm or Yarn can invoke them once the chosen package manager is finalized.
 
@@ -61,9 +61,14 @@ npm run test:compat
 npm run test:e2e
 npm run test:visual
 npm run benchmark
+npm run example:ios
+npm run example:android
+npm run example:expo
+npm run docs:build
 npm run boundaries:check
 npm run surface:check
 npm run skia:parity
+npm run pack:check
 npm run native:release:dry-run
 npm run build
 ```
@@ -83,10 +88,10 @@ Command status:
 | `npm run test:visual`            | Working alias for Expo showcase plus Playwright visual screenshots.   |
 | `npm run test:compat`            | Working Vitest command for legacy compatibility fixtures.             |
 | `npm run test:e2e`               | Working Playwright command for showcase interaction flows.            |
-| `npm run benchmark`              | Working core geometry benchmark with line and bar scenarios.          |
+| `npm run benchmark`              | Working core geometry and showcase interaction benchmark command.     |
 | `npm run boundaries:check`       | Working package-boundary audit for free, Pro, and Skia separation.    |
 | `npm run surface:check`          | Working public export and package-boundary audit.                     |
-| `npm run skia:parity`            | Working local Skia primitive and LineChart renderer contract tests.   |
+| `npm run skia:parity`            | Working local Skia primitive and chart renderer contract tests.       |
 | `npm run example:ios`            | Working Expo showcase iOS dev command. Requires local iOS tooling.    |
 | `npm run example:android`        | Working Expo showcase Android dev command. Requires Android tooling.  |
 | `npm run example:expo`           | Working Expo showcase app command for phone/device review.            |
