@@ -47,7 +47,20 @@ Suggested default:
 
 Detailed proposal: [H6 Semver Proposal](h6-semver-proposal.md).
 
-## Decision 3: Docs Freeze
+## Decision 3: Final Changelog
+
+Recommendation: approve final changelog wording only after:
+
+- current `next` release notes are converted into stable-release wording
+- Developer Preview publish notes stay separate from stable release notes
+- compatibility support and intentional behavior changes are plain
+- preview and Pro-candidate APIs are labeled clearly
+- remaining native, accessibility, and performance caveats match the final
+  release claims
+
+Draft wording: [Chart Kit v2 Stable Release Notes Draft](h6-release-notes-draft.md).
+
+## Decision 4: Docs Freeze
 
 Recommendation: freeze docs only after:
 
@@ -57,7 +70,7 @@ Recommendation: freeze docs only after:
 - native caveats are either resolved or explicitly listed as known issues
 - every public code fence passes `npm run docs:build`
 
-## Decision 4: Visual Baseline Freeze
+## Decision 5: Visual Baseline Freeze
 
 Recommendation: freeze the visual baseline only after owner approval of:
 
@@ -70,7 +83,7 @@ Recommendation: freeze the visual baseline only after owner approval of:
 
 The web visual suite is useful evidence, but RC should not treat it as a substitute for native runtime review.
 
-## Decision 5: Deprecation Policy
+## Decision 6: Deprecation Policy
 
 Recommendation:
 
@@ -81,7 +94,7 @@ Recommendation:
 
 Detailed proposal: [Deprecation Policy](deprecation-policy.md).
 
-## Decision 6: Pro And Skia Package Plan
+## Decision 7: Pro And Skia Package Plan
 
 Recommendation:
 
@@ -94,7 +107,7 @@ Recommendation:
 
 Detailed proposal: [H6 Pro Package Plan](h6-pro-package-plan.md).
 
-## Decision 7: Release Claims
+## Decision 8: Release Claims
 
 Recommendation:
 

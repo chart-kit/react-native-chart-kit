@@ -181,6 +181,40 @@ describe("release gate checker", () => {
     });
   });
 
+  it("documents every pending H6 owner decision in the H6 memo", () => {
+    const ownerGates = JSON.parse(
+      readFileSync(
+        join(repoRoot, "docs/release/evidence/owner-gates.json"),
+        "utf8"
+      )
+    );
+    const h6Gate = ownerGates.gates.find((gate) => gate.id === "h6");
+    const memo = readFileSync(
+      join(repoRoot, "docs/release/h6-owner-decision-memo.md"),
+      "utf8"
+    ).toLowerCase();
+    const decisionTextByLabel = {
+      "deprecation policy": "deprecation policy",
+      "docs freeze": "docs freeze",
+      "final changelog": "final changelog",
+      "final semver": "final semver",
+      "pro and skia package plan": "pro and skia package plan",
+      "release candidate approval": "rc timing",
+      "release claims": "release claims",
+      "visual baseline freeze": "visual baseline freeze"
+    };
+
+    expect(
+      h6Gate.pendingDecisions
+        .map((decision) => decision.toLowerCase())
+        .sort()
+    ).toEqual(Object.keys(decisionTextByLabel).sort());
+
+    for (const expectedText of Object.values(decisionTextByLabel)) {
+      expect(memo).toContain(expectedText);
+    }
+  });
+
   it("validates package manifest Developer Preview publish boundary", () => {
     const report = runGateReportJson();
 
