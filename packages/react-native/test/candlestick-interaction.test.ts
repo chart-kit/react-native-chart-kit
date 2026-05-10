@@ -3,7 +3,8 @@ import { describe, expect, it } from "vitest";
 import {
   buildCandlestickChartSelectEvent,
   getCandlestickAtPoint,
-  getCandlestickChartInteractionConfig
+  getCandlestickChartInteractionConfig,
+  isCandlestickChartScrollableTap
 } from "../src/charts/candlestick/interaction";
 import {
   getCandlestickChartTooltipConfig,
@@ -82,6 +83,30 @@ describe("CandlestickChart interaction helpers", () => {
         locationY: 58
       })
     ).toBeUndefined();
+  });
+
+  it("keeps scrollable taps separate from horizontal drags", () => {
+    expect(
+      isCandlestickChartScrollableTap({
+        endTime: 180,
+        maxDistance: 5,
+        startTime: 0
+      })
+    ).toBe(true);
+    expect(
+      isCandlestickChartScrollableTap({
+        endTime: 180,
+        maxDistance: 18,
+        startTime: 0
+      })
+    ).toBe(false);
+    expect(
+      isCandlestickChartScrollableTap({
+        endTime: 620,
+        maxDistance: 5,
+        startTime: 0
+      })
+    ).toBe(false);
   });
 
   it("builds formatted OHLC selection events", () => {

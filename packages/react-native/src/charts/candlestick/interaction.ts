@@ -10,6 +10,27 @@ export type ResolvedCandlestickChartInteractionConfig<TData = unknown> = {
   onSelect?: (event: CandlestickChartSelectEvent<TData>) => void;
 };
 
+export type CandlestickChartScrollableTapState = {
+  maxDistance: number;
+  startTime: number;
+};
+
+export const isCandlestickChartScrollableTap = ({
+  endTime,
+  maxDistance,
+  maxDuration = 420,
+  moveTolerance = 8,
+  startTime
+}: CandlestickChartScrollableTapState & {
+  endTime: number;
+  maxDuration?: number;
+  moveTolerance?: number;
+}) =>
+  maxDistance <= moveTolerance &&
+  Number.isFinite(endTime) &&
+  Number.isFinite(startTime) &&
+  endTime - startTime <= maxDuration;
+
 export const getCandlestickChartInteractionConfig = <TData>(
   interaction: CandlestickChartInteraction<TData> | undefined
 ): ResolvedCandlestickChartInteractionConfig<TData> => {

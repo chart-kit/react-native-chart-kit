@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import type { GestureResponderEvent } from "react-native";
+import type {
+  GestureResponderEvent,
+  NativeSyntheticEvent,
+  NativeTouchEvent
+} from "react-native";
 
 import {
   resolveChartViewport,
@@ -27,6 +31,7 @@ import {
   buildCandlestickChartSelectEvent,
   getCandlestickAtPoint,
   getCandlestickChartInteractionConfig,
+  isCandlestickChartScrollableTap,
   isCandlestickChartInteractionEnabled
 } from "./interaction";
 import { buildCandlestickChartModel } from "./model";
@@ -65,6 +70,15 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
   const chartKitTheme = useChartKitTheme();
   const renderer = props.renderer ?? chartKitTheme.renderer;
   const scrollViewRef = useRef<ScrollView>(null);
+  const scrollableTapRef = useRef<
+    | {
+        maxDistance: number;
+        startTime: number;
+        startX: number;
+        startY: number;
+      }
+    | undefined
+  >(undefined);
   const [gestureSelectedIndex, setGestureSelectedIndex] = useState<
     number | undefined
   >(props.defaultSelectedIndex);
@@ -243,12 +257,96 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
   const viewportGesture = useChartViewportGestureHandler({
     dataLength: props.data.length,
     enabled: !scrollViewport.scrollable,
-    onPress: isInteractionEnabled ? handleSurfacePress : undefined,
+    onPress:
+      !scrollViewport.scrollable && isInteractionEnabled
+        ? handleSurfacePress
+        : undefined,
     onViewportChange: props.onViewportChange,
     plotBounds: boxes.plot,
     viewportInteraction: props.viewportInteraction,
     viewportWindow
   });
+  const handleScrollableTouchStart = useCallback(
+    (event: NativeSyntheticEvent<NativeTouchEvent>) => {
+      if (!scrollViewport.scrollable || !isInteractionEnabled) {
+        scrollableTapRef.current = undefined;
+        return;
+      }
+
+      const { locationX, locationY } = event.nativeEvent;
+
+      scrollableTapRef.current = {
+        maxDistance: 0,
+        startTime: Date.now(),
+        startX: locationX,
+        startY: locationY
+      };
+    },
+    [isInteractionEnabled, scrollViewport.scrollable]
+  );
+  const handleScrollableTouchMove = useCallback(
+    (event: NativeSyntheticEvent<NativeTouchEvent>) => {
+      const tapState = scrollableTapRef.current;
+
+      if (!tapState) {
+        return;
+      }
+
+      const { locationX, locationY } = event.nativeEvent;
+      const distance = Math.hypot(
+        locationX - tapState.startX,
+        locationY - tapState.startY
+      );
+
+      scrollableTapRef.current = {
+        ...tapState,
+        maxDistance: Math.max(tapState.maxDistance, distance)
+      };
+    },
+    []
+  );
+  const handleScrollableTouchEnd = useCallback(
+    (event: NativeSyntheticEvent<NativeTouchEvent>) => {
+      const tapState = scrollableTapRef.current;
+
+      scrollableTapRef.current = undefined;
+
+      if (!tapState) {
+        return;
+      }
+
+      const { locationX, locationY } = event.nativeEvent;
+      const endDistance = Math.hypot(
+        locationX - tapState.startX,
+        locationY - tapState.startY
+      );
+
+      if (
+        !isCandlestickChartScrollableTap({
+          endTime: Date.now(),
+          maxDistance: Math.max(tapState.maxDistance, endDistance),
+          startTime: tapState.startTime
+        })
+      ) {
+        return;
+      }
+
+      handleSurfacePress({ locationX, locationY });
+    },
+    [handleSurfacePress]
+  );
+  const handleScrollableTouchCancel = useCallback(() => {
+    scrollableTapRef.current = undefined;
+  }, []);
+  const scrollableTouchProps =
+    scrollViewport.scrollable && isInteractionEnabled
+      ? {
+          onTouchCancel: handleScrollableTouchCancel,
+          onTouchEnd: handleScrollableTouchEnd,
+          onTouchMove: handleScrollableTouchMove,
+          onTouchStart: handleScrollableTouchStart
+        }
+      : {};
   const accessibilityLabel =
     props.accessibilityLabel ??
     getCandlestickChartAccessibilitySummary({
@@ -262,7 +360,11 @@ export const CandlestickChart = <TData extends Record<string, unknown>>(
       xKey: props.xKey
     });
   const mainSurface = (
-    <View collapsable={false} style={{ height: mainHeight, width: chartWidth }}>
+    <View
+      collapsable={false}
+      style={{ height: mainHeight, width: chartWidth }}
+      {...scrollableTouchProps}
+    >
       <ChartViewportGestureHandler gesture={viewportGesture}>
         <ChartViewportGesture gesture={viewportPinchZoom}>
           <CandlestickChartSurface
