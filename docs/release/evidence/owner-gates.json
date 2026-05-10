@@ -49,6 +49,7 @@
       "evidence": [
         "docs/internal/completion-audit.md",
         "docs/release/deprecation-policy.md",
+        "docs/release/h6-finalization-checklist.md",
         "docs/release/h6-owner-decision-memo.md",
         "docs/release/h6-rc-readiness-packet.md",
         "docs/release/smoke-test-checks.md",

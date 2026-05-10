@@ -10,6 +10,7 @@ export const requiredFiles = [
   "docs/release/h4-owner-decision-memo.md",
   "docs/release/h5-beta-gate-evidence.md",
   "docs/release/h5-owner-decision-memo.md",
+  "docs/release/h6-finalization-checklist.md",
   "docs/release/h6-owner-decision-memo.md",
   "docs/release/h6-rc-readiness-packet.md",
   "docs/release/known-issues.md",
