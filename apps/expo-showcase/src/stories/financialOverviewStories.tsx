@@ -174,9 +174,18 @@ const createSessionEventCandles = () => {
   return candles;
 };
 const sessionEventCandles = createSessionEventCandles();
-const sessionEventClosures = getCandlestickEmergencyClosureSessions([
-  { date: "2026-11-26", reason: "Thanksgiving", width: 8 }
-]);
+const sessionEventMarkers = [
+  ...getCandlestickEmergencyClosureSessions([
+    { date: "2026-11-26", reason: "Thanksgiving", width: 8 },
+    { date: "2026-12-04", reason: "Halt", width: 6 }
+  ]),
+  {
+    date: "2026-11-27",
+    kind: "earlyClose" as const,
+    label: false,
+    width: 5
+  }
+];
 const priceActionTable = getCandlestickChartDataTable({
   closeKey: "close",
   data: stockCandles,
@@ -341,7 +350,7 @@ const V2CandlestickSessionEvents = ({ width }: NativeStoryProps) => (
       sessionGaps={{
         exchange: "nyse",
         label: false,
-        specialSessions: sessionEventClosures
+        specialSessions: sessionEventMarkers
       }}
       testID="session-events-candlestick-chart"
       tooltip={{ width: 154 }}
