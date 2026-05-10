@@ -6,6 +6,22 @@ If you're looking to **build a website or a cross-platform mobile app** – we w
 
 # React Native Chart Kit Documentation
 
+## Chart Kit v2 Developer Preview
+
+This repository now contains the Chart Kit v2 Developer Preview. Existing
+`react-native-chart-kit` users remain on the stable v6 line unless they install
+the `next` dist-tag. The root package keeps the legacy-compatible component
+surface, while new adopters can review the modern API in `@chart-kit/react-native`.
+
+Current v2 docs:
+
+- [Developer Preview docs](docs/README.md)
+- [Installation](docs/getting-started/installation.md)
+- [Migration from v1](docs/migration/from-v1.md)
+- [Production recipes](docs/recipes/README.md)
+
+The legacy compatibility API remains documented below.
+
 ## Import components
 
 1. `yarn add react-native-chart-kit`
