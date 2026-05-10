@@ -291,14 +291,14 @@ describe("CandlestickChart interaction helpers", () => {
     });
 
     expect(tooltip).toMatchObject({
-      height: 95,
+      height: 67,
       lines: [
         { label: "O", value: "$101" },
         { label: "H", value: "$112" },
         { label: "L", value: "$98" },
         { label: "C", value: "$108" }
       ],
-      width: 154,
+      width: 174,
       x: 48,
       xLabel: "Wed"
     });

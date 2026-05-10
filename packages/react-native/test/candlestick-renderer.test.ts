@@ -99,14 +99,14 @@ const tooltip: CandlestickChartTooltipModel<{ date: string }> & {
 } = {
   candle,
   config: tooltipConfig,
-  height: 92,
+  height: 72,
   lines: [
     { label: "O", value: "$112" },
     { label: "H", value: "$126" },
     { label: "L", value: "$108" },
     { label: "C", value: "$118" }
   ],
-  width: 150,
+  width: 174,
   x: 24,
   xLabel: "Jan 2",
   y: 32
@@ -156,12 +156,12 @@ describe("CandlestickChart renderer parity contract", () => {
     const node = renderDefaultCandlestickTooltip(tooltip, skiaLikeRenderer);
     const children = getFragmentChildren(node);
 
-    expect(children).toHaveLength(7);
+    expect(children).toHaveLength(11);
     expect(children[1]?.props).toMatchObject({
       fill: "#ffffff",
-      height: 92,
+      height: 72,
       rx: 8,
-      width: 150,
+      width: 174,
       x: 24,
       y: 32
     });
@@ -169,9 +169,25 @@ describe("CandlestickChart renderer parity contract", () => {
       fill: "#64748b",
       text: "Jan 2"
     });
-    expect(children[6]?.props).toMatchObject({
+    expect(children[3]?.props).toMatchObject({
+      fill: "#64748b",
+      text: "Open"
+    });
+    expect(children[4]?.props).toMatchObject({
       fill: "#0f172a",
-      text: "C $118"
+      fontWeight: "600",
+      text: "$112",
+      textAnchor: "end"
+    });
+    expect(children[9]?.props).toMatchObject({
+      fill: "#64748b",
+      text: "Close"
+    });
+    expect(children[10]?.props).toMatchObject({
+      fill: "#0f172a",
+      fontWeight: "600",
+      text: "$118",
+      textAnchor: "end"
     });
   });
 

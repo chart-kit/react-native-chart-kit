@@ -8,6 +8,8 @@ import type {
 
 const tooltipGap = 8;
 const tooltipLineHeight = 16;
+const tooltipMetricRows = 2;
+const tooltipHeaderGap = 8;
 
 export type CandlestickChartTooltipModel<TData = unknown> = {
   candle: CandlestickChartCandleModel<TData>;
@@ -57,9 +59,9 @@ export const getCandlestickChartTooltipModel = <TData>({
   const height =
     config.padding * 2 +
     config.labelFontSize +
-    tooltipLineHeight * lines.length +
-    4;
-  const width = Math.max(config.width, 150);
+    tooltipHeaderGap +
+    tooltipLineHeight * tooltipMetricRows;
+  const width = Math.max(config.width, 174);
   const preferredX = candle.wickX - width / 2;
   const minX = boxes.plot.x + 4;
   const maxX = boxes.plot.x + boxes.plot.width - width - 4;
