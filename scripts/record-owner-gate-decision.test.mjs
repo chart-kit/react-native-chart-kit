@@ -233,4 +233,50 @@ describe("owner gate decision recorder", () => {
       })
     ).rejects.toThrow("h6 requires explicit decision for release claims");
   });
+
+  it("dry-runs current H6 approval when release evidence is complete", async () => {
+    const decisions = [
+      "Release candidate approved.",
+      "Final semver approved.",
+      "Final changelog approved.",
+      "Docs freeze approved.",
+      "Visual baseline freeze approved.",
+      "Deprecation policy approved.",
+      "Pro and Skia package plan approved.",
+      "Release claims approved."
+    ];
+    const before = JSON.parse(
+      await readFile(
+        join(repoRoot, "docs/release/evidence/owner-gates.json"),
+        "utf8"
+      )
+    );
+    const result = await approveOwnerGate({
+      approvedAt: "2026-05-10",
+      approvedBy: "owner",
+      decisions,
+      dryRun: true,
+      gateId: "h6",
+      repoRoot
+    });
+    const after = JSON.parse(
+      await readFile(
+        join(repoRoot, "docs/release/evidence/owner-gates.json"),
+        "utf8"
+      )
+    );
+
+    expect(result).toMatchObject({
+      dryRun: true,
+      gate: {
+        approvedAt: "2026-05-10",
+        approvedBy: "owner",
+        decisions,
+        id: "h6",
+        status: "approved"
+      },
+      path: "docs/release/evidence/owner-gates.json"
+    });
+    expect(after).toEqual(before);
+  });
 });
