@@ -216,10 +216,29 @@ export const buildCandlestickChartModel = <
   });
   const xValues = rows.map((row) => row.x);
   const xDomain = xValues.map(getBarChartXKey);
-  const xLabelTexts = rows.map((row) => formatXLabel(row.x, row.index));
   const textOptions = { fontSize: resolvedTheme.typography.axisLabelSize };
+  const xLabelCandidates = rows.flatMap((row, index) => {
+    const text = formatXLabel(row.x, row.index);
+
+    if (text.trim().length === 0) {
+      return [];
+    }
+
+    const key = xDomain[index];
+
+    return key === undefined
+      ? []
+      : [
+          {
+            index: row.index,
+            key,
+            size: measureBarChartText(text, textOptions),
+            text
+          }
+        ];
+  });
   const xLabelSizes = showXAxisLabels
-    ? xLabelTexts.map((text) => measureBarChartText(text, textOptions))
+    ? xLabelCandidates.map((label) => label.size)
     : [];
   const domainValues = rows.flatMap((row) => [row.low, row.high]);
   const resolvedYDomain = resolveNumericDomain(domainValues, yDomain);
@@ -341,20 +360,19 @@ export const buildCandlestickChartModel = <
           plotWidth: boxes.plot.width
         })
       : Number.POSITIVE_INFINITY;
-  const xLabels = xLabelTexts.flatMap((text, index) => {
-    if (index % xLabelInterval !== 0) {
+  const xLabels = xLabelCandidates.flatMap((label, labelIndex) => {
+    if (labelIndex % xLabelInterval !== 0) {
       return [];
     }
 
-    const key = xDomain[index];
-    const x = key === undefined ? undefined : xScale.scale(key);
+    const x = xScale.scale(label.key);
 
     return x === undefined
       ? []
       : [
           {
-            index: rows[index]?.index ?? index,
-            text,
+            index: label.index,
+            text: label.text,
             x: x + xScale.bandwidth / 2,
             y: boxes.plot.y + boxes.plot.height + labelBaselineOffset
           }

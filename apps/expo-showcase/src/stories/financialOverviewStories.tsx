@@ -177,6 +177,10 @@ const sessionEventCandles = createSessionEventCandles();
 const sessionEventClosures = getCandlestickEmergencyClosureSessions([
   { date: "2026-11-26", reason: "Thanksgiving", width: 8 }
 ]);
+const formatSessionEventXLabel = (value: unknown, index: number) =>
+  index % 6 === 0 || index === sessionEventCandles.length - 1
+    ? formatTradingDay(value)
+    : "";
 const priceActionTable = getCandlestickChartDataTable({
   closeKey: "close",
   data: stockCandles,
@@ -331,7 +335,7 @@ const V2CandlestickSessionEvents = ({ width }: NativeStoryProps) => (
       closeKey="close"
       data={sessionEventCandles}
       downColor="#ef4444"
-      formatXLabel={(value) => formatTradingDay(value)}
+      formatXLabel={formatSessionEventXLabel}
       formatYLabel={formatPrice}
       height={278}
       highKey="high"

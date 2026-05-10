@@ -98,6 +98,35 @@ describe("CandlestickChart model", () => {
     expect(model.xLabels.map((label) => label.index)).toEqual([1, 2]);
   });
 
+  it("does not render empty formatted x-axis labels", () => {
+    const denseRows = Array.from({ length: 12 }, (_, index) => ({
+      close: 100 + index,
+      day: `D${index}`,
+      high: 104 + index,
+      low: 96 + index,
+      open: 99 + index,
+      volume: 20 + index
+    }));
+    const model = buildCandlestickChartModel({
+      chartKitTheme,
+      closeKey: "close",
+      data: denseRows,
+      formatXLabel: (value, index) => (index % 4 === 0 ? `${value}` : ""),
+      height: 260,
+      highKey: "high",
+      lowKey: "low",
+      openKey: "open",
+      width: 360,
+      xKey: "day"
+    });
+
+    expect(model.xLabels.map((label) => label.text)).toEqual([
+      "D0",
+      "D4",
+      "D8"
+    ]);
+  });
+
   it("compresses candle gaps for dense zoomed-out ranges", () => {
     expect(getResponsiveCandlestickBandPadding(4)).toEqual({
       paddingInner: 0.04,
