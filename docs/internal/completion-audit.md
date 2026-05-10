@@ -23,6 +23,11 @@ prep is ahead of published npm evidence. That warning should clear after the
 next approved `next` publish succeeds and `npm-publish-evidence.json` is
 updated.
 
+`npm run release:publish:status -- --strict` currently reports `partial` for
+`7.0.0-next.1`: the four free publishable packages are not published yet, while
+`@chart-kit/pro` and `@chart-kit/skia-renderer` remain unpublished as intended.
+Do not publish the next Developer Preview without owner approval.
+
 H6 approval dry-run currently passes with all eight required decision labels.
 The stable-RC blocker is therefore explicit owner approval, not missing
 prerequisite evidence.
@@ -61,13 +66,14 @@ Stable RC is a separate decision and should not block Developer Preview.
 
 Remaining RC decisions:
 
+- release candidate approval
 - final semver
 - final changelog
 - docs freeze
 - visual baseline freeze
 - deprecation policy approval
-- whether Pro is still deferred or split into a real paid package
-- whether more native device or accessibility evidence is needed for the release claim
+- Pro and Skia package plan
+- release claims
 
 Draft decision artifacts exist for each of those topics:
 
