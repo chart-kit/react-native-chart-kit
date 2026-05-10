@@ -364,12 +364,14 @@ export const buildCandlestickSessionGapModels = <
   boxes,
   candles,
   config,
-  resolvedTheme
+  resolvedTheme,
+  sessionEvents = []
 }: {
   boxes: CandlestickChartModel<TData>["boxes"];
   candles: CandlestickChartModel<TData>["candles"];
   config: CandlestickChartSessionGapConfig<TData> & { visible: boolean };
   resolvedTheme: CandlestickChartModel<TData>["resolvedTheme"];
+  sessionEvents?: Array<CandlestickChartSessionEventModel<TData>>;
 }): Array<CandlestickChartSessionGapModel<TData>> => {
   if (!config.visible || candles.length < 2) {
     return [];
@@ -431,6 +433,13 @@ export const buildCandlestickSessionGapModels = <
         : config.label === true
           ? getDefaultSessionGapLabel({ calendar, closedDays, gapDays })
           : undefined;
+    const isExplainedBySpecialClosure = sessionEvents.some(
+      (event) =>
+        event.kind === "closure" &&
+        event.label &&
+        event.previousIndex === previous.dataIndex &&
+        event.nextIndex === next.dataIndex
+    );
     const width = Math.max(2, Math.min(18, config.width ?? previous.bodyWidth));
 
     return [
@@ -445,7 +454,7 @@ export const buildCandlestickSessionGapModels = <
         height: boxes.plot.height,
         holidayCount,
         key: `session-gap-${previous.dataIndex}-${next.dataIndex}`,
-        label: label || undefined,
+        label: isExplainedBySpecialClosure ? undefined : label || undefined,
         labelX: x,
         labelY: boxes.plot.y + 12,
         next: next.raw,

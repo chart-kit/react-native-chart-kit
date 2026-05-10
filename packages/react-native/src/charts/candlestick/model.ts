@@ -280,17 +280,18 @@ export const buildCandlestickChartModel = <
   }));
   const resolvedSessionGapConfig =
     resolveCandlestickSessionGapConfig(sessionGaps);
-  const sessionGapsModel = buildCandlestickSessionGapModels({
-    boxes,
-    candles,
-    config: resolvedSessionGapConfig,
-    resolvedTheme
-  });
   const sessionEventsModel = buildCandlestickSessionEventModels({
     boxes,
     candles,
     config: resolvedSessionGapConfig,
     resolvedTheme
+  });
+  const sessionGapsModel = buildCandlestickSessionGapModels({
+    boxes,
+    candles,
+    config: resolvedSessionGapConfig,
+    resolvedTheme,
+    sessionEvents: sessionEventsModel
   });
   const volumeValues: number[] = volumeKey
     ? candles.flatMap((candle) => {
