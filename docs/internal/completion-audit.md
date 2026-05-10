@@ -4,6 +4,10 @@ Status on May 10, 2026: Developer Preview is complete; stable RC is not complete
 
 This audit intentionally separates preview readiness from stable-release readiness. Native QA matrices are no longer part of the active completion path.
 
+The old native runtime, accessibility, and performance evidence manifests are
+kept as archived reference data only. They now use `status: "archived"` with an
+archive note, empty `requiredFor`, and no active `missingEvidence` list.
+
 ## Developer Preview Complete
 
 The current repository is ready for Developer Preview when these checks pass:
@@ -22,6 +26,14 @@ Latest local broad verification on May 10, 2026:
 - `npm run pack:check` passed for all 6 package dry-runs
 - `npm run release:preview:gate` passed with the expected unpublished-source
   warning
+
+Latest release-process cleanup verification on May 10, 2026:
+
+- `npm run test:unit -- scripts/check-release-gates.test.mjs` passed
+- `npm run docs:build` passed
+- `npm run release:preview:gate` passed
+- `npm run test:unit -- scripts/release-runtime-artifacts.test.mjs scripts/release-accessibility-artifacts.test.mjs scripts/release-performance-artifacts.test.mjs` passed
+- `npm run release:gate:report` reports only the H6 owner-approval blocker
 
 Current source version: `7.0.0-next.1`.
 

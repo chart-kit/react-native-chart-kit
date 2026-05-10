@@ -69,6 +69,15 @@ npm run pack:check
 
 The old runtime, accessibility, and performance matrices are archived reference data only. They are no longer required commands, owner tasks, or Developer Preview blockers.
 
+The old summary evidence manifests are also archived:
+
+- `docs/release/evidence/native-runtime-qa.json`
+- `docs/release/evidence/native-accessibility-qa.json`
+- `docs/release/evidence/native-performance-benchmark.json`
+
+Each archived manifest is historical evidence only, with no active `requiredFor`
+gates and no active `missingEvidence` list.
+
 The old `release:qa:*` matrix recorder/status/capture scripts were removed. Use `npm run release:preview:gate` for preview readiness and concise smoke-test notes for human feedback.
 
 ## Remaining Stable-RC Decisions
