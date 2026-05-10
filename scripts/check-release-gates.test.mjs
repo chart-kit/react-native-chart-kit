@@ -75,6 +75,7 @@ describe("release gate checker", () => {
         .filter((check) => check.id.startsWith("manifest:"))
         .map((check) => [check.id, check.status])
     ).toEqual([
+      ["manifest:package-publish-boundary", "pass"],
       ["manifest:developer-preview-publish", "pass"],
       ["manifest:native-workflow-evidence", "pass"],
       ["manifest:rn-cli-example", "pass"],
@@ -90,6 +91,7 @@ describe("release gate checker", () => {
         .filter((check) => check.id.startsWith("manifest:"))
         .map((check) => [check.id, check.status, check.detail])
     ).toEqual([
+      ["manifest:package-publish-boundary", "pass", ""],
       ["manifest:developer-preview-publish", "pass", ""],
       ["manifest:native-workflow-evidence", "pass", ""],
       ["manifest:rn-cli-example", "pass", ""],
@@ -157,6 +159,21 @@ describe("release gate checker", () => {
     ).toMatchObject({
       evidence: "docs/release/evidence/owner-gates.json",
       message: "Owner gate manifest is structurally valid",
+      status: "pass"
+    });
+  });
+
+  it("validates package manifest Developer Preview publish boundary", () => {
+    const report = runGateReportJson();
+
+    expect(
+      report.checks.find(
+        (check) => check.id === "manifest:package-publish-boundary"
+      )
+    ).toMatchObject({
+      evidence: "docs/release/evidence/package-manifest.json",
+      message:
+        "Package manifest uses explicit Developer Preview publish boundary",
       status: "pass"
     });
   });

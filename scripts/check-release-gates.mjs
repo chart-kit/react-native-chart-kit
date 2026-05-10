@@ -54,6 +54,42 @@ const publishEvidence = await readRepoJson(
 );
 const sourceVersion = packageJson.version;
 const publishEvidenceText = JSON.stringify(publishEvidence);
+const packageManifest = await readRepoJson(
+  "docs/release/evidence/package-manifest.json"
+);
+const packageManifestEntries = packageManifest.packages ?? [];
+const packageManifestErrors = [];
+
+if (
+  !Array.isArray(packageManifestEntries) ||
+  packageManifestEntries.length === 0
+) {
+  packageManifestErrors.push("package manifest must define packages");
+} else {
+  for (const packageInfo of packageManifestEntries) {
+    const label = packageInfo.name ?? packageInfo.dir ?? "<unknown>";
+
+    if (Object.hasOwn(packageInfo, "publishInBeta")) {
+      packageManifestErrors.push(
+        `${label} uses deprecated publishInBeta field`
+      );
+    }
+
+    if (typeof packageInfo.publishInDeveloperPreview !== "boolean") {
+      packageManifestErrors.push(
+        `${label} must define boolean publishInDeveloperPreview`
+      );
+    }
+  }
+}
+
+addCheck({
+  detail: packageManifestErrors.join("; "),
+  evidence: "docs/release/evidence/package-manifest.json",
+  id: "manifest:package-publish-boundary",
+  message: "Package manifest uses explicit Developer Preview publish boundary",
+  status: packageManifestErrors.length === 0 ? "pass" : "fail"
+});
 
 addCheck({
   detail: publishEvidenceText.includes(sourceVersion)
