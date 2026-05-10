@@ -6,12 +6,12 @@ Status on May 10, 2026: owner review scope updated. This policy defines native Q
 
 The owner is not expected to run row-by-row QA, fill long reports, or attach evidence for every matrix row.
 
-Owner review is intentionally lightweight:
+Owner review is intentionally lightweight and can happen in conversation:
 
 - smoke-test the preview build or app surface that is ready for review
-- say which surface was checked, such as Expo on iOS physical device
 - report blockers or product-quality issues found during normal review
 - approve, reject, or ask for targeted follow-up
+- let release engineering or an agent record any useful notes
 
 A valid owner signoff can be a short sentence, for example:
 

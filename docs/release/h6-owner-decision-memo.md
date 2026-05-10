@@ -14,9 +14,9 @@ The owner is not assigned long QA sessions, row-by-row checklists, or evidence r
 
 Owner approval should be short and product-focused:
 
-- confirm the preview surface reviewed
 - call out any blockers
 - approve, reject, or request targeted follow-up
+- give feedback in conversation; release engineering or an agent records any useful notes
 
 The detailed native QA matrix is for release engineering or agents. It should feed a concise risk summary for the owner, not become owner homework.
 
