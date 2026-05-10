@@ -8,7 +8,7 @@ Android and iOS release-build checks are configured in `.github/workflows/native
 
 The iOS and Android release builds passed locally on May 5, 2026. Android used OpenJDK 17 plus the Homebrew Android command-line tools SDK (`/opt/homebrew/share/android-commandlinetools`) and completed `assembleRelease`. The release script now fails before prebuild when either Java or the Android SDK is missing. On May 6, 2026, the native release workflow passed on `next` for commit `9b828d4eb891dfa2c6588ea2d4f122e0b470c04b`, with archived iOS and Android artifacts recorded in [native-release-workflow.json](evidence/native-release-workflow.json). The workflow remains documented in [native-workflow-runbook.md](native-workflow-runbook.md) for future RC reruns.
 
-Impact: native release-build workflow evidence is no longer the blocker, but production users should still wait for runtime, accessibility, and final native performance evidence before treating v2 as stable.
+Impact: native release-build workflow evidence is no longer the blocker, but production users should still treat v2 as preview until stable RC is approved.
 
 ## Developer Preview Package Publish
 
@@ -26,17 +26,15 @@ The current `next` branch still has moderate npm audit findings through Expo CLI
 
 Impact: high and critical npm vulnerabilities now block CI/publish for v2 work, but moderate Expo toolchain advisories remain tracked until an Expo-compatible upstream fix is available.
 
-## Native E2E Coverage
+## Native Runtime Coverage
 
 `npm run test:e2e` covers web showcase interaction flows through Playwright. It does not cover native iOS or Android runtime behavior.
 
-`npm run example:ios` and `npm run example:android` launch the Expo showcase for manual simulator or emulator review. They are tracked as manual example commands, not passing native e2e or release-build checks.
-
-The [Native runtime QA protocol](native-runtime-qa.md) defines the required iOS and Android gesture/runtime review path. Local iOS simulator and Android emulator release smoke passes launched the showcase and captured all required runtime pages, but the missing evidence is still a completed device log for tap, scrub, pan, pinch, range selector, tooltip stacking, nested scroll, theme switching, edge-label behavior, accessibility services, and physical-device behavior.
+`npm run example:ios` and `npm run example:android` launch the Expo showcase for simulator or emulator review. Current smoke notes are recorded in [owner-smoke-notes-2026-05-10.md](artifacts/owner-smoke-notes-2026-05-10.md).
 
 `examples/rn-cli-basic` provides a non-Expo app source and Metro alias smoke surface. `npm run example:rn-cli:typecheck` verifies its TypeScript imports. On May 6, 2026, generated RN CLI iOS and Android release builds passed, and release runtime smoke screenshots were captured for both platforms. The RN CLI smoke evidence is tracked in [rn-cli-example-qa.md](rn-cli-example-qa.md) and [rn-cli-example-evidence.json](evidence/rn-cli-example-evidence.json). Generated native `ios/` and `android/` projects are still not checked in, by design.
 
-Impact: CI can validate web showcase interactions and Expo native release builds, and local evidence now validates plain RN CLI release-build smoke behavior. It still cannot claim completed platform-specific gesture, accessibility, performance, or physical-device QA until the native evidence matrices are finished.
+Impact: CI can validate web showcase interactions and Expo native release builds, and local evidence validates plain RN CLI release-build smoke behavior. Physical Android and TalkBack remain disclosed gaps for preview.
 
 ## Pro Split
 
@@ -44,25 +42,25 @@ Some advanced line-chart experiences, such as animation preview and range-select
 
 The [H4 Pro scope decision packet](h4-pro-scope.md) is approved: Pro should focus on production layout depth, production interactions, commercial chart types, export, premium templates, and performance. `packages/pro` now provides a preview feature-registry boundary for those buckets. Per H4/H5, Pro ships later as a separate package and no license checks, runtime activation, paid implementations, or npm publication are added before Developer Preview.
 
-Impact: Developer Preview must keep these features labeled as preview or Pro-candidate, and H6 must not treat Pro as a finished paid package until paid implementation and native evidence are complete.
+Impact: Developer Preview must keep these features labeled as preview or Pro-candidate, and H6 must not treat Pro as a finished paid package until paid implementation exists.
 
 ## Skia Renderer
 
 `packages/skia-renderer` now provides a preview package boundary, capability metadata, install guidance, and an injected Skia primitive adapter. Local renderer contract coverage exists for the injected primitives plus LineChart, BarChart/PieChart/DonutChart, ProgressChart/ProgressRing, ContributionGraph/CalendarHeatmap, CombinedChart, and CandlestickChart. Sticky-axis labels and measured text anchors are covered locally with a supplied Skia-like font. The local baseline is recorded in [skia-local-baseline-2026-05-06.md](artifacts/skia-local-baseline-2026-05-06.md), optional-Skia temp-app install/build evidence exists for both iOS and Android, renderer-injected Release build evidence exists for both platforms, and native renderer parity plus SVG-vs-Skia performance comparison rows are complete. The structured status lives in [skia-renderer-evidence.json](evidence/skia-renderer-evidence.json).
 
-Impact: the optional package boundary is approved for preview, but Skia must stay labeled as preview until the product/package boundary is approved for H6 and a stable package plan exists.
+Impact: the optional package boundary is approved for preview, but Skia must stay unpublished until a stable package plan exists.
 
 ## Native Performance Evidence
 
-`npm run benchmark` covers core geometry and web showcase scrub timing. The [Native performance benchmark protocol](native-performance-benchmark.md) defines the release-device measurements needed for iOS and Android, including frame timing, memory, renderer, data size, and gesture scenarios. Partial release simulator/emulator samples now cover all iOS and Android SVG performance matrix rows, but they do not replace the required Instruments/device profiling, physical-device or explicitly accepted simulator/emulator sign-off, and manual visible-correctness evidence.
+`npm run benchmark` covers core geometry and web showcase scrub timing. Native performance matrix completion is no longer required for Developer Preview.
 
-Impact: benchmark regressions can be caught locally for core geometry and web scrub timing, but production beta/RC should not claim native release-device performance until the native benchmark log is complete.
+Impact: benchmark regressions can be caught locally for core geometry and web scrub timing, but stable RC should not overclaim native release-device performance without targeted performance evidence.
 
 ## Candlestick Scope
 
 `CandlestickChart` currently supports OHLC body and wick geometry, opt-in volume overlays, opt-in calendar-aware session-gap markers for dated candles, built-in US equities exchange presets for regular full-day holidays and early closes, an emergency-closure feed adapter, scrollable long-history mode, viewport windowing with pan/pinch preview gestures, interactive range selector overview, baseline OHLC accessibility helpers, a financial narrative helper, and tap inspection with an OHLC tooltip plus close-price badge.
 
-Impact: per H4, keep it labeled as Financial Preview until native performance evidence and the Pro implementation path are complete.
+Impact: per H4, keep it labeled as Financial Preview until the Pro implementation path is complete.
 
 ## Docs Examples
 
@@ -72,6 +70,6 @@ Impact: public chart docs now have automated type coverage, but docs should stil
 
 ## Screen-Reader QA
 
-Generated summaries and data table helpers are covered by unit tests, representative showcase pages expose collapsed data details panels for table-fallback review, and the [Accessibility QA protocol](accessibility-qa.md) defines the VoiceOver/TalkBack review path. The local automated baseline is recorded in [accessibility-local-baseline-2026-05-06.md](artifacts/accessibility-local-baseline-2026-05-06.md), and each assistive-tech/page row now has supporting iOS or Android capture artifacts. The owner also reported successful iOS VoiceOver and Android emulator preview smoke tests; Codex recorded those notes in [owner-smoke-notes-2026-05-10.md](artifacts/owner-smoke-notes-2026-05-10.md). The matrix still has partial rows because the missing evidence is a release-engineering native screen-reader pass across iOS and Android.
+Generated summaries and data table helpers are covered by unit tests, representative showcase pages expose collapsed data details panels for table-fallback review, and the owner reported a successful iOS VoiceOver smoke test. Codex recorded that note in [owner-smoke-notes-2026-05-10.md](artifacts/owner-smoke-notes-2026-05-10.md).
 
-Impact: accessibility helpers are present, but production beta/RC should not claim native assistive-technology behavior until release engineering records the native screen-reader evidence.
+Impact: accessibility helpers are present, but Developer Preview should disclose that TalkBack has not been tested yet.

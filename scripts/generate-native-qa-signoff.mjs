@@ -3,10 +3,19 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 
-import { buildReleaseQaStatus } from "./list-release-qa-status.mjs";
-
 const defaultOutputPath = "docs/release/native-qa-signoff-worksheet.md";
 const defaultRepoRoot = process.cwd();
+
+const markdown = [
+  "# Native QA Signoff Worksheet",
+  "",
+  "Deprecated.",
+  "",
+  "There is no active signoff worksheet. Use [Smoke Test Checks](smoke-test-checks.md).",
+  "",
+  "Owner feedback can be casual conversation. Release engineering or agents are responsible for recording useful notes.",
+  ""
+].join("\n");
 
 const parseArgs = (argv) => {
   const options = {
@@ -28,12 +37,8 @@ const parseArgs = (argv) => {
 
     if (arg === "--check") {
       options.check = true;
-    } else if (arg === "--matrix") {
-      options.matrix = readValue();
     } else if (arg === "--output") {
       options.outputPath = readValue();
-    } else if (arg === "--status") {
-      options.status = readValue();
     } else {
       throw new Error(`Unknown argument: ${arg}`);
     }
@@ -42,106 +47,10 @@ const parseArgs = (argv) => {
   return options;
 };
 
-const formatCounts = (counts) =>
-  Object.entries(counts)
-    .map(([status, count]) => `${status}=${count}`)
-    .join(", ");
-
-const formatList = (items, emptyText) =>
-  items.length > 0
-    ? items.map((item) => `- ${item}`).join("\n")
-    : `- ${emptyText}`;
-
-const formatRow = (row) =>
-  [
-    `### ${row.id}`,
-    "",
-    `Target: ${row.target}`,
-    "",
-    `Status: ${row.status}`,
-    "",
-    row.launchUrl ? `Launch: \`${row.launchUrl}\`` : "Launch: None",
-    "",
-    "Capture Helpers:",
-    "",
-    formatList(
-      row.captureCommands.map((command) => `\`${command}\``),
-      "No capture command available"
-    ),
-    "",
-    "Existing Evidence:",
-    "",
-    formatList(
-      row.evidence.map((item) => `\`${item}\``),
-      "No evidence recorded yet"
-    ),
-    "",
-    "Engineering Checks:",
-    "",
-    formatList(row.checks, "No checks listed"),
-    "",
-    "Record Command (release engineering only):",
-    "",
-    `\`${row.command}\``
-  ].join("\n");
-
-const formatSection = (section) =>
-  [
-    `## ${section.label}`,
-    "",
-    `Matrix: \`${section.matrixPath}\``,
-    "",
-    `Status: ${section.status}`,
-    "",
-    `Counts: ${formatCounts(section.counts)}`,
-    "",
-    section.openRows.length === 0
-      ? "No open rows."
-      : section.openRows.map(formatRow).join("\n\n")
-  ].join("\n");
-
-export const generateNativeQaSignoffWorksheet = async ({
-  matrixName,
-  repoRoot = defaultRepoRoot,
-  status
-} = {}) => {
-  const sections = await buildReleaseQaStatus({
-    includeDetails: true,
-    matrixName,
-    repoRoot,
-    status
-  });
-  const openRowCount = sections.reduce(
-    (count, section) => count + section.openRows.length,
-    0
-  );
-
-  return [
-    "# Native QA Evidence Backlog",
-    "",
-    "<!-- prettier-ignore-start -->",
-    "",
-    "This file is an engineering-owned evidence backlog, not an owner checklist. The owner is not expected to run row-by-row QA, fill long reports, or produce the artifacts below.",
-    "",
-    "Owner review should stay lightweight: a short smoke-test statement, the surfaces checked, and any blocking issues. Release engineering or an agent can use the rows below when preparing a stable release candidate.",
-    "",
-    `Open rows: ${openRowCount}`,
-    "",
-    "Use `npm run release:qa:record` only for rows a release engineer or agent actually verified with evidence links, reviewer metadata, device/build metadata, and notes.",
-    "",
-    ...sections.map(formatSection),
-    "",
-    "<!-- prettier-ignore-end -->",
-    ""
-  ].join("\n");
-};
+export const generateNativeQaSignoffWorksheet = () => markdown;
 
 const main = async () => {
   const options = parseArgs(process.argv.slice(2));
-  const markdown = await generateNativeQaSignoffWorksheet({
-    matrixName: options.matrix,
-    status: options.status
-  });
   const outputPath = path.join(defaultRepoRoot, options.outputPath);
 
   if (options.check) {
@@ -149,7 +58,7 @@ const main = async () => {
 
     if (current !== markdown) {
       console.error(
-        `${options.outputPath} is out of date. Run npm run release:qa:signoff.`
+        `${options.outputPath} is out of date. Run node scripts/generate-native-qa-signoff.mjs.`
       );
       process.exit(1);
     }

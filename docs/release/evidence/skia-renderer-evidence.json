@@ -3,8 +3,7 @@
   "status": "complete",
   "requiredFor": ["H4", "H5", "H6"],
   "lastUpdated": "2026-05-07",
-  "summary": "Skia renderer native install, renderer parity, and performance evidence matrix is complete.",
-  "matrix": "docs/release/evidence/skia-renderer-matrix.json",
+  "summary": "Skia renderer preview boundary, local parity, and native install/build evidence are complete for Developer Preview.",
   "completedEntries": [
     {
       "date": "2026-05-06",
@@ -37,21 +36,21 @@
         "scripts/run-skia-native-release-check.mjs",
         "scripts/run-skia-native-release-check.test.mjs"
       ],
-      "notes": "The optional-Skia native release helper plans and runs QA in a temporary workspace so @shopify/react-native-skia is not committed to the free showcase package. Native install, renderer parity, and performance rows are covered by the Skia matrix."
+      "notes": "The optional-Skia native release helper plans and runs checks in a temporary workspace so @shopify/react-native-skia is not committed to the free showcase package."
     },
     {
       "date": "2026-05-06",
       "scope": "android-native-install",
       "result": "partial-pass",
       "artifacts": ["docs/release/artifacts/android-skia-native-install.md"],
-      "notes": "Android temporary showcase app installed @shopify/react-native-skia@2.6.2, verified it with npm ls, configured the :shopify_react-native-skia Gradle project, and completed assembleRelease. This is install/build evidence only; renderer parity screenshots and Skia performance comparison are covered by separate matrix rows."
+      "notes": "Android temporary showcase app installed @shopify/react-native-skia@2.6.2, verified it with npm ls, configured the :shopify_react-native-skia Gradle project, and completed assembleRelease."
     },
     {
       "date": "2026-05-06",
       "scope": "ios-native-install",
       "result": "partial-pass",
       "artifacts": ["docs/release/artifacts/ios-skia-native-install.md"],
-      "notes": "iOS temporary showcase app installed @shopify/react-native-skia@2.6.2, verified it with npm ls, autolinked the react-native-skia CocoaPods target, and completed Release xcodebuild. This is install/build evidence only; renderer parity screenshots and Skia performance comparison are covered by separate matrix rows."
+      "notes": "iOS temporary showcase app installed @shopify/react-native-skia@2.6.2, verified it with npm ls, autolinked the react-native-skia CocoaPods target, and completed Release xcodebuild."
     },
     {
       "date": "2026-05-06",
@@ -61,7 +60,7 @@
         "docs/release/artifacts/ios-skia-renderer-build.md",
         "docs/release/artifacts/android-skia-renderer-build.md"
       ],
-      "notes": "Temporary iOS and Android showcase apps installed @shopify/react-native-skia@2.6.2, injected the Skia renderer through ChartKitProvider, typechecked the patched showcase, and completed Release native builds. This proves the injected renderer can bundle and build natively; screenshot parity, interaction review, and Skia performance comparisons are covered by separate matrix rows."
+      "notes": "Temporary iOS and Android showcase apps installed @shopify/react-native-skia@2.6.2, injected the Skia renderer through ChartKitProvider, typechecked the patched showcase, and completed Release native builds."
     }
   ],
   "coveredSurfaces": [

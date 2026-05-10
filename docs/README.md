@@ -33,15 +33,13 @@ These docs describe the current v2 preview implementation in this repository. Th
 
 ## Release
 
-- [Accessibility QA protocol](release/accessibility-qa.md)
 - [Developer Preview checklist](release/beta-checklist.md)
 - [H4 Pro scope decision packet](release/h4-pro-scope.md)
 - [H5 Developer Preview evidence](release/h5-beta-gate-evidence.md)
 - [H5 owner decision memo](release/h5-owner-decision-memo.md)
 - [Native release checks](release/native-release-checks.md)
 - [Native release results](release/native-release-results.md)
-- [Native performance benchmark protocol](release/native-performance-benchmark.md)
-- [Native runtime QA protocol](release/native-runtime-qa.md)
+- [Smoke test checks](release/smoke-test-checks.md)
 - [Known issues](release/known-issues.md)
 - [Completion audit](internal/completion-audit.md)
 - [Prompt-to-artifact checklist](internal/prompt-to-artifact-checklist.md)

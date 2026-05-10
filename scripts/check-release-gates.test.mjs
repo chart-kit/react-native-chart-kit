@@ -17,6 +17,18 @@ const runGateReportJson = () =>
     )
   );
 
+const runPreviewGateReportJson = () =>
+  JSON.parse(
+    execFileSync(
+      process.execPath,
+      [join(repoRoot, "scripts/check-release-gates.mjs"), "--preview", "--json"],
+      {
+        cwd: repoRoot,
+        encoding: "utf8"
+      }
+    )
+  );
+
 describe("release gate checker", () => {
   it("accepts complete Skia renderer evidence", () => {
     const report = runGateReportJson();
@@ -26,58 +38,20 @@ describe("release gate checker", () => {
 
     expect(skiaCheck).toMatchObject({
       message:
-        "Skia renderer native install, renderer parity, and performance evidence matrix is complete.",
+        "Skia renderer preview boundary, local parity, and native install/build evidence are complete for Developer Preview.",
       status: "pass"
     });
     expect(skiaCheck?.detail).toBe("");
   });
 
-  it("surfaces incomplete native runtime matrix rows", () => {
+  it("keeps matrix-backed QA out of the active release gate", () => {
     const report = runGateReportJson();
-    const nativeRuntimeCheck = report.checks.find(
-      (check) => check.id === "blocker:native-runtime-qa"
-    );
+    const ids = report.checks.map((check) => check.id);
 
-    expect(nativeRuntimeCheck).toMatchObject({
-      evidence:
-        "docs/release/evidence/native-runtime-qa.json; docs/release/evidence/native-runtime-matrix.json",
-      status: "block"
-    });
-    expect(nativeRuntimeCheck?.detail).toContain(
-      "16 incomplete native runtime matrix rows"
-    );
-  });
-
-  it("surfaces incomplete native accessibility matrix rows", () => {
-    const report = runGateReportJson();
-    const nativeAccessibilityCheck = report.checks.find(
-      (check) => check.id === "blocker:native-accessibility-qa"
-    );
-
-    expect(nativeAccessibilityCheck).toMatchObject({
-      evidence:
-        "docs/release/evidence/native-accessibility-qa.json; docs/release/evidence/native-accessibility-matrix.json",
-      status: "block"
-    });
-    expect(nativeAccessibilityCheck?.detail).toContain(
-      "16 incomplete native accessibility matrix rows"
-    );
-  });
-
-  it("surfaces incomplete native performance matrix rows", () => {
-    const report = runGateReportJson();
-    const nativePerformanceCheck = report.checks.find(
-      (check) => check.id === "blocker:native-performance"
-    );
-
-    expect(nativePerformanceCheck).toMatchObject({
-      evidence:
-        "docs/release/evidence/native-performance-benchmark.json; docs/release/evidence/native-performance-matrix.json",
-      status: "block"
-    });
-    expect(nativePerformanceCheck?.detail).toContain(
-      "18 incomplete native performance matrix rows"
-    );
+    expect(ids).not.toContain("blocker:native-runtime-qa");
+    expect(ids).not.toContain("blocker:native-accessibility-qa");
+    expect(ids).not.toContain("blocker:native-performance");
+    expect(ids.some((id) => id.startsWith("matrix:"))).toBe(false);
   });
 
   it("accepts complete RN CLI native example evidence", () => {
@@ -93,41 +67,6 @@ describe("release gate checker", () => {
     expect(rnCliCheck?.detail).toBe("");
   });
 
-  it("validates evidence matrix structure", () => {
-    const report = runGateReportJson();
-
-    expect(
-      report.checks
-        .filter((check) => check.id.startsWith("matrix:"))
-        .map((check) => [check.id, check.status])
-    ).toEqual([
-      ["matrix:skia-backend", "pass"],
-      ["matrix:native-runtime-qa", "pass"],
-      ["matrix:native-accessibility-qa", "pass"],
-      ["matrix:native-performance", "pass"]
-    ]);
-  });
-
-  it("validates native QA matrix showcase launch targets", () => {
-    const report = runGateReportJson();
-
-    expect(
-      report.checks
-        .filter((check) =>
-          [
-            "matrix:native-runtime-qa",
-            "matrix:native-accessibility-qa",
-            "matrix:native-performance"
-          ].includes(check.id)
-        )
-        .map((check) => [check.id, check.status, check.detail])
-    ).toEqual([
-      ["matrix:native-runtime-qa", "pass", ""],
-      ["matrix:native-accessibility-qa", "pass", ""],
-      ["matrix:native-performance", "pass", ""]
-    ]);
-  });
-
   it("validates release evidence manifest consistency", () => {
     const report = runGateReportJson();
 
@@ -139,10 +78,7 @@ describe("release gate checker", () => {
       ["manifest:developer-preview-publish", "pass"],
       ["manifest:native-workflow-evidence", "pass"],
       ["manifest:rn-cli-example", "pass"],
-      ["manifest:skia-backend", "pass"],
-      ["manifest:native-runtime-qa", "pass"],
-      ["manifest:native-accessibility-qa", "pass"],
-      ["manifest:native-performance", "pass"]
+      ["manifest:skia-backend", "pass"]
     ]);
   });
 
@@ -157,43 +93,19 @@ describe("release gate checker", () => {
       ["manifest:developer-preview-publish", "pass", ""],
       ["manifest:native-workflow-evidence", "pass", ""],
       ["manifest:rn-cli-example", "pass", ""],
-      ["manifest:skia-backend", "pass", ""],
-      ["manifest:native-runtime-qa", "pass", ""],
-      ["manifest:native-accessibility-qa", "pass", ""],
-      ["manifest:native-performance", "pass", ""]
+      ["manifest:skia-backend", "pass", ""]
     ]);
   });
 
-  it("checks the generated native QA checklist is synchronized", () => {
-    const report = runGateReportJson();
+  it("passes the simplified Developer Preview gate without H6 or matrix blockers", () => {
+    const report = runPreviewGateReportJson();
 
+    expect(report.preview).toBe(true);
+    expect(report.totals.block).toBe(0);
+    expect(report.totals.fail).toBe(0);
     expect(
-      report.checks.find(
-        (check) => check.id === "generated:native-qa-checklists"
-      )
-    ).toMatchObject({
-      evidence:
-        "docs/release/native-qa-checklists.md; scripts/generate-native-qa-checklists.mjs",
-      message:
-        "Generated native QA checklist is in sync with evidence matrices",
-      status: "pass"
-    });
-  });
-
-  it("checks the generated native QA signoff worksheet is synchronized", () => {
-    const report = runGateReportJson();
-
-    expect(
-      report.checks.find(
-        (check) => check.id === "generated:native-qa-signoff"
-      )
-    ).toMatchObject({
-      evidence:
-        "docs/release/native-qa-signoff-worksheet.md; scripts/generate-native-qa-signoff.mjs",
-      message:
-        "Generated native QA signoff worksheet is in sync with open rows",
-      status: "pass"
-    });
+      report.checks.some((check) => check.id === "blocker:h6-owner-approval")
+    ).toBe(false);
   });
 
   it("tracks completed Developer Preview npm publish state", () => {

@@ -49,7 +49,8 @@
       "evidence": [
         "docs/internal/completion-audit.md",
         "docs/release/h6-owner-decision-memo.md",
-        "docs/release/native-qa-target-policy.md"
+        "docs/release/smoke-test-checks.md",
+        "docs/release/artifacts/owner-smoke-notes-2026-05-10.md"
       ],
       "pendingDecisions": [
         "release candidate approval",
@@ -57,8 +58,7 @@
         "final changelog",
         "docs freeze",
         "visual baseline freeze",
-        "deprecation policy",
-        "native QA target policy"
+        "deprecation policy"
       ]
     }
   ]

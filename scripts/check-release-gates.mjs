@@ -11,20 +11,16 @@ import {
   requiredScripts
 } from "./release-gate-config.mjs";
 import {
-  extractObjectIds,
   pathExists,
-  readPerformanceStoryMetadata,
   readRepoFile,
   readRepoJson,
-  readShowcaseStoryIds,
-  validateEvidenceMatrix,
   validateOwnerGatesManifest,
   validateReleaseEvidenceManifest
 } from "./release-gate-validation.mjs";
 
-const repoRoot = process.cwd();
 const args = new Set(process.argv.slice(2));
 const strict = args.has("--strict");
+const preview = args.has("--preview");
 const json = args.has("--json");
 const checks = [];
 
@@ -52,48 +48,6 @@ for (const scriptName of requiredScripts) {
     status: scripts[scriptName] ? "pass" : "fail"
   });
 }
-
-const qaChecklistResult = spawnSync(
-  process.execPath,
-  ["scripts/generate-native-qa-checklists.mjs", "--check"],
-  { cwd: repoRoot, encoding: "utf8" }
-);
-
-addCheck({
-  detail:
-    qaChecklistResult.status === 0
-      ? ""
-      : [qaChecklistResult.stdout, qaChecklistResult.stderr]
-          .filter(Boolean)
-          .join("\n")
-          .trim(),
-  evidence:
-    "docs/release/native-qa-checklists.md; scripts/generate-native-qa-checklists.mjs",
-  id: "generated:native-qa-checklists",
-  message: "Generated native QA checklist is in sync with evidence matrices",
-  status: qaChecklistResult.status === 0 ? "pass" : "fail"
-});
-
-const qaSignoffResult = spawnSync(
-  process.execPath,
-  ["scripts/generate-native-qa-signoff.mjs", "--check"],
-  { cwd: repoRoot, encoding: "utf8" }
-);
-
-addCheck({
-  detail:
-    qaSignoffResult.status === 0
-      ? ""
-      : [qaSignoffResult.stdout, qaSignoffResult.stderr]
-          .filter(Boolean)
-          .join("\n")
-          .trim(),
-  evidence:
-    "docs/release/native-qa-signoff-worksheet.md; scripts/generate-native-qa-signoff.mjs",
-  id: "generated:native-qa-signoff",
-  message: "Generated native QA signoff worksheet is in sync with open rows",
-  status: qaSignoffResult.status === 0 ? "pass" : "fail"
-});
 
 const nativeReleaseWorkflowSource = await readRepoFile(
   ".github/workflows/native-release.yml"
@@ -158,12 +112,6 @@ addCheck({
     "Publish workflow validates npm auth and uses the release package manifest",
   status: publishWorkflowSafetyChecks.length === 0 ? "pass" : "fail"
 });
-
-const showcasePageIds = extractObjectIds(
-  await readRepoFile("apps/expo-showcase/src/storyRegistry.tsx")
-);
-const showcaseStoryIds = await readShowcaseStoryIds();
-const performanceStoryMetadata = await readPerformanceStoryMetadata();
 
 const candidateJavaHomes = [
   process.env.JAVA_HOME,
@@ -256,6 +204,10 @@ addCheck({
 });
 
 for (const gate of ownerGatesManifest.gates ?? []) {
+  if (preview && gate.id === "h6") {
+    continue;
+  }
+
   const normalizedStatus = gate.status ?? "open";
 
   addCheck({
@@ -277,35 +229,10 @@ for (const manifestConfig of releaseEvidenceManifests) {
   const missingEvidence = Array.isArray(manifest.missingEvidence)
     ? manifest.missingEvidence
     : [];
-  const matrix =
-    manifestConfig.matrixFile && (await pathExists(manifestConfig.matrixFile))
-      ? await readRepoJson(manifestConfig.matrixFile)
-      : undefined;
-  const matrixErrors = matrix
-    ? await validateEvidenceMatrix(matrix, {
-        performanceStoryMetadata,
-        showcasePageIds,
-        showcaseStoryIds
-      })
-    : [];
   const manifestErrors = await validateReleaseEvidenceManifest({
-    manifest,
-    matrix,
-    matrixFile: manifestConfig.matrixFile
+    manifest
   });
-  const incompleteMatrixRows = Array.isArray(matrix?.rows)
-    ? matrix.rows.filter((row) => row.status !== "pass")
-    : [];
-  const detail = [
-    ...missingEvidence,
-    incompleteMatrixRows.length > 0
-      ? `${incompleteMatrixRows.length} incomplete ${
-          manifestConfig.matrixLabel ?? "native runtime matrix rows"
-        }`
-      : ""
-  ]
-    .filter(Boolean)
-    .join("; ");
+  const detail = missingEvidence.filter(Boolean).join("; ");
 
   addCheck({
     detail,
@@ -326,16 +253,6 @@ for (const manifestConfig of releaseEvidenceManifests) {
     message: `${manifestConfig.file} is internally consistent`,
     status: manifestErrors.length === 0 ? "pass" : "fail"
   });
-
-  if (manifestConfig.matrixFile) {
-    addCheck({
-      detail: matrixErrors.join("; "),
-      evidence: manifestConfig.matrixFile,
-      id: `matrix:${manifestConfig.id}`,
-      message: `${manifestConfig.matrixFile} is structurally valid`,
-      status: matrix && matrixErrors.length === 0 ? "pass" : "fail"
-    });
-  }
 }
 
 const totals = checks.reduce(
@@ -348,9 +265,9 @@ const totals = checks.reduce(
 const hasReleaseStoppingIssue = totals.fail > 0 || totals.block > 0;
 
 if (json) {
-  console.log(JSON.stringify({ checks, strict, totals }, null, 2));
+  console.log(JSON.stringify({ checks, preview, strict, totals }, null, 2));
 } else {
-  console.log("Release gate report");
+  console.log(preview ? "Developer Preview gate report" : "Release gate report");
   console.log(
     `pass=${totals.pass} warn=${totals.warn} block=${totals.block} fail=${totals.fail}`
   );

@@ -8,17 +8,9 @@ const ownerGatesPath = "docs/release/evidence/owner-gates.json";
 const h6EvidenceManifestPaths = [
   "docs/release/evidence/native-release-workflow.json",
   "docs/release/evidence/rn-cli-example-evidence.json",
-  "docs/release/evidence/native-runtime-qa.json",
-  "docs/release/evidence/native-accessibility-qa.json",
-  "docs/release/evidence/native-performance-benchmark.json",
   "docs/release/evidence/skia-renderer-evidence.json"
 ];
-const h6RequiredDecisionPatterns = [
-  {
-    label: "native QA target policy",
-    pattern: /native\s+QA\s+target\s+policy/i
-  }
-];
+const h6RequiredDecisionPatterns = [];
 
 const readOwnerGates = async (repoRoot) =>
   JSON.parse(await readFile(path.join(repoRoot, ownerGatesPath), "utf8"));

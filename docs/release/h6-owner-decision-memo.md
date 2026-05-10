@@ -6,7 +6,7 @@ This memo converts the release-candidate gate into explicit choices. It is a rec
 
 Do not approve a stable release candidate yet.
 
-Reason: H6 still needs final semver, release notes, docs freeze, visual baseline freeze, deprecation policy, owner approval, and engineering-owned native QA evidence. Developer Preview is acceptable with disclosed gaps; stable RC should wait for summarized native runtime, accessibility, and performance evidence.
+Reason: H6 still needs final semver, release notes, docs freeze, visual baseline freeze, deprecation policy, and owner approval. Developer Preview is acceptable with disclosed gaps.
 
 ## Owner Review Scope
 
@@ -18,18 +18,15 @@ Owner approval should be short and product-focused:
 - approve, reject, or request targeted follow-up
 - give feedback in conversation; release engineering or an agent records any useful notes
 
-The detailed native QA matrix is for release engineering or agents. It should feed a concise risk summary for the owner, not become owner homework.
+There is no active matrix signoff path. Stable RC should use concise pass/fail smoke results and release-risk notes.
 
 ## Decision 1: RC Timing
 
-Recommendation: keep H6 `not-started` until the remaining evidence is complete or explicitly waived for a non-stable release type.
+Recommendation: keep H6 `not-started` until final release decisions are made.
 
 Required before stable RC:
 
-- engineering-owned native runtime QA summary
-- engineering-owned native accessibility QA summary
-- engineering-owned native performance summary
-- owner-approved native QA target policy
+- smoke-test risk summary accepted
 - final semver, changelog, docs freeze, visual baseline freeze, and deprecation policy decisions
 
 ## Decision 2: Final Semver
@@ -78,9 +75,9 @@ Recommendation:
 
 Keep H6 blocked until the release gate has no blockers.
 
-The recorder enforces H6 prerequisites: H4 and H5 must already be approved, and native workflow, RN CLI example, native runtime, native accessibility, native performance, and Skia evidence manifests must be complete. The currently open evidence work is native runtime, accessibility, and performance.
+The recorder enforces H6 prerequisites: H4 and H5 must already be approved, and native workflow, RN CLI example, and Skia evidence manifests must be complete.
 
-Use [native QA target policy](native-qa-target-policy.md), [native QA evidence backlog](native-qa-signoff-worksheet.md), or `npm run release:qa:status -- --status partial --details` when a release engineer or agent is collecting the remaining evidence. The owner should approve based on the resulting summary and known risks.
+Use [Smoke Test Checks](smoke-test-checks.md) for release-risk summary. Do not reintroduce row-by-row matrix completion as an approval requirement.
 
 ```sh
 npm run release:owner:record -- \
@@ -92,6 +89,5 @@ npm run release:owner:record -- \
   --decision "Final changelog approved." \
   --decision "Docs freeze approved." \
   --decision "Visual baseline freeze approved." \
-  --decision "Deprecation policy approved." \
-  --decision "Native QA target policy approved."
+  --decision "Deprecation policy approved."
 ```

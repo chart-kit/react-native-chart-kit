@@ -26,7 +26,7 @@ npm run benchmark
 npm run boundaries:check
 npm run surface:check
 npm run skia:parity
-npm run release:gate:report
+npm run release:preview:gate:report
 npm run docs:build
 npm run example:rn-cli:typecheck
 npm run native:release:dry-run
@@ -42,7 +42,8 @@ Manual example commands:
 - `npm run example:rn-cli:typecheck` verifies the non-Expo RN CLI app source and Metro import aliases.
 - `npm run native:release:dry-run` prints the generated native release-build commands without requiring local native projects.
 - `npm run native:release:android` and `npm run native:release:ios` run the release-build checks documented in [Native release checks](native-release-checks.md).
-- `npm run release:gate:report` prints the current release blockers without failing; `npm run release:gate` is the strict RC/stable gate and should fail until the blockers are resolved.
+- `npm run release:preview:gate:report` prints Developer Preview readiness without failing.
+- `npm run release:gate:report` prints RC/stable readiness; `npm run release:gate` is the strict RC/stable gate and should fail until H6 is approved.
 
 The `test:e2e` command covers web showcase interaction flows. The example commands are not native release-build checks and must not be counted as passing automated native coverage.
 
@@ -50,7 +51,7 @@ The `docs:build` command validates local links, balanced code fences, JS/TS mark
 
 The `pack:check` command runs `npm pack --dry-run --json --ignore-scripts` for every package in the release package manifest, using a repo-local temp npm cache. It verifies package names, package metadata, README files, built `dist` entrypoints, and the modern `pro-preview` subpath artifacts. The publish workflow reads the same manifest for the Developer Preview publish list so preview-only packages cannot be published by an unrelated hardcoded loop. Keep dependency packages before the root compatibility package in the manifest so scoped package access failures happen before the root package is published. After publishing, the workflow runs `npm run release:publish:status -- --strict` and creates the GitHub prerelease only if the npm registry shows the publishable packages under `next`, the preview-only packages unpublished, and the release does not already exist; idempotent reruns skip already-published package versions and existing releases.
 
-Use `npm run release:qa:status` to list every open runtime, accessibility, performance, and Skia evidence row with its launch target and recording command. These rows are a release-engineering backlog, not owner homework. Owner review for Developer Preview can be a short smoke-test signoff plus blockers. Release engineering or an agent can use `npm run release:qa:status -- --status partial --details`, [native QA evidence backlog](native-qa-signoff-worksheet.md), and `npm run release:qa:record` when preparing stable RC evidence. The recorder rejects `pass` rows without evidence links, reviewer/device/build metadata, notes, or missing repo-relative evidence files and regenerates [native QA checklist](native-qa-checklists.md).
+Use [Smoke Test Checks](smoke-test-checks.md) for preview review. Do not use native QA matrices, row checklists, or owner reports as the path to Developer Preview completion.
 
 Use `npm run release:native-workflow:record -- --list` to inspect native release workflow evidence. After a green workflow run, record the run URL, commit, and both platform artifact links with `--run-url`, `--commit`, `--ios-artifact`, and `--android-artifact`.
 
@@ -74,9 +75,8 @@ Use `npm run release:owner:record -- --list` to inspect H4/H5/H6 owner gates. Ow
 ## Release Artifacts
 
 - [Accessibility QA protocol](accessibility-qa.md)
-- [Native QA checklist](native-qa-checklists.md)
-- [Native QA signoff worksheet](native-qa-signoff-worksheet.md)
-- [Native QA target policy](native-qa-target-policy.md)
+- [Smoke test checks](smoke-test-checks.md)
+- [Owner smoke notes](artifacts/owner-smoke-notes-2026-05-10.md)
 - [Native performance benchmark protocol](native-performance-benchmark.md)
 - [Native runtime QA protocol](native-runtime-qa.md)
 - [Migration guide](../migration/from-v1.md)

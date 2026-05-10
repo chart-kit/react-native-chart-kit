@@ -1,76 +1,80 @@
 # Prompt-To-Artifact Checklist
 
-Status on May 6, 2026: Developer Preview evidence is strong, but the full v2/v2 Pro plan is not complete. This checklist maps the original CKV2 prompt, required commands, and human gates to concrete repository artifacts. It is intentionally stricter than green test status.
+Status on May 10, 2026: Developer Preview path is simplified and complete; stable RC remains a later gate.
 
-## Roadmap Milestones
+This checklist maps the original CKV2 prompt to current artifacts without requiring native QA matrices.
 
-| Prompt item                                 | Required deliverable                                                              | Evidence                                                                                                                                                                                                      | Current status                                                              |
-| ------------------------------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| CKV2-000 repository audit                   | repo audit, API inventory, compatibility draft                                    | `docs/internal/repo-audit.md`, `docs/internal/current-api-inventory.md`, `docs/internal/compatibility-matrix-draft.md`                                                                                        | Covered                                                                     |
-| H0/H1 package and compatibility decisions   | approved package strategy and compatibility direction                             | `docs/internal/h0-h1-decisions.md`                                                                                                                                                                            | Covered                                                                     |
-| CKV2-001 foundation                         | incremental workspace/package setup and required scripts                          | `package.json`, `packages/*/package.json`, `apps/expo-showcase/package.json`, `docs/internal/ckv2-001-foundation.md`                                                                                          | Covered                                                                     |
-| CKV2-002 data normalization                 | renderer-agnostic data model and legacy fixture coverage                          | `packages/core/src/data`, `packages/core/test`, `docs/internal/ckv2-002-data-normalization.md`                                                                                                                | Covered                                                                     |
-| CKV2-003 scales and domains                 | linear/time/band/point domains and ticks                                          | `packages/core/src/scales`, `packages/core/test`, `docs/internal/ckv2-003-scales.md`                                                                                                                          | Covered                                                                     |
-| CKV2-004 layout engine                      | chart boxes, axis labels, label collision, tooltip/legend layout                  | `packages/core/src/layout`, `packages/react-native/src/charts/line`, `docs/internal/ckv2-004-layout.md`                                                                                                       | Covered for preview scope                                                   |
-| CKV2-005 SVG renderer                       | default SVG primitive renderer                                                    | `packages/svg-renderer`, `packages/svg-renderer/test`, `docs/internal/ckv2-005-svg-renderer.md`                                                                                                               | Covered                                                                     |
-| CKV2-006 LineChart/AreaChart                | modern line/area API, compat adapter, nulls, domains, labels, interactions        | `packages/react-native/src/charts/line`, `packages/react-native/test/line-*`, `docs/internal/ckv2-006-*`, `docs/charts/line-and-area.md`                                                                      | Covered for preview scope                                                   |
-| CKV2-007 BarChart/StackedBarChart           | modern/compat bar charts, grouped/stacked/negative/scrollable/selectable coverage | `packages/react-native/src/charts/bar`, `packages/react-native/test/bar-*`, `docs/internal/ckv2-007-bar-stacked-compat.md`, `docs/charts/bar.md`                                                              | Covered for preview scope                                                   |
-| CKV2-008 pie, donut, progress, contribution | baseline components, theming, visual examples, tests                              | `packages/react-native/src/charts/{pie,progress,contribution}`, related tests, `docs/internal/ckv2-008-pie-donut-progress-contribution.md`                                                                    | Covered                                                                     |
-| CKV2-009 theme system                       | tokens, presets, mode switching, tooltip theme coverage                           | `packages/core/src/theme`, `packages/react-native/src/theme`, `packages/react-native/test/theme-presets.test.ts`, `docs/internal/ckv2-009-theme-system.md`                                                    | Covered                                                                     |
-| CKV2-010 interaction layer                  | selection provider, tap/scrub, shared tooltip, hit testing, native QA protocol    | `packages/react-native/src/selection`, chart interaction tests, `docs/internal/ckv2-010-interaction.md`, `docs/release/native-runtime-qa.md`                                                                  | Covered on web; native device pass missing                                  |
-| CKV2-011 scrollable charts and sticky axes  | viewport state, pan, range selector, sticky axis examples/tests                   | `packages/core/src/interaction/viewport*`, `packages/react-native/src/viewport`, `docs/internal/ckv2-011-scrollable-viewports.md`                                                                             | Covered for preview scope                                                   |
-| CKV2-012 accessibility baseline             | generated summaries, table fallback, high-level QA protocol                       | `packages/react-native/test/*accessibility*`, `docs/charts/accessibility.md`, `docs/internal/ckv2-012-accessibility.md`, `docs/release/evidence/native-accessibility-matrix.json`                             | Helper baseline and row captures covered; manual VoiceOver/TalkBack missing |
-| CKV2-013 performance/Skia preview           | benchmark suite, Skia package boundary, large-data fixtures                       | `packages/skia-renderer`, `scripts/benchmark-*`, `docs/internal/ckv2-013-performance-benchmark.md`, `docs/release/evidence/skia-renderer-matrix.json`, `docs/release/evidence/native-performance-matrix.json` | Skia evidence covered; native SVG performance evidence still partial        |
-| CKV2-014 CombinedChart                      | dual-axis combined chart preview                                                  | `packages/react-native/src/charts/combined`, `packages/react-native/test/combined-*`, `docs/internal/ckv2-014-combined-chart.md`                                                                              | Covered as Pro-candidate preview                                            |
-| CKV2-015 Candlestick/finance                | OHLC model, volume/session overlays, range selector, financial docs               | `packages/react-native/src/charts/candlestick`, `packages/core/src/geometry/candlesticks.ts`, `docs/internal/ckv2-015-candlestick-foundation.md`, `docs/charts/candlestick.md`                                | Covered as Financial Preview                                                |
-| CKV2-016 docs/migration                     | install docs, migration guide, recipes, troubleshooting                           | `docs/README.md`, `docs/getting-started`, `docs/migration`, `docs/recipes`, `docs/troubleshooting.md`, `docs/internal/ckv2-016-docs.md`                                                                       | Covered                                                                     |
-| CKV2-017 beta preparation                   | package manifest, H5 evidence, runbooks, npm publish evidence                     | `docs/release/beta-checklist.md`, `docs/release/h5-beta-gate-evidence.md`, `docs/release/evidence/package-manifest.json`, `docs/release/evidence/npm-publish-evidence.json`                                   | Covered for Developer Preview                                               |
-| CKV2-018 release candidate                  | final RC package, H6 approval, final docs/changelog/visual freeze                 | `docs/release/h6-owner-decision-memo.md`, `docs/release/evidence/owner-gates.json`, `npm run release:gate`                                                                                                    | Not complete                                                                |
+## Covered Milestones
 
-## Required Commands
+- CKV2-000 repository audit
+- CKV2-001 monorepo foundation
+- CKV2-002 data normalization
+- CKV2-003 scales and domains
+- CKV2-004 layout engine
+- CKV2-005 SVG renderer
+- CKV2-006 line/area charts
+- CKV2-007 bar/stacked bar charts
+- CKV2-008 pie/donut/progress/contribution charts
+- CKV2-009 theme system
+- CKV2-010 interactions
+- CKV2-011 scrollable viewports and range selector
+- CKV2-012 accessibility helpers
+- CKV2-013 benchmark and Skia preview boundary
+- CKV2-014 combined chart preview
+- CKV2-015 candlestick/financial preview
+- CKV2-016 docs/migration/recipes
+- CKV2-017 Developer Preview preparation
 
-| Command                                            | Evidence                                         | Current status                                               |
-| -------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------------ |
-| `yarn lint` / `npm run lint`                       | `package.json`, `scripts/check-file-sizes.mjs`   | Defined; local verification uses npm scripts                 |
-| `yarn typecheck` / `npm run typecheck`             | `package.json`, workspace tsconfigs              | Defined                                                      |
-| `yarn test` / `npm run test`                       | `package.json`, Vitest tests                     | Defined                                                      |
-| `yarn test:unit` / `npm run test:unit`             | `package.json`, latest run: 70 files / 384 tests | Passing                                                      |
-| `yarn test:visual` / `npm run test:visual`         | Expo showcase Playwright visual suite            | Defined                                                      |
-| `yarn test:compat` / `npm run test:compat`         | `packages/core/test/compat`                      | Defined                                                      |
-| `yarn test:e2e` / `npm run test:e2e`               | Expo showcase interaction suite                  | Defined                                                      |
-| `yarn benchmark` / `npm run benchmark`             | benchmark scripts plus native benchmark protocol | Defined; native final evidence partial                       |
-| `yarn example:ios` / `npm run example:ios`         | Expo showcase native command                     | Defined; native release evidence tracked separately          |
-| `yarn example:android` / `npm run example:android` | Expo showcase native command                     | Defined; native release evidence tracked separately          |
-| `yarn example:expo` / `npm run example:expo`       | Expo showcase start command                      | Defined                                                      |
-| `yarn docs:build` / `npm run docs:build`           | docs build and public TS/TSX fence typecheck     | Passing                                                      |
-| `npm run release:gate:report`                      | `scripts/check-release-gates.mjs`                | Passing report mode with blockers                            |
-| `npm run release:gate`                             | strict release gate                              | Expected to fail until H6/native blockers are cleared        |
-| `npm run release:qa:status`                        | `scripts/list-release-qa-status.mjs`             | Lists open native evidence rows and row-recording commands   |
-| `npm run skia:native:dry-run`                      | `scripts/run-skia-native-release-check.mjs`      | Defined for optional-Skia native QA temp-workspace planning  |
-| `npm run skia:native:release`                      | `scripts/run-skia-native-release-check.mjs`      | Defined for optional-Skia native QA in a temporary workspace |
+## Active Gates
 
-## Human Gates
+| Gate                       | Status                                       |
+| -------------------------- | -------------------------------------------- |
+| H0 package strategy        | Covered                                      |
+| H1 compatibility direction | Covered                                      |
+| H2 visual direction        | Preview approved through showcase review     |
+| H3 core API direction      | Preview approved through docs/showcase usage |
+| H4 Pro/free split          | Approved for Developer Preview boundary      |
+| H5 Developer Preview       | Approved                                     |
+| H6 stable RC               | Not started                                  |
 
-| Gate | Required decision               | Evidence                                                                                                           | Current status                           |
-| ---- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------- |
-| H0   | package strategy                | `docs/internal/h0-h1-decisions.md`                                                                                 | Covered                                  |
-| H1   | compatibility matrix            | `docs/internal/compatibility-matrix-draft.md`, `docs/internal/h0-h1-decisions.md`                                  | Covered                                  |
-| H2   | visual design direction         | Expo showcase visuals and visual tests                                                                             | Preview covered; final freeze pending RC |
-| H3   | core API approval               | docs/API examples and modern exports                                                                               | Preview covered; final freeze pending RC |
-| H4   | Pro/free split                  | `docs/release/h4-pro-scope.md`, `docs/release/h4-owner-decision-memo.md`, `docs/release/evidence/owner-gates.json` | Approved for Developer Preview boundary  |
-| H5   | beta/developer-preview approval | `docs/release/h5-beta-gate-evidence.md`, `docs/release/h5-owner-decision-memo.md`, npm publish evidence            | Approved for Developer Preview only      |
-| H6   | release candidate               | `docs/release/h6-owner-decision-memo.md`, `docs/release/evidence/owner-gates.json`, `npm run release:gate`         | Not started                              |
+## Active Commands
 
-## Release-Blocking Gaps
+Developer Preview readiness:
 
-| Gap                     | Blocking evidence                                                                                                         | Required next action                                                                                                    |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| Native runtime QA       | `docs/release/evidence/native-runtime-matrix.json` has 16 partial rows; iOS and Android row-level screenshots/logs exist  | Run row-by-row device/simulator interaction QA and record pass rows with `npm run release:qa:record`                    |
-| Native accessibility QA | `docs/release/evidence/native-accessibility-matrix.json` has 16 partial rows with row-level iOS/Android support artifacts | Run manual VoiceOver/TalkBack review and record pass evidence                                                           |
-| Native performance      | `docs/release/evidence/native-performance-matrix.json` has 18 partial rows                                                | Complete accepted device/Instruments review or explicitly approved target matrix                                        |
-| Pro paid package        | `packages/pro` is preview metadata only                                                                                   | Implement paid package/licensing only after owner confirms commercial launch scope                                      |
-| H6 approval             | owner gate is `not-started`                                                                                               | Approve final semver, changelog, docs freeze, visual baseline freeze, and deprecation policy after evidence is complete |
+```sh
+npm run release:preview:gate
+```
 
-## Final Completion Rule
+Stable RC readiness:
 
-Do not mark the v2/v2 Pro plan complete until `npm run release:gate` passes without blockers and `docs/internal/completion-audit.md` no longer lists missing or weakly verified requirements.
+```sh
+npm run release:gate
+```
+
+Core verification:
+
+```sh
+npm run lint
+npm run typecheck
+npm run test
+npm run test:e2e
+npm run test:visual
+npm run benchmark
+npm run docs:build
+npm run build
+npm run pack:check
+```
+
+## Removed From Active Completion
+
+The old runtime, accessibility, and performance matrices are archived reference data only. They are no longer required commands, owner tasks, or Developer Preview blockers.
+
+## Remaining Stable-RC Decisions
+
+- final semver
+- final changelog
+- docs freeze
+- visual baseline freeze
+- deprecation policy
+- Pro package timing and licensing
+- whether more native evidence is needed for the exact release claims

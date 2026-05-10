@@ -38,7 +38,7 @@ iOS release-build evidence is captured in [rn-cli-ios-release.log](artifacts/rn-
 
 iOS release runtime smoke evidence is captured in [rn-cli-ios-runtime-smoke.png](artifacts/rn-cli-ios-runtime-smoke.png). It shows a Release iphonesimulator build of the generated RN CLI app rendering Chart Kit v2 line and bar charts without the Expo runtime.
 
-The RN CLI evidence is intentionally scoped to a plain native app build and runtime smoke. Full gesture, accessibility, and performance behavior remain tracked by the native runtime, accessibility, and performance evidence matrices.
+The RN CLI evidence is intentionally scoped to a plain native app build and runtime smoke. Broader gesture, accessibility, and performance behavior is summarized through [Smoke Test Checks](smoke-test-checks.md) and release-risk notes.
 
 ## Required Native Evidence
 

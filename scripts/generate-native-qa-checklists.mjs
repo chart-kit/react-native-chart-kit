@@ -3,375 +3,79 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 
-import { createShowcaseLaunchUrl } from "./native-showcase-launch-url.mjs";
-
+const defaultOutputPath = "docs/release/native-qa-checklists.md";
 const defaultRepoRoot = process.cwd();
-const outputPath = "docs/release/native-qa-checklists.md";
-const matrixPaths = {
-  accessibility: "docs/release/evidence/native-accessibility-matrix.json",
-  performance: "docs/release/evidence/native-performance-matrix.json",
-  runtime: "docs/release/evidence/native-runtime-matrix.json",
-  skia: "docs/release/evidence/skia-renderer-matrix.json"
-};
 
-const statusOrder = [
-  "pass",
-  "partial",
-  "pending",
-  "blocked",
-  "fail",
-  "not-applicable"
-];
+const markdown = [
+  "# Native QA Checklists",
+  "",
+  "Deprecated.",
+  "",
+  "The matrix-based native QA checklist is no longer part of the active release process. Use [Smoke Test Checks](smoke-test-checks.md) for Developer Preview and summarize any stable-RC evidence as pass/fail results plus release risk.",
+  "",
+  "Do not ask the owner to complete row-by-row native QA.",
+  ""
+].join("\n");
 
-const readRepoJson = async (repoRoot, relativePath) =>
-  JSON.parse(await readFile(path.join(repoRoot, relativePath), "utf8"));
+const parseArgs = (argv) => {
+  const options = {
+    outputPath: defaultOutputPath
+  };
 
-const toIdMap = (items = []) => new Map(items.map((item) => [item.id, item]));
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = argv[index];
+    const readValue = () => {
+      const value = argv[index + 1];
 
-const escapeTableValue = (value) =>
-  String(value ?? "")
-    .replaceAll("|", "\\|")
-    .replaceAll("\n", " ");
+      if (!value || value.startsWith("--")) {
+        throw new Error(`${arg} requires a value`);
+      }
 
-const formatEvidence = (evidence = []) =>
-  evidence.length > 0
-    ? evidence.map((item) => `\`${item}\``).join(", ")
-    : "None";
+      index += 1;
+      return value;
+    };
 
-const formatExpectedStoryMetrics = (metrics) => {
-  if (!metrics) {
-    return "";
+    if (arg === "--check") {
+      options.check = true;
+    } else if (arg === "--output") {
+      options.outputPath = readValue();
+    } else {
+      throw new Error(`Unknown argument: ${arg}`);
+    }
   }
 
-  return [
-    metrics.chartType && `chart ${metrics.chartType}`,
-    Number.isFinite(metrics.totalPoints) &&
-      `${metrics.totalPoints.toLocaleString("en-US")} total`,
-    Number.isFinite(metrics.visiblePoints) &&
-      `${metrics.visiblePoints.toLocaleString("en-US")} visible`,
-    Number.isFinite(metrics.seriesCount) &&
-      `${metrics.seriesCount.toLocaleString("en-US")} series`
-  ]
-    .filter(Boolean)
-    .join("; ");
+  return options;
 };
 
-const countRowsByStatus = (rows = []) => {
-  const counts = Object.fromEntries(statusOrder.map((status) => [status, 0]));
-
-  for (const row of rows) {
-    counts[row.status] = (counts[row.status] ?? 0) + 1;
-  }
-
-  return counts;
-};
-
-const formatStatusSummary = (label, matrix) => {
-  const counts = countRowsByStatus(matrix.rows);
-  const total = matrix.rows?.length ?? 0;
-
-  return `| ${label} | ${total} | ${counts.pass} | ${counts.partial} | ${counts.pending} | ${counts.blocked} | ${counts.fail} | ${counts["not-applicable"]} |`;
-};
-
-const formatCheckGroups = (checkGroups = {}) =>
-  Object.entries(checkGroups)
-    .map(([groupId, checks]) =>
-      [
-        `### \`${groupId}\``,
-        "",
-        ...checks.map((check) => `- [ ] ${check}`)
-      ].join("\n")
-    )
-    .join("\n\n");
-
-const getPageGroups = (page) =>
-  (page?.requiredCheckGroups ?? [])
-    .map((groupId) => `\`${groupId}\``)
-    .join(", ");
-
-const getShowcaseLaunchUrl = (page) => {
-  if (!page?.showcasePageId) {
-    return "";
-  }
-
-  return createShowcaseLaunchUrl({ pageId: page.showcasePageId });
-};
-
-const getStoryLaunchUrl = (storyId) => {
-  if (!storyId) {
-    return "";
-  }
-
-  return createShowcaseLaunchUrl({ storyId });
-};
-
-const formatShowcaseTargets = (targets = []) =>
-  targets.length > 0
-    ? targets
-        .map((target) => target.label ?? target.storyId ?? target.pageId)
-        .filter(Boolean)
-        .join(", ")
-    : "";
-
-const formatShowcaseTargetLinks = (targets = []) =>
-  targets.length > 0
-    ? targets
-        .map((target) =>
-          createShowcaseLaunchUrl({
-            pageId: target.pageId,
-            storyId: target.storyId,
-            viewId: target.viewId
-          })
-        )
-        .filter(Boolean)
-        .join(", ")
-    : "";
-
-const formatRuntimeRows = (matrix) => {
-  const platforms = toIdMap(matrix.platforms);
-  const pages = toIdMap(matrix.pages);
-  const lines = [
-    "| Row | Target | Build Surface | Showcase Page | Deep Link | Check Groups | Status | Evidence |",
-    "| --- | --- | --- | --- | --- | --- | --- | --- |"
-  ];
-
-  for (const row of matrix.rows) {
-    const platform = platforms.get(row.platform);
-    const page = pages.get(row.pageId);
-    lines.push(
-      [
-        `\`${row.id}\``,
-        `${platform?.label ?? row.platform} / ${page?.title ?? row.pageId}`,
-        platform?.requiredBuildSurface ?? "",
-        page?.showcasePageId ? `\`${page.showcasePageId}\`` : "",
-        getShowcaseLaunchUrl(page),
-        getPageGroups(page),
-        row.status,
-        formatEvidence(row.evidence)
-      ]
-        .map(escapeTableValue)
-        .join(" | ")
-        .replace(/^/, "| ")
-        .replace(/$/, " |")
-    );
-  }
-
-  return lines.join("\n");
-};
-
-const formatAccessibilityRows = (matrix) => {
-  const assistiveTech = toIdMap(matrix.assistiveTech);
-  const pages = toIdMap(matrix.pages);
-  const lines = [
-    "| Row | Target | Build Surface | Showcase Page | Deep Link | Check Groups | Status | Evidence |",
-    "| --- | --- | --- | --- | --- | --- | --- | --- |"
-  ];
-
-  for (const row of matrix.rows) {
-    const tech = assistiveTech.get(row.assistiveTechId);
-    const page = pages.get(row.pageId);
-    lines.push(
-      [
-        `\`${row.id}\``,
-        `${tech?.label ?? row.assistiveTechId} / ${page?.title ?? row.pageId}`,
-        tech?.requiredBuildSurface ?? "",
-        page?.showcasePageId ? `\`${page.showcasePageId}\`` : "",
-        getShowcaseLaunchUrl(page),
-        getPageGroups(page),
-        row.status,
-        formatEvidence(row.evidence)
-      ]
-        .map(escapeTableValue)
-        .join(" | ")
-        .replace(/^/, "| ")
-        .replace(/$/, " |")
-    );
-  }
-
-  return lines.join("\n");
-};
-
-const formatPerformanceRows = (matrix) => {
-  const platforms = toIdMap(matrix.platforms);
-  const scenarios = toIdMap(matrix.scenarios);
-  const lines = [
-    "| Row | Target | Scenario | Data Size | Expected Story Metrics | Interaction | Showcase Story | Deep Link | Status | Evidence |",
-    "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"
-  ];
-
-  for (const row of matrix.rows) {
-    const platform = platforms.get(row.platform);
-    const scenario = scenarios.get(row.scenarioId);
-    lines.push(
-      [
-        `\`${row.id}\``,
-        `${platform?.label ?? row.platform} / ${row.renderer}`,
-        scenario?.label ?? row.scenarioId,
-        scenario?.requiredDataSize ?? "",
-        formatExpectedStoryMetrics(scenario?.expectedStoryMetrics),
-        scenario?.interaction ?? "",
-        scenario?.showcaseStoryId ? `\`${scenario.showcaseStoryId}\`` : "",
-        getStoryLaunchUrl(scenario?.showcaseStoryId),
-        row.status,
-        formatEvidence(row.evidence)
-      ]
-        .map(escapeTableValue)
-        .join(" | ")
-        .replace(/^/, "| ")
-        .replace(/$/, " |")
-    );
-  }
-
-  return lines.join("\n");
-};
-
-const formatSkiaRows = (matrix) => {
-  const platforms = toIdMap(matrix.platforms);
-  const scenarios = toIdMap(matrix.scenarios);
-  const lines = [
-    "| Row | Target | Build Surface | Required Evidence | Showcase Targets | Deep Links | Status | Evidence |",
-    "| --- | --- | --- | --- | --- | --- | --- | --- |"
-  ];
-
-  for (const row of matrix.rows) {
-    const platform = platforms.get(row.platform);
-    const scenario = scenarios.get(row.scenarioId);
-    lines.push(
-      [
-        `\`${row.id}\``,
-        `${platform?.label ?? row.platform} / ${scenario?.label ?? row.scenarioId}`,
-        platform?.requiredBuildSurface ?? "",
-        scenario?.requiredEvidence ?? "",
-        formatShowcaseTargets(scenario?.showcaseTargets),
-        formatShowcaseTargetLinks(scenario?.showcaseTargets),
-        row.status,
-        formatEvidence(row.evidence)
-      ]
-        .map(escapeTableValue)
-        .join(" | ")
-        .replace(/^/, "| ")
-        .replace(/$/, " |")
-    );
-  }
-
-  return lines.join("\n");
-};
-
-export const generateNativeQaChecklist = async ({
-  repoRoot = defaultRepoRoot
-} = {}) => {
-  const [runtime, accessibility, performance, skia] = await Promise.all([
-    readRepoJson(repoRoot, matrixPaths.runtime),
-    readRepoJson(repoRoot, matrixPaths.accessibility),
-    readRepoJson(repoRoot, matrixPaths.performance),
-    readRepoJson(repoRoot, matrixPaths.skia)
-  ]);
-  const latestUpdated = [runtime, accessibility, performance, skia]
-    .map((matrix) => matrix.lastUpdated)
-    .sort()
-    .at(-1);
-
-  return [
-    "# Native QA Checklists",
-    "",
-    "<!-- prettier-ignore-start -->",
-    "",
-    `Generated from native and Skia evidence matrices last updated ${latestUpdated}. Regenerate with \`npm run release:qa:checklists\`. This is a release-engineering matrix, not an owner checklist. Owner review is limited to short smoke-test signoff and blocking issues. Release engineering or an agent can capture a row screenshot with \`npm run release:qa:capture -- --matrix runtime --row ios-line-charts --platform ios --output docs/release/artifacts/example.png\`, then record row evidence with \`npm run release:qa:record -- --matrix runtime --row ios-line-charts --status pass --evidence docs/release/artifacts/example.png --reviewed-by QA --device "iPhone 17 simulator / iOS 26.0" --build-surface "Release simulator build" --notes "Runtime checks passed"\` or \`--matrix skia\` for Skia rows. Do not mark a row as \`pass\` without evidence links, review metadata, and notes in the source matrix.`,
-    "",
-    "## Matrix Summary",
-    "",
-    "| Matrix | Rows | Pass | Partial | Pending | Blocked | Fail | Not Applicable |",
-    "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
-    formatStatusSummary("Runtime QA", runtime),
-    formatStatusSummary("Accessibility QA", accessibility),
-    formatStatusSummary("Native Performance", performance),
-    formatStatusSummary("Skia Renderer", skia),
-    "",
-    "## Runtime QA",
-    "",
-    `Source: [${runtime.source}](${path.relative("docs/release", runtime.source)}) and [${matrixPaths.runtime}](evidence/native-runtime-matrix.json).`,
-    "",
-    "### Runtime Check Groups",
-    "",
-    formatCheckGroups(runtime.checkGroups),
-    "",
-    "### Runtime Rows",
-    "",
-    formatRuntimeRows(runtime),
-    "",
-    "## Accessibility QA",
-    "",
-    `Source: [${accessibility.source}](${path.relative(
-      "docs/release",
-      accessibility.source
-    )}) and [${matrixPaths.accessibility}](evidence/native-accessibility-matrix.json).`,
-    "",
-    "### Accessibility Check Groups",
-    "",
-    formatCheckGroups(accessibility.checkGroups),
-    "",
-    "### Accessibility Rows",
-    "",
-    formatAccessibilityRows(accessibility),
-    "",
-    "## Native Performance",
-    "",
-    `Source: [${performance.source}](${path.relative(
-      "docs/release",
-      performance.source
-    )}) and [${matrixPaths.performance}](evidence/native-performance-matrix.json).`,
-    "",
-    "### Metrics To Capture",
-    "",
-    ...performance.metrics.map((metric) => `- [ ] ${metric}`),
-    "",
-    "### Performance Rows",
-    "",
-    formatPerformanceRows(performance),
-    "",
-    "### Deferred Rows",
-    "",
-    ...(performance.deferredRows ?? []).map(
-      (row) =>
-        `- \`${row.renderer}\`: ${row.status}. ${row.reason ?? "No reason recorded."}`
-    ),
-    "",
-    "## Skia Renderer",
-    "",
-    `Source: [${skia.source}](${path.relative("docs/release", skia.source)}) and [${matrixPaths.skia}](evidence/skia-renderer-matrix.json).`,
-    "",
-    "### Skia Rows",
-    "",
-    formatSkiaRows(skia),
-    "",
-    "<!-- prettier-ignore-end -->",
-    ""
-  ].join("\n");
-};
+export const generateNativeQaChecklist = () => markdown;
 
 const main = async () => {
-  const args = new Set(process.argv.slice(2));
-  const markdown = await generateNativeQaChecklist();
-  const absoluteOutputPath = path.join(defaultRepoRoot, outputPath);
+  const options = parseArgs(process.argv.slice(2));
+  const outputPath = path.join(defaultRepoRoot, options.outputPath);
 
-  if (args.has("--check")) {
-    const current = await readFile(absoluteOutputPath, "utf8");
+  if (options.check) {
+    const current = await readFile(outputPath, "utf8");
 
     if (current !== markdown) {
       console.error(
-        `${outputPath} is out of date. Run npm run release:qa:checklists.`
+        `${options.outputPath} is out of date. Run node scripts/generate-native-qa-checklists.mjs.`
       );
       process.exit(1);
     }
 
-    console.log(`${outputPath} is up to date.`);
+    console.log(`${options.outputPath} is up to date.`);
     return;
   }
 
-  await writeFile(absoluteOutputPath, markdown, "utf8");
-  console.log(`Wrote ${outputPath}.`);
+  await writeFile(outputPath, markdown, "utf8");
+  console.log(`Wrote ${options.outputPath}.`);
 };
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  await main();
+  try {
+    await main();
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exitCode = 1;
+  }
 }
