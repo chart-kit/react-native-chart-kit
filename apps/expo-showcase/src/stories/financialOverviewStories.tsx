@@ -132,22 +132,50 @@ const CandleIntervalControl = ({
     </View>
   );
 };
-const sessionEventCandles = [
-  { day: "2026-11-25", open: 212, high: 219, low: 208, close: 216, volume: 86 },
-  { day: "2026-11-27", open: 216, high: 224, low: 213, close: 222, volume: 58 },
-  { day: "2026-11-30", open: 222, high: 225, low: 214, close: 217, volume: 94 },
-  {
-    day: "2026-12-01",
-    open: 217,
-    high: 229,
-    low: 216,
-    close: 227,
-    volume: 104
-  },
-  { day: "2026-12-02", open: 227, high: 231, low: 220, close: 224, volume: 98 }
-];
+const addUtcDays = (date: Date, days: number) =>
+  new Date(date.getTime() + days * 24 * 60 * 60 * 1000);
+const isTradingWeekday = (date: Date) => {
+  const day = date.getUTCDay();
+
+  return day !== 0 && day !== 6;
+};
+const createSessionEventCandles = () => {
+  const candles = [];
+  let date = new Date(Date.UTC(2026, 10, 9));
+  const end = new Date(Date.UTC(2026, 11, 11));
+  let price = 214;
+
+  while (date.getTime() <= end.getTime()) {
+    const day = date.toISOString().slice(0, 10);
+
+    if (isTradingWeekday(date) && day !== "2026-11-26") {
+      const index = candles.length;
+      const open = price + Math.sin(index / 3) * 1.4;
+      const move = Math.sin(index / 2.4) * 2.7 + Math.cos(index / 5.5) * 1.8;
+      const close = open + move;
+      const wick = 2.1 + Math.abs(move) * 0.34;
+      const high = Math.max(open, close) + wick;
+      const low = Math.min(open, close) - wick * 0.88;
+
+      candles.push({
+        close: Math.round(close * 100) / 100,
+        day,
+        high: Math.round(high * 100) / 100,
+        low: Math.round(low * 100) / 100,
+        open: Math.round(open * 100) / 100,
+        volume: Math.round(72 + Math.abs(move) * 12 + Math.sin(index / 4) * 8)
+      });
+      price = close + Math.sin(index / 6) * 0.7;
+    }
+
+    date = addUtcDays(date, 1);
+  }
+
+  return candles;
+};
+const sessionEventCandles = createSessionEventCandles();
 const sessionEventClosures = getCandlestickEmergencyClosureSessions([
-  { date: "2026-11-26", reason: "Closed" }
+  { date: "2026-11-26", reason: "Thanksgiving", width: 8 }
 ]);
 const priceActionTable = getCandlestickChartDataTable({
   closeKey: "close",
@@ -299,6 +327,7 @@ const V2CandlestickScrollable = ({ width }: NativeStoryProps) => (
 const V2CandlestickSessionEvents = ({ width }: NativeStoryProps) => (
   <ChartSection title="Market sessions" kicker="Candlestick">
     <CandlestickChart
+      candleWidthRatio={0.42}
       closeKey="close"
       data={sessionEventCandles}
       downColor="#ef4444"
@@ -311,8 +340,10 @@ const V2CandlestickSessionEvents = ({ width }: NativeStoryProps) => (
       openKey="open"
       sessionGaps={{
         earlyCloses: true,
+        earlyCloseLabel: "Early close",
         exchange: "nyse",
-        label: true,
+        label: ({ closedDays, holidayCount }) =>
+          holidayCount > 0 ? `${closedDays} closed` : "",
         specialSessions: sessionEventClosures
       }}
       testID="session-events-candlestick-chart"
