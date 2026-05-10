@@ -298,7 +298,7 @@ export const buildCandlestickSessionEventModels = <
     return [];
   }
 
-  return sessions.flatMap((session) => {
+  return sessions.flatMap((session, sessionIndex) => {
     const timestamp = getTimestamp(session.date);
     const key = getSpecialSessionKey(session);
 
@@ -336,7 +336,7 @@ export const buildCandlestickSessionEventModels = <
         kind: session.kind,
         label,
         labelX: anchor.x,
-        labelY: boxes.plot.y + boxes.plot.height - 4,
+        labelY: boxes.plot.y + 28 + (sessionIndex % 2) * 14,
         next: anchor.next,
         nextIndex: anchor.nextIndex,
         previous: anchor.previous,

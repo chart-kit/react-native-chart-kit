@@ -377,6 +377,9 @@ describe("CandlestickChart session markers", () => {
       nextIndex: 1,
       previousIndex: 0
     });
+    expect(model.sessionEvents[0]?.labelY).toBeLessThan(
+      model.boxes.plot.y + model.boxes.plot.height / 2
+    );
     expect(model.sessionEvents[0]?.x).toBeGreaterThan(
       model.candles[0]?.wickX ?? 0
     );
