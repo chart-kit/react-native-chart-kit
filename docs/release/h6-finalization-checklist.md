@@ -67,6 +67,11 @@ Detailed proposal: [H6 Visual Baseline Freeze](h6-visual-baseline-freeze.md).
 
 ## H6 Approval
 
+Additional release-scope proposals:
+
+- [H6 Pro Package Plan](h6-pro-package-plan.md)
+- [H6 Release Claims](h6-release-claims.md)
+
 After the above decisions are approved, run:
 
 ```sh

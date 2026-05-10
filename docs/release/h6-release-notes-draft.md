@@ -62,6 +62,8 @@ Pro-candidate unless explicitly promoted before H6.
 `@chart-kit/pro` and `@chart-kit/skia-renderer` should not be published as
 stable packages until their package plan is approved.
 
+Supporting proposal: [H6 Pro Package Plan](h6-pro-package-plan.md).
+
 ## Known Caveats To Keep If Still True At H6
 
 - Native release workflow evidence exists, but final stable claims should match
@@ -71,6 +73,8 @@ stable packages until their package plan is approved.
 - Moderate Expo toolchain advisories may remain until an Expo-compatible
   upstream fix exists.
 - Financial charts should stay labeled as Financial Preview unless promoted.
+
+Supporting proposal: [H6 Release Claims](h6-release-claims.md).
 
 ## Draft Changelog Entry
 
