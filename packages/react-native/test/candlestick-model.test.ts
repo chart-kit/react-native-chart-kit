@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { buildCandlestickChartModel } from "../src/charts/candlestick/model";
+import {
+  buildCandlestickChartModel,
+  getResponsiveCandlestickBandPadding,
+  getResponsiveCandlestickWidthRatio
+} from "../src/charts/candlestick/model";
 import { chartKitTheme, rows } from "./candlestick.fixtures";
 
 describe("CandlestickChart model", () => {
@@ -92,5 +96,44 @@ describe("CandlestickChart model", () => {
 
     expect(model.candles.map((candle) => candle.dataIndex)).toEqual([1, 2]);
     expect(model.xLabels.map((label) => label.index)).toEqual([1, 2]);
+  });
+
+  it("compresses candle gaps for dense zoomed-out ranges", () => {
+    expect(getResponsiveCandlestickBandPadding(4)).toEqual({
+      paddingInner: 0.04,
+      paddingOuter: 0.04
+    });
+    expect(
+      getResponsiveCandlestickWidthRatio({ candleWidthRatio: 0.46, step: 4 })
+    ).toBe(0.92);
+    expect(
+      getResponsiveCandlestickWidthRatio({ candleWidthRatio: 0.46, step: 24 })
+    ).toBe(0.46);
+
+    const denseRows = Array.from({ length: 72 }, (_, index) => ({
+      close: 100 + Math.sin(index / 3) * 6,
+      day: `D${index}`,
+      high: 108 + Math.sin(index / 3) * 6,
+      low: 94 + Math.sin(index / 3) * 6,
+      open: 101 + Math.cos(index / 4) * 5,
+      volume: 20 + index
+    }));
+    const model = buildCandlestickChartModel({
+      candleWidthRatio: 0.46,
+      chartKitTheme,
+      closeKey: "close",
+      data: denseRows,
+      height: 260,
+      highKey: "high",
+      lowKey: "low",
+      openKey: "open",
+      width: 360,
+      xKey: "day"
+    });
+    const first = model.candles[0]!;
+    const second = model.candles[1]!;
+    const step = second.wickX - first.wickX;
+
+    expect(first.bodyWidth / step).toBeGreaterThan(0.82);
   });
 });

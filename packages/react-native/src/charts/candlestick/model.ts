@@ -35,9 +35,67 @@ import type {
 } from "./types";
 
 const defaultYDomain = { nice: true } as const;
+const defaultCandleWidthRatio = 0.62;
+const defaultBandPadding = { paddingInner: 0.18, paddingOuter: 0.12 };
 
 const isFiniteNumber = (value: unknown): value is number =>
   typeof value === "number" && Number.isFinite(value);
+
+const clampCandleWidthRatio = (value: number | undefined) => {
+  if (!isFiniteNumber(value)) {
+    return defaultCandleWidthRatio;
+  }
+
+  return Math.max(0.12, Math.min(1, value));
+};
+
+export const getResponsiveCandlestickBandPadding = (estimatedStep: number) => {
+  if (estimatedStep <= 5) {
+    return { paddingInner: 0.04, paddingOuter: 0.04 };
+  }
+
+  if (estimatedStep <= 8) {
+    return { paddingInner: 0.07, paddingOuter: 0.05 };
+  }
+
+  if (estimatedStep <= 12) {
+    return { paddingInner: 0.1, paddingOuter: 0.07 };
+  }
+
+  if (estimatedStep <= 18) {
+    return { paddingInner: 0.14, paddingOuter: 0.09 };
+  }
+
+  return defaultBandPadding;
+};
+
+export const getResponsiveCandlestickWidthRatio = ({
+  candleWidthRatio,
+  step
+}: {
+  candleWidthRatio: number | undefined;
+  step: number;
+}) => {
+  const requestedRatio = clampCandleWidthRatio(candleWidthRatio);
+
+  if (step <= 5) {
+    return Math.max(requestedRatio, 0.92);
+  }
+
+  if (step <= 8) {
+    return Math.max(requestedRatio, 0.88);
+  }
+
+  if (step <= 12) {
+    return Math.max(requestedRatio, 0.82);
+  }
+
+  if (step <= 18) {
+    return Math.max(requestedRatio, 0.72);
+  }
+
+  return requestedRatio;
+};
 
 export const normalizeCandlestickRows = <
   TData extends Record<string, unknown>
@@ -110,7 +168,7 @@ const getCandleColor = ({
 export const buildCandlestickChartModel = <
   TData extends Record<string, unknown>
 >({
-  candleWidthRatio = 0.62,
+  candleWidthRatio,
   chartKitTheme,
   closeKey,
   data,
@@ -180,6 +238,9 @@ export const buildCandlestickChartModel = <
     leftLabels: yLabelSizes
   });
   const boxes = solveChartBoxes({ width, height }, padding);
+  const estimatedCandleStep =
+    xDomain.length > 0 ? boxes.plot.width / xDomain.length : boxes.plot.width;
+  const bandPadding = getResponsiveCandlestickBandPadding(estimatedCandleStep);
   const yScale = createLinearScale({
     domain: resolvedYDomain,
     range: [boxes.plot.y + boxes.plot.height, boxes.plot.y]
@@ -187,11 +248,15 @@ export const buildCandlestickChartModel = <
   const xScale = createBandScale<string | number>({
     domain: xDomain,
     range: [boxes.plot.x, boxes.plot.x + boxes.plot.width],
-    paddingInner: 0.18,
-    paddingOuter: 0.12
+    paddingInner: bandPadding.paddingInner,
+    paddingOuter: bandPadding.paddingOuter
+  });
+  const effectiveCandleWidthRatio = getResponsiveCandlestickWidthRatio({
+    candleWidthRatio,
+    step: xScale.step
   });
   const geometry = buildCandlestickGeometry({
-    candleWidthRatio,
+    candleWidthRatio: effectiveCandleWidthRatio,
     data: rows,
     xBand: (value: ChartXValue) => {
       const key = getBarChartXKey(value);
