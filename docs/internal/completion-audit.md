@@ -49,7 +49,7 @@ Current known gaps:
 - Expo showcase, visual tests, e2e tests, docs, migration guide, recipes, codemod
 - package publish manifest and Developer Preview publish workflow
 - H4 Pro/free boundary and H5 Developer Preview approval
-- H6 readiness packet and proposed deprecation policy
+- H6 readiness packet and proposed H6 decision artifacts
 
 ## Stable RC Still Open
 
@@ -64,6 +64,20 @@ Remaining RC decisions:
 - deprecation policy approval
 - whether Pro is still deferred or split into a real paid package
 - whether more native device or accessibility evidence is needed for the release claim
+
+Draft decision artifacts exist for each of those topics:
+
+- [H6 RC readiness packet](../release/h6-rc-readiness-packet.md)
+- [H6 finalization checklist](../release/h6-finalization-checklist.md)
+- [H6 semver proposal](../release/h6-semver-proposal.md)
+- [H6 release notes draft](../release/h6-release-notes-draft.md)
+- [H6 docs freeze](../release/h6-docs-freeze.md)
+- [H6 visual baseline freeze](../release/h6-visual-baseline-freeze.md)
+- [Deprecation policy](../release/deprecation-policy.md)
+- [H6 Pro package plan](../release/h6-pro-package-plan.md)
+- [H6 release claims](../release/h6-release-claims.md)
+
+The remaining blocker is explicit owner approval, not missing decision prep.
 
 ## Simplified Completion Rule
 
