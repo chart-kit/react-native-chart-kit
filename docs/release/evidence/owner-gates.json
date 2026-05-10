@@ -17,8 +17,8 @@
         "Free v2 remains useful with safe layout, SVG renderer, baseline charts, themes, accessibility helpers, and compatibility facade.",
         "@chart-kit/pro will be a separate package later.",
         "@chart-kit/skia-renderer remains a separate optional preview renderer package until native install, parity, and benchmark evidence are complete.",
-        "No license enforcement before beta.",
-        "Advanced interactions, range selector, pan/zoom, animation, financial charts, Skia, and large-data workflows stay preview/Pro-candidate for beta.",
+        "No license enforcement before stable paid-package approval.",
+        "Advanced interactions, range selector, pan/zoom, animation, financial charts, Skia, and large-data workflows stay preview/Pro-candidate for Developer Preview.",
         "CandlestickChart remains Financial Preview."
       ]
     },
@@ -28,13 +28,13 @@
       "status": "approved",
       "requiredFor": ["H5"],
       "evidence": [
-        "docs/release/h5-beta-gate-evidence.md",
+        "docs/release/h5-developer-preview-gate-evidence.md",
         "docs/release/h5-owner-decision-memo.md"
       ],
       "approvedAt": "2026-05-06",
       "approvedBy": "owner",
       "decisions": [
-        "Chart Kit v2 may publish a Developer Preview from the free packages only; this is not a production beta or release candidate.",
+        "Chart Kit v2 may publish a Developer Preview from the free packages only; this is not a production release, stable release, or release candidate.",
         "Native runtime, accessibility, performance, workflow, and Skia evidence gaps are accepted only for Developer Preview and must remain disclosed in known issues and release notes.",
         "Publishable package set is react-native-chart-kit, @chart-kit/core, @chart-kit/svg-renderer, and @chart-kit/react-native; do not publish @chart-kit/pro or @chart-kit/skia-renderer.",
         "Use the next npm dist-tag for Developer Preview; no production release date is approved.",

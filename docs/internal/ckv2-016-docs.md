@@ -23,4 +23,4 @@ This slice starts the public adoption documentation layer on top of the existing
 ## Limitations
 
 - Internal audit snippets are syntax-checked as markdown fences, but only public docs examples are extracted and type-checked as standalone examples.
-- Final package names remain a beta gate. The docs call out the current private v2 workspace package and avoid presenting the public import path as finalized.
+- Final package names remain a release gate. The docs call out the current private v2 workspace package and avoid presenting the public import path as finalized.

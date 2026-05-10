@@ -15,8 +15,8 @@ const h4PendingDecisions = [
   "@chart-kit/pro package split",
   "@chart-kit/skia-renderer packaging",
   "license enforcement timing",
-  "which preview interactions remain free at beta",
-  "CandlestickChart beta visibility"
+  "which preview interactions remain free during Developer Preview",
+  "CandlestickChart Developer Preview visibility"
 ];
 
 const createTempRepo = async ({ h4Open = false } = {}) => {
@@ -59,7 +59,7 @@ const createTempRepo = async ({ h4Open = false } = {}) => {
     "utf8"
   );
   await writeFile(
-    join(releaseDir, "h5-beta-gate-evidence.md"),
+    join(releaseDir, "h5-developer-preview-gate-evidence.md"),
     "# H5 Evidence\n",
     "utf8"
   );
@@ -110,7 +110,7 @@ describe("owner gate decision recorder", () => {
       "free-vs-Pro boundary approved",
       "@chart-kit/pro ships separately",
       "@chart-kit/skia-renderer ships separately",
-      "no beta license enforcement",
+      "no Developer Preview license enforcement",
       "simple press remains free",
       "CandlestickChart remains Financial Preview"
     ];
@@ -167,7 +167,7 @@ describe("owner gate decision recorder", () => {
         "free-vs-Pro boundary approved",
         "@chart-kit/pro ships separately",
         "@chart-kit/skia-renderer ships separately",
-        "no beta license enforcement",
+        "no Developer Preview license enforcement",
         "simple press remains free",
         "CandlestickChart remains Financial Preview"
       ],

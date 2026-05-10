@@ -102,4 +102,5 @@ Command status:
 
 The iOS and Android example commands launch the Expo showcase for manual device or simulator review. They are not native release-build checks and should not be counted as automated native e2e coverage.
 
-Use [Native release checks](docs/release/native-release-checks.md) before production beta or release-candidate review.
+Use [Native release checks](docs/release/native-release-checks.md) before stable
+release or release-candidate review.

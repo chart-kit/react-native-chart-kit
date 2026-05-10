@@ -4,9 +4,9 @@ This memo records the H4 Pro/free boundary approval from May 6, 2026.
 
 ## Approved Decision
 
-The owner approved the Pro direction as a package-boundary plan, with no license enforcement before beta.
+The owner approved the Pro direction as a package-boundary plan, with no license enforcement before stable paid-package approval.
 
-Reason: the current implementation keeps the free/baseline public package useful, exposes current advanced workflows through `@chart-kit/react-native/pro-preview`, and records Pro-candidate feature buckets plus prop-level triggers in `packages/pro`. The final paid package and license behavior should wait until native evidence and beta feedback are stronger.
+Reason: the current implementation keeps the free/baseline public package useful, exposes current advanced workflows through `@chart-kit/react-native/pro-preview`, and records Pro-candidate feature buckets plus prop-level triggers in `packages/pro`. The final paid package and license behavior should wait until native evidence and Developer Preview feedback are stronger.
 
 ## Decision 1: Free Baseline
 
@@ -73,7 +73,7 @@ Rationale: this lets the project decide later whether a component, a prop, or a 
 
 ## Decision 5: License Timing
 
-Approved: no license enforcement before beta.
+Approved: no license enforcement before stable paid-package approval.
 
 Rationale:
 
@@ -82,7 +82,7 @@ Rationale:
 - native Skia and performance evidence are not complete
 - license checks should never live in `packages/core`
 
-## Decision 6: Beta Labels
+## Decision 6: Developer Preview Labels
 
 Approved:
 
@@ -96,9 +96,9 @@ Approved the strategy, not the final paid implementation:
 
 1. Free v2 stays useful and trustworthy.
 2. Pro focuses on production pain and commercial workflows.
-3. Pro and Skia remain preview packages for beta.
+3. Pro and Skia remain preview packages for Developer Preview.
 4. License enforcement is deferred.
-5. Final paid implementation details are revisited after native evidence and beta feedback.
+5. Final paid implementation details are revisited after native evidence and Developer Preview feedback.
 
 Recorded approval:
 
@@ -110,7 +110,7 @@ npm run release:owner:record -- \
   --decision "Free v2 remains useful with safe layout, SVG renderer, baseline charts, themes, accessibility helpers, and compatibility facade." \
   --decision "@chart-kit/pro will be a separate package later." \
   --decision "@chart-kit/skia-renderer remains a separate optional preview renderer package until native install, parity, and benchmark evidence are complete." \
-  --decision "No license enforcement before beta." \
-  --decision "Advanced interactions, range selector, pan/zoom, animation, financial charts, Skia, and large-data workflows stay preview/Pro-candidate for beta." \
+  --decision "No license enforcement before stable paid-package approval." \
+  --decision "Advanced interactions, range selector, pan/zoom, animation, financial charts, Skia, and large-data workflows stay preview/Pro-candidate for Developer Preview." \
   --decision "CandlestickChart remains Financial Preview."
 ```

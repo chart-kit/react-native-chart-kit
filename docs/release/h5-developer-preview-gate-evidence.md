@@ -1,6 +1,6 @@
 # H5 Developer Preview Evidence
 
-Status on May 10, 2026: H5 is approved for Developer Preview publishing from free packages only. This is not a production beta or release candidate.
+Status on May 10, 2026: H5 is approved for Developer Preview publishing from free packages only. This is not a production release, stable release, or release candidate.
 
 ## Active Evidence
 

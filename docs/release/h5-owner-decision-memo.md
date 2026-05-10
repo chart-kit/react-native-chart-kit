@@ -4,7 +4,7 @@ This memo records the H5 Developer Preview approval from May 6, 2026.
 
 ## Approved Decision
 
-Chart Kit v2 may publish a Developer Preview from the free packages only. This is not a production beta or release candidate.
+Chart Kit v2 may publish a Developer Preview from the free packages only. This is not a production release, stable release, or release candidate.
 
 Reason: the implementation, showcase, docs, tests, visual coverage, benchmark, support workflow, release checklist, local native release builds, and package path are in place. Native device evidence, Skia native parity, native accessibility, and native performance are still incomplete, so the release must be labeled Developer Preview with gaps disclosed. The native release workflow later passed on `next` and is now recorded separately.
 
@@ -12,7 +12,7 @@ The current export surface is guarded by `npm run surface:check`. That check ver
 
 ## Decision 1: Publish Label
 
-Approved: publish free packages as **Developer Preview**, not production beta.
+Approved: publish free packages as **Developer Preview**, not production release.
 
 Rationale:
 
@@ -44,7 +44,7 @@ Developer Preview label requirement:
 
 - docs and release notes must say web-showcase e2e and native release-build workflow checks pass, but native device runtime evidence is not yet proven
 - `example:ios` and `example:android` launch the Expo showcase through dev tooling only; they must not be counted as release-build or native e2e coverage
-- `native:release:android` and `native:release:ios` are the release-build checks to run before production beta or RC
+- `native:release:android` and `native:release:ios` are the release-build checks to run before stable release or RC
 
 ## Decision 4: Package Publish Set
 
@@ -70,11 +70,11 @@ Approved for Developer Preview:
 - Label production layout depth, production touch workflows, range selector, pan/zoom, commercial chart types, export, premium templates, and future Skia/large-dataset work as preview or Pro-candidate features per the H4-approved boundary.
 - Do not add license gating before the free v2 architecture and public API are stable.
 
-Rationale: hiding the best line-chart interactions before beta weakens visual review, but hard-gating them now would confuse API feedback.
+Rationale: hiding the best line-chart interactions during Developer Preview weakens visual review, but hard-gating them now would confuse API feedback.
 
 ## Decision 6: Candlestick Status
 
-Approved: keep `CandlestickChart` in the showcase as Financial Preview, not as a finished beta chart.
+Approved: keep `CandlestickChart` in the showcase as Financial Preview, not as a finished stable chart.
 
 Rationale:
 
@@ -91,7 +91,7 @@ Rationale:
 
 ## H5 Outcome
 
-H5 is approved for Developer Preview, not for production beta or release candidate.
+H5 is approved for Developer Preview, not for production release or release candidate.
 
 Approved next tasks:
 
@@ -108,7 +108,7 @@ npm run release:owner:record -- \
   --gate h5 \
   --approved-by owner \
   --approved-at 2026-05-06 \
-  --decision "Chart Kit v2 may publish a Developer Preview from the free packages only; this is not a production beta or release candidate." \
+  --decision "Chart Kit v2 may publish a Developer Preview from the free packages only; this is not a production release, stable release, or release candidate." \
   --decision "Native runtime, accessibility, performance, workflow, and Skia evidence gaps are accepted only for Developer Preview and must remain disclosed in known issues and release notes." \
   --decision "Publishable package set is react-native-chart-kit, @chart-kit/core, @chart-kit/svg-renderer, and @chart-kit/react-native; do not publish @chart-kit/pro or @chart-kit/skia-renderer." \
   --decision "Use the next npm dist-tag for Developer Preview; no production release date is approved." \

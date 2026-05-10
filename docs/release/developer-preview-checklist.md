@@ -93,7 +93,7 @@ Use `npm run release:owner:record -- --list` to inspect H4/H5/H6 owner gates. Ow
 - [Native workflow runbook](native-workflow-runbook.md)
 - [H4 Pro scope decision packet](h4-pro-scope.md)
 - [H4 owner decision memo](h4-owner-decision-memo.md)
-- [H5 Developer Preview evidence](h5-beta-gate-evidence.md)
+- [H5 Developer Preview evidence](h5-developer-preview-gate-evidence.md)
 - [H5 owner decision memo](h5-owner-decision-memo.md)
 - [H6 owner decision memo](h6-owner-decision-memo.md)
 - [Native release workflow evidence manifest](evidence/native-release-workflow.json)

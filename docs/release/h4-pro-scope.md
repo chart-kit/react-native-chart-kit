@@ -1,14 +1,14 @@
 # H4 Pro Scope Decision Packet
 
-Status on May 6, 2026: H4 approved with the recommendations in this packet. Pro remains a separate future package, Skia remains a separate optional preview renderer, and no license enforcement is added before beta.
+Status on May 6, 2026: H4 approved with the recommendations in this packet. Pro remains a separate future package, Skia remains a separate optional preview renderer, and no license enforcement is added before stable paid-package approval.
 
-This packet defines the approved free-vs-Pro boundary for the v2 beta path. It does not add license checks. The implementation keeps the main modern package barrel focused on the free/baseline API and exposes current Pro-candidate workflows through an explicit preview subpath while paid package implementation and native evidence continue.
+This packet defines the approved free-vs-Pro boundary for the v2 Developer Preview path. It does not add license checks. The implementation keeps the main modern package barrel focused on the free/baseline API and exposes current Pro-candidate workflows through an explicit preview subpath while paid package implementation and native evidence continue.
 
 ## Approved H4 Decision
 
 Keep the free library useful and trustworthy. Make Pro about the places real production apps bleed: layout certainty, touch workflows, commercial chart types, export, premium templates, and performance.
 
-Approved beta decision:
+Approved Developer Preview decision:
 
 - ship free v2 with SVG renderer, modern baseline charts, compatibility facade, themes, accessibility helpers, safe default layout, and basic examples
 - keep currently implemented advanced interactions, range selector, pan/zoom, animation, and financial charts visible only as preview/pro-candidate features until API feedback stabilizes
@@ -59,7 +59,7 @@ react-native-chart-kit          # compatibility package and migration bridge
 @chart-kit/pro                  # paid workflow package that composes free primitives
 ```
 
-`packages/skia-renderer` currently exposes capability metadata, install guidance, and an injected Skia primitive adapter. `LineChart` can accept the injected renderer for its main plot, range selector, sticky-axis, path-local area gradients, threshold rect clips, measured text anchors, default marker, default legend, default tooltip, and debug-layout surfaces. `BarChart` can accept the injected renderer for its chart body, sticky Y-axis, rounded bars, and default tooltip overlay. `PieChart` and `DonutChart` can accept the injected renderer for slices, connector lines, and SVG text labels. `ProgressChart`, `ProgressRing`, `ContributionGraph`, and `CalendarHeatmap` can accept the injected renderer for their chart primitives and SVG text labels. `CombinedChart` can accept the injected renderer for bars, lines, axes, legend, selection overlay, and default tooltip. `CandlestickChart` can accept the injected renderer for its OHLC body, volume bars, session markers, selection overlay, default tooltip, and range selector. `npm run skia:parity` covers the local Skia primitive tests plus LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, CombinedChart, and CandlestickChart renderer contracts. Sticky-axis labels require a Skia font, and iOS/Android optional-Skia install/build, renderer-injected Release builds, native renderer parity screenshots, interaction review, and SVG-vs-Skia performance comparison evidence now exist in [skia-renderer-matrix.json](evidence/skia-renderer-matrix.json). Per H4, Skia remains a separate optional preview renderer package and does not add license gating before beta.
+`packages/skia-renderer` currently exposes capability metadata, install guidance, and an injected Skia primitive adapter. `LineChart` can accept the injected renderer for its main plot, range selector, sticky-axis, path-local area gradients, threshold rect clips, measured text anchors, default marker, default legend, default tooltip, and debug-layout surfaces. `BarChart` can accept the injected renderer for its chart body, sticky Y-axis, rounded bars, and default tooltip overlay. `PieChart` and `DonutChart` can accept the injected renderer for slices, connector lines, and SVG text labels. `ProgressChart`, `ProgressRing`, `ContributionGraph`, and `CalendarHeatmap` can accept the injected renderer for their chart primitives and SVG text labels. `CombinedChart` can accept the injected renderer for bars, lines, axes, legend, selection overlay, and default tooltip. `CandlestickChart` can accept the injected renderer for its OHLC body, volume bars, session markers, selection overlay, default tooltip, and range selector. `npm run skia:parity` covers the local Skia primitive tests plus LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, CombinedChart, and CandlestickChart renderer contracts. Sticky-axis labels require a Skia font, and iOS/Android optional-Skia install/build, renderer-injected Release builds, native renderer parity screenshots, interaction review, and SVG-vs-Skia performance comparison evidence now exist in [skia-renderer-matrix.json](evidence/skia-renderer-matrix.json). Per H4, Skia remains a separate optional preview renderer package and does not add license gating before stable paid-package approval.
 
 `packages/pro` currently exists only as a preview feature-registry, surface-boundary, and injected composition package. It has no license checks, no runtime activation, and no gated chart implementations. Its registry now mirrors the owner-proposed commercial buckets: `pro-layout-engine`, `pro-interactions`, `pro-chart-types`, `pro-export`, `pro-theme-templates`, `pro-performance`, `skia-renderer`, and `accessibility-reports`. Each feature entry records the included paid capabilities, the commercial rationale, and the free guardrail that keeps baseline v2 useful. Its package-boundary metadata classifies current exports as compatibility, free baseline, or Pro candidate, and it now tracks prop-level Pro candidate triggers such as `LineChart.rangeSelector`, `LineChart.interaction=scrub`, `BarChart.mode=grouped`, `BarChart.orientation=horizontal`, `CombinedChart`, `CandlestickChart`, active donut selection, and injected renderer props. This makes the final split reviewable before moving runtime code. Its React Native preview helper accepts an injected `@chart-kit/react-native/pro-preview` module and selects Pro-candidate exports without statically importing the free runtime package.
 
@@ -96,7 +96,7 @@ H4 approved these answers on May 6, 2026:
 
 1. Does `@chart-kit/pro` ship as a separate package?
 2. Does `@chart-kit/skia-renderer` ship as a separate optional package or inside Pro?
-3. Which current preview interactions must remain free at beta?
+3. Which current preview interactions must remain free during Developer Preview?
 4. Can `CandlestickChart` remain public as Financial Preview?
 5. Should combo/dual-axis, grouped bars, horizontal stacked bars, and advanced contribution heatmap move to Pro candidates?
 6. Should the Developer Preview publish without any license enforcement?

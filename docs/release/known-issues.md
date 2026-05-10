@@ -1,4 +1,4 @@
-# Known Issues Before Beta
+# Known Issues Before RC
 
 These are allowed only as explicit Developer Preview caveats. Anything in this file should either become a tracked issue or be resolved before release candidate.
 
