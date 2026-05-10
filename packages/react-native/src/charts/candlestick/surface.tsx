@@ -18,6 +18,38 @@ const RendererLayer = ({
   name?: string;
 }) => <>{children}</>;
 
+const getCandlestickSelectionMarkerColor = <TData,>({
+  candle,
+  series,
+  text
+}: {
+  candle: CandlestickChartCandleModel<TData>;
+  series: string[];
+  text: string;
+}) => {
+  const candleColor = candle.color.toLowerCase();
+
+  return (
+    series.slice(1).find((color) => color.toLowerCase() !== candleColor) ??
+    series.find((color) => color.toLowerCase() !== candleColor) ??
+    text
+  );
+};
+
+const getCandlestickSelectionMarkerRadius = ({
+  bodyWidth,
+  crosshairVisible
+}: {
+  bodyWidth: number;
+  crosshairVisible: boolean;
+}) => {
+  const maxRadius = crosshairVisible ? 4.5 : 3.25;
+  const minRadius = crosshairVisible ? 2.25 : 1.6;
+  const widthRadius = bodyWidth * (crosshairVisible ? 0.42 : 0.34);
+
+  return Math.max(minRadius, Math.min(maxRadius, widthRadius));
+};
+
 export const CandlestickChartSurface = <TData,>({
   chartHeight,
   chartWidth,
@@ -71,6 +103,19 @@ export const CandlestickChartSurface = <TData,>({
     ? formatYLabel(selectedCandle.close)
     : "";
   const isCrosshairVisible = selectedCandle && crosshairY !== undefined;
+  const selectionMarkerColor = selectedCandle
+    ? getCandlestickSelectionMarkerColor({
+        candle: selectedCandle,
+        series: resolvedTheme.series,
+        text: resolvedTheme.text
+      })
+    : resolvedTheme.text;
+  const selectionMarkerRadius = selectedCandle
+    ? getCandlestickSelectionMarkerRadius({
+        bodyWidth: selectedCandle.bodyWidth,
+        crosshairVisible: Boolean(isCrosshairVisible)
+      })
+    : 0;
   const markerY = selectedCandle
     ? Math.max(boxes.plot.y + 6, selectedCandle.highY - 8)
     : boxes.plot.y;
@@ -311,11 +356,15 @@ export const CandlestickChartSurface = <TData,>({
               cy={markerY}
               fill={
                 isCrosshairVisible
-                  ? resolvedTheme.background
-                  : selectedCandle.color
+                  ? resolvedTheme.plotBackground
+                  : selectionMarkerColor
               }
-              r={isCrosshairVisible ? 4.5 : 3.25}
-              stroke={selectedCandle.color}
+              r={selectionMarkerRadius}
+              stroke={
+                isCrosshairVisible
+                  ? selectionMarkerColor
+                  : resolvedTheme.plotBackground
+              }
               strokeWidth={isCrosshairVisible ? 2 : 1.5}
               testID={`${testID ?? "candlestick-chart"}-selection-marker.${
                 selectedCandle.dataIndex

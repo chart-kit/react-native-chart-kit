@@ -216,10 +216,38 @@ describe("CandlestickChart renderer parity contract", () => {
     expect(selectedBody?.props.strokeOpacity).toBeUndefined();
     expect(selectedMarker?.props).toMatchObject({
       cx: 70,
-      fill: "#16a34a",
+      fill: "#0891b2",
       r: 3.25,
-      stroke: "#16a34a",
+      stroke: "#ffffff",
       strokeWidth: 1.5
+    });
+  });
+
+  it("scales the selection marker down for narrow candles", () => {
+    const narrowCandle = {
+      ...candle,
+      bodyWidth: 4,
+      key: "narrow-candle-0"
+    };
+    const surface = CandlestickChartSurface({
+      chartHeight: 160,
+      chartWidth: 220,
+      formatYLabel: (value) => `$${value}`,
+      model: { ...model, candles: [narrowCandle] },
+      renderer: skiaLikeRenderer,
+      selectedCandle: narrowCandle,
+      testID: "financial-chart",
+      tooltipConfig,
+      tooltipModel: undefined
+    });
+    const selectedMarker = getDescendantElements(surface).find(
+      (element) => element.props.testID === "financial-chart-selection-marker.0"
+    );
+
+    expect(selectedMarker?.props).toMatchObject({
+      fill: "#0891b2",
+      r: 1.6,
+      stroke: "#ffffff"
     });
   });
 });
