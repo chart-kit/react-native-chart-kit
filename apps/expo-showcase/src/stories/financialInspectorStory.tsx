@@ -23,6 +23,7 @@ const minVisibleWeeks = 8;
 const initialSelectedIndex = Math.max(0, weeklyCandles.length - 2);
 const upColor = "#16a34a";
 const downColor = "#ef4444";
+const notAvailableLabel = "n/a";
 
 const formatPrice = (value: number) => `$${Math.round(value)}`;
 
@@ -59,12 +60,10 @@ const getCandleMove = (candle: StockCandlePoint) => {
 
 const SelectedWeekLegend = ({
   candle,
-  eyebrow = "AAPL weekly selection",
-  placeholder = "Drag to inspect"
+  eyebrow = "AAPL weekly selection"
 }: {
   candle: StockCandlePoint | undefined;
   eyebrow?: string;
-  placeholder?: string;
 }) => {
   const chartKitTheme = useChartKitTheme();
   const resolvedTheme = useMemo(
@@ -74,20 +73,35 @@ const SelectedWeekLegend = ({
 
   const move = candle ? getCandleMove(candle) : undefined;
   const isPositive = (move?.value ?? 0) >= 0;
-  const moveColor = isPositive ? upColor : downColor;
+  const moveColor = move ? (isPositive ? upColor : downColor) : undefined;
   const moveSign = isPositive ? "+" : "-";
-  const moveLabel = `${moveSign}${formatPrice(
-    Math.abs(move?.value ?? 0)
-  )} (${moveSign}${Math.round(Math.abs(move?.percent ?? 0) * 1000) / 10}%)`;
-  const metrics = candle
-    ? [
-        { label: "Open", value: formatPrice(candle.open) },
-        { label: "High", value: formatPrice(candle.high) },
-        { label: "Low", value: formatPrice(candle.low) },
-        { label: "Close", value: formatPrice(candle.close) },
-        { label: "Volume", value: formatVolume(candle.volume) }
-      ]
-    : [];
+  const moveLabel = move
+    ? `${moveSign}${formatPrice(Math.abs(move.value))} (${moveSign}${
+        Math.round(Math.abs(move.percent) * 1000) / 10
+      }%)`
+    : notAvailableLabel;
+  const metrics = [
+    {
+      label: "Open",
+      value: candle ? formatPrice(candle.open) : notAvailableLabel
+    },
+    {
+      label: "High",
+      value: candle ? formatPrice(candle.high) : notAvailableLabel
+    },
+    {
+      label: "Low",
+      value: candle ? formatPrice(candle.low) : notAvailableLabel
+    },
+    {
+      label: "Close",
+      value: candle ? formatPrice(candle.close) : notAvailableLabel
+    },
+    {
+      label: "Volume",
+      value: candle ? formatVolume(candle.volume) : notAvailableLabel
+    }
+  ];
 
   return (
     <View
@@ -105,38 +119,44 @@ const SelectedWeekLegend = ({
             {eyebrow}
           </Text>
           <Text style={[styles.selectedDate, { color: resolvedTheme.text }]}>
-            {candle ? `Week of ${formatTradingWeek(candle.day)}` : placeholder}
+            {candle
+              ? `Week of ${formatTradingWeek(candle.day)}`
+              : notAvailableLabel}
           </Text>
         </View>
-        {candle ? (
-          <View
+        <View
+          style={[
+            styles.movePill,
+            {
+              backgroundColor: "transparent",
+              borderColor: moveColor ?? resolvedTheme.grid
+            }
+          ]}
+        >
+          <Text
             style={[
-              styles.movePill,
-              { borderColor: moveColor, backgroundColor: "transparent" }
+              styles.moveText,
+              { color: moveColor ?? resolvedTheme.mutedText }
             ]}
           >
-            <Text style={[styles.moveText, { color: moveColor }]}>
-              {moveLabel}
+            {moveLabel}
+          </Text>
+        </View>
+      </View>
+      <View style={styles.metrics}>
+        {metrics.map((metric) => (
+          <View key={metric.label} style={styles.metricItem}>
+            <Text
+              style={[styles.metricLabel, { color: resolvedTheme.mutedText }]}
+            >
+              {metric.label}
+            </Text>
+            <Text style={[styles.metricValue, { color: resolvedTheme.text }]}>
+              {metric.value}
             </Text>
           </View>
-        ) : null}
+        ))}
       </View>
-      {metrics.length > 0 ? (
-        <View style={styles.metrics}>
-          {metrics.map((metric) => (
-            <View key={metric.label} style={styles.metricItem}>
-              <Text
-                style={[styles.metricLabel, { color: resolvedTheme.mutedText }]}
-              >
-                {metric.label}
-              </Text>
-              <Text style={[styles.metricValue, { color: resolvedTheme.text }]}>
-                {metric.value}
-              </Text>
-            </View>
-          ))}
-        </View>
-      ) : null}
     </View>
   );
 };
@@ -163,11 +183,7 @@ export const V2CandlestickCrosshairInspector = ({
 
   return (
     <ChartSection title="Crosshair inspector" kicker="Inspection mode">
-      <SelectedWeekLegend
-        candle={selectedCandle}
-        eyebrow="AAPL long-press inspector"
-        placeholder="Hold on the chart to inspect"
-      />
+      <SelectedWeekLegend candle={selectedCandle} eyebrow="AAPL inspector" />
       <CandlestickChart
         candleWidthRatio={0.52}
         closeKey="close"
