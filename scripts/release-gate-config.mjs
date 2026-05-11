@@ -5,6 +5,7 @@ export const requiredFiles = [
   "docs/internal/completion-audit.md",
   "docs/internal/prompt-to-artifact-checklist.md",
   "docs/internal/ckv2-018-release-candidate.md",
+  "docs/release/developer-preview-publish-handoff.md",
   "docs/release/developer-preview-checklist.md",
   "docs/release/deprecation-policy.md",
   "docs/release/h4-pro-scope.md",

@@ -33,6 +33,7 @@ These docs describe the current v2 preview implementation in this repository. Th
 
 ## Release
 
+- [Developer Preview publish handoff](release/developer-preview-publish-handoff.md)
 - [Developer Preview checklist](release/developer-preview-checklist.md)
 - [H4 Pro scope decision packet](release/h4-pro-scope.md)
 - [H5 Developer Preview evidence](release/h5-developer-preview-gate-evidence.md)

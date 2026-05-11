@@ -96,6 +96,7 @@ Use `npm run release:owner:record -- --list` to inspect H4/H5/H6 owner gates. Ow
 - [Owner smoke notes](artifacts/owner-smoke-notes-2026-05-10.md)
 - [Archived native performance notes](native-performance-benchmark.md)
 - [Archived native runtime QA notes](native-runtime-qa.md)
+- [Developer Preview publish handoff](developer-preview-publish-handoff.md)
 - [Migration guide](../migration/from-v1.md)
 - `chartkit-codemod v1-to-v2`
 - [Prop mapping](../migration/prop-mapping.md)

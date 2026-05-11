@@ -105,6 +105,9 @@ Latest prerelease publish preflight verification on May 11, 2026:
 - the release gate now verifies the main CI workflow exists and still runs the
   required lint, security, typecheck, test, e2e, surface, docs, RN CLI,
   benchmark, and build checks
+- a short Developer Preview publish handoff now records the exact `next`
+  publish command, expected npm state, evidence artifact, and post-publish
+  verification steps
 - the release gate and publish workflow now require a `CHANGELOG.md` section
   for the current package version before creating GitHub release notes
 - `npm run release:publish:status -- --expect partial --dist-tag next` passed,
