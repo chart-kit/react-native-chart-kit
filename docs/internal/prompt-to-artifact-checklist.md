@@ -4,7 +4,7 @@ Status on May 10, 2026: Developer Preview path is simplified and complete; stabl
 
 This checklist maps the original CKV2 prompt to current artifacts without requiring native QA matrices.
 
-## Covered Milestones
+## Covered Developer Preview Milestones
 
 - CKV2-000 repository audit
 - CKV2-001 monorepo foundation
@@ -24,6 +24,19 @@ This checklist maps the original CKV2 prompt to current artifacts without requir
 - CKV2-015 candlestick/financial preview
 - CKV2-016 docs/migration/recipes
 - CKV2-017 Developer Preview preparation
+
+## Open Stable-RC Milestone
+
+- CKV2-018 release candidate: not complete and intentionally blocked on H6
+  owner approval
+
+Mapped artifacts:
+
+- [CKV2-018 release candidate notes](ckv2-018-release-candidate.md)
+- [H6 RC readiness packet](../release/h6-rc-readiness-packet.md)
+- [H6 finalization checklist](../release/h6-finalization-checklist.md)
+- [H6 owner decision memo](../release/h6-owner-decision-memo.md)
+- [Owner gate evidence](../release/evidence/owner-gates.json)
 
 ## Active Gates
 
