@@ -98,6 +98,8 @@ Latest prerelease publish preflight verification on May 11, 2026:
   errors instead of treating them as unpublished packages
 - the GitHub publish workflow now uses the same missing-vs-registry-error
   distinction for idempotent publish checks
+- the GitHub publish workflow now runs the selected release gate before package
+  state checks or publishing
 - the release gate and publish workflow now require a `CHANGELOG.md` section
   for the current package version before creating GitHub release notes
 - `npm run release:publish:status -- --expect partial --dist-tag next` passed,

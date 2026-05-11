@@ -96,6 +96,19 @@ jobs:
       - name: React Native CLI example
         run: npm run example:rn-cli:typecheck
 
+      - name: Release gate
+        run: |
+          if [ "${NPM_TAG}" = "next" ]; then
+            npm run release:preview:gate
+          elif [ "${NPM_TAG}" = "latest" ]; then
+            npm run release:gate
+          else
+            echo "Unsupported npm dist-tag ${NPM_TAG}."
+            exit 1
+          fi
+        env:
+          NPM_TAG: ${{ inputs.npm_tag }}
+
       - name: Verify package publish state
         id: package
         run: |
