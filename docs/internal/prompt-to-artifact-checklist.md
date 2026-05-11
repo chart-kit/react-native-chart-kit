@@ -30,7 +30,7 @@ This checklist maps the original CKV2 prompt to current artifacts without requir
 | Security and release hardening        | [known-issues.md](../release/known-issues.md), [h6-release-notes-draft.md](../release/h6-release-notes-draft.md), release gate scripts                                                                | `npm run security:audit`, `npm run test:unit -- scripts/package-scripts.test.mjs`, `npm run release:preview:gate`                   | Covered for high/critical gate                   |
 | Native/RN CLI release evidence        | [native-release-workflow.json](../release/evidence/native-release-workflow.json), [rn-cli-example-evidence.json](../release/evidence/rn-cli-example-evidence.json), runbooks                          | `npm run release:preview:gate`, `npm run example:rn-cli:typecheck`, native workflow evidence checks                                 | Prepared for preview; full stable claims limited |
 | Owner smoke evidence                  | [owner-smoke-notes-2026-05-10.md](../release/artifacts/owner-smoke-notes-2026-05-10.md), [smoke-test-checks.md](../release/smoke-test-checks.md)                                                      | `npm run release:preview:gate`                                                                                                      | Covered without long owner QA matrices           |
-| H6 release candidate                  | [ckv2-018-release-candidate.md](ckv2-018-release-candidate.md), H6 packet/checklist/release notes/claims docs                                                                                         | `npm run release:gate:report`                                                                                                       | Open; blocked only on H6 owner approval          |
+| H6 release candidate                  | [ckv2-018-release-candidate.md](ckv2-018-release-candidate.md), H6 packet/checklist/release notes/claims docs, [owner-gates.json](../release/evidence/owner-gates.json)                               | `npm run release:owner:record -- --list`, `npm run release:gate:report`                                                             | Open; blocked only on eight H6 owner decisions   |
 
 ## Covered Developer Preview Milestones
 
@@ -135,3 +135,11 @@ The old `release:qa:*` matrix recorder/status/capture scripts were removed. Use 
 Draft H6 artifacts exist for these decisions in `docs/release/`. The H6
 approval dry-run passes with all eight labels, so the active release gate
 remains blocked only until the owner explicitly approves H6.
+
+Latest owner-gate output:
+
+```text
+h4 approved    Pro/free boundary approval       0 pending decisions
+h5 approved    Developer Preview release approval 0 pending decisions
+h6 not-started Release-candidate approval       8 pending decisions
+```

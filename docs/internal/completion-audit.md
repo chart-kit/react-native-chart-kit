@@ -132,6 +132,21 @@ Latest current-HEAD verification on May 11, 2026:
   warning
 - `npm run release:gate:report` reports only the H6 owner-approval blocker
 
+Latest release-process simplification verification on May 11, 2026:
+
+- `npm run docs:build` passed after the Developer Preview publish handoff and
+  archived accessibility evidence cleanup
+- `npm run test:unit -- scripts/release-accessibility-artifacts.test.mjs scripts/check-release-gates.test.mjs`
+  passed
+- `npm run release:preview:gate` passed with `pass=119 warn=1 block=0 fail=0`
+- `npm run release:gate:report` passed in report mode with
+  `pass=119 warn=1 block=1 fail=0`; the single blocker is H6 owner approval
+- `npm run release:preview:publish:preflight` passed after npm registry access
+  was available; it confirmed the four free packages are missing for
+  `7.0.0-next.1` and Pro/Skia remain unpublished
+- `npm run release:owner:record -- --list` reports H4 and H5 approved, and H6
+  not started with eight pending decisions
+
 Current source version: `7.0.0-next.1`.
 
 Latest published Developer Preview: `7.0.0-next.0`.
