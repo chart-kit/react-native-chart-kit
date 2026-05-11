@@ -51,6 +51,16 @@ Latest release-hardening verification on May 10, 2026:
 - publish workflow channel choices are limited to `next` and `latest`; `beta`
   remains only as a deprecated-term guard in tests/scripts
 
+Latest visual-baseline and benchmark verification on May 10, 2026:
+
+- `npm run visual:update` passed and refreshed the current checked-in showcase
+  screenshots after the preview UI simplification
+- `npm run test:visual` passed: 95 Playwright visual and interaction tests
+- `npm run benchmark` passed: core geometry scenarios plus the showcase line
+  scrub benchmark
+- latest visual baseline maintenance commit:
+  `fadca93 test(showcase): refresh visual baselines`
+
 Current source version: `7.0.0-next.1`.
 
 Latest published Developer Preview: `7.0.0-next.0`.

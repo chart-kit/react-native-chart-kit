@@ -6,6 +6,15 @@ This document defines what "visual baseline freeze" means for H6. It does not
 ask the owner to fill out long QA forms. The owner approves the visual direction;
 automation protects the checked-in web baseline.
 
+Latest baseline checkpoint:
+
+- Commit: `fadca93 test(showcase): refresh visual baselines`
+- `npm run visual:update` passed and regenerated the current showcase
+  screenshots
+- `npm run test:visual` passed with 95/95 Playwright visual and interaction
+  tests
+- Freeze status: not approved for H6; Developer Preview baselines are current
+
 ## Current Visual Baseline Surface
 
 The checked-in baseline lives in:
