@@ -24,7 +24,7 @@ jobs:
       - name: Verify release branch
         run: |
           if [ "${GITHUB_REF_NAME}" != "next" ]; then
-            echo "This workflow publishes the rebuild package and must be run from the next branch."
+            echo "This workflow publishes the Chart Kit v2 package set and must be run from the next branch."
             exit 1
           fi
 
