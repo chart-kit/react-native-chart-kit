@@ -96,7 +96,7 @@
         "docs/release/artifacts/ios-voiceover-line-charts.png",
         "docs/release/artifacts/ios-voiceover-line-charts.log"
       ],
-      "notes": "Supporting iOS row-level capture only; manual iOS VoiceOver screen-reader review still required."
+      "notes": "Archived iOS row-level support capture. Current owner smoke notes record an iOS VoiceOver pass for the Expo preview; no row-by-row completion is required for Developer Preview."
     },
     {
       "id": "ios-voiceover-bar-charts",
@@ -108,7 +108,7 @@
         "docs/release/artifacts/ios-voiceover-bar-charts.png",
         "docs/release/artifacts/ios-voiceover-bar-charts.log"
       ],
-      "notes": "Supporting iOS row-level capture only; manual iOS VoiceOver screen-reader review still required."
+      "notes": "Archived iOS row-level support capture. Current owner smoke notes record an iOS VoiceOver pass for the Expo preview; no row-by-row completion is required for Developer Preview."
     },
     {
       "id": "ios-voiceover-combined-preview",
@@ -120,7 +120,7 @@
         "docs/release/artifacts/ios-voiceover-combined-preview.png",
         "docs/release/artifacts/ios-voiceover-combined-preview.log"
       ],
-      "notes": "Supporting iOS row-level capture only; manual iOS VoiceOver screen-reader review still required."
+      "notes": "Archived iOS row-level support capture. Current owner smoke notes record an iOS VoiceOver pass for the Expo preview; no row-by-row completion is required for Developer Preview."
     },
     {
       "id": "ios-voiceover-financial-preview",
@@ -132,7 +132,7 @@
         "docs/release/artifacts/ios-voiceover-financial-preview.png",
         "docs/release/artifacts/ios-voiceover-financial-preview.log"
       ],
-      "notes": "Supporting iOS row-level capture only; manual iOS VoiceOver screen-reader review still required."
+      "notes": "Archived iOS row-level support capture. Current owner smoke notes record an iOS VoiceOver pass for the Expo preview; no row-by-row completion is required for Developer Preview."
     },
     {
       "id": "ios-voiceover-pie-donut",
@@ -144,7 +144,7 @@
         "docs/release/artifacts/ios-voiceover-pie-donut.png",
         "docs/release/artifacts/ios-voiceover-pie-donut.log"
       ],
-      "notes": "Supporting iOS row-level capture only; manual iOS VoiceOver screen-reader review still required."
+      "notes": "Archived iOS row-level support capture. Current owner smoke notes record an iOS VoiceOver pass for the Expo preview; no row-by-row completion is required for Developer Preview."
     },
     {
       "id": "ios-voiceover-progress",
@@ -156,7 +156,7 @@
         "docs/release/artifacts/ios-voiceover-progress.png",
         "docs/release/artifacts/ios-voiceover-progress.log"
       ],
-      "notes": "Supporting iOS row-level capture only; manual iOS VoiceOver screen-reader review still required."
+      "notes": "Archived iOS row-level support capture. Current owner smoke notes record an iOS VoiceOver pass for the Expo preview; no row-by-row completion is required for Developer Preview."
     },
     {
       "id": "ios-voiceover-heatmaps",
@@ -168,7 +168,7 @@
         "docs/release/artifacts/ios-voiceover-heatmaps.png",
         "docs/release/artifacts/ios-voiceover-heatmaps.log"
       ],
-      "notes": "Supporting iOS row-level capture only; manual iOS VoiceOver screen-reader review still required."
+      "notes": "Archived iOS row-level support capture. Current owner smoke notes record an iOS VoiceOver pass for the Expo preview; no row-by-row completion is required for Developer Preview."
     },
     {
       "id": "ios-voiceover-compatibility",
@@ -180,7 +180,7 @@
         "docs/release/artifacts/ios-voiceover-compatibility.png",
         "docs/release/artifacts/ios-voiceover-compatibility.log"
       ],
-      "notes": "Supporting iOS row-level capture only; manual iOS VoiceOver screen-reader review still required."
+      "notes": "Archived iOS row-level support capture. Current owner smoke notes record an iOS VoiceOver pass for the Expo preview; no row-by-row completion is required for Developer Preview."
     },
     {
       "id": "android-talkback-line-charts",
@@ -193,7 +193,7 @@
         "docs/release/artifacts/android-talkback-line-charts.log",
         "docs/release/artifacts/android-talkback-line-charts.xml"
       ],
-      "notes": "Supporting Android row-level capture and UI hierarchy only; manual Android TalkBack screen-reader review still required."
+      "notes": "Archived Android row-level support capture and UI hierarchy. TalkBack remains a stable-release caveat, not a Developer Preview owner task."
     },
     {
       "id": "android-talkback-bar-charts",
@@ -206,7 +206,7 @@
         "docs/release/artifacts/android-talkback-bar-charts.log",
         "docs/release/artifacts/android-talkback-bar-charts.xml"
       ],
-      "notes": "Supporting Android row-level capture and UI hierarchy only; manual Android TalkBack screen-reader review still required."
+      "notes": "Archived Android row-level support capture and UI hierarchy. TalkBack remains a stable-release caveat, not a Developer Preview owner task."
     },
     {
       "id": "android-talkback-combined-preview",
@@ -219,7 +219,7 @@
         "docs/release/artifacts/android-talkback-combined-preview.log",
         "docs/release/artifacts/android-talkback-combined-preview.xml"
       ],
-      "notes": "Supporting Android row-level capture and UI hierarchy only; manual Android TalkBack screen-reader review still required."
+      "notes": "Archived Android row-level support capture and UI hierarchy. TalkBack remains a stable-release caveat, not a Developer Preview owner task."
     },
     {
       "id": "android-talkback-financial-preview",
@@ -232,7 +232,7 @@
         "docs/release/artifacts/android-talkback-financial-preview.log",
         "docs/release/artifacts/android-talkback-financial-preview.xml"
       ],
-      "notes": "Supporting Android row-level capture and UI hierarchy only; manual Android TalkBack screen-reader review still required."
+      "notes": "Archived Android row-level support capture and UI hierarchy. TalkBack remains a stable-release caveat, not a Developer Preview owner task."
     },
     {
       "id": "android-talkback-pie-donut",
@@ -245,7 +245,7 @@
         "docs/release/artifacts/android-talkback-pie-donut.log",
         "docs/release/artifacts/android-talkback-pie-donut.xml"
       ],
-      "notes": "Supporting Android row-level capture and UI hierarchy only; manual Android TalkBack screen-reader review still required."
+      "notes": "Archived Android row-level support capture and UI hierarchy. TalkBack remains a stable-release caveat, not a Developer Preview owner task."
     },
     {
       "id": "android-talkback-progress",
@@ -258,7 +258,7 @@
         "docs/release/artifacts/android-talkback-progress.log",
         "docs/release/artifacts/android-talkback-progress.xml"
       ],
-      "notes": "Supporting Android row-level capture and UI hierarchy only; manual Android TalkBack screen-reader review still required."
+      "notes": "Archived Android row-level support capture and UI hierarchy. TalkBack remains a stable-release caveat, not a Developer Preview owner task."
     },
     {
       "id": "android-talkback-heatmaps",
@@ -271,7 +271,7 @@
         "docs/release/artifacts/android-talkback-heatmaps.log",
         "docs/release/artifacts/android-talkback-heatmaps.xml"
       ],
-      "notes": "Supporting Android row-level capture and UI hierarchy only; manual Android TalkBack screen-reader review still required."
+      "notes": "Archived Android row-level support capture and UI hierarchy. TalkBack remains a stable-release caveat, not a Developer Preview owner task."
     },
     {
       "id": "android-talkback-compatibility",
@@ -284,7 +284,7 @@
         "docs/release/artifacts/android-talkback-compatibility.log",
         "docs/release/artifacts/android-talkback-compatibility.xml"
       ],
-      "notes": "Supporting Android row-level capture and UI hierarchy only; manual Android TalkBack screen-reader review still required."
+      "notes": "Archived Android row-level support capture and UI hierarchy. TalkBack remains a stable-release caveat, not a Developer Preview owner task."
     }
   ]
 }

@@ -27,18 +27,18 @@
       "notes": "Representative iOS VoiceOver-target and Android TalkBack-target screenshots/logs were captured for historical matrix rows. Active release notes summarize remaining assistive-technology risk instead of requiring matrix completion."
     }
   ],
-  "requiredAssistiveTech": [
+  "historicalAssistiveTech": [
     {
       "platform": "ios",
       "assistiveTech": "VoiceOver",
       "build": "Expo showcase or native release app",
-      "result": "pending"
+      "result": "owner-smoke-pass"
     },
     {
       "platform": "android",
       "assistiveTech": "TalkBack",
       "build": "Expo showcase or native release app",
-      "result": "pending"
+      "result": "not-required-for-developer-preview"
     }
   ],
   "missingEvidence": [],
