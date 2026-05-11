@@ -54,6 +54,9 @@ Manual example commands:
   boundary before an owner-approved `next` publish. It rebuilds package
   artifacts, expects the current source version to be unpublished, and still
   fails if Pro or Skia are published accidentally.
+- `npm run release:publish:evidence` records npm publish evidence after an
+  approved `next` workflow succeeds. It refuses to update evidence while the
+  current source version is still partial or missing from npm.
 - `npm run release:gate:report` prints RC/stable readiness; `npm run release:gate` is the strict RC/stable gate and should fail until H6 is approved.
 
 The `test:e2e` command covers web showcase interaction flows. The example commands are not native release-build checks and must not be counted as passing automated native coverage.

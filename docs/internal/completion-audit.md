@@ -103,6 +103,9 @@ Latest prerelease publish preflight verification on May 11, 2026:
 - `npm run release:publish:status -- --expect partial --dist-tag next` passed,
   and the GitHub publish workflow now verifies the exact dist-tag selected for
   the publish run
+- post-publish npm evidence can now be recorded with
+  `npm run release:publish:evidence`, which refuses to update evidence until
+  the current source version is complete in the npm registry
 - the GitHub publish workflow now rejects `next` publishes unless H5 owner
   approval is recorded
 - the GitHub publish workflow now rejects `latest` publishes unless H6 owner

@@ -137,9 +137,20 @@ Those commands should fail with npm not-found output during Developer Preview.
 
 ## Evidence To Update
 
-After each future publish rerun, update:
+After each future publish rerun, record npm evidence:
 
-- [npm-publish-evidence.json](evidence/npm-publish-evidence.json)
+```sh
+npm run release:publish:evidence -- \
+  --run-url https://github.com/indiespirit/react-native-chart-kit/actions/runs/<run-id> \
+  --release-url https://github.com/indiespirit/react-native-chart-kit/releases/tag/v<current package.json version>
+```
+
+This updates [npm-publish-evidence.json](evidence/npm-publish-evidence.json)
+only when `release:publish:status -- --strict --dist-tag next` would be
+complete for the current source version.
+
+Then update:
+
 - [known-issues.md](known-issues.md), if the publish caveats changed
 - [completion-audit.md](../internal/completion-audit.md), if release-gate status changed
 

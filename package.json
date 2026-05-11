@@ -91,6 +91,7 @@
     "native:release:dry-run": "node scripts/run-expo-native-release-check.mjs --platform all --dry-run",
     "release:native-workflow:record": "node scripts/record-native-workflow-evidence.mjs",
     "release:owner:record": "node scripts/record-owner-gate-decision.mjs",
+    "release:publish:evidence": "node scripts/record-npm-publish-evidence.mjs",
     "release:publish:status": "node scripts/check-npm-publish-state.mjs",
     "release:preview:publish:preflight": "npm run release:preview:gate && npm run build && npm run pack:check && npm run release:publish:status -- --expect partial",
     "release:preview:gate": "node scripts/check-release-gates.mjs --preview --strict",
