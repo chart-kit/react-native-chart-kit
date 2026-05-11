@@ -98,7 +98,7 @@ The workflow fails if:
 After the workflow succeeds, run:
 
 ```sh
-npm run release:publish:status -- --strict
+npm run release:publish:status -- --strict --dist-tag next
 npm view @chart-kit/core@next version
 npm view @chart-kit/svg-renderer@next version
 npm view @chart-kit/react-native@next version
@@ -106,9 +106,10 @@ npm view react-native-chart-kit@next version
 npm dist-tag ls react-native-chart-kit
 ```
 
-`release:publish:status -- --strict` is intentionally a post-publish check. It
-expects the publishable free packages to be present under `next`; use
-`release:preview:publish:preflight` before publishing.
+`release:publish:status -- --strict --dist-tag <tag>` is intentionally a
+post-publish check. It expects the publishable free packages to be present under
+the tag that was published; use `release:preview:publish:preflight` before
+publishing.
 
 Expected version output:
 

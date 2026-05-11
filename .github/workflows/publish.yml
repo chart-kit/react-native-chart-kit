@@ -208,7 +208,9 @@ jobs:
           PACKAGE_VERSION: ${{ steps.package.outputs.version }}
 
       - name: Verify npm registry publish state
-        run: npm run release:publish:status -- --strict
+        run: npm run release:publish:status -- --strict --dist-tag "${NPM_TAG}"
+        env:
+          NPM_TAG: ${{ steps.package.outputs.npm_tag }}
 
       - name: Create GitHub release
         env:

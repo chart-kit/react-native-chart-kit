@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   buildNpmPublishState,
+  readDistTagArg,
   readExpectedStatusArg
 } from "./check-npm-publish-state.mjs";
 
@@ -184,6 +185,15 @@ describe("npm publish state checker", () => {
     expect(readExpectedStatusArg([])).toBeUndefined();
     expect(() => readExpectedStatusArg(["--expect", "unknown"])).toThrow(
       /Unsupported expected publish state/
+    );
+  });
+
+  it("parses npm dist-tag overrides for preview and stable publish checks", () => {
+    expect(readDistTagArg(["--dist-tag", "latest"], "next")).toBe("latest");
+    expect(readDistTagArg(["--dist-tag=next"], "latest")).toBe("next");
+    expect(readDistTagArg([], "next")).toBe("next");
+    expect(() => readDistTagArg(["--dist-tag", "beta"], "next")).toThrow(
+      /Unsupported npm dist-tag/
     );
   });
 });

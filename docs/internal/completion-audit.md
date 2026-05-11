@@ -98,6 +98,9 @@ Latest prerelease publish preflight verification on May 11, 2026:
   distinction for idempotent publish checks
 - the release gate and publish workflow now require a `CHANGELOG.md` section
   for the current package version before creating GitHub release notes
+- `npm run release:publish:status -- --expect partial --dist-tag next` passed,
+  and the GitHub publish workflow now verifies the exact dist-tag selected for
+  the publish run
 
 Current source version: `7.0.0-next.1`.
 

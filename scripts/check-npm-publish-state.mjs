@@ -188,21 +188,22 @@ const formatState = (state) => {
   ].join("\n");
 };
 
+const readArgValue = (argList, flag) => {
+  const inlineValue = argList.find((arg) => arg.startsWith(`${flag}=`));
+  if (inlineValue) {
+    return inlineValue.slice(flag.length + 1);
+  }
+
+  const index = argList.indexOf(flag);
+  if (index === -1) {
+    return undefined;
+  }
+
+  return argList[index + 1];
+};
+
 export const readExpectedStatusArg = (argList) => {
-  const readArgValue = (flag) => {
-    const inlineValue = argList.find((arg) => arg.startsWith(`${flag}=`));
-    if (inlineValue) {
-      return inlineValue.slice(flag.length + 1);
-    }
-
-    const index = argList.indexOf(flag);
-    if (index === -1) {
-      return undefined;
-    }
-
-    return argList[index + 1];
-  };
-  const expectedStatus = readArgValue("--expect");
+  const expectedStatus = readArgValue(argList, "--expect");
   const validStatuses = new Set(["complete", "partial", "failed"]);
 
   if (expectedStatus && !validStatuses.has(expectedStatus)) {
@@ -214,6 +215,19 @@ export const readExpectedStatusArg = (argList) => {
   return expectedStatus;
 };
 
+export const readDistTagArg = (argList, fallback) => {
+  const distTag = readArgValue(argList, "--dist-tag") ?? fallback;
+  const validDistTags = new Set(["next", "latest"]);
+
+  if (!validDistTags.has(distTag)) {
+    throw new Error(
+      `Unsupported npm dist-tag "${distTag}". Use next or latest.`
+    );
+  }
+
+  return distTag;
+};
+
 export const main = async () => {
   const argList = process.argv.slice(2);
   const args = new Set(argList);
@@ -221,9 +235,10 @@ export const main = async () => {
   const packageJson = await readJson(path.join(repoRoot, "package.json"));
   const manifest = await readJson(path.join(repoRoot, defaultManifestPath));
   const expectedStatus = readExpectedStatusArg(argList);
+  const distTag = readDistTagArg(argList, manifest.distTag ?? "next");
 
   const state = await buildNpmPublishState({
-    distTag: manifest.distTag ?? "next",
+    distTag,
     manifest,
     version: packageJson.version
   });

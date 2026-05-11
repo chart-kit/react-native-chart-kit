@@ -157,7 +157,7 @@ const publishWorkflowSafetyChecks = [
   "scripts/check-npm-package-exists.mjs",
   "HAS_UNPUBLISHED_PACKAGE=0",
   "continuing idempotent rerun",
-  "npm run release:publish:status -- --strict",
+  'npm run release:publish:status -- --strict --dist-tag "${NPM_TAG}"',
   'gh release view "${TAG_NAME}"',
   "release already exists; skipping release creation.",
   "timeout 30s npm dist-tag ls",
