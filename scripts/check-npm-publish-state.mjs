@@ -13,14 +13,20 @@ export const npmViewPackage = ({ name, version }) => {
     "npm",
     ["view", `${name}@${version}`, "version", "dist-tags", "versions", "--json"],
     {
-      encoding: "utf8"
+      encoding: "utf8",
+      timeout: 30_000
     }
   );
 
   if (result.status !== 0) {
     const output = [result.stdout, result.stderr].filter(Boolean).join("\n");
+    const error = output.trim();
+
     return {
-      error: output.trim(),
+      error,
+      errorKind: /E404|404 Not Found/i.test(error)
+        ? "not-found"
+        : "registry-error",
       exists: false
     };
   }
@@ -33,6 +39,12 @@ export const npmViewPackage = ({ name, version }) => {
 
 const normalizeNpmView = (viewResult) => {
   if (!viewResult.exists) {
+    if (viewResult.errorKind && viewResult.errorKind !== "not-found") {
+      throw new Error(
+        `Unable to read npm registry state: ${viewResult.error || viewResult.errorKind}`
+      );
+    }
+
     return {
       distTags: {},
       published: false,
@@ -176,11 +188,40 @@ const formatState = (state) => {
   ].join("\n");
 };
 
+export const readExpectedStatusArg = (argList) => {
+  const readArgValue = (flag) => {
+    const inlineValue = argList.find((arg) => arg.startsWith(`${flag}=`));
+    if (inlineValue) {
+      return inlineValue.slice(flag.length + 1);
+    }
+
+    const index = argList.indexOf(flag);
+    if (index === -1) {
+      return undefined;
+    }
+
+    return argList[index + 1];
+  };
+  const expectedStatus = readArgValue("--expect");
+  const validStatuses = new Set(["complete", "partial", "failed"]);
+
+  if (expectedStatus && !validStatuses.has(expectedStatus)) {
+    throw new Error(
+      `Unsupported expected publish state "${expectedStatus}". Use complete, partial, or failed.`
+    );
+  }
+
+  return expectedStatus;
+};
+
 export const main = async () => {
-  const args = new Set(process.argv.slice(2));
+  const argList = process.argv.slice(2);
+  const args = new Set(argList);
   const repoRoot = process.cwd();
   const packageJson = await readJson(path.join(repoRoot, "package.json"));
   const manifest = await readJson(path.join(repoRoot, defaultManifestPath));
+  const expectedStatus = readExpectedStatusArg(argList);
+
   const state = await buildNpmPublishState({
     distTag: manifest.distTag ?? "next",
     manifest,
@@ -194,6 +235,13 @@ export const main = async () => {
   }
 
   if (args.has("--strict") && state.status !== "complete") {
+    process.exit(1);
+  }
+
+  if (expectedStatus && state.status !== expectedStatus) {
+    console.error(
+      `Expected npm publish state ${expectedStatus}, received ${state.status}.`
+    );
     process.exit(1);
   }
 };

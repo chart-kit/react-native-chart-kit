@@ -53,4 +53,21 @@ describe("package scripts", () => {
     expect(scripts["release:gate"]).toContain("--strict");
     expect(scripts["release:gate"]).not.toContain("--preview");
   });
+
+  it("keeps the next prerelease publish preflight scoped to the expected pre-publish state", async () => {
+    const scripts = await readPackageScripts();
+
+    expect(scripts["release:preview:publish:preflight"]).toContain(
+      "release:preview:gate"
+    );
+    expect(scripts["release:preview:publish:preflight"]).toContain(
+      "pack:check"
+    );
+    expect(scripts["release:preview:publish:preflight"]).toContain(
+      "--expect partial"
+    );
+    expect(scripts["release:preview:publish:preflight"]).not.toContain(
+      "--strict"
+    );
+  });
 });

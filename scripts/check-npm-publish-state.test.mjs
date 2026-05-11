@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { buildNpmPublishState } from "./check-npm-publish-state.mjs";
+import {
+  buildNpmPublishState,
+  readExpectedStatusArg
+} from "./check-npm-publish-state.mjs";
 
 const manifest = {
   distTag: "next",
@@ -158,5 +161,29 @@ describe("npm publish state checker", () => {
       ["@chart-kit/pro", "pass"]
     ]);
     expect(state.entries[0].hasForcedPreviewLatestTag).toBe(true);
+  });
+
+  it("fails registry errors instead of treating them as unpublished packages", async () => {
+    await expect(
+      buildNpmPublishState({
+        distTag: "next",
+        manifest,
+        npmView: async () => ({
+          error: "EAI_AGAIN registry.npmjs.org",
+          errorKind: "registry-error",
+          exists: false
+        }),
+        version: "7.0.0-next.0"
+      })
+    ).rejects.toThrow(/Unable to read npm registry state/);
+  });
+
+  it("parses expected publish states for pre-publish and post-publish checks", () => {
+    expect(readExpectedStatusArg(["--expect", "partial"])).toBe("partial");
+    expect(readExpectedStatusArg(["--expect=complete"])).toBe("complete");
+    expect(readExpectedStatusArg([])).toBeUndefined();
+    expect(() => readExpectedStatusArg(["--expect", "unknown"])).toThrow(
+      /Unsupported expected publish state/
+    );
   });
 });

@@ -85,6 +85,16 @@ Latest H6 release-document consistency verification on May 11, 2026:
 - H6 release notes, release claims, and finalization checklist now include the
   latest release-hardening checks
 
+Latest prerelease publish preflight verification on May 11, 2026:
+
+- `npm run release:preview:publish:preflight` passed
+- the preflight confirmed the four free publishable packages are still missing
+  for `7.0.0-next.1`
+- the preflight confirmed `@chart-kit/pro` and `@chart-kit/skia-renderer`
+  remain unpublished
+- npm registry lookup now uses a bounded timeout and fails on registry/network
+  errors instead of treating them as unpublished packages
+
 Current source version: `7.0.0-next.1`.
 
 Latest published Developer Preview: `7.0.0-next.0`.

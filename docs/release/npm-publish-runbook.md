@@ -16,6 +16,16 @@ Current local prep on May 11, 2026:
 
 Do not publish the next Developer Preview without explicit owner approval.
 
+Before an approved rerun, use the local preflight command:
+
+```sh
+npm run release:preview:publish:preflight
+```
+
+This verifies the Developer Preview gate, package dry-runs, and the expected
+pre-publish npm registry state: free packages are still missing for the current
+source version while Pro and Skia remain unpublished.
+
 ## Publish Target
 
 Published under the `next` dist-tag:
@@ -89,6 +99,10 @@ npm view @chart-kit/react-native@next version
 npm view react-native-chart-kit@next version
 npm dist-tag ls react-native-chart-kit
 ```
+
+`release:publish:status -- --strict` is intentionally a post-publish check. It
+expects the publishable free packages to be present under `next`; use
+`release:preview:publish:preflight` before publishing.
 
 Expected version output:
 

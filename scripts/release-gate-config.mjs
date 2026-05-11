@@ -90,6 +90,7 @@ export const requiredScripts = [
   "release:native-workflow:record",
   "release:owner:record",
   "release:publish:status",
+  "release:preview:publish:preflight",
   "release:preview:gate",
   "release:preview:gate:report",
   "release:gate",

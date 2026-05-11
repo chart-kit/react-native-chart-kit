@@ -30,6 +30,7 @@ npm run boundaries:check
 npm run surface:check
 npm run skia:parity
 npm run security:audit
+npm run release:preview:publish:preflight
 npm run release:preview:gate:report
 npm run docs:build
 npm run example:rn-cli:typecheck
@@ -47,6 +48,10 @@ Manual example commands:
 - `npm run native:release:dry-run` prints the generated native release-build commands without requiring local native projects.
 - `npm run native:release:android` and `npm run native:release:ios` run the release-build checks documented in [Native release checks](native-release-checks.md).
 - `npm run release:preview:gate:report` prints Developer Preview readiness without failing.
+- `npm run release:preview:publish:preflight` checks the local publish package
+  boundary before an owner-approved `next` publish. It expects the current
+  source version to be unpublished while still failing if Pro or Skia are
+  published accidentally.
 - `npm run release:gate:report` prints RC/stable readiness; `npm run release:gate` is the strict RC/stable gate and should fail until H6 is approved.
 
 The `test:e2e` command covers web showcase interaction flows. The example commands are not native release-build checks and must not be counted as passing automated native coverage.
@@ -61,7 +66,7 @@ Use `npm run release:native-workflow:record -- --list` to inspect native release
 
 Use `npm run release:publish:status` to compare the Developer Preview package manifest against actual npm registry state. It should report the scoped free packages and root compatibility package under `next`, while `@chart-kit/pro` and `@chart-kit/skia-renderer` remain unpublished for Developer Preview. Add `-- --strict` when a complete publish is expected.
 
-Use [npm-publish-runbook.md](npm-publish-runbook.md) when rerunning the Developer Preview publish workflow for future `next` prereleases. It documents the required token properties, idempotent rerun command, dist-tag caveats, and post-publish registry checks.
+Use [npm-publish-runbook.md](npm-publish-runbook.md) when rerunning the Developer Preview publish workflow for future `next` prereleases. It documents the required token properties, local publish preflight, idempotent rerun command, dist-tag caveats, and post-publish registry checks.
 
 Use [native-workflow-runbook.md](native-workflow-runbook.md) when making the native release workflow visible on the default branch, dispatching it for the release-candidate commit, and recording iOS/Android workflow artifacts.
 
