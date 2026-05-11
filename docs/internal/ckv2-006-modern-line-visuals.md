@@ -46,8 +46,15 @@ Marker and selection option resolution moved into small pure helpers so marker p
 - unit coverage: added for marker config, crosshair/tooltip config, tooltip placement, and null-gap selection
 - visual coverage: includes line showpieces, interaction states, viewport/range selector, dense labels, dark mode, and compatibility fixtures
 
-## Remaining Before CKV2-006 Close
+## Developer Preview Status
 
-- Promote or rename the import path after API review.
-- Add legacy `LineChart` adapter work in the compatibility package slice.
-- Continue native-device verification for gesture conflict behavior once RN CLI examples exist.
+Closed for Developer Preview.
+
+- Modern charts are exposed through `@chart-kit/react-native`.
+- The root compatibility package keeps the legacy `LineChart` path available.
+- Line/area visual coverage includes showpieces, interactions, dense labels,
+  viewport/range selector, dark mode, and compatibility fixtures.
+- Owner smoke evidence covers the current Expo preview interaction behavior.
+
+Further native release-build evidence is handled by the H6 release-claim
+decision, not by CKV2-006.

@@ -1,6 +1,7 @@
 # CKV2-015 Candlestick Foundation
 
-Status: foundation complete; H4 still needs to decide Pro packaging and licensing boundaries.
+Status: foundation complete for Developer Preview; H4 approved the Pro-candidate
+boundary and keeps CandlestickChart labeled as Financial Preview.
 
 Implemented in this slice:
 
@@ -25,4 +26,5 @@ Implemented in this slice:
 
 Still pending for the broader financial module:
 
-- Pro packaging and licensing decision
+- H6 Pro and Skia package plan approval before any stable paid-package claim
+- final release-claim wording for financial charts

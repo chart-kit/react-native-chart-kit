@@ -16,9 +16,16 @@ Added the first CombinedChart foundation:
 - visual regression entry for the combined chart story
 - unit coverage for independent domains, explicit domains, right-axis labels, and stacked bars
 
-## Remaining Work
+## Developer Preview Status
 
-- Add synchronized tooltip and crosshair.
-- Add legend toggling that recomputes both axis domains.
-- Add negative-value visual coverage.
-- Add dual-axis interaction tests once selection is implemented.
+Closed for Developer Preview.
+
+Additional work completed after the foundation slice:
+
+- shared tooltip and selection interaction
+- external legend toggling for visible series
+- negative-value model and visual coverage
+- interaction tests for shared tooltip behavior
+
+CombinedChart remains a Pro-candidate preview surface for H6 release claims
+until the owner approves the final Pro/free package plan.
