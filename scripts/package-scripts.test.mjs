@@ -60,6 +60,7 @@ describe("package scripts", () => {
     expect(scripts["release:preview:publish:preflight"]).toContain(
       "release:preview:gate"
     );
+    expect(scripts["release:preview:publish:preflight"]).toContain("build");
     expect(scripts["release:preview:publish:preflight"]).toContain(
       "pack:check"
     );

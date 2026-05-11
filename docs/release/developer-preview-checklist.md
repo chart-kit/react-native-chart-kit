@@ -49,9 +49,9 @@ Manual example commands:
 - `npm run native:release:android` and `npm run native:release:ios` run the release-build checks documented in [Native release checks](native-release-checks.md).
 - `npm run release:preview:gate:report` prints Developer Preview readiness without failing.
 - `npm run release:preview:publish:preflight` checks the local publish package
-  boundary before an owner-approved `next` publish. It expects the current
-  source version to be unpublished while still failing if Pro or Skia are
-  published accidentally.
+  boundary before an owner-approved `next` publish. It rebuilds package
+  artifacts, expects the current source version to be unpublished, and still
+  fails if Pro or Skia are published accidentally.
 - `npm run release:gate:report` prints RC/stable readiness; `npm run release:gate` is the strict RC/stable gate and should fail until H6 is approved.
 
 The `test:e2e` command covers web showcase interaction flows. The example commands are not native release-build checks and must not be counted as passing automated native coverage.

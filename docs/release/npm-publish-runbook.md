@@ -22,9 +22,10 @@ Before an approved rerun, use the local preflight command:
 npm run release:preview:publish:preflight
 ```
 
-This verifies the Developer Preview gate, package dry-runs, and the expected
-pre-publish npm registry state: free packages are still missing for the current
-source version while Pro and Skia remain unpublished.
+This verifies the Developer Preview gate, rebuilds package artifacts, runs
+package dry-runs, and checks the expected pre-publish npm registry state: free
+packages are still missing for the current source version while Pro and Skia
+remain unpublished.
 
 ## Publish Target
 
