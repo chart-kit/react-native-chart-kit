@@ -101,6 +101,8 @@ Latest prerelease publish preflight verification on May 11, 2026:
 - `npm run release:publish:status -- --expect partial --dist-tag next` passed,
   and the GitHub publish workflow now verifies the exact dist-tag selected for
   the publish run
+- the GitHub publish workflow now rejects `latest` publishes unless H6 owner
+  approval is recorded
 
 Current source version: `7.0.0-next.1`.
 

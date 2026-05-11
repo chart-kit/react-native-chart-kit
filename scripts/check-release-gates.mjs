@@ -153,6 +153,7 @@ const publishWorkflowSafetyChecks = [
   "NPM_TOKEN is not configured",
   "npm whoami",
   "npm access list packages @chart-kit --json",
+  "scripts/check-owner-gate-status.mjs h6 approved",
   "scripts/list-release-packages.mjs --publishable",
   "scripts/check-npm-package-exists.mjs",
   "HAS_UNPUBLISHED_PACKAGE=0",

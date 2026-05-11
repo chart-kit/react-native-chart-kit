@@ -42,6 +42,7 @@ export const requiredFiles = [
   ".github/workflows/native-release.yml",
   "scripts/release-gate-config.mjs",
   "scripts/release-gate-validation.mjs",
+  "scripts/check-owner-gate-status.mjs",
   "scripts/check-npm-package-exists.mjs",
   "scripts/release-skia-artifacts.mjs",
   "scripts/run-skia-native-release-check.mjs",
