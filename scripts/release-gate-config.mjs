@@ -38,6 +38,7 @@ export const requiredFiles = [
   ".github/ISSUE_TEMPLATE/config.yml",
   ".github/ISSUE_TEMPLATE/layout-bug.yml",
   ".github/ISSUE_TEMPLATE/performance-bug.yml",
+  ".github/workflows/ci.yml",
   ".github/workflows/publish.yml",
   ".github/workflows/native-release.yml",
   "scripts/release-gate-config.mjs",

@@ -102,6 +102,9 @@ Latest prerelease publish preflight verification on May 11, 2026:
   state checks or publishing
 - GitHub CI, native release, and publish workflows now install dependencies
   with `npm ci --ignore-scripts` and npm lockfile caching
+- the release gate now verifies the main CI workflow exists and still runs the
+  required lint, security, typecheck, test, e2e, surface, docs, RN CLI,
+  benchmark, and build checks
 - the release gate and publish workflow now require a `CHANGELOG.md` section
   for the current package version before creating GitHub release notes
 - `npm run release:publish:status -- --expect partial --dist-tag next` passed,

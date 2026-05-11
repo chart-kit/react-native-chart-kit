@@ -116,6 +116,33 @@ addCheck({
   status: publishEvidenceText.includes(sourceVersion) ? "pass" : "warn"
 });
 
+const ciWorkflowSource = await readRepoFile(".github/workflows/ci.yml");
+const ciWorkflowChecks = [
+  "cache: npm",
+  "npm ci --ignore-scripts",
+  "npm run lint",
+  "npm run security:audit",
+  "npm run typecheck",
+  "npm run test",
+  "npm run test:e2e",
+  "npm run surface:check",
+  "npm run docs:build",
+  "npm run example:rn-cli:typecheck",
+  "npm run benchmark",
+  "npm run build"
+].filter((needle) => !ciWorkflowSource.includes(needle));
+
+addCheck({
+  detail:
+    ciWorkflowChecks.length > 0
+      ? `Missing CI workflow config: ${ciWorkflowChecks.join(", ")}`
+      : "",
+  evidence: ".github/workflows/ci.yml",
+  id: "workflow:ci-safety",
+  message: "CI workflow runs the required verification surface",
+  status: ciWorkflowChecks.length === 0 ? "pass" : "fail"
+});
+
 const nativeReleaseWorkflowSource = await readRepoFile(
   ".github/workflows/native-release.yml"
 );

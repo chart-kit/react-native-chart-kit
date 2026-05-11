@@ -274,6 +274,18 @@ describe("release gate checker", () => {
     });
   });
 
+  it("checks CI workflow verification wiring", () => {
+    const report = runGateReportJson();
+
+    expect(
+      report.checks.find((check) => check.id === "workflow:ci-safety")
+    ).toMatchObject({
+      evidence: ".github/workflows/ci.yml",
+      message: "CI workflow runs the required verification surface",
+      status: "pass"
+    });
+  });
+
   it("checks native release workflow artifact upload wiring", () => {
     const report = runGateReportJson();
 
