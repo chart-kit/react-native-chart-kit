@@ -1,6 +1,6 @@
 # H6 Finalization Checklist
 
-Status on May 10, 2026: proposed for owner review.
+Status on May 11, 2026: proposed for owner review.
 
 Use this checklist only when moving from Developer Preview to release
 candidate. It is not required for another `next` prerelease.
@@ -56,6 +56,7 @@ Before H6 approval:
 - migration guide and prop mapping match the compatibility facade
 - Pro-preview labels match the approved H4 boundary
 - known issues match the final release claims
+- support issue templates match the support workflow promised in release notes
 - `npm run docs:build` passes
 
 Owner must approve docs freeze before H6.
@@ -114,6 +115,8 @@ Before H6 approval:
   financial-chart, or native release-device performance evidence
 - Developer Preview caveats are either resolved or carried into known issues
 - release notes match the approved final claims
+- high/critical security audit status is either current or disclosed if it
+  changes before H6
 
 Owner must approve release claims before H6.
 
@@ -127,7 +130,7 @@ After the above decisions are approved, run:
 npm run release:owner:record -- \
   --gate h6 \
   --approved-by owner \
-  --approved-at 2026-05-10 \
+  --approved-at 2026-05-11 \
   --decision "Release candidate approved." \
   --decision "Final semver approved." \
   --decision "Final changelog approved." \

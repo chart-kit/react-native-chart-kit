@@ -1,6 +1,6 @@
 # Chart Kit v2 Stable Release Notes Draft
 
-Status on May 10, 2026: draft for H6 owner review.
+Status on May 11, 2026: draft for H6 owner review.
 
 These notes are a stable-release draft, not the current Developer Preview
 announcement. They should be edited before H6 approval if final scope changes.
@@ -30,6 +30,8 @@ path for existing `react-native-chart-kit` users.
 - Expo showcase for visual review on web and native devices.
 - Migration guide, prop mapping, codemod, production recipes, troubleshooting,
   issue templates, and release evidence docs.
+- Release hardening checks for package scripts, support issue templates,
+  publish status, package packing, and high/critical security audit coverage.
 
 ## Compatibility
 
@@ -73,6 +75,8 @@ Supporting proposal: [H6 Pro Package Plan](h6-pro-package-plan.md).
 - Moderate Expo toolchain advisories may remain until an Expo-compatible
   upstream fix exists.
 - Financial charts should stay labeled as Financial Preview unless promoted.
+- `7.0.0-next.1` source is prepared locally but is not published until the owner
+  explicitly approves the next prerelease publish.
 
 Supporting proposal: [H6 Release Claims](h6-release-claims.md).
 
@@ -93,5 +97,7 @@ Supporting proposal: [H6 Release Claims](h6-release-claims.md).
   scroll/range workflows, and accessibility helpers
 - add Expo showcase, visual regression coverage, docs, migration guide, codemod,
   recipes, troubleshooting, issue templates, and release evidence
+- add release hardening checks for required scripts, issue templates, publish
+  status, package packing, and high/critical security audit coverage
 - document the compatibility and deprecation policy for v1 users
 ```

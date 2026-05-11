@@ -1,6 +1,6 @@
 # H6 Release Claims
 
-Status on May 10, 2026: proposed for owner review.
+Status on May 11, 2026: proposed for owner review.
 
 This document constrains stable-release wording so the release does not overclaim
 native, accessibility, performance, Pro, Skia, or financial-chart readiness.
@@ -19,6 +19,12 @@ These claims are currently supported by evidence:
   exist
 - native release workflow evidence exists for the configured CI workflow
 - package pack checks cover all packages in the release manifest
+- release-gate-required package scripts are covered by a unit guard
+- required support issue templates are covered by a unit guard
+- high/critical npm audit gating is wired into the release checks and currently
+  passes for the v2 preview branch
+- publish status checks identify unpublished free packages before an approved
+  prerelease publish
 
 ## Claims To Avoid Unless New Evidence Is Added
 
@@ -31,6 +37,7 @@ Do not claim the stable release has:
 - stable Pro package availability
 - stable Skia package availability
 - stable financial chart API guarantees
+- no known moderate advisory in transitive Expo tooling
 
 ## Recommended Stable Claim
 
@@ -38,8 +45,9 @@ Recommended wording:
 
 > Chart Kit v2 is ready as a stable free chart foundation with a compatibility
 > path, modern typed APIs, SVG rendering, improved layout, chart families,
-> themes, docs, examples, and automated web/package verification. Advanced Pro,
-> Skia, financial, and large-data workflows remain preview or Pro-candidate.
+> themes, docs, examples, support templates, security gating, and automated
+> web/package verification. Advanced Pro, Skia, financial, and large-data
+> workflows remain preview or Pro-candidate.
 
 ## Owner Decision
 
