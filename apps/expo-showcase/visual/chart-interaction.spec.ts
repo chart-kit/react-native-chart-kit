@@ -78,7 +78,7 @@ test.describe("Expo showcase chart interactions", () => {
 
     const frame = page.getByTestId("visual-frame");
     await expect(frame).toBeVisible();
-    await expect(page.getByText("Scrollable", { exact: true })).toBeVisible();
+    await expect(page.getByText("MSFT vs GOOG")).toBeVisible();
     await expect(page.getByText("MSFT:")).toHaveCount(0);
 
     const box = await frame.boundingBox();

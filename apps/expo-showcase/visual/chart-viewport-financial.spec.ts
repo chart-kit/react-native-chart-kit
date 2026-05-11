@@ -11,14 +11,14 @@ test.describe("Expo showcase viewport and financial interactions", () => {
 
     const interactionLayer = page.getByTestId("chart-layer.interaction");
 
-    await expect(page.getByText("Price action")).toBeVisible();
-    await expect(interactionLayer.getByText("Jun 11")).toBeVisible();
-    await expect(interactionLayer.getByText("H $209")).toBeVisible();
+    await expect(page.getByText("One-year candles")).toBeVisible();
+    await expect(interactionLayer.getByText("Apr 29")).toBeVisible();
+    await expect(interactionLayer.getByText("$291")).toBeVisible();
 
-    await page.getByTestId("stock-candlestick-chart-candle.7").click();
-    await expect(interactionLayer.getByText("Jun 12")).toBeVisible();
-    await expect(interactionLayer.getByText("H $211")).toBeVisible();
-    await expect(interactionLayer.getByText("Jun 11")).toHaveCount(0);
+    await page.getByTestId("stock-candlestick-chart-candle.250").click();
+    await expect(interactionLayer.getByText("Apr 16")).toBeVisible();
+    await expect(interactionLayer.getByText("$300")).toBeVisible();
+    await expect(interactionLayer.getByText("Apr 29")).toHaveCount(0);
   });
 
   test("candlestick range selector changes the visible window", async ({
@@ -34,7 +34,7 @@ test.describe("Expo showcase viewport and financial interactions", () => {
       "stock-candlestick-chart-range-selector"
     );
 
-    await expect(page.getByText("Price action")).toBeVisible();
+    await expect(page.getByText("One-year candles")).toBeVisible();
     await expect(
       page.getByTestId("stock-candlestick-chart-candle.0")
     ).toHaveCount(0);
