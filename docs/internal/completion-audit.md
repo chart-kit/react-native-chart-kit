@@ -116,6 +116,16 @@ Latest prerelease publish preflight verification on May 11, 2026:
 - the GitHub publish workflow now rejects `latest` publishes unless H6 owner
   approval is recorded
 
+Latest current-HEAD verification on May 11, 2026:
+
+- `npm run lint` passed, including `filesize:check` for 341 source files
+- `npm run test` passed: typecheck, 76 unit test files, 425 unit tests, and
+  compatibility tests
+- `npm run docs:build` passed
+- `npm run release:preview:gate` passed with the expected unpublished-source
+  warning
+- `npm run release:gate:report` reports only the H6 owner-approval blocker
+
 Current source version: `7.0.0-next.1`.
 
 Latest published Developer Preview: `7.0.0-next.0`.
