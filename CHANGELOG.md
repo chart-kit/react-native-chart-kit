@@ -10,6 +10,9 @@
 - guard the required CKV2 command surface and Developer Preview publish manifest in tests
 - guard the release-gate-required package scripts and GitHub issue-template
   fields in tests
+- verify the main CI workflow in the release gate so required lint, security,
+  typecheck, test, e2e, surface, docs, RN CLI, benchmark, and build checks do
+  not drift
 - add a local Developer Preview publish preflight that runs the preview gate,
   rebuilds packages, pack-checks all release packages, and verifies the expected
   pre-publish npm registry state
