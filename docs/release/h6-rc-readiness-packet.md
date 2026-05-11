@@ -45,10 +45,12 @@ archived historical evidence, not active H6 blockers.
 
 ## Current Product State
 
-Ready for Developer Preview:
+Developer Preview readiness:
 
-- published `next` preview packages are documented in
+- the latest published `next` preview, `7.0.0-next.0`, is documented in
   [npm-publish-evidence.json](evidence/npm-publish-evidence.json)
+- source `7.0.0-next.1` is prepared but remains unpublished until an approved
+  `next` workflow run
 - Pro and Skia packages remain unpublished by design
 - compatibility package path exists through `react-native-chart-kit`
 - modern package path exists through `@chart-kit/react-native`

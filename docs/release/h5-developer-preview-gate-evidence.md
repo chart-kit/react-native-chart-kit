@@ -11,6 +11,8 @@ Status on May 10, 2026: H5 is approved for Developer Preview publishing from fre
 - RN CLI smoke evidence: [rn-cli-example-evidence.json](evidence/rn-cli-example-evidence.json)
 - npm publish evidence for `7.0.0-next.0`: [npm-publish-evidence.json](evidence/npm-publish-evidence.json)
 - package manifest: [package-manifest.json](evidence/package-manifest.json)
+- current source `7.0.0-next.1` is prepared but remains unpublished until an
+  owner-approved `next` workflow run
 
 ## Package Boundary
 

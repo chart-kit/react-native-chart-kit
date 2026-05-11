@@ -1,6 +1,8 @@
 # Prompt-To-Artifact Checklist
 
-Status on May 11, 2026: Developer Preview path is simplified and complete; stable RC remains a later gate.
+Status on May 11, 2026: Developer Preview readiness is simplified and complete;
+the current `7.0.0-next.1` npm publish remains pending. Stable RC remains a
+later gate.
 
 This checklist maps the original CKV2 prompt to current artifacts without requiring native QA matrices.
 

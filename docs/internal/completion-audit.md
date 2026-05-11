@@ -1,6 +1,8 @@
 # Chart Kit V2 Completion Audit
 
-Status on May 11, 2026: Developer Preview is complete; stable RC is not complete.
+Status on May 11, 2026: Developer Preview readiness is complete; the current
+`7.0.0-next.1` publish is pending an owner-approved workflow run. Stable RC is
+not complete.
 
 This audit intentionally separates preview readiness from stable-release readiness. Native QA matrices are no longer part of the active completion path.
 
@@ -8,7 +10,7 @@ The old native runtime, accessibility, and performance evidence manifests are
 kept as archived reference data only. They now use `status: "archived"` with an
 archive note, empty `requiredFor`, and no active `missingEvidence` list.
 
-## Developer Preview Complete
+## Developer Preview Readiness Complete
 
 The current repository is ready for Developer Preview when these checks pass:
 
@@ -183,6 +185,12 @@ The remaining blocker is explicit owner approval, not missing decision prep.
 
 ## Simplified Completion Rule
 
-Developer Preview is complete when `npm run release:preview:gate` passes.
+Developer Preview readiness is complete when `npm run release:preview:gate`
+passes.
+
+A specific Developer Preview npm publish is complete only after the approved
+publish workflow succeeds, `npm run release:publish:status -- --strict
+--dist-tag next` passes for the current source version, and
+`npm-publish-evidence.json` is updated.
 
 Stable RC is complete when `npm run release:gate` passes and H6 is approved.
