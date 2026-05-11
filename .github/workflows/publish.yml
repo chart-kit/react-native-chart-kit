@@ -123,11 +123,16 @@ jobs:
             WORKSPACE_NAME=$(node -p "require('./${PACKAGE_JSON}').name")
             WORKSPACE_VERSION=$(node -p "require('./${PACKAGE_JSON}').version")
 
-            if npm view "${WORKSPACE_NAME}@${WORKSPACE_VERSION}" version >/dev/null 2>&1; then
+            if node scripts/check-npm-package-exists.mjs "${WORKSPACE_NAME}" "${WORKSPACE_VERSION}"; then
               echo "${WORKSPACE_NAME}@${WORKSPACE_VERSION} is already published and will be skipped"
             else
-              HAS_UNPUBLISHED_PACKAGE=1
-              echo "${WORKSPACE_NAME}@${WORKSPACE_VERSION} is not published yet"
+              PACKAGE_EXISTS_STATUS=$?
+              if [ "${PACKAGE_EXISTS_STATUS}" = "1" ]; then
+                HAS_UNPUBLISHED_PACKAGE=1
+                echo "${WORKSPACE_NAME}@${WORKSPACE_VERSION} is not published yet"
+              else
+                exit "${PACKAGE_EXISTS_STATUS}"
+              fi
             fi
           done
 
@@ -152,9 +157,14 @@ jobs:
             WORKSPACE_NAME=$(node -p "require('./${PACKAGE_JSON}').name")
             WORKSPACE_VERSION=$(node -p "require('./${PACKAGE_JSON}').version")
 
-            if npm view "${WORKSPACE_NAME}@${WORKSPACE_VERSION}" version >/dev/null 2>&1; then
+            if node scripts/check-npm-package-exists.mjs "${WORKSPACE_NAME}" "${WORKSPACE_VERSION}"; then
               echo "Skipping ${WORKSPACE_NAME}@${WORKSPACE_VERSION}; already published"
               continue
+            else
+              PACKAGE_EXISTS_STATUS=$?
+              if [ "${PACKAGE_EXISTS_STATUS}" != "1" ]; then
+                exit "${PACKAGE_EXISTS_STATUS}"
+              fi
             fi
 
             npm publish "${PUBLISH_TARGET}" --ignore-scripts --access public --provenance --tag "${NPM_TAG}"
@@ -177,7 +187,11 @@ jobs:
             fi
 
             WORKSPACE_NAME=$(node -p "require('./${PACKAGE_JSON}').name")
-            CURRENT_LATEST=$(npm dist-tag ls "${WORKSPACE_NAME}" | awk '/^latest:/ {print $2}')
+            if ! DIST_TAG_OUTPUT=$(timeout 30s npm dist-tag ls "${WORKSPACE_NAME}"); then
+              echo "Could not read npm dist-tags for ${WORKSPACE_NAME}."
+              exit 1
+            fi
+            CURRENT_LATEST=$(printf "%s\n" "${DIST_TAG_OUTPUT}" | awk '/^latest:/ {print $2}')
 
             if [ "${CURRENT_LATEST}" = "${PACKAGE_VERSION}" ]; then
               echo "Removing unintended latest tag from ${WORKSPACE_NAME}@${PACKAGE_VERSION}"

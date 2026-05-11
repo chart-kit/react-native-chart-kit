@@ -94,6 +94,8 @@ Latest prerelease publish preflight verification on May 11, 2026:
   remain unpublished
 - npm registry lookup now uses a bounded timeout and fails on registry/network
   errors instead of treating them as unpublished packages
+- the GitHub publish workflow now uses the same missing-vs-registry-error
+  distinction for idempotent publish checks
 
 Current source version: `7.0.0-next.1`.
 

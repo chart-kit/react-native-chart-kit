@@ -139,11 +139,13 @@ const publishWorkflowSafetyChecks = [
   "npm whoami",
   "npm access list packages @chart-kit --json",
   "scripts/list-release-packages.mjs --publishable",
+  "scripts/check-npm-package-exists.mjs",
   "HAS_UNPUBLISHED_PACKAGE=0",
   "continuing idempotent rerun",
   "npm run release:publish:status -- --strict",
   'gh release view "${TAG_NAME}"',
   "release already exists; skipping release creation.",
+  "timeout 30s npm dist-tag ls",
   'npm publish "${PUBLISH_TARGET}" --ignore-scripts --access public --provenance --tag'
 ].filter((needle) => !publishWorkflowSource.includes(needle));
 
