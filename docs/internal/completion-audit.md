@@ -37,6 +37,10 @@ Latest release-process cleanup verification on May 10, 2026:
 
 Latest release-hardening verification on May 10, 2026:
 
+- `npm run test` passed
+- `npm run lint` passed, including `filesize:check`
+- `npm run build` passed
+- `npm run pack:check` passed for all 6 package dry-runs after `build`
 - `npm run test:unit -- scripts/check-release-gates.test.mjs scripts/check-npm-publish-state.test.mjs scripts/record-owner-gate-decision.test.mjs` passed
 - `npm run release:preview:gate` passed with the expected unpublished-source
   warning
