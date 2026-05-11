@@ -301,6 +301,27 @@ describe("release gate checker", () => {
     });
   });
 
+  it("requires changelog release notes for the current package version", () => {
+    const packageJson = JSON.parse(
+      readFileSync(join(repoRoot, "package.json"), "utf8")
+    );
+    const report = runGateReportJson();
+
+    expect(
+      report.checks.find(
+        (check) => check.id === "release-notes:current-version"
+      )
+    ).toMatchObject({
+      evidence: "package.json; CHANGELOG.md",
+      message:
+        "Changelog contains release notes for the current package version",
+      status: "pass"
+    });
+    expect(readFileSync(join(repoRoot, "CHANGELOG.md"), "utf8")).toContain(
+      `## v${packageJson.version}`
+    );
+  });
+
   it("keeps publish workflow dist-tags aligned with release channels", () => {
     const workflowSource = readFileSync(
       join(repoRoot, ".github/workflows/publish.yml"),

@@ -225,7 +225,8 @@ jobs:
           awk "/^## v${PACKAGE_VERSION}$/{flag=1; next} /^## /{flag=0} flag" CHANGELOG.md > release-notes.md
 
           if [ ! -s release-notes.md ]; then
-            echo "Published ${PACKAGE_NAME}@${PACKAGE_VERSION} to npm." > release-notes.md
+            echo "CHANGELOG.md does not contain a release-notes section for v${PACKAGE_VERSION}."
+            exit 1
           fi
 
           if [[ "${PACKAGE_VERSION}" == *-* ]]; then

@@ -34,7 +34,7 @@ npm run release:gate:report
 
 Current expected result:
 
-- `pass=112 warn=1 block=1 fail=0`
+- `pass=113 warn=1 block=1 fail=0`
 - the only blocker is `blocker:h6-owner-approval`
 
 ## Remaining Work

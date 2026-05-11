@@ -39,6 +39,21 @@ for (const file of requiredFiles) {
 
 const packageJson = JSON.parse(await readRepoFile("package.json"));
 const scripts = packageJson.scripts ?? {};
+const changelogSource = await readRepoFile("CHANGELOG.md");
+const changelogHeader = `## v${packageJson.version}`;
+const changelogHasCurrentVersion = changelogSource
+  .split(/\r?\n/)
+  .some((line) => line.trim() === changelogHeader);
+
+addCheck({
+  detail: changelogHasCurrentVersion
+    ? ""
+    : `CHANGELOG.md must include a "${changelogHeader}" section before publishing.`,
+  evidence: "package.json; CHANGELOG.md",
+  id: "release-notes:current-version",
+  message: "Changelog contains release notes for the current package version",
+  status: changelogHasCurrentVersion ? "pass" : "fail"
+});
 
 for (const scriptName of requiredScripts) {
   addCheck({
@@ -146,6 +161,7 @@ const publishWorkflowSafetyChecks = [
   'gh release view "${TAG_NAME}"',
   "release already exists; skipping release creation.",
   "timeout 30s npm dist-tag ls",
+  "CHANGELOG.md does not contain a release-notes section",
   'npm publish "${PUBLISH_TARGET}" --ignore-scripts --access public --provenance --tag'
 ].filter((needle) => !publishWorkflowSource.includes(needle));
 
