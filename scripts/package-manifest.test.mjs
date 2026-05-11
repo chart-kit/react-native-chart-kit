@@ -13,13 +13,42 @@ const manifestPath = path.join(
 const readPackageManifest = async () =>
   JSON.parse(await readFile(manifestPath, "utf8"));
 
+const readJson = async (filePath) =>
+  JSON.parse(await readFile(filePath, "utf8"));
+
 describe("release package manifest", () => {
+  it("keeps manifest metadata scoped to Developer Preview", async () => {
+    const manifest = await readPackageManifest();
+
+    expect(manifest).toMatchObject({
+      distTag: "next",
+      releaseLabel: "Developer Preview",
+      schemaVersion: 1
+    });
+  });
+
   it("uses Developer Preview publish terminology", async () => {
     const manifest = await readPackageManifest();
 
     for (const packageInfo of manifest.packages ?? []) {
       expect(packageInfo).not.toHaveProperty("publishInBeta");
       expect(typeof packageInfo.publishInDeveloperPreview).toBe("boolean");
+    }
+  });
+
+  it("matches every manifest package to an actual package.json", async () => {
+    const manifest = await readPackageManifest();
+    const rootPackage = await readJson(path.join(repoRoot, "package.json"));
+
+    for (const packageInfo of manifest.packages ?? []) {
+      const packageJson = await readJson(
+        path.join(repoRoot, packageInfo.dir, "package.json")
+      );
+
+      expect(packageJson.name).toBe(packageInfo.name);
+      expect(packageJson.version).toBe(rootPackage.version);
+      expect(packageJson.private).not.toBe(true);
+      expect(packageInfo.requiredFiles).toContain("package.json");
     }
   });
 
