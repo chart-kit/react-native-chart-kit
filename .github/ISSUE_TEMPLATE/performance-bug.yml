@@ -6,6 +6,13 @@ labels:
   - needs-reproduction
 body:
   - type: input
+    id: version
+    attributes:
+      label: Package version
+      placeholder: 7.0.0-next.1
+    validations:
+      required: true
+  - type: input
     id: device
     attributes:
       label: Device
