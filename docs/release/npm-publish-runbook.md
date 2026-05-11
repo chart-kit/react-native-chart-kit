@@ -141,6 +141,17 @@ After each future `next` publish rerun, the workflow records npm evidence and
 uploads it as the `npm-publish-evidence-<version>` artifact. Use that artifact
 to update [npm-publish-evidence.json](evidence/npm-publish-evidence.json).
 
+Download the artifact from the successful workflow run:
+
+```sh
+gh run download <run-id> \
+  --name npm-publish-evidence-<current package.json version> \
+  --dir /tmp/chartkit-npm-publish-evidence
+```
+
+Then replace the checked-in evidence file with the downloaded
+`npm-publish-evidence.json`.
+
 You can also regenerate the same evidence locally:
 
 ```sh
