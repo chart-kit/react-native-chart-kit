@@ -162,6 +162,10 @@ const publishWorkflowSafetyChecks = [
   'npm run release:publish:status -- --strict --dist-tag "${NPM_TAG}"',
   'gh release view "${TAG_NAME}"',
   "release already exists; skipping release creation.",
+  "npm run release:publish:evidence",
+  "actions/upload-artifact@v5",
+  "npm-publish-evidence-${{ steps.package.outputs.version }}",
+  "docs/release/evidence/npm-publish-evidence.json",
   "timeout 30s npm dist-tag ls",
   "CHANGELOG.md does not contain a release-notes section",
   'npm publish "${PUBLISH_TARGET}" --ignore-scripts --access public --provenance --tag'

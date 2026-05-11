@@ -249,3 +249,19 @@ jobs:
               --title "${TAG_NAME}" \
               --notes-file release-notes.md
           fi
+
+      - name: Record npm publish evidence
+        if: ${{ steps.package.outputs.npm_tag == 'next' }}
+        env:
+          TAG_NAME: ${{ steps.package.outputs.tag }}
+        run: |
+          npm run release:publish:evidence -- \
+            --run-url "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" \
+            --release-url "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/tag/${TAG_NAME}"
+
+      - name: Upload npm publish evidence
+        if: ${{ steps.package.outputs.npm_tag == 'next' }}
+        uses: actions/upload-artifact@v5
+        with:
+          name: npm-publish-evidence-${{ steps.package.outputs.version }}
+          path: docs/release/evidence/npm-publish-evidence.json

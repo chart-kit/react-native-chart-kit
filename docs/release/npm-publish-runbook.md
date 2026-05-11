@@ -137,7 +137,11 @@ Those commands should fail with npm not-found output during Developer Preview.
 
 ## Evidence To Update
 
-After each future publish rerun, record npm evidence:
+After each future `next` publish rerun, the workflow records npm evidence and
+uploads it as the `npm-publish-evidence-<version>` artifact. Use that artifact
+to update [npm-publish-evidence.json](evidence/npm-publish-evidence.json).
+
+You can also regenerate the same evidence locally:
 
 ```sh
 npm run release:publish:evidence -- \

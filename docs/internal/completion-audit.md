@@ -105,7 +105,8 @@ Latest prerelease publish preflight verification on May 11, 2026:
   the publish run
 - post-publish npm evidence can now be recorded with
   `npm run release:publish:evidence`, which refuses to update evidence until
-  the current source version is complete in the npm registry
+  the current source version is complete in the npm registry, and the publish
+  workflow uploads the generated evidence file for approved `next` publishes
 - the GitHub publish workflow now rejects `next` publishes unless H5 owner
   approval is recorded
 - the GitHub publish workflow now rejects `latest` publishes unless H6 owner
