@@ -29,6 +29,7 @@ npm run benchmark
 npm run boundaries:check
 npm run surface:check
 npm run skia:parity
+npm run security:audit
 npm run release:preview:gate:report
 npm run docs:build
 npm run example:rn-cli:typecheck

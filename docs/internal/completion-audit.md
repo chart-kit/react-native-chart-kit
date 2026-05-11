@@ -61,6 +61,13 @@ Latest visual-baseline and benchmark verification on May 10, 2026:
 - latest visual baseline maintenance commit:
   `fadca93 test(showcase): refresh visual baselines`
 
+Latest security verification on May 11, 2026:
+
+- `npm run security:audit` passed the high/critical npm audit gate
+- npm still reports the known moderate PostCSS advisory through the Expo
+  toolchain; it remains documented in
+  [known-issues.md](../release/known-issues.md)
+
 Current source version: `7.0.0-next.1`.
 
 Latest published Developer Preview: `7.0.0-next.0`.

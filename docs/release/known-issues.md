@@ -20,7 +20,7 @@ Impact: existing `react-native-chart-kit` users are protected. New adopters usin
 
 ## Security Audit
 
-`npm run security:audit` runs `npm audit --audit-level=high` and is wired into CI and the publish workflow. On May 6, 2026, the current `next` branch passed that high/critical audit gate. The open critical Dependabot alert reported during pushes targets the default-branch `expo <48` dependency path, not the current v2 preview branch; the active v2 showcase resolves Expo to patched major versions.
+`npm run security:audit` runs `npm audit --audit-level=high` and is wired into CI and the publish workflow. On May 11, 2026, the current `next` branch passed that high/critical audit gate. The open critical Dependabot alert reported during pushes targets the default-branch `expo <48` dependency path, not the current v2 preview branch; the active v2 showcase resolves Expo to patched major versions.
 
 The current `next` branch still has moderate npm audit findings through Expo CLI / `@expo/metro-config` / PostCSS. npm suggests a force downgrade path for `@expo/metro-config`, which is not appropriate for the Expo 54 showcase without a deliberate SDK compatibility review.
 
