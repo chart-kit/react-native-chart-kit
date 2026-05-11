@@ -37,4 +37,37 @@ describe("release package manifest", () => {
       "react-native-chart-kit"
     ]);
   });
+
+  it("keeps scoped dependencies before the root compatibility package", async () => {
+    const manifest = await readPackageManifest();
+    const publishableNames = (manifest.packages ?? [])
+      .filter((packageInfo) => packageInfo.publishInDeveloperPreview)
+      .map((packageInfo) => packageInfo.name);
+
+    expect(publishableNames).toEqual([
+      "@chart-kit/core",
+      "@chart-kit/svg-renderer",
+      "@chart-kit/react-native",
+      "react-native-chart-kit"
+    ]);
+  });
+
+  it("keeps Pro and Skia out of Developer Preview publishing", async () => {
+    const manifest = await readPackageManifest();
+    const previewOnlyPackages = (manifest.packages ?? [])
+      .filter((packageInfo) =>
+        ["@chart-kit/pro", "@chart-kit/skia-renderer"].includes(
+          packageInfo.name
+        )
+      )
+      .map((packageInfo) => [
+        packageInfo.name,
+        packageInfo.publishInDeveloperPreview
+      ]);
+
+    expect(previewOnlyPackages).toEqual([
+      ["@chart-kit/skia-renderer", false],
+      ["@chart-kit/pro", false]
+    ]);
+  });
 });
