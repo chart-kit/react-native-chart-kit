@@ -10,6 +10,15 @@
 - guard the required CKV2 command surface and Developer Preview publish manifest in tests
 - guard the release-gate-required package scripts and GitHub issue-template
   fields in tests
+- add a local Developer Preview publish preflight that runs the preview gate,
+  rebuilds packages, pack-checks all release packages, and verifies the expected
+  pre-publish npm registry state
+- harden npm publish checks so registry/network errors fail instead of being
+  treated as unpublished packages
+- verify the selected npm dist-tag after publish and require current-version
+  changelog notes before creating GitHub release notes
+- guard package manifest entries, package order, package versions, and the
+  Pro/Skia unpublished boundary in tests
 - record the latest high/critical npm security audit result while keeping the
   known moderate Expo/PostCSS advisory documented
 - rename release docs and publish-manifest fields from beta wording to Developer Preview wording
