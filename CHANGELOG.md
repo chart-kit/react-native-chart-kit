@@ -19,6 +19,8 @@
   changelog notes before creating GitHub release notes
 - block `next` publishes unless H5 owner approval has been recorded and block
   `latest` publishes unless H6 owner approval has been recorded
+- record post-publish npm evidence through `npm run release:publish:evidence`
+  and upload the generated evidence JSON from the `next` publish workflow
 - guard package manifest entries, package order, package versions, and the
   Pro/Skia unpublished boundary in tests
 - record the latest high/critical npm security audit result while keeping the
