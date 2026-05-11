@@ -9,21 +9,12 @@ import { validateSkiaMatrixArtifacts } from "./release-skia-artifacts.mjs";
 
 const repoRoot = process.cwd();
 
-const validMatrixRowStatuses = new Set([
-  "blocked",
-  "fail",
-  "not-applicable",
-  "partial",
-  "pass",
-  "pending"
-]);
-const validReleaseEvidenceManifestStatuses = new Set([
-  "archived",
-  "blocked",
-  "complete",
-  "missing",
-  "partial"
-]);
+const validMatrixRowStatuses = new Set(
+  "blocked fail not-applicable partial pass pending".split(" ")
+);
+const validReleaseEvidenceManifestStatuses = new Set(
+  "archived blocked complete missing partial".split(" ")
+);
 const validOwnerGateStatuses = new Set(["approved", "not-started", "open"]);
 
 export const readRepoFile = (relativePath) =>
