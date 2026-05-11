@@ -67,8 +67,12 @@ npm run example:expo
 npm run docs:build
 npm run boundaries:check
 npm run surface:check
+npm run security:audit
 npm run skia:parity
 npm run pack:check
+npm run release:preview:gate
+npm run release:gate:report
+npm run release:publish:status
 npm run native:release:dry-run
 npm run build
 ```
@@ -91,7 +95,12 @@ Command status:
 | `npm run benchmark`              | Working core geometry and showcase interaction benchmark command.     |
 | `npm run boundaries:check`       | Working package-boundary audit for free, Pro, and Skia separation.    |
 | `npm run surface:check`          | Working public export and package-boundary audit.                     |
+| `npm run security:audit`         | Working high/critical npm audit gate used by CI and publish.          |
 | `npm run skia:parity`            | Working local Skia primitive and chart renderer contract tests.       |
+| `npm run pack:check`             | Working dry-run package artifact check for the release manifest.      |
+| `npm run release:preview:gate`   | Working strict Developer Preview gate.                                |
+| `npm run release:gate:report`    | Working non-strict stable RC report; expected to block until H6.      |
+| `npm run release:publish:status` | Working npm registry publish-state checker. Requires registry access. |
 | `npm run example:ios`            | Working Expo showcase iOS dev command. Requires local iOS tooling.    |
 | `npm run example:android`        | Working Expo showcase Android dev command. Requires Android tooling.  |
 | `npm run example:expo`           | Working Expo showcase app command for phone/device review.            |

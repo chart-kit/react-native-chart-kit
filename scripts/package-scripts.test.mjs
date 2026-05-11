@@ -3,6 +3,8 @@ import path from "node:path";
 
 import { describe, expect, it } from "vitest";
 
+import { requiredScripts } from "./release-gate-config.mjs";
+
 const repoRoot = process.cwd();
 
 const readPackageScripts = async () => {
@@ -29,6 +31,15 @@ describe("package scripts", () => {
   it("keeps the CKV2 command surface available", async () => {
     const scripts = await readPackageScripts();
     const missingScripts = requiredCkv2Scripts.filter(
+      (scriptName) => typeof scripts[scriptName] !== "string"
+    );
+
+    expect(missingScripts).toEqual([]);
+  });
+
+  it("keeps every release-gate-required command available", async () => {
+    const scripts = await readPackageScripts();
+    const missingScripts = requiredScripts.filter(
       (scriptName) => typeof scripts[scriptName] !== "string"
     );
 
