@@ -1,6 +1,6 @@
 # H6 RC Readiness Packet
 
-Status on May 10, 2026: H6 is ready for an owner decision, but not approved.
+Status on May 11, 2026: H6 is ready for an owner decision, but not approved.
 
 This packet is intentionally short. It replaces long QA matrices with release
 risk notes, current gate output, and explicit owner choices.
@@ -56,6 +56,8 @@ Ready for Developer Preview:
   VoiceOver, Android emulator, and web
 - automated release, docs, pack, typecheck, lint, unit, compatibility, visual,
   e2e, and benchmark commands are wired into the repo
+- release-hardening checks cover required package scripts, issue templates,
+  package publish status, pack checks, and high/critical security audit gating
 
 Still intentionally deferred for stable RC:
 
@@ -114,7 +116,7 @@ Only run this when the owner has explicitly approved H6:
 npm run release:owner:record -- \
   --gate h6 \
   --approved-by owner \
-  --approved-at 2026-05-10 \
+  --approved-at 2026-05-11 \
   --decision "Release candidate approved." \
   --decision "Final semver approved." \
   --decision "Final changelog approved." \

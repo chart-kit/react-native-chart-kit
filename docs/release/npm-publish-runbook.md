@@ -6,7 +6,7 @@ The repository may be prepared for a newer unpublished `next` prerelease. For
 future reruns, use the current `package.json` version as the publish target and
 keep the package list controlled by [package-manifest.json](evidence/package-manifest.json).
 
-Current local prep on May 10, 2026:
+Current local prep on May 11, 2026:
 
 - source version: `7.0.0-next.1`
 - `npm run release:publish:status -- --strict` reports `partial`

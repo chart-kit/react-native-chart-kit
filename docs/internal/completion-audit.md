@@ -1,6 +1,6 @@
 # Chart Kit V2 Completion Audit
 
-Status on May 10, 2026: Developer Preview is complete; stable RC is not complete.
+Status on May 11, 2026: Developer Preview is complete; stable RC is not complete.
 
 This audit intentionally separates preview readiness from stable-release readiness. Native QA matrices are no longer part of the active completion path.
 
@@ -74,6 +74,16 @@ Latest release-support verification on May 11, 2026:
 - `npm run test:unit -- scripts/package-scripts.test.mjs scripts/check-release-gates.test.mjs` passed
 - `npm run release:owner:record -- --dry-run --gate h6 ...` passed with all
   eight H6 decision labels and did not mutate owner-gate evidence
+
+Latest H6 release-document consistency verification on May 11, 2026:
+
+- `npm run docs:build` passed
+- `npm run release:preview:gate` passed with the expected unpublished-source
+  warning
+- `npm run release:gate:report` reports only the H6 owner-approval blocker
+- `npm run test:unit -- scripts/issue-templates.test.mjs scripts/check-release-gates.test.mjs` passed
+- H6 release notes, release claims, and finalization checklist now include the
+  latest release-hardening checks
 
 Current source version: `7.0.0-next.1`.
 
