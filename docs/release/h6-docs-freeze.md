@@ -1,6 +1,6 @@
 # H6 Docs Freeze
 
-Status on May 10, 2026: proposed for owner review.
+Status on May 11, 2026: proposed for owner review.
 
 This document defines what "docs freeze" means for H6. It is intentionally
 short: the owner approves the docs direction, while automated checks verify
@@ -35,6 +35,8 @@ Release docs:
 - [H6 semver proposal](h6-semver-proposal.md)
 - [H6 release notes draft](h6-release-notes-draft.md)
 - [H6 finalization checklist](h6-finalization-checklist.md)
+- [H6 release claims](h6-release-claims.md)
+- GitHub issue templates in `.github/ISSUE_TEMPLATE/`
 
 ## Freeze Criteria
 
@@ -46,6 +48,9 @@ Before H6 approval:
 - known issues match the exact stable-release claims
 - stable release notes do not overclaim native performance, native accessibility,
   Pro, Skia, or financial chart stability
+- support issue templates match the support workflow promised in release notes
+- high/critical security audit status is current or clearly disclosed if it
+  changes before H6
 - public examples compile or are covered by docs tests
 
 ## Verification Command
@@ -56,8 +61,8 @@ Docs freeze requires:
 npm run docs:build
 ```
 
-Current latest checked result: docs build passed for 116 markdown files and 61
-public TS/TSX fences.
+Current latest checked result: docs build passed for 121 markdown files, 104
+JS/TS code fences, and 61 public TS/TSX fences.
 
 ## Owner Decision
 
