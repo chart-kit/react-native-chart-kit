@@ -100,6 +100,8 @@ Latest prerelease publish preflight verification on May 11, 2026:
   distinction for idempotent publish checks
 - the GitHub publish workflow now runs the selected release gate before package
   state checks or publishing
+- GitHub CI, native release, and publish workflows now install dependencies
+  with `npm ci --ignore-scripts` and npm lockfile caching
 - the release gate and publish workflow now require a `CHANGELOG.md` section
   for the current package version before creating GitHub release notes
 - `npm run release:publish:status -- --expect partial --dist-tag next` passed,

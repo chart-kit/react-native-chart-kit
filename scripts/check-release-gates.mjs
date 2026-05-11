@@ -122,6 +122,8 @@ const nativeReleaseWorkflowSource = await readRepoFile(
 const nativeWorkflowArtifactChecks = [
   "actions/upload-artifact@v5",
   "FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true",
+  "cache: npm",
+  "npm ci --ignore-scripts",
   "native-release-android",
   "native-release-ios",
   "docs/release/artifacts/native-workflow/android-release.log",
@@ -151,6 +153,8 @@ const publishWorkflowSafetyChecks = [
   "secrets.NPM_TOKEN",
   "NODE_AUTH_TOKEN",
   "NPM_TOKEN is not configured",
+  "cache: npm",
+  "npm ci --ignore-scripts",
   "npm whoami",
   "npm access list packages @chart-kit --json",
   "npm run release:preview:gate",

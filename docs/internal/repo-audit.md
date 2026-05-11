@@ -108,7 +108,7 @@ Current CI workflow:
 
 - Runs on pull requests and pushes to `master` and `next`.
 - Uses Node 22.
-- Runs `npm install --ignore-scripts`.
+- Runs `npm ci --ignore-scripts` against the checked-in lockfile.
 - Runs lint, build, and typecheck.
 - Does not run visual tests.
 
