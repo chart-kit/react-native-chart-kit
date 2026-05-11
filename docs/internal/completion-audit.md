@@ -68,6 +68,13 @@ Latest security verification on May 11, 2026:
   toolchain; it remains documented in
   [known-issues.md](../release/known-issues.md)
 
+Latest release-support verification on May 11, 2026:
+
+- `npm run test:unit -- scripts/issue-templates.test.mjs scripts/check-release-gates.test.mjs` passed
+- `npm run test:unit -- scripts/package-scripts.test.mjs scripts/check-release-gates.test.mjs` passed
+- `npm run release:owner:record -- --dry-run --gate h6 ...` passed with all
+  eight H6 decision labels and did not mutate owner-gate evidence
+
 Current source version: `7.0.0-next.1`.
 
 Latest published Developer Preview: `7.0.0-next.0`.

@@ -8,6 +8,10 @@
 - document that the current source is prepared for `7.0.0-next.1` while the latest published Developer Preview is still `7.0.0-next.0`
 - require the full H6 owner decision set for release-candidate approval
 - guard the required CKV2 command surface and Developer Preview publish manifest in tests
+- guard the release-gate-required package scripts and GitHub issue-template
+  fields in tests
+- record the latest high/critical npm security audit result while keeping the
+  known moderate Expo/PostCSS advisory documented
 - rename release docs and publish-manifest fields from beta wording to Developer Preview wording
 - keep Pro and Skia unpublished while preserving pack checks and preview evidence
 
