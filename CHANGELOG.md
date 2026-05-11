@@ -17,7 +17,8 @@
   treated as unpublished packages
 - verify the selected npm dist-tag after publish and require current-version
   changelog notes before creating GitHub release notes
-- block `latest` publishes unless H6 owner approval has been recorded
+- block `next` publishes unless H5 owner approval has been recorded and block
+  `latest` publishes unless H6 owner approval has been recorded
 - guard package manifest entries, package order, package versions, and the
   Pro/Skia unpublished boundary in tests
 - record the latest high/critical npm security audit result while keeping the

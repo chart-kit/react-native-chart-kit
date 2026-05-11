@@ -86,6 +86,7 @@ The workflow fails if:
 
 - it is not run from `next`
 - `NPM_TOKEN` is missing or invalid
+- `next` is selected before H5 owner approval is recorded
 - `latest` is selected before H6 owner approval is recorded
 - `latest` is selected for a prerelease version
 - the Git tag already exists while one or more publishable packages are still missing

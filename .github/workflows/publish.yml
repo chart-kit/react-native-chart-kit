@@ -114,7 +114,9 @@ jobs:
             exit 1
           fi
 
-          if [ "${NPM_TAG}" = "latest" ]; then
+          if [ "${NPM_TAG}" = "next" ]; then
+            node scripts/check-owner-gate-status.mjs h5 approved
+          elif [ "${NPM_TAG}" = "latest" ]; then
             node scripts/check-owner-gate-status.mjs h6 approved
           fi
 
