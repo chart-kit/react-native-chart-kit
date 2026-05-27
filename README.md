@@ -2,8 +2,6 @@
 
 [📲See example app](https://github.com/indiespirit/react-native-chart-kit-example)
 
-To try the examples in Expo, please change `main` to `./node_modules/expo/AppEntry.js` in `package.json` before starting things with `expo run`. You'll need to have `expo-cli` installed via `npm install -g expo-cli`.
-
 # React Native Chart Kit Documentation
 
 ## Import components

@@ -34,13 +34,9 @@ cd react-native-chart-kit
 npm install --legacy-peer-deps
 ```
 
-In order to run it, you are gonna have to flip values for "main" and "\_main" in package json. This is nessesary because both npm and expo have a notion of a main file, but for npm it's the file that you run when you import this library in your app; and for expo it's the file that it uses to display the example app.
-
-Don't forget to flip it back before commiting.
-
-**After you update fix the package.json**
+Verify the package before opening a pull request:
 
 ```sh
-npm start # And get your Expo app ready on your phone
-npm run build # Verify the package build
+npm run typecheck
+npm run build
 ```
