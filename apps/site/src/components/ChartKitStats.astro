@@ -1,0 +1,177 @@
+---
+const rawStats = [
+  {
+    value: "140,000+",
+    label: "weekly downloads"
+  },
+  {
+    value: "3,000+",
+    label: "GitHub stars"
+  },
+  {
+    value: "MIT",
+    label: "core license"
+  },
+  {
+    value: "7+",
+    label: "chart types"
+  }
+];
+
+const stats = rawStats.map((stat) => {
+  const match = stat.value.match(/^([\d,]+)(\+?)$/);
+
+  return {
+    ...stat,
+    countTo: match ? Number(match[1].replaceAll(",", "")) : null,
+    suffix: match?.[2] ?? ""
+  };
+});
+---
+
+<section
+  data-stat-counters
+  class="relative bg-black py-10 text-white transition-colors duration-300 sm:py-12 [html[data-theme='light']_&]:bg-white [html[data-theme='light']_&]:text-black"
+>
+  <div
+    class="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/14 to-transparent transition-colors duration-300 sm:inset-x-8 md:inset-x-10 lg:inset-x-12 xl:inset-x-16 [html[data-theme='light']_&]:via-black/12"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute inset-x-6 bottom-0 h-px bg-gradient-to-r from-transparent via-white/14 to-transparent transition-colors duration-300 sm:inset-x-8 md:inset-x-10 lg:inset-x-12 xl:inset-x-16 [html[data-theme='light']_&]:via-black/12"
+  >
+  </div>
+  <div class="mx-auto max-w-[1320px] px-6 sm:px-8 md:px-10 lg:px-12 xl:px-16">
+    <dl class="grid grid-cols-2 gap-x-4 gap-y-8 lg:grid-cols-4 lg:gap-x-6">
+      {
+        stats.map((stat) => (
+          <div class="flex min-w-0 flex-col items-center justify-center text-center">
+            <dt class="order-2 mt-3 text-xs font-semibold leading-4 text-white/48 transition-colors duration-300 sm:text-sm sm:leading-5 [html[data-theme='light']_&]:text-black/48">
+              {stat.label}
+            </dt>
+            <dd class="order-1">
+              <span
+                class="block text-[clamp(32px,8vw,48px)] font-semibold leading-none tracking-[-0.04em] text-white transition-colors duration-300 lg:text-[clamp(34px,3.2vw,50px)] [html[data-theme='light']_&]:text-black"
+                data-stat-counter={stat.countTo === null ? undefined : ""}
+                data-stat-count-to={stat.countTo ?? undefined}
+                data-stat-suffix={stat.suffix}
+              >
+                {stat.value}
+              </span>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>
+
+<script>
+  const bootStatCounters = () => {
+    document
+      .querySelectorAll<HTMLElement>("[data-stat-counters]")
+      .forEach((section) => {
+        if (section.dataset.statCountersBound === "true") {
+          return;
+        }
+
+        section.dataset.statCountersBound = "true";
+
+        const counters = Array.from(
+          section.querySelectorAll<HTMLElement>("[data-stat-counter]")
+        );
+
+        if (!counters.length) {
+          return;
+        }
+
+        const formatter = new Intl.NumberFormat("en-US");
+        const prefersReducedMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        ).matches;
+
+        const formatValue = (value: number, suffix: string) =>
+          `${formatter.format(value)}${suffix}`;
+
+        const setFinalValues = () => {
+          counters.forEach((counter) => {
+            const target = Number(counter.dataset.statCountTo ?? "0");
+            const suffix = counter.dataset.statSuffix ?? "";
+
+            counter.textContent = formatValue(target, suffix);
+          });
+        };
+
+        const animateCounters = () => {
+          if (section.dataset.statCountersPlayed === "true") {
+            return;
+          }
+
+          section.dataset.statCountersPlayed = "true";
+
+          if (prefersReducedMotion) {
+            setFinalValues();
+            return;
+          }
+
+          const duration = 1100;
+          const startedAt = performance.now();
+
+          const tick = (now: number) => {
+            const progress = Math.min((now - startedAt) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+
+            counters.forEach((counter) => {
+              const target = Number(counter.dataset.statCountTo ?? "0");
+              const suffix = counter.dataset.statSuffix ?? "";
+              const value = Math.round(target * eased);
+
+              counter.textContent = formatValue(value, suffix);
+            });
+
+            if (progress < 1) {
+              window.requestAnimationFrame(tick);
+            } else {
+              setFinalValues();
+            }
+          };
+
+          counters.forEach((counter) => {
+            counter.textContent = formatValue(
+              0,
+              counter.dataset.statSuffix ?? ""
+            );
+          });
+
+          window.requestAnimationFrame(tick);
+        };
+
+        if (!("IntersectionObserver" in window)) {
+          animateCounters();
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            if (entries.some((entry) => entry.isIntersecting)) {
+              animateCounters();
+              observer.disconnect();
+            }
+          },
+          {
+            threshold: 0.35
+          }
+        );
+
+        observer.observe(section);
+      });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bootStatCounters, {
+      once: true
+    });
+  } else {
+    bootStatCounters();
+  }
+</script>

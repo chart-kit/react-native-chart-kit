@@ -23,5 +23,6 @@
     "skipLibCheck": true,
     "noErrorTruncation": true,
     "jsx": "react-native"
-  }
+  },
+  "include": ["src/**/*"]
 }

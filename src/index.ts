@@ -1,10 +1,10 @@
-import AbstractChart from "./AbstractChart";
-import BarChart from "./BarChart";
-import PieChart from "./PieChart";
-import ProgressChart from "./ProgressChart";
-import StackedBarChart from "./StackedBarChart";
-import ContributionGraph from "./contribution-graph";
-import LineChart from "./line-chart";
+import BarChart from "./charts/bar";
+import ContributionGraph from "./charts/contribution-graph";
+import LineChart from "./charts/line";
+import PieChart from "./charts/pie";
+import ProgressChart from "./charts/progress";
+import StackedBarChart from "./charts/stacked-bar";
+import AbstractChart from "./shared/AbstractChart";
 
 export {
   AbstractChart,

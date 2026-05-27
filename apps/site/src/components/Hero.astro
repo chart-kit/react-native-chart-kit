@@ -1,0 +1,663 @@
+---
+import { Check, ChevronLeft, ChevronRight, Copy } from "lucide-astro";
+
+const demoOptions = [
+  "Trading",
+  "Health",
+  "Developer",
+  "Analytics",
+  "Crypto",
+  "Fitness"
+];
+---
+
+<section
+  id="hero"
+  class="relative min-h-screen overflow-hidden bg-black text-white transition-colors duration-300 [html[data-theme='light']_&]:bg-white [html[data-theme='light']_&]:text-black"
+>
+  <div
+    class="relative z-10 mx-auto grid min-h-screen w-full max-w-[1320px] grid-cols-1 items-center gap-12 px-6 py-20 sm:px-8 md:px-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(300px,0.72fr)] lg:gap-4 lg:px-12 lg:py-0 xl:gap-6 xl:px-16"
+  >
+    <!-- Left: text -->
+    <div
+      class="contents lg:flex lg:min-h-screen lg:min-w-0 lg:flex-col lg:items-start lg:justify-center"
+    >
+      <div class="order-1 w-full min-w-0 max-w-4xl">
+        <div
+          class="mb-8 inline-flex max-w-full items-center rounded-full border border-white/10 bg-white/[0.02] px-4 py-1.5 text-xs text-white/60 backdrop-blur transition-colors duration-300 sm:text-sm md:mb-10 [html[data-theme='light']_&]:border-black/10 [html[data-theme='light']_&]:bg-black/[0.02] [html[data-theme='light']_&]:text-black/55"
+        >
+          <span class="truncate">
+            React Native Chart Kit v7 preview is live
+          </span>
+          <span
+            class="ml-2 shrink-0 text-white transition-colors duration-300 [html[data-theme='light']_&]:text-black"
+          >
+            Read docs →
+          </span>
+        </div>
+
+        <h1
+          class="max-w-5xl text-[clamp(40px,9.8vw,68px)] font-semibold leading-[1.06] tracking-[-0.02em] text-white transition-colors duration-300 sm:text-[clamp(52px,8.2vw,78px)] lg:text-[clamp(56px,4.9vw,90px)] lg:leading-[1.04] lg:tracking-[-0.025em] [html[data-theme='light']_&]:text-black"
+        >
+          Beautiful charts for React Native
+        </h1>
+
+        <p
+          class="mt-8 max-w-[620px] text-base font-light leading-[1.45] tracking-[-0.005em] text-wrap text-white/60 transition-colors duration-300 sm:mt-9 sm:text-[17px] md:text-lg lg:mt-11 [html[data-theme='light']_&]:text-black/60"
+        >
+          Composable chart primitives with SVG defaults, interaction APIs, and
+          migration-friendly components for production mobile apps.
+        </p>
+      </div>
+
+      <div
+        class="order-3 w-full min-w-0 max-w-[640px] lg:mt-14"
+        data-install-snippet
+      >
+        <div
+          class="relative mb-3 grid w-[204px] max-w-full grid-cols-2 rounded-full border border-white/10 bg-white/[0.035] p-0.5 backdrop-blur-xl transition-colors duration-300 [html[data-theme='light']_&]:border-black/10 [html[data-theme='light']_&]:bg-black/[0.035]"
+          role="tablist"
+          aria-label="Install audience"
+        >
+          <span
+            data-install-audience-indicator
+            class="absolute top-0.5 bottom-0.5 left-0.5 w-[calc(50%-2px)] rounded-full bg-white/88 shadow-[0_8px_22px_rgba(0,0,0,0.22)] transition-transform duration-300 ease-out [html[data-theme='light']_&]:bg-black/82 [html[data-theme='light']_&]:shadow-[0_8px_22px_rgba(0,0,0,0.08)]"
+            aria-hidden="true"
+          >
+          </span>
+          <button
+            type="button"
+            data-install-audience="agents"
+            data-active="true"
+            class="relative z-10 h-7 cursor-pointer rounded-full text-[11px] font-semibold text-white/45 transition-colors data-[active=true]:text-black/88 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 [html[data-theme='light']_&]:text-black/45 [html[data-theme='light']_&]:data-[active=true]:text-white/92 [html[data-theme='light']_&]:hover:text-black [html[data-theme='light']_&]:focus-visible:outline-black/40"
+            role="tab"
+            aria-selected="true"
+          >
+            For agents
+          </button>
+          <button
+            type="button"
+            data-install-audience="humans"
+            data-active="false"
+            class="relative z-10 h-7 cursor-pointer rounded-full text-[11px] font-semibold text-white/45 transition-colors data-[active=true]:text-black/88 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 [html[data-theme='light']_&]:text-black/45 [html[data-theme='light']_&]:data-[active=true]:text-white/92 [html[data-theme='light']_&]:hover:text-black [html[data-theme='light']_&]:focus-visible:outline-black/40"
+            role="tab"
+            aria-selected="false"
+          >
+            For humans
+          </button>
+        </div>
+
+        <div
+          class="w-full overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035] px-3 pt-2 pb-1.5 shadow-[0_16px_40px_rgba(0,0,0,0.22)] backdrop-blur-xl transition-colors duration-300 sm:px-4 sm:pt-3 sm:pb-2 sm:shadow-[0_24px_70px_rgba(0,0,0,0.32)] [html[data-theme='light']_&]:border-black/10 [html[data-theme='light']_&]:bg-black/[0.035] [html[data-theme='light']_&]:shadow-[0_16px_40px_rgba(0,0,0,0.06)] [html[data-theme='light']_&]:sm:shadow-[0_24px_70px_rgba(0,0,0,0.08)]"
+        >
+          <div
+            class="flex max-w-full items-center gap-4 px-0.5 py-1"
+            role="tablist"
+            aria-label="Package manager"
+          >
+            <button
+              type="button"
+              data-install-pm
+              data-active="true"
+              data-agent-command="npm install react-native-chart-kit@next react-native-svg"
+              data-human-command="npm install react-native-chart-kit@next react-native-svg"
+              class="cursor-pointer text-[11px] font-medium text-white/35 transition data-[active=true]:font-bold data-[active=true]:text-white hover:text-white sm:text-xs [html[data-theme='light']_&]:text-black/35 [html[data-theme='light']_&]:data-[active=true]:text-black [html[data-theme='light']_&]:hover:text-black"
+              role="tab"
+              aria-selected="true"
+            >
+              npm
+            </button>
+            <button
+              type="button"
+              data-install-pm
+              data-agent-command="yarn add react-native-chart-kit@next react-native-svg"
+              data-human-command="yarn add react-native-chart-kit@next react-native-svg"
+              class="cursor-pointer text-[11px] font-medium text-white/35 transition data-[active=true]:font-bold data-[active=true]:text-white hover:text-white sm:text-xs [html[data-theme='light']_&]:text-black/35 [html[data-theme='light']_&]:data-[active=true]:text-black [html[data-theme='light']_&]:hover:text-black"
+              role="tab"
+              aria-selected="false"
+            >
+              yarn
+            </button>
+            <button
+              type="button"
+              data-install-pm
+              data-agent-command="pnpm add react-native-chart-kit@next react-native-svg"
+              data-human-command="pnpm add react-native-chart-kit@next react-native-svg"
+              class="cursor-pointer text-[11px] font-medium text-white/35 transition data-[active=true]:font-bold data-[active=true]:text-white hover:text-white sm:text-xs [html[data-theme='light']_&]:text-black/35 [html[data-theme='light']_&]:data-[active=true]:text-black [html[data-theme='light']_&]:hover:text-black"
+              role="tab"
+              aria-selected="false"
+            >
+              pnpm
+            </button>
+            <button
+              type="button"
+              data-install-pm
+              data-agent-command="bun add react-native-chart-kit@next react-native-svg"
+              data-human-command="bun add react-native-chart-kit@next react-native-svg"
+              class="cursor-pointer text-[11px] font-medium text-white/35 transition data-[active=true]:font-bold data-[active=true]:text-white hover:text-white sm:text-xs [html[data-theme='light']_&]:text-black/35 [html[data-theme='light']_&]:data-[active=true]:text-black [html[data-theme='light']_&]:hover:text-black"
+              role="tab"
+              aria-selected="false"
+            >
+              bun
+            </button>
+          </div>
+
+          <div class="flex items-center gap-3 pt-3 pb-1.5 sm:pt-3.5 sm:pb-2">
+            <pre
+              class="relative min-w-0 flex-1 overflow-x-hidden whitespace-pre-wrap break-words text-[12px] font-medium leading-5 text-white/85 [font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace] sm:overflow-x-auto sm:whitespace-pre sm:text-sm sm:leading-6 [html[data-theme='light']_&]:text-black/80"><code data-install-command class="inline-block will-change-transform">npm install react-native-chart-kit@next react-native-svg</code></pre>
+            <div class="group relative shrink-0">
+              <button
+                type="button"
+                data-install-copy
+                class="inline-flex size-8 cursor-pointer items-center justify-center rounded-lg text-white/45 transition data-[copied=true]:text-white/70 hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 [html[data-theme='light']_&]:text-black/45 [html[data-theme='light']_&]:data-[copied=true]:text-black/70 [html[data-theme='light']_&]:hover:bg-black/5 [html[data-theme='light']_&]:hover:text-black [html[data-theme='light']_&]:focus-visible:outline-black/40"
+                aria-label="Copy install command"
+              >
+                <Copy
+                  data-install-copy-icon
+                  size={15}
+                  stroke-width={2.25}
+                  aria-hidden="true"
+                />
+                <Check
+                  data-install-check-icon
+                  class="hidden"
+                  size={15}
+                  stroke-width={2.5}
+                  aria-hidden="true"
+                />
+              </button>
+              <span
+                data-install-tooltip
+                class="pointer-events-none absolute right-0 bottom-full mb-2 rounded-md bg-white px-2 py-1 text-[11px] font-medium whitespace-nowrap text-black opacity-0 shadow-xl shadow-black/20 ring-1 ring-white/10 transition duration-150 group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:translate-y-0 group-hover:opacity-100 translate-y-1 [html[data-theme='light']_&]:bg-black [html[data-theme='light']_&]:text-white [html[data-theme='light']_&]:shadow-black/15"
+                role="tooltip"
+              >
+                Copy command
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: phone/mockup -->
+    <div
+      class="order-2 relative flex min-w-0 flex-col items-center justify-center gap-5 lg:order-none lg:min-h-screen lg:items-start lg:justify-center"
+    >
+      <div
+        class="relative flex w-[min(62vw,270px)] items-center justify-center sm:w-[295px] md:w-[325px] lg:w-[min(25vw,330px)] xl:w-[345px]"
+        data-demo-carousel
+        aria-label="Phone demo selector"
+      >
+        <button
+          type="button"
+          data-demo-prev
+          class="absolute left-0 z-20 inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-white/35 transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 [html[data-theme='light']_&]:text-black/35 [html[data-theme='light']_&]:hover:text-black [html[data-theme='light']_&]:focus-visible:outline-black/40"
+          aria-label="Previous demo"
+        >
+          <ChevronLeft size={17} stroke-width={2.25} aria-hidden="true" />
+        </button>
+        <div
+          class="relative h-10 w-full overflow-hidden px-9 [mask-image:linear-gradient(90deg,transparent,black_22%,black_78%,transparent)]"
+        >
+          <div class="relative h-full" data-demo-track aria-live="polite">
+            {
+              demoOptions.map((option, index) => (
+                <button
+                  type="button"
+                  data-demo-option
+                  data-demo-index={index}
+                  data-active={index === 0 ? "true" : "false"}
+                  class="absolute top-1/2 left-1/2 cursor-pointer whitespace-nowrap text-[11px] font-medium text-white/35 opacity-0 transition-[opacity,transform,color,font-weight] duration-500 ease-out data-[active=true]:font-semibold data-[active=true]:text-white sm:text-xs [html[data-theme='light']_&]:text-black/35 [html[data-theme='light']_&]:data-[active=true]:text-black"
+                  aria-current={index === 0 ? "true" : "false"}
+                >
+                  {option}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+        <button
+          type="button"
+          data-demo-next
+          class="absolute right-0 z-20 inline-flex size-8 cursor-pointer items-center justify-center rounded-full text-white/35 transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 [html[data-theme='light']_&]:text-black/35 [html[data-theme='light']_&]:hover:text-black [html[data-theme='light']_&]:focus-visible:outline-black/40"
+          aria-label="Next demo"
+        >
+          <ChevronRight size={17} stroke-width={2.25} aria-hidden="true" />
+        </button>
+      </div>
+      <img
+        src="/images/iphone.svg"
+        alt=""
+        class="w-[min(62vw,270px)] max-w-none drop-shadow-[0_40px_80px_rgba(0,0,0,0.65)] sm:w-[295px] md:w-[325px] lg:w-[min(25vw,330px)] xl:w-[345px]"
+      />
+    </div>
+  </div>
+</section>
+
+<script>
+  const bootDemoCarousels = () => {
+    document
+      .querySelectorAll<HTMLElement>("[data-demo-carousel]")
+      .forEach((carousel) => {
+        if (carousel.dataset.demoBound === "true") {
+          return;
+        }
+
+        carousel.dataset.demoBound = "true";
+
+        const options = Array.from(
+          carousel.querySelectorAll<HTMLButtonElement>("[data-demo-option]")
+        );
+        const previousButton =
+          carousel.querySelector<HTMLButtonElement>("[data-demo-prev]");
+        const nextButton =
+          carousel.querySelector<HTMLButtonElement>("[data-demo-next]");
+
+        if (!options.length || !previousButton || !nextButton) {
+          return;
+        }
+
+        let activeIndex = 0;
+        let intervalId: number | undefined;
+
+        const getCircularOffset = (index: number) => {
+          let offset = index - activeIndex;
+          const midpoint = options.length / 2;
+
+          if (offset > midpoint) {
+            offset -= options.length;
+          }
+
+          if (offset < -midpoint) {
+            offset += options.length;
+          }
+
+          return offset;
+        };
+
+        const render = () => {
+          options.forEach((option, index) => {
+            const offset = getCircularOffset(index);
+            const distance = Math.abs(offset);
+            const isActive = index === activeIndex;
+            const isVisible = distance <= 2;
+            const scale = isActive ? 1 : distance === 1 ? 0.93 : 0.86;
+            const opacity = isActive ? 1 : distance === 1 ? 0.52 : 0.18;
+
+            option.dataset.active = String(isActive);
+            option.setAttribute("aria-current", String(isActive));
+            option.setAttribute("aria-hidden", String(!isVisible));
+            option.tabIndex = isVisible ? 0 : -1;
+            option.style.opacity = isVisible ? String(opacity) : "0";
+            option.style.zIndex = String(10 - distance);
+            option.style.transform = `translate(-50%, -50%) translateX(${offset * 82}px) scale(${scale})`;
+          });
+
+          carousel.dataset.activeDemo =
+            options[activeIndex]?.textContent?.trim();
+        };
+
+        const setActive = (nextIndex: number, shouldRestart = true) => {
+          activeIndex = (nextIndex + options.length) % options.length;
+          render();
+
+          if (shouldRestart) {
+            restartAutoplay();
+          }
+        };
+
+        const restartAutoplay = () => {
+          if (intervalId) {
+            window.clearInterval(intervalId);
+          }
+
+          intervalId = window.setInterval(() => {
+            setActive(activeIndex + 1, false);
+          }, 7000);
+        };
+
+        previousButton.addEventListener("click", () =>
+          setActive(activeIndex - 1)
+        );
+        nextButton.addEventListener("click", () => setActive(activeIndex + 1));
+        options.forEach((option, index) => {
+          option.addEventListener("click", () => setActive(index));
+        });
+
+        render();
+        restartAutoplay();
+      });
+  };
+
+  const bootInstallSnippets = () => {
+    document
+      .querySelectorAll<HTMLElement>("[data-install-snippet]")
+      .forEach((snippet) => {
+        const commandElement = snippet.querySelector<HTMLElement>(
+          "[data-install-command]"
+        );
+        const copyButton = snippet.querySelector<HTMLButtonElement>(
+          "[data-install-copy]"
+        );
+        const copyIcon = snippet.querySelector<SVGElement>(
+          "[data-install-copy-icon]"
+        );
+        const checkIcon = snippet.querySelector<SVGElement>(
+          "[data-install-check-icon]"
+        );
+        const tooltip = snippet.querySelector<HTMLElement>(
+          "[data-install-tooltip]"
+        );
+        const buttons = Array.from(
+          snippet.querySelectorAll<HTMLButtonElement>("[data-install-pm]")
+        );
+        const audienceButtons = Array.from(
+          snippet.querySelectorAll<HTMLButtonElement>("[data-install-audience]")
+        );
+        const audienceIndicator = snippet.querySelector<HTMLElement>(
+          "[data-install-audience-indicator]"
+        );
+
+        if (!commandElement || !copyButton) {
+          return;
+        }
+
+        let resetTimer: number | undefined;
+        let activeAudience =
+          audienceButtons.find((button) => button.dataset.active === "true")
+            ?.dataset.installAudience ?? "agents";
+        let commandAnimationVersion = 0;
+        const reducedMotionQuery = window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        );
+
+        const resetCopiedState = () => {
+          if (resetTimer) {
+            window.clearTimeout(resetTimer);
+          }
+
+          copyButton.dataset.copied = "false";
+          copyButton.setAttribute("aria-label", "Copy install command");
+          copyIcon?.classList.remove("hidden");
+          checkIcon?.classList.add("hidden");
+
+          if (tooltip) {
+            tooltip.textContent = "Copy command";
+          }
+        };
+
+        const getActivePackageButton = () =>
+          buttons.find((button) => button.dataset.active === "true") ??
+          buttons[0];
+
+        const getCommand = (button: HTMLButtonElement) =>
+          activeAudience === "humans"
+            ? button.dataset.humanCommand
+            : button.dataset.agentCommand;
+
+        const setCommandText = (
+          command: string,
+          transition:
+            | { axis: "x" | "y"; direction: 1 | -1 }
+            | undefined = undefined
+        ) => {
+          if (!command || commandElement.textContent === command) {
+            return;
+          }
+
+          if (!transition || reducedMotionQuery.matches) {
+            commandAnimationVersion += 1;
+            commandElement.textContent = command;
+            return;
+          }
+
+          commandAnimationVersion += 1;
+          const animationVersion = commandAnimationVersion;
+
+          commandElement.getAnimations().forEach((animation) => {
+            animation.cancel();
+          });
+
+          const parentElement = commandElement.parentElement;
+
+          if (!parentElement) {
+            commandElement.textContent = command;
+            return;
+          }
+
+          parentElement
+            .querySelectorAll("[data-install-command-clone]")
+            .forEach((clone) => clone.remove());
+
+          const distance = transition.axis === "x" ? 46 : 12;
+          const toTransform =
+            transition.axis === "x"
+              ? `translate3d(${-transition.direction * distance}px, 0, 0)`
+              : `translate3d(0, ${-transition.direction * distance}px, 0)`;
+          const fromTransform =
+            transition.axis === "x"
+              ? `translate3d(${transition.direction * distance}px, 0, 0)`
+              : `translate3d(0, ${transition.direction * distance}px, 0)`;
+          const outgoingCommand = commandElement.textContent ?? "";
+          const outgoingElement = commandElement.cloneNode(
+            false
+          ) as HTMLElement;
+
+          outgoingElement.textContent = outgoingCommand;
+          outgoingElement.removeAttribute("data-install-command");
+          outgoingElement.setAttribute("data-install-command-clone", "");
+          outgoingElement.setAttribute("aria-hidden", "true");
+          outgoingElement.style.position = "absolute";
+          outgoingElement.style.left = "0";
+          outgoingElement.style.top = "0";
+          outgoingElement.style.pointerEvents = "none";
+          parentElement.append(outgoingElement);
+
+          commandElement.textContent = command;
+
+          const outgoingAnimation = outgoingElement.animate(
+            [
+              {
+                opacity: 1,
+                transform: "translate3d(0, 0, 0)"
+              },
+              {
+                opacity: 0,
+                transform: toTransform
+              }
+            ],
+            {
+              duration: transition.axis === "x" ? 260 : 260,
+              easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+              fill: "forwards"
+            }
+          );
+
+          const incomingAnimation = commandElement.animate(
+            [
+              {
+                opacity: 0,
+                transform: fromTransform
+              },
+              {
+                opacity: 1,
+                transform: "translate3d(0, 0, 0)"
+              }
+            ],
+            {
+              duration: transition.axis === "x" ? 280 : 280,
+              easing: "cubic-bezier(0, 0, 0.2, 1)",
+              fill: "forwards"
+            }
+          );
+
+          Promise.allSettled([
+            outgoingAnimation.finished,
+            incomingAnimation.finished
+          ]).then(() => {
+            outgoingElement.remove();
+
+            if (animationVersion === commandAnimationVersion) {
+              commandElement.style.opacity = "";
+              commandElement.style.transform = "";
+            }
+          });
+        };
+
+        const syncCommand = (
+          transition:
+            | { axis: "x" | "y"; direction: 1 | -1 }
+            | undefined = undefined
+        ) => {
+          const activePackageButton = getActivePackageButton();
+          const command = activePackageButton
+            ? getCommand(activePackageButton)
+            : "";
+
+          if (command) {
+            setCommandText(command, transition);
+          }
+
+          audienceButtons.forEach((candidate) => {
+            const isActive =
+              candidate.dataset.installAudience === activeAudience;
+            candidate.dataset.active = String(isActive);
+            candidate.setAttribute("aria-selected", String(isActive));
+          });
+
+          buttons.forEach((candidate) => {
+            const isActive = candidate === activePackageButton;
+            candidate.dataset.active = String(isActive);
+            candidate.setAttribute("aria-selected", String(isActive));
+          });
+
+          if (audienceIndicator) {
+            audienceIndicator.style.transform =
+              activeAudience === "humans"
+                ? "translateX(100%)"
+                : "translateX(0)";
+          }
+        };
+
+        const setAudience = (button: HTMLButtonElement) => {
+          const previousAudience = activeAudience;
+          const nextAudience = button.dataset.installAudience ?? "agents";
+
+          if (nextAudience === previousAudience) {
+            return;
+          }
+
+          activeAudience = nextAudience;
+          resetCopiedState();
+          syncCommand({
+            axis: "x",
+            direction: activeAudience === "humans" ? 1 : -1
+          });
+        };
+
+        const setPackage = (button: HTMLButtonElement) => {
+          const previousPackageIndex = buttons.indexOf(
+            getActivePackageButton()
+          );
+          const nextPackageIndex = buttons.indexOf(button);
+
+          if (nextPackageIndex === previousPackageIndex) {
+            return;
+          }
+
+          buttons.forEach((candidate) => {
+            const isActive = candidate === button;
+            candidate.dataset.active = String(isActive);
+            candidate.setAttribute("aria-selected", String(isActive));
+          });
+          resetCopiedState();
+          syncCommand({
+            axis: "y",
+            direction: nextPackageIndex > previousPackageIndex ? 1 : -1
+          });
+        };
+
+        const writeClipboard = async (command: string) => {
+          try {
+            await navigator.clipboard.writeText(command);
+            return true;
+          } catch {
+            const textarea = document.createElement("textarea");
+            textarea.value = command;
+            textarea.setAttribute("readonly", "");
+            textarea.style.position = "fixed";
+            textarea.style.top = "-9999px";
+            textarea.style.opacity = "0";
+            document.body.append(textarea);
+            textarea.select();
+
+            try {
+              return document.execCommand("copy");
+            } finally {
+              textarea.remove();
+            }
+          }
+        };
+
+        const showCopiedState = () => {
+          if (resetTimer) {
+            window.clearTimeout(resetTimer);
+          }
+
+          copyButton.dataset.copied = "true";
+          copyButton.setAttribute("aria-label", "Install command copied");
+          copyIcon?.classList.add("hidden");
+          checkIcon?.classList.remove("hidden");
+
+          if (tooltip) {
+            tooltip.textContent = "Copied!";
+          }
+
+          resetTimer = window.setTimeout(() => {
+            copyButton.dataset.copied = "false";
+            copyButton.setAttribute("aria-label", "Copy install command");
+            copyIcon?.classList.remove("hidden");
+            checkIcon?.classList.add("hidden");
+
+            if (tooltip) {
+              tooltip.textContent = "Copy command";
+            }
+          }, 1400);
+        };
+
+        buttons.forEach((button) => {
+          button.addEventListener("click", () => setPackage(button));
+        });
+        audienceButtons.forEach((button) => {
+          button.addEventListener("click", () => setAudience(button));
+        });
+
+        copyButton?.addEventListener("click", async () => {
+          const command = commandElement?.textContent ?? "";
+
+          if (!command) {
+            return;
+          }
+
+          await writeClipboard(command).catch(() => false);
+          showCopiedState();
+        });
+
+        syncCommand();
+      });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      () => {
+        bootDemoCarousels();
+        bootInstallSnippets();
+      },
+      { once: true }
+    );
+  } else {
+    bootDemoCarousels();
+    bootInstallSnippets();
+  }
+</script>

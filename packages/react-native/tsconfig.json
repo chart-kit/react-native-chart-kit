@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "lib": ["ES2020", "DOM"],
+    "jsx": "react-jsx",
+    "declaration": true,
+    "declarationMap": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "skipLibCheck": true,
+    "baseUrl": "../..",
+    "paths": {
+      "@chart-kit/core": ["packages/core/src/index.ts"],
+      "@chart-kit/svg-renderer": ["packages/svg-renderer/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*"]
+}

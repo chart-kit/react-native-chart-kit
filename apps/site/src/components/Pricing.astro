@@ -1,0 +1,297 @@
+---
+import { Check, Gift, Star, Users, X, Zap } from "lucide-astro";
+
+type PlanKey = "free" | "pro" | "teams";
+
+const plans = [
+  {
+    icon: Gift,
+    name: "Free",
+    price: "$0",
+    cadence: "",
+    description: "For hobby apps and simple dashboards.",
+    cta: "Get started",
+    href: "/docs/getting-started/installation",
+    featured: false,
+    features: [
+      "Basic charts",
+      "Simple theming",
+      "Expo + React Native",
+      "Community support"
+    ]
+  },
+  {
+    icon: Zap,
+    name: "Pro",
+    price: "$399",
+    cadence: "/ dev / year",
+    description: "For production apps.",
+    cta: "Start Pro",
+    href: "/docs/getting-started/installation",
+    featured: true,
+    features: [
+      "Smart layout engine",
+      "Tooltips + crosshair",
+      "Zoom, pan, scroll",
+      "Export PNG / SVG",
+      "Advanced chart types",
+      "Pro themes"
+    ]
+  },
+  {
+    icon: Users,
+    name: "Teams",
+    price: "$999",
+    cadence: "/ year",
+    description: "Up to 5 developers.",
+    cta: "Talk to sales",
+    href: "mailto:sales@chartkit.io",
+    featured: false,
+    features: [
+      "Everything in Pro",
+      "Team license",
+      "Priority support",
+      "Faster bug fixes",
+      "Internal product use"
+    ]
+  }
+];
+
+const comparison = [
+  {
+    feature: "Basic charts",
+    free: true,
+    pro: true,
+    teams: true
+  },
+  {
+    feature: "Smart layout engine",
+    free: false,
+    pro: true,
+    teams: true
+  },
+  {
+    feature: "Tooltips & crosshair",
+    free: false,
+    pro: true,
+    teams: true
+  },
+  {
+    feature: "Zoom / pan / scroll",
+    free: false,
+    pro: true,
+    teams: true
+  },
+  {
+    feature: "Export to PNG / SVG",
+    free: false,
+    pro: true,
+    teams: true
+  },
+  {
+    feature: "Advanced chart types",
+    free: false,
+    pro: true,
+    teams: true
+  },
+  {
+    feature: "Pro themes",
+    free: false,
+    pro: true,
+    teams: true
+  },
+  {
+    feature: "Priority support",
+    free: false,
+    pro: false,
+    teams: true
+  }
+];
+
+const columns: Array<[string, PlanKey]> = [
+  ["Free", "free"],
+  ["Pro", "pro"],
+  ["Teams", "teams"]
+];
+---
+
+<section
+  id="pricing"
+  class="scroll-mt-20 bg-black py-20 text-white transition-colors duration-300 sm:py-24 [html[data-theme='light']_&]:bg-white [html[data-theme='light']_&]:text-black"
+>
+  <div class="mx-auto max-w-[1320px] px-6 sm:px-8 md:px-10 lg:px-12 xl:px-16">
+    <div class="mx-auto max-w-4xl text-center">
+      <h2
+        class="text-[clamp(34px,6vw,58px)] font-semibold leading-[1.04] tracking-[-0.03em]"
+      >
+        Pricing
+      </h2>
+      <p
+        class="mx-auto mt-4 max-w-3xl text-base font-light leading-7 text-white/56 transition-colors duration-300 sm:text-[17px] [html[data-theme='light']_&]:text-black/56"
+      >
+        Start free. Upgrade when your charts need production-grade
+        interactions, layout, export, and team licensing.
+      </p>
+    </div>
+
+    <div
+      class="mx-auto mt-10 grid max-w-[1120px] grid-cols-1 gap-7 lg:grid-cols-3 lg:gap-8"
+    >
+      {
+        plans.map(({ icon: Icon, ...plan }) => (
+          <article
+            class:list={[
+              "relative flex min-h-[430px] flex-col rounded-2xl border bg-white/[0.025] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.24)] transition-colors duration-300 sm:p-6 [html[data-theme='light']_&]:bg-black/[0.018] [html[data-theme='light']_&]:shadow-[0_24px_80px_rgba(0,0,0,0.055)]",
+              plan.featured
+                ? "border-white/30 [html[data-theme='light']_&]:border-black/24"
+                : "border-white/10 [html[data-theme='light']_&]:border-black/10"
+            ]}
+          >
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex items-center gap-4">
+                <span
+                  class:list={[
+                    "inline-flex size-11 shrink-0 items-center justify-center rounded-xl transition-colors duration-300",
+                    plan.featured
+                      ? "bg-white text-black [html[data-theme='light']_&]:bg-black [html[data-theme='light']_&]:text-white"
+                      : "bg-white/[0.055] text-white/72 [html[data-theme='light']_&]:bg-black/[0.045] [html[data-theme='light']_&]:text-black/70"
+                  ]}
+                >
+                  <Icon size={22} stroke-width={1.8} aria-hidden="true" />
+                </span>
+                <h3 class="text-xl font-semibold tracking-[-0.018em]">
+                  {plan.name}
+                </h3>
+              </div>
+              {plan.featured && (
+                <span class="inline-flex items-center gap-1 rounded-full bg-white/[0.075] px-3 py-1.5 text-[11px] font-semibold text-white/78 transition-colors duration-300 [html[data-theme='light']_&]:bg-black/[0.055] [html[data-theme='light']_&]:text-black/70">
+                  <Star size={12} fill="currentColor" stroke-width={0} />
+                  Most popular
+                </span>
+              )}
+            </div>
+
+            <div class="mt-7 min-h-[112px]">
+              <div class="flex items-end gap-2">
+                <p class="text-[clamp(34px,7vw,46px)] font-semibold leading-none tracking-[-0.04em]">
+                  {plan.price}
+                </p>
+                {plan.cadence && (
+                  <p class="pb-1.5 text-sm font-medium text-white/46 transition-colors duration-300 [html[data-theme='light']_&]:text-black/46">
+                    {plan.cadence}
+                  </p>
+                )}
+              </div>
+              <p class="mt-4 max-w-[15rem] text-sm font-light leading-6 text-white/56 transition-colors duration-300 [html[data-theme='light']_&]:text-black/56">
+                {plan.description}
+              </p>
+            </div>
+
+            <div class="mt-5 h-px bg-gradient-to-r from-white/12 via-white/8 to-transparent transition-colors duration-300 [html[data-theme='light']_&]:from-black/12 [html[data-theme='light']_&]:via-black/8">
+            </div>
+
+            <ul class="mt-5 space-y-3 pb-8">
+              {plan.features.map((feature) => (
+                <li class="flex items-center gap-3 text-sm font-medium text-white/62 transition-colors duration-300 [html[data-theme='light']_&]:text-black/62">
+                  <Check
+                    class:list={[
+                      "shrink-0 rounded-full",
+                      plan.name === "Teams"
+                        ? "text-white/60 [html[data-theme='light']_&]:text-black/58"
+                        : "text-white/70 [html[data-theme='light']_&]:text-black/66"
+                    ]}
+                    size={16}
+                    stroke-width={2.4}
+                    aria-hidden="true"
+                  />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href={plan.href}
+              class:list={[
+                "mt-auto inline-flex h-10 items-center justify-center rounded-full px-5 text-sm font-semibold tracking-[-0.01em] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4",
+                plan.featured
+                  ? "bg-white text-black hover:bg-white/88 focus-visible:outline-white/45 [html[data-theme='light']_&]:bg-black [html[data-theme='light']_&]:text-white [html[data-theme='light']_&]:hover:bg-black/82 [html[data-theme='light']_&]:focus-visible:outline-black/40"
+                  : "border border-white/15 text-white/78 hover:border-white/28 hover:text-white focus-visible:outline-white/45 [html[data-theme='light']_&]:border-black/15 [html[data-theme='light']_&]:text-black/70 [html[data-theme='light']_&]:hover:border-black/28 [html[data-theme='light']_&]:hover:text-black [html[data-theme='light']_&]:focus-visible:outline-black/40"
+              ]}
+            >
+              {plan.cta}
+            </a>
+          </article>
+        ))
+      }
+    </div>
+
+    <div
+      class="mx-auto mt-8 max-w-[1120px] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] shadow-[0_24px_80px_rgba(0,0,0,0.22)] transition-colors duration-300 [html[data-theme='light']_&]:border-black/10 [html[data-theme='light']_&]:bg-black/[0.015] [html[data-theme='light']_&]:shadow-[0_24px_80px_rgba(0,0,0,0.05)]"
+    >
+      <div class="overflow-x-auto">
+        <table class="w-full min-w-[680px] border-collapse text-[13px]">
+          <thead>
+            <tr class="border-b border-white/10 transition-colors duration-300 [html[data-theme='light']_&]:border-black/10">
+              <th class="w-[34%] px-5 py-3 text-left font-semibold text-white/82 transition-colors duration-300 [html[data-theme='light']_&]:text-black/82">
+                Feature
+              </th>
+              {
+                columns.map(([name]) => (
+                  <th class="w-[22%] border-l border-white/8 px-5 py-3 text-center font-semibold text-white/82 transition-colors duration-300 [html[data-theme='light']_&]:border-black/8 [html[data-theme='light']_&]:text-black/82">
+                    {name}
+                  </th>
+                ))
+              }
+            </tr>
+          </thead>
+          <tbody>
+            {
+              comparison.map((row) => (
+                <tr class="border-b border-white/7 last:border-b-0 transition-colors duration-300 [html[data-theme='light']_&]:border-black/7">
+                  <td class="px-5 py-2.5 font-medium text-white/58 transition-colors duration-300 [html[data-theme='light']_&]:text-black/58">
+                    {row.feature}
+                  </td>
+                  {columns.map(([, key]) => {
+                    const included = row[key];
+
+                    return (
+                      <td class="border-l border-white/8 px-5 py-2.5 text-center transition-colors duration-300 [html[data-theme='light']_&]:border-black/8">
+                        {included ? (
+                          <Check
+                            class="mx-auto text-white/72 transition-colors duration-300 [html[data-theme='light']_&]:text-black/66"
+                            size={16}
+                            stroke-width={2.35}
+                            aria-label="Included"
+                          />
+                        ) : (
+                          <X
+                            class="mx-auto text-white/24 transition-colors duration-300 [html[data-theme='light']_&]:text-black/24"
+                            size={16}
+                            stroke-width={2}
+                            aria-label="Not included"
+                          />
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <p
+      class="mt-7 text-center text-sm font-light text-white/44 transition-colors duration-300 [html[data-theme='light']_&]:text-black/44"
+    >
+      Need OEM, agency, or redistribution rights?
+      <a
+        href="mailto:sales@chartkit.io"
+        class="font-semibold text-white/72 transition-colors hover:text-white [html[data-theme='light']_&]:text-black/68 [html[data-theme='light']_&]:hover:text-black"
+      >
+        Contact us.
+      </a>
+    </p>
+  </div>
+</section>

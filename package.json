@@ -1,76 +1,135 @@
 {
   "name": "react-native-chart-kit",
-  "version": "6.12.2",
+  "version": "7.0.0-next.1",
+  "workspaces": [
+    "packages/*",
+    "apps/expo-showcase",
+    "apps/site"
+  ],
   "devDependencies": {
-    "@types/react": "16.14.8",
-    "@types/react-native": "^0.62.13",
-    "babel-eslint": "10.x",
-    "babel-plugin-module-resolver": "^3.1.1",
-    "babel-polyfill": "^6.26.0",
-    "eslint": "6.x",
-    "eslint-config-react-app": "^5.0.2",
-    "eslint-plugin-flowtype": "^4.3.0",
-    "eslint-plugin-import": "2.x",
-    "eslint-plugin-jsx-a11y": "6.x",
-    "eslint-plugin-react": "7.x",
-    "eslint-plugin-react-hooks": "1.x",
-    "expo": "^37.0.0",
-    "husky": "^3.0.7",
-    "jest-expo": "^37.0.0",
-    "prettier": "^1.18.2",
-    "pretty-quick": "^1.11.1",
-    "react": "16.9.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-37.0.1.tar.gz",
-    "react-native-flash-message": "^0.1.10",
-    "react-native-scrollable-tab-view": "^1.0.0",
-    "react-native-svg": "11.0.1",
-    "react-test-renderer": "16.7.0",
-    "typescript": "^5.4.5"
+    "@eslint/js": "^9.39.4",
+    "@playwright/test": "^1.59.1",
+    "@react-native-community/cli": "^20.1.3",
+    "@types/node": "^25.6.0",
+    "@types/react": "^19.2.14",
+    "eslint": "^9.39.4",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.5.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.8.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "react": "^19.2.5",
+    "react-native": "^0.83.9",
+    "react-native-svg": "^15.15.4",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.59.1",
+    "vitest": "^4.1.5"
   },
-  "_main": "./node_modules/expo/AppEntry.js",
   "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "typings": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./v2": {
+      "types": "./dist/v2/index.d.ts",
+      "import": "./dist/v2/index.js",
+      "default": "./dist/v2/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      "v2": [
+        "dist/v2/index.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist"
   ],
-  "scripts": {
-    "start": "expo start",
-    "eject": "expo eject",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "test": "jest",
-    "typecheck": "tsc --noEmit",
-    "build": "tsc",
-    "dev": "tsc --watch",
-    "prepare": "npm run build"
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
-  "jest": {
-    "preset": "jest-expo"
+  "scripts": {
+    "lint": "eslint . && npm run filesize:check",
+    "filesize:check": "node scripts/check-file-sizes.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "surface:check": "node scripts/verify-public-surface.mjs && node scripts/verify-package-boundaries.mjs && node scripts/verify-private-surface-imports.mjs",
+    "security:audit": "npm audit --audit-level=high",
+    "boundaries:check": "node scripts/verify-package-boundaries.mjs",
+    "pack:check": "node scripts/check-package-packs.mjs",
+    "test": "npm run typecheck && npm run test:unit && npm run test:compat",
+    "test:unit": "vitest run --exclude \"packages/**/test/compat/**/*.test.ts\"",
+    "test:visual": "npm run visual:test",
+    "test:compat": "vitest run packages/core/test/compat",
+    "test:e2e": "npm run e2e:test",
+    "typecheck": "tsc --noEmit && npm run core:typecheck && npm run svg:typecheck && npm run rn:typecheck && npm run showcase:typecheck",
+    "core:typecheck": "tsc -p packages/core/tsconfig.json --noEmit && tsc -p packages/core/tsconfig.test.json --noEmit",
+    "core:build": "tsc -p packages/core/tsconfig.json",
+    "svg:typecheck": "tsc -p packages/svg-renderer/tsconfig.json --noEmit && tsc -p packages/svg-renderer/tsconfig.test.json --noEmit",
+    "svg:build": "tsc -p packages/svg-renderer/tsconfig.json",
+    "rn:typecheck": "tsc -p packages/react-native/tsconfig.json --noEmit && tsc -p packages/react-native/tsconfig.test.json --noEmit",
+    "rn:build": "tsc -p packages/react-native/tsconfig.build.json",
+    "benchmark": "npm run benchmark:core-geometry && npm run benchmark:showcase-interaction",
+    "benchmark:core-geometry": "node scripts/benchmark-core-line.mjs",
+    "benchmark:core-line": "node scripts/benchmark-core-line.mjs",
+    "benchmark:showcase-interaction": "npm run showcase:build && playwright test -c apps/expo-showcase/benchmark.config.ts",
+    "showcase": "npm --workspace @chart-kit/expo-showcase run web --",
+    "showcase:build": "npm --workspace @chart-kit/expo-showcase run web:build",
+    "showcase:typecheck": "npm --workspace @chart-kit/expo-showcase run typecheck",
+    "expo:typecheck": "npm --workspace @chart-kit/expo-showcase run typecheck",
+    "visual:test": "npm run showcase:build && playwright test -c apps/expo-showcase/playwright.config.ts",
+    "visual:update": "npm run showcase:build && playwright test -c apps/expo-showcase/playwright.config.ts --update-snapshots",
+    "e2e:test": "npm run showcase:build && playwright test -c apps/expo-showcase/playwright.config.ts apps/expo-showcase/visual/chart-interaction.spec.ts",
+    "example:ios": "npm --workspace @chart-kit/expo-showcase run ios --",
+    "example:android": "npm --workspace @chart-kit/expo-showcase run android --",
+    "example:expo": "npm --workspace @chart-kit/expo-showcase run start --",
+    "example:rn-cli:typecheck": "tsc -p examples/rn-cli-basic/tsconfig.json --noEmit",
+    "example:rn-cli:native:dry-run": "node scripts/run-rn-cli-native-check.mjs --platform all --dry-run",
+    "example:rn-cli:android": "node scripts/run-rn-cli-native-check.mjs --platform android",
+    "example:rn-cli:ios": "node scripts/run-rn-cli-native-check.mjs --platform ios",
+    "docs:build": "node scripts/docs-build.mjs && node scripts/typecheck-doc-examples.mjs",
+    "site": "npm --workspace @chart-kit/site run dev --",
+    "site:build": "npm --workspace @chart-kit/site run build",
+    "site:preview": "npm --workspace @chart-kit/site run preview --",
+    "clean": "node scripts/clean-dist.mjs",
+    "build": "npm run clean && npm run core:build && npm run svg:build && npm run rn:build && tsc && node scripts/assemble-root-modern-dist.mjs",
+    "dev": "tsc --watch",
+    "prepare": "npm run build && husky"
   },
   "peerDependencies": {
-    "react": "> 16.7.0",
-    "react-native": ">= 0.50.0",
-    "react-native-svg": "> 6.4.1"
+    "react": ">=19.2.0 <20",
+    "react-native": ">=0.83 <1",
+    "react-native-svg": ">=15.13.0 <16"
   },
   "dependencies": {
-    "paths-js": "^0.4.10",
-    "point-in-polygon": "^1.0.1"
+    "paths-js": "^0.4.11"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
+  "overrides": {
+    "vite": "^7.3.3"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": "prettier --write"
+  },
+  "engines": {
+    "node": ">=20.19.4"
   },
   "license": "MIT",
   "homepage": "https://github.com/indiespirit/react-native-chart-kit",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/indiespirit/react-native-chart-kit.git"
-  },
-  "overrides": {
-    "@types/react": "16.14.8"
-  },
-  "resolutions": {
-    "@types/react": "16.14.8"
   }
 }

@@ -1,0 +1,87 @@
+name: Layout bug
+description: Report clipped labels, spacing, overflow, or tooltip placement problems.
+title: "[Layout]: "
+labels:
+  - layout
+  - needs-reproduction
+body:
+  - type: dropdown
+    id: chart_type
+    attributes:
+      label: Chart type
+      options:
+        - LineChart
+        - AreaChart
+        - BarChart
+        - StackedBarChart
+        - PieChart
+        - DonutChart
+        - ProgressChart
+        - ContributionGraph
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      placeholder: 7.0.0-next.1
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      multiple: true
+      options:
+        - iOS
+        - Android
+        - Expo Go
+        - Expo dev-client
+        - Web
+    validations:
+      required: true
+  - type: dropdown
+    id: renderer
+    attributes:
+      label: Renderer
+      options:
+        - SVG
+        - Unknown
+    validations:
+      required: true
+  - type: textarea
+    id: data_sample
+    attributes:
+      label: Data sample
+      description: Include the smallest data sample that reproduces the layout problem.
+      render: tsx
+    validations:
+      required: true
+  - type: textarea
+    id: props
+    attributes:
+      label: Chart props
+      description: Include chart props, theme, dimensions, and parent container styles.
+      render: tsx
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshot
+      description: Attach the actual screenshot and, when possible, a debugLayout screenshot.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected layout
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual layout
+    validations:
+      required: true
