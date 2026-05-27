@@ -1,0 +1,21 @@
+---
+const { head } = Astro.locals.starlightRoute;
+const isDev = import.meta.env.DEV;
+const reactRefreshPreamble = `
+  import RefreshRuntime from "/@react-refresh";
+  RefreshRuntime.injectIntoGlobalHook(window);
+  window.$RefreshReg$ = () => {};
+  window.$RefreshSig$ = () => (type) => type;
+  window.__vite_plugin_react_preamble_installed__ = true;
+`;
+---
+
+{head.map(({ tag: Tag, attrs, content }) => <Tag {...attrs} set:html={content} />)}
+{
+  isDev ? (
+    <script type="module" is:inline set:html={reactRefreshPreamble} />
+  ) : null
+}
+<script>
+  import "../previews/client.tsx";
+</script>

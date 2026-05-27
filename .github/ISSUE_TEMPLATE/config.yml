@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and migration discussion
+    url: https://github.com/indiespirit/react-native-chart-kit/discussions
+    about: Use discussions for open-ended API, migration, or usage questions.

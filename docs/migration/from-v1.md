@@ -1,0 +1,99 @@
+---
+title: Migrating From v1
+description: Move existing react-native-chart-kit screens toward the modern v2 API safely.
+---
+
+# Migrating From v1
+
+The v2 migration strategy is intentionally partial compatibility. Existing apps should be able to keep common chart names and data shapes while new product work uses the modern object-row API.
+
+## Recommended Path
+
+1. Upgrade the package and peer dependencies.
+2. Keep existing `LineChart`, `BarChart`, `StackedBarChart`, `PieChart`, `ProgressChart`, and `ContributionGraph` imports working through the compatibility surface.
+3. Run the app and fix any documented compatibility warnings.
+4. Review the modern API in the repository showcase before adopting it in apps.
+5. Migrate old charts gradually when you need better layout, selection, scrolling, or theming.
+
+## What Should Keep Working
+
+Common v1 data shapes remain the compatibility target:
+
+```tsx
+import { LineChart } from "react-native-chart-kit";
+
+<LineChart
+  data={{
+    labels: ["Jan", "Feb", "Mar"],
+    datasets: [{ data: [18, 34, 29] }],
+    legend: ["Revenue"]
+  }}
+  width={360}
+  height={220}
+  chartConfig={{
+    backgroundGradientFrom: "#ffffff",
+    backgroundGradientTo: "#ffffff",
+    color: (opacity = 1) => `rgba(37, 99, 235, ${opacity})`
+  }}
+/>;
+```
+
+The compatibility promise covers the common public API, not undocumented internals, exact SVG node order, or layout bugs that made labels clip.
+
+## Modern API Preview
+
+The modern object-row API is available from the same public package through the
+`react-native-chart-kit/v2` subpath.
+
+```tsx
+import { LineChart } from "react-native-chart-kit/v2";
+
+<LineChart
+  data={[
+    { month: "Jan", revenue: 18 },
+    { month: "Feb", revenue: 34 },
+    { month: "Mar", revenue: 29 }
+  ]}
+  xKey="month"
+  yKey="revenue"
+  interaction={{ mode: "tap" }}
+  tooltip={{ shared: true }}
+  width={360}
+  height={240}
+/>;
+```
+
+## Layout Differences
+
+v2 defaults prioritize correct mobile layout over pixel-perfect legacy spacing:
+
+- Labels reserve space automatically where possible.
+- Edge labels shift or hide instead of clipping.
+- Tooltips are rendered above chart content and are shifted inside the viewport.
+- Scrollable charts use visible data windows instead of requiring manual SVG width hacks.
+- `null` values create line gaps by default in modern charts.
+
+Keep migrated charts on the legacy package path when they rely on old spacing during a transition. Do not use legacy spacing patterns for new charts.
+
+## Package Path During Preview
+
+The current repository has one intended public package path:
+
+- `react-native-chart-kit`: legacy-compatible root package for upgrade testing,
+  continuity, and future v2 promotion.
+
+The `@chart-kit/*` names remain internal workspace aliases only.
+
+## Visual Review
+
+Use the Expo showcase compatibility page to compare old fixtures with the modern renderer:
+
+```sh
+npm run example:expo
+```
+
+The visual suite also includes legacy fixtures for line, bar, and stacked bar charts:
+
+```sh
+npm run test:visual
+```

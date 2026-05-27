@@ -1,0 +1,85 @@
+---
+import {
+  Brackets,
+  ChartNoAxesCombined,
+  Fingerprint,
+  Smartphone
+} from "lucide-astro";
+
+const features = [
+  {
+    icon: ChartNoAxesCombined,
+    title: "Production primitives",
+    description:
+      "Line, area, bar, progress, pie, and contribution charts built as composable React Native pieces."
+  },
+  {
+    icon: Smartphone,
+    title: "Native-first rendering",
+    description:
+      "SVG defaults work out of the box with renderer primitives that stay predictable across React Native screens."
+  },
+  {
+    icon: Fingerprint,
+    title: "Interaction APIs",
+    description:
+      "Gesture-friendly surfaces for tooltips, active points, scrub states, and chart-specific mobile interactions."
+  },
+  {
+    icon: Brackets,
+    title: "Migration friendly",
+    description:
+      "Predictable props, theme hooks, and compatibility-minded components for moving existing chart screens forward."
+  }
+];
+---
+
+<section
+  id="features"
+  class="scroll-mt-20 bg-black py-20 text-white transition-colors duration-300 sm:py-24 [html[data-theme='light']_&]:bg-white [html[data-theme='light']_&]:text-black"
+>
+  <div
+    class="mx-auto grid max-w-[1220px] grid-cols-1 gap-14 px-6 sm:px-8 md:px-10 lg:grid-cols-[minmax(360px,0.82fr)_minmax(0,0.98fr)] lg:gap-16 lg:px-12 xl:gap-20"
+  >
+    <div class="max-w-[640px] lg:order-2 lg:self-start lg:justify-self-end">
+      <h2
+        class="text-[clamp(32px,5vw,54px)] font-semibold leading-[1.04] tracking-[-0.025em]"
+      >
+        Built for serious mobile chart screens
+      </h2>
+      <p
+        class="mt-5 text-base font-light leading-7 text-white/56 transition-colors duration-300 [html[data-theme='light']_&]:text-black/56"
+      >
+        Chart Kit keeps the surface area focused: native rendering, useful
+        defaults, and APIs that stay flexible when product charts become
+        interactive.
+      </p>
+      <a
+        href="/docs/getting-started/installation"
+        class="mt-8 inline-flex h-10 items-center justify-center rounded-full border border-white/15 px-5 text-sm font-semibold tracking-[-0.01em] text-white/78 transition-colors hover:border-white/28 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 [html[data-theme='light']_&]:border-black/15 [html[data-theme='light']_&]:text-black/70 [html[data-theme='light']_&]:hover:border-black/28 [html[data-theme='light']_&]:hover:text-black [html[data-theme='light']_&]:focus-visible:outline-black/40"
+      >
+        Read docs
+      </a>
+    </div>
+
+    <div class="flex flex-col gap-4 lg:order-1 lg:self-start lg:gap-5">
+      {
+        features.map(({ icon: Icon, title, description }) => (
+          <article class="rounded-2xl border border-white/10 bg-white/[0.025] p-5 transition-colors duration-300 sm:p-6 [html[data-theme='light']_&]:border-black/10 [html[data-theme='light']_&]:bg-black/[0.018]">
+            <div class="flex items-center gap-2.5">
+              <span class="inline-flex shrink-0 items-center justify-center text-white/78 transition-colors duration-300 [html[data-theme='light']_&]:text-black/72">
+                <Icon size={30} stroke-width={1.8} aria-hidden="true" />
+              </span>
+              <h3 class="text-[17px] font-semibold leading-tight tracking-[-0.012em] text-white transition-colors duration-300 [html[data-theme='light']_&]:text-black">
+                {title}
+              </h3>
+            </div>
+            <p class="mt-3 text-sm font-light leading-6 text-white/52 transition-colors duration-300 [html[data-theme='light']_&]:text-black/52">
+              {description}
+            </p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

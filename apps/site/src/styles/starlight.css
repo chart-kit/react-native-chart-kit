@@ -1,0 +1,9 @@
+.expressive-code figure.frame > figcaption.header {
+  display: none;
+}
+
+.expressive-code figure.frame > pre {
+  border-top: var(--ec-brdWd) solid var(--ec-brdCol);
+  border-top-left-radius: calc(var(--ec-brdRad) + var(--ec-brdWd));
+  border-top-right-radius: calc(var(--ec-brdRad) + var(--ec-brdWd));
+}

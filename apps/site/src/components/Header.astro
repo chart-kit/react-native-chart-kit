@@ -1,0 +1,182 @@
+---
+import { Menu, Moon, X } from "lucide-astro";
+
+const navigationLinks = [
+  {
+    href: "#charts",
+    label: "Charts"
+  },
+  {
+    href: "#features",
+    label: "Features"
+  },
+  {
+    href: "#pricing",
+    label: "Pricing"
+  },
+  {
+    href: "/docs",
+    label: "Docs"
+  }
+];
+---
+
+<header
+  class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/55 backdrop-blur-xl transition-colors duration-300 [html[data-theme='light']_&]:border-black/10 [html[data-theme='light']_&]:bg-white/75"
+>
+  <div
+    class="mx-auto flex h-16 max-w-[1320px] items-center justify-between gap-4 px-6 sm:px-8 md:px-10 lg:px-12 xl:px-16"
+  >
+    <a href="#hero" class="flex min-w-0 items-center gap-3">
+      <span
+        class="grid size-8 shrink-0 place-items-center rounded-lg bg-white text-sm font-semibold text-black transition-colors duration-300 [html[data-theme='light']_&]:bg-black [html[data-theme='light']_&]:text-white"
+      >
+        CK
+      </span>
+      <span class="min-w-0">
+        <span
+          class="block truncate text-sm font-semibold text-white transition-colors duration-300 [html[data-theme='light']_&]:text-black"
+        >
+          chartkit.io
+        </span>
+      </span>
+    </a>
+
+    <nav class="hidden items-center gap-1 md:flex" aria-label="Primary">
+      {
+        navigationLinks.map((link) => (
+          <a
+            href={link.href}
+            class="rounded-lg px-3 py-2 text-sm font-medium text-white/65 transition-colors hover:text-white [html[data-theme='light']_&]:text-black/60 [html[data-theme='light']_&]:hover:text-black"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="flex shrink-0 items-center gap-0">
+      <iframe
+        src="https://ghbtns.com/github-btn.html?user=indiespirit&repo=react-native-chart-kit&type=star&count=true"
+        frameborder="0"
+        scrolling="0"
+        allowtransparency="true"
+        width="150"
+        height="20"
+        title="GitHub"
+        class="-mr-1 hidden bg-transparent [color-scheme:light] sm:block"
+      ></iframe>
+      <a
+        href="#pricing"
+        class="inline-flex h-8 items-center rounded-full bg-white/95 px-3 text-[13px] font-semibold tracking-[-0.01em] text-black shadow-[0_8px_22px_rgba(255,255,255,0.16)] ring-1 ring-white/25 transition-all hover:-translate-y-px hover:bg-white hover:shadow-[0_10px_28px_rgba(255,255,255,0.22)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 active:translate-y-0 [html[data-theme='light']_&]:bg-black [html[data-theme='light']_&]:text-white [html[data-theme='light']_&]:shadow-[0_8px_22px_rgba(0,0,0,0.14)] [html[data-theme='light']_&]:ring-black/10 [html[data-theme='light']_&]:hover:bg-black/90 [html[data-theme='light']_&]:hover:shadow-[0_10px_28px_rgba(0,0,0,0.2)] [html[data-theme='light']_&]:focus-visible:outline-black/40"
+      >
+        Get pro
+      </a>
+      <button
+        type="button"
+        data-theme-toggle
+        class="ml-1 inline-flex size-9 items-center justify-center text-white/70 transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 [html[data-theme='light']_&]:text-black/65 [html[data-theme='light']_&]:hover:text-black [html[data-theme='light']_&]:focus-visible:outline-black/40"
+        aria-label="Switch color theme"
+        title="Switch color theme"
+      >
+        <Moon size={17} stroke-width={2.25} aria-hidden="true" />
+      </button>
+      <button
+        type="button"
+        data-mobile-menu-button
+        class="ml-1 inline-flex size-9 cursor-pointer items-center justify-center text-white/70 transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 md:hidden [html[data-theme='light']_&]:text-black/65 [html[data-theme='light']_&]:hover:text-black [html[data-theme='light']_&]:focus-visible:outline-black/40"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="mobile-navigation"
+      >
+        <Menu data-menu-icon size={18} stroke-width={2.25} aria-hidden="true" />
+        <X
+          data-close-icon
+          class="hidden"
+          size={18}
+          stroke-width={2.25}
+          aria-hidden="true"
+        />
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="mobile-navigation"
+    data-mobile-menu
+    class="border-t border-white/10 bg-black/80 px-6 py-3 backdrop-blur-xl transition-colors duration-300 md:hidden sm:px-8 [html[data-theme='light']_&]:border-black/10 [html[data-theme='light']_&]:bg-white/90"
+    hidden
+  >
+    <nav class="flex flex-col" aria-label="Mobile primary">
+      {
+        navigationLinks.map((link) => (
+          <a
+            href={link.href}
+            class="py-3 text-sm font-medium text-white/70 transition-colors hover:text-white [html[data-theme='light']_&]:text-black/65 [html[data-theme='light']_&]:hover:text-black"
+            data-mobile-menu-link
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>
+
+<script>
+  import "../theme-switch";
+
+  const bootMobileNavigation = () => {
+    const button = document.querySelector<HTMLButtonElement>(
+      "[data-mobile-menu-button]"
+    );
+    const menu = document.querySelector<HTMLElement>("[data-mobile-menu]");
+    const menuIcon = button?.querySelector<SVGElement>("[data-menu-icon]");
+    const closeIcon = button?.querySelector<SVGElement>("[data-close-icon]");
+
+    if (!button || !menu || button.dataset.mobileMenuBound === "true") {
+      return;
+    }
+
+    button.dataset.mobileMenuBound = "true";
+
+    const setOpen = (isOpen: boolean) => {
+      menu.hidden = !isOpen;
+      button.setAttribute("aria-expanded", String(isOpen));
+      button.setAttribute(
+        "aria-label",
+        isOpen ? "Close navigation menu" : "Open navigation menu"
+      );
+      menuIcon?.classList.toggle("hidden", isOpen);
+      closeIcon?.classList.toggle("hidden", !isOpen);
+    };
+
+    button.addEventListener("click", () => {
+      setOpen(menu.hidden);
+    });
+
+    menu.querySelectorAll("[data-mobile-menu-link]").forEach((link) => {
+      link.addEventListener("click", () => setOpen(false));
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+      }
+    });
+
+    window.addEventListener("resize", () => {
+      if (window.matchMedia("(min-width: 768px)").matches) {
+        setOpen(false);
+      }
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bootMobileNavigation, {
+      once: true
+    });
+  } else {
+    bootMobileNavigation();
+  }
+</script>

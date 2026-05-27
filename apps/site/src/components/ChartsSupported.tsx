@@ -1,0 +1,823 @@
+import { useEffect, useRef, useState } from "react";
+import type { CSSProperties, ReactNode } from "react";
+
+type ChartKind =
+  | "line"
+  | "area"
+  | "bar"
+  | "stackedBar"
+  | "pie"
+  | "donut"
+  | "progress"
+  | "heatmap"
+  | "more";
+
+type ChartType = {
+  kind: ChartKind;
+  title: string;
+  subtitle?: string;
+};
+
+type ThemeMode = "dark" | "light";
+
+const chartTypes: ChartType[] = [
+  { kind: "line", title: "Line Chart" },
+  { kind: "area", title: "Area Chart" },
+  { kind: "bar", title: "Bar Chart" },
+  { kind: "stackedBar", title: "Stacked Bar Chart" },
+  { kind: "pie", title: "Pie Chart" },
+  { kind: "donut", title: "Donut Chart" },
+  { kind: "progress", title: "Progress Circle" },
+  { kind: "heatmap", title: "Contribution Heatmap" },
+  { kind: "more", title: "More charts", subtitle: "coming soon" }
+];
+
+const barsA = [44, 58, 76, 64, 92, 118];
+const barsB = [58, 46, 94, 74, 108, 86];
+const stackedA = [
+  [38, 28, 18],
+  [48, 34, 24],
+  [30, 42, 26],
+  [64, 30, 20],
+  [42, 50, 24]
+];
+const stackedB = [
+  [46, 23, 24],
+  [40, 42, 18],
+  [34, 34, 34],
+  [56, 38, 24],
+  [50, 42, 30]
+];
+const heatmapHot = new Set([2, 6, 10, 13, 17, 24, 26, 31, 37, 41]);
+const heatmapWarm = new Set([4, 8, 15, 20, 27, 33, 38, 44]);
+const heatmapActive = new Set([1, 7, 11, 18, 22, 29, 34, 40, 43]);
+
+const clamp = (value: number) => Math.min(Math.max(value, 0), 1);
+const lerp = (from: number, to: number, progress: number) =>
+  from + (to - from) * progress;
+const easeOutCubic = (value: number) => 1 - Math.pow(1 - value, 3);
+const easeOutQuart = (value: number) => 1 - Math.pow(1 - value, 4);
+const numberPattern = /-?\d*\.?\d+/g;
+
+const formatSvgNumber = (value: number) => Number(value.toFixed(2)).toString();
+
+const interpolatePath = (base: string, hover: string, progress: number) => {
+  const baseNumbers = base.match(numberPattern)?.map(Number) ?? [];
+  const hoverNumbers = hover.match(numberPattern)?.map(Number) ?? [];
+  const segments = base.split(numberPattern);
+
+  if (baseNumbers.length !== hoverNumbers.length) {
+    return progress > 0.5 ? hover : base;
+  }
+
+  return segments
+    .map((segment, index) => {
+      if (index >= baseNumbers.length) {
+        return segment;
+      }
+
+      return `${segment}${formatSvgNumber(
+        lerp(baseNumbers[index], hoverNumbers[index], progress)
+      )}`;
+    })
+    .join("");
+};
+
+const staggerProgress = (progress: number, index: number, step = 0.055) => {
+  const delay = index * step;
+  return easeOutCubic(clamp((progress - delay) / Math.max(1 - delay, 0.001)));
+};
+
+const polarPoint = (angle: number, radius = 48) => {
+  const radians = ((angle - 90) * Math.PI) / 180;
+
+  return {
+    x: 120 + radius * Math.cos(radians),
+    y: 75 + radius * Math.sin(radians)
+  };
+};
+
+const pieSlicePath = (startAngle: number, endAngle: number) => {
+  const start = polarPoint(startAngle);
+  const end = polarPoint(endAngle);
+  const largeArc = endAngle - startAngle > 180 ? 1 : 0;
+
+  return [
+    "M120 75",
+    `L${formatSvgNumber(start.x)} ${formatSvgNumber(start.y)}`,
+    `A48 48 0 ${largeArc} 1 ${formatSvgNumber(end.x)} ${formatSvgNumber(end.y)}`,
+    "Z"
+  ].join("");
+};
+
+const getThemeMode = (): ThemeMode =>
+  typeof document !== "undefined" &&
+  document.documentElement.dataset.theme === "light"
+    ? "light"
+    : "dark";
+
+const useThemeMode = () => {
+  const [mode, setMode] = useState<ThemeMode>("dark");
+
+  useEffect(() => {
+    const updateMode = () => setMode(getThemeMode());
+    const observer = new MutationObserver(updateMode);
+
+    updateMode();
+    observer.observe(document.documentElement, {
+      attributeFilter: ["data-theme"]
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  return mode;
+};
+
+const useReducedMotion = () => {
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updateMotion = () => setReducedMotion(mediaQuery.matches);
+
+    updateMotion();
+    mediaQuery.addEventListener("change", updateMotion);
+
+    return () => mediaQuery.removeEventListener("change", updateMotion);
+  }, []);
+
+  return reducedMotion;
+};
+
+const getThemeStyles = (mode: ThemeMode) => {
+  const isLight = mode === "light";
+
+  return {
+    section: {
+      backgroundColor: isLight ? "#ffffff" : "#000000",
+      borderColor: isLight
+        ? "rgba(0, 0, 0, 0.08)"
+        : "rgba(255, 255, 255, 0.08)",
+      color: isLight ? "#050505" : "#ffffff"
+    },
+    copy: {
+      color: isLight ? "rgba(0, 0, 0, 0.52)" : "rgba(255, 255, 255, 0.52)"
+    },
+    label: {
+      color: isLight ? "rgba(0, 0, 0, 0.68)" : "rgba(255, 255, 255, 0.72)"
+    },
+    separator: {
+      background: isLight
+        ? "linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.09) 20%, rgba(0, 0, 0, 0.09) 80%, transparent)"
+        : "linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.11) 20%, rgba(255, 255, 255, 0.11) 80%, transparent)"
+    },
+    separatorHorizontal: {
+      background: isLight
+        ? "linear-gradient(to right, transparent, rgba(0, 0, 0, 0.09) 16%, rgba(0, 0, 0, 0.09) 84%, transparent)"
+        : "linear-gradient(to right, transparent, rgba(255, 255, 255, 0.11) 16%, rgba(255, 255, 255, 0.11) 84%, transparent)"
+    },
+    svg: {
+      filter: isLight
+        ? "drop-shadow(0 16px 24px rgba(0, 0, 0, 0.08))"
+        : "drop-shadow(0 16px 24px rgba(255, 255, 255, 0.10))"
+    }
+  } satisfies Record<string, CSSProperties>;
+};
+
+const useHoverProgress = (
+  active: boolean,
+  reducedMotion: boolean,
+  enterDuration = 620,
+  exitDuration = 260
+) => {
+  const target = active ? 1 : 0;
+  const [progress, setProgress] = useState(target);
+  const progressRef = useRef(target);
+
+  useEffect(() => {
+    if (reducedMotion) {
+      progressRef.current = target;
+      return;
+    }
+
+    const start = progressRef.current;
+    const distance = Math.abs(target - start);
+
+    if (distance < 0.001) {
+      return;
+    }
+
+    const duration = Math.max(
+      140,
+      (active ? enterDuration : exitDuration) * distance
+    );
+    const startedAt = performance.now();
+    let frame = 0;
+
+    const tick = (now: number) => {
+      const elapsed = clamp((now - startedAt) / duration);
+      const eased = active ? easeOutQuart(elapsed) : easeOutCubic(elapsed);
+      const next = lerp(start, target, eased);
+
+      progressRef.current = next;
+      setProgress(next);
+
+      if (elapsed < 1) {
+        frame = requestAnimationFrame(tick);
+      } else {
+        progressRef.current = target;
+        setProgress(target);
+      }
+    };
+
+    frame = requestAnimationFrame(tick);
+
+    return () => cancelAnimationFrame(frame);
+  }, [active, enterDuration, exitDuration, reducedMotion, target]);
+
+  return reducedMotion ? target : progress;
+};
+
+const SvgFrame = ({
+  children,
+  label,
+  mode
+}: {
+  children: ReactNode;
+  label: string;
+  mode: ThemeMode;
+}) => (
+  <svg
+    className="h-full w-full overflow-visible transition duration-300"
+    style={getThemeStyles(mode).svg}
+    viewBox="0 0 240 150"
+    role="img"
+    aria-label={label}
+  >
+    {children}
+  </svg>
+);
+
+const MorphPath = ({
+  base,
+  fill,
+  hover,
+  opacity = 1,
+  progress,
+  stroke,
+  strokeLinecap,
+  strokeLinejoin,
+  strokeWidth
+}: {
+  base: string;
+  fill: string;
+  hover: string;
+  opacity?: number;
+  progress: number;
+  stroke?: string;
+  strokeLinecap?: "round";
+  strokeLinejoin?: "round";
+  strokeWidth?: string;
+}) => (
+  <path
+    d={interpolatePath(base, hover, progress)}
+    fill={fill}
+    opacity={opacity}
+    stroke={stroke}
+    strokeLinecap={strokeLinecap}
+    strokeLinejoin={strokeLinejoin}
+    strokeWidth={strokeWidth}
+  />
+);
+
+const ChartArtwork = ({
+  kind,
+  mode,
+  progress,
+  title
+}: Pick<ChartType, "kind" | "title"> & {
+  mode: ThemeMode;
+  progress: number;
+}) => {
+  const scopedId = (id: string) => `${id}-${kind}`;
+
+  switch (kind) {
+    case "line":
+      return (
+        <SvgFrame label={`${title} illustration`} mode={mode}>
+          <defs>
+            <linearGradient
+              id={scopedId("chart-line-fade")}
+              x1="0"
+              x2="0"
+              y1="0"
+              y2="1"
+            >
+              <stop stopColor="currentColor" stopOpacity="0.42" />
+              <stop offset="0.72" stopColor="currentColor" stopOpacity="0.06" />
+              <stop offset="1" stopColor="currentColor" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          <MorphPath
+            base="M28 106C48 82 62 76 78 88C94 100 101 54 122 60C141 65 145 104 166 82C184 63 197 56 214 48V124H28Z"
+            fill={`url(#${scopedId("chart-line-fade")})`}
+            hover="M28 112C48 62 62 114 78 68C94 22 104 100 122 42C141 11 148 118 166 72C184 26 198 84 214 30V124H28Z"
+            progress={progress}
+          />
+          <MorphPath
+            base="M28 106C48 82 62 76 78 88C94 100 101 54 122 60C141 65 145 104 166 82C184 63 197 56 214 48"
+            fill="none"
+            hover="M28 112C48 62 62 114 78 68C94 22 104 100 122 42C141 11 148 118 166 72C184 26 198 84 214 30"
+            progress={progress}
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2.6"
+          />
+          <circle
+            cx="214"
+            cy={lerp(48, 30, progress)}
+            r={lerp(4, 4.8, staggerProgress(progress, 2))}
+            fill="currentColor"
+            opacity="0.95"
+          />
+        </SvgFrame>
+      );
+    case "area":
+      return (
+        <SvgFrame label={`${title} illustration`} mode={mode}>
+          <defs>
+            <linearGradient
+              id={scopedId("chart-area-fade")}
+              x1="0"
+              x2="0"
+              y1="0"
+              y2="1"
+            >
+              <stop stopColor="currentColor" stopOpacity="0.62" />
+              <stop offset="0.58" stopColor="currentColor" stopOpacity="0.16" />
+              <stop offset="1" stopColor="currentColor" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          <MorphPath
+            base="M26 110C44 91 58 78 76 72C92 67 100 76 114 57C126 39 138 37 152 64C164 88 176 92 190 72C201 56 210 45 219 34V126H26Z"
+            fill={`url(#${scopedId("chart-area-fade")})`}
+            hover="M26 116C44 60 58 104 76 55C92 20 100 92 114 38C126 72 139 18 152 48C164 106 176 34 190 92C201 118 210 44 219 24V126H26Z"
+            progress={progress}
+          />
+          <MorphPath
+            base="M26 110C44 91 58 78 76 72C92 67 100 76 114 57C126 39 138 37 152 64C164 88 176 92 190 72C201 56 210 45 219 34"
+            fill="none"
+            hover="M26 116C44 60 58 104 76 55C92 20 100 92 114 38C126 72 139 18 152 48C164 106 176 34 190 92C201 118 210 44 219 24"
+            progress={progress}
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2.2"
+          />
+        </SvgFrame>
+      );
+    case "bar":
+      return (
+        <SvgFrame label={`${title} illustration`} mode={mode}>
+          <defs>
+            <linearGradient
+              id={scopedId("chart-bar-fade")}
+              x1="0"
+              x2="0"
+              y1="0"
+              y2="1"
+            >
+              <stop stopColor="currentColor" stopOpacity="0.96" />
+              <stop offset="0.58" stopColor="currentColor" stopOpacity="0.34" />
+              <stop offset="1" stopColor="currentColor" stopOpacity="0.08" />
+            </linearGradient>
+          </defs>
+          <g>
+            {barsA.map((baseHeight, index) => {
+              const localProgress = staggerProgress(progress, index);
+              const height = lerp(baseHeight, barsB[index], localProgress);
+
+              return (
+                <rect
+                  key={index}
+                  x={43 + index * 27}
+                  y={124 - height}
+                  width="12"
+                  height={height}
+                  rx="1.5"
+                  fill={`url(#${scopedId("chart-bar-fade")})`}
+                />
+              );
+            })}
+          </g>
+        </SvgFrame>
+      );
+    case "stackedBar":
+      return (
+        <SvgFrame label={`${title} illustration`} mode={mode}>
+          <defs>
+            <linearGradient
+              id={scopedId("chart-stacked-fade")}
+              x1="0"
+              x2="0"
+              y1="0"
+              y2="1"
+            >
+              <stop stopColor="currentColor" stopOpacity="1" />
+              <stop offset="1" stopColor="currentColor" stopOpacity="0.08" />
+            </linearGradient>
+          </defs>
+          <g>
+            {stackedA.map((segments, index) => {
+              const x = 46 + index * 34;
+              let cursor = 124;
+
+              return segments.map((baseHeight, segmentIndex) => {
+                const localProgress = staggerProgress(
+                  progress,
+                  index * 2 + segmentIndex,
+                  0.035
+                );
+                const height = lerp(
+                  baseHeight,
+                  stackedB[index][segmentIndex],
+                  localProgress
+                );
+
+                cursor -= height;
+
+                return (
+                  <rect
+                    key={`${index}-${segmentIndex}`}
+                    x={x}
+                    y={cursor}
+                    width="16"
+                    height={Math.max(height - 2, 1)}
+                    rx="1.5"
+                    fill={`url(#${scopedId("chart-stacked-fade")})`}
+                    opacity={[0.28, 0.5, 0.85][segmentIndex]}
+                  />
+                );
+              });
+            })}
+          </g>
+        </SvgFrame>
+      );
+    case "pie": {
+      const firstShare = lerp(0.34, 0.39, progress);
+      const secondShare = lerp(0.38, 0.3, progress);
+      const firstEnd = firstShare * 360;
+      const secondEnd = (firstShare + secondShare) * 360;
+
+      return (
+        <SvgFrame label={`${title} illustration`} mode={mode}>
+          <defs>
+            <clipPath id={scopedId("chart-pie-round-clip")}>
+              <circle cx="120" cy="75" r="48" />
+            </clipPath>
+          </defs>
+          <circle cx="120" cy="75" r="48" fill="currentColor" opacity="0.1" />
+          <g clipPath={`url(#${scopedId("chart-pie-round-clip")})`}>
+            <path
+              d={pieSlicePath(0, firstEnd)}
+              fill="currentColor"
+              opacity="0.9"
+            />
+            <path
+              d={pieSlicePath(firstEnd, secondEnd)}
+              fill="currentColor"
+              opacity="0.48"
+            />
+            <path
+              d={pieSlicePath(secondEnd, 360)}
+              fill="currentColor"
+              opacity="0.24"
+            />
+          </g>
+        </SvgFrame>
+      );
+    }
+    case "donut":
+      return (
+        <SvgFrame label={`${title} illustration`} mode={mode}>
+          <circle
+            cx="120"
+            cy="75"
+            r="46"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="16"
+            opacity="0.13"
+          />
+          <g transform={`rotate(${lerp(0, 18, progress)} 120 75)`}>
+            <circle
+              cx="120"
+              cy="75"
+              r="46"
+              fill="none"
+              stroke="currentColor"
+              strokeDasharray={`${formatSvgNumber(lerp(176, 190, progress))} 290`}
+              strokeLinecap="round"
+              strokeWidth="16"
+              opacity="0.9"
+              transform="rotate(-90 120 75)"
+            />
+            <circle
+              cx="120"
+              cy="75"
+              r="46"
+              fill="none"
+              stroke="currentColor"
+              strokeDasharray={`${formatSvgNumber(lerp(54, 72, progress))} 290`}
+              strokeLinecap="round"
+              strokeWidth="16"
+              opacity={lerp(0.34, 0.44, progress)}
+              transform="rotate(128 120 75)"
+            />
+          </g>
+        </SvgFrame>
+      );
+    case "progress":
+      return (
+        <SvgFrame label={`${title} illustration`} mode={mode}>
+          <circle
+            cx="120"
+            cy="75"
+            r="48"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="9"
+            opacity="0.12"
+          />
+          <circle
+            cx="120"
+            cy="75"
+            r="48"
+            fill="none"
+            stroke="currentColor"
+            strokeDasharray={`${formatSvgNumber(lerp(178, 246, progress))} 302`}
+            strokeLinecap="round"
+            strokeWidth="9"
+            opacity="0.86"
+            transform="rotate(-80 120 75)"
+          />
+        </SvgFrame>
+      );
+    case "heatmap":
+      return (
+        <SvgFrame label={`${title} illustration`} mode={mode}>
+          <g>
+            {Array.from({ length: 45 }).map((_, index) => {
+              const column = index % 9;
+              const row = Math.floor(index / 9);
+              const x = 50 + column * 16;
+              const y = 38 + row * 16;
+              const opacity = heatmapHot.has(index)
+                ? 0.82
+                : heatmapWarm.has(index)
+                  ? 0.43
+                  : 0.12;
+              const activeOpacity = heatmapActive.has(index)
+                ? 0.92
+                : heatmapHot.has(index)
+                  ? 0.36
+                  : heatmapWarm.has(index)
+                    ? 0.24
+                    : opacity;
+              const localProgress = staggerProgress(
+                progress,
+                column + row * 1.35,
+                0.032
+              );
+
+              return (
+                <rect
+                  key={index}
+                  x={x}
+                  y={y}
+                  width="12"
+                  height="12"
+                  rx="1.5"
+                  fill="currentColor"
+                  opacity={lerp(opacity, activeOpacity, localProgress)}
+                />
+              );
+            })}
+          </g>
+        </SvgFrame>
+      );
+    case "more":
+      return (
+        <SvgFrame label={`${title} illustration`} mode={mode}>
+          <g transform={`rotate(${lerp(0, 24, progress)} 120 75)`}>
+            <circle
+              cx="120"
+              cy="75"
+              r="42"
+              fill="none"
+              stroke="currentColor"
+              strokeDasharray="3 10"
+              strokeLinecap="round"
+              strokeWidth="2"
+              opacity={lerp(0.26, 0.36, progress)}
+            />
+          </g>
+          <g
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="2.5"
+          >
+            <path d="M120 58V92" opacity={lerp(0.82, 0.48, progress)} />
+            <path d="M103 75H137" opacity={lerp(0.82, 0.48, progress)} />
+          </g>
+          <g fill="currentColor">
+            {[
+              [72, 75, 84, 75],
+              [168, 75, 156, 75],
+              [120, 27, 120, 39],
+              [120, 123, 120, 111]
+            ].map(([baseX, baseY, hoverX, hoverY], index) => {
+              const localProgress = staggerProgress(progress, index, 0.05);
+
+              return (
+                <circle
+                  key={`${baseX}-${baseY}`}
+                  cx={lerp(baseX, hoverX, localProgress)}
+                  cy={lerp(baseY, hoverY, localProgress)}
+                  r={lerp(3, 3.4, localProgress)}
+                  opacity={lerp(0.22, 0.44, localProgress)}
+                />
+              );
+            })}
+          </g>
+        </SvgFrame>
+      );
+  }
+};
+
+const ChartIllustration = ({
+  kind,
+  mode,
+  progress,
+  title
+}: Pick<ChartType, "kind" | "title"> & {
+  mode: ThemeMode;
+  progress: number;
+}) => (
+  <div
+    className="relative h-full w-full"
+    data-chart-progress={formatSvgNumber(progress)}
+  >
+    <ChartArtwork kind={kind} mode={mode} progress={progress} title={title} />
+  </div>
+);
+
+const ChartTile = ({
+  chart,
+  index,
+  lastFourColumnRowStart,
+  lastTwoColumnRowStart,
+  mode,
+  reducedMotion,
+  theme
+}: {
+  chart: ChartType;
+  index: number;
+  lastFourColumnRowStart: number;
+  lastTwoColumnRowStart: number;
+  mode: ThemeMode;
+  reducedMotion: boolean;
+  theme: ReturnType<typeof getThemeStyles>;
+}) => {
+  const [active, setActive] = useState(false);
+  const enterDuration = chart.kind === "heatmap" ? 1180 : 620;
+  const exitDuration = chart.kind === "heatmap" ? 360 : 260;
+  const progress = useHoverProgress(
+    active,
+    reducedMotion,
+    enterDuration,
+    exitDuration
+  );
+
+  return (
+    <article
+      className="group relative min-w-0"
+      onPointerEnter={() => setActive(true)}
+      onPointerLeave={() => setActive(false)}
+    >
+      {index % 2 === 0 && index < chartTypes.length - 1 && (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute top-7 right-0 bottom-7 w-px lg:hidden"
+          style={theme.separator}
+        />
+      )}
+      {index % 4 !== 3 && index < chartTypes.length - 1 && (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute top-8 right-0 bottom-8 hidden w-px lg:block"
+          style={theme.separator}
+        />
+      )}
+      {index < lastTwoColumnRowStart && (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute right-6 bottom-0 left-6 h-px lg:hidden"
+          style={theme.separatorHorizontal}
+        />
+      )}
+      {index < lastFourColumnRowStart && (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute right-8 bottom-0 left-8 hidden h-px lg:block"
+          style={theme.separatorHorizontal}
+        />
+      )}
+
+      <div className="px-5 py-9 sm:px-8 sm:py-11 lg:px-10 lg:py-12">
+        <div className="relative mx-auto h-24 max-w-[168px] text-current sm:h-28 sm:max-w-[188px]">
+          <ChartIllustration
+            kind={chart.kind}
+            mode={mode}
+            progress={progress}
+            title={chart.title}
+          />
+        </div>
+        <h3
+          className="mt-5 truncate text-center text-xs font-medium tracking-[-0.005em] transition-colors duration-300 sm:text-[13px]"
+          style={theme.label}
+        >
+          {chart.title}
+        </h3>
+        {chart.subtitle && (
+          <p
+            className="mt-1 text-center text-[10px] font-medium tracking-[0.12em] uppercase transition-colors duration-300"
+            style={theme.copy}
+          >
+            {chart.subtitle}
+          </p>
+        )}
+      </div>
+    </article>
+  );
+};
+
+export default function ChartsSupported() {
+  const mode = useThemeMode();
+  const reducedMotion = useReducedMotion();
+  const theme = getThemeStyles(mode);
+  const lastTwoColumnRowStart =
+    chartTypes.length - (chartTypes.length % 2 || 2);
+  const lastFourColumnRowStart =
+    chartTypes.length - (chartTypes.length % 4 || 4);
+
+  return (
+    <section
+      id="charts"
+      className="scroll-mt-20 py-24 transition-colors duration-300 sm:py-28"
+      style={theme.section}
+    >
+      <div className="mx-auto max-w-[1320px] px-6 sm:px-8 md:px-10 lg:px-12 xl:px-16">
+        <div className="mx-auto max-w-xl text-center lg:max-w-none">
+          <h2 className="text-[clamp(34px,6vw,56px)] font-semibold leading-[1.04] tracking-[-0.025em]">
+            Various charts supported
+          </h2>
+          <p
+            className="mx-auto mt-5 max-w-md text-base font-light leading-7 transition-colors duration-300 lg:max-w-none"
+            style={theme.copy}
+          >
+            Types of charts for trends, comparisons, progress, and contribution
+            maps.
+          </p>
+        </div>
+
+        <div className="mt-16 grid grid-cols-2 lg:grid-cols-4">
+          {chartTypes.map((chart, index) => (
+            <ChartTile
+              chart={chart}
+              index={index}
+              key={chart.kind}
+              lastFourColumnRowStart={lastFourColumnRowStart}
+              lastTwoColumnRowStart={lastTwoColumnRowStart}
+              mode={mode}
+              reducedMotion={reducedMotion}
+              theme={theme}
+            />
+          ))}
+        </div>
+
+        <div className="mt-7 flex justify-center">
+          <a
+            href="/docs/charts/line-and-area"
+            className="inline-flex h-10 items-center justify-center rounded-full border border-white/15 px-5 text-sm font-semibold tracking-[-0.01em] text-white/78 transition-colors hover:border-white/28 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 [html[data-theme='light']_&]:border-black/15 [html[data-theme='light']_&]:text-black/70 [html[data-theme='light']_&]:hover:border-black/28 [html[data-theme='light']_&]:hover:text-black [html[data-theme='light']_&]:focus-visible:outline-black/40"
+          >
+            Read docs
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}

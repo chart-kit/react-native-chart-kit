@@ -1,0 +1,18 @@
+{
+  "expo": {
+    "name": "Chart Kit Showcase",
+    "slug": "chart-kit-showcase",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "chartkitshowcase",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "io.chartkit.showcase"
+    },
+    "android": {
+      "edgeToEdgeEnabled": true,
+      "package": "io.chartkit.showcase"
+    }
+  }
+}

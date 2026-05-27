@@ -1,0 +1,21 @@
+<script is:inline>
+  (() => {
+    const storageKey = "starlight-theme";
+    const getStoredTheme = () => {
+      try {
+        const stored = localStorage.getItem(storageKey);
+        return stored === "light" || stored === "dark" ? stored : "dark";
+      } catch {
+        return "dark";
+      }
+    };
+    const theme = getStoredTheme();
+
+    try {
+      localStorage.setItem(storageKey, theme);
+    } catch {}
+
+    document.documentElement.dataset.theme = theme;
+    document.documentElement.style.colorScheme = theme;
+  })();
+</script>

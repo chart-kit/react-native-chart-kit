@@ -1,0 +1,498 @@
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState
+} from "react";
+import { ScrollView, StyleSheet, View } from "react-native";
+import type {
+  GestureResponderEvent,
+  NativeScrollEvent,
+  NativeSyntheticEvent
+} from "react-native";
+
+import {
+  resolveChartViewport,
+  resolveChartViewportInitialOffset,
+  resolveChartViewportWindow,
+  sliceChartViewportData
+} from "@chart-kit/core";
+import type { ProjectedLinePoint } from "@chart-kit/core";
+
+import { useChartKitTheme } from "../../theme";
+import { useLineChartAccessibilityLabel } from "./accessibility";
+import { LineChartSurface } from "./ChartSurface";
+import { StickyYAxis } from "./StickyYAxis";
+import {
+  buildLineChartSelectEvent,
+  getLineChartInteractionConfig,
+  getLineChartVisibleInteractionBounds,
+  getNearestLineChartInteractionIndex,
+  isLineChartInteractionEnabled,
+  isLineChartInteractionInBounds,
+  normalizeLineChartSelectedIndex,
+  type LineChartDeselectEvent
+} from "./interaction";
+import { getSelectedLineSeries } from "./selection";
+import { getLineChartOutsidePressSurfaces } from "./outsidePressSurfaces";
+import { getLineChartOverviewProps } from "./overviewProps";
+import { useLineChartResponderProps } from "./responders";
+import { getStickyYAxisFadeOpacity } from "./stickyYAxisLayout";
+import { LineChartRangeSelector } from "./rangeSelector";
+import { getRangeSelectorConfig } from "./rangeSelectorConfig";
+import { useAnimatedTooltipModel } from "./useAnimatedTooltipModel";
+import { useLineChartYAxisLabels } from "./useAnimatedYAxisLabels";
+import { useChartModel } from "./useChartModel";
+import { useLineChartViewportPan } from "./viewportInteraction";
+import {
+  LineChartViewportGesture,
+  useLineChartViewportPinchZoom
+} from "./viewportPinchZoom";
+import { clampLineChartTooltipToViewport } from "./tooltip";
+import { useScopedChartSelection } from "../../selection/ChartSelectionProvider";
+import type { LineChartProps } from "./types";
+
+export type * from "./types";
+export {
+  getLineChartAccessibilitySummary,
+  getLineChartDataTable
+} from "./accessibility";
+export type {
+  LineChartDataTable,
+  LineChartDataTableColumn,
+  LineChartDataTableRow
+} from "./accessibility";
+
+export const LineChart = <TData extends Record<string, unknown>>(
+  props: LineChartProps<TData>
+) => {
+  const chartId = useId().replace(/:/g, "");
+  const scopedChartId = props.id ?? chartId;
+  const chartKitTheme = useChartKitTheme();
+  const renderer = props.renderer ?? chartKitTheme.renderer;
+  const dataLength = props.data.length;
+  const accessibilityLabel = useLineChartAccessibilityLabel(props);
+  const scrollViewRef = useRef<ScrollView>(null);
+  const interactionConfig = useMemo(
+    () => getLineChartInteractionConfig(props.interaction),
+    [props.interaction]
+  );
+  const [gestureSelectedIndex, setGestureSelectedIndex] = useState<
+    number | undefined
+  >(() => normalizeLineChartSelectedIndex(props.defaultSelectedIndex));
+  const [gestureSelectionPointer, setGestureSelectionPointer] = useState<
+    { index: number; x: number; y: number } | undefined
+  >();
+  const effectiveSelectedIndex = props.selectedIndex ?? gestureSelectedIndex;
+  const rangeSelectorConfig = useMemo(
+    () => getRangeSelectorConfig(props.rangeSelector),
+    [props.rangeSelector]
+  );
+  const viewportWindow = useMemo(
+    () =>
+      resolveChartViewportWindow({
+        itemCount: props.data.length,
+        startIndex: props.viewport?.startIndex,
+        endIndex: props.viewport?.endIndex,
+        visiblePoints: props.viewport?.visiblePoints,
+        initialIndex: props.viewport?.initialIndex
+      }),
+    [
+      props.data.length,
+      props.viewport?.endIndex,
+      props.viewport?.initialIndex,
+      props.viewport?.startIndex,
+      props.viewport?.visiblePoints
+    ]
+  );
+  const mainData = useMemo(
+    () => sliceChartViewportData(props.data, viewportWindow),
+    [props.data, viewportWindow]
+  );
+  const isRangeSelectorVisible =
+    rangeSelectorConfig.visible && props.data.length > 1;
+  const mainHeight = isRangeSelectorVisible
+    ? Math.max(
+        120,
+        props.height - rangeSelectorConfig.height - rangeSelectorConfig.gap
+      )
+    : props.height;
+  const viewport = useMemo(
+    () =>
+      resolveChartViewport({
+        itemCount: mainData.length,
+        scrollable: props.scrollable,
+        viewportWidth: props.width,
+        visiblePoints: props.visiblePoints
+      }),
+    [mainData.length, props.scrollable, props.visiblePoints, props.width]
+  );
+  const initialScrollOffset = useMemo(
+    () =>
+      resolveChartViewportInitialOffset({
+        initialIndex: props.initialIndex,
+        viewport
+      }),
+    [props.initialIndex, viewport]
+  );
+  const [scrollOffset, setScrollOffset] = useState(initialScrollOffset);
+  const chartProps = {
+    ...props,
+    data: mainData,
+    height: mainHeight,
+    width: viewport.contentWidth,
+    ...(effectiveSelectedIndex !== undefined
+      ? { selectedIndex: effectiveSelectedIndex }
+      : {})
+  };
+  const model = useChartModel({
+    ...chartProps,
+    chartKitTheme,
+    dataIndexOffset: viewportWindow.startIndex,
+    selectionPointer:
+      gestureSelectionPointer?.index === effectiveSelectedIndex
+        ? gestureSelectionPointer
+        : undefined,
+    stableYAxisData: props.data
+  });
+  const { boxes, geometries, interactionPoints, selectionModel, formatYLabel } =
+    model;
+  const overviewBaseProps = getLineChartOverviewProps(props);
+  const overviewModel = useChartModel({
+    ...overviewBaseProps,
+    activeDot: false,
+    chartKitTheme,
+    crosshair: false,
+    height: rangeSelectorConfig.height,
+    labelStrategy: "hide",
+    legend: false,
+    showDots: false,
+    tooltip: false,
+    width: props.width
+  });
+  const isInteractionEnabled = isLineChartInteractionEnabled(interactionConfig);
+  const animatedYAxisLabels = useLineChartYAxisLabels(
+    model,
+    props.axisLabelAnimation
+  );
+
+  useEffect(() => {
+    if (!viewport.scrollable) {
+      return;
+    }
+
+    const frame = requestAnimationFrame(() => {
+      setScrollOffset(initialScrollOffset);
+      scrollViewRef.current?.scrollTo({
+        animated: false,
+        x: initialScrollOffset
+      });
+    });
+
+    return () => {
+      cancelAnimationFrame(frame);
+    };
+  }, [initialScrollOffset, viewport.scrollable]);
+  const handleScroll = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      setScrollOffset(event.nativeEvent.contentOffset.x);
+    },
+    []
+  );
+
+  const preventBrowserSelection = useCallback(
+    (event: GestureResponderEvent) => {
+      event.preventDefault();
+    },
+    []
+  );
+  const viewportPan = useLineChartViewportPan({
+    dataLength,
+    enabled: !viewport.scrollable,
+    onViewportChange: props.onViewportChange,
+    plotBounds: boxes.plot,
+    preventBrowserSelection,
+    viewportInteraction: props.viewportInteraction,
+    viewportWindow
+  });
+  const viewportPinchZoom = useLineChartViewportPinchZoom({
+    dataLength,
+    enabled: !viewport.scrollable,
+    onViewportChange: props.onViewportChange,
+    plotBounds: boxes.plot,
+    viewportInteraction: props.viewportInteraction,
+    viewportWindow
+  });
+  const isResponderEventInPlot = useCallback(
+    (event: GestureResponderEvent) => {
+      const { locationX, locationY } = event.nativeEvent;
+
+      return isLineChartInteractionInBounds({
+        bounds: boxes.plot,
+        locationX,
+        locationY
+      });
+    },
+    [boxes.plot]
+  );
+  const visibleInteractionBounds = useMemo(
+    () =>
+      getLineChartVisibleInteractionBounds({
+        bounds: boxes.plot,
+        scrollable: viewport.scrollable,
+        viewportWidth: props.width
+      }),
+    [boxes.plot, props.width, viewport.scrollable]
+  );
+  const clearGestureSelection = useCallback(
+    (event: LineChartDeselectEvent) => {
+      setGestureSelectionPointer(undefined);
+
+      if (props.selectedIndex === undefined) {
+        setGestureSelectedIndex(undefined);
+      }
+
+      interactionConfig.onDeselect?.(event);
+    },
+    [interactionConfig, props.selectedIndex]
+  );
+  const clearSelectionFromScope = useCallback(
+    (reason: "outsidePress" | "programmatic" | "scopeChange") => {
+      if (reason === "scopeChange") {
+        if (props.selectedIndex === undefined) {
+          setGestureSelectedIndex(undefined);
+        }
+
+        return;
+      }
+
+      clearGestureSelection({ reason });
+    },
+    [clearGestureSelection, props.selectedIndex]
+  );
+  const scopedSelection = useScopedChartSelection({
+    chartId: scopedChartId,
+    controlled: props.selectedIndex !== undefined,
+    hasSelection: effectiveSelectedIndex !== undefined,
+    onClear: clearSelectionFromScope
+  });
+  const clearScopedGestureSelection = useCallback(
+    (event: LineChartDeselectEvent) => {
+      clearGestureSelection(event);
+
+      if (event.reason === "outsidePress") {
+        scopedSelection.dismissSelection?.("outsidePress");
+      } else if (event.reason === "gestureEnd") {
+        scopedSelection.dismissSelection?.("programmatic");
+      }
+    },
+    [clearGestureSelection, scopedSelection]
+  );
+  const handleInteractionEvent = useCallback(
+    (event: GestureResponderEvent) => {
+      preventBrowserSelection(event);
+
+      const { locationX, locationY } = event.nativeEvent;
+      const selectedDataIndex = getNearestLineChartInteractionIndex({
+        locationX,
+        points: interactionPoints
+      });
+
+      if (selectedDataIndex === undefined) {
+        return;
+      }
+
+      const selectedSeries = getSelectedLineSeries({
+        activeDot: props.activeDot,
+        formatYLabel,
+        geometries,
+        selectedDataIndex
+      });
+      const selectEvent = buildLineChartSelectEvent<
+        TData,
+        ProjectedLinePoint<TData>
+      >({
+        interactionPoints,
+        selectedDataIndex,
+        selectedSeries
+      });
+
+      if (!selectEvent) {
+        return;
+      }
+
+      setGestureSelectionPointer({
+        index: selectedDataIndex,
+        x: locationX,
+        y: locationY
+      });
+
+      if (
+        props.selectedIndex === undefined &&
+        interactionConfig.selectionPersistence !== "none"
+      ) {
+        setGestureSelectedIndex(selectedDataIndex);
+      }
+
+      scopedSelection.selectChart();
+      interactionConfig.onSelect?.(selectEvent);
+    },
+    [
+      formatYLabel,
+      geometries,
+      interactionConfig,
+      interactionPoints,
+      props.activeDot,
+      props.selectedIndex,
+      preventBrowserSelection,
+      scopedSelection
+    ]
+  );
+  const responderProps = useLineChartResponderProps({
+    clearGestureSelection: clearScopedGestureSelection,
+    handleInteractionEvent,
+    interactionConfig,
+    isInteractionEnabled,
+    isResponderEventInPlot,
+    preventBrowserSelection,
+    viewportPan
+  });
+  const outsidePressSurfaceResponderProps =
+    isInteractionEnabled && interactionConfig.deselectOnOutsidePress
+      ? {
+          onStartShouldSetResponder: () => true,
+          onResponderGrant: (event: GestureResponderEvent) => {
+            preventBrowserSelection(event);
+            clearScopedGestureSelection({ reason: "outsidePress" });
+          }
+        }
+      : {};
+  const outsidePressSurfaces = getLineChartOutsidePressSurfaces({
+    enabled: isInteractionEnabled && interactionConfig.deselectOnOutsidePress,
+    mainHeight,
+    visibleInteractionBounds,
+    width: props.width
+  });
+  const animatedTooltip = useAnimatedTooltipModel(selectionModel?.tooltip);
+  const displayTooltip =
+    animatedTooltip && viewport.scrollable
+      ? clampLineChartTooltipToViewport(animatedTooltip, {
+          leftInset: boxes.plot.x + 4,
+          scrollOffset,
+          viewportWidth: props.width
+        })
+      : animatedTooltip;
+  const chartWidth = viewport.contentWidth;
+  const xAxisLabelFadeY = boxes.plot.y + boxes.plot.height;
+  const scrollStartFadeId = `${chartId}-scroll-start-fade`;
+  const mainSurface = (
+    <LineChartSurface
+      animatedTooltip={displayTooltip}
+      chartId={chartId}
+      chartWidth={chartWidth}
+      isScrollable={viewport.scrollable}
+      mainHeight={mainHeight}
+      model={model}
+      props={props}
+      renderer={renderer}
+      responderProps={responderProps}
+      yAxisLabels={animatedYAxisLabels}
+    />
+  );
+
+  return (
+    <View
+      accessible
+      accessibilityLabel={accessibilityLabel}
+      accessibilityRole="image"
+      testID={props.testID}
+      style={[styles.container, { width: props.width, height: props.height }]}
+    >
+      <View style={{ width: props.width, height: mainHeight }}>
+        {viewport.scrollable ? (
+          <ScrollView
+            ref={scrollViewRef}
+            horizontal
+            bounces={false}
+            showsHorizontalScrollIndicator
+            style={[
+              styles.scroller,
+              { width: props.width, height: mainHeight }
+            ]}
+            contentContainerStyle={[
+              styles.scrollerContent,
+              { width: chartWidth, height: mainHeight }
+            ]}
+            onScroll={handleScroll}
+            scrollEventThrottle={16}
+          >
+            {mainSurface}
+          </ScrollView>
+        ) : (
+          <LineChartViewportGesture gesture={viewportPinchZoom}>
+            {mainSurface}
+          </LineChartViewportGesture>
+        )}
+        {viewport.scrollable ? (
+          <StickyYAxis
+            fadeHeight={Math.max(0, mainHeight - xAxisLabelFadeY)}
+            fadeOpacity={getStickyYAxisFadeOpacity(scrollOffset)}
+            fadeWidth={Math.min(12, Math.max(0, props.width - boxes.plot.x))}
+            fadeY={xAxisLabelFadeY}
+            gradientId={scrollStartFadeId}
+            mainHeight={mainHeight}
+            model={model}
+            renderer={renderer}
+            width={props.width}
+            yAxisLabels={animatedYAxisLabels}
+          />
+        ) : null}
+        {outsidePressSurfaces.map((surface) => (
+          <View
+            key={`outside-press-${surface.key}`}
+            style={[
+              styles.outsidePressSurface,
+              {
+                height: surface.height,
+                left: surface.left,
+                top: surface.top,
+                width: surface.width
+              }
+            ]}
+            {...outsidePressSurfaceResponderProps}
+          />
+        ))}
+      </View>
+      <LineChartRangeSelector
+        config={rangeSelectorConfig}
+        dataLength={dataLength}
+        isVisible={isRangeSelectorVisible}
+        model={overviewModel}
+        onViewportChange={props.onViewportChange}
+        preventBrowserSelection={preventBrowserSelection}
+        renderer={renderer}
+        testID={props.testID}
+        viewportWindow={viewportWindow}
+        width={props.width}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    overflow: "hidden",
+    userSelect: "none"
+  },
+  scroller: {
+    overflow: "hidden"
+  },
+  scrollerContent: {
+    flexGrow: 0
+  },
+  outsidePressSurface: {
+    position: "absolute"
+  }
+});
