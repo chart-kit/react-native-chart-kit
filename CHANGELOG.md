@@ -1,5 +1,10 @@
 # Changelog
 
+## v6.12.3
+
+- replace deprecated SVG `rotation` and `origin` props with `transform`
+- remove the obsolete Expo demo dependency that triggered Dependabot alerts
+
 ## v6.12.2
 
 - remove the direct `lodash` dependency
