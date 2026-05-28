@@ -20,7 +20,6 @@
     "prettier-plugin-astro": "^0.14.1",
     "react": "^19.2.5",
     "react-native": "^0.83.9",
-    "react-native-gesture-handler": "^2.29.1",
     "react-native-svg": "^15.15.4",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.59.1",
