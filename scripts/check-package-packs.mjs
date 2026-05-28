@@ -17,7 +17,10 @@ const packageChecks = [
       "dist/index.js",
       "dist/index.d.ts",
       "dist/v2/index.js",
-      "dist/v2/index.d.ts"
+      "dist/v2/index.d.ts",
+      "v2/index.js",
+      "v2/index.d.ts",
+      "v2/package.json"
     ]
   }
 ];

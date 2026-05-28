@@ -117,6 +117,10 @@ if (!packageJson.exports?.["./v2"]) {
   throw new Error("react-native-chart-kit must expose ./v2");
 }
 
+if (packageJson.exports["./v2"].default !== "./v2/index.js") {
+  throw new Error("react-native-chart-kit ./v2 must expose the physical v2 shim");
+}
+
 const rootExportPaths = Object.keys(packageJson.exports ?? {}).sort();
 const expectedRootExportPaths = [".", "./package.json", "./v2"];
 if (

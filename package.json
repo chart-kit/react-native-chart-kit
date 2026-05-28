@@ -36,21 +36,23 @@
       "default": "./dist/index.js"
     },
     "./v2": {
-      "types": "./dist/v2/index.d.ts",
-      "import": "./dist/v2/index.js",
-      "default": "./dist/v2/index.js"
+      "types": "./v2/index.d.ts",
+      "import": "./v2/index.js",
+      "default": "./v2/index.js"
     },
     "./package.json": "./package.json"
   },
   "typesVersions": {
     "*": {
       "v2": [
+        "v2/index.d.ts",
         "dist/v2/index.d.ts"
       ]
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "v2"
   ],
   "publishConfig": {
     "access": "public",
