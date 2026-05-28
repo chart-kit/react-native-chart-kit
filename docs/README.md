@@ -33,19 +33,12 @@ Modern v2 examples import from `react-native-chart-kit/v2`.
 - [Themes](charts/themes.md)
 - [Accessibility](charts/accessibility.md)
 - [Troubleshooting](troubleshooting.md)
-- <a href="/examples/">Live examples website</a>
 
 ## Recipes
 
 - [Production recipes](recipes/README.md)
 
-## Local Preview
-
-Run the Expo showcase when you need to review the same chart stories used by visual regression:
-
-```sh
-npm run example:expo
-```
+## Local Review
 
 Type-check the React Native CLI example surface when changing package imports or peer setup:
 
@@ -53,8 +46,5 @@ Type-check the React Native CLI example surface when changing package imports or
 npm run example:rn-cli:typecheck
 ```
 
-Run the web visual suite before changing default layout, theme, or renderer behavior:
-
-```sh
-npm run test:visual
-```
+The Expo preview app lives in the private `chart-kit-pro` repository because it
+combines free and Pro chart examples.

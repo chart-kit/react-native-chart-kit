@@ -11,10 +11,7 @@ export default [
       ".tmp/**",
       "packages/*/dist/**",
       "node_modules/**",
-      "coverage/**",
-      "apps/expo-showcase/.expo/**",
-      "apps/expo-showcase/dist/**",
-      "apps/expo-showcase/test-results/**"
+      "coverage/**"
     ]
   },
   js.configs.recommended,

@@ -67,22 +67,14 @@ The root import remains the legacy-compatible surface for existing screens.
 
 ## Local Review App
 
-The Expo showcase is the fastest way to review the current implementation on web or a phone:
-
-```sh
-npm run example:expo
-```
-
-If Expo Go cannot discover the LAN server, use tunnel mode:
-
-```sh
-npm run example:expo -- --tunnel
-```
-
-The repo also includes a React Native CLI smoke surface for non-Expo import and peer-dependency checks:
+This public repo includes a React Native CLI smoke surface for non-Expo import
+and peer-dependency checks:
 
 ```sh
 npm run example:rn-cli:typecheck
 ```
 
 See `examples/rn-cli-basic` for the app source and Metro aliases.
+
+The Expo preview app lives in the private `chart-kit-pro` repository because it
+combines free and Pro chart examples.

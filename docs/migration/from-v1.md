@@ -12,7 +12,7 @@ The v2 migration strategy is intentionally partial compatibility. Existing apps 
 1. Upgrade the package and peer dependencies.
 2. Keep existing `LineChart`, `BarChart`, `StackedBarChart`, `PieChart`, `ProgressChart`, and `ContributionGraph` imports working through the compatibility surface.
 3. Run the app and fix any documented compatibility warnings.
-4. Review the modern API in the repository showcase before adopting it in apps.
+4. Review the modern API examples before adopting it in apps.
 5. Migrate old charts gradually when you need better layout, selection, scrolling, or theming.
 
 ## What Should Keep Working
@@ -86,14 +86,6 @@ The `@chart-kit/*` names remain internal workspace aliases only.
 
 ## Visual Review
 
-Use the Expo showcase compatibility page to compare old fixtures with the modern renderer:
-
-```sh
-npm run example:expo
-```
-
-The visual suite also includes legacy fixtures for line, bar, and stacked bar charts:
-
-```sh
-npm run test:visual
-```
+The Expo preview app and visual fixture suite live in the private
+`chart-kit-pro` repository because they include Pro chart examples. This public
+repo keeps the compatibility code and unit coverage for the free package.
