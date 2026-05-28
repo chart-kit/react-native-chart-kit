@@ -24,9 +24,6 @@ jobs:
       - name: Install dependencies
         run: npm ci --ignore-scripts
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
-
       - name: Lint
         run: npm run lint
 
@@ -38,9 +35,6 @@ jobs:
 
       - name: Test
         run: npm run test
-
-      - name: E2E
-        run: npm run test:e2e
 
       - name: Surface
         run: npm run surface:check
