@@ -10,8 +10,7 @@ const markdownRoots = [
   "docs",
   "packages/core/README.md",
   "packages/react-native/README.md",
-  "packages/svg-renderer/README.md",
-  "apps/expo-showcase/README.md"
+  "packages/svg-renderer/README.md"
 ];
 const ignoredLinkPrefixes = [
   "#",

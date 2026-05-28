@@ -7,7 +7,7 @@ import {
 } from "react-native-chart-kit/v2";
 
 import { chartPreviewExamples } from "./registry";
-import { showcaseCustomPresets } from "../../../expo-showcase/src/showcaseTheme";
+import { showcaseCustomPresets } from "./showcaseTheme";
 
 type PreviewRenderContext = {
   mode: Exclude<ChartKitThemeMode, "system">;

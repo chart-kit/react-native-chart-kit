@@ -251,7 +251,7 @@ const formatDiagnosticMessage = (message) =>
   ts.flattenDiagnosticMessageText(message, "\n");
 
 const parseTsConfig = () => {
-  const configPath = path.join(repoRoot, "apps/expo-showcase/tsconfig.json");
+  const configPath = path.join(repoRoot, "packages/react-native/tsconfig.json");
   const configFile = ts.readConfigFile(configPath, ts.sys.readFile);
 
   if (configFile.error) {
@@ -268,7 +268,16 @@ const parseTsConfig = () => {
     ...parsed.options,
     allowJs: false,
     checkJs: false,
+    allowSyntheticDefaultImports: true,
+    esModuleInterop: true,
+    exactOptionalPropertyTypes: false,
+    noUncheckedIndexedAccess: false,
     noEmit: true,
+    paths: {
+      ...(parsed.options.paths ?? {}),
+      "react-native-chart-kit": ["src/index.ts"],
+      "react-native-chart-kit/v2": ["packages/react-native/src/index.ts"]
+    },
     skipLibCheck: true,
     strict: false
   };

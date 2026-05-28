@@ -15,15 +15,10 @@ const requiredCkv2Scripts = [
   "typecheck",
   "test",
   "test:unit",
-  "test:visual",
   "test:compat",
-  "test:e2e",
   "benchmark",
   "pack:check",
   "surface:check",
-  "example:ios",
-  "example:android",
-  "example:expo",
   "example:rn-cli:typecheck",
   "docs:build"
 ];

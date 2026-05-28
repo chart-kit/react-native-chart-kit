@@ -5,7 +5,6 @@ import process from "node:process";
 const repoRoot = process.cwd();
 const sourceExtensions = new Set([".md", ".ts", ".tsx"]);
 const scannedEntries = [
-  "apps/expo-showcase/src",
   "docs/charts",
   "docs/recipes",
   "packages/react-native/README.md",
@@ -15,7 +14,7 @@ const rootPackageName = "react-native-chart-kit/v2";
 const importPattern =
   /import\s+(?:type\s+)?\{(?<body>[^}]*)\}\s+from\s+["']react-native-chart-kit\/v2["']/g;
 const removedPublicSubpathPattern =
-  /from\s+["']react-native-chart-kit\/v2\/(?:pro-preview|svg-renderer)["']/;
+  /from\s+["']react-native-chart-kit\/v2\/svg-renderer["']/;
 
 const privateReactNativeSurfaceNames = new Set([
   "CandlestickChart",
@@ -126,5 +125,5 @@ if (violations.length > 0) {
 
 console.log("Private surface import boundary check passed.");
 console.log(
-  `Scanned ${files.length} public docs, showcase, and docs-example files.`
+  `Scanned ${files.length} public docs and docs-example files.`
 );

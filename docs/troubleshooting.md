@@ -15,16 +15,15 @@ Check that the chart has a real width and height. Most examples use fixed number
 
 If the chart is inside a flex layout, measure the parent with `onLayout` and pass the measured width to the chart.
 
-## Expo Go Says The Project Is Incompatible
+## Expo Go Says The Preview Is Incompatible
 
-The showcase tracks a specific Expo SDK for device review. If Expo Go cannot open the local app:
-
-1. Update Expo Go from the App Store or Play Store.
-2. Run `npm install` from the repo root.
-3. Start with tunnel mode if LAN discovery fails.
+The Expo preview app lives in the private `chart-kit-pro` repository because it
+combines free and Pro chart examples. If Expo Go cannot open that local app,
+update Expo Go, run `npm install` in `chart-kit-pro`, and start the preview with
+tunnel mode:
 
 ```sh
-npm run example:expo -- --tunnel
+npm run preview:expo -- --tunnel
 ```
 
 ## Gestures Do Not Work
@@ -67,19 +66,9 @@ If a chart keeps old colors after changing the provider, check for hardcoded `se
 
 ## Visual Snapshot Changed
 
-For renderer, layout, label, or theme changes, update only the affected screenshots first:
-
-```sh
-npm run visual:update -- --grep "v2-bar-selection"
-```
-
-Then run the full visual suite:
-
-```sh
-npm run test:visual
-```
-
-Review snapshots before committing; do not update screenshots as a substitute for verifying the visual change.
+The visual snapshot suite now lives with the private preview app in
+`chart-kit-pro`. Run the snapshot update and verification commands there when a
+renderer, layout, label, or theme change affects the preview.
 
 ## Compatibility Chart Looks Different From v1
 
