@@ -22,6 +22,7 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.3.0",
     "lucide-astro": "^0.556.0",
+    "react-live": "^4.1.8",
     "tailwindcss": "^4.3.0"
   }
 }
