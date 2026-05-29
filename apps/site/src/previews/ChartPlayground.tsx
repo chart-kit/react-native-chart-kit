@@ -20,12 +20,16 @@ import {
   BarChart,
   ChartKitProvider,
   ContributionGraph,
+  createChartPreset,
   DonutChart,
   LineChart,
   PieChart,
   ProgressChart,
+  ProgressRing,
+  StackedBarChart,
   type ChartKitThemeMode
 } from "react-native-chart-kit/v2";
+import { G, Line as SvgLine, Rect, Text as SvgText } from "react-native-svg";
 
 import {
   acquisitionShare,
@@ -62,6 +66,34 @@ const getComponentName = (code: string) => {
   return declaration?.[1];
 };
 
+const getStatementStyleLiveCode = (code: string) => {
+  const lines = code.split("\n");
+  const firstJsxLineIndex = lines.findIndex((line) =>
+    /^\s*<[A-Z][\w.]*/.test(line)
+  );
+
+  if (firstJsxLineIndex === -1) {
+    return undefined;
+  }
+
+  const setupCode = lines.slice(0, firstJsxLineIndex).join("\n").trim();
+  const jsxCode = lines
+    .slice(firstJsxLineIndex)
+    .join("\n")
+    .trim()
+    .replace(/(\/>|<\/[A-Z][\w.]*>);/g, "$1");
+
+  return `function ChartKitLiveExample() {
+${setupCode ? `${setupCode}\n\n` : ""}return (
+  <>
+${jsxCode}
+  </>
+);
+}
+
+render(<ChartKitLiveExample />);`;
+};
+
 const prepareLiveCode = (code: string) => {
   const componentName = getComponentName(code);
   const runnableCode = code
@@ -78,6 +110,12 @@ const prepareLiveCode = (code: string) => {
 
   if (componentName) {
     return `(() => {\n${runnableCode}\n\nrender(<${componentName} />);\n})();`;
+  }
+
+  const statementStyleLiveCode = getStatementStyleLiveCode(runnableCode);
+
+  if (statementStyleLiveCode) {
+    return `(() => {\n${statementStyleLiveCode}\n})();`;
   }
 
   return `(() => {\nrender(${runnableCode});\n})();`;
@@ -97,6 +135,93 @@ const MAX_EDITOR_SIZE = 70;
 
 const clamp = (value: number, min: number, max: number) =>
   Math.min(max, Math.max(min, value));
+
+const barPlaygroundData = signups.map((row) => ({
+  ...row,
+  newCustomers: row.signups,
+  organic: row.signups,
+  paid: row.expansion,
+  spend: row.signups,
+  week: row.month
+}));
+
+const linePlaygroundData = monthRevenue.map((row, index) => {
+  const barRow = barPlaygroundData[index % barPlaygroundData.length];
+
+  return {
+    ...row,
+    actual: row.revenue,
+    attainment: row.retention,
+    benchmark: row.forecast,
+    date: row.month,
+    expansion: barRow.expansion,
+    newCustomers: barRow.newCustomers,
+    organic: barRow.organic,
+    paid: barRow.paid,
+    portfolio: row.revenue,
+    price: row.revenue,
+    signups: barRow.signups,
+    spend: barRow.spend,
+    timestamp: index + 1,
+    week: barRow.week
+  };
+});
+
+const revenueMixPlaygroundData = revenueMix.map((row) => ({
+  ...row,
+  plan: row.label,
+  revenue: row.value
+}));
+
+const acquisitionSharePlaygroundData = acquisitionShare.map((row) => ({
+  ...row,
+  share: row.value
+}));
+
+const weeklySpend = Array.from({ length: 14 }, (_, index) => ({
+  spend: 24 + Math.round(Math.sin(index / 2) * 8 + index * 2.4),
+  week: `W${index + 1}`
+}));
+
+const weeklyAcquisition = weeklySpend.map((row, index) => ({
+  ...row,
+  organic: 32 + index * 4,
+  paid: 18 + Math.round(Math.cos(index / 2) * 6 + index * 2)
+}));
+
+const portfolioHistory = Array.from({ length: 120 }, (_, index) => {
+  const portfolio = 84000 + index * 620 + Math.sin(index / 5) * 4200;
+  const benchmark = 81000 + index * 520 + Math.cos(index / 7) * 3200;
+
+  return {
+    benchmark,
+    date: `Day ${index + 1}`,
+    month: `Day ${index + 1}`,
+    portfolio,
+    price: portfolio,
+    timestamp: index + 1
+  };
+});
+
+const largeData = portfolioHistory.map((row, index) => ({
+  ...row,
+  price: 120 + index * 1.8 + Math.sin(index / 4) * 16
+}));
+
+const retentionSegments = [
+  { accounts: 124, color: "#00163f", status: "Active" },
+  { accounts: 46, color: "#2f5f9f", status: "At risk" },
+  { accounts: 18, color: "#6f88aa", status: "Paused" }
+];
+
+const previewDataById: Record<string, unknown[]> = {
+  "bar-grouped": barPlaygroundData,
+  "line-multi-series": linePlaygroundData,
+  "line-selection": linePlaygroundData
+};
+
+const getPreviewData = (id: string) =>
+  previewDataById[id] ?? linePlaygroundData;
 
 const writeClipboard = async (value: string) => {
   if (navigator.clipboard?.writeText) {
@@ -262,30 +387,53 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
       AreaChart,
       BarChart,
       ContributionGraph,
+      ChartKitProvider,
       DonutChart,
+      G,
       LineChart,
       PieChart,
       ProgressChart,
+      ProgressRing,
       React,
+      Rect,
+      StackedBarChart,
+      SvgText,
       Text,
       View,
-      acquisitionShare,
+      acquisitionShare: acquisitionSharePlaygroundData,
       clampChartWidth,
       contributionValues,
-      data: monthRevenue,
+      createChartPreset,
+      data: getPreviewData(id),
+      largeData,
       money,
       monthRevenue,
       percent,
+      plans: revenueMixPlaygroundData,
       platformShare,
+      portfolioHistory,
       previewWidth: clampChartWidth(width),
       profit,
       progressRings,
-      revenueMix,
+      revenueMix: revenueMixPlaygroundData,
+      retentionSegments,
       signedMoney,
       signups,
-      supportVolume
+      setHeaderValue: () => undefined,
+      setSelectedChannel: () => undefined,
+      setSelectedDay: () => undefined,
+      setViewport: () => undefined,
+      supportVolume,
+      SvgLine,
+      Line: SvgLine,
+      usageDays: contributionValues,
+      useState: React.useState,
+      values: contributionValues,
+      viewport: { endIndex: 90, startIndex: 40 },
+      weeklyAcquisition,
+      weeklySpend
     }),
-    [width]
+    [id, width]
   );
 
   const playgroundStyle = useMemo(

@@ -7,8 +7,10 @@ description: Show circular progress values with configurable labels and accessib
 
 The v2 progress surface supports concentric rings and single-ring completion states. It accepts object rows for the modern API and the legacy Chart Kit progress data shape.
 
+## Concentric Rings
+
 ```tsx
-import { ProgressChart, ProgressRing } from "react-native-chart-kit/v2";
+import { ProgressChart } from "react-native-chart-kit/v2";
 
 const data = [
   { metric: "Move", progress: 0.72, color: "#f43f5e" },
@@ -26,6 +28,14 @@ const data = [
   preset="health"
   centerLabel={({ average }) => `${Math.round(average * 100)}%`}
 />;
+```
+
+::chart-preview{id="progress-rings"}
+
+## Single Ring
+
+```tsx
+import { ProgressRing } from "react-native-chart-kit/v2";
 
 <ProgressRing
   value={0.64}
@@ -35,8 +45,6 @@ const data = [
   centerLabel="64%"
 />;
 ```
-
-::chart-preview{id="progress-rings"}
 
 ## Compatibility Shape
 
