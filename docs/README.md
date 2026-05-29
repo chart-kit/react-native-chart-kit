@@ -22,9 +22,11 @@ Modern v2 examples import from `react-native-chart-kit/v2`.
 
 ## Charts
 
-- [Line and area](charts/line-and-area.md)
+- [Line](charts/line.md)
+- [Area](charts/area.md)
 - [Bar](charts/bar.md)
-- [Pie and donut](charts/pie-and-donut.md)
+- [Pie](charts/pie.md)
+- [Donut](charts/donut.md)
 - [Progress](charts/progress.md)
 - [Contribution heatmap](charts/contribution-heatmap.md)
 

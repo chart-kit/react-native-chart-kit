@@ -10,10 +10,15 @@ type ChartKind =
   | "donut"
   | "progress"
   | "heatmap"
+  | "radar"
+  | "combined"
+  | "candlestick"
   | "more";
 
 type ChartType = {
+  docsHref?: string;
   kind: ChartKind;
+  pro?: boolean;
   title: string;
   subtitle?: string;
 };
@@ -21,14 +26,29 @@ type ChartType = {
 type ThemeMode = "dark" | "light";
 
 const chartTypes: ChartType[] = [
-  { kind: "line", title: "Line Chart" },
-  { kind: "area", title: "Area Chart" },
-  { kind: "bar", title: "Bar Chart" },
-  { kind: "stackedBar", title: "Stacked Bar Chart" },
-  { kind: "pie", title: "Pie Chart" },
-  { kind: "donut", title: "Donut Chart" },
-  { kind: "progress", title: "Progress Circle" },
-  { kind: "heatmap", title: "Contribution Heatmap" },
+  { docsHref: "/docs/charts/line/", kind: "line", title: "Line Chart" },
+  { docsHref: "/docs/charts/area/", kind: "area", title: "Area Chart" },
+  { docsHref: "/docs/charts/bar/", kind: "bar", title: "Bar Chart" },
+  {
+    docsHref: "/docs/charts/bar/#stacked-bars",
+    kind: "stackedBar",
+    title: "Stacked Bar Chart"
+  },
+  { docsHref: "/docs/charts/pie/", kind: "pie", title: "Pie Chart" },
+  { docsHref: "/docs/charts/donut/", kind: "donut", title: "Donut Chart" },
+  {
+    docsHref: "/docs/charts/progress/",
+    kind: "progress",
+    title: "Progress Circle"
+  },
+  {
+    docsHref: "/docs/charts/contribution-heatmap/",
+    kind: "heatmap",
+    title: "Contribution Heatmap"
+  },
+  { kind: "radar", pro: true, subtitle: "planned", title: "Radar Chart" },
+  { kind: "combined", pro: true, title: "Combined Chart" },
+  { kind: "candlestick", pro: true, title: "Candlestick Chart" },
   { kind: "more", title: "More charts", subtitle: "coming soon" }
 ];
 
@@ -166,6 +186,15 @@ const getThemeStyles = (mode: ThemeMode) => {
     },
     label: {
       color: isLight ? "rgba(0, 0, 0, 0.68)" : "rgba(255, 255, 255, 0.72)"
+    },
+    pro: {
+      backgroundColor: isLight
+        ? "rgba(0, 0, 0, 0.045)"
+        : "rgba(255, 255, 255, 0.075)",
+      borderColor: isLight
+        ? "rgba(0, 0, 0, 0.12)"
+        : "rgba(255, 255, 255, 0.14)",
+      color: isLight ? "rgba(0, 0, 0, 0.62)" : "rgba(255, 255, 255, 0.76)"
     },
     separator: {
       background: isLight
@@ -608,6 +637,175 @@ const ChartArtwork = ({
           </g>
         </SvgFrame>
       );
+    case "radar":
+      return (
+        <SvgFrame label={`${title} illustration`} mode={mode}>
+          <g
+            fill="none"
+            stroke="currentColor"
+            strokeLinejoin="round"
+            opacity={lerp(0.24, 0.3, progress)}
+          >
+            <path d="M120 27L166 60L148 116H92L74 60Z" />
+            <path d="M120 45L148 65L137 99H103L92 65Z" opacity="0.76" />
+            <path d="M120 75L120 27" />
+            <path d="M120 75L166 60" />
+            <path d="M120 75L148 116" />
+            <path d="M120 75L92 116" />
+            <path d="M120 75L74 60" />
+          </g>
+          <MorphPath
+            base="M120 39L153 66L139 106L98 94L88 62Z"
+            fill="currentColor"
+            hover="M120 32L160 72L130 111L96 86L82 67Z"
+            opacity={0.18}
+            progress={progress}
+          />
+          <MorphPath
+            base="M120 39L153 66L139 106L98 94L88 62Z"
+            fill="none"
+            hover="M120 32L160 72L130 111L96 86L82 67Z"
+            opacity={0.82}
+            progress={progress}
+            stroke="currentColor"
+            strokeLinejoin="round"
+            strokeWidth="2.1"
+          />
+          {[
+            [120, 39, 120, 32],
+            [153, 66, 160, 72],
+            [139, 106, 130, 111],
+            [98, 94, 96, 86],
+            [88, 62, 82, 67]
+          ].map(([baseX, baseY, hoverX, hoverY], index) => {
+            const localProgress = staggerProgress(progress, index, 0.04);
+
+            return (
+              <circle
+                key={index}
+                cx={lerp(baseX, hoverX, localProgress)}
+                cy={lerp(baseY, hoverY, localProgress)}
+                r={lerp(3, 3.3, localProgress)}
+                fill="currentColor"
+                opacity="0.9"
+              />
+            );
+          })}
+        </SvgFrame>
+      );
+    case "combined":
+      return (
+        <SvgFrame label={`${title} illustration`} mode={mode}>
+          <defs>
+            <linearGradient
+              id={scopedId("chart-combined-fade")}
+              x1="0"
+              x2="0"
+              y1="0"
+              y2="1"
+            >
+              <stop stopColor="currentColor" stopOpacity="0.62" />
+              <stop offset="1" stopColor="currentColor" stopOpacity="0.06" />
+            </linearGradient>
+          </defs>
+          <g opacity="0.58">
+            {[46, 72, 54, 86, 68].map((baseHeight, index) => {
+              const localProgress = staggerProgress(progress, index, 0.045);
+              const height = lerp(
+                baseHeight,
+                [68, 52, 74, 62, 94][index],
+                localProgress
+              );
+
+              return (
+                <rect
+                  key={index}
+                  x={52 + index * 30}
+                  y={124 - height}
+                  width="12"
+                  height={height}
+                  rx="1.5"
+                  fill={`url(#${scopedId("chart-combined-fade")})`}
+                />
+              );
+            })}
+          </g>
+          <MorphPath
+            base="M50 103C68 85 82 92 96 71C111 48 128 58 142 78C158 102 174 72 192 50"
+            fill="none"
+            hover="M50 94C68 78 82 82 96 91C111 105 128 49 142 56C158 64 174 82 192 40"
+            progress={progress}
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2.5"
+          />
+          <circle
+            cx="142"
+            cy={lerp(78, 56, staggerProgress(progress, 3))}
+            r={lerp(3.6, 4.6, progress)}
+            fill="currentColor"
+          />
+        </SvgFrame>
+      );
+    case "candlestick":
+      return (
+        <SvgFrame label={`${title} illustration`} mode={mode}>
+          <g
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="2"
+            opacity={lerp(0.55, 0.38, progress)}
+          >
+            {[
+              [52, 48, 116, 60, 120],
+              [82, 36, 104, 58, 118],
+              [112, 56, 126, 42, 116],
+              [142, 42, 108, 50, 114],
+              [172, 60, 118, 48, 108],
+              [202, 34, 94, 62, 112]
+            ].map(([x, y1, y2, activeY1, activeY2], index) => {
+              const localProgress = staggerProgress(progress, index, 0.035);
+
+              return (
+                <path
+                  d={`M${x} ${formatSvgNumber(lerp(y1, activeY1, localProgress))}V${formatSvgNumber(lerp(y2, activeY2, localProgress))}`}
+                  key={index}
+                />
+              );
+            })}
+          </g>
+          <g fill="currentColor">
+            {[
+              [43, 72, 26, 82, 24, 0.34, 0.26],
+              [73, 52, 38, 64, 30, 0.9, 0.74],
+              [103, 82, 28, 60, 40, 0.34, 0.42],
+              [133, 58, 32, 42, 48, 0.9, 0.95],
+              [163, 82, 24, 50, 44, 0.34, 0.48],
+              [193, 48, 30, 70, 28, 0.9, 0.62]
+            ].map(
+              (
+                [x, y, height, activeY, activeHeight, opacity, activeOpacity],
+                index
+              ) => {
+                const localProgress = staggerProgress(progress, index, 0.04);
+
+                return (
+                  <rect
+                    key={index}
+                    x={x}
+                    y={lerp(y, activeY, localProgress)}
+                    width="18"
+                    height={lerp(height, activeHeight, localProgress)}
+                    rx="1.5"
+                    opacity={lerp(opacity, activeOpacity, localProgress)}
+                  />
+                );
+              }
+            )}
+          </g>
+        </SvgFrame>
+      );
     case "more":
       return (
         <SvgFrame label={`${title} illustration`} mode={mode}>
@@ -701,13 +899,17 @@ const ChartTile = ({
     enterDuration,
     exitDuration
   );
+  const tileClassName =
+    "group relative block min-w-0 text-current no-underline outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-white/45 [html[data-theme='light']_&]:focus-visible:outline-black/40";
+  const tileEvents = {
+    onBlur: () => setActive(false),
+    onFocus: () => setActive(true),
+    onPointerEnter: () => setActive(true),
+    onPointerLeave: () => setActive(false)
+  };
 
-  return (
-    <article
-      className="group relative min-w-0"
-      onPointerEnter={() => setActive(true)}
-      onPointerLeave={() => setActive(false)}
-    >
+  const content = (
+    <>
       {index % 2 === 0 && index < chartTypes.length - 1 && (
         <span
           aria-hidden="true"
@@ -739,6 +941,14 @@ const ChartTile = ({
 
       <div className="px-5 py-9 sm:px-8 sm:py-11 lg:px-10 lg:py-12">
         <div className="relative mx-auto h-24 max-w-[168px] text-current sm:h-28 sm:max-w-[188px]">
+          {chart.pro && (
+            <span
+              className="absolute -top-4 right-3 z-10 inline-flex h-[17px] min-w-[34px] items-center justify-center rounded-full border px-[6px] text-[8.5px] font-bold leading-none tracking-[0.12em] uppercase transition-colors duration-300"
+              style={theme.pro}
+            >
+              Pro
+            </span>
+          )}
           <ChartIllustration
             kind={chart.kind}
             mode={mode}
@@ -761,7 +971,26 @@ const ChartTile = ({
           </p>
         )}
       </div>
-    </article>
+    </>
+  );
+
+  if (!chart.docsHref) {
+    return (
+      <article className={tileClassName} {...tileEvents}>
+        {content}
+      </article>
+    );
+  }
+
+  return (
+    <a
+      aria-label={`${chart.title} docs`}
+      className={tileClassName}
+      href={chart.docsHref}
+      {...tileEvents}
+    >
+      {content}
+    </a>
   );
 };
 
@@ -811,7 +1040,7 @@ export default function ChartsSupported() {
 
         <div className="mt-7 flex justify-center">
           <a
-            href="/docs/charts/line-and-area"
+            href="/docs/charts/line"
             className="inline-flex h-10 items-center justify-center rounded-full border border-white/15 px-5 text-sm font-semibold tracking-[-0.01em] text-white/78 transition-colors hover:border-white/28 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 [html[data-theme='light']_&]:border-black/15 [html[data-theme='light']_&]:text-black/70 [html[data-theme='light']_&]:hover:border-black/28 [html[data-theme='light']_&]:hover:text-black [html[data-theme='light']_&]:focus-visible:outline-black/40"
           >
             Read docs

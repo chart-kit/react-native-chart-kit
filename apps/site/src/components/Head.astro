@@ -1,4 +1,6 @@
 ---
+import ThemeInit from "./ThemeInit.astro";
+
 const { head } = Astro.locals.starlightRoute;
 const isDev = import.meta.env.DEV;
 const reactRefreshPreamble = `
@@ -10,6 +12,54 @@ const reactRefreshPreamble = `
 `;
 ---
 
+<ThemeInit />
+<style is:inline>
+  html {
+    background: #0b0c11;
+    color-scheme: dark;
+  }
+
+  body {
+    background: #0b0c11;
+  }
+
+  .header {
+    background-color: #08090d;
+  }
+
+  .sidebar-pane {
+    background-color: #11131a;
+  }
+
+  .sidebar-content [aria-current="page"] {
+    background-color: rgba(120, 168, 255, 0.14);
+    color: #d8e6ff;
+  }
+
+  html[data-theme="light"] {
+    background: #f6f9fd;
+    color-scheme: light;
+  }
+
+  html[data-theme="light"] body {
+    background: #f6f9fd;
+  }
+
+  html[data-theme="light"] .header,
+  html[data-theme="light"] .sidebar-pane {
+    background-color: #ffffff;
+  }
+
+  html[data-theme="light"] .sidebar-content [aria-current="page"] {
+    background-color: #eaf2ff;
+    color: #0f3a78;
+  }
+
+  html[data-theme="dark"] {
+    background: #0b0c11;
+    color-scheme: dark;
+  }
+</style>
 {head.map(({ tag: Tag, attrs, content }) => <Tag {...attrs} set:html={content} />)}
 {
   isDev ? (
