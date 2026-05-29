@@ -98,7 +98,71 @@ const escapeAttribute = (value) =>
     .replace(/"/g, "&quot;")
     .replace(/</g, "&lt;");
 
+const editablePreviewIds = new Set(["line-basic"]);
+
+const encodeCodeAttribute = (value) => encodeURIComponent(String(value));
+
+const getPreviewHtml = (id, title) => {
+  const titleAttribute =
+    typeof title === "string" && title.length > 0
+      ? ` data-preview-title="${escapeAttribute(title)}"`
+      : "";
+
+  return `<chart-kit-preview data-preview-id="${escapeAttribute(
+    id
+  )}"${titleAttribute}><div class="chart-kit-preview-fallback">Loading chart preview</div></chart-kit-preview>`;
+};
+
 const transformPreviewDirectives = (tree) => {
+  if (Array.isArray(tree.children)) {
+    for (let index = 0; index < tree.children.length; index += 1) {
+      const node = tree.children[index];
+
+      if (node.type !== "leafDirective" || node.name !== "chart-preview") {
+        continue;
+      }
+
+      const id = node.attributes?.id;
+
+      if (typeof id !== "string" || id.length === 0) {
+        node.type = "html";
+        node.value =
+          '<div class="chart-kit-preview-fallback">Missing chart preview id</div>';
+        node.children = [];
+        continue;
+      }
+
+      const previousNode = tree.children[index - 1];
+
+      if (
+        editablePreviewIds.has(id) &&
+        previousNode?.type === "code" &&
+        ["jsx", "tsx"].includes(previousNode.lang)
+      ) {
+        const title = node.attributes?.title;
+        const titleAttribute =
+          typeof title === "string" && title.length > 0
+            ? ` data-preview-title="${escapeAttribute(title)}"`
+            : "";
+
+        previousNode.type = "html";
+        previousNode.value = `<chart-kit-playground data-preview-id="${escapeAttribute(
+          id
+        )}" data-code="${escapeAttribute(
+          encodeCodeAttribute(previousNode.value)
+        )}"${titleAttribute}><div class="chart-kit-preview-fallback">Loading chart playground</div></chart-kit-playground>`;
+        previousNode.children = [];
+        tree.children.splice(index, 1);
+        index -= 1;
+        continue;
+      }
+
+      node.type = "html";
+      node.value = getPreviewHtml(id, node.attributes?.title);
+      node.children = [];
+    }
+  }
+
   visit(tree, (node) => {
     if (node.type !== "leafDirective" || node.name !== "chart-preview") {
       return;
@@ -114,16 +178,8 @@ const transformPreviewDirectives = (tree) => {
       return;
     }
 
-    const title = node.attributes?.title;
-    const titleAttribute =
-      typeof title === "string" && title.length > 0
-        ? ` data-preview-title="${escapeAttribute(title)}"`
-        : "";
-
     node.type = "html";
-    node.value = `<chart-kit-preview data-preview-id="${escapeAttribute(
-      id
-    )}"${titleAttribute}><div class="chart-kit-preview-fallback">Loading chart preview</div></chart-kit-preview>`;
+    node.value = getPreviewHtml(id, node.attributes?.title);
     node.children = [];
   });
 };
