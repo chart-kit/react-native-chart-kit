@@ -82,9 +82,11 @@ export default defineConfig({
         {
           label: "Charts",
           items: [
-            { slug: "docs/charts/line-and-area" },
+            { slug: "docs/charts/line" },
+            { slug: "docs/charts/area" },
             { slug: "docs/charts/bar" },
-            { slug: "docs/charts/pie-and-donut" },
+            { slug: "docs/charts/pie" },
+            { slug: "docs/charts/donut" },
             { slug: "docs/charts/progress" },
             { slug: "docs/charts/contribution-heatmap" }
           ]

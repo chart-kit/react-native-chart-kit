@@ -1,14 +1,15 @@
 ---
-title: Line and Area Charts
-description: Build line and area charts with object-row data, renderers, gestures, and themes.
+title: Line Chart
+description: Build line charts with object-row data, renderers, gestures, and themes.
 ---
 
-# Line and Area Charts
+# Line Chart
 
-`LineChart` is the primary modern v2 chart surface. It uses object-row data,
+`LineChart` is the primary modern v2 trend surface. It uses object-row data,
 explicit keys, renderer-agnostic geometry, and SVG rendering by default.
 
-Use this API for new apps. The legacy `react-native-chart-kit` data shape is handled separately by the compatibility facade.
+Use this API for new apps. The legacy `react-native-chart-kit` data shape is
+handled separately by the compatibility facade.
 
 ## Basic Line
 
@@ -39,7 +40,8 @@ export function RevenueChart() {
 
 ## Multi-Series
 
-Use `series` when each line needs its own label, color, marker, curve, or stroke style.
+Use `series` when each line needs its own label, color, marker, curve, or
+stroke style.
 
 ```tsx
 <LineChart
@@ -62,27 +64,6 @@ Use `series` when each line needs its own label, color, marker, curve, or stroke
 ```
 
 ::chart-preview{id="line-multi-series"}
-
-## Area Fill
-
-`AreaChart` is an alias for `LineChart` with `area` enabled. You can also opt into area fill per chart or per series.
-
-```tsx
-<LineChart
-  area
-  areaFill={{ fromOpacity: 0.32, toOpacity: 0.05 }}
-  data={data}
-  xKey="date"
-  yKey="price"
-  curve="monotone"
-  width={360}
-  height={240}
-/>
-```
-
-::chart-preview{id="line-area"}
-
-Use `areaFill` on the chart for a shared fill style, or per series when each series needs its own gradient colors or opacity.
 
 ## Styling Lines and Dots
 
@@ -122,11 +103,11 @@ Supported curve values are `linear`, `monotone`, and `step`.
 
 ## Threshold Coloring
 
-Threshold coloring clips the rendered path and area fill above or below a y value. Raw points are unchanged.
+Threshold coloring clips the rendered path above or below a y value. Raw points
+are unchanged.
 
 ```tsx
 <LineChart
-  area
   data={data}
   xKey="month"
   series={[
@@ -136,10 +117,7 @@ Threshold coloring clips the rendered path and area fill above or below a y valu
       threshold: {
         y: 100,
         aboveColor: "#16a34a",
-        belowColor: "#dc2626",
-        areaAboveColor: "#16a34a",
-        areaBelowColor: "#dc2626",
-        areaOpacity: 0.16
+        belowColor: "#dc2626"
       }
     }
   ]}
@@ -151,7 +129,8 @@ Threshold coloring clips the rendered path and area fill above or below a y valu
 
 ## Tooltips and Selection
 
-Selection state is shared by tooltips, active dots, crosshairs, and external UI through `onSelect`.
+Selection state is shared by tooltips, active dots, crosshairs, and external UI
+through `onSelect`.
 
 ```tsx
 <LineChart
@@ -195,12 +174,14 @@ Selection persistence:
 Tooltip positioning:
 
 - `anchor: "point"` positions around the selected data point.
-- `anchor: "pointer"` positions around the touch/mouse pointer, useful for scrub.
-- `placement: "auto" | "above" | "below"` controls vertical placement while preserving edge clamping.
+- `anchor: "pointer"` positions around the touch/mouse pointer.
+- `placement: "auto" | "above" | "below"` controls vertical placement while
+  preserving edge clamping.
 
 ## Custom Crosshair
 
-Use `renderCrosshair` when a product needs branded cursors, axis badges, or a custom inspection overlay. The render prop receives the selected x/y position, selected series, plot bounds, theme tokens, and resolved crosshair config.
+Use `renderCrosshair` when a product needs branded cursors, axis badges, or a
+custom inspection overlay.
 
 ```tsx
 import { G, Line, Text as SvgText } from "react-native-svg";
@@ -249,7 +230,8 @@ Use simple horizontal scrolling for long categorical or time-series charts.
 />
 ```
 
-Use a controlled viewport for direct pan, pinch zoom, or a mini-chart range selector.
+Use a controlled viewport for direct pan, pinch zoom, or a mini-chart range
+selector.
 
 ```tsx
 const [viewport, setViewport] = useState<LineChartViewportConfig>({
@@ -271,13 +253,13 @@ const [viewport, setViewport] = useState<LineChartViewportConfig>({
 />;
 ```
 
-`yAxisLabelWidth="stable"` reserves label width from the full dataset, so changing the viewport does not make the plot jump when labels change from values such as `$10k` to `$100k`.
-
-The range selector is composable through `renderLine`, `renderHandle`, and `renderWindow`, so products can brand the overview path, handles, and selected window without replacing the built-in viewport logic.
+`yAxisLabelWidth="stable"` reserves label width from the full dataset, so
+changing the viewport does not make the plot jump when labels change.
 
 ## Reference Overlays
 
-Reference lines and bands are clipped to the plot bounds. Line labels default to automatic vertical placement and try to avoid nearby series geometry.
+Reference lines and bands are clipped to the plot bounds. Line labels default to
+automatic vertical placement and try to avoid nearby series geometry.
 
 ```tsx
 <LineChart
@@ -291,11 +273,9 @@ Reference lines and bands are clipped to the plot bounds. Line labels default to
 />
 ```
 
-Set `labelPlacement="above"` or `labelPlacement="below"` only when you need a fixed position.
-
 ## Layout Debug
 
-Use `debugLayout` in development when a chart clips labels, legends, or tooltips. The overlay draws the outer bounds, plot bounds, visible label boxes, legend boxes, and tooltip box.
+Use `debugLayout` in development when a chart clips labels, legends, or tooltips.
 
 ```tsx
 <LineChart
@@ -311,8 +291,6 @@ Use `debugLayout` in development when a chart clips labels, legends, or tooltips
 />
 ```
 
-`onLayoutDebug` receives the same rectangle model that the overlay renders, so bug reports can include structured layout evidence alongside screenshots.
-
 ## Labels and Axes
 
 Useful label props:
@@ -324,11 +302,11 @@ Useful label props:
 - `axisLabelAnimation`: crossfade y-axis label changes during viewport changes.
 - `yAxisLabelWidth`: `auto`, `stable`, or a fixed number.
 
-When `labelStrategy` is `auto` or `skip`, duplicate formatted x-axis labels are collapsed before collision solving. Use `labelStrategy="show"` when repeated labels are intentional.
-
 ## Decimation
 
-LineChart uses automatic path-only min/max decimation by default. This reduces SVG path complexity for dense charts while preserving source points for selection, tooltips, labels, and custom dots.
+LineChart uses automatic path-only min/max decimation by default. This reduces
+SVG path complexity for dense charts while preserving source points for
+selection, tooltips, labels, and custom dots.
 
 ```tsx
 <LineChart
@@ -344,16 +322,16 @@ LineChart uses automatic path-only min/max decimation by default. This reduces S
 
 Decimation options:
 
-- `decimation="auto"`: default. Uses roughly two rendered path points per plot pixel, with a minimum of 120.
+- `decimation="auto"`: default. Uses roughly two rendered path points per plot
+  pixel, with a minimum of 120.
 - `decimation={false}`: disables path decimation.
 - `decimation={500}`: caps each rendered path around a fixed point budget.
 - `decimation={{ maxPoints: 700 }}`: object form for future strategy options.
 
-For large charts, set `showDots={false}` unless every marker is intentional. Decimation only affects paths; dots remain exact because custom dots may encode business meaning.
-
 ## Accessibility
 
-Every LineChart generates a summary if `accessibilityLabel` is not provided. For custom accessibility surfaces, use:
+Every LineChart generates a summary if `accessibilityLabel` is not provided. For
+custom accessibility surfaces, use:
 
 ```ts
 import {
@@ -362,4 +340,5 @@ import {
 } from "react-native-chart-kit/v2";
 ```
 
-`getLineChartDataTable()` returns columns and rows suitable for an app-level table fallback or export workflow.
+`getLineChartDataTable()` returns columns and rows suitable for an app-level
+table fallback or export workflow.
