@@ -98,9 +98,29 @@ const escapeAttribute = (value) =>
     .replace(/"/g, "&quot;")
     .replace(/</g, "&lt;");
 
-const editablePreviewIds = new Set(["line-basic"]);
-
 const encodeCodeAttribute = (value) => encodeURIComponent(String(value));
+
+const playgroundDocs = new Set([
+  "getting-started/installation.md",
+  "recipes/README.md",
+  "charts/area.md",
+  "charts/bar.md",
+  "charts/contribution-heatmap.md",
+  "charts/donut.md",
+  "charts/line.md",
+  "charts/pie.md",
+  "charts/progress.md"
+]);
+
+const chartComponentPattern =
+  /<\s*(AreaChart|BarChart|ContributionGraph|DonutChart|LineChart|PieChart|ProgressChart|ProgressRing|StackedBarChart)\b/;
+
+const slugify = (value) =>
+  String(value)
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
 
 const getPreviewHtml = (id, title) => {
   const titleAttribute =
@@ -113,10 +133,67 @@ const getPreviewHtml = (id, title) => {
   )}"${titleAttribute}><div class="chart-kit-preview-fallback">Loading chart preview</div></chart-kit-preview>`;
 };
 
-const transformPreviewDirectives = (tree) => {
+const getPlaygroundHtml = (id, code, title) => {
+  const titleAttribute =
+    typeof title === "string" && title.length > 0
+      ? ` data-preview-title="${escapeAttribute(title)}"`
+      : "";
+
+  return `<chart-kit-playground data-preview-id="${escapeAttribute(
+    id
+  )}" data-code="${escapeAttribute(
+    encodeCodeAttribute(code)
+  )}"${titleAttribute}><div class="chart-kit-preview-fallback">Loading chart playground</div></chart-kit-playground>`;
+};
+
+const isRenderableChartExample = (node, docsPath) =>
+  playgroundDocs.has(docsPath) &&
+  node?.type === "code" &&
+  ["jsx", "tsx"].includes(node.lang) &&
+  chartComponentPattern.test(node.value ?? "");
+
+const getGeneratedPreviewId = (docsPath, title, index) => {
+  const pathSlug = slugify(
+    docsPath.replace(/\/README\.md$/, "").replace(/\.mdx?$/, "")
+  );
+  const titleSlug = slugify(title || "example");
+
+  return `${pathSlug}-${titleSlug || "example"}-${index}`;
+};
+
+const transformPreviewDirectives = (tree, file) => {
+  const docsPath = getDocsEntryPath(file);
+
   if (Array.isArray(tree.children)) {
+    let currentHeading = file.data?.astro?.frontmatter?.title ?? "";
+    let generatedPreviewIndex = 0;
+
     for (let index = 0; index < tree.children.length; index += 1) {
       const node = tree.children[index];
+
+      if (node.type === "heading" && node.depth >= 2) {
+        currentHeading = textFromNode(node).trim();
+        continue;
+      }
+
+      if (
+        isRenderableChartExample(node, docsPath) &&
+        tree.children[index + 1]?.type !== "leafDirective"
+      ) {
+        generatedPreviewIndex += 1;
+        node.type = "html";
+        node.value = getPlaygroundHtml(
+          getGeneratedPreviewId(
+            docsPath,
+            currentHeading,
+            generatedPreviewIndex
+          ),
+          node.value,
+          currentHeading
+        );
+        node.children = [];
+        continue;
+      }
 
       if (node.type !== "leafDirective" || node.name !== "chart-preview") {
         continue;
@@ -135,22 +212,13 @@ const transformPreviewDirectives = (tree) => {
       const previousNode = tree.children[index - 1];
 
       if (
-        editablePreviewIds.has(id) &&
         previousNode?.type === "code" &&
         ["jsx", "tsx"].includes(previousNode.lang)
       ) {
         const title = node.attributes?.title;
-        const titleAttribute =
-          typeof title === "string" && title.length > 0
-            ? ` data-preview-title="${escapeAttribute(title)}"`
-            : "";
 
         previousNode.type = "html";
-        previousNode.value = `<chart-kit-playground data-preview-id="${escapeAttribute(
-          id
-        )}" data-code="${escapeAttribute(
-          encodeCodeAttribute(previousNode.value)
-        )}"${titleAttribute}><div class="chart-kit-preview-fallback">Loading chart playground</div></chart-kit-playground>`;
+        previousNode.value = getPlaygroundHtml(id, previousNode.value, title);
         previousNode.children = [];
         tree.children.splice(index, 1);
         index -= 1;
@@ -223,6 +291,6 @@ export default function stripDuplicateTitle() {
     });
 
     rewriteMarkdownLinks(tree, file);
-    transformPreviewDirectives(tree);
+    transformPreviewDirectives(tree, file);
   };
 }
