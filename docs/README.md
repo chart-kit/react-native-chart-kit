@@ -14,6 +14,7 @@ Modern v2 examples import from `react-native-chart-kit/v2`.
 ## Getting Started
 
 - [Quickstart](getting-started/installation.md)
+- [Contributing](getting-started/contributing.md)
 
 ## Migration
 
@@ -39,14 +40,3 @@ Modern v2 examples import from `react-native-chart-kit/v2`.
 ## Recipes
 
 - [Production recipes](recipes/README.md)
-
-## Local Review
-
-Type-check the React Native CLI example surface when changing package imports or peer setup:
-
-```sh
-npm run example:rn-cli:typecheck
-```
-
-The Expo preview app lives in the private `chart-kit-pro` repository because it
-combines free and Pro chart examples.

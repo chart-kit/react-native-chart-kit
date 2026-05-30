@@ -7,6 +7,13 @@ type AnyProps = Record<string, unknown>;
 type ScrollHandle = {
   scrollTo: (options?: { animated?: boolean; x?: number; y?: number }) => void;
 };
+type ScrollDragState = {
+  active: boolean;
+  pointerId: number;
+  scrollLeft: number;
+  startX: number;
+  startY: number;
+};
 type ResponderEvent = {
   currentTarget: EventTarget & Element;
   nativeEvent: {
@@ -71,10 +78,17 @@ type ActiveResponder =
       kind: "responder";
       pointerId: number;
     };
+type PendingResponderPointer = {
+  pointerId: number;
+  startClientX: number;
+  startClientY: number;
+  startTime: number;
+};
 type MutableRef<T> = {
   current: T;
 };
 type PressableState = { focused: boolean; hovered: boolean; pressed: boolean };
+type PointerEventsValue = "auto" | "box-none" | "box-only" | "none";
 type StyleValue =
   | AnyProps
   | false
@@ -92,6 +106,7 @@ const responderProps = new Set([
   "keyboardShouldPersistTaps",
   "nestedScrollEnabled",
   "onMoveShouldSetPanResponder",
+  "onMoveShouldSetPanResponderCapture",
   "onMoveShouldSetResponder",
   "onMoveShouldSetResponderCapture",
   "onPanResponderGrant",
@@ -105,6 +120,7 @@ const responderProps = new Set([
   "onResponderTerminationRequest",
   "onShouldBlockNativeResponder",
   "onStartShouldSetPanResponder",
+  "onStartShouldSetPanResponderCapture",
   "onStartShouldSetResponder",
   "onStartShouldSetResponderCapture",
   "numberOfLines",
@@ -236,10 +252,26 @@ const shouldUseResponder = (
     phase === "start"
       ? (props.onStartShouldSetPanResponder as PanResponderPredicate)
       : (props.onMoveShouldSetPanResponder as PanResponderPredicate);
+  const panCapturePredicate =
+    phase === "start"
+      ? (props.onStartShouldSetPanResponderCapture as PanResponderPredicate)
+      : (props.onMoveShouldSetPanResponderCapture as PanResponderPredicate);
   const responderPredicate =
     phase === "start"
       ? (props.onStartShouldSetResponder as ResponderPredicate)
       : (props.onMoveShouldSetResponder as ResponderPredicate);
+  const responderCapturePredicate =
+    phase === "start"
+      ? (props.onStartShouldSetResponderCapture as ResponderPredicate)
+      : (props.onMoveShouldSetResponderCapture as ResponderPredicate);
+
+  if (panCapturePredicate?.(event, gestureState)) {
+    return "pan";
+  }
+
+  if (responderCapturePredicate?.(event)) {
+    return "responder";
+  }
 
   if (panPredicate?.(event, gestureState)) {
     return "pan";
@@ -255,7 +287,8 @@ const shouldUseResponder = (
 const addResponderDomHandlers = (
   sourceProps: AnyProps,
   domProps: AnyProps,
-  activeResponderRef: MutableRef<ActiveResponder | undefined>
+  activeResponderRef: MutableRef<ActiveResponder | undefined>,
+  pendingPointerRef: MutableRef<PendingResponderPointer | undefined>
 ) => {
   const hasResponderProps = Array.from(responderProps).some(
     (key) => sourceProps[key] !== undefined
@@ -344,13 +377,21 @@ const addResponderDomHandlers = (
       return;
     }
 
+    const pendingPointer = {
+      pointerId: event.pointerId,
+      startClientX: event.clientX,
+      startClientY: event.clientY,
+      startTime: Date.now()
+    };
+    pendingPointerRef.current = pendingPointer;
+
     const responderEvent = createResponderEvent(event);
     const gestureState = createGestureState({
       clientX: event.clientX,
       clientY: event.clientY,
-      startClientX: event.clientX,
-      startClientY: event.clientY,
-      startTime: Date.now(),
+      startClientX: pendingPointer.startClientX,
+      startClientY: pendingPointer.startClientY,
+      startTime: pendingPointer.startTime,
       stateID: event.pointerId
     });
     const responderKind = shouldUseResponder(
@@ -371,14 +412,25 @@ const addResponderDomHandlers = (
     const activeResponder = activeResponderRef.current;
 
     if (!activeResponder) {
+      if (event.buttons === 0) {
+        pendingPointerRef.current = undefined;
+        return;
+      }
+
+      const pendingPointer = pendingPointerRef.current;
+
+      if (!pendingPointer || pendingPointer.pointerId !== event.pointerId) {
+        return;
+      }
+
       const responderEvent = createResponderEvent(event);
       const gestureState = createGestureState({
         clientX: event.clientX,
         clientY: event.clientY,
-        startClientX: event.clientX,
-        startClientY: event.clientY,
-        startTime: Date.now(),
-        stateID: event.pointerId
+        startClientX: pendingPointer.startClientX,
+        startClientY: pendingPointer.startClientY,
+        startTime: pendingPointer.startTime,
+        stateID: pendingPointer.pointerId
       });
       const responderKind = shouldUseResponder(
         sourceProps,
@@ -427,12 +479,20 @@ const addResponderDomHandlers = (
   domProps.onPointerUp = (event: React.PointerEvent<Element>) => {
     (sourceProps.onPointerUp as React.PointerEventHandler<Element>)?.(event);
     finishResponder(event);
+
+    if (pendingPointerRef.current?.pointerId === event.pointerId) {
+      pendingPointerRef.current = undefined;
+    }
   };
   domProps.onPointerCancel = (event: React.PointerEvent<Element>) => {
     (sourceProps.onPointerCancel as React.PointerEventHandler<Element>)?.(
       event
     );
     finishResponder(event, true);
+
+    if (pendingPointerRef.current?.pointerId === event.pointerId) {
+      pendingPointerRef.current = undefined;
+    }
   };
 };
 
@@ -475,6 +535,16 @@ const flattenStyle = (style: StyleValue): AnyProps | undefined => {
   return undefined;
 };
 
+const getCssPointerEvents = (pointerEvents: PointerEventsValue | undefined) => {
+  if (pointerEvents === "none" || pointerEvents === "box-none") {
+    return "none";
+  }
+
+  return pointerEvents === "box-only" || pointerEvents === "auto"
+    ? "auto"
+    : undefined;
+};
+
 const toDomProps = (props: AnyProps = {}) => {
   const {
     accessibilityLabel,
@@ -483,6 +553,7 @@ const toDomProps = (props: AnyProps = {}) => {
     collapsable: _collapsable,
     hitSlop: _hitSlop,
     nativeID,
+    pointerEvents,
     pressRetentionOffset: _pressRetentionOffset,
     style,
     testID,
@@ -514,7 +585,14 @@ const toDomProps = (props: AnyProps = {}) => {
     domProps["data-testid"] = testID;
   }
 
-  domProps.style = flattenStyle(style as StyleValue);
+  const flatStyle = flattenStyle(style as StyleValue);
+  const cssPointerEvents = getCssPointerEvents(
+    pointerEvents as PointerEventsValue | undefined
+  );
+  domProps.style = {
+    ...(flatStyle ?? {}),
+    ...(cssPointerEvents ? { pointerEvents: cssPointerEvents } : {})
+  };
   return domProps;
 };
 
@@ -527,9 +605,17 @@ const createPrimitive = (
     const activeResponderRef = React.useRef<ActiveResponder | undefined>(
       undefined
     );
+    const pendingPointerRef = React.useRef<PendingResponderPointer | undefined>(
+      undefined
+    );
     const domProps = toDomProps(props);
     domProps.style = { ...defaultStyle, ...(domProps.style as AnyProps) };
-    addResponderDomHandlers(props, domProps, activeResponderRef);
+    addResponderDomHandlers(
+      props,
+      domProps,
+      activeResponderRef,
+      pendingPointerRef
+    );
     addTouchDomHandlers(props, domProps);
 
     return React.createElement(tag, { ...domProps, ref });
@@ -589,11 +675,13 @@ export const ScrollView = React.forwardRef<ScrollHandle, AnyProps>(
     ref
   ) => {
     const elementRef = React.useRef<HTMLDivElement | null>(null);
+    const scrollDragRef = React.useRef<ScrollDragState | undefined>(undefined);
     const handleScroll = onScroll as
       | ((event: {
           nativeEvent: { contentOffset: { x: number; y: number } };
         }) => void)
       | undefined;
+    const domProps = toDomProps({ ...props, style });
 
     React.useImperativeHandle(ref, () => ({
       scrollTo: ({ animated: _animated, x = 0, y = 0 } = {}) => {
@@ -604,7 +692,90 @@ export const ScrollView = React.forwardRef<ScrollHandle, AnyProps>(
     return React.createElement(
       "div",
       {
-        ...toDomProps({ ...props, style }),
+        ...domProps,
+        onPointerCancel: (event: React.PointerEvent<HTMLDivElement>) => {
+          (
+            domProps.onPointerCancel as
+              | React.PointerEventHandler<HTMLDivElement>
+              | undefined
+          )?.(event);
+
+          if (scrollDragRef.current?.pointerId === event.pointerId) {
+            event.currentTarget.releasePointerCapture?.(event.pointerId);
+            scrollDragRef.current = undefined;
+          }
+        },
+        onPointerDown: (event: React.PointerEvent<HTMLDivElement>) => {
+          (
+            domProps.onPointerDown as
+              | React.PointerEventHandler<HTMLDivElement>
+              | undefined
+          )?.(event);
+
+          if (
+            !horizontal ||
+            event.button !== 0 ||
+            event.defaultPrevented ||
+            event.currentTarget.scrollWidth <= event.currentTarget.clientWidth
+          ) {
+            return;
+          }
+
+          scrollDragRef.current = {
+            active: false,
+            pointerId: event.pointerId,
+            scrollLeft: event.currentTarget.scrollLeft,
+            startX: event.clientX,
+            startY: event.clientY
+          };
+          event.currentTarget.setPointerCapture?.(event.pointerId);
+        },
+        onPointerMove: (event: React.PointerEvent<HTMLDivElement>) => {
+          (
+            domProps.onPointerMove as
+              | React.PointerEventHandler<HTMLDivElement>
+              | undefined
+          )?.(event);
+
+          const drag = scrollDragRef.current;
+
+          if (!drag || drag.pointerId !== event.pointerId) {
+            return;
+          }
+
+          const deltaX = event.clientX - drag.startX;
+          const deltaY = event.clientY - drag.startY;
+          const absoluteDeltaX = Math.abs(deltaX);
+          const absoluteDeltaY = Math.abs(deltaY);
+
+          if (!drag.active) {
+            if (absoluteDeltaX < 3) {
+              return;
+            }
+
+            if (absoluteDeltaY > absoluteDeltaX) {
+              event.currentTarget.releasePointerCapture?.(event.pointerId);
+              scrollDragRef.current = undefined;
+              return;
+            }
+          }
+
+          drag.active = true;
+          event.currentTarget.scrollLeft = drag.scrollLeft - deltaX;
+          event.preventDefault();
+        },
+        onPointerUp: (event: React.PointerEvent<HTMLDivElement>) => {
+          (
+            domProps.onPointerUp as
+              | React.PointerEventHandler<HTMLDivElement>
+              | undefined
+          )?.(event);
+
+          if (scrollDragRef.current?.pointerId === event.pointerId) {
+            event.currentTarget.releasePointerCapture?.(event.pointerId);
+            scrollDragRef.current = undefined;
+          }
+        },
         onScroll: (event: React.UIEvent<HTMLDivElement>) => {
           handleScroll?.({
             nativeEvent: {
@@ -617,9 +788,9 @@ export const ScrollView = React.forwardRef<ScrollHandle, AnyProps>(
         },
         ref: elementRef,
         style: {
+          ...(domProps.style as AnyProps),
           overflowX: horizontal ? "auto" : "hidden",
-          overflowY: horizontal ? "hidden" : "auto",
-          ...(flattenStyle(style as StyleValue) ?? {})
+          overflowY: horizontal ? "hidden" : "auto"
         }
       },
       React.createElement(

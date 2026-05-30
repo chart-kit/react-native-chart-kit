@@ -5,48 +5,49 @@ description: Install React Native Chart Kit and render a first chart.
 
 # Quickstart
 
-Chart Kit v2 is developed in private repo-internal `@chart-kit/*` workspaces,
-but `react-native-chart-kit` is the only public npm install path.
+Install the public package in your React Native app. Do not install
+`@chart-kit/*` packages directly; those are repo-internal workspaces.
 
-For local development in this repository:
-
-```sh
-git clone git@github.com:indiespirit/react-native-chart-kit.git
-cd react-native-chart-kit
-npm install
-```
-
-For apps:
+## React Native CLI
 
 ```sh
 npm install react-native-chart-kit react-native-svg
 ```
 
-The root import remains the legacy-compatible API. The modern free v2 API is
-available from the `react-native-chart-kit/v2` subpath.
+For iOS apps, install native pods after installing dependencies:
+
+```sh
+cd ios
+pod install
+```
 
 ## Expo
 
-For Expo apps, install the native peer dependencies with Expo so versions match the SDK:
+Install the package and the Expo-compatible `react-native-svg` version:
 
 ```sh
+npm install react-native-chart-kit
 npx expo install react-native-svg
 ```
 
-Baseline tap, scrub, pan, pinch zoom, and range-selector interactions use React Native responder APIs, so new apps do not need a gesture-handler wrapper just to render or inspect charts.
+Baseline tap, scrub, pan, pinch zoom, and range-selector interactions use React
+Native responder APIs, so new apps do not need a gesture-handler wrapper just to
+render or inspect charts.
 
 ## First Modern Chart
 
-New v2 screens can import the modern API from the public package subpath.
+New screens can import the modern v2 API from the public package subpath.
 
 ```tsx
 import { LineChart } from "react-native-chart-kit/v2";
 
 const data = [
-  { month: "Jan", revenue: 18 },
-  { month: "Feb", revenue: 34 },
-  { month: "Mar", revenue: 29 },
-  { month: "Apr", revenue: 52 }
+  { month: "Jan", revenue: 52 },
+  { month: "Feb", revenue: 86 },
+  { month: "Mar", revenue: 58 },
+  { month: "Apr", revenue: 134 },
+  { month: "May", revenue: 95 },
+  { month: "Jun", revenue: 176 }
 ];
 
 export function RevenueChart() {
@@ -64,17 +65,3 @@ export function RevenueChart() {
 ```
 
 The root import remains the legacy-compatible surface for existing screens.
-
-## Local Review App
-
-This public repo includes a React Native CLI smoke surface for non-Expo import
-and peer-dependency checks:
-
-```sh
-npm run example:rn-cli:typecheck
-```
-
-See `examples/rn-cli-basic` for the app source and Metro aliases.
-
-The Expo preview app lives in the private `chart-kit-pro` repository because it
-combines free and Pro chart examples.

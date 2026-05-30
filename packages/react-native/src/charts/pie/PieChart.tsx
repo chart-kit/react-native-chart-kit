@@ -411,6 +411,7 @@ export const DonutChart = <TData extends Record<string, unknown>>(
 
 const styles = StyleSheet.create({
   container: {
+    borderRadius: 8,
     overflow: "hidden"
   },
   centerLabelOverlay: {

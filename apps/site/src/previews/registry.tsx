@@ -14,6 +14,8 @@ import type { ChartPreviewExample } from "./examples";
 import {
   acquisitionShare,
   clampChartWidth,
+  contributionEndDate,
+  contributionNumDays,
   contributionValues,
   money,
   monthRevenue,
@@ -207,7 +209,7 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
     title: "Revenue mix",
     render: ({ width }) => (
       <DonutChart
-        centerLabel="100%"
+        centerLabel="$1.5M"
         colorKey="color"
         data={revenueMix}
         height={260}
@@ -221,7 +223,7 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
   "progress-rings": {
     eyebrow: "Progress",
     id: "progress-rings",
-    title: "Activation health",
+    title: "Release checklist",
     render: ({ width }) => (
       <ProgressChart
         centerLabel={({ average }) => `${Math.round(average * 100)}%`}
@@ -241,7 +243,7 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
     render: ({ width }) => (
       <ProgressChart
         centerLabel="Ready"
-        data={[{ label: "Qa", value: 0.82, color: "#00163f" }]}
+        data={[{ label: "Release readiness", value: 0.76, color: "#00163f" }]}
         height={240}
         labelKey="label"
         valueKey="value"
@@ -256,9 +258,9 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
     render: ({ width }) => (
       <ContributionGraph
         accessor="count"
-        endDate="2026-03-25"
+        endDate={contributionEndDate}
         height={170}
-        numDays={84}
+        numDays={contributionNumDays}
         values={contributionValues}
         width={clampChartWidth(width)}
       />
@@ -270,9 +272,9 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
     title: "No activity",
     render: ({ width }) => (
       <ContributionGraph
-        endDate="2026-03-25"
+        endDate={contributionEndDate}
         height={158}
-        numDays={70}
+        numDays={contributionNumDays}
         values={[]}
         width={clampChartWidth(width)}
       />

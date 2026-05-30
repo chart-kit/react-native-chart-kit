@@ -163,6 +163,7 @@ export const CalendarHeatmap = ContributionGraph;
 
 const styles = StyleSheet.create({
   container: {
+    borderRadius: 8,
     overflow: "hidden"
   }
 });

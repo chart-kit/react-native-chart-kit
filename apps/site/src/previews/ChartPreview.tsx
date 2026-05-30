@@ -1,5 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
+import {
+  chartThemeChangeEvent,
+  getCurrentChartThemePreset,
+  type ChartThemePreset
+} from "./chartTheme";
 import { renderChartPreview } from "./examples";
 
 const getThemeMode = (): "dark" | "light" =>
@@ -7,6 +12,9 @@ const getThemeMode = (): "dark" | "light" =>
 
 export const ChartPreview = ({ id }: { id: string }) => {
   const frameRef = useRef<HTMLDivElement | null>(null);
+  const [chartThemePreset, setChartThemePreset] = useState<ChartThemePreset>(
+    () => getCurrentChartThemePreset()
+  );
   const [mode, setMode] = useState<"dark" | "light">(() => getThemeMode());
   const [width, setWidth] = useState(460);
 
@@ -38,9 +46,26 @@ export const ChartPreview = ({ id }: { id: string }) => {
     return () => themeObserver.disconnect();
   }, []);
 
+  useEffect(() => {
+    const updateChartThemePreset = () =>
+      setChartThemePreset(getCurrentChartThemePreset());
+    const chartThemeObserver = new MutationObserver(updateChartThemePreset);
+    chartThemeObserver.observe(document.documentElement, {
+      attributeFilter: ["data-chart-theme"]
+    });
+
+    window.addEventListener(chartThemeChangeEvent, updateChartThemePreset);
+    updateChartThemePreset();
+
+    return () => {
+      chartThemeObserver.disconnect();
+      window.removeEventListener(chartThemeChangeEvent, updateChartThemePreset);
+    };
+  }, []);
+
   const preview = useMemo(
-    () => renderChartPreview({ id, mode, width }),
-    [id, mode, width]
+    () => renderChartPreview({ chartThemePreset, id, mode, width }),
+    [chartThemePreset, id, mode, width]
   );
 
   return (

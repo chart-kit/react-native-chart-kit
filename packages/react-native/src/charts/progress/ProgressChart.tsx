@@ -237,6 +237,7 @@ export const ProgressRing = ({
 
 const styles = StyleSheet.create({
   container: {
+    borderRadius: 8,
     overflow: "hidden"
   },
   legend: {

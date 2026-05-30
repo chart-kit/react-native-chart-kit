@@ -1,6 +1,19 @@
 <script is:inline>
   (() => {
     const storageKey = "starlight-theme";
+    const chartThemeStorageKey = "chartkit-chart-theme";
+    const chartThemes = new Set([
+      "default",
+      "analytics",
+      "fintech",
+      "health",
+      "ios",
+      "material",
+      "minimal",
+      "highContrast",
+      "darkFintech",
+      "studio"
+    ]);
     const getStoredTheme = () => {
       try {
         const stored = localStorage.getItem(storageKey);
@@ -9,13 +22,24 @@
         return "dark";
       }
     };
+    const getStoredChartTheme = () => {
+      try {
+        const stored = localStorage.getItem(chartThemeStorageKey);
+        return chartThemes.has(stored) ? stored : "default";
+      } catch {
+        return "default";
+      }
+    };
     const theme = getStoredTheme();
+    const chartTheme = getStoredChartTheme();
 
     try {
       localStorage.setItem(storageKey, theme);
+      localStorage.setItem(chartThemeStorageKey, chartTheme);
     } catch {}
 
     document.documentElement.dataset.theme = theme;
+    document.documentElement.dataset.chartTheme = chartTheme;
     document.documentElement.style.colorScheme = theme;
   })();
 </script>
