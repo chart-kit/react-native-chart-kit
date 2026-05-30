@@ -32,8 +32,15 @@ import {
 import { G, Line as SvgLine, Rect, Text as SvgText } from "react-native-svg";
 
 import {
+  chartThemeChangeEvent,
+  getCurrentChartThemePreset,
+  type ChartThemePreset
+} from "./chartTheme";
+import {
   acquisitionShare,
   clampChartWidth,
+  contributionEndDate,
+  contributionNumDays,
   contributionValues,
   money,
   monthRevenue,
@@ -49,8 +56,58 @@ import {
 import { chartPreviewExamples } from "./registry";
 import { showcaseCustomPresets } from "./showcaseTheme";
 
+type LiveEditorTheme = NonNullable<
+  React.ComponentProps<typeof LiveProvider>["theme"]
+>;
+
 const importStatementPattern =
   /^\s*import(?:[\s\S]*?\sfrom\s+["'][^"']+["']|(?:\s+type)?\s+["'][^"']+["']);?\s*/gm;
+
+const explicitThemePattern =
+  /\b(?:ChartKitProvider|createChartPreset)\b|\b(?:preset|theme)\s*=/;
+
+const explicitPalettePattern = /\b(?:colorKey|colors)\s*=|\bcolor\s*:/;
+
+const chartKitLightEditorTheme: LiveEditorTheme = {
+  plain: {
+    backgroundColor: "transparent",
+    color: "#071733"
+  },
+  styles: [
+    {
+      types: ["comment", "prolog", "cdata"],
+      style: { color: "#64748b", fontStyle: "italic" }
+    },
+    {
+      types: ["punctuation", "operator"],
+      style: { color: "#334155" }
+    },
+    {
+      types: ["keyword", "boolean", "constant"],
+      style: { color: "#7e22ce", fontWeight: "700" }
+    },
+    {
+      types: ["string", "char", "attr-value", "regex"],
+      style: { color: "#047857" }
+    },
+    {
+      types: ["number", "builtin", "class-name"],
+      style: { color: "#b45309" }
+    },
+    {
+      types: ["function", "method"],
+      style: { color: "#1d4ed8" }
+    },
+    {
+      types: ["tag", "selector", "property", "symbol"],
+      style: { color: "#be123c" }
+    },
+    {
+      types: ["attr-name", "variable"],
+      style: { color: "#0f766e" }
+    }
+  ]
+};
 
 const getThemeMode = (): Exclude<ChartKitThemeMode, "system"> =>
   document.documentElement.dataset.theme === "light" ? "light" : "dark";
@@ -129,7 +186,7 @@ const decodeInitialCode = (value: string) => {
   }
 };
 
-const DEFAULT_EDITOR_SIZE = 52;
+const DEFAULT_EDITOR_SIZE = 50;
 const MIN_EDITOR_SIZE = 30;
 const MAX_EDITOR_SIZE = 70;
 
@@ -139,8 +196,8 @@ const clamp = (value: number, min: number, max: number) =>
 const barPlaygroundData = signups.map((row) => ({
   ...row,
   newCustomers: row.signups,
-  organic: row.signups,
-  paid: row.expansion,
+  organic: row.organic,
+  paid: row.paid,
   spend: row.signups,
   week: row.month
 }));
@@ -178,20 +235,24 @@ const acquisitionSharePlaygroundData = acquisitionShare.map((row) => ({
   share: row.value
 }));
 
-const weeklySpend = Array.from({ length: 14 }, (_, index) => ({
-  spend: 24 + Math.round(Math.sin(index / 2) * 8 + index * 2.4),
+const weeklySpend = [
+  18, 52, 26, 74, 31, 88, 43, 96, 39, 108, 57, 121, 44, 132
+].map((spend, index) => ({
+  spend,
   week: `W${index + 1}`
 }));
 
 const weeklyAcquisition = weeklySpend.map((row, index) => ({
   ...row,
-  organic: 32 + index * 4,
-  paid: 18 + Math.round(Math.cos(index / 2) * 6 + index * 2)
+  organic: [28, 74, 39, 96, 54, 118, 63, 132, 71, 148, 84, 156, 92, 171][
+    index
+  ]!,
+  paid: [62, 34, 88, 41, 103, 58, 117, 49, 126, 66, 139, 73, 144, 81][index]!
 }));
 
 const portfolioHistory = Array.from({ length: 120 }, (_, index) => {
-  const portfolio = 84000 + index * 620 + Math.sin(index / 5) * 4200;
-  const benchmark = 81000 + index * 520 + Math.cos(index / 7) * 3200;
+  const portfolio = 62000 + index * 780 + Math.sin(index / 2.1) * 15000;
+  const benchmark = 98000 - index * 170 + Math.cos(index / 2.8) * 12000;
 
   return {
     benchmark,
@@ -205,7 +266,8 @@ const portfolioHistory = Array.from({ length: 120 }, (_, index) => {
 
 const largeData = portfolioHistory.map((row, index) => ({
   ...row,
-  price: 120 + index * 1.8 + Math.sin(index / 4) * 16
+  price:
+    120 + index * 1.2 + Math.sin(index / 1.7) * 38 + Math.cos(index / 5) * 22
 }));
 
 const retentionSegments = [
@@ -271,6 +333,17 @@ const CopyIcon = () => (
   </svg>
 );
 
+const CheckIcon = () => (
+  <svg
+    aria-hidden="true"
+    className="chart-kit-playground__copy-icon"
+    focusable="false"
+    viewBox="0 0 24 24"
+  >
+    <path d="m20 6-11 11-5-5" />
+  </svg>
+);
+
 const CodePaneHeader = ({ codeToCopy }: { codeToCopy: string }) => {
   const [copied, setCopied] = useState(false);
   const copiedResetRef = useRef<number | undefined>(undefined);
@@ -312,7 +385,7 @@ const CodePaneHeader = ({ codeToCopy }: { codeToCopy: string }) => {
         }}
         type="button"
       >
-        <CopyIcon />
+        {copied ? <CheckIcon /> : <CopyIcon />}
         <span className="chart-kit-playground__copy-tooltip" role="status">
           {copied ? "Copied!" : "Copy to clipboard"}
         </span>
@@ -344,6 +417,9 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
   const frameRef = useRef<HTMLDivElement | null>(null);
   const gridRef = useRef<HTMLDivElement | null>(null);
   const previewPaneRef = useRef<HTMLElement | null>(null);
+  const [chartThemePreset, setChartThemePreset] = useState<ChartThemePreset>(
+    () => getCurrentChartThemePreset()
+  );
   const [mode, setMode] = useState<Exclude<ChartKitThemeMode, "system">>(() =>
     getThemeMode()
   );
@@ -353,6 +429,12 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
   const initialCode = useMemo(() => decodeInitialCode(code), [code]);
   const [currentCode, setCurrentCode] = useState(() => initialCode);
   const example = chartPreviewExamples[id];
+  const supportsGlobalChartTheme = useMemo(
+    () =>
+      !explicitThemePattern.test(initialCode) &&
+      !explicitPalettePattern.test(initialCode),
+    [initialCode]
+  );
 
   useEffect(() => {
     const previewPane = previewPaneRef.current;
@@ -382,6 +464,23 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
     return () => themeObserver.disconnect();
   }, []);
 
+  useEffect(() => {
+    const updateChartThemePreset = () =>
+      setChartThemePreset(getCurrentChartThemePreset());
+    const chartThemeObserver = new MutationObserver(updateChartThemePreset);
+    chartThemeObserver.observe(document.documentElement, {
+      attributeFilter: ["data-chart-theme"]
+    });
+
+    window.addEventListener(chartThemeChangeEvent, updateChartThemePreset);
+    updateChartThemePreset();
+
+    return () => {
+      chartThemeObserver.disconnect();
+      window.removeEventListener(chartThemeChangeEvent, updateChartThemePreset);
+    };
+  }, []);
+
   const scope = useMemo(
     () => ({
       AreaChart,
@@ -403,6 +502,9 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
       acquisitionShare: acquisitionSharePlaygroundData,
       clampChartWidth,
       contributionValues,
+      contributionEndDate,
+      contributionNumDays,
+      chartThemePreset,
       createChartPreset,
       data: getPreviewData(id),
       largeData,
@@ -433,7 +535,7 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
       weeklyAcquisition,
       weeklySpend
     }),
-    [id, width]
+    [chartThemePreset, id, width]
   );
 
   const playgroundStyle = useMemo(
@@ -462,6 +564,8 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
     );
   }, []);
 
+  const previewPreset = supportsGlobalChartTheme ? chartThemePreset : "default";
+
   return (
     <div
       className="chart-kit-playground__frame not-content"
@@ -474,6 +578,7 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
         language="tsx"
         noInline
         scope={scope}
+        theme={mode === "light" ? chartKitLightEditorTheme : undefined}
         transformCode={prepareLiveCode}
       >
         <div
@@ -563,7 +668,7 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
             </div>
             <ChartKitProvider
               mode={mode}
-              preset="default"
+              preset={previewPreset}
               presets={showcaseCustomPresets}
             >
               <LivePreview className="chart-kit-playground__preview-surface" />

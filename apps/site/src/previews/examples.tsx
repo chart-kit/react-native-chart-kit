@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 
 import {
   ChartKitProvider,
+  type CartesianChartPresetValue,
   type ChartKitThemeMode
 } from "react-native-chart-kit/v2";
 
@@ -10,6 +11,7 @@ import { chartPreviewExamples } from "./registry";
 import { showcaseCustomPresets } from "./showcaseTheme";
 
 type PreviewRenderContext = {
+  chartThemePreset: CartesianChartPresetValue;
   mode: Exclude<ChartKitThemeMode, "system">;
   width: number;
 };
@@ -18,10 +20,12 @@ export type ChartPreviewExample = {
   eyebrow: string;
   id: string;
   render: (context: PreviewRenderContext) => ReactNode;
+  supportsChartTheme?: boolean;
   title: string;
 };
 
 export const renderChartPreview = ({
+  chartThemePreset,
   id,
   mode,
   width
@@ -36,10 +40,13 @@ export const renderChartPreview = ({
     );
   }
 
+  const preset =
+    example.supportsChartTheme === false ? "default" : chartThemePreset;
+
   return (
     <ChartKitProvider
       mode={mode}
-      preset="default"
+      preset={preset}
       presets={showcaseCustomPresets}
     >
       <View style={previewStyles.shell}>
@@ -55,7 +62,7 @@ export const renderChartPreview = ({
           </Text>
         </View>
         <View style={previewStyles.chart}>
-          {example.render({ mode, width: width - 2 })}
+          {example.render({ chartThemePreset, mode, width: width - 2 })}
         </View>
       </View>
     </ChartKitProvider>

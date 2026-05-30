@@ -98,6 +98,12 @@ const escapeAttribute = (value) =>
     .replace(/"/g, "&quot;")
     .replace(/</g, "&lt;");
 
+const escapeHtml = (value) =>
+  String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
 const encodeCodeAttribute = (value) => encodeURIComponent(String(value));
 
 const playgroundDocs = new Set([
@@ -143,7 +149,9 @@ const getPlaygroundHtml = (id, code, title) => {
     id
   )}" data-code="${escapeAttribute(
     encodeCodeAttribute(code)
-  )}"${titleAttribute}><div class="chart-kit-preview-fallback">Loading chart playground</div></chart-kit-playground>`;
+  )}"${titleAttribute}><div class="chart-kit-preview-fallback"><pre><code>${escapeHtml(
+    code
+  )}</code></pre></div></chart-kit-playground>`;
 };
 
 const isRenderableChartExample = (node, docsPath) =>

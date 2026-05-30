@@ -25,9 +25,11 @@ Modern docs:
 
 - [Docs home](../../docs/README.md)
 - [Installation](../../docs/getting-started/installation.md)
-- [Line and area charts](../../docs/charts/line-and-area.md)
+- [Line charts](../../docs/charts/line.md)
+- [Area charts](../../docs/charts/area.md)
 - [Bar charts](../../docs/charts/bar.md)
-- [Pie and donut charts](../../docs/charts/pie-and-donut.md)
+- [Pie charts](../../docs/charts/pie.md)
+- [Donut charts](../../docs/charts/donut.md)
 - [Progress charts](../../docs/charts/progress.md)
 - [Contribution heatmap](../../docs/charts/contribution-heatmap.md)
 - [Migration from v1](../../docs/migration/from-v1.md)

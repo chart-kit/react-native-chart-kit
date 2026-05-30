@@ -98,8 +98,8 @@ Use this for habit tracking, GitHub-style activity, product usage streaks, or he
 ```tsx
 <ContributionGraph
   values={usageDays}
-  endDate="2026-05-05"
-  numDays={105}
+  endDate="2026-05-03"
+  numDays={154}
   weekStartsOn={1}
   onDayPress={(event) => setSelectedDay(event)}
   width={360}

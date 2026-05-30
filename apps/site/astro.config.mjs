@@ -77,7 +77,10 @@ export default defineConfig({
       sidebar: [
         {
           label: "Start",
-          items: [{ slug: "docs/getting-started/installation" }]
+          items: [
+            { slug: "docs/getting-started/installation" },
+            { slug: "docs/getting-started/contributing" }
+          ]
         },
         {
           label: "Charts",

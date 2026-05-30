@@ -23,6 +23,7 @@ const publicMarkdownRoots = [
 ];
 const checkedFenceLanguages = new Set(["ts", "tsx"]);
 const chartKitNames = [
+  "AreaChart",
   "BarChart",
   "ChartKitProvider",
   "ContributionGraph",

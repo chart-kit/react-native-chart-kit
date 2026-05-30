@@ -17,10 +17,18 @@ handled separately by the compatibility facade.
 import { LineChart } from "react-native-chart-kit/v2";
 
 const data = [
-  { month: "Jan", revenue: 18 },
-  { month: "Feb", revenue: 34 },
-  { month: "Mar", revenue: 29 },
-  { month: "Apr", revenue: 52 }
+  { month: "Jan", revenue: 52 },
+  { month: "Feb", revenue: 86 },
+  { month: "Mar", revenue: 58 },
+  { month: "Apr", revenue: 134 },
+  { month: "May", revenue: 95 },
+  { month: "Jun", revenue: 176 },
+  { month: "Jul", revenue: 126 },
+  { month: "Aug", revenue: 218 },
+  { month: "Sep", revenue: 164 },
+  { month: "Oct", revenue: 252 },
+  { month: "Nov", revenue: 198 },
+  { month: "Dec", revenue: 286 }
 ];
 
 export function RevenueChart() {
@@ -44,6 +52,17 @@ Use `series` when each line needs its own label, color, marker, curve, or
 stroke style.
 
 ```tsx
+const data = [
+  { month: "Jan", actual: 22, forecast: 190 },
+  { month: "Feb", actual: 64, forecast: 168 },
+  { month: "Mar", actual: 39, forecast: 143 },
+  { month: "Apr", actual: 118, forecast: 122 },
+  { month: "May", actual: 73, forecast: 101 },
+  { month: "Jun", actual: 161, forecast: 84 },
+  { month: "Jul", actual: 109, forecast: 66 },
+  { month: "Aug", actual: 204, forecast: 48 }
+];
+
 <LineChart
   data={data}
   xKey="month"
@@ -60,7 +79,7 @@ stroke style.
   legend={{ position: "bottom", wrap: true }}
   width={360}
   height={260}
-/>
+/>;
 ```
 
 ::chart-preview{id="line-multi-series"}
@@ -70,6 +89,16 @@ stroke style.
 Supported curve values are `linear`, `monotone`, and `step`.
 
 ```tsx
+const data = [
+  { date: "Mon", portfolio: 512, benchmark: 690 },
+  { date: "Tue", portfolio: 660, benchmark: 610 },
+  { date: "Wed", portfolio: 430, benchmark: 650 },
+  { date: "Thu", portfolio: 760, benchmark: 540 },
+  { date: "Fri", portfolio: 590, benchmark: 700 },
+  { date: "Sat", portfolio: 820, benchmark: 520 },
+  { date: "Sun", portfolio: 548, benchmark: 735 }
+];
+
 <LineChart
   data={data}
   xKey="date"
@@ -98,7 +127,7 @@ Supported curve values are `linear`, `monotone`, and `step`.
   activeDot={{ radius: 6, fill: "background", stroke: "series" }}
   width={360}
   height={260}
-/>
+/>;
 ```
 
 ## Threshold Coloring
@@ -107,6 +136,21 @@ Threshold coloring clips the rendered path above or below a y value. Raw points
 are unchanged.
 
 ```tsx
+const data = [
+  { month: "Jan", attainment: 62 },
+  { month: "Feb", attainment: 138 },
+  { month: "Mar", attainment: 74 },
+  { month: "Apr", attainment: 151 },
+  { month: "May", attainment: 89 },
+  { month: "Jun", attainment: 122 },
+  { month: "Jul", attainment: 55 },
+  { month: "Aug", attainment: 164 },
+  { month: "Sep", attainment: 96 },
+  { month: "Oct", attainment: 145 },
+  { month: "Nov", attainment: 78 },
+  { month: "Dec", attainment: 172 }
+];
+
 <LineChart
   data={data}
   xKey="month"
@@ -124,7 +168,7 @@ are unchanged.
   referenceLines={[{ y: 100, label: "Plan", strokeDasharray: [5, 4] }]}
   width={360}
   height={240}
-/>
+/>;
 ```
 
 ## Tooltips and Selection
@@ -133,6 +177,17 @@ Selection state is shared by tooltips, active dots, crosshairs, and external UI
 through `onSelect`.
 
 ```tsx
+const data = [
+  { date: "Nov 03", portfolio: 512, benchmark: 720 },
+  { date: "Nov 04", portfolio: 681, benchmark: 604 },
+  { date: "Nov 05", portfolio: 438, benchmark: 698 },
+  { date: "Nov 10", portfolio: 794, benchmark: 552 },
+  { date: "Nov 11", portfolio: 566, benchmark: 746 },
+  { date: "Nov 12", portfolio: 842, benchmark: 580 },
+  { date: "Nov 13", portfolio: 618, benchmark: 790 },
+  { date: "Nov 14", portfolio: 906, benchmark: 534 }
+];
+
 <LineChart
   data={data}
   xKey="date"
@@ -154,7 +209,7 @@ through `onSelect`.
   crosshair
   width={360}
   height={260}
-/>
+/>;
 ```
 
 ::chart-preview{id="line-selection"}
@@ -185,6 +240,17 @@ custom inspection overlay.
 
 ```tsx
 import { G, Line, Text as SvgText } from "react-native-svg";
+
+const data = [
+  { month: "Jan", actual: 22, forecast: 190 },
+  { month: "Feb", actual: 64, forecast: 168 },
+  { month: "Mar", actual: 39, forecast: 143 },
+  { month: "Apr", actual: 118, forecast: 122 },
+  { month: "May", actual: 73, forecast: 101 },
+  { month: "Jun", actual: 161, forecast: 84 },
+  { month: "Jul", actual: 109, forecast: 66 },
+  { month: "Aug", actual: 204, forecast: 48 }
+];
 
 <LineChart
   data={data}
@@ -218,7 +284,7 @@ Use simple horizontal scrolling for long categorical or time-series charts.
 
 ```tsx
 <LineChart
-  data={data}
+  data={largeData}
   xKey="date"
   yKey="price"
   scrollable
@@ -240,7 +306,7 @@ const [viewport, setViewport] = useState<LineChartViewportConfig>({
 });
 
 <LineChart
-  data={data}
+  data={portfolioHistory}
   xKey="date"
   yKeys={["portfolio", "benchmark"]}
   viewport={viewport}
@@ -262,6 +328,21 @@ Reference lines and bands are clipped to the plot bounds. Line labels default to
 automatic vertical placement and try to avoid nearby series geometry.
 
 ```tsx
+const data = [
+  { month: "Jan", attainment: 62 },
+  { month: "Feb", attainment: 138 },
+  { month: "Mar", attainment: 74 },
+  { month: "Apr", attainment: 151 },
+  { month: "May", attainment: 89 },
+  { month: "Jun", attainment: 122 },
+  { month: "Jul", attainment: 55 },
+  { month: "Aug", attainment: 164 },
+  { month: "Sep", attainment: 96 },
+  { month: "Oct", attainment: 145 },
+  { month: "Nov", attainment: 78 },
+  { month: "Dec", attainment: 172 }
+];
+
 <LineChart
   data={data}
   xKey="month"
@@ -270,7 +351,7 @@ automatic vertical placement and try to avoid nearby series geometry.
   referenceLines={[{ y: 100, label: "Plan", strokeDasharray: [5, 4] }]}
   width={360}
   height={240}
-/>
+/>;
 ```
 
 ## Layout Debug
@@ -342,3 +423,63 @@ import {
 
 `getLineChartDataTable()` returns columns and rows suitable for an app-level
 table fallback or export workflow.
+
+## Props
+
+### LineChart
+
+| Prop                      | Type                                                        | Description                                                                                       |
+| ------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `data`                    | `TData[]`                                                   | Object-row source data for the chart.                                                             |
+| `xKey`                    | `keyof TData`                                               | Row key used for the x-axis value.                                                                |
+| `yKey`                    | `keyof TData`                                               | Single row key used for y values when `series` or `yKeys` is not provided.                        |
+| `yKeys`                   | `Array<keyof TData>`                                        | Multiple row keys rendered as separate series with default styling.                               |
+| `series`                  | `LineChartSeries<TData>[]`                                  | Full per-series configuration, including labels, colors, stroke, dots, thresholds, and area fill. |
+| `width`                   | `number`                                                    | Outer chart width in pixels.                                                                      |
+| `height`                  | `number`                                                    | Outer chart height in pixels.                                                                     |
+| `theme`                   | `ChartKitThemeMode` or `CartesianChartTheme`                | Theme mode or inline theme tokens for this chart.                                                 |
+| `preset`                  | `CartesianChartPresetValue`                                 | Built-in or registered preset name used to seed chart colors and typography.                      |
+| `scrollable`              | `boolean`                                                   | Enables a horizontal scroll viewport for long data sets.                                          |
+| `visiblePoints`           | `number`                                                    | Number of points visible in the viewport when `scrollable` is enabled.                            |
+| `initialIndex`            | `ChartViewportInitialIndex`                                 | Initial scroll/window position, such as `"start"` or `"end"`.                                     |
+| `viewport`                | `LineChartViewportConfig`                                   | Controlled visible data window for scroll, pan, zoom, or range selector flows.                    |
+| `onViewportChange`        | `(event) => void`                                           | Called when viewport state changes from the main plot or range selector.                          |
+| `viewportInteraction`     | `boolean` or `LineChartViewportInteractionConfig`           | Enables and configures one-finger pan and pinch zoom for the viewport.                            |
+| `rangeSelector`           | `boolean` or `LineChartRangeSelectorConfig`                 | Adds a mini-chart range selector below the main plot.                                             |
+| `decimation`              | `false`, `"auto"`, `number`, or `LineChartDecimationConfig` | Controls rendered path simplification for dense series.                                           |
+| `curve`                   | `LineCurve`                                                 | Curve interpolation used for line and area paths.                                                 |
+| `connectNulls`            | `boolean`                                                   | Connects defined points across `null` or missing y values.                                        |
+| `area`                    | `boolean`                                                   | Renders area fills under the line series.                                                         |
+| `areaFill`                | `LineChartAreaFillConfig`                                   | Shared area fill opacity, gradient, or color configuration.                                       |
+| `showDots`                | `boolean`                                                   | Shows or hides all point markers.                                                                 |
+| `dots`                    | `boolean` or `LineChartDotConfig`                           | Configures default point marker visibility, size, shape, and color.                               |
+| `renderDot`               | `(props) => ReactNode`                                      | Custom renderer for ordinary point markers.                                                       |
+| `selectedIndex`           | `number`                                                    | Controlled selected data index.                                                                   |
+| `defaultSelectedIndex`    | `number`                                                    | Initial uncontrolled selected data index.                                                         |
+| `activeDot`               | `boolean` or `LineChartDotConfig`                           | Configures the marker shown for the selected point.                                               |
+| `renderActiveDot`         | `(props) => ReactNode`                                      | Custom renderer for the selected point marker.                                                    |
+| `interaction`             | `LineChartInteraction<TData>`                               | Selection/scrub interaction mode and callbacks.                                                   |
+| `crosshair`               | `boolean` or `LineChartCrosshairConfig`                     | Shows and configures the selected-point crosshair.                                                |
+| `renderCrosshair`         | `(props) => ReactNode`                                      | Custom renderer for the crosshair.                                                                |
+| `tooltip`                 | `boolean` or `LineChartTooltipConfig`                       | Shows and configures selected-point tooltip content and placement.                                |
+| `renderTooltip`           | `(props) => ReactNode`                                      | Custom renderer for selected-point tooltip content.                                               |
+| `referenceLines`          | `LineChartReferenceLineConfig[]`                            | Horizontal reference lines drawn across the plot.                                                 |
+| `referenceBands`          | `LineChartReferenceBandConfig[]`                            | Horizontal reference bands drawn behind the series.                                               |
+| `showHorizontalGridLines` | `boolean`                                                   | Shows or hides horizontal grid lines.                                                             |
+| `showVerticalGridLines`   | `boolean`                                                   | Shows or hides vertical grid lines.                                                               |
+| `legend`                  | `boolean` or `LineChartLegendConfig`                        | Shows and configures the chart legend.                                                            |
+| `labelStrategy`           | `LineChartLabelStrategy`                                    | Controls x-axis label density and layout.                                                         |
+| `labelRotation`           | `number`                                                    | Rotation angle for x-axis labels when using rotated labels.                                       |
+| `labelMinGap`             | `number`                                                    | Minimum gap used by automatic x-axis label skipping.                                              |
+| `edgeLabelPolicy`         | `LineChartEdgeLabelPolicy`                                  | Controls how first and last x-axis labels are shifted, hidden, or shown.                          |
+| `yDomain`                 | `NumericDomainInput`                                        | Overrides or constrains the computed y-axis domain.                                               |
+| `yAxisLabelWidth`         | `LineChartYAxisLabelWidth`                                  | Fixed, automatic, or stable width for y-axis labels.                                              |
+| `axisLabelAnimation`      | `boolean` or `LineChartAxisLabelAnimationConfig`            | Animates y-axis label changes during viewport updates.                                            |
+| `formatXLabel`            | `(value, index) => string`                                  | Formats x-axis labels and selected x labels.                                                      |
+| `formatYLabel`            | `(value) => string`                                         | Formats y-axis labels, selected values, and tooltip values.                                       |
+| `renderer`                | `LineChartRenderer`                                         | Renderer implementation used for SVG-compatible primitives.                                       |
+| `id`                      | `string`                                                    | Stable chart id used for internal ids and coordinated selection scope.                            |
+| `debugLayout`             | `boolean`                                                   | Renders layout debug rectangles in development.                                                   |
+| `onLayoutDebug`           | `(model) => void`                                           | Receives computed layout debug geometry.                                                          |
+| `accessibilityLabel`      | `string`                                                    | Overrides the generated accessible chart summary.                                                 |
+| `testID`                  | `string`                                                    | Test identifier applied to the chart surface.                                                     |

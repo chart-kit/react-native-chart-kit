@@ -60,12 +60,40 @@ const reactRefreshPreamble = `
     color-scheme: dark;
   }
 </style>
-{head.map(({ tag: Tag, attrs, content }) => <Tag {...attrs} set:html={content} />)}
+{
+  head.map(({ tag: Tag, attrs, content }) => (
+    <Tag {...attrs} set:html={content} />
+  ))
+}
 {
   isDev ? (
     <script type="module" is:inline set:html={reactRefreshPreamble} />
   ) : null
 }
 <script>
+  import "../chart-theme-controls";
   import "../previews/client.tsx";
+</script>
+<script is:inline>
+  (() => {
+    const enhanceCodeCopyButtons = () => {
+      document
+        .querySelectorAll(".expressive-code .copy button[title]")
+        .forEach((button) => {
+          const label = button.getAttribute("title") || "Copy to clipboard";
+          button.setAttribute("aria-label", label);
+          button.removeAttribute("title");
+        });
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", enhanceCodeCopyButtons, {
+        once: true
+      });
+    } else {
+      enhanceCodeCopyButtons();
+    }
+
+    document.addEventListener("astro:page-load", enhanceCodeCopyButtons);
+  })();
 </script>

@@ -50,9 +50,12 @@ import { LineChart } from "react-native-chart-kit/v2";
 
 <LineChart
   data={[
-    { month: "Jan", revenue: 18 },
-    { month: "Feb", revenue: 34 },
-    { month: "Mar", revenue: 29 }
+    { month: "Jan", revenue: 52 },
+    { month: "Feb", revenue: 86 },
+    { month: "Mar", revenue: 58 },
+    { month: "Apr", revenue: 134 },
+    { month: "May", revenue: 95 },
+    { month: "Jun", revenue: 176 }
   ]}
   xKey="month"
   yKey="revenue"
