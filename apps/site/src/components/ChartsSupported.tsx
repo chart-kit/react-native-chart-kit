@@ -25,24 +25,38 @@ type ChartType = {
 
 type ThemeMode = "dark" | "light";
 
+const docsBaseHref = "/docs/react-native";
+
 const chartTypes: ChartType[] = [
-  { docsHref: "/docs/charts/line/", kind: "line", title: "Line Chart" },
-  { docsHref: "/docs/charts/area/", kind: "area", title: "Area Chart" },
-  { docsHref: "/docs/charts/bar/", kind: "bar", title: "Bar Chart" },
   {
-    docsHref: "/docs/charts/bar/#stacked-bars",
+    docsHref: `${docsBaseHref}/charts/line/`,
+    kind: "line",
+    title: "Line Chart"
+  },
+  {
+    docsHref: `${docsBaseHref}/charts/area/`,
+    kind: "area",
+    title: "Area Chart"
+  },
+  { docsHref: `${docsBaseHref}/charts/bar/`, kind: "bar", title: "Bar Chart" },
+  {
+    docsHref: `${docsBaseHref}/charts/bar/#stacked-bars`,
     kind: "stackedBar",
     title: "Stacked Bar Chart"
   },
-  { docsHref: "/docs/charts/pie/", kind: "pie", title: "Pie Chart" },
-  { docsHref: "/docs/charts/donut/", kind: "donut", title: "Donut Chart" },
+  { docsHref: `${docsBaseHref}/charts/pie/`, kind: "pie", title: "Pie Chart" },
   {
-    docsHref: "/docs/charts/progress/",
+    docsHref: `${docsBaseHref}/charts/donut/`,
+    kind: "donut",
+    title: "Donut Chart"
+  },
+  {
+    docsHref: `${docsBaseHref}/charts/progress/`,
     kind: "progress",
     title: "Progress Circle"
   },
   {
-    docsHref: "/docs/charts/contribution-heatmap/",
+    docsHref: `${docsBaseHref}/charts/contribution-heatmap/`,
     kind: "heatmap",
     title: "Contribution Heatmap"
   },
@@ -1040,7 +1054,7 @@ export default function ChartsSupported() {
 
         <div className="mt-7 flex justify-center">
           <a
-            href="/docs/charts/line"
+            href={`${docsBaseHref}/charts/line`}
             className="inline-flex h-10 items-center justify-center rounded-full border border-white/15 px-5 text-sm font-semibold tracking-[-0.01em] text-white/78 transition-colors hover:border-white/28 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 [html[data-theme='light']_&]:border-black/15 [html[data-theme='light']_&]:text-black/70 [html[data-theme='light']_&]:hover:border-black/28 [html[data-theme='light']_&]:hover:text-black [html[data-theme='light']_&]:focus-visible:outline-black/40"
           >
             Read docs
