@@ -1,4 +1,5 @@
 ---
+import GoogleAnalytics from "./GoogleAnalytics.astro";
 import ThemeInit from "./ThemeInit.astro";
 
 const { head } = Astro.locals.starlightRoute;
@@ -13,6 +14,7 @@ const reactRefreshPreamble = `
 ---
 
 <ThemeInit />
+<GoogleAnalytics />
 <style is:inline>
   html {
     background: #0b0c11;
