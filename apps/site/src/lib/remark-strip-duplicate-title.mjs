@@ -40,16 +40,18 @@ const getDocsEntryPath = (file) => {
   return undefined;
 };
 
+const docsRoutePrefix = "/docs/react-native";
+
 const getDocsRoute = (docsPath) => {
   if (docsPath === "README.md") {
-    return "/docs/";
+    return `${docsRoutePrefix}/`;
   }
 
   if (docsPath.endsWith("/README.md")) {
-    return `/docs/${docsPath.slice(0, -"/README.md".length)}/`;
+    return `${docsRoutePrefix}/${docsPath.slice(0, -"/README.md".length)}/`;
   }
 
-  return `/docs/${docsPath.replace(/\.mdx?$/, "")}/`;
+  return `${docsRoutePrefix}/${docsPath.replace(/\.mdx?$/, "")}/`;
 };
 
 const rewriteMarkdownLinks = (tree, file) => {

@@ -8,6 +8,7 @@ import { chartKitMarkdownPatches } from "./src/lib/starlight-markdown-patches.mj
 import tailwindcss from "@tailwindcss/vite";
 
 const repositoryUrl = "https://github.com/indiespirit/react-native-chart-kit";
+const docsSlug = (slug) => `docs/react-native/${slug}`;
 const packageSource = (packagePath) =>
   fileURLToPath(new URL(`../../packages/${packagePath}`, import.meta.url));
 const nodeModuleSource = (packagePath) =>
@@ -78,36 +79,36 @@ export default defineConfig({
         {
           label: "Start",
           items: [
-            { slug: "docs/getting-started/installation" },
-            { slug: "docs/getting-started/contributing" }
+            { slug: docsSlug("getting-started/installation") },
+            { slug: docsSlug("getting-started/contributing") }
           ]
         },
         {
           label: "Charts",
           items: [
-            { slug: "docs/charts/line" },
-            { slug: "docs/charts/area" },
-            { slug: "docs/charts/bar" },
-            { slug: "docs/charts/pie" },
-            { slug: "docs/charts/donut" },
-            { slug: "docs/charts/progress" },
-            { slug: "docs/charts/contribution-heatmap" }
+            { slug: docsSlug("charts/line") },
+            { slug: docsSlug("charts/area") },
+            { slug: docsSlug("charts/bar") },
+            { slug: docsSlug("charts/pie") },
+            { slug: docsSlug("charts/donut") },
+            { slug: docsSlug("charts/progress") },
+            { slug: docsSlug("charts/contribution-heatmap") }
           ]
         },
         {
           label: "Guides",
           items: [
-            { slug: "docs/charts/themes" },
-            { slug: "docs/charts/accessibility" },
-            { slug: "docs/troubleshooting" },
-            { slug: "docs/recipes" }
+            { slug: docsSlug("charts/themes") },
+            { slug: docsSlug("charts/accessibility") },
+            { slug: docsSlug("troubleshooting") },
+            { slug: docsSlug("recipes") }
           ]
         },
         {
           label: "Migration",
           items: [
-            { slug: "docs/migration/from-v1" },
-            { slug: "docs/migration/prop-mapping" }
+            { slug: docsSlug("migration/from-v1") },
+            { slug: docsSlug("migration/prop-mapping") }
           ]
         }
       ],

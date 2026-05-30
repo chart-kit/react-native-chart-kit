@@ -10,17 +10,18 @@ const publicDocs = [
   "recipes/**/*.md",
   "troubleshooting.md"
 ];
+const docsRoutePrefix = "docs/react-native";
 
 const getRouteId = (entry: string) => {
   if (entry === "README.md") {
-    return "docs";
+    return docsRoutePrefix;
   }
 
   if (entry.endsWith("/README.md")) {
-    return `docs/${entry.slice(0, -"/README.md".length)}`;
+    return `${docsRoutePrefix}/${entry.slice(0, -"/README.md".length)}`;
   }
 
-  return `docs/${entry.replace(/\.mdx?$/, "")}`;
+  return `${docsRoutePrefix}/${entry.replace(/\.mdx?$/, "")}`;
 };
 
 export const collections = {
