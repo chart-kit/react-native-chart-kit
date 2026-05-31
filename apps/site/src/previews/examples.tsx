@@ -17,10 +17,14 @@ type PreviewRenderContext = {
 };
 
 export type ChartPreviewExample = {
+  ctaHref?: string;
+  ctaLabel?: string;
+  description?: string;
   eyebrow: string;
   id: string;
   render: (context: PreviewRenderContext) => ReactNode;
   supportsChartTheme?: boolean;
+  tier?: "free" | "pro";
   title: string;
 };
 
@@ -51,7 +55,20 @@ export const renderChartPreview = ({
     >
       <View style={previewStyles.shell}>
         <View style={previewStyles.header}>
-          <Text style={previewStyles.eyebrow}>{example.eyebrow}</Text>
+          <View style={previewStyles.metaRow}>
+            <Text style={previewStyles.eyebrow}>{example.eyebrow}</Text>
+            {example.tier === "pro" ? (
+              <Text
+                accessibilityLabel="Available in Chart Kit Pro"
+                style={[
+                  previewStyles.proBadge,
+                  mode === "dark" && previewStyles.proBadgeDark
+                ]}
+              >
+                Pro
+              </Text>
+            ) : null}
+          </View>
           <Text
             style={[
               previewStyles.title,
@@ -60,10 +77,28 @@ export const renderChartPreview = ({
           >
             {example.title}
           </Text>
+          {example.description ? (
+            <Text
+              style={[
+                previewStyles.description,
+                mode === "dark" && previewStyles.descriptionDark
+              ]}
+            >
+              {example.description}
+            </Text>
+          ) : null}
         </View>
         <View style={previewStyles.chart}>
           {example.render({ chartThemePreset, mode, width: width - 2 })}
         </View>
+        {example.tier === "pro" ? (
+          <a
+            className="chart-kit-live-preview__pro-link"
+            href={example.ctaHref ?? "/#pricing"}
+          >
+            {example.ctaLabel ?? "View Pro plans"}
+          </a>
+        ) : null}
       </View>
     </ChartKitProvider>
   );
@@ -84,6 +119,24 @@ const previewStyles = {
   header: {
     marginBottom: 16
   },
+  description: {
+    color: "rgba(7, 23, 51, 0.62)",
+    fontSize: 14,
+    fontWeight: "400" as const,
+    letterSpacing: 0,
+    lineHeight: 21,
+    marginTop: 8,
+    maxWidth: 540
+  },
+  descriptionDark: {
+    color: "rgba(255, 255, 255, 0.62)"
+  },
+  metaRow: {
+    alignItems: "center" as const,
+    flexDirection: "row" as const,
+    gap: 8,
+    marginBottom: 8
+  },
   missing: {
     backgroundColor: "#ffffff",
     borderColor: "rgba(16, 18, 23, 0.14)",
@@ -98,6 +151,25 @@ const previewStyles = {
   },
   shell: {
     width: "100%" as const
+  },
+  proBadge: {
+    backgroundColor: "rgba(15, 58, 120, 0.1)",
+    borderColor: "rgba(15, 58, 120, 0.18)",
+    borderRadius: 999,
+    borderWidth: 1,
+    color: "#0f3a78",
+    fontSize: 11,
+    fontWeight: "800" as const,
+    letterSpacing: 0,
+    lineHeight: 18,
+    overflow: "hidden" as const,
+    paddingHorizontal: 8,
+    textTransform: "uppercase" as const
+  },
+  proBadgeDark: {
+    backgroundColor: "rgba(216, 230, 255, 0.1)",
+    borderColor: "rgba(216, 230, 255, 0.18)",
+    color: "#d8e6ff"
   },
   title: {
     color: "#101217",

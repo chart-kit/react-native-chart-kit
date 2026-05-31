@@ -38,12 +38,19 @@ const chartKitNames = [
   "getLineChartAccessibilitySummary",
   "getLineChartDataTable"
 ];
+const chartKitProNames = [
+  "CandlebarChart",
+  "CandlestickChart",
+  "ComboChart",
+  "RadarChart"
+];
 const reactNames = ["useMemo", "useState"];
 const reactNativeNames = ["Pressable", "Text", "View"];
 const ambientComponents = ["App", "Dashboard", "PortfolioHeader", "Root"];
 const ambientArrays = [
   "acquisitionShare",
   "benchmarkData",
+  "benchmarks",
   "candles",
   "data",
   "largeData",
@@ -229,6 +236,10 @@ const buildExampleSource = ({ code, relativePath, line }) => {
       getMissingImports(code, importedNames, chartKitNames)
     ),
     buildImportLine(
+      "@chart-kit/pro",
+      getMissingImports(code, importedNames, chartKitProNames)
+    ),
+    buildImportLine(
       "react",
       getMissingImports(code, importedNames, reactNames)
     ),
@@ -277,7 +288,8 @@ const parseTsConfig = () => {
     paths: {
       ...(parsed.options.paths ?? {}),
       "react-native-chart-kit": ["src/index.ts"],
-      "react-native-chart-kit/v2": ["packages/react-native/src/index.ts"]
+      "react-native-chart-kit/v2": ["packages/react-native/src/index.ts"],
+      "@chart-kit/pro": ["apps/site/src/previews/proStub.tsx"]
     },
     skipLibCheck: true,
     strict: false

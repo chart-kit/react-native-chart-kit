@@ -606,6 +606,101 @@ h1#_top,
   }
 }
 
+chart-kit-preview {
+  display: block;
+  margin-block: 1.25rem 2rem;
+}
+
+chart-kit-preview .chart-kit-preview-fallback,
+.chart-kit-live-preview__frame {
+  display: block;
+  overflow: hidden;
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 0.9rem;
+  background: #10131a;
+  padding: 1.15rem;
+}
+
+:root[data-theme="light"] chart-kit-preview .chart-kit-preview-fallback,
+:root[data-theme="light"] .chart-kit-live-preview__frame {
+  background: #ffffff;
+}
+
+.chart-kit-live-preview__pro-link {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  border: 1px solid rgba(216, 230, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(216, 230, 255, 0.1);
+  color: #d8e6ff;
+  font-size: 0.78rem;
+  font-weight: 750;
+  line-height: 1;
+  padding: 0.55rem 0.8rem;
+  text-decoration: none;
+}
+
+.chart-kit-live-preview__pro-link:hover,
+.chart-kit-live-preview__pro-link:focus-visible {
+  border-color: rgba(216, 230, 255, 0.32);
+  background: rgba(216, 230, 255, 0.16);
+  color: #ffffff;
+}
+
+.chart-kit-live-preview__pro-link:focus-visible {
+  outline: 2px solid rgba(120, 168, 255, 0.55);
+  outline-offset: 2px;
+}
+
+:root[data-theme="light"] .chart-kit-live-preview__pro-link {
+  border-color: rgba(15, 58, 120, 0.18);
+  background: rgba(15, 58, 120, 0.08);
+  color: #0f3a78;
+}
+
+:root[data-theme="light"] .chart-kit-live-preview__pro-link:hover,
+:root[data-theme="light"] .chart-kit-live-preview__pro-link:focus-visible {
+  border-color: rgba(15, 58, 120, 0.3);
+  background: rgba(15, 58, 120, 0.12);
+  color: #071733;
+}
+
+.sidebar-content
+  a:is(
+    [href$="/charts/candlebar/"],
+    [href$="/charts/radar/"],
+    [href$="/charts/combo/"]
+  )::after {
+  flex: 0 0 auto;
+  margin-inline-start: auto;
+  border: 1px solid rgba(216, 230, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(216, 230, 255, 0.09);
+  color: #d8e6ff;
+  content: "Pro";
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1;
+  padding: 0.18rem 0.38rem;
+  text-transform: uppercase;
+}
+
+:root[data-theme="light"]
+  .sidebar-content
+  a:is(
+    [href$="/charts/candlebar/"],
+    [href$="/charts/radar/"],
+    [href$="/charts/combo/"]
+  )::after {
+  border-color: rgba(15, 58, 120, 0.18);
+  background: rgba(15, 58, 120, 0.08);
+  color: #0f3a78;
+}
+
 chart-kit-playground {
   display: block;
   margin-block: 1.25rem 2rem;

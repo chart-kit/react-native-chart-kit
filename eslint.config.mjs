@@ -9,6 +9,8 @@ export default [
     ignores: [
       "dist/**",
       ".tmp/**",
+      "apps/site/.astro/**",
+      "apps/site/dist/**",
       "packages/*/dist/**",
       "node_modules/**",
       "coverage/**"

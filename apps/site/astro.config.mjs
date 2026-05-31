@@ -25,6 +25,15 @@ const expoVectorIconsStub = localSource(
 const svgTransformParserStub = localSource(
   "./src/previews/svgTransformParserStub.ts"
 );
+const useRealProCharts = process.env.CHART_KIT_PRO_DOCS === "true";
+const chartKitProAliases = useRealProCharts
+  ? []
+  : [
+      {
+        find: /^@chart-kit\/pro$/,
+        replacement: localSource("./src/previews/proStub.tsx")
+      }
+    ];
 
 const chartKitPreviewWebAliases = () => ({
   name: "chart-kit-preview-web-aliases",
@@ -96,6 +105,14 @@ export default defineConfig({
           ]
         },
         {
+          label: "Pro Charts",
+          items: [
+            { slug: docsSlug("charts/candlebar") },
+            { slug: docsSlug("charts/radar") },
+            { slug: docsSlug("charts/combo") }
+          ]
+        },
+        {
           label: "Guides",
           items: [
             { slug: docsSlug("charts/themes") },
@@ -125,6 +142,7 @@ export default defineConfig({
         "react-native",
         "react-native-chart-kit",
         "react-native-chart-kit/v2",
+        "@chart-kit/pro",
         "react-native-gesture-handler",
         "react-native-svg"
       ]
@@ -147,6 +165,7 @@ export default defineConfig({
           find: /^@chart-kit\/svg-renderer$/,
           replacement: packageSource("svg-renderer/src/index.ts")
         },
+        ...chartKitProAliases,
         {
           find: /^react-native$/,
           replacement: reactNativeWebStub

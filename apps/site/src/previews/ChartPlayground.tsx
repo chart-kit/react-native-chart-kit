@@ -29,6 +29,7 @@ import {
   StackedBarChart,
   type ChartKitThemeMode
 } from "react-native-chart-kit/v2";
+import { CandlebarChart, ComboChart, RadarChart } from "@chart-kit/pro";
 import { G, Line as SvgLine, Rect, Text as SvgText } from "react-native-svg";
 
 import {
@@ -38,7 +39,9 @@ import {
 } from "./chartTheme";
 import {
   acquisitionShare,
+  candlebarPrices,
   clampChartWidth,
+  comboRevenue,
   contributionEndDate,
   contributionNumDays,
   contributionValues,
@@ -48,6 +51,7 @@ import {
   platformShare,
   profit,
   progressRings,
+  radarBenchmarks,
   revenueMix,
   signedMoney,
   signups,
@@ -279,7 +283,10 @@ const retentionSegments = [
 const previewDataById: Record<string, unknown[]> = {
   "bar-grouped": barPlaygroundData,
   "line-multi-series": linePlaygroundData,
-  "line-selection": linePlaygroundData
+  "line-selection": linePlaygroundData,
+  "pro-candlebar": candlebarPrices,
+  "pro-combo": comboRevenue,
+  "pro-radar": radarBenchmarks
 };
 
 const getPreviewData = (id: string) =>
@@ -485,14 +492,17 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
     () => ({
       AreaChart,
       BarChart,
+      CandlebarChart,
       ContributionGraph,
       ChartKitProvider,
+      ComboChart,
       DonutChart,
       G,
       LineChart,
       PieChart,
       ProgressChart,
       ProgressRing,
+      RadarChart,
       React,
       Rect,
       StackedBarChart,
@@ -500,7 +510,9 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
       Text,
       View,
       acquisitionShare: acquisitionSharePlaygroundData,
+      candlebarPrices,
       clampChartWidth,
+      comboRevenue,
       contributionValues,
       contributionEndDate,
       contributionNumDays,
@@ -517,6 +529,7 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
       previewWidth: clampChartWidth(width),
       profit,
       progressRings,
+      radarBenchmarks,
       revenueMix: revenueMixPlaygroundData,
       retentionSegments,
       signedMoney,

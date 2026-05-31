@@ -99,3 +99,38 @@ export const contributionValues = Array.from(
     };
   }
 );
+
+export const candlebarPrices = [
+  { date: "09:30", open: 184, high: 196, low: 179, close: 191, volume: 42 },
+  { date: "10:00", open: 191, high: 208, low: 188, close: 202, volume: 68 },
+  { date: "10:30", open: 202, high: 206, low: 185, close: 189, volume: 74 },
+  { date: "11:00", open: 189, high: 215, low: 186, close: 211, volume: 95 },
+  { date: "11:30", open: 211, high: 226, low: 204, close: 219, volume: 88 },
+  { date: "12:00", open: 219, high: 221, low: 198, close: 204, volume: 81 },
+  { date: "12:30", open: 204, high: 232, low: 201, close: 228, volume: 118 },
+  { date: "13:00", open: 228, high: 236, low: 214, close: 217, volume: 101 },
+  { date: "13:30", open: 217, high: 244, low: 216, close: 239, volume: 132 },
+  { date: "14:00", open: 239, high: 248, low: 226, close: 231, volume: 109 },
+  { date: "14:30", open: 231, high: 252, low: 229, close: 247, volume: 124 },
+  { date: "15:00", open: 247, high: 258, low: 236, close: 241, volume: 116 }
+];
+
+export const radarBenchmarks = [
+  { metric: "Speed", current: 82, target: 92, industry: 68 },
+  { metric: "Polish", current: 76, target: 88, industry: 61 },
+  { metric: "A11y", current: 90, target: 94, industry: 72 },
+  { metric: "Depth", current: 68, target: 84, industry: 55 },
+  { metric: "Control", current: 86, target: 91, industry: 65 },
+  { metric: "Export", current: 72, target: 86, industry: 58 }
+];
+
+export const comboRevenue = [
+  { month: "Jan", revenue: 420, forecast: 480, margin: 128 },
+  { month: "Feb", revenue: 560, forecast: 530, margin: 168 },
+  { month: "Mar", revenue: 490, forecast: 610, margin: 151 },
+  { month: "Apr", revenue: 720, forecast: 690, margin: 214 },
+  { month: "May", revenue: 640, forecast: 760, margin: 193 },
+  { month: "Jun", revenue: 880, forecast: 840, margin: 276 },
+  { month: "Jul", revenue: 790, forecast: 920, margin: 244 },
+  { month: "Aug", revenue: 1040, forecast: 980, margin: 331 }
+];
