@@ -114,14 +114,17 @@ const playgroundDocs = new Set([
   "charts/area.md",
   "charts/bar.md",
   "charts/contribution-heatmap.md",
+  "charts/candlebar.md",
+  "charts/combo.md",
   "charts/donut.md",
   "charts/line.md",
   "charts/pie.md",
-  "charts/progress.md"
+  "charts/progress.md",
+  "charts/radar.md"
 ]);
 
 const chartComponentPattern =
-  /<\s*(AreaChart|BarChart|ContributionGraph|DonutChart|LineChart|PieChart|ProgressChart|ProgressRing|StackedBarChart)\b/;
+  /<\s*(AreaChart|BarChart|CandlebarChart|CandlestickChart|ComboChart|ContributionGraph|DonutChart|LineChart|PieChart|ProgressChart|ProgressRing|RadarChart|StackedBarChart)\b/;
 
 const slugify = (value) =>
   String(value)

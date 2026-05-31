@@ -9,11 +9,14 @@ import {
   PieChart,
   ProgressChart
 } from "react-native-chart-kit/v2";
+import { CandlebarChart, ComboChart, RadarChart } from "@chart-kit/pro";
 
 import type { ChartPreviewExample } from "./examples";
 import {
   acquisitionShare,
+  candlebarPrices,
   clampChartWidth,
+  comboRevenue,
   contributionEndDate,
   contributionNumDays,
   contributionValues,
@@ -23,6 +26,7 @@ import {
   platformShare,
   profit,
   progressRings,
+  radarBenchmarks,
   revenueMix,
   signedMoney,
   signups,
@@ -277,6 +281,80 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
         numDays={contributionNumDays}
         values={[]}
         width={clampChartWidth(width)}
+      />
+    )
+  },
+  "pro-candlebar": {
+    ctaHref: "/#pricing",
+    description:
+      "OHLC inspection, volume context, and mobile-friendly hit targets for trading and market screens.",
+    eyebrow: "Financial",
+    id: "pro-candlebar",
+    tier: "pro",
+    title: "Candlebar session",
+    render: ({ width }) => (
+      <CandlebarChart
+        closeKey="close"
+        data={candlebarPrices}
+        dateKey="date"
+        defaultSelectedIndex={8}
+        height={300}
+        highKey="high"
+        lowKey="low"
+        openKey="open"
+        volumeKey="volume"
+        width={clampChartWidth(width, 540)}
+      />
+    )
+  },
+  "pro-radar": {
+    ctaHref: "/#pricing",
+    description:
+      "Compare multiple KPI profiles with readable axes, polygon fills, and selection-ready metric focus.",
+    eyebrow: "Benchmarking",
+    id: "pro-radar",
+    tier: "pro",
+    title: "Release quality radar",
+    render: ({ width }) => (
+      <RadarChart
+        categoryKey="metric"
+        data={radarBenchmarks}
+        height={330}
+        maxValue={100}
+        series={[
+          { valueKey: "current", label: "Current", color: "#4f8cff" },
+          { valueKey: "target", label: "Target", color: "#18b7a0" },
+          { valueKey: "industry", label: "Industry", color: "#f59e0b" }
+        ]}
+        width={clampChartWidth(width, 520)}
+      />
+    )
+  },
+  "pro-combo": {
+    ctaHref: "/#pricing",
+    description:
+      "Blend bars and lines on one coordinated surface for revenue, forecast, and margin workflows.",
+    eyebrow: "Mixed series",
+    id: "pro-combo",
+    tier: "pro",
+    title: "Revenue operating view",
+    render: ({ width }) => (
+      <ComboChart
+        data={comboRevenue}
+        defaultSelectedIndex={5}
+        height={300}
+        series={[
+          { yKey: "revenue", label: "Revenue", type: "bar", color: "#4f8cff" },
+          { yKey: "margin", label: "Margin", type: "bar", color: "#18b7a0" },
+          {
+            yKey: "forecast",
+            label: "Forecast",
+            type: "line",
+            color: "#f59e0b"
+          }
+        ]}
+        width={clampChartWidth(width, 540)}
+        xKey="month"
       />
     )
   }

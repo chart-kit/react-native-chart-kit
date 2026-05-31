@@ -7,9 +7,9 @@ description: Start here for the React Native Chart Kit v2 documentation.
 
 These docs describe the public React Native Chart Kit package: the
 legacy-compatible root API and the free modern v2 API. `react-native-chart-kit`
-is the only public npm install path. The `@chart-kit/*` workspaces are private
-repo-internal packages used to develop and build the modern implementation.
-Modern v2 examples import from `react-native-chart-kit/v2`.
+is the public npm install path for free charts. Modern v2 examples import from
+`react-native-chart-kit/v2`. Pro chart examples import from `@chart-kit/pro`,
+which requires a Pro license.
 
 ## Getting Started
 
@@ -30,6 +30,12 @@ Modern v2 examples import from `react-native-chart-kit/v2`.
 - [Donut](charts/donut.md)
 - [Progress](charts/progress.md)
 - [Contribution heatmap](charts/contribution-heatmap.md)
+
+## Pro Charts
+
+- [Candlebar](charts/candlebar.md)
+- [Radar](charts/radar.md)
+- [Combo](charts/combo.md)
 
 ## Guides
 
