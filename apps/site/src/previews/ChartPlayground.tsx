@@ -29,7 +29,12 @@ import {
   StackedBarChart,
   type ChartKitThemeMode
 } from "react-native-chart-kit/v2";
-import { CandlebarChart, ComboChart, RadarChart } from "@chart-kit/pro";
+import {
+  CandlebarChart,
+  CandlestickChart,
+  ComboChart,
+  RadarChart
+} from "@chart-kit/pro";
 import { G, Line as SvgLine, Rect, Text as SvgText } from "react-native-svg";
 
 import {
@@ -493,6 +498,7 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
       AreaChart,
       BarChart,
       CandlebarChart,
+      CandlestickChart,
       ContributionGraph,
       ChartKitProvider,
       ComboChart,
@@ -542,6 +548,8 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
       SvgLine,
       Line: SvgLine,
       usageDays: contributionValues,
+      useEffect: React.useEffect,
+      useMemo: React.useMemo,
       useState: React.useState,
       values: contributionValues,
       viewport: { endIndex: 90, startIndex: 40 },
