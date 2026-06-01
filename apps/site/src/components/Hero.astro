@@ -225,14 +225,110 @@ const demoOptions = [
           <ChevronRight size={17} stroke-width={2.25} aria-hidden="true" />
         </button>
       </div>
-      <img
-        src="/images/iphone.svg"
-        alt=""
-        class="w-[min(62vw,270px)] max-w-none drop-shadow-[0_40px_80px_rgba(0,0,0,0.65)] sm:w-[295px] md:w-[325px] lg:w-[min(25vw,330px)] xl:w-[345px]"
-      />
+      <div
+        class="relative aspect-[440/916] w-[min(62vw,270px)] max-w-none drop-shadow-[0_40px_80px_rgba(0,0,0,0.65)] sm:w-[295px] md:w-[325px] lg:w-[min(25vw,330px)] xl:w-[345px]"
+        data-phone-stage
+        data-ready="false"
+      >
+        <div
+          class="absolute top-[1.7%] right-[3%] bottom-[1.55%] left-[3%] z-40 overflow-hidden bg-black"
+          data-phone-screen
+        >
+          <div
+            class="absolute inset-0 z-10 bg-black opacity-100 transition-opacity duration-500 ease-out data-[hidden=true]:pointer-events-none data-[hidden=true]:opacity-0"
+            data-phone-loader
+            data-hidden="false"
+            aria-hidden="true"
+          >
+            <span
+              class="absolute top-1/2 left-1/2 size-8 rounded-full opacity-85"
+              data-phone-loader-wheel
+            ></span>
+          </div>
+          <div
+            class="absolute inset-0 opacity-0 transition-opacity duration-500 ease-out"
+            data-phone-media-track
+          >
+            {
+              demoOptions.map((option, index) => (
+                <div
+                  class="absolute inset-0 will-change-transform"
+                  data-phone-slide
+                  data-demo-index={index}
+                  data-active={index === 0 ? "true" : "false"}
+                  aria-label={`${option} phone preview`}
+                  aria-hidden={index === 0 ? "false" : "true"}
+                >
+                  <video
+                    class="h-full w-full object-cover"
+                    src="/videos/crypto.mp4"
+                    muted
+                    playsinline
+                    preload="auto"
+                    aria-hidden="true"
+                  ></video>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+        <img
+          src="/images/iphone.svg"
+          alt=""
+          class="pointer-events-none absolute inset-0 z-30 h-full w-full max-w-none"
+        />
+      </div>
     </div>
   </div>
 </section>
+
+<style>
+  [data-phone-slide] {
+    transition:
+      opacity 420ms cubic-bezier(0.4, 0, 0.2, 1),
+      transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  [data-phone-screen] {
+    border-radius: 13% / 6.1%;
+  }
+
+  [data-phone-loader-wheel] {
+    animation: phone-loader-spin 880ms linear infinite;
+    background: conic-gradient(
+      from 28deg,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0.12) 42%,
+      rgba(255, 255, 255, 0.92)
+    );
+    mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 0);
+    -webkit-mask: radial-gradient(
+      farthest-side,
+      transparent calc(100% - 3px),
+      #000 0
+    );
+    transform: translate(-50%, -50%) rotate(0deg);
+    transform-origin: center;
+  }
+
+  @keyframes phone-loader-spin {
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-phone-slide],
+    [data-phone-media-track],
+    [data-phone-loader] {
+      transition-duration: 1ms;
+    }
+
+    [data-phone-loader-wheel] {
+      animation: none;
+    }
+  }
+</style>
 
 <script>
   const bootDemoCarousels = () => {
@@ -252,13 +348,29 @@ const demoOptions = [
           carousel.querySelector<HTMLButtonElement>("[data-demo-prev]");
         const nextButton =
           carousel.querySelector<HTMLButtonElement>("[data-demo-next]");
+        const phoneStage =
+          carousel.parentElement?.querySelector<HTMLElement>(
+            "[data-phone-stage]"
+          );
+        const phoneTrack =
+          phoneStage?.querySelector<HTMLElement>("[data-phone-media-track]");
+        const phoneLoader =
+          phoneStage?.querySelector<HTMLElement>("[data-phone-loader]");
+        const phoneSlides = Array.from(
+          phoneStage?.querySelectorAll<HTMLElement>("[data-phone-slide]") ?? []
+        );
+        const reducedMotionQuery = window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        );
 
         if (!options.length || !previousButton || !nextButton) {
           return;
         }
 
         let activeIndex = 0;
-        let intervalId: number | undefined;
+        let pendingVideoAdvanceTimer: number | undefined;
+        let playbackVersion = 0;
+        let hasRevealedPhoneMedia = false;
 
         const getCircularOffset = (index: number) => {
           let offset = index - activeIndex;
@@ -273,6 +385,166 @@ const demoOptions = [
           }
 
           return offset;
+        };
+
+        const clearPendingVideoAdvance = () => {
+          playbackVersion += 1;
+
+          if (pendingVideoAdvanceTimer) {
+            window.clearTimeout(pendingVideoAdvanceTimer);
+            pendingVideoAdvanceTimer = undefined;
+          }
+
+          phoneSlides.forEach((slide) => {
+            const video = slide.querySelector("video");
+
+            if (video instanceof HTMLVideoElement) {
+              video.onended = null;
+            }
+          });
+        };
+
+        const scheduleNextDemoWhenVideoEnds = (
+          video: HTMLVideoElement
+        ) => {
+          clearPendingVideoAdvance();
+          const currentPlaybackVersion = playbackVersion;
+          const advance = () => {
+            if (currentPlaybackVersion === playbackVersion) {
+              setActive(activeIndex + 1, false);
+            }
+          };
+
+          video.onended = advance;
+
+          if (Number.isFinite(video.duration) && video.duration > 0) {
+            const remainingMs = Math.max(
+              1000,
+              (video.duration - video.currentTime) * 1000
+            );
+
+            pendingVideoAdvanceTimer = window.setTimeout(
+              advance,
+              remainingMs + 180
+            );
+          }
+        };
+
+        const playActivePhoneVideo = () => {
+          phoneSlides.forEach((slide, index) => {
+            const video = slide.querySelector("video");
+
+            if (!(video instanceof HTMLVideoElement)) {
+              return;
+            }
+
+            video.muted = true;
+            video.playsInline = true;
+            video.loop = false;
+
+            if (index === activeIndex && hasRevealedPhoneMedia) {
+              scheduleNextDemoWhenVideoEnds(video);
+              void video.play().catch(() => {
+                // Autoplay can be blocked in rare browser states; the posterless
+                // video frame still keeps the phone screen visually stable.
+              });
+            } else {
+              video.pause();
+            }
+          });
+        };
+
+        const syncPhoneSlides = () => {
+          if (!phoneSlides.length) {
+            return;
+          }
+
+          phoneSlides.forEach((slide, index) => {
+            const offset = getCircularOffset(index);
+            const isActive = index === activeIndex;
+            const wasActive = slide.dataset.active === "true";
+            const video = slide.querySelector("video");
+
+            slide.dataset.active = String(isActive);
+            slide.setAttribute("aria-hidden", String(!isActive));
+            slide.style.opacity = isActive ? "1" : "0";
+            slide.style.pointerEvents = isActive ? "auto" : "none";
+            slide.style.transform = reducedMotionQuery.matches
+              ? "translate3d(0, 0, 0)"
+              : `translate3d(${offset * 108}%, 0, 0)`;
+            slide.style.zIndex = String(isActive ? 2 : 1);
+
+            if (
+              isActive &&
+              !wasActive &&
+              video instanceof HTMLVideoElement
+            ) {
+              video.currentTime = 0;
+            }
+          });
+
+          playActivePhoneVideo();
+        };
+
+        const revealPhoneMedia = () => {
+          if (hasRevealedPhoneMedia) {
+            return;
+          }
+
+          hasRevealedPhoneMedia = true;
+          phoneStage?.setAttribute("data-ready", "true");
+
+          if (phoneLoader) {
+            phoneLoader.dataset.hidden = "true";
+          }
+
+          if (phoneTrack) {
+            phoneTrack.style.opacity = "1";
+          }
+
+          playActivePhoneVideo();
+        };
+
+        const bootPhoneMedia = () => {
+          if (!phoneStage || !phoneSlides.length) {
+            return;
+          }
+
+          let hasLoaderSettled = false;
+          let hasFirstFrame = false;
+          const firstVideo = phoneSlides[activeIndex]?.querySelector("video");
+          const maybeReveal = () => {
+            if (hasLoaderSettled && hasFirstFrame) {
+              revealPhoneMedia();
+            }
+          };
+
+          window.setTimeout(() => {
+            hasLoaderSettled = true;
+            maybeReveal();
+          }, reducedMotionQuery.matches ? 120 : 920);
+
+          window.setTimeout(revealPhoneMedia, 1800);
+
+          if (firstVideo instanceof HTMLVideoElement) {
+            if (firstVideo.readyState >= 2) {
+              hasFirstFrame = true;
+              maybeReveal();
+            } else {
+              firstVideo.addEventListener(
+                "loadeddata",
+                () => {
+                  hasFirstFrame = true;
+                  maybeReveal();
+                },
+                { once: true }
+              );
+              firstVideo.load();
+            }
+          } else {
+            hasFirstFrame = true;
+            maybeReveal();
+          }
         };
 
         const render = () => {
@@ -295,6 +567,7 @@ const demoOptions = [
 
           carousel.dataset.activeDemo =
             options[activeIndex]?.textContent?.trim();
+          syncPhoneSlides();
         };
 
         const setActive = (nextIndex: number, shouldRestart = true) => {
@@ -307,13 +580,7 @@ const demoOptions = [
         };
 
         const restartAutoplay = () => {
-          if (intervalId) {
-            window.clearInterval(intervalId);
-          }
-
-          intervalId = window.setInterval(() => {
-            setActive(activeIndex + 1, false);
-          }, 7000);
+          playActivePhoneVideo();
         };
 
         previousButton.addEventListener("click", () =>
@@ -325,6 +592,7 @@ const demoOptions = [
         });
 
         render();
+        bootPhoneMedia();
         restartAutoplay();
       });
   };
