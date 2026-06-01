@@ -32,9 +32,9 @@ export function QualityRadar() {
       categoryKey="metric"
       maxValue={100}
       series={[
-        { valueKey: "current", label: "Current", color: "#4f8cff" },
-        { valueKey: "target", label: "Target", color: "#18b7a0" },
-        { valueKey: "industry", label: "Industry", color: "#f59e0b" }
+        { valueKey: "current", label: "Current" },
+        { valueKey: "target", label: "Target" },
+        { valueKey: "industry", label: "Industry" }
       ]}
       width={360}
       height={320}

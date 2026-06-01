@@ -33,9 +33,9 @@ export function RevenueOperations() {
       data={data}
       xKey="month"
       series={[
-        { yKey: "revenue", label: "Revenue", type: "bar", color: "#4f8cff" },
-        { yKey: "margin", label: "Margin", type: "bar", color: "#18b7a0" },
-        { yKey: "forecast", label: "Forecast", type: "line", color: "#f59e0b" }
+        { yKey: "revenue", label: "Revenue", type: "bar" },
+        { yKey: "margin", label: "Margin", type: "bar" },
+        { yKey: "forecast", label: "Forecast", type: "line" }
       ]}
       defaultSelectedIndex={5}
       width={360}

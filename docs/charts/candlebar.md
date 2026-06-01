@@ -1,6 +1,6 @@
 ---
 title: Candlebar Chart
-description: Build OHLC and volume charts for trading, crypto, and market data screens with Chart Kit Pro.
+description: Build OHLC and volume charts with realtime updates and controlled inspection in Chart Kit Pro.
 ---
 
 # Candlebar Chart
@@ -11,21 +11,170 @@ mobile chart surface.
 
 This chart is available in Chart Kit Pro.
 
-## Basic Candlebar
+## Crosshair Inspector
+
+Use crosshair inspection when the selected candle drives UI outside the chart.
+Keep the selected index controlled, update it from `interaction.onSelect`, and
+render the OHLCV readout wherever it fits your screen. The crosshair stays under
+the user's finger while a separate candle marker shows which candle is selected.
+Add the mini range selector when users need to drag between visible intervals.
+
+```tsx
+import { useState } from "react";
+import { Text, View } from "react-native";
+import { useChartKitTheme } from "react-native-chart-kit/v2";
+import { CandlebarChart } from "@chart-kit/pro";
+
+const candles = Array.from({ length: 40 }, (_, index) => {
+  const open = 184 + Math.sin(index * 0.55) * 6 + index * 1.4;
+  const move = Math.cos(index * 0.75) * 7;
+  const close = open + move;
+  const wick = 3 + Math.abs(move) * 0.35;
+
+  return {
+    time: `T${index + 1}`,
+    open,
+    high: Math.max(open, close) + wick,
+    low: Math.min(open, close) - wick,
+    close,
+    volume: Math.round(48 + Math.abs(move) * 9 + index * 3)
+  };
+});
+
+const formatValue = (value: number) => value.toFixed(1);
+
+export function CrosshairInspector() {
+  const chartTheme = useChartKitTheme();
+  const [selectedIndex, setSelectedIndex] = useState(24);
+  const selected = candles[selectedIndex] ?? candles[candles.length - 1]!;
+  const isDark = chartTheme.mode === "dark";
+  const borderColor = isDark
+    ? "rgba(216, 230, 255, 0.16)"
+    : "rgba(15, 58, 120, 0.14)";
+  const metrics = [
+    ["O", formatValue(selected.open)],
+    ["H", formatValue(selected.high)],
+    ["L", formatValue(selected.low)],
+    ["C", formatValue(selected.close)],
+    ["VOL", String(selected.volume)]
+  ] as const;
+
+  return (
+    <View style={{ gap: 12 }}>
+      <View
+        style={{
+          width: 360,
+          maxWidth: "100%",
+          borderWidth: 1,
+          borderColor,
+          borderStyle: "solid",
+          borderRadius: 8,
+          backgroundColor: isDark ? "#111827" : "#f8fbff",
+          paddingBottom: 7,
+          paddingLeft: 9,
+          paddingRight: 9,
+          paddingTop: 7
+        }}
+      >
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "stretch"
+          }}
+        >
+          {metrics.map(([label, value], index) => (
+            <View
+              key={label}
+              style={{
+                flex: 1,
+                minWidth: 0,
+                alignItems: "center",
+                borderLeftColor: borderColor,
+                borderLeftWidth: index === 0 ? 0 : 1,
+                paddingLeft: index === 0 ? 0 : 6
+              }}
+            >
+              <Text
+                style={{
+                  color: isDark ? "rgba(248, 250, 252, 0.48)" : "#64748b",
+                  fontSize: 8,
+                  fontWeight: "800",
+                  marginBottom: 2,
+                  textTransform: "uppercase"
+                }}
+              >
+                {label}
+              </Text>
+              <Text
+                style={{
+                  color: isDark ? "rgba(248, 250, 252, 0.82)" : "#334155",
+                  fontSize: 12,
+                  fontWeight: "800"
+                }}
+              >
+                {value}
+              </Text>
+            </View>
+          ))}
+        </View>
+      </View>
+
+      <CandlebarChart
+        data={candles}
+        dateKey="time"
+        openKey="open"
+        highKey="high"
+        lowKey="low"
+        closeKey="close"
+        volumeKey="volume"
+        formatYLabel={formatValue}
+        height={340}
+        interaction={{
+          activation: "longPress",
+          mode: "crosshair",
+          onSelect: (event) => setSelectedIndex(event.dataIndex)
+        }}
+        rangeSelector={{
+          visible: true,
+          height: 28,
+          startIndex: 6,
+          endIndex: 35
+        }}
+        selectedIndex={selectedIndex}
+        selectionPriceLabel
+        showHorizontalGridLines
+        showYAxisLabels
+        tooltip={false}
+        width={360}
+        yTickCount={4}
+      />
+    </View>
+  );
+}
+```
+
+::chart-preview{id="pro-candlebar-crosshair"}
+
+## OHLC and Volume
 
 ```tsx
 import { CandlebarChart } from "@chart-kit/pro";
 
-const candles = [
-  { date: "09:30", open: 184, high: 196, low: 179, close: 191, volume: 42 },
-  { date: "10:00", open: 191, high: 208, low: 188, close: 202, volume: 68 },
-  { date: "10:30", open: 202, high: 206, low: 185, close: 189, volume: 74 },
-  { date: "11:00", open: 189, high: 215, low: 186, close: 211, volume: 95 },
-  { date: "11:30", open: 211, high: 226, low: 204, close: 219, volume: 88 },
-  { date: "12:00", open: 219, high: 221, low: 198, close: 204, volume: 81 },
-  { date: "12:30", open: 204, high: 232, low: 201, close: 228, volume: 118 },
-  { date: "13:00", open: 228, high: 236, low: 214, close: 217, volume: 101 }
-];
+const candles = Array.from({ length: 20 }, (_, index) => {
+  const open = 184 + Math.sin(index * 0.55) * 6 + index * 2.4;
+  const move = Math.cos(index * 0.75) * 7;
+  const close = open + move;
+  const wick = 3 + Math.abs(move) * 0.35;
+
+  return {
+    date: `T${index + 1}`,
+    open,
+    high: Math.max(open, close) + wick,
+    low: Math.min(open, close) - wick,
+    close,
+    volume: Math.round(48 + Math.abs(move) * 9 + index * 3)
+  };
+});
 
 export function TradingSession() {
   return (
@@ -37,7 +186,7 @@ export function TradingSession() {
       lowKey="low"
       closeKey="close"
       volumeKey="volume"
-      defaultSelectedIndex={5}
+      defaultSelectedIndex={12}
       width={360}
       height={300}
     />
@@ -47,19 +196,19 @@ export function TradingSession() {
 
 ::chart-preview{id="pro-candlebar"}
 
-## Realtime Crypto Inspection
+## Realtime Updates
 
-The crypto trading preview uses the candlestick chart as a controlled inspection
-surface: live ticks update the latest candle, long-press crosshair selection
-drives an OHLCV readout, and chart gestures pause the live loop while the user
-is inspecting historical candles.
+Use realtime updates when the latest interval is still open. Keep the candle
+array in state, replace the active candle as ticks arrive, and append a new
+candle when the interval closes.
 
 ```tsx
 import { useEffect, useMemo, useState } from "react";
 import { Text, View } from "react-native";
-import { CandlestickChart } from "@chart-kit/pro/react-native";
+import { useChartKitTheme } from "react-native-chart-kit/v2";
+import { CandlebarChart } from "@chart-kit/pro";
 
-type CryptoCandle = {
+type Candle = {
   slot: number;
   time: string;
   open: number;
@@ -69,204 +218,207 @@ type CryptoCandle = {
   volume: number;
 };
 
-const liveUpdateMs = 1000;
-const visiblePoints = 42;
-const ticksPerCandle = 12;
+const intervalMs = 1000;
+const visiblePoints = 24;
+const ticksPerCandle = 6;
 
-const baseCandles: CryptoCandle[] = Array.from(
+const seedCandles: Candle[] = Array.from(
   { length: visiblePoints },
   (_, index) => {
-    const open = 68000 + Math.sin(index * 0.7) * 520 + index * 14;
-    const move = Math.cos(index * 0.55) * 280;
+    const open = 180 + Math.sin(index * 0.7) * 5 + index * 0.8;
+    const move = Math.cos(index * 0.55) * 4;
     const close = open + move;
-    const wick = 180 + Math.abs(move) * 0.35;
+    const wick = 2 + Math.abs(move) * 0.4;
 
     return {
       slot: index,
-      time: `${String((7 + Math.floor(index / 4)) % 24).padStart(2, "0")}:${
-        index % 4 === 0 ? "00" : String((index % 4) * 15).padStart(2, "0")
-      }`,
+      time: `T${index + 1}`,
       open,
       high: Math.max(open, close) + wick,
-      low: Math.min(open, close) - wick * 0.8,
+      low: Math.min(open, close) - wick,
       close,
-      volume: Math.round(70 + Math.abs(move) / 16)
+      volume: Math.round(50 + Math.abs(move) * 9)
     };
   }
 );
 
-const formatPrice = (value: number) =>
-  `$${value.toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
+const formatValue = (value: number) => value.toFixed(1);
 
-const formatVolume = (value: number) => `${value.toFixed(0)} BTC`;
-
-const addSyntheticCandle = (
-  candles: CryptoCandle[],
-  sequence: number
-): CryptoCandle[] => {
+const appendCandle = (candles: Candle[], sequence: number): Candle[] => {
   const previous = candles[candles.length - 1]!;
   const open = previous.close;
-  const move = Math.sin(sequence * 0.8) * 260 + Math.cos(sequence * 0.34) * 180;
+  const move = Math.sin(sequence * 0.8) * 4 + Math.cos(sequence * 0.34) * 2;
   const close = open + move;
-  const wick = 150 + Math.abs(move) * 0.28;
+  const wick = 2 + Math.abs(move) * 0.35;
 
   return [
     ...candles,
     {
       slot: sequence,
-      time: `${String((7 + Math.floor(sequence / 4)) % 24).padStart(2, "0")}:${
-        sequence % 4 === 0 ? "00" : String((sequence % 4) * 15).padStart(2, "0")
-      }`,
+      time: `T${sequence + 1}`,
       open,
       high: Math.max(open, close) + wick,
-      low: Math.min(open, close) - wick * 0.75,
+      low: Math.min(open, close) - wick,
       close,
-      volume: Math.round(76 + Math.abs(move) / 18)
+      volume: Math.round(55 + Math.abs(move) * 10)
     }
   ];
 };
 
-const applyLiveTicks = (
-  candle: CryptoCandle,
-  liveTickCount: number,
-  sequence: number
-): CryptoCandle => {
-  const live = { ...candle };
+const updateOpenCandle = (candle: Candle, liveStep: number): Candle => {
+  const move = Math.sin(liveStep * 0.9) * 1.4 + Math.cos(liveStep * 0.35);
+  const close = candle.close + move;
 
-  for (let tick = 0; tick < liveTickCount; tick += 1) {
-    const move =
-      Math.sin((sequence + tick) * 0.9) * 42 +
-      Math.cos((sequence + tick) * 0.35) * 28;
-    const close = live.close + move;
-
-    live.close = close;
-    live.high = Math.max(live.high, close + Math.abs(move) * 0.5);
-    live.low = Math.min(live.low, close - Math.abs(move) * 0.4);
-    live.volume += 2 + Math.abs(move) / 18;
-  }
-
-  return live;
+  return {
+    ...candle,
+    close,
+    high: Math.max(candle.high, close + Math.abs(move) * 0.5),
+    low: Math.min(candle.low, close - Math.abs(move) * 0.5),
+    volume: candle.volume + Math.round(2 + Math.abs(move) * 3)
+  };
 };
 
-const createLiveCandles = (liveStep: number): CryptoCandle[] => {
+const createLiveCandles = (liveStep: number): Candle[] => {
   const closedCandleCount = Math.floor(liveStep / ticksPerCandle);
-  const liveTickCount = liveStep % ticksPerCandle;
-  let candles = baseCandles.map((candle) => ({ ...candle }));
+  let candles = seedCandles.map((candle) => ({ ...candle }));
 
   for (let index = 0; index < closedCandleCount; index += 1) {
-    candles = addSyntheticCandle(candles, visiblePoints + index);
+    candles = appendCandle(candles, visiblePoints + index);
   }
 
-  const last = candles[candles.length - 1];
+  const last = candles[candles.length - 1]!;
+  candles[candles.length - 1] = updateOpenCandle(last, liveStep);
 
-  if (last && liveTickCount > 0) {
-    candles[candles.length - 1] = applyLiveTicks(last, liveTickCount, liveStep);
-  }
-
-  return candles.slice(-visiblePoints).map((candle, slot) => ({
-    ...candle,
-    slot
-  }));
+  return candles.slice(-visiblePoints);
 };
 
-export function LiveCryptoCandles() {
+export function RealtimeCandleUpdates() {
+  const chartTheme = useChartKitTheme();
   const [liveStep, setLiveStep] = useState(0);
-  const [selectedIndex, setSelectedIndex] = useState(visiblePoints - 1);
-  const [isInspecting, setIsInspecting] = useState(false);
 
   useEffect(() => {
-    if (isInspecting) {
-      return undefined;
-    }
-
     const intervalId = setInterval(() => {
       setLiveStep((current) => current + 1);
-    }, liveUpdateMs);
+    }, intervalMs);
 
     return () => clearInterval(intervalId);
-  }, [isInspecting]);
+  }, []);
 
   const candles = useMemo(() => createLiveCandles(liveStep), [liveStep]);
-  const selected = candles[selectedIndex] ?? candles[candles.length - 1]!;
-  const lows = candles.map((candle) => candle.low);
-  const highs = candles.map((candle) => candle.high);
-  const priceLow = Math.min(...lows);
-  const priceHigh = Math.max(...highs);
-  const pricePadding = (priceHigh - priceLow) * 0.08;
-
-  useEffect(() => {
-    if (!isInspecting) {
-      setSelectedIndex(candles.length - 1);
-    }
-  }, [candles.length, isInspecting]);
+  const latest = candles[candles.length - 1]!;
+  const isDark = chartTheme.mode === "dark";
+  const isUp = latest.close >= latest.open;
 
   return (
-    <View>
-      <Text>BTC/USDT</Text>
-      <Text>{formatPrice(candles[candles.length - 1]!.close)}</Text>
-
-      <View>
-        <Text>T {selected.time}</Text>
-        <Text>O {formatPrice(selected.open)}</Text>
-        <Text>H {formatPrice(selected.high)}</Text>
-        <Text>L {formatPrice(selected.low)}</Text>
-        <Text>C {formatPrice(selected.close)}</Text>
-        <Text>V {formatVolume(selected.volume)}</Text>
+    <View style={{ gap: 10, width: 360, maxWidth: "100%" }}>
+      <View
+        style={{
+          width: "100%",
+          borderWidth: 1,
+          borderColor: isDark
+            ? "rgba(216, 230, 255, 0.16)"
+            : "rgba(15, 58, 120, 0.14)",
+          borderStyle: "solid",
+          borderRadius: 8,
+          backgroundColor: isDark ? "#111827" : "#f8fbff",
+          paddingBottom: 6,
+          paddingLeft: 9,
+          paddingRight: 9,
+          paddingTop: 6,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 8
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            minWidth: 0,
+            flexDirection: "row",
+            alignItems: "baseline",
+            gap: 5
+          }}
+        >
+          <Text
+            style={{
+              color: isDark ? "rgba(248, 250, 252, 0.52)" : "#64748b",
+              fontSize: 8,
+              fontWeight: "800",
+              textTransform: "uppercase"
+            }}
+          >
+            Latest close
+          </Text>
+          <Text
+            style={{
+              color: isDark ? "#f8fafc" : "#0f172a",
+              fontSize: 13,
+              fontWeight: "800"
+            }}
+          >
+            {formatValue(latest.close)}
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 4,
+            borderRadius: 999,
+            backgroundColor: isUp
+              ? "rgba(20, 184, 166, 0.14)"
+              : "rgba(244, 63, 94, 0.14)",
+            paddingBottom: 2,
+            paddingLeft: 6,
+            paddingRight: 6,
+            paddingTop: 2
+          }}
+        >
+          <View
+            style={{
+              width: 6,
+              height: 6,
+              borderRadius: 999,
+              backgroundColor: isUp ? "#14b8a6" : "#f43f5e"
+            }}
+          />
+          <Text
+            style={{
+              color: isUp ? "#0f766e" : "#be123c",
+              fontSize: 10,
+              fontWeight: "800",
+              textTransform: "uppercase"
+            }}
+          >
+            Live
+          </Text>
+        </View>
       </View>
-
-      <CandlestickChart
-        accessibilityLabel="BTC USDT live candlestick chart"
-        candleWidthRatio={0.5}
-        closeKey="close"
+      <CandlebarChart
+        accessibilityLabel="Realtime OHLC chart"
         data={candles}
-        downColor="#ff5f57"
-        formatXLabel={(_value, index) => candles[index]?.time ?? ""}
-        formatYLabel={formatPrice}
-        height={280}
-        highKey="high"
-        interaction={{
-          activation: "longPress",
-          deselectOnOutsidePress: true,
-          longPressDelayMs: 160,
-          longPressMoveTolerance: 18,
-          mode: "crosshair",
-          onGestureEnd: () => setIsInspecting(false),
-          onGestureStart: () => setIsInspecting(true),
-          onSelect: (event) => setSelectedIndex(event.dataIndex)
-        }}
-        lowKey="low"
+        dateKey="time"
         openKey="open"
-        rangeSelector={{
-          height: 44,
-          interactive: true,
-          minVisiblePoints: 8
-        }}
-        selectedIndex={selectedIndex}
-        selectionPriceLabel
+        highKey="high"
+        lowKey="low"
+        closeKey="close"
+        volumeKey="volume"
+        formatYLabel={formatValue}
+        height={280}
         showHorizontalGridLines
         showYAxisLabels
-        tooltip={false}
-        upColor="#16c784"
-        volumeHeightRatio={0.18}
-        volumeKey="volume"
         width={360}
-        xKey="slot"
-        yDomain={[priceLow - pricePadding, priceHigh + pricePadding]}
-        yTickCount={4}
-        viewportInteraction={{
-          lockParentScroll: true,
-          maxVisiblePoints: candles.length,
-          minVisiblePoints: 8
-        }}
       />
     </View>
   );
 }
 ```
 
-In production, replace `createLiveCandles()` with your exchange feed, websocket,
-or polling adapter. Keep the selected index controlled when the OHLCV inspector
-lives outside the chart.
+::chart-preview{id="pro-candlebar-realtime"}
+
+In production, replace `createLiveCandles()` with your websocket, stream, or
+polling adapter.
 
 ## Product Use Cases
 

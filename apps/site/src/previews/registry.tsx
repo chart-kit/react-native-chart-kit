@@ -1,4 +1,5 @@
 import React from "react";
+import { Text, View } from "react-native";
 
 import {
   AreaChart,
@@ -32,6 +33,251 @@ import {
   signups,
   supportVolume
 } from "./data";
+
+const formatCandleValue = (value: number) => value.toFixed(1);
+
+const crosshairCandlebarPrices = Array.from({ length: 40 }, (_, index) => {
+  const open = 184 + Math.sin(index * 0.55) * 6 + index * 1.4;
+  const move = Math.cos(index * 0.75) * 7;
+  const close = open + move;
+  const wick = 3 + Math.abs(move) * 0.35;
+
+  return {
+    date: `T${index + 1}`,
+    open,
+    high: Math.max(open, close) + wick,
+    low: Math.min(open, close) - wick,
+    close,
+    volume: Math.round(48 + Math.abs(move) * 9 + index * 3)
+  };
+});
+
+const CandlebarCrosshairPreview = ({
+  mode,
+  width
+}: {
+  mode: "dark" | "light";
+  width: number;
+}) => {
+  const chartWidth = clampChartWidth(width, 540);
+  const [selectedIndex, setSelectedIndex] = React.useState(24);
+  const selected =
+    crosshairCandlebarPrices[selectedIndex] ??
+    crosshairCandlebarPrices[crosshairCandlebarPrices.length - 1]!;
+  const isDark = mode === "dark";
+  const borderColor = isDark
+    ? "rgba(216, 230, 255, 0.16)"
+    : "rgba(15, 58, 120, 0.14)";
+  const metrics = [
+    ["O", formatCandleValue(selected.open)],
+    ["H", formatCandleValue(selected.high)],
+    ["L", formatCandleValue(selected.low)],
+    ["C", formatCandleValue(selected.close)],
+    ["VOL", String(selected.volume)]
+  ] as const;
+
+  return (
+    <View style={{ gap: 12, width: chartWidth }}>
+      <View
+        style={{
+          width: chartWidth,
+          borderWidth: 1,
+          borderColor,
+          borderStyle: "solid",
+          borderRadius: 8,
+          backgroundColor: isDark ? "#111827" : "#f8fbff",
+          paddingBottom: 7,
+          paddingLeft: 9,
+          paddingRight: 9,
+          paddingTop: 7
+        }}
+      >
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "stretch"
+          }}
+        >
+          {metrics.map(([label, value], index) => (
+            <View
+              key={label}
+              style={{
+                flex: 1,
+                minWidth: 0,
+                alignItems: "center",
+                borderLeftColor: borderColor,
+                borderLeftWidth: index === 0 ? 0 : 1,
+                paddingLeft: index === 0 ? 0 : 6
+              }}
+            >
+              <Text
+                style={{
+                  color: isDark ? "rgba(248, 250, 252, 0.48)" : "#64748b",
+                  fontSize: 8,
+                  fontWeight: "800",
+                  marginBottom: 2,
+                  textTransform: "uppercase"
+                }}
+              >
+                {label}
+              </Text>
+              <Text
+                style={{
+                  color: isDark ? "rgba(248, 250, 252, 0.82)" : "#334155",
+                  fontSize: 12,
+                  fontWeight: "800"
+                }}
+              >
+                {value}
+              </Text>
+            </View>
+          ))}
+        </View>
+      </View>
+      <CandlebarChart
+        closeKey="close"
+        data={crosshairCandlebarPrices}
+        dateKey="date"
+        defaultSelectedIndex={24}
+        height={340}
+        highKey="high"
+        interaction={{
+          mode: "crosshair",
+          onSelect: (event) => setSelectedIndex(event.dataIndex)
+        }}
+        lowKey="low"
+        openKey="open"
+        rangeSelector={{
+          visible: true,
+          height: 28,
+          startIndex: 6,
+          endIndex: 35
+        }}
+        selectedIndex={selectedIndex}
+        selectionPriceLabel
+        showHorizontalGridLines
+        showYAxisLabels
+        tooltip={false}
+        volumeKey="volume"
+        width={chartWidth}
+      />
+    </View>
+  );
+};
+
+const CandlebarRealtimePreview = ({
+  mode,
+  width
+}: {
+  mode: "dark" | "light";
+  width: number;
+}) => {
+  const chartWidth = clampChartWidth(width, 540);
+  const latest = candlebarPrices[candlebarPrices.length - 1]!;
+  const isDark = mode === "dark";
+  const isUp = latest.close >= latest.open;
+
+  return (
+    <View style={{ gap: 10, width: chartWidth }}>
+      <View
+        style={{
+          width: "100%",
+          borderWidth: 1,
+          borderColor: isDark
+            ? "rgba(216, 230, 255, 0.16)"
+            : "rgba(15, 58, 120, 0.14)",
+          borderStyle: "solid",
+          borderRadius: 8,
+          backgroundColor: isDark ? "#111827" : "#f8fbff",
+          paddingBottom: 6,
+          paddingLeft: 9,
+          paddingRight: 9,
+          paddingTop: 6,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 8
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            minWidth: 0,
+            flexDirection: "row",
+            alignItems: "baseline",
+            gap: 5
+          }}
+        >
+          <Text
+            style={{
+              color: isDark ? "rgba(248, 250, 252, 0.52)" : "#64748b",
+              fontSize: 8,
+              fontWeight: "800",
+              textTransform: "uppercase"
+            }}
+          >
+            Latest close
+          </Text>
+          <Text
+            style={{
+              color: isDark ? "#f8fafc" : "#0f172a",
+              fontSize: 13,
+              fontWeight: "800"
+            }}
+          >
+            {formatCandleValue(latest.close)}
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 4,
+            borderRadius: 999,
+            backgroundColor: isUp
+              ? "rgba(20, 184, 166, 0.14)"
+              : "rgba(244, 63, 94, 0.14)",
+            paddingBottom: 2,
+            paddingLeft: 6,
+            paddingRight: 6,
+            paddingTop: 2
+          }}
+        >
+          <View
+            style={{
+              width: 6,
+              height: 6,
+              borderRadius: 999,
+              backgroundColor: isUp ? "#14b8a6" : "#f43f5e"
+            }}
+          />
+          <Text
+            style={{
+              color: isUp ? "#0f766e" : "#be123c",
+              fontSize: 10,
+              fontWeight: "800",
+              textTransform: "uppercase"
+            }}
+          >
+            Live
+          </Text>
+        </View>
+      </View>
+      <CandlebarChart
+        closeKey="close"
+        data={candlebarPrices}
+        dateKey="date"
+        defaultSelectedIndex={candlebarPrices.length - 1}
+        height={300}
+        highKey="high"
+        lowKey="low"
+        openKey="open"
+        volumeKey="volume"
+        width={chartWidth}
+      />
+    </View>
+  );
+};
 
 export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
   "line-basic": {
@@ -297,7 +543,7 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
         closeKey="close"
         data={candlebarPrices}
         dateKey="date"
-        defaultSelectedIndex={8}
+        defaultSelectedIndex={12}
         height={300}
         highKey="high"
         lowKey="low"
@@ -305,6 +551,30 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
         volumeKey="volume"
         width={clampChartWidth(width, 540)}
       />
+    )
+  },
+  "pro-candlebar-realtime": {
+    ctaHref: "/#pricing",
+    description:
+      "Replace the active candle as ticks arrive and append completed intervals without rebuilding the chart surface.",
+    eyebrow: "Realtime",
+    id: "pro-candlebar-realtime",
+    tier: "pro",
+    title: "Realtime candle updates",
+    render: ({ mode, width }) => (
+      <CandlebarRealtimePreview mode={mode} width={width} />
+    )
+  },
+  "pro-candlebar-crosshair": {
+    ctaHref: "/#pricing",
+    description:
+      "Use controlled selection and crosshair mode when a selected candle drives an external OHLCV inspector.",
+    eyebrow: "Inspector",
+    id: "pro-candlebar-crosshair",
+    tier: "pro",
+    title: "Crosshair inspector",
+    render: ({ mode, width }) => (
+      <CandlebarCrosshairPreview mode={mode} width={width} />
     )
   },
   "pro-radar": {
@@ -322,9 +592,9 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
         height={330}
         maxValue={100}
         series={[
-          { valueKey: "current", label: "Current", color: "#4f8cff" },
-          { valueKey: "target", label: "Target", color: "#18b7a0" },
-          { valueKey: "industry", label: "Industry", color: "#f59e0b" }
+          { valueKey: "current", label: "Current" },
+          { valueKey: "target", label: "Target" },
+          { valueKey: "industry", label: "Industry" }
         ]}
         width={clampChartWidth(width, 520)}
       />
@@ -344,14 +614,9 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
         defaultSelectedIndex={5}
         height={300}
         series={[
-          { yKey: "revenue", label: "Revenue", type: "bar", color: "#4f8cff" },
-          { yKey: "margin", label: "Margin", type: "bar", color: "#18b7a0" },
-          {
-            yKey: "forecast",
-            label: "Forecast",
-            type: "line",
-            color: "#f59e0b"
-          }
+          { yKey: "revenue", label: "Revenue", type: "bar" },
+          { yKey: "margin", label: "Margin", type: "bar" },
+          { yKey: "forecast", label: "Forecast", type: "line" }
         ]}
         width={clampChartWidth(width, 540)}
         xKey="month"

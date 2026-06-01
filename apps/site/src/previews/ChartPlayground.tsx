@@ -27,6 +27,7 @@ import {
   ProgressChart,
   ProgressRing,
   StackedBarChart,
+  useChartKitTheme,
   type ChartKitThemeMode
 } from "react-native-chart-kit/v2";
 import {
@@ -290,6 +291,8 @@ const previewDataById: Record<string, unknown[]> = {
   "line-multi-series": linePlaygroundData,
   "line-selection": linePlaygroundData,
   "pro-candlebar": candlebarPrices,
+  "pro-candlebar-crosshair": candlebarPrices,
+  "pro-candlebar-realtime": candlebarPrices,
   "pro-combo": comboRevenue,
   "pro-radar": radarBenchmarks
 };
@@ -547,6 +550,7 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
       supportVolume,
       SvgLine,
       Line: SvgLine,
+      useChartKitTheme,
       usageDays: contributionValues,
       useEffect: React.useEffect,
       useMemo: React.useMemo,

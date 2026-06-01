@@ -102,17 +102,29 @@ export const contributionValues = Array.from(
 
 export const candlebarPrices = [
   { date: "09:30", open: 184, high: 196, low: 179, close: 191, volume: 42 },
-  { date: "10:00", open: 191, high: 208, low: 188, close: 202, volume: 68 },
-  { date: "10:30", open: 202, high: 206, low: 185, close: 189, volume: 74 },
-  { date: "11:00", open: 189, high: 215, low: 186, close: 211, volume: 95 },
-  { date: "11:30", open: 211, high: 226, low: 204, close: 219, volume: 88 },
-  { date: "12:00", open: 219, high: 221, low: 198, close: 204, volume: 81 },
-  { date: "12:30", open: 204, high: 232, low: 201, close: 228, volume: 118 },
-  { date: "13:00", open: 228, high: 236, low: 214, close: 217, volume: 101 },
-  { date: "13:30", open: 217, high: 244, low: 216, close: 239, volume: 132 },
-  { date: "14:00", open: 239, high: 248, low: 226, close: 231, volume: 109 },
-  { date: "14:30", open: 231, high: 252, low: 229, close: 247, volume: 124 },
-  { date: "15:00", open: 247, high: 258, low: 236, close: 241, volume: 116 }
+  { date: "09:45", open: 191, high: 201, low: 187, close: 198, volume: 51 },
+  { date: "10:00", open: 198, high: 208, low: 194, close: 202, volume: 68 },
+  { date: "10:15", open: 202, high: 207, low: 192, close: 195, volume: 64 },
+  { date: "10:30", open: 195, high: 206, low: 185, close: 189, volume: 74 },
+  { date: "10:45", open: 189, high: 204, low: 186, close: 201, volume: 82 },
+  { date: "11:00", open: 201, high: 215, low: 198, close: 211, volume: 95 },
+  { date: "11:15", open: 211, high: 218, low: 205, close: 214, volume: 77 },
+  { date: "11:30", open: 214, high: 226, low: 210, close: 219, volume: 88 },
+  { date: "11:45", open: 219, high: 224, low: 207, close: 212, volume: 84 },
+  { date: "12:00", open: 212, high: 221, low: 198, close: 204, volume: 81 },
+  { date: "12:15", open: 204, high: 218, low: 201, close: 216, volume: 92 },
+  { date: "12:30", open: 216, high: 232, low: 213, close: 228, volume: 118 },
+  { date: "12:45", open: 228, high: 234, low: 219, close: 223, volume: 96 },
+  { date: "13:00", open: 223, high: 236, low: 214, close: 217, volume: 101 },
+  { date: "13:15", open: 217, high: 231, low: 216, close: 226, volume: 110 },
+  { date: "13:30", open: 226, high: 244, low: 224, close: 239, volume: 132 },
+  { date: "13:45", open: 239, high: 246, low: 232, close: 236, volume: 107 },
+  { date: "14:00", open: 236, high: 248, low: 226, close: 231, volume: 109 },
+  { date: "14:15", open: 231, high: 242, low: 228, close: 238, volume: 98 },
+  { date: "14:30", open: 238, high: 252, low: 234, close: 247, volume: 124 },
+  { date: "14:45", open: 247, high: 254, low: 240, close: 242, volume: 113 },
+  { date: "15:00", open: 242, high: 258, low: 236, close: 241, volume: 116 },
+  { date: "15:15", open: 241, high: 260, low: 238, close: 252, volume: 128 }
 ];
 
 export const radarBenchmarks = [
