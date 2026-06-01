@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 
 import {
   AreaChart,
@@ -17,6 +17,9 @@ import {
   acquisitionShare,
   candlebarPrices,
   clampChartWidth,
+  comboBookings,
+  comboChannelPlan,
+  comboProfitRecovery,
   comboRevenue,
   contributionEndDate,
   contributionNumDays,
@@ -33,6 +36,7 @@ import {
   signups,
   supportVolume
 } from "./data";
+import { toggleStyles } from "./toggleStyles";
 
 const formatCandleValue = (value: number) => value.toFixed(1);
 
@@ -274,6 +278,119 @@ const CandlebarRealtimePreview = ({
         openKey="open"
         volumeKey="volume"
         width={chartWidth}
+      />
+    </View>
+  );
+};
+
+const getComboToggleItems = (mode: "dark" | "light") => {
+  const series =
+    mode === "dark"
+      ? [
+          { color: "#38bdf8", tint: "rgba(56, 189, 248, 0.12)" },
+          { color: "#a78bfa", tint: "rgba(167, 139, 250, 0.12)" },
+          { color: "#22c55e", tint: "rgba(34, 197, 94, 0.12)" }
+        ]
+      : [
+          { color: "#2563eb", tint: "rgba(37, 99, 235, 0.08)" },
+          { color: "#0891b2", tint: "rgba(8, 145, 178, 0.08)" },
+          { color: "#7c3aed", tint: "rgba(124, 58, 237, 0.08)" }
+        ];
+
+  return [
+    { key: "bar-direct", label: "Direct", ...series[0] },
+    { key: "bar-enterprise", label: "Enterprise", ...series[1] },
+    { key: "line-margin", label: "Margin", ...series[2] }
+  ];
+};
+
+const ComboTogglePreview = ({
+  mode,
+  width
+}: {
+  mode: "dark" | "light";
+  width: number;
+}) => {
+  const chartWidth = clampChartWidth(width, 540);
+  const [visibleSeriesKeys, setVisibleSeriesKeys] = React.useState([
+    "bar-direct",
+    "bar-enterprise",
+    "line-margin"
+  ]);
+  const items = getComboToggleItems(mode);
+
+  return (
+    <View style={{ width: chartWidth }}>
+      <View style={toggleStyles.toggleRow}>
+        {items.map((item) => {
+          const active = visibleSeriesKeys.includes(item.key);
+
+          return (
+            <Pressable
+              key={item.key}
+              accessibilityRole="button"
+              onPress={() => {
+                setVisibleSeriesKeys((currentKeys) => {
+                  const nextKeys = currentKeys.includes(item.key)
+                    ? currentKeys.filter((key) => key !== item.key)
+                    : [...currentKeys, item.key];
+
+                  return nextKeys.length > 0 ? nextKeys : currentKeys;
+                });
+              }}
+              style={[
+                toggleStyles.toggle,
+                mode === "dark"
+                  ? toggleStyles.toggleDark
+                  : toggleStyles.toggleLight,
+                active && {
+                  backgroundColor: item.tint,
+                  borderColor: item.color
+                }
+              ]}
+            >
+              <View
+                style={[
+                  toggleStyles.toggleSwatch,
+                  { backgroundColor: item.color },
+                  !active && toggleStyles.toggleSwatchInactive
+                ]}
+              />
+              <Text
+                style={[
+                  toggleStyles.toggleText,
+                  active
+                    ? mode === "dark"
+                      ? toggleStyles.toggleTextActiveDark
+                      : toggleStyles.toggleTextActiveLight
+                    : mode === "dark"
+                      ? toggleStyles.toggleTextInactiveDark
+                      : toggleStyles.toggleTextInactiveLight
+                ]}
+              >
+                {item.label}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </View>
+      <ComboChart
+        data={comboChannelPlan}
+        formatYLabel={(value) => (value > 40 ? money(value) : percent(value))}
+        height={292}
+        series={[
+          { key: "bar-direct", yKey: "direct", label: "Direct", type: "bar" },
+          {
+            key: "bar-enterprise",
+            yKey: "enterprise",
+            label: "Enterprise",
+            type: "bar"
+          },
+          { key: "line-margin", yKey: "margin", label: "Margin", type: "line" }
+        ]}
+        visibleSeriesKeys={visibleSeriesKeys}
+        width={chartWidth}
+        xKey="month"
       />
     </View>
   );
@@ -612,14 +729,91 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
       <ComboChart
         data={comboRevenue}
         defaultSelectedIndex={5}
+        formatYLabel={money}
         height={300}
         series={[
-          { yKey: "revenue", label: "Revenue", type: "bar" },
-          { yKey: "margin", label: "Margin", type: "bar" },
-          { yKey: "forecast", label: "Forecast", type: "line" }
+          {
+            key: "bar-revenue",
+            yKey: "revenue",
+            label: "Revenue",
+            type: "bar"
+          },
+          { key: "bar-margin", yKey: "margin", label: "Margin", type: "bar" },
+          {
+            key: "line-forecast",
+            yKey: "forecast",
+            label: "Forecast",
+            type: "line"
+          }
         ]}
         width={clampChartWidth(width, 540)}
         xKey="month"
+      />
+    )
+  },
+  "pro-combo-tooltip": {
+    ctaHref: "/#pricing",
+    description:
+      "Open on a meaningful selected period and keep tap inspection anchored to a shared x value.",
+    eyebrow: "Shared tooltip",
+    id: "pro-combo-tooltip",
+    tier: "pro",
+    title: "Pipeline inspection",
+    render: ({ width }) => (
+      <ComboChart
+        data={comboBookings}
+        defaultSelectedIndex={3}
+        formatYLabel={money}
+        height={292}
+        interaction="tap"
+        series={[
+          { key: "bar-booked", yKey: "booked", label: "Booked", type: "bar" },
+          { key: "line-target", yKey: "target", label: "Target", type: "line" }
+        ]}
+        tooltip={{ width: 148 }}
+        width={clampChartWidth(width, 540)}
+        xKey="month"
+      />
+    )
+  },
+  "pro-combo-toggles": {
+    ctaHref: "/#pricing",
+    description:
+      "Let product controls show or hide bar and line series without changing the x-axis context.",
+    eyebrow: "Controls",
+    id: "pro-combo-toggles",
+    tier: "pro",
+    title: "Channel plan toggles",
+    render: ({ mode, width }) => (
+      <ComboTogglePreview mode={mode} width={width} />
+    )
+  },
+  "pro-combo-negative": {
+    ctaHref: "/#pricing",
+    description:
+      "Handle recovery views where bars cross zero while the line keeps the selected period in context.",
+    eyebrow: "Domain",
+    id: "pro-combo-negative",
+    tier: "pro",
+    title: "Profit recovery",
+    render: ({ width }) => (
+      <ComboChart
+        data={comboProfitRecovery}
+        defaultSelectedIndex={4}
+        formatYLabel={signedMoney}
+        height={292}
+        series={[
+          { key: "bar-profit", yKey: "profit", label: "Profit", type: "bar" },
+          {
+            key: "line-cash-flow",
+            yKey: "cashFlow",
+            label: "Cash flow",
+            type: "line"
+          }
+        ]}
+        width={clampChartWidth(width, 540)}
+        xKey="month"
+        yDomain={{ min: "dataMin", max: "dataMax", nice: true }}
       />
     )
   }

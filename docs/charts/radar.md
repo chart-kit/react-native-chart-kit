@@ -9,7 +9,8 @@ description: Compare KPI profiles, benchmarks, and capability scores with Chart 
 fixed set of dimensions. It is useful for product quality, health scores,
 benchmarks, rubric scoring, and portfolio comparison.
 
-This chart is available in Chart Kit Pro.
+This chart is available in Chart Kit Pro. Install it once from
+[Installation](pro-installation.md).
 
 ## Basic Radar
 
@@ -17,12 +18,12 @@ This chart is available in Chart Kit Pro.
 import { RadarChart } from "@chart-kit/pro";
 
 const benchmarks = [
-  { metric: "Speed", current: 82, target: 92, industry: 68 },
-  { metric: "Polish", current: 76, target: 88, industry: 61 },
-  { metric: "A11y", current: 90, target: 94, industry: 72 },
-  { metric: "Depth", current: 68, target: 84, industry: 55 },
-  { metric: "Control", current: 86, target: 91, industry: 65 },
-  { metric: "Export", current: 72, target: 86, industry: 58 }
+  { metric: "Speed", current: 84, target: 76, industry: 68 },
+  { metric: "Polish", current: 69, target: 88, industry: 74 },
+  { metric: "A11y", current: 91, target: 84, industry: 79 },
+  { metric: "Depth", current: 62, target: 82, industry: 70 },
+  { metric: "Control", current: 86, target: 78, industry: 90 },
+  { metric: "Export", current: 58, target: 80, industry: 66 }
 ];
 
 export function QualityRadar() {
@@ -49,14 +50,6 @@ export function QualityRadar() {
 
 Use Radar charts for quality rubrics, health checks, skills matrices, competitor
 benchmarks, feature maturity reports, and product scorecards.
-
-## Install
-
-```sh
-npm install react-native-chart-kit @chart-kit/pro react-native-svg
-```
-
-Access to `@chart-kit/pro` requires a Pro license.
 
 ## Props
 

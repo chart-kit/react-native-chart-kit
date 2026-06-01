@@ -128,12 +128,12 @@ export const candlebarPrices = [
 ];
 
 export const radarBenchmarks = [
-  { metric: "Speed", current: 82, target: 92, industry: 68 },
-  { metric: "Polish", current: 76, target: 88, industry: 61 },
-  { metric: "A11y", current: 90, target: 94, industry: 72 },
-  { metric: "Depth", current: 68, target: 84, industry: 55 },
-  { metric: "Control", current: 86, target: 91, industry: 65 },
-  { metric: "Export", current: 72, target: 86, industry: 58 }
+  { metric: "Speed", current: 84, target: 76, industry: 68 },
+  { metric: "Polish", current: 69, target: 88, industry: 74 },
+  { metric: "A11y", current: 91, target: 84, industry: 79 },
+  { metric: "Depth", current: 62, target: 82, industry: 70 },
+  { metric: "Control", current: 86, target: 78, industry: 90 },
+  { metric: "Export", current: 58, target: 80, industry: 66 }
 ];
 
 export const comboRevenue = [
@@ -145,4 +145,31 @@ export const comboRevenue = [
   { month: "Jun", revenue: 880, forecast: 840, margin: 276 },
   { month: "Jul", revenue: 790, forecast: 920, margin: 244 },
   { month: "Aug", revenue: 1040, forecast: 980, margin: 331 }
+];
+
+export const comboBookings = [
+  { month: "Jan", booked: 118, target: 132 },
+  { month: "Feb", booked: 146, target: 140 },
+  { month: "Mar", booked: 182, target: 168 },
+  { month: "Apr", booked: 208, target: 196 },
+  { month: "May", booked: 236, target: 224 },
+  { month: "Jun", booked: 274, target: 252 }
+];
+
+export const comboChannelPlan = [
+  { month: "Jan", direct: 44, enterprise: 128, margin: 17 },
+  { month: "Feb", direct: 52, enterprise: 154, margin: 19 },
+  { month: "Mar", direct: 58, enterprise: 178, margin: 21 },
+  { month: "Apr", direct: 66, enterprise: 204, margin: 24 },
+  { month: "May", direct: 72, enterprise: 224, margin: 27 },
+  { month: "Jun", direct: 80, enterprise: 252, margin: 30 }
+];
+
+export const comboProfitRecovery = [
+  { month: "Jan", profit: -22, cashFlow: 8 },
+  { month: "Feb", profit: -8, cashFlow: 12 },
+  { month: "Mar", profit: 14, cashFlow: 16 },
+  { month: "Apr", profit: 32, cashFlow: 20 },
+  { month: "May", profit: 48, cashFlow: 24 },
+  { month: "Jun", profit: 38, cashFlow: 22 }
 ];

@@ -88,15 +88,49 @@ type RadarChartProps<TData extends ChartDatum = ChartDatum> =
 
 type ComboSeries = {
   color?: string;
+  key?: string;
   label?: string;
   type: "bar" | "line";
   yKey: string;
 };
 
+type ComboYDomainBoundary = number | "dataMin" | "dataMax";
+
+type ComboYDomain =
+  | [ComboYDomainBoundary, ComboYDomainBoundary]
+  | {
+      max?: ComboYDomainBoundary;
+      min?: ComboYDomainBoundary;
+      nice?: boolean;
+    };
+
 type ComboChartProps<TData extends ChartDatum = ChartDatum> =
   ProChartBaseProps<TData> & {
+    formatYLabel?: (value: number) => string;
+    interaction?:
+      | boolean
+      | "none"
+      | "tap"
+      | {
+          mode?: "none" | "tap";
+          onSelect?: (event: {
+            dataIndex: number;
+            datum: TData;
+            index: number;
+            series: Array<{
+              key: string;
+              label: string;
+              value: number;
+            }>;
+            xLabel: string;
+          }) => void;
+        };
+    selectedIndex?: number;
     series?: ComboSeries[];
+    tooltip?: boolean | { width?: number };
+    visibleSeriesKeys?: string[];
     xKey?: string;
+    yDomain?: ComboYDomain;
   };
 
 const useResolvedProChartTheme = () => {
@@ -135,6 +169,72 @@ const clampIndex = (index: number | undefined, length: number) =>
 
 const clampValue = (value: number, min: number, max: number) =>
   Math.min(Math.max(value, min), max);
+
+const getComboSeriesKey = (item: ComboSeries) =>
+  item.key ?? `${item.type}-${item.yKey}`;
+
+const resolveComboDomainBoundary = ({
+  boundary,
+  dataMax,
+  dataMin,
+  fallback
+}: {
+  boundary: ComboYDomainBoundary | undefined;
+  dataMax: number;
+  dataMin: number;
+  fallback: number;
+}) => {
+  if (boundary === "dataMin") {
+    return dataMin;
+  }
+
+  if (boundary === "dataMax") {
+    return dataMax;
+  }
+
+  return typeof boundary === "number" && Number.isFinite(boundary)
+    ? boundary
+    : fallback;
+};
+
+const resolveComboYDomain = (
+  values: number[],
+  yDomain: ComboYDomain | undefined
+) => {
+  const dataMin = Math.min(0, ...values);
+  const dataMax = Math.max(1, ...values);
+  const minBoundary = Array.isArray(yDomain) ? yDomain[0] : yDomain?.min;
+  const maxBoundary = Array.isArray(yDomain) ? yDomain[1] : yDomain?.max;
+  let min = resolveComboDomainBoundary({
+    boundary: minBoundary,
+    dataMax,
+    dataMin,
+    fallback: dataMin
+  });
+  let max = resolveComboDomainBoundary({
+    boundary: maxBoundary,
+    dataMax,
+    dataMin,
+    fallback: dataMax
+  });
+
+  if (min === max) {
+    min -= 1;
+    max += 1;
+  }
+
+  if (min > max) {
+    [min, max] = [max, min];
+  }
+
+  if (!Array.isArray(yDomain) && yDomain?.nice) {
+    const padding = Math.max(1, (max - min) * 0.08);
+    min -= padding;
+    max += padding;
+  }
+
+  return [min, max] as const;
+};
 
 const linePath = (points: Array<{ x: number; y: number }>) =>
   points
@@ -1199,18 +1299,41 @@ export const RadarChart = <TData extends ChartDatum>({
 export const ComboChart = <TData extends ChartDatum>({
   data,
   defaultSelectedIndex,
+  formatYLabel = (value: number) => String(Math.round(value)),
   height,
+  interaction,
+  selectedIndex: controlledSelectedIndex,
   series = [
     { label: "Revenue", type: "bar", yKey: "revenue" },
     { label: "Forecast", type: "line", yKey: "forecast" }
   ] as ComboSeries[],
+  tooltip = true,
+  visibleSeriesKeys,
   width,
-  xKey = "month"
+  xKey = "month",
+  yDomain
 }: ComboChartProps<TData>) => {
   const theme = useResolvedProChartTheme();
-  const [selectedIndex, setSelectedIndex] = useState(() =>
+  const [gestureSelectedIndex, setGestureSelectedIndex] = useState(() =>
     clampIndex(defaultSelectedIndex, data.length)
   );
+  const interactionConfig =
+    typeof interaction === "object" ? interaction : undefined;
+  const interactionEnabled =
+    interaction !== false &&
+    interaction !== "none" &&
+    interactionConfig?.mode !== "none";
+  const selectedIndex = clampIndex(
+    controlledSelectedIndex ?? gestureSelectedIndex,
+    data.length
+  );
+  const visibleSeries =
+    visibleSeriesKeys && visibleSeriesKeys.length > 0
+      ? series.filter((item) =>
+          visibleSeriesKeys.includes(getComboSeriesKey(item))
+        )
+      : series;
+  const renderedSeries = visibleSeries.length > 0 ? visibleSeries : series;
   const frame = {
     bottom: height - 36,
     left: 42,
@@ -1219,23 +1342,26 @@ export const ComboChart = <TData extends ChartDatum>({
   };
   const plotHeight = frame.bottom - frame.top;
   const values = data.flatMap((row) =>
-    series.map((item) => toNumber(row[item.yKey], 0))
+    renderedSeries.map((item) => toNumber(row[item.yKey], 0))
   );
-  const maxValue = Math.max(1, ...values);
+  const [minValue, maxValue] = resolveComboYDomain(values, yDomain);
+  const domainRange = Math.max(1, maxValue - minValue);
   const step = data.length > 1 ? (frame.right - frame.left) / data.length : 28;
   const y = (value: number) =>
-    frame.top + ((maxValue - value) / maxValue) * plotHeight;
-  const barSeries = series.filter((item) => item.type === "bar");
-  const lineSeries = series.filter((item) => item.type === "line");
+    frame.top + ((maxValue - value) / domainRange) * plotHeight;
+  const zeroY = y(clampValue(0, minValue, maxValue));
+  const barSeries = renderedSeries.filter((item) => item.type === "bar");
+  const lineSeries = renderedSeries.filter((item) => item.type === "line");
   const barWidth = Math.max(10, Math.min(26, step * 0.5));
   const selected = data[selectedIndex];
   const tooltipTitle = selected ? toLabel(selected[xKey]) : "";
   const tooltipRows = selected
-    ? series.slice(0, 3).map((item) => ({
+    ? renderedSeries.slice(0, 3).map((item) => ({
         label: item.label ?? String(item.yKey),
-        value: String(toNumber(selected[item.yKey]))
+        value: formatYLabel(toNumber(selected[item.yKey]))
       }))
     : [];
+  const tooltipConfig = typeof tooltip === "object" ? tooltip : {};
   const tooltipMaxWidth = Math.max(112, width - 16);
   const tooltipLabelWidth = Math.max(
     0,
@@ -1255,7 +1381,7 @@ export const ComboChart = <TData extends ChartDatum>({
   );
   const tooltipWidth = Math.min(
     tooltipMaxWidth,
-    Math.max(128, tooltipContentWidth + 20)
+    tooltipConfig.width ?? Math.max(128, tooltipContentWidth + 20)
   );
   const tooltipHeight = 26 + tooltipRows.length * 15;
   const tooltipX = clampValue(
@@ -1277,6 +1403,31 @@ export const ComboChart = <TData extends ChartDatum>({
       y: y(toNumber(row[item.yKey]))
     }))
   }));
+  const handleSelect = (index: number) => {
+    if (!interactionEnabled) {
+      return;
+    }
+
+    setGestureSelectedIndex(index);
+
+    const datum = data[index];
+
+    if (!datum) {
+      return;
+    }
+
+    interactionConfig?.onSelect?.({
+      dataIndex: index,
+      datum,
+      index,
+      series: renderedSeries.map((item) => ({
+        key: getComboSeriesKey(item),
+        label: item.label ?? String(item.yKey),
+        value: toNumber(datum[item.yKey])
+      })),
+      xLabel: toLabel(datum[xKey])
+    });
+  };
 
   return (
     <View style={chartShellStyle}>
@@ -1305,35 +1456,38 @@ export const ComboChart = <TData extends ChartDatum>({
             />
           );
         })}
+        {minValue < 0 && maxValue > 0 ? (
+          <Line
+            stroke={theme.axis}
+            strokeWidth={1.2}
+            x1={frame.left}
+            x2={frame.right}
+            y1={zeroY}
+            y2={zeroY}
+          />
+        ) : null}
         {data.map((row, index) => {
           const x = frame.left + index * step + step / 2;
 
           return (
             <G key={`${toLabel(row[xKey])}-${index}`}>
-              <Rect
-                fill="transparent"
-                height={height}
-                onPress={() => setSelectedIndex(index)}
-                width={step}
-                x={frame.left + index * step}
-                y={0}
-              />
               {barSeries.map((item, barIndex) => {
                 const value = toNumber(row[item.yKey]);
-                const barHeight = frame.bottom - y(value);
+                const valueY = y(value);
+                const barHeight = Math.abs(zeroY - valueY);
                 const xOffset =
                   x - (barWidth * barSeries.length) / 2 + barIndex * barWidth;
 
                 return (
                   <Rect
-                    key={`${String(item.yKey)}-${index}`}
+                    key={`${getComboSeriesKey(item)}-${index}`}
                     fill={item.color ?? getSeriesColor(theme, barIndex)}
                     fillOpacity={index === selectedIndex ? 1 : 0.68}
                     height={barHeight}
                     rx={4}
                     width={barWidth - 3}
                     x={xOffset}
-                    y={y(value)}
+                    y={Math.min(valueY, zeroY)}
                   />
                 );
               })}
@@ -1352,7 +1506,7 @@ export const ComboChart = <TData extends ChartDatum>({
           );
         })}
         {lineModels.map(({ item, points }, index) => (
-          <G key={`${String(item.yKey)}-${index}`}>
+          <G key={`${getComboSeriesKey(item)}-${index}`}>
             <Path
               d={linePath(points)}
               fill="transparent"
@@ -1365,7 +1519,7 @@ export const ComboChart = <TData extends ChartDatum>({
             />
             {points.map((point, pointIndex) => (
               <Circle
-                key={`${String(item.yKey)}-${pointIndex}`}
+                key={`${getComboSeriesKey(item)}-${pointIndex}`}
                 cx={point.x}
                 cy={point.y}
                 fill={
@@ -1375,6 +1529,17 @@ export const ComboChart = <TData extends ChartDatum>({
               />
             ))}
           </G>
+        ))}
+        {data.map((row, index) => (
+          <Rect
+            key={`hit-${toLabel(row[xKey])}-${index}`}
+            fill="transparent"
+            height={height}
+            onPress={() => handleSelect(index)}
+            width={step}
+            x={frame.left + index * step}
+            y={0}
+          />
         ))}
         {selected ? (
           <G>
@@ -1386,58 +1551,62 @@ export const ComboChart = <TData extends ChartDatum>({
               y1={frame.top}
               y2={frame.bottom}
             />
-            <Rect
-              fill={theme.tooltip.background}
-              height={tooltipHeight}
-              rx={7}
-              stroke={theme.tooltip.border}
-              width={tooltipWidth}
-              x={tooltipX}
-              y={12}
-            />
-            <SvgText
-              fill={theme.tooltip.text}
-              fontSize={11}
-              fontWeight="800"
-              x={tooltipTextX}
-              y={29}
-              {...getFontFamilyProps(theme)}
-            >
-              {fitSvgLabel(tooltipTitle, tooltipWidth - 20, 11)}
-            </SvgText>
-            {tooltipRows.map((row, index) => (
-              <G key={row.label}>
-                <SvgText
-                  fill={theme.tooltip.mutedText}
-                  fontSize={theme.tooltip.labelFontSize}
-                  fontWeight="600"
-                  x={tooltipTextX}
-                  y={44 + index * 15}
-                  {...getFontFamilyProps(theme)}
-                >
-                  {fitSvgLabel(
-                    row.label,
-                    tooltipLabelMaxWidth,
-                    theme.tooltip.labelFontSize
-                  )}
-                </SvgText>
+            {tooltip !== false ? (
+              <G>
+                <Rect
+                  fill={theme.tooltip.background}
+                  height={tooltipHeight}
+                  rx={7}
+                  stroke={theme.tooltip.border}
+                  width={tooltipWidth}
+                  x={tooltipX}
+                  y={12}
+                />
                 <SvgText
                   fill={theme.tooltip.text}
-                  fontSize={theme.tooltip.labelFontSize}
-                  fontWeight="700"
-                  textAnchor="end"
-                  x={tooltipValueX}
-                  y={44 + index * 15}
+                  fontSize={11}
+                  fontWeight="800"
+                  x={tooltipTextX}
+                  y={29}
                   {...getFontFamilyProps(theme)}
                 >
-                  {fitSvgLabel(
-                    row.value,
-                    Math.max(28, tooltipValueWidth),
-                    theme.tooltip.labelFontSize
-                  )}
+                  {fitSvgLabel(tooltipTitle, tooltipWidth - 20, 11)}
                 </SvgText>
+                {tooltipRows.map((row, index) => (
+                  <G key={row.label}>
+                    <SvgText
+                      fill={theme.tooltip.mutedText}
+                      fontSize={theme.tooltip.labelFontSize}
+                      fontWeight="600"
+                      x={tooltipTextX}
+                      y={44 + index * 15}
+                      {...getFontFamilyProps(theme)}
+                    >
+                      {fitSvgLabel(
+                        row.label,
+                        tooltipLabelMaxWidth,
+                        theme.tooltip.labelFontSize
+                      )}
+                    </SvgText>
+                    <SvgText
+                      fill={theme.tooltip.text}
+                      fontSize={theme.tooltip.labelFontSize}
+                      fontWeight="700"
+                      textAnchor="end"
+                      x={tooltipValueX}
+                      y={44 + index * 15}
+                      {...getFontFamilyProps(theme)}
+                    >
+                      {fitSvgLabel(
+                        row.value,
+                        Math.max(28, tooltipValueWidth),
+                        theme.tooltip.labelFontSize
+                      )}
+                    </SvgText>
+                  </G>
+                ))}
               </G>
-            ))}
+            ) : null}
           </G>
         ) : null}
       </Svg>

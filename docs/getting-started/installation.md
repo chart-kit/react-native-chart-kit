@@ -6,7 +6,8 @@ description: Install React Native Chart Kit and render a first chart.
 # Quickstart
 
 Install the public package in your React Native app. Do not install
-`@chart-kit/*` packages directly; those are repo-internal workspaces.
+`@chart-kit/*` packages directly unless you are installing the licensed
+`@chart-kit/pro` package.
 
 ## React Native CLI
 
@@ -65,3 +66,5 @@ export function RevenueChart() {
 ```
 
 The root import remains the legacy-compatible surface for existing screens.
+
+For Pro charts, see [Pro chart installation](../charts/pro-installation.md).

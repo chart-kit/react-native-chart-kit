@@ -66,3 +66,5 @@ if (document.readyState === "loading") {
 } else {
   scan();
 }
+
+document.addEventListener("astro:page-load", scan);

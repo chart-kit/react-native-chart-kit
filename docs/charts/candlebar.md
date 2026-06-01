@@ -9,7 +9,8 @@ description: Build OHLC and volume charts with realtime updates and controlled i
 bodies, high/low wicks, volume context, and selection-ready hit targets in one
 mobile chart surface.
 
-This chart is available in Chart Kit Pro.
+This chart is available in Chart Kit Pro. Install it once from
+[Installation](pro-installation.md).
 
 ## Crosshair Inspector
 
@@ -425,16 +426,6 @@ polling adapter.
 Use Candlebar charts for stocks, crypto, commodities, FX, embedded broker
 flows, portfolio analytics, and any screen where users need to inspect price
 movement without leaving the mobile app.
-
-## Install
-
-Pro charts are distributed separately from the free package:
-
-```sh
-npm install react-native-chart-kit @chart-kit/pro react-native-svg
-```
-
-Access to `@chart-kit/pro` requires a Pro license.
 
 ## Props
 

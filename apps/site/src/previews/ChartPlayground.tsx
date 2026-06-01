@@ -6,7 +6,7 @@ import React, {
   useRef,
   useState
 } from "react";
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import {
   LiveContext,
   LiveEditor,
@@ -509,6 +509,7 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
       G,
       LineChart,
       PieChart,
+      Pressable,
       ProgressChart,
       ProgressRing,
       RadarChart,

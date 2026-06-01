@@ -33,6 +33,7 @@ which requires a Pro license.
 
 ## Pro Charts
 
+- [Installation](charts/pro-installation.md)
 - [Candlebar](charts/candlebar.md)
 - [Radar](charts/radar.md)
 - [Combo](charts/combo.md)
