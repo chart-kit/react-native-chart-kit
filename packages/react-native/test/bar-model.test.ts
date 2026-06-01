@@ -51,7 +51,7 @@ describe("BarChart model", () => {
     const model = buildBarChartModel({
       chartKitTheme: {
         ...chartKitTheme,
-        preset: "minimal"
+        preset: "graphite"
       },
       data: [
         { month: "Jan", organic: 42, paid: 28 },

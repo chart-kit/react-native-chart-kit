@@ -22,7 +22,7 @@ describe("ContributionGraph model", () => {
         numDays: 7,
         width: 320,
         height: 150,
-        preset: "analytics"
+        preset: "spectrum"
       }
     });
 
@@ -41,7 +41,7 @@ describe("ContributionGraph model", () => {
     const model = buildContributionGraphModel({
       chartKitTheme: {
         ...chartKitTheme,
-        preset: "minimal"
+        preset: "graphite"
       },
       props: {
         values: [

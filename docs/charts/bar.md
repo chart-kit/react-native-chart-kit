@@ -61,7 +61,7 @@ const data = [
     { yKey: "organic", label: "Organic" },
     { yKey: "paid", label: "Paid" }
   ]}
-  preset="analytics"
+  preset="spectrum"
   showValuesOnTopOfBars
   width={360}
   height={260}
@@ -95,7 +95,7 @@ const profit = [
   data={profit}
   xKey="month"
   yKey="profit"
-  preset="fintech"
+  preset="aurora"
   showValuesOnTopOfBars
   formatYLabel={(value) => (value < 0 ? `-$${Math.abs(value)}k` : `$${value}k`)}
   width={360}

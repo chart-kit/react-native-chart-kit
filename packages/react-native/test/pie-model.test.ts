@@ -43,7 +43,7 @@ describe("PieChart model", () => {
     const model = buildPieChartModel({
       chartKitTheme: {
         ...chartKitTheme,
-        preset: "minimal"
+        preset: "graphite"
       },
       props: {
         data: [

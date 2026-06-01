@@ -58,7 +58,7 @@ export function RevenueChart() {
       yKey="revenue"
       width={360}
       height={240}
-      preset="analytics"
+      preset="spectrum"
     />
   );
 }

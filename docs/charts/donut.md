@@ -27,7 +27,7 @@ const revenueMix = [
   labelKey="plan"
   width={360}
   height={260}
-  preset="fintech"
+  preset="aurora"
 />;
 ```
 

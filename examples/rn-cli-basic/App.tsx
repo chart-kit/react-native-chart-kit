@@ -28,7 +28,7 @@ const chartWidth = 340;
 export default function App() {
   return (
     <View style={styles.root}>
-      <ChartKitProvider mode="system" preset="analytics">
+      <ChartKitProvider mode="system" preset="spectrum">
         <ScrollView contentContainerStyle={styles.content}>
           <Text style={styles.kicker}>React Native CLI</Text>
           <Text style={styles.title}>Chart Kit v2</Text>

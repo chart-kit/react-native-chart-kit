@@ -81,14 +81,14 @@ export type CartesianChartPresetInput =
 
 export type CartesianChartPresetName =
   | "default"
-  | "analytics"
-  | "fintech"
-  | "health"
-  | "ios"
+  | "spectrum"
+  | "aurora"
+  | "verdant"
+  | "cupertino"
   | "material"
-  | "minimal"
-  | "highContrast"
-  | "darkFintech";
+  | "graphite"
+  | "contrast"
+  | "midnight";
 
 export type CartesianChartPresetValue =
   | CartesianChartPresetName
@@ -169,7 +169,7 @@ export const builtInCartesianChartPresets: Record<
     light: defaultLightTheme,
     dark: defaultDarkTheme
   },
-  analytics: {
+  spectrum: {
     light: {
       background: "#ffffff",
       plotBackground: "#ffffff",
@@ -191,7 +191,7 @@ export const builtInCartesianChartPresets: Record<
       typography: defaultCartesianChartTypography
     }
   },
-  fintech: {
+  aurora: {
     light: {
       background: "#f8fbff",
       plotBackground: "#ffffff",
@@ -213,7 +213,7 @@ export const builtInCartesianChartPresets: Record<
       typography: defaultCartesianChartTypography
     }
   },
-  health: {
+  verdant: {
     light: {
       background: "#fbfefc",
       plotBackground: "#ffffff",
@@ -235,7 +235,7 @@ export const builtInCartesianChartPresets: Record<
       typography: defaultCartesianChartTypography
     }
   },
-  ios: {
+  cupertino: {
     light: {
       background: "#f9f9fb",
       plotBackground: "#ffffff",
@@ -279,7 +279,7 @@ export const builtInCartesianChartPresets: Record<
       typography: defaultCartesianChartTypography
     }
   },
-  minimal: {
+  graphite: {
     light: {
       background: "#ffffff",
       plotBackground: "#ffffff",
@@ -301,7 +301,7 @@ export const builtInCartesianChartPresets: Record<
       typography: defaultCartesianChartTypography
     }
   },
-  highContrast: {
+  contrast: {
     light: {
       background: "#ffffff",
       plotBackground: "#ffffff",
@@ -329,7 +329,7 @@ export const builtInCartesianChartPresets: Record<
       }
     }
   },
-  darkFintech: {
+  midnight: {
     light: {
       background: "#f6f8fb",
       plotBackground: "#ffffff",
@@ -353,14 +353,6 @@ export const builtInCartesianChartPresets: Record<
   }
 };
 
-const builtInCartesianChartPresetAliases: Record<
-  string,
-  CartesianChartPresetName
-> = {
-  "dark-fintech": "darkFintech",
-  "high-contrast": "highContrast"
-};
-
 export const createChartPreset = (
   preset: CartesianChartPresetInput
 ): CartesianChartPresetInput => preset;
@@ -380,9 +372,7 @@ const getPresetTheme = ({
 }) => {
   const presetInput =
     typeof preset === "string"
-      ? (registry[preset] ??
-        registry[builtInCartesianChartPresetAliases[preset] ?? preset] ??
-        builtInCartesianChartPresets.default)
+      ? (registry[preset] ?? builtInCartesianChartPresets.default)
       : preset;
 
   if (!presetInput) {

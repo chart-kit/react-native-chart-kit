@@ -57,7 +57,7 @@ Tooltips are rendered in an overlay above chart content and shifted into the vis
 Themes flow from `ChartKitProvider`, but per-chart `theme`, `preset`, or explicit series colors win over provider values.
 
 ```tsx
-<ChartKitProvider mode="dark" preset="fintech">
+<ChartKitProvider mode="dark" preset="aurora">
   <Dashboard />
 </ChartKitProvider>
 ```

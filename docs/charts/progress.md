@@ -25,7 +25,7 @@ const data = [
   colorKey="color"
   width={320}
   height={260}
-  preset="health"
+  preset="verdant"
   centerLabel={({ average }) => `${Math.round(average * 100)}%`}
 />;
 ```

@@ -10,7 +10,7 @@ describe("Cartesian chart theme presets", () => {
     expect(
       resolveCartesianChartThemeConfig({
         mode: "dark",
-        preset: "fintech"
+        preset: "aurora"
       })
     ).toMatchObject({
       background: "#020617",
@@ -26,7 +26,7 @@ describe("Cartesian chart theme presets", () => {
     expect(
       resolveCartesianChartThemeConfig({
         mode: "light",
-        preset: "health"
+        preset: "verdant"
       })
     ).toMatchObject({
       background: "#fbfefc",
@@ -42,7 +42,7 @@ describe("Cartesian chart theme presets", () => {
     expect(
       resolveCartesianChartThemeConfig({
         mode: "light",
-        preset: "ios"
+        preset: "cupertino"
       })
     ).toMatchObject({
       background: "#f9f9fb",
@@ -66,7 +66,7 @@ describe("Cartesian chart theme presets", () => {
     expect(
       resolveCartesianChartThemeConfig({
         mode: "dark",
-        preset: "dark-fintech"
+        preset: "midnight"
       })
     ).toMatchObject({
       background: "#020617",
@@ -77,7 +77,7 @@ describe("Cartesian chart theme presets", () => {
     expect(
       resolveCartesianChartThemeConfig({
         mode: "light",
-        preset: "high-contrast"
+        preset: "contrast"
       })
     ).toMatchObject({
       background: "#ffffff",
@@ -151,7 +151,7 @@ describe("Cartesian chart theme presets", () => {
     expect(
       resolveCartesianChartThemeConfig({
         mode: "light",
-        preset: "analytics",
+        preset: "spectrum",
         theme: {
           series: ["#111111"],
           tooltip: {
@@ -181,5 +181,19 @@ describe("Cartesian chart theme presets", () => {
         legendLabelSize: 11
       }
     });
+  });
+
+  it("falls back to default for removed alpha preset names", () => {
+    for (const preset of ["analytics", "dark-fintech", "high-contrast"]) {
+      expect(
+        resolveCartesianChartThemeConfig({
+          mode: "light",
+          preset
+        })
+      ).toMatchObject({
+        background: "#ffffff",
+        series: ["#2563eb", "#0891b2", "#7c3aed", "#16a34a"]
+      });
+    }
   });
 });

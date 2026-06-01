@@ -49,7 +49,7 @@ describe("ProgressChart model", () => {
     const model = buildProgressChartModel({
       chartKitTheme: {
         ...chartKitTheme,
-        preset: "minimal"
+        preset: "graphite"
       },
       props: {
         data: [

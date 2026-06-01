@@ -1,13 +1,13 @@
 export type ChartThemePreset =
   | "default"
-  | "analytics"
-  | "fintech"
-  | "health"
-  | "ios"
+  | "spectrum"
+  | "aurora"
+  | "verdant"
+  | "cupertino"
   | "material"
-  | "minimal"
-  | "highContrast"
-  | "darkFintech"
+  | "graphite"
+  | "contrast"
+  | "midnight"
   | "studio";
 
 export const chartThemeStorageKey = "chartkit-chart-theme";
@@ -17,15 +17,15 @@ export const chartThemeOptions: Array<{
   label: string;
   value: ChartThemePreset;
 }> = [
-  { label: "Default", value: "default" },
-  { label: "Analytics", value: "analytics" },
-  { label: "Fintech", value: "fintech" },
-  { label: "Health", value: "health" },
-  { label: "iOS", value: "ios" },
+  { label: "Base", value: "default" },
+  { label: "Spectrum", value: "spectrum" },
+  { label: "Aurora", value: "aurora" },
+  { label: "Verdant", value: "verdant" },
+  { label: "Cupertino", value: "cupertino" },
   { label: "Material", value: "material" },
-  { label: "Minimal", value: "minimal" },
-  { label: "High contrast", value: "highContrast" },
-  { label: "Dark fintech", value: "darkFintech" },
+  { label: "Graphite", value: "graphite" },
+  { label: "Contrast", value: "contrast" },
+  { label: "Midnight", value: "midnight" },
   { label: "Studio", value: "studio" }
 ];
 
@@ -34,12 +34,28 @@ export const isChartThemePreset = (
 ): value is ChartThemePreset =>
   chartThemeOptions.some((option) => option.value === value);
 
+export const normalizeChartThemePreset = (
+  value: string | null | undefined
+): ChartThemePreset | null => {
+  if (!value) {
+    return null;
+  }
+
+  if (isChartThemePreset(value)) {
+    return value;
+  }
+
+  return null;
+};
+
 export const getCurrentChartThemePreset = (): ChartThemePreset => {
   if (typeof document !== "undefined") {
     const documentTheme = document.documentElement.dataset.chartTheme;
 
-    if (isChartThemePreset(documentTheme)) {
-      return documentTheme;
+    const normalizedDocumentTheme = normalizeChartThemePreset(documentTheme);
+
+    if (normalizedDocumentTheme) {
+      return normalizedDocumentTheme;
     }
   }
 
@@ -47,8 +63,10 @@ export const getCurrentChartThemePreset = (): ChartThemePreset => {
     try {
       const storedTheme = localStorage.getItem(chartThemeStorageKey);
 
-      if (isChartThemePreset(storedTheme)) {
-        return storedTheme;
+      const normalizedStoredTheme = normalizeChartThemePreset(storedTheme);
+
+      if (normalizedStoredTheme) {
+        return normalizedStoredTheme;
       }
     } catch {
       // Storage can be blocked in restricted browser contexts.
