@@ -73,7 +73,7 @@ export default defineConfig({
   integrations: [
     react(),
     starlight({
-      title: "React Native Chart Kit",
+      title: "chartkit.io",
       description:
         "Composable React Native charts with SVG defaults, interaction primitives, and migration-friendly APIs.",
       components: {

@@ -87,22 +87,13 @@ body {
 }
 
 .site-title::before {
-  display: grid;
+  display: block;
   width: 2rem;
   height: 2rem;
   flex: 0 0 auto;
-  place-items: center;
   border-radius: 0.5rem;
-  background: #ffffff;
-  color: #05060a;
-  content: "CK";
-  font-size: 0.82rem;
-  font-weight: 800;
-}
-
-:root[data-theme="light"] .site-title::before {
-  background: #071733;
-  color: #ffffff;
+  background: url("/images/logo.png") center / contain no-repeat;
+  content: "";
 }
 
 button[data-open-modal] {
