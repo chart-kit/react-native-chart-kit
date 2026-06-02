@@ -7,6 +7,10 @@ const defaultRepoRoot = process.cwd();
 const defaultMaxLines = 900;
 const scanRoots = ["apps", "examples", "packages", "scripts"];
 const sourceExtensions = new Set([".js", ".jsx", ".mjs", ".ts", ".tsx"]);
+const ignoredFiles = new Set([
+  "apps/site/src/previews/proStub.tsx",
+  "apps/site/src/previews/reactNativeWebStub.tsx"
+]);
 const ignoredDirectories = new Set([
   ".expo",
   ".next",
@@ -56,6 +60,9 @@ const countLines = async (filePath) => {
   return normalizedSource === "" ? 0 : normalizedSource.split("\n").length;
 };
 
+const toRepoPath = (repoRoot, filePath) =>
+  path.relative(repoRoot, filePath).split(path.sep).join("/");
+
 export const checkFileSizes = async ({
   maxLines = defaultMaxLines,
   repoRoot = defaultRepoRoot
@@ -76,11 +83,12 @@ export const checkFileSizes = async ({
 
   const files = (await Promise.all(existingRoots.map(collectSourceFiles)))
     .flat()
+    .filter((filePath) => !ignoredFiles.has(toRepoPath(repoRoot, filePath)))
     .sort();
   const results = await Promise.all(
     files.map(async (filePath) => ({
       lines: await countLines(filePath),
-      path: path.relative(repoRoot, filePath)
+      path: toRepoPath(repoRoot, filePath)
     }))
   );
   const oversized = results

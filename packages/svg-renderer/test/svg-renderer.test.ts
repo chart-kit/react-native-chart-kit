@@ -131,6 +131,7 @@ describe("SVG renderer helpers", () => {
       "data",
       "referenceLines",
       "markers",
+      "referenceLabels",
       "overlays",
       "interaction",
       "debug"
