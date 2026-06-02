@@ -26,21 +26,12 @@ const svgTransformParserStub = localSource(
   "./src/previews/svgTransformParserStub.ts"
 );
 const viteCacheDir = process.env.CHART_KIT_SITE_VITE_CACHE_DIR;
-const useProDocsStubs = process.env.CHART_KIT_PRO_DOCS_STUBS === "true";
-const chartKitProAliases = useProDocsStubs
-  ? [
-      {
-        find: /^@chart-kit\/pro$/,
-        replacement: localSource("./src/previews/proStub.tsx")
-      }
-    ]
-  : [];
 
 const chartKitProAvailabilityCheck = () => ({
   name: "chart-kit-pro-availability-check",
   enforce: "pre",
   async resolveId(source, importer, options) {
-    if (source !== "@chart-kit/pro" || useProDocsStubs) {
+    if (source !== "@chart-kit/pro") {
       return;
     }
 
@@ -51,7 +42,7 @@ const chartKitProAvailabilityCheck = () => ({
 
     if (!resolved) {
       this.error(
-        "Unable to resolve @chart-kit/pro. Install the private Pro package or set CHART_KIT_PRO_DOCS_STUBS=true for an explicit stub-only local docs run."
+        "Unable to resolve @chart-kit/pro. Install the Pro package before building Pro docs."
       );
     }
   }
@@ -194,7 +185,6 @@ export default defineConfig({
           find: /^@chart-kit\/svg-renderer$/,
           replacement: packageSource("svg-renderer/src/index.ts")
         },
-        ...chartKitProAliases,
         {
           find: /^react-native$/,
           replacement: reactNativeWebStub

@@ -24,6 +24,19 @@ jobs:
       - name: Install dependencies
         run: npm ci --ignore-scripts
 
+      - name: Install Pro docs package
+        env:
+          CHART_KIT_PRO_NPM_TOKEN: ${{ secrets.CHART_KIT_PRO_NPM_TOKEN }}
+        run: |
+          if [ -z "$CHART_KIT_PRO_NPM_TOKEN" ]; then
+            echo "Skipping Pro docs package install because CHART_KIT_PRO_NPM_TOKEN is unavailable."
+            echo "CHART_KIT_PRO_DOCS_READY=false" >> "$GITHUB_ENV"
+            exit 0
+          fi
+          npm config set //registry.npmjs.org/:_authToken "$CHART_KIT_PRO_NPM_TOKEN"
+          npm install --no-save --package-lock=false --ignore-scripts @chart-kit/pro
+          echo "CHART_KIT_PRO_DOCS_READY=true" >> "$GITHUB_ENV"
+
       - name: Lint
         run: npm run lint
 
@@ -40,6 +53,7 @@ jobs:
         run: npm run surface:check
 
       - name: Docs
+        if: env.CHART_KIT_PRO_DOCS_READY == 'true'
         run: npm run docs:build
 
       - name: React Native CLI example

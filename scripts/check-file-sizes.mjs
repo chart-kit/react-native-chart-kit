@@ -8,7 +8,6 @@ const defaultMaxLines = 900;
 const scanRoots = ["apps", "examples", "packages", "scripts"];
 const sourceExtensions = new Set([".js", ".jsx", ".mjs", ".ts", ".tsx"]);
 const ignoredFiles = new Set([
-  "apps/site/src/previews/proStub.tsx",
   "apps/site/src/previews/reactNativeWebStub.tsx"
 ]);
 const ignoredDirectories = new Set([

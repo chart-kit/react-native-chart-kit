@@ -59,6 +59,17 @@ jobs:
       - name: Install dependencies
         run: npm ci --ignore-scripts
 
+      - name: Install Pro docs package
+        env:
+          CHART_KIT_PRO_NPM_TOKEN: ${{ secrets.CHART_KIT_PRO_NPM_TOKEN }}
+        run: |
+          if [ -z "$CHART_KIT_PRO_NPM_TOKEN" ]; then
+            echo "CHART_KIT_PRO_NPM_TOKEN is required to validate Pro docs without local stubs." >&2
+            exit 1
+          fi
+          npm config set //registry.npmjs.org/:_authToken "$CHART_KIT_PRO_NPM_TOKEN"
+          npm install --no-save --package-lock=false --ignore-scripts @chart-kit/pro
+
       - name: Build
         run: npm run build
 
@@ -79,8 +90,6 @@ jobs:
 
       - name: Docs
         run: npm run docs:build
-        env:
-          CHART_KIT_PRO_DOCS_STUBS: "true"
 
       - name: React Native CLI example
         run: npm run example:rn-cli:typecheck
