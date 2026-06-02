@@ -57,7 +57,7 @@ export function RevenueChart() {
       data={data}
       xKey="month"
       yKey="revenue"
-      width={360}
+      width={410}
       height={240}
     />
   );

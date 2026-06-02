@@ -39,7 +39,7 @@ Use this for investing, crypto, bank wealth, or subscription analytics history s
   }}
   yAxisLabelWidth="stable"
   formatYLabel={(value) => `$${Math.round(value / 1000)}k`}
-  width={360}
+  width={410}
   height={360}
 />
 ```
@@ -64,7 +64,7 @@ Use this for paid acquisition, product analytics, revenue cohorts, or marketplac
   interaction={{ mode: "tap", deselectOnOutsidePress: true }}
   tooltip={{ anchor: "pointer", placement: "above", width: 132 }}
   selectionAnimation={{ duration: 220 }}
-  width={360}
+  width={410}
   height={280}
 />
 ```
@@ -84,7 +84,7 @@ Use this for subscription plan mix, revenue split, usage allocation, or spend ca
   centerLabel={({ total }) => `$${Math.round(total / 1000)}k`}
   activeSlice={{ inactiveOpacity: 0.36, strokeWidth: 4 }}
   interaction={{ mode: "tap" }}
-  width={360}
+  width={410}
   height={260}
 />
 ```
@@ -102,7 +102,7 @@ Use this for habit tracking, GitHub-style activity, product usage streaks, or he
   numDays={154}
   weekStartsOn={1}
   onDayPress={(event) => setSelectedDay(event)}
-  width={360}
+  width={410}
   height={190}
 />
 ```

@@ -16,6 +16,8 @@ import type { ChartPreviewExample } from "./examples";
 import {
   acquisitionShare,
   candlebarPrices,
+  chartPreviewPaddingX,
+  chartPreviewPaddingY,
   clampChartWidth,
   comboBookings,
   comboChannelPlan,
@@ -63,7 +65,7 @@ const CandlebarCrosshairPreview = ({
   mode: "dark" | "light";
   width: number;
 }) => {
-  const chartWidth = clampChartWidth(width, 540);
+  const chartWidth = clampChartWidth(width);
   const [selectedIndex, setSelectedIndex] = React.useState(24);
   const selected =
     crosshairCandlebarPrices[selectedIndex] ??
@@ -90,10 +92,10 @@ const CandlebarCrosshairPreview = ({
           borderStyle: "solid",
           borderRadius: 8,
           backgroundColor: isDark ? "#111827" : "#f8fbff",
-          paddingBottom: 7,
-          paddingLeft: 9,
-          paddingRight: 9,
-          paddingTop: 7
+          paddingBottom: chartPreviewPaddingY,
+          paddingLeft: chartPreviewPaddingX,
+          paddingRight: chartPreviewPaddingX,
+          paddingTop: chartPreviewPaddingY
         }}
       >
         <View
@@ -176,7 +178,7 @@ const CandlebarRealtimePreview = ({
   mode: "dark" | "light";
   width: number;
 }) => {
-  const chartWidth = clampChartWidth(width, 540);
+  const chartWidth = clampChartWidth(width);
   const latest = candlebarPrices[candlebarPrices.length - 1]!;
   const isDark = mode === "dark";
   const isUp = latest.close >= latest.open;
@@ -193,10 +195,10 @@ const CandlebarRealtimePreview = ({
           borderStyle: "solid",
           borderRadius: 8,
           backgroundColor: isDark ? "#111827" : "#f8fbff",
-          paddingBottom: 6,
-          paddingLeft: 9,
-          paddingRight: 9,
-          paddingTop: 6,
+          paddingBottom: chartPreviewPaddingY,
+          paddingLeft: chartPreviewPaddingX,
+          paddingRight: chartPreviewPaddingX,
+          paddingTop: chartPreviewPaddingY,
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
@@ -311,7 +313,7 @@ const ComboTogglePreview = ({
   mode: "dark" | "light";
   width: number;
 }) => {
-  const chartWidth = clampChartWidth(width, 540);
+  const chartWidth = clampChartWidth(width);
   const [visibleSeriesKeys, setVisibleSeriesKeys] = React.useState([
     "bar-direct",
     "bar-enterprise",
@@ -564,6 +566,7 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
         height={260}
         labelKey="channel"
         legend={{ maxItemWidth: "45%", reservedHeight: 72 }}
+        sliceSeparator
         valueKey="value"
         width={clampChartWidth(width)}
       />
@@ -580,6 +583,7 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
         height={260}
         labelKey="label"
         legend={{ maxItemWidth: "45%", reservedHeight: 64 }}
+        sliceSeparator={{ width: 2 }}
         valueKey="value"
         width={clampChartWidth(width)}
       />
@@ -596,7 +600,7 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
         height={260}
         labelKey="label"
         valueKey="value"
-        width={clampChartWidth(width, 360)}
+        width={clampChartWidth(width)}
       />
     )
   },
@@ -611,7 +615,7 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
         height={240}
         labelKey="label"
         valueKey="value"
-        width={clampChartWidth(width, 340)}
+        width={clampChartWidth(width)}
       />
     )
   },
@@ -663,7 +667,7 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
         lowKey="low"
         openKey="open"
         volumeKey="volume"
-        width={clampChartWidth(width, 540)}
+        width={clampChartWidth(width)}
       />
     )
   },
@@ -710,7 +714,7 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
           { valueKey: "target", label: "Target" },
           { valueKey: "industry", label: "Industry" }
         ]}
-        width={clampChartWidth(width, 520)}
+        width={clampChartWidth(width)}
       />
     )
   },
@@ -743,7 +747,7 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
             type: "line"
           }
         ]}
-        width={clampChartWidth(width, 540)}
+        width={clampChartWidth(width)}
         xKey="month"
       />
     )
@@ -768,7 +772,7 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
           { key: "line-target", yKey: "target", label: "Target", type: "line" }
         ]}
         tooltip={{ width: 148 }}
-        width={clampChartWidth(width, 540)}
+        width={clampChartWidth(width)}
         xKey="month"
       />
     )
@@ -808,7 +812,7 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
             type: "line"
           }
         ]}
-        width={clampChartWidth(width, 540)}
+        width={clampChartWidth(width)}
         xKey="month"
         yDomain={{ min: "dataMin", max: "dataMax", nice: true }}
       />

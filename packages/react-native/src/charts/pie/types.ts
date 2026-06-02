@@ -47,6 +47,20 @@ export type PieChartActiveSliceConfig = {
   activeScale?: number;
 };
 
+export type PieChartSliceSeparatorConfig = {
+  visible?: boolean;
+  color?: string;
+  opacity?: number;
+  width?: number;
+};
+
+export type ResolvedPieChartSliceSeparatorConfig = {
+  visible: boolean;
+  color: string;
+  opacity: number;
+  width: number;
+};
+
 export type PieChartSelectionAnimationConfig = {
   duration?: number;
 };
@@ -113,6 +127,7 @@ export type PieChartProps<TData extends Record<string, unknown>> = {
   innerRadiusRatio?: number;
   legend?: boolean | PieChartLegendConfig<TData>;
   arcLabels?: boolean | PieChartArcLabelsConfig<TData>;
+  sliceSeparator?: boolean | PieChartSliceSeparatorConfig;
   selectedIndex?: number;
   defaultSelectedIndex?: number;
   activeSlice?: PieChartActiveSliceConfig;
@@ -174,5 +189,6 @@ export type PieChartModel<TData = unknown> = {
   legendVisible: boolean;
   radius: number;
   resolvedTheme: ResolvedCartesianChartTheme;
+  sliceSeparator: ResolvedPieChartSliceSeparatorConfig;
   total: number;
 };

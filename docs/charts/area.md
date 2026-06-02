@@ -30,7 +30,7 @@ export function PipelineChart() {
       xKey="date"
       yKey="price"
       curve="monotone"
-      width={360}
+      width={410}
       height={240}
     />
   );
@@ -61,7 +61,7 @@ const data = [
   xKey="date"
   yKey="price"
   curve="monotone"
-  width={360}
+  width={410}
   height={240}
 />;
 ```
@@ -108,7 +108,7 @@ const data = [
     }
   ]}
   referenceLines={[{ y: 100, label: "Plan", strokeDasharray: [5, 4] }]}
-  width={360}
+  width={410}
   height={240}
 />;
 ```
@@ -129,7 +129,7 @@ as `LineChart`.
   showDots={false}
   decimation={{ maxPoints: 700 }}
   yAxisLabelWidth="stable"
-  width={360}
+  width={410}
   height={260}
 />
 ```

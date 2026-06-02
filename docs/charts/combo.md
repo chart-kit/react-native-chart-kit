@@ -50,7 +50,7 @@ export function RevenueOperations() {
       ]}
       defaultSelectedIndex={5}
       formatYLabel={money}
-      width={360}
+      width={410}
       height={300}
     />
   );
@@ -92,7 +92,7 @@ export function PipelineInspection() {
       formatYLabel={money}
       interaction="tap"
       tooltip={{ width: 148 }}
-      width={360}
+      width={410}
       height={292}
     />
   );
@@ -187,7 +187,7 @@ export function ChannelPlan() {
         ]}
         formatYLabel={(value) => (value > 40 ? money(value) : percent(value))}
         visibleSeriesKeys={visibleSeriesKeys}
-        width={360}
+        width={410}
         height={292}
       />
     </View>
@@ -235,7 +235,7 @@ export function ProfitRecovery() {
       defaultSelectedIndex={4}
       formatYLabel={signedMoney}
       yDomain={{ min: "dataMin", max: "dataMax", nice: true }}
-      width={360}
+      width={410}
       height={292}
     />
   );

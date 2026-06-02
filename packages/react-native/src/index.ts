@@ -93,7 +93,9 @@ export type {
   PieChartModel,
   PieChartProps,
   PieChartRenderer,
-  PieChartSelectEvent
+  PieChartSelectEvent,
+  PieChartSliceSeparatorConfig,
+  ResolvedPieChartSliceSeparatorConfig
 } from "./charts/pie/PieChart";
 export type {
   ChartSelectionClearReason,

@@ -64,17 +64,17 @@ export function CrosshairInspector() {
     <View style={{ gap: 12 }}>
       <View
         style={{
-          width: 360,
+          width: 410,
           maxWidth: "100%",
           borderWidth: 1,
           borderColor,
           borderStyle: "solid",
           borderRadius: 8,
           backgroundColor: isDark ? "#111827" : "#f8fbff",
-          paddingBottom: 7,
-          paddingLeft: 9,
-          paddingRight: 9,
-          paddingTop: 7
+          paddingBottom: 10,
+          paddingLeft: 10,
+          paddingRight: 10,
+          paddingTop: 10
         }}
       >
         <View
@@ -146,7 +146,7 @@ export function CrosshairInspector() {
         showHorizontalGridLines
         showYAxisLabels
         tooltip={false}
-        width={360}
+        width={410}
         yTickCount={4}
       />
     </View>
@@ -188,7 +188,7 @@ export function TradingSession() {
       closeKey="close"
       volumeKey="volume"
       defaultSelectedIndex={12}
-      width={360}
+      width={410}
       height={300}
     />
   );
@@ -311,7 +311,7 @@ export function RealtimeCandleUpdates() {
   const isUp = latest.close >= latest.open;
 
   return (
-    <View style={{ gap: 10, width: 360, maxWidth: "100%" }}>
+    <View style={{ gap: 10, width: 410, maxWidth: "100%" }}>
       <View
         style={{
           width: "100%",
@@ -322,10 +322,10 @@ export function RealtimeCandleUpdates() {
           borderStyle: "solid",
           borderRadius: 8,
           backgroundColor: isDark ? "#111827" : "#f8fbff",
-          paddingBottom: 6,
-          paddingLeft: 9,
-          paddingRight: 9,
-          paddingTop: 6,
+          paddingBottom: 10,
+          paddingLeft: 10,
+          paddingRight: 10,
+          paddingTop: 10,
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
@@ -409,7 +409,7 @@ export function RealtimeCandleUpdates() {
         height={280}
         showHorizontalGridLines
         showYAxisLabels
-        width={360}
+        width={410}
       />
     </View>
   );

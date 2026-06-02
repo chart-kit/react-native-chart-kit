@@ -35,7 +35,7 @@ export function RevenueChart() {
       data={data}
       xKey="month"
       yKey="revenue"
-      width={360}
+      width={410}
       height={240}
     />
   );
@@ -74,7 +74,7 @@ const data = [
     }
   ]}
   legend={{ position: "bottom", wrap: true }}
-  width={360}
+  width={410}
   height={260}
 />;
 ```
@@ -122,7 +122,7 @@ const data = [
     }
   ]}
   activeDot={{ radius: 6, fill: "background", stroke: "series" }}
-  width={360}
+  width={410}
   height={260}
 />;
 ```
@@ -165,7 +165,7 @@ const data = [
   referenceLines={[
     { y: 100, label: "Plan", labelContainer: true, strokeDasharray: [5, 4] }
   ]}
-  width={360}
+  width={410}
   height={240}
 />;
 ```
@@ -206,7 +206,7 @@ const data = [
     positionAnimationDuration: 320
   }}
   crosshair
-  width={360}
+  width={410}
   height={260}
 />;
 ```
@@ -272,7 +272,7 @@ const data = [
       </SvgText>
     </G>
   )}
-  width={360}
+  width={410}
   height={260}
 />;
 ```
@@ -290,7 +290,7 @@ Use simple horizontal scrolling for long categorical or time-series charts.
   visiblePoints={30}
   initialIndex="end"
   yAxisLabelWidth="stable"
-  width={360}
+  width={410}
   height={260}
 />
 ```
@@ -313,7 +313,7 @@ const [viewport, setViewport] = useState<LineChartViewportConfig>({
   viewportInteraction={{ pan: true, pinchZoom: true, lockParentScroll: true }}
   rangeSelector={{ visible: true, interactive: true, height: 68 }}
   yAxisLabelWidth="stable"
-  width={360}
+  width={410}
   height={340}
 />;
 ```
@@ -350,7 +350,7 @@ const data = [
   yKey="attainment"
   referenceBands={[{ y1: 176, y2: 190, label: "Target range", opacity: 0.12 }]}
   referenceLines={[{ y: 183, label: "Plan", strokeDasharray: [5, 4] }]}
-  width={360}
+  width={410}
   height={240}
 />;
 ```
@@ -382,7 +382,7 @@ related prop:
   onLayoutDebug={(model) => {
     console.log(model.rects);
   }}
-  width={360}
+  width={410}
   height={240}
 />
 ```
@@ -411,7 +411,7 @@ selection, tooltips, labels, and custom dots.
   yKey="price"
   showDots={false}
   decimation={{ maxPoints: 700 }}
-  width={360}
+  width={410}
   height={240}
 />
 ```

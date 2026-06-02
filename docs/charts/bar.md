@@ -29,7 +29,7 @@ export function SignupsChart() {
       data={data}
       xKey="month"
       yKey="signups"
-      width={360}
+      width={410}
       height={240}
     />
   );
@@ -60,7 +60,7 @@ const data = [
     { yKey: "paid", label: "Paid" }
   ]}
   showValuesOnTopOfBars
-  width={360}
+  width={410}
   height={260}
 />;
 ```
@@ -94,7 +94,7 @@ const profit = [
   yKey="profit"
   showValuesOnTopOfBars
   formatYLabel={(value) => (value < 0 ? `-$${Math.abs(value)}k` : `$${value}k`)}
-  width={360}
+  width={410}
   height={250}
 />;
 ```
@@ -120,7 +120,7 @@ const supportVolume = [
   yKey="tickets"
   orientation="horizontal"
   showValuesOnTopOfBars
-  width={360}
+  width={410}
   height={260}
 />;
 ```
@@ -151,7 +151,7 @@ const data = [
     { yKey: "newCustomers", label: "New" },
     { yKey: "expansion", label: "Expansion" }
   ]}
-  width={360}
+  width={410}
   height={260}
 />;
 ```
@@ -180,7 +180,7 @@ const platformShare = [
     { yKey: "web", label: "Web" }
   ]}
   formatYLabel={(value) => `${value}%`}
-  width={360}
+  width={410}
   height={250}
 />;
 ```
@@ -221,7 +221,7 @@ const data = [
     width: 132
   }}
   defaultSelectedBar={{ dataIndex: 3, seriesKey: "paid" }}
-  width={360}
+  width={410}
   height={260}
 />;
 ```
@@ -264,7 +264,7 @@ const weeklySpend = [
   visiblePoints={8}
   initialIndex="end"
   formatYLabel={(value) => `$${value}k`}
-  width={360}
+  width={410}
   height={250}
 />;
 ```
@@ -293,7 +293,7 @@ const weeklySpend = [
   data={weeklySpend}
   xKey="week"
   yKey="spend"
-  width={360}
+  width={410}
   height={250}
   renderBar={({ bar, fill, radius }) => (
     <Rect

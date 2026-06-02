@@ -66,6 +66,7 @@ export const PieChart = <TData extends Record<string, unknown>>(
     legendVisible,
     resolvedTheme,
     radius,
+    sliceSeparator,
     total
   } = model;
   const legendConfig = typeof props.legend === "object" ? props.legend : {};
@@ -237,107 +238,118 @@ export const PieChart = <TData extends Record<string, unknown>>(
       testID={props.testID}
       {...responderProps}
     >
-      <Surface width={props.width} height={chartHeight}>
-        <Layer name="background">
-          <PieChartSlices
-            activeSlice={activeSlice}
-            arcs={arcs}
-            centerX={centerX}
-            centerY={centerY}
-            innerRadius={model.innerRadius}
-            radius={radius}
-            renderer={renderer}
-            resolvedTheme={resolvedTheme}
-            selectedIndex={selectedIndex}
-            selectionAnimationState={selectionAnimationState}
-            testID={props.testID}
-          />
-        </Layer>
-        {isTextCenterLabel && canRenderText ? (
-          <Layer name="overlays">
-            <SvgText
-              fill={resolvedTheme.text}
-              fontSize={16}
-              fontWeight="800"
-              text={centerLabel}
-              textAnchor="middle"
-              x={centerX}
-              y={centerY + 5}
-              {...(resolvedTheme.typography.fontFamily
-                ? { fontFamily: resolvedTheme.typography.fontFamily }
-                : {})}
-            >
-              {centerLabel}
-            </SvgText>
+      <View
+        style={[
+          styles.plotArea,
+          {
+            height: chartHeight,
+            width: props.width
+          }
+        ]}
+      >
+        <Surface width={props.width} height={chartHeight}>
+          <Layer name="background">
+            <PieChartSlices
+              activeSlice={activeSlice}
+              arcs={arcs}
+              centerX={centerX}
+              centerY={centerY}
+              innerRadius={model.innerRadius}
+              radius={radius}
+              renderer={renderer}
+              resolvedTheme={resolvedTheme}
+              selectedIndex={selectedIndex}
+              selectionAnimationState={selectionAnimationState}
+              sliceSeparator={sliceSeparator}
+              testID={props.testID}
+            />
           </Layer>
+          {isTextCenterLabel && canRenderText ? (
+            <Layer name="overlays">
+              <SvgText
+                fill={resolvedTheme.text}
+                fontSize={16}
+                fontWeight="800"
+                text={centerLabel}
+                textAnchor="middle"
+                x={centerX}
+                y={centerY + 5}
+                {...(resolvedTheme.typography.fontFamily
+                  ? { fontFamily: resolvedTheme.typography.fontFamily }
+                  : {})}
+              >
+                {centerLabel}
+              </SvgText>
+            </Layer>
+          ) : null}
+          {arcLabels.length > 0 ? (
+            <Layer name="interaction">
+              {arcLabels.map((label) =>
+                label.connectorVisible ? (
+                  <Line
+                    key={`${label.key}-connector-a`}
+                    x1={label.connectorStartX}
+                    x2={label.connectorBendX}
+                    y1={label.connectorStartY}
+                    y2={label.connectorBendY}
+                    stroke={label.connectorColor}
+                    strokeOpacity={label.connectorOpacity}
+                    strokeWidth={label.connectorWidth}
+                  />
+                ) : null
+              )}
+              {arcLabels.map((label) =>
+                label.connectorVisible ? (
+                  <Line
+                    key={`${label.key}-connector-b`}
+                    x1={label.connectorBendX}
+                    x2={label.connectorEndX}
+                    y1={label.connectorBendY}
+                    y2={label.connectorEndY}
+                    stroke={label.connectorColor}
+                    strokeOpacity={label.connectorOpacity}
+                    strokeWidth={label.connectorWidth}
+                  />
+                ) : null
+              )}
+              {canRenderText
+                ? arcLabels.map((label) => (
+                    <SvgText
+                      key={label.key}
+                      fill={resolvedTheme.text}
+                      fontSize={label.fontSize}
+                      fontWeight="800"
+                      text={label.text}
+                      textAnchor={label.textAnchor}
+                      x={label.x}
+                      y={label.y + label.fontSize / 3}
+                      {...(resolvedTheme.typography.fontFamily
+                        ? { fontFamily: resolvedTheme.typography.fontFamily }
+                        : {})}
+                    >
+                      {label.text}
+                    </SvgText>
+                  ))
+                : null}
+            </Layer>
+          ) : null}
+        </Surface>
+        {customCenterLabel ? (
+          <View
+            pointerEvents="none"
+            style={[
+              styles.centerLabelOverlay,
+              {
+                height: Math.max(44, Math.min(76, radius * 0.82)),
+                top: centerY - Math.max(22, Math.min(38, radius * 0.41)),
+                width: props.width
+              }
+            ]}
+          >
+            {customCenterLabel}
+          </View>
         ) : null}
-        {arcLabels.length > 0 ? (
-          <Layer name="interaction">
-            {arcLabels.map((label) =>
-              label.connectorVisible ? (
-                <Line
-                  key={`${label.key}-connector-a`}
-                  x1={label.connectorStartX}
-                  x2={label.connectorBendX}
-                  y1={label.connectorStartY}
-                  y2={label.connectorBendY}
-                  stroke={label.connectorColor}
-                  strokeOpacity={label.connectorOpacity}
-                  strokeWidth={label.connectorWidth}
-                />
-              ) : null
-            )}
-            {arcLabels.map((label) =>
-              label.connectorVisible ? (
-                <Line
-                  key={`${label.key}-connector-b`}
-                  x1={label.connectorBendX}
-                  x2={label.connectorEndX}
-                  y1={label.connectorBendY}
-                  y2={label.connectorEndY}
-                  stroke={label.connectorColor}
-                  strokeOpacity={label.connectorOpacity}
-                  strokeWidth={label.connectorWidth}
-                />
-              ) : null
-            )}
-            {canRenderText
-              ? arcLabels.map((label) => (
-                  <SvgText
-                    key={label.key}
-                    fill={resolvedTheme.text}
-                    fontSize={label.fontSize}
-                    fontWeight="800"
-                    text={label.text}
-                    textAnchor={label.textAnchor}
-                    x={label.x}
-                    y={label.y + label.fontSize / 3}
-                    {...(resolvedTheme.typography.fontFamily
-                      ? { fontFamily: resolvedTheme.typography.fontFamily }
-                      : {})}
-                  >
-                    {label.text}
-                  </SvgText>
-                ))
-              : null}
-          </Layer>
-        ) : null}
-      </Surface>
-      {customCenterLabel ? (
-        <View
-          pointerEvents="none"
-          style={[
-            styles.centerLabelOverlay,
-            {
-              height: Math.max(44, Math.min(76, radius * 0.82)),
-              top: centerY - Math.max(22, Math.min(38, radius * 0.41)),
-              width: props.width
-            }
-          ]}
-        >
-          {customCenterLabel}
-        </View>
-      ) : null}
+      </View>
       {legendVisible && legendItems.length > 0 ? (
         <View
           style={[
@@ -419,6 +431,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     left: 0,
     position: "absolute"
+  },
+  plotArea: {
+    position: "relative"
   },
   legend: {
     alignContent: "center",

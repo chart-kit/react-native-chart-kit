@@ -37,7 +37,7 @@ export function QualityRadar() {
         { valueKey: "target", label: "Target" },
         { valueKey: "industry", label: "Industry" }
       ]}
-      width={360}
+      width={410}
       height={320}
     />
   );

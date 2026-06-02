@@ -28,7 +28,7 @@ import { LineChart } from "react-native-chart-kit";
     datasets: [{ data: [18, 34, 29] }],
     legend: ["Revenue"]
   }}
-  width={360}
+  width={410}
   height={220}
   chartConfig={{
     backgroundGradientFrom: "#ffffff",
@@ -61,7 +61,7 @@ import { LineChart } from "react-native-chart-kit/v2";
   yKey="revenue"
   interaction={{ mode: "tap" }}
   tooltip={{ shared: true }}
-  width={360}
+  width={410}
   height={240}
 />;
 ```

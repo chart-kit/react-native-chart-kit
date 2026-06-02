@@ -7,7 +7,10 @@ import {
   type PieChartSelectionAnimationState
 } from "./selectionAnimation";
 import type { ResolvedPieChartActiveSliceConfig } from "./activeSlice";
-import type { PieChartRenderer } from "./types";
+import type {
+  PieChartRenderer,
+  ResolvedPieChartSliceSeparatorConfig
+} from "./types";
 
 export const PieChartSlices = <TData,>({
   activeSlice,
@@ -20,6 +23,7 @@ export const PieChartSlices = <TData,>({
   resolvedTheme,
   selectedIndex,
   selectionAnimationState,
+  sliceSeparator,
   testID
 }: {
   activeSlice: ResolvedPieChartActiveSliceConfig;
@@ -32,6 +36,7 @@ export const PieChartSlices = <TData,>({
   resolvedTheme: ResolvedCartesianChartTheme;
   selectedIndex: number | undefined;
   selectionAnimationState: PieChartSelectionAnimationState;
+  sliceSeparator: ResolvedPieChartSliceSeparatorConfig;
   testID: string | undefined;
 }) => {
   const Group = renderer.Group;
@@ -68,13 +73,26 @@ export const PieChartSlices = <TData,>({
           radius,
           state: selectionAnimationState
         });
-        const strokeProps =
+        const separatorStrokeProps = sliceSeparator.visible
+          ? {
+              stroke: sliceSeparator.color,
+              strokeLinejoin: "round",
+              strokeOpacity: sliceSeparator.opacity,
+              strokeWidth: sliceSeparator.width
+            }
+          : {};
+        const activeStrokeProps =
           isSelected && activeSlice.strokeWidth > 0
             ? {
                 stroke: activeSlice.strokeColor,
+                strokeLinejoin: "round",
+                strokeOpacity: 1,
                 strokeWidth: activeSlice.strokeWidth
               }
             : {};
+        const strokeProps = isSelected
+          ? { ...separatorStrokeProps, ...activeStrokeProps }
+          : separatorStrokeProps;
 
         return (
           <Group key={`pie-slice-${arc.index}`} opacity={opacity}>

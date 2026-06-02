@@ -8,6 +8,13 @@ const chartKitTheme = {
   presets: {},
   theme: undefined
 };
+const estimateArcLabelWidth = ({
+  fontSize,
+  text
+}: {
+  fontSize: number;
+  text: string;
+}) => text.length * fontSize * 0.78;
 
 describe("PieChart model", () => {
   it("builds themed arcs and wrapped legend items", () => {
@@ -106,6 +113,43 @@ describe("PieChart model", () => {
 
     expect(model.legendVisible).toBe(true);
     expect(model.chartHeight).toBe(208);
+  });
+
+  it("resolves slice separators and reserves radius for their stroke", () => {
+    const props = {
+      data: [
+        { label: "Used", value: 75 },
+        { label: "Remaining", value: 25 }
+      ],
+      valueKey: "value" as const,
+      labelKey: "label" as const,
+      width: 300,
+      height: 240,
+      legend: false
+    };
+    const plainModel = buildPieChartModel({
+      chartKitTheme,
+      props
+    });
+    const separatedModel = buildPieChartModel({
+      chartKitTheme,
+      props: {
+        ...props,
+        sliceSeparator: {
+          opacity: 1.4,
+          width: 8
+        }
+      }
+    });
+
+    expect(plainModel.sliceSeparator.visible).toBe(false);
+    expect(separatedModel.sliceSeparator).toMatchObject({
+      color: separatedModel.resolvedTheme.background,
+      opacity: 1,
+      visible: true,
+      width: 8
+    });
+    expect(separatedModel.radius).toBe(plainModel.radius - 4);
   });
 
   it("reserves a gutter for active slice zoom and lift", () => {
@@ -240,6 +284,18 @@ describe("PieChart model", () => {
           ? label.x >= model.centerX + model.radius
           : label.x <= model.centerX - model.radius
       )
+    ).toBe(true);
+    expect(
+      model.arcLabels.every((label) => {
+        const width = estimateArcLabelWidth({
+          fontSize: label.fontSize,
+          text: label.text
+        });
+
+        return label.textAnchor === "start"
+          ? label.x + width <= 360 - 10
+          : label.x - width >= 10;
+      })
     ).toBe(true);
   });
 });

@@ -28,7 +28,7 @@ export function AcquisitionShare() {
       data={data}
       valueKey="share"
       labelKey="channel"
-      width={360}
+      width={410}
       height={260}
     />
   );
@@ -46,9 +46,34 @@ export function AcquisitionShare() {
 - bottom wrapped legend
 - percentage labels in the legend
 - custom legend item rendering
+- slice separators
 - external arc labels with connector lines
 - tap selection with active-slice highlighting
 - zero and invalid slices without broken paths
+
+## Slice Separators
+
+Use `sliceSeparator` when neighboring slices need clearer edges. Passing `true`
+uses the current chart background color; pass an object to tune the line.
+
+```tsx
+const acquisitionShare = [
+  { channel: "Organic search", share: 42 },
+  { channel: "Paid social", share: 24 },
+  { channel: "Referrals", share: 18 },
+  { channel: "Partners", share: 10 },
+  { channel: "Lifecycle", share: 6 }
+];
+
+<PieChart
+  data={acquisitionShare}
+  valueKey="share"
+  labelKey="channel"
+  sliceSeparator={{ width: 2 }}
+  width={410}
+  height={260}
+/>;
+```
 
 ## Tap Selection
 
@@ -76,7 +101,7 @@ const [selectedIndex, setSelectedIndex] = useState(0);
     onSelect: (event) => setSelectedIndex(event.index)
   }}
   activeSlice={{ inactiveOpacity: 0.36, strokeWidth: 4 }}
-  width={360}
+  width={410}
   height={260}
 />;
 ```
@@ -103,10 +128,11 @@ const acquisitionShare = [
   legend={false}
   arcLabels={{
     minPercentage: 0.09,
+    reservedWidth: 116,
     formatLabel: ({ label, percentageLabel }) =>
       `${label.split(" ")[0]} ${percentageLabel}`
   }}
-  width={360}
+  width={410}
   height={260}
 />;
 ```
@@ -130,6 +156,7 @@ const acquisitionShare = [
 | `innerRadiusRatio`     | `number`                                                  | Inner radius as a fraction of the computed outer radius.                     |
 | `legend`               | `boolean` or `PieChartLegendConfig<TData>`                | Shows and configures the wrapped legend.                                     |
 | `arcLabels`            | `boolean` or `PieChartArcLabelsConfig<TData>`             | Shows and configures external arc labels and connector lines.                |
+| `sliceSeparator`       | `boolean` or `PieChartSliceSeparatorConfig`               | Draws separator strokes between slices.                                      |
 | `selectedIndex`        | `number`                                                  | Controlled selected slice index.                                             |
 | `defaultSelectedIndex` | `number`                                                  | Initial uncontrolled selected slice index.                                   |
 | `activeSlice`          | `PieChartActiveSliceConfig`                               | Configures selected-slice stroke, opacity, offset, and scale.                |

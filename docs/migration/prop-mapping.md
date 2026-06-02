@@ -53,7 +53,7 @@ const chartConfig = {
     ],
     legend: ["Actual", "Target"]
   }}
-  width={360}
+  width={410}
   height={220}
   chartConfig={chartConfig}
 />;
@@ -72,7 +72,7 @@ After:
     { yKey: "actual", label: "Actual", color: "#2563eb", strokeWidth: 3 },
     { yKey: "target", label: "Target", color: "#94a3b8", strokeWidth: 2 }
   ]}
-  width={360}
+  width={410}
   height={240}
 />
 ```

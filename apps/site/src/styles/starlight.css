@@ -602,6 +602,11 @@ chart-kit-preview {
   margin-block: 1.25rem 2rem;
 }
 
+:root {
+  --chart-kit-preview-padding-x: 10px;
+  --chart-kit-preview-padding-y: 10px;
+}
+
 chart-kit-preview .chart-kit-preview-fallback,
 .chart-kit-live-preview__frame {
   display: block;
@@ -609,7 +614,7 @@ chart-kit-preview .chart-kit-preview-fallback,
   border: 1px solid var(--sl-color-hairline);
   border-radius: 0.9rem;
   background: #10131a;
-  padding: 1.15rem;
+  padding: var(--chart-kit-preview-padding-y) var(--chart-kit-preview-padding-x);
 }
 
 :root[data-theme="light"] chart-kit-preview .chart-kit-preview-fallback,
@@ -1050,7 +1055,7 @@ chart-kit-playground .chart-kit-preview-fallback pre {
   align-items: center;
   justify-content: center;
   overflow: auto;
-  padding: 1.25rem;
+  padding: var(--chart-kit-preview-padding-y) var(--chart-kit-preview-padding-x);
 }
 
 .chart-kit-playground__error {

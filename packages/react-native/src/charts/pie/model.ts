@@ -10,6 +10,7 @@ import type {
 } from "../../theme/presets";
 import {
   buildPieChartArcLabels,
+  getPieChartArcLabelHorizontalReserve,
   getPieChartArcLabelsVisible,
   resolvePieChartArcLabelsConfig
 } from "./arcLabels";
@@ -18,6 +19,10 @@ import {
   resolvePieChartActiveSliceConfig,
   shouldReservePieChartActiveSliceGutter
 } from "./activeSlice";
+import {
+  getPieChartSliceSeparatorGutter,
+  resolvePieChartSliceSeparatorConfig
+} from "./sliceSeparator";
 import type { PieChartModel, PieChartProps } from "./types";
 
 type PieChartThemeContextValue = {
@@ -146,20 +151,31 @@ export const buildPieChartModel = <TData extends Record<string, unknown>>({
   });
   const legendVisible = getLegendVisible(legend);
   const legendReservedHeight = getLegendReservedHeight(legend);
+  const sliceSeparator = resolvePieChartSliceSeparatorConfig({
+    backgroundColor: resolvedTheme.background,
+    sliceSeparator: props.sliceSeparator
+  });
   const arcLabelConfig = resolvePieChartArcLabelsConfig(arcLabels);
   const arcLabelsVisible = getPieChartArcLabelsVisible(arcLabels);
   const chartHeight = Math.max(120, height - legendReservedHeight);
   const centerX = width / 2;
   const centerY = chartHeight / 2;
-  const arcLabelReserve = arcLabelsVisible ? arcLabelConfig.reservedWidth : 0;
+  const arcLabelHorizontalReserve = arcLabelsVisible
+    ? getPieChartArcLabelHorizontalReserve(arcLabelConfig)
+    : 0;
+  const arcLabelVerticalReserve = arcLabelsVisible
+    ? arcLabelConfig.reservedWidth
+    : 0;
+  const sliceSeparatorGutter = getPieChartSliceSeparatorGutter(sliceSeparator);
   const availableRadius = Math.max(
     0,
     Math.min(
-      Math.max(0, width - arcLabelReserve * 2),
-      Math.max(0, chartHeight - arcLabelReserve * 0.48)
+      Math.max(0, width - arcLabelHorizontalReserve * 2),
+      Math.max(0, chartHeight - arcLabelVerticalReserve * 0.48)
     ) /
       2 -
-      6
+      6 -
+      sliceSeparatorGutter
   );
   const activeSlice = resolvePieChartActiveSliceConfig({
     activeSlice: props.activeSlice,
@@ -243,6 +259,7 @@ export const buildPieChartModel = <TData extends Record<string, unknown>>({
     legendVisible,
     radius,
     resolvedTheme,
+    sliceSeparator,
     total
   };
 };

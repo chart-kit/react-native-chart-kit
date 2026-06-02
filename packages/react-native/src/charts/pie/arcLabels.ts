@@ -17,7 +17,7 @@ const defaultConnectorWidth = 1.35;
 const defaultReservedWidth = 86;
 const minConnectorLabelGap = 6;
 const labelEdgePadding = 10;
-const estimatedCharacterWidthRatio = 0.68;
+const estimatedCharacterWidthRatio = 0.78;
 
 export type ResolvedPieChartArcLabelsConfig<TData = unknown> = {
   connectorColor: string | undefined;
@@ -113,6 +113,10 @@ const estimateLabelWidth = ({
   fontSize: number;
   text: string;
 }) => text.length * fontSize * estimatedCharacterWidthRatio;
+
+export const getPieChartArcLabelHorizontalReserve = <TData>(
+  config: ResolvedPieChartArcLabelsConfig<TData>
+) => config.reservedWidth + labelEdgePadding;
 
 const spreadArcLabelsOnSide = <TData>({
   chartHeight,
@@ -238,14 +242,22 @@ export const buildPieChartArcLabels = <TData>({
       config.offset -
       config.connectorLength -
       minConnectorLabelGap;
+    const rightEdgeLabelX = chartWidth - labelEdgePadding - labelWidth;
+    const leftEdgeLabelX = labelEdgePadding + labelWidth;
     const labelX =
       side > 0
-        ? clamp(
-            preferredLabelX,
-            outsideRightX,
-            chartWidth - labelEdgePadding - labelWidth
-          )
-        : clamp(preferredLabelX, labelEdgePadding + labelWidth, outsideLeftX);
+        ? outsideRightX <= rightEdgeLabelX
+          ? clamp(preferredLabelX, outsideRightX, rightEdgeLabelX)
+          : rightEdgeLabelX
+        : leftEdgeLabelX <= outsideLeftX
+          ? clamp(preferredLabelX, leftEdgeLabelX, outsideLeftX)
+          : leftEdgeLabelX;
+    const rawConnectorEndX = labelX - side * 4;
+    const outerSliceEdgeX = centerX + side * radius;
+    const connectorEndX =
+      side > 0
+        ? Math.max(rawConnectorEndX, outerSliceEdgeX + 1)
+        : Math.min(rawConnectorEndX, outerSliceEdgeX - 1);
 
     return [
       {
@@ -254,7 +266,7 @@ export const buildPieChartArcLabels = <TData>({
         connectorColor: config.connectorColor ?? theme.mutedText,
         connectorBendX: centerX + side * bendRadius * Math.cos(angle),
         connectorBendY: centerY + bendRadius * Math.sin(angle),
-        connectorEndX: labelX - side * 4,
+        connectorEndX,
         connectorEndY: labelY,
         connectorOpacity: config.connectorOpacity,
         connectorStartX: centerX + startRadius * Math.cos(angle),

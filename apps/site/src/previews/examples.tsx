@@ -89,7 +89,7 @@ export const renderChartPreview = ({
           ) : null}
         </View>
         <View style={previewStyles.chart}>
-          {example.render({ chartThemePreset, mode, width: width - 2 })}
+          {example.render({ chartThemePreset, mode, width })}
         </View>
         {example.tier === "pro" ? (
           <a

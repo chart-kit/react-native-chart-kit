@@ -24,7 +24,7 @@ const data = [
   data={data}
   valueKey="progress"
   labelKey="metric"
-  width={320}
+  width={410}
   height={260}
   centerLabel={({ average }) => `${Math.round(average * 100)}%`}
 />;
@@ -40,7 +40,7 @@ import { ProgressRing } from "react-native-chart-kit/v2";
 <ProgressRing
   value={0.76}
   label="Release readiness"
-  width={320}
+  width={410}
   height={240}
   centerLabel="76%"
 />;
@@ -57,7 +57,7 @@ parallel arrays:
     labels: ["Build signed", "QA pass", "Rollout cap"],
     data: [0.76, 0, 0.42]
   }}
-  width={320}
+  width={410}
   height={240}
 />
 ```
@@ -79,7 +79,7 @@ Zero and missing rings keep their background tracks and legend rows. Values abov
   ]}
   valueKey="progress"
   labelKey="metric"
-  width={320}
+  width={410}
   height={260}
 />
 ```

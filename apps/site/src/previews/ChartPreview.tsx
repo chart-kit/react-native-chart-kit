@@ -5,6 +5,7 @@ import {
   getCurrentChartThemePreset,
   type ChartThemePreset
 } from "./chartTheme";
+import { chartPreviewChartWidth, chartPreviewPaddingX } from "./data";
 import { renderChartPreview } from "./examples";
 
 const getThemeMode = (): "dark" | "light" =>
@@ -16,7 +17,7 @@ export const ChartPreview = ({ id }: { id: string }) => {
     () => getCurrentChartThemePreset()
   );
   const [mode, setMode] = useState<"dark" | "light">(() => getThemeMode());
-  const [width, setWidth] = useState(460);
+  const [width, setWidth] = useState(chartPreviewChartWidth);
 
   useEffect(() => {
     const frame = frameRef.current;
@@ -26,7 +27,9 @@ export const ChartPreview = ({ id }: { id: string }) => {
     }
 
     const resize = () => {
-      setWidth(Math.max(280, Math.floor(frame.clientWidth - 36)));
+      setWidth(
+        Math.max(280, Math.floor(frame.clientWidth - chartPreviewPaddingX * 2))
+      );
     };
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(frame);

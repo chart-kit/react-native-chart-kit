@@ -26,7 +26,7 @@ const revenueMix = [
   data={revenueMix}
   valueKey="revenue"
   labelKey="plan"
-  width={360}
+  width={410}
   height={260}
 />;
 ```
@@ -44,6 +44,7 @@ const revenueMix = [
 - donut center text
 - rich custom center labels
 - custom legend item rendering
+- slice separators
 - tap selection with active-slice highlighting
 - zero and invalid slices without broken paths
 
@@ -73,7 +74,7 @@ const [selectedIndex, setSelectedIndex] = useState(0);
   }}
   centerLabel={revenueMix[selectedIndex]?.plan}
   activeSlice={{ inactiveOpacity: 0.36, strokeWidth: 4 }}
-  width={360}
+  width={410}
   height={260}
 />;
 ```
@@ -97,22 +98,62 @@ const retentionSegments = [
   valueKey="accounts"
   labelKey="status"
   centerLabel={({ theme, total }) => (
-    <View>
-      <Text style={{ color: theme.text }}>{total}</Text>
-      <Text style={{ color: theme.mutedText }}>accounts</Text>
+    <View style={{ alignItems: "center" }}>
+      <Text style={{ color: theme.text, fontSize: 18, fontWeight: "800" }}>
+        {total}
+      </Text>
+      <Text style={{ color: theme.mutedText, fontSize: 11, fontWeight: "700" }}>
+        accounts
+      </Text>
     </View>
   )}
+  sliceSeparator={{ width: 2 }}
   legend={{
+    itemGap: 8,
     maxItemWidth: "100%",
+    reservedHeight: 104,
     renderItem: ({ item, theme }) => (
-      <View>
-        <Text style={{ color: theme.text }}>{item.label}</Text>
-        <Text style={{ color: theme.mutedText }}>{item.percentageLabel}</Text>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 8,
+          width: 260
+        }}
+      >
+        <View
+          style={{
+            backgroundColor: item.color,
+            borderRadius: 4,
+            height: 8,
+            width: 8
+          }}
+        />
+        <Text
+          numberOfLines={1}
+          style={{
+            color: theme.text,
+            flex: 1,
+            fontSize: 12,
+            fontWeight: "700"
+          }}
+        >
+          {item.label}
+        </Text>
+        <Text
+          style={{
+            color: theme.mutedText,
+            fontSize: 11,
+            fontWeight: "700"
+          }}
+        >
+          {item.percentageLabel}
+        </Text>
       </View>
     )
   }}
-  width={360}
-  height={300}
+  width={410}
+  height={320}
 />;
 ```
 
@@ -138,6 +179,7 @@ const retentionSegments = [
 | `innerRadiusRatio`     | `number`                                                  | Inner radius as a fraction of the computed outer radius.                     |
 | `legend`               | `boolean` or `PieChartLegendConfig<TData>`                | Shows and configures the wrapped legend.                                     |
 | `arcLabels`            | `boolean` or `PieChartArcLabelsConfig<TData>`             | Shows and configures external arc labels and connector lines.                |
+| `sliceSeparator`       | `boolean` or `PieChartSliceSeparatorConfig`               | Draws separator strokes between slices.                                      |
 | `selectedIndex`        | `number`                                                  | Controlled selected slice index.                                             |
 | `defaultSelectedIndex` | `number`                                                  | Initial uncontrolled selected slice index.                                   |
 | `activeSlice`          | `PieChartActiveSliceConfig`                               | Configures selected-slice stroke, opacity, offset, and scale.                |

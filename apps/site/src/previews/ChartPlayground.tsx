@@ -46,6 +46,8 @@ import {
 import {
   acquisitionShare,
   candlebarPrices,
+  chartPreviewChartWidth,
+  chartPreviewPaddingX,
   clampChartWidth,
   comboRevenue,
   contributionEndDate,
@@ -441,7 +443,7 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
   );
   const [editorSize, setEditorSize] = useState(DEFAULT_EDITOR_SIZE);
   const [isResizing, setIsResizing] = useState(false);
-  const [width, setWidth] = useState(420);
+  const [width, setWidth] = useState(chartPreviewChartWidth);
   const initialCode = useMemo(() => decodeInitialCode(code), [code]);
   const [currentCode, setCurrentCode] = useState(() => initialCode);
   const example = chartPreviewExamples[id];
@@ -460,7 +462,12 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
     }
 
     const resize = () => {
-      setWidth(Math.max(280, Math.floor(previewPane.clientWidth - 32)));
+      setWidth(
+        Math.max(
+          280,
+          Math.floor(previewPane.clientWidth - chartPreviewPaddingX * 2)
+        )
+      );
     };
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(previewPane);

@@ -34,7 +34,7 @@ const values = Array.from({ length: numDays }, (_, index) => {
   values={values}
   endDate={endDate}
   numDays={numDays}
-  width={360}
+  width={410}
   height={162}
   weekStartsOn={1}
 />;
@@ -49,7 +49,7 @@ const values = Array.from({ length: numDays }, (_, index) => {
   values={values}
   endDate="2026-05-03"
   numDays={154}
-  width={340}
+  width={410}
   height={150}
   colors={["#dbeafe", "#93c5fd", "#3b82f6", "#1d4ed8"]}
 />
@@ -66,7 +66,7 @@ An empty `values` array still renders the requested date range as zero-count cel
   values={[]}
   endDate="2026-05-03"
   numDays={154}
-  width={340}
+  width={410}
   height={150}
   weekStartsOn={1}
 />

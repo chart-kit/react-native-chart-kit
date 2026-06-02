@@ -3,7 +3,13 @@ export const percent = (value: number) => `${Math.round(value)}%`;
 export const signedMoney = (value: number) =>
   value < 0 ? `-$${Math.abs(Math.round(value))}k` : `$${Math.round(value)}k`;
 
-export const clampChartWidth = (width: number, max = 460) =>
+export const chartPreviewPaddingX = 10;
+export const chartPreviewPaddingY = 10;
+export const chartPreviewOuterWidth = 430;
+export const chartPreviewChartWidth =
+  chartPreviewOuterWidth - chartPreviewPaddingX * 2;
+
+export const clampChartWidth = (width: number, max = chartPreviewChartWidth) =>
   Math.max(280, Math.min(max, Math.round(width)));
 
 export const monthRevenue = [

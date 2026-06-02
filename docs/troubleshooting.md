@@ -10,7 +10,7 @@ description: Diagnose blank charts, Expo compatibility, gesture behavior, and mi
 Check that the chart has a real width and height. Most examples use fixed numbers because React Native charts cannot infer size from an unconstrained parent.
 
 ```tsx
-<LineChart data={data} xKey="date" yKey="value" width={360} height={240} />
+<LineChart data={data} xKey="date" yKey="value" width={410} height={240} />
 ```
 
 If the chart is inside a flex layout, measure the parent with `onLayout` and pass the measured width to the chart.

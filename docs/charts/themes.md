@@ -34,7 +34,7 @@ const data = [
 ];
 
 <ChartKitProvider mode="system" preset="acme" presets={{ acme }}>
-  <LineChart data={data} xKey="date" yKey="revenue" width={360} height={240} />
+  <LineChart data={data} xKey="date" yKey="revenue" width={410} height={240} />
 </ChartKitProvider>;
 ```
 
