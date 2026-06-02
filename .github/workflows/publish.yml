@@ -59,40 +59,11 @@ jobs:
       - name: Install dependencies
         run: npm ci --ignore-scripts
 
-      - name: Install Pro docs package
-        env:
-          CHART_KIT_PRO_NPM_TOKEN: ${{ secrets.CHART_KIT_PRO_NPM_TOKEN }}
-        run: |
-          if [ -z "$CHART_KIT_PRO_NPM_TOKEN" ]; then
-            echo "CHART_KIT_PRO_NPM_TOKEN is required to validate Pro docs without local stubs." >&2
-            exit 1
-          fi
-          npm config set //registry.npmjs.org/:_authToken "$CHART_KIT_PRO_NPM_TOKEN"
-          npm install --no-save --package-lock=false --ignore-scripts @chart-kit/pro
+      - name: Build public workspace packages
+        run: npm run core:build && npm run svg:build
 
-      - name: Build
-        run: npm run build
-
-      - name: Typecheck
-        run: npm run typecheck
-
-      - name: Test
-        run: npm run test
-
-      - name: Surface
-        run: npm run surface:check
-
-      - name: Package pack check
-        run: npm run pack:check
-
-      - name: Security audit
-        run: npm run security:audit
-
-      - name: Docs
-        run: npm run docs:build
-
-      - name: React Native CLI example
-        run: npm run example:rn-cli:typecheck
+      - name: Typecheck public workspace packages
+        run: npm run core:typecheck && npm run svg:typecheck
 
       - name: Verify package publish state
         id: package
@@ -155,6 +126,49 @@ jobs:
           NPM_TAG: ${{ steps.package.outputs.npm_tag }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      - name: Verify workspace registry publish state
+        run: |
+          for PACKAGE_DIR in packages/core packages/svg-renderer; do
+            PACKAGE_NAME=$(node -p "require('./${PACKAGE_DIR}/package.json').name")
+            PACKAGE_VERSION=$(node -p "require('./${PACKAGE_DIR}/package.json').version")
+            node scripts/check-npm-package-exists.mjs "${PACKAGE_NAME}" "${PACKAGE_VERSION}"
+          done
+
+      - name: Install Pro docs package
+        env:
+          CHART_KIT_PRO_NPM_TOKEN: ${{ secrets.CHART_KIT_PRO_NPM_TOKEN }}
+        run: |
+          if [ -z "$CHART_KIT_PRO_NPM_TOKEN" ]; then
+            echo "CHART_KIT_PRO_NPM_TOKEN is required to validate Pro docs without local stubs." >&2
+            exit 1
+          fi
+          npm config set //registry.npmjs.org/:_authToken "$CHART_KIT_PRO_NPM_TOKEN"
+          npm install --no-save --package-lock=false --ignore-scripts @chart-kit/pro
+
+      - name: Build
+        run: npm run build
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm run test
+
+      - name: Surface
+        run: npm run surface:check
+
+      - name: Package pack check
+        run: npm run pack:check
+
+      - name: Security audit
+        run: npm run security:audit
+
+      - name: Docs
+        run: npm run docs:build
+
+      - name: React Native CLI example
+        run: npm run example:rn-cli:typecheck
+
       - name: Publish
         run: |
           PACKAGE_NAME="${{ steps.package.outputs.name }}"
@@ -207,14 +221,6 @@ jobs:
         env:
           PACKAGE_NAME: ${{ steps.package.outputs.name }}
           PACKAGE_VERSION: ${{ steps.package.outputs.version }}
-
-      - name: Verify workspace registry publish state
-        run: |
-          for PACKAGE_DIR in packages/core packages/svg-renderer; do
-            PACKAGE_NAME=$(node -p "require('./${PACKAGE_DIR}/package.json').name")
-            PACKAGE_VERSION=$(node -p "require('./${PACKAGE_DIR}/package.json').version")
-            node scripts/check-npm-package-exists.mjs "${PACKAGE_NAME}" "${PACKAGE_VERSION}"
-          done
 
       - name: Create GitHub release
         env:
