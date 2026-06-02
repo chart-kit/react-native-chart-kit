@@ -120,7 +120,7 @@ jobs:
               fi
             fi
 
-            npm publish "${PACKAGE_DIR}" --ignore-scripts --access public --provenance --tag "${NPM_TAG}"
+            npm publish "./${PACKAGE_DIR}" --ignore-scripts --access public --provenance --tag "${NPM_TAG}"
           done
         env:
           NPM_TAG: ${{ steps.package.outputs.npm_tag }}
