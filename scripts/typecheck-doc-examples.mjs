@@ -80,6 +80,7 @@ const ambientHandlers = [
 ];
 const ambientObjects = ["chartConfig", "viewport"];
 const ambientDeclarations = "";
+const useProDocsStubs = process.env.CHART_KIT_PRO_DOCS_STUBS === "true";
 
 const pathExists = async (filePath) => {
   try {
@@ -288,7 +289,15 @@ const parseTsConfig = () => {
     paths: {
       ...(parsed.options.paths ?? {}),
       "react-native-chart-kit": ["src/index.ts"],
-      "react-native-chart-kit/v2": ["packages/react-native/src/index.ts"]
+      "react-native-chart-kit/v2": ["packages/react-native/src/index.ts"],
+      ...(useProDocsStubs
+        ? {
+            "@chart-kit/pro": ["apps/site/src/previews/proStub.tsx"],
+            "@chart-kit/pro/react-native": [
+              "apps/site/src/previews/proStub.tsx"
+            ]
+          }
+        : {})
     },
     skipLibCheck: true,
     strict: false

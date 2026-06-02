@@ -79,6 +79,8 @@ jobs:
 
       - name: Docs
         run: npm run docs:build
+        env:
+          CHART_KIT_PRO_DOCS_STUBS: "true"
 
       - name: React Native CLI example
         run: npm run example:rn-cli:typecheck
