@@ -57,24 +57,24 @@ export const platformShare = [
 ];
 
 export const acquisitionShare = [
-  { channel: "Organic search", value: 42, color: "#00163f" },
-  { channel: "Paid social", value: 24, color: "#2f5f9f" },
-  { channel: "Referrals", value: 18, color: "#6f88aa" },
-  { channel: "Partners", value: 10, color: "#46566f" },
-  { channel: "Lifecycle", value: 6, color: "#9aa8bd" }
+  { channel: "Organic search", value: 42 },
+  { channel: "Paid social", value: 24 },
+  { channel: "Referrals", value: 18 },
+  { channel: "Partners", value: 10 },
+  { channel: "Lifecycle", value: 6 }
 ];
 
 export const revenueMix = [
-  { label: "Enterprise", value: 680, color: "#00163f" },
-  { label: "Business", value: 420, color: "#2f5f9f" },
-  { label: "Teams", value: 260, color: "#6f88aa" },
-  { label: "Starter", value: 140, color: "#9aa8bd" }
+  { label: "Enterprise", value: 680 },
+  { label: "Business", value: 420 },
+  { label: "Teams", value: 260 },
+  { label: "Starter", value: 140 }
 ];
 
 export const progressRings = [
-  { label: "Build signed", value: 0.76, color: "#00163f" },
-  { label: "QA pass", value: 0, color: "#2f5f9f" },
-  { label: "Rollout cap", value: 0.42, color: "#6f88aa" }
+  { label: "Build signed", value: 0.76 },
+  { label: "QA pass", value: 0 },
+  { label: "Rollout cap", value: 0.42 }
 ];
 
 export const contributionEndDate = "2026-05-03";

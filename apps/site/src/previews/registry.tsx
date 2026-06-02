@@ -560,7 +560,6 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
     title: "Acquisition mix",
     render: ({ width }) => (
       <PieChart
-        colorKey="color"
         data={acquisitionShare}
         height={260}
         labelKey="channel"
@@ -577,7 +576,6 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
     render: ({ width }) => (
       <DonutChart
         centerLabel="$1.5M"
-        colorKey="color"
         data={revenueMix}
         height={260}
         labelKey="label"
@@ -594,7 +592,6 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
     render: ({ width }) => (
       <ProgressChart
         centerLabel={({ average }) => `${Math.round(average * 100)}%`}
-        colorKey="color"
         data={progressRings}
         height={260}
         labelKey="label"
@@ -610,7 +607,7 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
     render: ({ width }) => (
       <ProgressChart
         centerLabel="Ready"
-        data={[{ label: "Release readiness", value: 0.76, color: "#00163f" }]}
+        data={[{ label: "Release readiness", value: 0.76 }]}
         height={240}
         labelKey="label"
         valueKey="value"

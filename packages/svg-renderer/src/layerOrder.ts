@@ -10,6 +10,7 @@ export const chartRenderLayers = {
   data: 50,
   referenceLines: 55,
   markers: 60,
+  referenceLabels: 65,
   overlays: 70,
   interaction: 80,
   debug: 90

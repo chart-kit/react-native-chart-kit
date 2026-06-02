@@ -143,11 +143,19 @@ export type LineChartEdgeLabelPolicy = "shift" | "hide" | "show";
 export type LineChartInitialIndex = ChartViewportInitialIndex;
 export type LineChartReferenceLabelPosition = "start" | "center" | "end";
 export type LineChartReferenceLabelPlacement = "auto" | "above" | "below";
+export type LineChartReferenceLabelContainerConfig = {
+  backgroundColor?: string;
+  borderRadius?: number;
+  opacity?: number;
+  paddingX?: number;
+  paddingY?: number;
+};
 
 export type LineChartReferenceLineConfig = {
   y: number;
   label?: string;
   labelColor?: string;
+  labelContainer?: boolean | LineChartReferenceLabelContainerConfig;
   labelFontSize?: number;
   labelOffset?: number;
   labelPlacement?: LineChartReferenceLabelPlacement;
@@ -163,6 +171,7 @@ export type LineChartReferenceBandConfig = {
   y2: number;
   label?: string;
   labelColor?: string;
+  labelContainer?: boolean | LineChartReferenceLabelContainerConfig;
   labelFontSize?: number;
   labelPosition?: LineChartReferenceLabelPosition;
   color?: string;

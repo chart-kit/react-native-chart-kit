@@ -67,11 +67,10 @@ const data = [
   data={data}
   xKey="month"
   series={[
-    { yKey: "actual", label: "Actual", color: "#2563eb" },
+    { yKey: "actual", label: "Actual" },
     {
       yKey: "forecast",
       label: "Forecast",
-      color: "#94a3b8",
       strokeDasharray: [6, 4],
       strokeOpacity: 0.72
     }
@@ -165,7 +164,9 @@ const data = [
       }
     }
   ]}
-  referenceLines={[{ y: 100, label: "Plan", strokeDasharray: [5, 4] }]}
+  referenceLines={[
+    { y: 100, label: "Plan", labelContainer: true, strokeDasharray: [5, 4] }
+  ]}
   width={360}
   height={240}
 />;
@@ -325,7 +326,9 @@ changing the viewport does not make the plot jump when labels change.
 ## Reference Overlays
 
 Reference lines and bands are clipped to the plot bounds. Line labels default to
-automatic vertical placement and try to avoid nearby series geometry.
+automatic vertical placement and try to avoid nearby series geometry. Add
+`labelContainer` to a reference line or band when a label needs a small
+background chip over busy data.
 
 ```tsx
 const data = [
@@ -347,8 +350,8 @@ const data = [
   data={data}
   xKey="month"
   yKey="attainment"
-  referenceBands={[{ y1: 90, y2: 110, label: "Target range", opacity: 0.12 }]}
-  referenceLines={[{ y: 100, label: "Plan", strokeDasharray: [5, 4] }]}
+  referenceBands={[{ y1: 176, y2: 190, label: "Target range", opacity: 0.12 }]}
+  referenceLines={[{ y: 183, label: "Plan", strokeDasharray: [5, 4] }]}
   width={360}
   height={240}
 />;
@@ -356,7 +359,21 @@ const data = [
 
 ## Layout Debug
 
-Use `debugLayout` in development when a chart clips labels, legends, or tooltips.
+Use `debugLayout` in development when a chart clips labels, legends, or
+tooltips. It draws the computed layout rectangles over the chart and exposes the
+same rectangles through `onLayoutDebug`.
+
+Use the overlay to identify which layout box is causing the issue, then tune the
+related prop:
+
+- X labels collide or overflow: adjust `labelStrategy`, `labelRotation`,
+  `labelMinGap`, or `edgeLabelPolicy`.
+- Y labels clip or steal too much plot width: adjust `yAxisLabelWidth` or
+  `formatYLabel`.
+- Legend rows crowd the plot: adjust `legend`, hide it, or simplify series
+  labels.
+- Tooltip overlaps important data: adjust `tooltip` placement, width, or custom
+  renderer.
 
 ```tsx
 <LineChart
@@ -463,8 +480,8 @@ table fallback or export workflow.
 | `renderCrosshair`         | `(props) => ReactNode`                                      | Custom renderer for the crosshair.                                                                |
 | `tooltip`                 | `boolean` or `LineChartTooltipConfig`                       | Shows and configures selected-point tooltip content and placement.                                |
 | `renderTooltip`           | `(props) => ReactNode`                                      | Custom renderer for selected-point tooltip content.                                               |
-| `referenceLines`          | `LineChartReferenceLineConfig[]`                            | Horizontal reference lines drawn across the plot.                                                 |
-| `referenceBands`          | `LineChartReferenceBandConfig[]`                            | Horizontal reference bands drawn behind the series.                                               |
+| `referenceLines`          | `LineChartReferenceLineConfig[]`                            | Horizontal reference lines drawn across the plot. Reference labels support `labelContainer`.      |
+| `referenceBands`          | `LineChartReferenceBandConfig[]`                            | Horizontal reference bands drawn behind the series. Reference labels support `labelContainer`.    |
 | `showHorizontalGridLines` | `boolean`                                                   | Shows or hides horizontal grid lines.                                                             |
 | `showVerticalGridLines`   | `boolean`                                                   | Shows or hides vertical grid lines.                                                               |
 | `legend`                  | `boolean` or `LineChartLegendConfig`                        | Shows and configures the chart legend.                                                            |

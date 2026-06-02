@@ -35,7 +35,6 @@ const values = Array.from({ length: numDays }, (_, index) => {
   width={360}
   height={162}
   weekStartsOn={1}
-  preset="spectrum"
 />;
 ```
 

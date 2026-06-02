@@ -76,7 +76,8 @@ const importStatementPattern =
 const explicitThemePattern =
   /\b(?:ChartKitProvider|createChartPreset)\b|\b(?:preset|theme)\s*=/;
 
-const explicitPalettePattern = /\b(?:colorKey|colors)\s*=|\bcolor\s*:/;
+const explicitPalettePattern =
+  /\b(?:colorKey|colors)\s*=|\b(?:barColors|colors)\s*:/;
 
 const chartKitLightEditorTheme: LiveEditorTheme = {
   plain: {

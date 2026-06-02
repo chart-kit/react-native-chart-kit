@@ -61,7 +61,6 @@ const data = [
     { yKey: "organic", label: "Organic" },
     { yKey: "paid", label: "Paid" }
   ]}
-  preset="spectrum"
   showValuesOnTopOfBars
   width={360}
   height={260}
@@ -95,7 +94,6 @@ const profit = [
   data={profit}
   xKey="month"
   yKey="profit"
-  preset="aurora"
   showValuesOnTopOfBars
   formatYLabel={(value) => (value < 0 ? `-$${Math.abs(value)}k` : `$${value}k`)}
   width={360}
@@ -190,38 +188,6 @@ const platformShare = [
 ```
 
 ::chart-preview{id="bar-stacked"}
-
-## Legacy StackedBarChart Facade
-
-Existing `StackedBarChart` data can render through the modern stacked-bar engine without changing the old data shape.
-
-```tsx
-import { StackedBarChart } from "react-native-chart-kit/v2";
-
-<StackedBarChart
-  data={{
-    labels: ["Free", "Starter", "Team"],
-    legend: ["Active", "Trial", "Paused"],
-    data: [
-      [44, 18, 8],
-      [38, 24, 11],
-      [52, 28, 14]
-    ],
-    barColors: ["#2563eb", "#0891b2", "#7c3aed"]
-  }}
-  width={360}
-  height={250}
-  chartConfig={{
-    backgroundGradientFrom: "#ffffff",
-    backgroundGradientTo: "#ffffff",
-    decimalPlaces: 0
-  }}
-  segments={4}
-  yAxisSuffix="k"
-/>;
-```
-
-The facade maps `labels`, `legend`, `data`, `barColors`, `hideLegend`, `percentile`, `segments`, `barPercentage`, `chartConfig.barPercentage`, `chartConfig.barRadius`, `decimalPlaces`, `formatYLabel`, `withVerticalLabels`, `withHorizontalLabels`, `withInnerLines`, `yAxisLabel`, and `yAxisSuffix`.
 
 ## Tap Selection And Tooltips
 

@@ -145,6 +145,7 @@ export type {
   LineChartRangeSelectorSeriesStyle,
   LineChartRangeSelectorWindowRenderProps,
   LineChartReferenceBandConfig,
+  LineChartReferenceLabelContainerConfig,
   LineChartReferenceLabelPosition,
   LineChartReferenceLineConfig,
   LineChartRenderer,

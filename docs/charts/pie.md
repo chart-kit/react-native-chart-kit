@@ -29,7 +29,6 @@ export function AcquisitionShare() {
       labelKey="channel"
       width={360}
       height={260}
-      preset="spectrum"
     />
   );
 }

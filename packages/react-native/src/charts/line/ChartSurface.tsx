@@ -4,7 +4,7 @@ import { renderLineChartDebugLayout } from "./debugOverlay";
 import { renderConfiguredLegend } from "./legend";
 import { renderDefaultDot } from "./markers";
 import { getLineChartRenderer } from "./renderer";
-import { getFontFamilyProps } from "./text";
+import { getFontFamilyProps, measureLineChartText } from "./text";
 import {
   getLineChartAreaGradientId,
   LineChartAreaPaths,
@@ -19,6 +19,22 @@ import type {
   LineChartRenderer,
   LineChartYAxisLabelModel
 } from "./types";
+
+type ReferenceOverlayLabelModel = {
+  text: string;
+  x: number;
+  y: number;
+  color: string;
+  container?: {
+    backgroundColor: string;
+    borderRadius: number;
+    opacity: number;
+    paddingX: number;
+    paddingY: number;
+  };
+  fontSize: number;
+  textAnchor: "middle" | "start" | "end";
+};
 
 export const LineChartSurface = <TData extends Record<string, unknown>>({
   animatedTooltip,
@@ -77,6 +93,70 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
     renderer.capabilities?.gradients !== false &&
     renderer.capabilities?.pathGradients !== true &&
     Boolean(LinearGradient);
+  const renderReferenceLabel = (
+    key: string,
+    label: ReferenceOverlayLabelModel
+  ) => {
+    const fontFamilyProps = getFontFamilyProps(
+      resolvedTheme.typography.fontFamily
+    );
+
+    if (!label.container) {
+      return (
+        <Text
+          key={key}
+          x={label.x}
+          y={label.y}
+          fill={label.color}
+          fontSize={label.fontSize}
+          textAnchor={label.textAnchor}
+          {...fontFamilyProps}
+        >
+          {label.text}
+        </Text>
+      );
+    }
+
+    const labelSize = measureLineChartText(label.text, {
+      fontFamily: resolvedTheme.typography.fontFamily,
+      fontSize: label.fontSize
+    });
+    const backgroundWidth = labelSize.width + label.container.paddingX * 2;
+    const backgroundHeight = labelSize.height + label.container.paddingY * 2;
+    const backgroundX =
+      label.textAnchor === "end"
+        ? label.x - backgroundWidth
+        : label.textAnchor === "middle"
+          ? label.x - backgroundWidth / 2
+          : label.x;
+    const backgroundY =
+      label.y - labelSize.height + 2 - label.container.paddingY;
+    const textX = backgroundX + backgroundWidth / 2;
+
+    return (
+      <Group key={key}>
+        <Rect
+          x={backgroundX}
+          y={backgroundY}
+          width={backgroundWidth}
+          height={backgroundHeight}
+          rx={label.container.borderRadius}
+          fill={label.container.backgroundColor}
+          opacity={label.container.opacity}
+        />
+        <Text
+          x={textX}
+          y={label.y}
+          fill={label.color}
+          fontSize={label.fontSize}
+          textAnchor="middle"
+          {...fontFamilyProps}
+        >
+          {label.text}
+        </Text>
+      </Group>
+    );
+  };
 
   return (
     <View
@@ -219,28 +299,32 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
         </Layer>
         <Layer name="referenceBands">
           {referenceBandModels.map((band) => (
-            <Group key={band.key}>
-              <Rect
-                x={band.x}
-                y={band.y}
-                width={band.width}
-                height={band.height}
-                fill={band.color}
-                opacity={band.opacity}
-              />
-              {band.label && canRenderText ? (
-                <Text
-                  x={band.label.x}
-                  y={band.label.y}
-                  fill={band.label.color}
-                  fontSize={band.label.fontSize}
-                  textAnchor={band.label.textAnchor}
-                  {...getFontFamilyProps(resolvedTheme.typography.fontFamily)}
-                >
-                  {band.label.text}
-                </Text>
-              ) : null}
-            </Group>
+            <Rect
+              key={band.key}
+              x={band.x}
+              y={band.y}
+              width={band.width}
+              height={band.height}
+              fill={band.color}
+              opacity={band.opacity}
+            />
+          ))}
+        </Layer>
+        <Layer name="referenceLines">
+          {referenceLineModels.map((line) => (
+            <Line
+              key={line.key}
+              x1={line.x1}
+              x2={line.x2}
+              y1={line.y}
+              y2={line.y}
+              stroke={line.color}
+              strokeOpacity={line.opacity}
+              strokeWidth={line.strokeWidth}
+              {...(line.strokeDasharray
+                ? { strokeDasharray: line.strokeDasharray }
+                : {})}
+            />
           ))}
         </Layer>
         <Layer name="dataArea">
@@ -260,36 +344,6 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
             renderer={renderer}
             yScale={yScale}
           />
-        </Layer>
-        <Layer name="referenceLines">
-          {referenceLineModels.map((line) => (
-            <Group key={line.key}>
-              <Line
-                x1={line.x1}
-                x2={line.x2}
-                y1={line.y}
-                y2={line.y}
-                stroke={line.color}
-                strokeOpacity={line.opacity}
-                strokeWidth={line.strokeWidth}
-                {...(line.strokeDasharray
-                  ? { strokeDasharray: line.strokeDasharray }
-                  : {})}
-              />
-              {line.label && canRenderText ? (
-                <Text
-                  x={line.label.x}
-                  y={line.label.y}
-                  fill={line.label.color}
-                  fontSize={line.label.fontSize}
-                  textAnchor={line.label.textAnchor}
-                  {...getFontFamilyProps(resolvedTheme.typography.fontFamily)}
-                >
-                  {line.label.text}
-                </Text>
-              ) : null}
-            </Group>
-          ))}
         </Layer>
         <Layer name="markers">
           {geometries.flatMap(({ geometry, style }) =>
@@ -318,6 +372,18 @@ export const LineChartSurface = <TData extends Record<string, unknown>>({
                   </Group>
                 ) : null;
               })
+          )}
+        </Layer>
+        <Layer name="referenceLabels">
+          {referenceBandModels.map((band) =>
+            band.label && canRenderText
+              ? renderReferenceLabel(`${band.key}-label`, band.label)
+              : null
+          )}
+          {referenceLineModels.map((line) =>
+            line.label && canRenderText
+              ? renderReferenceLabel(`${line.key}-label`, line.label)
+              : null
           )}
         </Layer>
         <Layer name="overlays">

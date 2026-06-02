@@ -175,8 +175,8 @@ as `LineChart`.
 | `renderCrosshair`         | `(props) => ReactNode`                                      | Custom renderer for the crosshair.                                                                |
 | `tooltip`                 | `boolean` or `LineChartTooltipConfig`                       | Shows and configures selected-point tooltip content and placement.                                |
 | `renderTooltip`           | `(props) => ReactNode`                                      | Custom renderer for selected-point tooltip content.                                               |
-| `referenceLines`          | `LineChartReferenceLineConfig[]`                            | Horizontal reference lines drawn across the plot.                                                 |
-| `referenceBands`          | `LineChartReferenceBandConfig[]`                            | Horizontal reference bands drawn behind the series.                                               |
+| `referenceLines`          | `LineChartReferenceLineConfig[]`                            | Horizontal reference lines drawn across the plot. Reference labels support `labelContainer`.      |
+| `referenceBands`          | `LineChartReferenceBandConfig[]`                            | Horizontal reference bands drawn behind the series. Reference labels support `labelContainer`.    |
 | `showHorizontalGridLines` | `boolean`                                                   | Shows or hides horizontal grid lines.                                                             |
 | `showVerticalGridLines`   | `boolean`                                                   | Shows or hides vertical grid lines.                                                               |
 | `legend`                  | `boolean` or `LineChartLegendConfig`                        | Shows and configures the chart legend.                                                            |

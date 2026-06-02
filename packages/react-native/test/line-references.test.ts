@@ -115,6 +115,49 @@ describe("LineChart reference overlays", () => {
     expect(line?.label?.y).toBe(94);
   });
 
+  it("supports opt-in reference label containers", () => {
+    const [line] = buildLineChartReferenceLineModels({
+      lines: [{ y: 75, label: "Target", labelContainer: true }],
+      plot,
+      theme,
+      yScale
+    });
+    const [band] = buildLineChartReferenceBandModels({
+      bands: [
+        {
+          y1: 20,
+          y2: 40,
+          label: "Goal range",
+          labelContainer: {
+            backgroundColor: "#111827",
+            borderRadius: 6,
+            opacity: 0.72,
+            paddingX: 5,
+            paddingY: 3
+          }
+        }
+      ],
+      plot,
+      theme,
+      yScale
+    });
+
+    expect(line?.label?.container).toEqual({
+      backgroundColor: theme.plotBackground,
+      borderRadius: 4,
+      opacity: 0.9,
+      paddingX: 3,
+      paddingY: 2
+    });
+    expect(band?.label?.container).toEqual({
+      backgroundColor: "#111827",
+      borderRadius: 6,
+      opacity: 0.72,
+      paddingX: 5,
+      paddingY: 3
+    });
+  });
+
   it("clamps reference bands to the plot bounds", () => {
     expect(
       buildLineChartReferenceBandModels({

@@ -13,19 +13,17 @@ The v2 progress surface supports concentric rings and single-ring completion sta
 import { ProgressChart } from "react-native-chart-kit/v2";
 
 const data = [
-  { metric: "Build signed", progress: 0.76, color: "#00163f" },
-  { metric: "QA pass", progress: 0, color: "#2f5f9f" },
-  { metric: "Rollout cap", progress: 0.42, color: "#6f88aa" }
+  { metric: "Build signed", progress: 0.76 },
+  { metric: "QA pass", progress: 0 },
+  { metric: "Rollout cap", progress: 0.42 }
 ];
 
 <ProgressChart
   data={data}
   valueKey="progress"
   labelKey="metric"
-  colorKey="color"
   width={320}
   height={260}
-  preset="verdant"
   centerLabel={({ average }) => `${Math.round(average * 100)}%`}
 />;
 ```
@@ -54,8 +52,7 @@ The legacy data object still works:
 <ProgressChart
   data={{
     labels: ["Build signed", "QA pass", "Rollout cap"],
-    data: [0.76, 0, 0.42],
-    colors: ["#00163f", "#2f5f9f", "#6f88aa"]
+    data: [0.76, 0, 0.42]
   }}
   width={320}
   height={240}
