@@ -138,16 +138,6 @@ if (v2PackageJson.name !== "@chart-kit/react-native") {
 }
 
 for (const workspacePackageJson of [corePackageJson, svgPackageJson, v2PackageJson]) {
-  if (workspacePackageJson.private !== true) {
-    throw new Error(`${workspacePackageJson.name} must remain private`);
-  }
-
-  if (workspacePackageJson.publishConfig) {
-    throw new Error(
-      `${workspacePackageJson.name} must not define publishConfig`
-    );
-  }
-
   if (
     !workspacePackageJson.exports?.["."] ||
     !workspacePackageJson.exports?.["./package.json"]
@@ -156,6 +146,30 @@ for (const workspacePackageJson of [corePackageJson, svgPackageJson, v2PackageJs
       `${workspacePackageJson.name} must expose explicit workspace package paths`
     );
   }
+}
+
+for (const publicWorkspacePackageJson of [corePackageJson, svgPackageJson]) {
+  if (publicWorkspacePackageJson.private === true) {
+    throw new Error(`${publicWorkspacePackageJson.name} must be publishable`);
+  }
+
+  if (publicWorkspacePackageJson.license !== "MIT") {
+    throw new Error(`${publicWorkspacePackageJson.name} must remain MIT`);
+  }
+
+  if (publicWorkspacePackageJson.publishConfig?.access !== "public") {
+    throw new Error(
+      `${publicWorkspacePackageJson.name} must publish as public`
+    );
+  }
+}
+
+if (v2PackageJson.private !== true) {
+  throw new Error(`${v2PackageJson.name} must remain private`);
+}
+
+if (v2PackageJson.publishConfig) {
+  throw new Error(`${v2PackageJson.name} must not define publishConfig`);
 }
 
 if (packageJson.main !== "./dist/index.js") {

@@ -8,7 +8,38 @@ const npmCache = path.join(repoRoot, ".tmp", "npm-pack-cache");
 const rootPackage = JSON.parse(
   await readFile(path.join(repoRoot, "package.json"), "utf8")
 );
+const corePackage = JSON.parse(
+  await readFile(path.join(repoRoot, "packages/core/package.json"), "utf8")
+);
+const svgRendererPackage = JSON.parse(
+  await readFile(
+    path.join(repoRoot, "packages/svg-renderer/package.json"),
+    "utf8"
+  )
+);
 const packageChecks = [
+  {
+    dir: "packages/core",
+    name: corePackage.name,
+    requiredFiles: [
+      "package.json",
+      "LICENSE",
+      "README.md",
+      "dist/index.js",
+      "dist/index.d.ts"
+    ]
+  },
+  {
+    dir: "packages/svg-renderer",
+    name: svgRendererPackage.name,
+    requiredFiles: [
+      "package.json",
+      "LICENSE",
+      "README.md",
+      "dist/index.js",
+      "dist/index.d.ts"
+    ]
+  },
   {
     dir: ".",
     name: rootPackage.name,

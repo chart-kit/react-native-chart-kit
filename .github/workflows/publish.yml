@@ -133,6 +133,28 @@ jobs:
             echo "${TAG_NAME} already exists and ${PACKAGE_NAME}@${PACKAGE_VERSION} is already published; continuing idempotent rerun."
           fi
 
+      - name: Publish public workspace packages
+        run: |
+          for PACKAGE_DIR in packages/core packages/svg-renderer; do
+            PACKAGE_NAME=$(node -p "require('./${PACKAGE_DIR}/package.json').name")
+            PACKAGE_VERSION=$(node -p "require('./${PACKAGE_DIR}/package.json').version")
+
+            if node scripts/check-npm-package-exists.mjs "${PACKAGE_NAME}" "${PACKAGE_VERSION}"; then
+              echo "Skipping ${PACKAGE_NAME}@${PACKAGE_VERSION}; already published"
+              continue
+            else
+              PACKAGE_EXISTS_STATUS=$?
+              if [ "${PACKAGE_EXISTS_STATUS}" != "1" ]; then
+                exit "${PACKAGE_EXISTS_STATUS}"
+              fi
+            fi
+
+            npm publish "${PACKAGE_DIR}" --ignore-scripts --access public --provenance --tag "${NPM_TAG}"
+          done
+        env:
+          NPM_TAG: ${{ steps.package.outputs.npm_tag }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Publish
         run: |
           PACKAGE_NAME="${{ steps.package.outputs.name }}"
@@ -185,6 +207,14 @@ jobs:
         env:
           PACKAGE_NAME: ${{ steps.package.outputs.name }}
           PACKAGE_VERSION: ${{ steps.package.outputs.version }}
+
+      - name: Verify workspace registry publish state
+        run: |
+          for PACKAGE_DIR in packages/core packages/svg-renderer; do
+            PACKAGE_NAME=$(node -p "require('./${PACKAGE_DIR}/package.json').name")
+            PACKAGE_VERSION=$(node -p "require('./${PACKAGE_DIR}/package.json').version")
+            node scripts/check-npm-package-exists.mjs "${PACKAGE_NAME}" "${PACKAGE_VERSION}"
+          done
 
       - name: Create GitHub release
         env:
