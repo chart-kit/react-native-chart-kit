@@ -288,8 +288,7 @@ const parseTsConfig = () => {
     paths: {
       ...(parsed.options.paths ?? {}),
       "react-native-chart-kit": ["src/index.ts"],
-      "react-native-chart-kit/v2": ["packages/react-native/src/index.ts"],
-      "@chart-kit/pro": ["apps/site/src/previews/proStub.tsx"]
+      "react-native-chart-kit/v2": ["packages/react-native/src/index.ts"]
     },
     skipLibCheck: true,
     strict: false

@@ -25,15 +25,36 @@ const expoVectorIconsStub = localSource(
 const svgTransformParserStub = localSource(
   "./src/previews/svgTransformParserStub.ts"
 );
-const useRealProCharts = process.env.CHART_KIT_PRO_DOCS === "true";
-const chartKitProAliases = useRealProCharts
-  ? []
-  : [
+const useProDocsStubs = process.env.CHART_KIT_PRO_DOCS_STUBS === "true";
+const chartKitProAliases = useProDocsStubs
+  ? [
       {
         find: /^@chart-kit\/pro$/,
         replacement: localSource("./src/previews/proStub.tsx")
       }
-    ];
+    ]
+  : [];
+
+const chartKitProAvailabilityCheck = () => ({
+  name: "chart-kit-pro-availability-check",
+  enforce: "pre",
+  async resolveId(source, importer, options) {
+    if (source !== "@chart-kit/pro" || useProDocsStubs) {
+      return;
+    }
+
+    const resolved = await this.resolve(source, importer, {
+      ...options,
+      skipSelf: true
+    });
+
+    if (!resolved) {
+      this.error(
+        "Unable to resolve @chart-kit/pro. Install the private Pro package or set CHART_KIT_PRO_DOCS_STUBS=true for an explicit stub-only local docs run."
+      );
+    }
+  }
+});
 
 const chartKitPreviewWebAliases = () => ({
   name: "chart-kit-preview-web-aliases",
@@ -135,7 +156,11 @@ export default defineConfig({
     })
   ],
   vite: {
-    plugins: [chartKitPreviewWebAliases(), tailwindcss()],
+    plugins: [
+      chartKitProAvailabilityCheck(),
+      chartKitPreviewWebAliases(),
+      tailwindcss()
+    ],
     optimizeDeps: {
       exclude: [
         "@chart-kit/core",

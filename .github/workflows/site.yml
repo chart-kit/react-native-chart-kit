@@ -35,13 +35,13 @@ jobs:
         env:
           CHART_KIT_PRO_NPM_TOKEN: ${{ secrets.CHART_KIT_PRO_NPM_TOKEN }}
         run: |
-          if [ -n "$CHART_KIT_PRO_NPM_TOKEN" ]; then
-            npm config set //registry.npmjs.org/:_authToken "$CHART_KIT_PRO_NPM_TOKEN"
-            npm install --no-save --package-lock=false --ignore-scripts @chart-kit/pro
-            echo "CHART_KIT_PRO_DOCS=true" >> "$GITHUB_ENV"
-          else
-            echo "CHART_KIT_PRO_NPM_TOKEN is not set; building with local Pro docs stubs."
+          if [ -z "$CHART_KIT_PRO_NPM_TOKEN" ]; then
+            echo "CHART_KIT_PRO_NPM_TOKEN is required to build Pro docs with @chart-kit/pro." >&2
+            exit 1
           fi
+          npm config set //registry.npmjs.org/:_authToken "$CHART_KIT_PRO_NPM_TOKEN"
+          npm install --no-save --package-lock=false --ignore-scripts @chart-kit/pro
+          echo "CHART_KIT_PRO_DOCS=true" >> "$GITHUB_ENV"
 
       - name: Build site
         run: npm run site:build
