@@ -1,13 +1,13 @@
 ---
 title: Candlebar Chart
-description: Build OHLC and volume charts with realtime updates and controlled inspection in Chart Kit Pro.
+description: Inspect OHLC price movement, wicks, and volume with Chart Kit Pro.
 ---
 
 # Candlebar Chart
 
-`CandlebarChart` is a Pro chart for OHLC market data. It pairs candlestick
-bodies, high/low wicks, volume context, and selection-ready hit targets in one
-mobile chart surface.
+`CandlebarChart` shows open, high, low, close, and volume data for each interval.
+Use it for market, trading, and asset-monitoring screens where users need to
+inspect price movement candle by candle.
 
 This chart is available in Chart Kit Pro. Install it once from
 [Installation](pro-installation.md).

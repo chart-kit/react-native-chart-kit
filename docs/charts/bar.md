@@ -1,15 +1,13 @@
 ---
 title: Bar Charts
-description: Build grouped, stacked, and scrollable bar charts with the modern API.
+description: Compare category totals, rankings, and composition with bar charts.
 ---
 
 # Bar Charts
 
-`BarChart` is the modern v2 bar surface for object-row data. It supports vertical and horizontal bars, grouped bars, stacked bars, 100% stacked bars, negative values, horizontal scrolling, automatic axis padding, theme presets, value labels, tap selection, tooltips, and a simple bottom legend.
-
-Use this API for new apps. The v2 package also exports a `StackedBarChart` compatibility facade for legacy stacked-bar data during migration.
-
-All examples on this page are part of the public free v2 API.
+`BarChart` compares values across categories or time buckets. Use it for
+rankings, monthly totals, grouped series, stacked composition, negative values,
+and horizontal layouts when category labels need more room.
 
 ## Basic Bars
 
@@ -323,10 +321,6 @@ Useful label and theme props:
 - `preset`: uses the same cartesian presets as LineChart.
 - `theme`: overrides chart colors, plot background, text, typography, and series colors.
 
-## Current Limitations
-
-This is still an early modern BarChart slice. Full legacy `BarChart` prop mapping belongs to the root compatibility facade rather than the modern object-row API.
-
 ## Props
 
 ### BarChart
@@ -369,33 +363,4 @@ This is still an early modern BarChart slice. Full legacy `BarChart` prop mappin
 | `formatYLabel`            | `(value) => string`                             | Formats y-axis labels, value labels, and tooltip values.                      |
 | `id`                      | `string`                                        | Stable chart id used for coordinated selection scope.                         |
 | `accessibilityLabel`      | `string`                                        | Overrides the generated accessible chart summary.                             |
-| `testID`                  | `string`                                        | Test identifier applied to the chart surface.                                 |
-
-### StackedBarChart
-
-`StackedBarChart` is the v2 compatibility facade for legacy stacked-bar data.
-
-| Prop                             | Type                                         | Description                                                                  |
-| -------------------------------- | -------------------------------------------- | ---------------------------------------------------------------------------- |
-| `data`                           | `StackedBarChartLegacyData`                  | Legacy stacked-bar data with `labels`, `legend`, `data`, and `barColors`.    |
-| `width`                          | `number`                                     | Outer chart width in pixels.                                                 |
-| `height`                         | `number`                                     | Outer chart height in pixels.                                                |
-| `chartConfig`                    | `StackedBarChartLegacyConfig`                | Legacy color, label, decimal, bar, and grid configuration.                   |
-| `hideLegend`                     | `boolean`                                    | Hides the generated legend when true.                                        |
-| `style`                          | `StyleProp<ViewStyle>`                       | Style applied to the compatibility wrapper.                                  |
-| `barPercentage`                  | `number`                                     | Overrides the bar width ratio from `chartConfig`.                            |
-| `decimalPlaces`                  | `number`                                     | Controls formatted value precision.                                          |
-| `withVerticalLabels`             | `boolean`                                    | Shows or hides x-axis labels.                                                |
-| `withHorizontalLabels`           | `boolean`                                    | Shows or hides y-axis labels.                                                |
-| `withInnerLines`                 | `boolean`                                    | Shows or hides inner grid lines.                                             |
-| `segments`                       | `number`                                     | Controls y-axis tick density.                                                |
-| `percentile`                     | `boolean`                                    | Renders the stack as 100% stacked values.                                    |
-| `fromZero`                       | `boolean`                                    | Forces the value domain to include zero.                                     |
-| `yAxisLabel`                     | `string`                                     | Prefix added to formatted y-axis values.                                     |
-| `yAxisSuffix`                    | `string`                                     | Suffix added to formatted y-axis values.                                     |
-| `verticalLabelsHeightPercentage` | `number`                                     | Legacy compatibility prop accepted by the facade.                            |
-| `formatYLabel`                   | `(yLabel) => string`                         | Formats y-axis labels after decimal formatting.                              |
-| `theme`                          | `ChartKitThemeMode` or `CartesianChartTheme` | Theme mode or inline theme tokens for this chart.                            |
-| `preset`                         | `CartesianChartPresetValue`                  | Built-in or registered preset name used to seed chart colors and typography. |
-| `accessibilityLabel`             | `string`                                     | Overrides the generated accessible chart summary.                            |
-| `testID`                         | `string`                                     | Test identifier applied to the chart surface.                                |
+| `testID`                  | `string`                                        | Test identifier applied to the chart container.                               |

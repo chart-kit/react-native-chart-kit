@@ -1,15 +1,13 @@
 ---
 title: Line Chart
-description: Build line charts with object-row data, renderers, gestures, and themes.
+description: Show trends, forecasts, and changes over time with line charts.
 ---
 
 # Line Chart
 
-`LineChart` is the primary modern v2 trend surface. It uses object-row data,
-explicit keys, renderer-agnostic geometry, and SVG rendering by default.
-
-Use this API for new apps. The legacy `react-native-chart-kit` data shape is
-handled separately by the compatibility facade.
+`LineChart` shows how a value changes over time or across ordered categories.
+Use it for trends, forecasts, performance tracking, and any metric where the
+shape of change matters.
 
 ## Basic Line
 
@@ -429,7 +427,7 @@ Decimation options:
 ## Accessibility
 
 Every LineChart generates a summary if `accessibilityLabel` is not provided. For
-custom accessibility surfaces, use:
+custom accessibility output, use:
 
 ```ts
 import {
@@ -499,4 +497,4 @@ table fallback or export workflow.
 | `debugLayout`             | `boolean`                                                   | Renders layout debug rectangles in development.                                                   |
 | `onLayoutDebug`           | `(model) => void`                                           | Receives computed layout debug geometry.                                                          |
 | `accessibilityLabel`      | `string`                                                    | Overrides the generated accessible chart summary.                                                 |
-| `testID`                  | `string`                                                    | Test identifier applied to the chart surface.                                                     |
+| `testID`                  | `string`                                                    | Test identifier applied to the chart container.                                                   |

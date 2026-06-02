@@ -5,8 +5,9 @@ description: Render donut charts with center labels, legends, and tap selection.
 
 # Donut Chart
 
-`DonutChart` uses the same normalized slice model as `PieChart`, with a default
-inner radius and center-label support.
+`DonutChart` shows proportional slices around a center label. Use it for compact
+mixes, totals, or status summaries where the middle of the chart can carry a key
+number or selected category.
 
 ## Basic Donut
 
@@ -32,11 +33,11 @@ const revenueMix = [
 
 ::chart-preview{id="donut-basic"}
 
-## Current Scope
+## Capabilities
 
-The first v2 donut chart supports:
+`DonutChart` supports:
 
-- modern object-row data
+- object-row data
 - theme and preset colors
 - bottom wrapped legend
 - percentage labels in the legend
@@ -119,7 +120,8 @@ const retentionSegments = [
 
 ### DonutChart
 
-`DonutChart` accepts the same prop surface as `PieChart` and defaults `innerRadiusRatio` to `0.58`.
+`DonutChart` accepts the same props as `PieChart` and defaults
+`innerRadiusRatio` to `0.58`.
 
 | Prop                   | Type                                                      | Description                                                                  |
 | ---------------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------- |
@@ -145,6 +147,6 @@ const retentionSegments = [
 | `renderer`             | `PieChartRenderer`                                        | Renderer implementation used for SVG-compatible primitives.                  |
 | `accessibilityLabel`   | `string`                                                  | Overrides the generated accessible chart summary.                            |
 | `id`                   | `string`                                                  | Stable chart id used for coordinated selection scope.                        |
-| `testID`               | `string`                                                  | Test identifier applied to the chart surface.                                |
+| `testID`               | `string`                                                  | Test identifier applied to the chart container.                              |
 | `formatValue`          | `(value) => string`                                       | Formats raw slice values in labels and accessible output.                    |
 | `formatPercentage`     | `(percentage) => string`                                  | Formats percentage labels in legends, arc labels, and accessible output.     |

@@ -1,13 +1,13 @@
 ---
 title: Area Chart
-description: Build filled trend charts with AreaChart or LineChart area mode.
+description: Show filled trends where magnitude and direction both matter.
 ---
 
 # Area Chart
 
-`AreaChart` is the dedicated v2 surface for filled trend charts. It shares the
-same data model and interaction primitives as `LineChart`, but defaults to an
-area fill.
+`AreaChart` shows a trend with the area beneath the line filled in. Use it when
+the size of a value matters as much as its movement, such as balances, capacity,
+pipeline, or volume over time.
 
 ## Basic Area
 
@@ -138,7 +138,8 @@ as `LineChart`.
 
 ### AreaChart
 
-`AreaChart` accepts the same prop surface as `LineChart` and renders with area fill enabled by default.
+`AreaChart` accepts the same props as `LineChart` and renders with area fill
+enabled by default.
 
 | Prop                      | Type                                                        | Description                                                                                       |
 | ------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
@@ -194,4 +195,4 @@ as `LineChart`.
 | `debugLayout`             | `boolean`                                                   | Renders layout debug rectangles in development.                                                   |
 | `onLayoutDebug`           | `(model) => void`                                           | Receives computed layout debug geometry.                                                          |
 | `accessibilityLabel`      | `string`                                                    | Overrides the generated accessible chart summary.                                                 |
-| `testID`                  | `string`                                                    | Test identifier applied to the chart surface.                                                     |
+| `testID`                  | `string`                                                    | Test identifier applied to the chart container.                                                   |

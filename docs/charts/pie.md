@@ -5,8 +5,9 @@ description: Render segmented pie charts with accessible legends and labels.
 
 # Pie Chart
 
-`PieChart` renders a normalized slice model from object-row data and
-renderer-agnostic arc geometry.
+`PieChart` shows how a whole breaks down into proportional slices. Use it for
+small category mixes where the share of each segment is more important than
+precise comparison.
 
 ## Basic Pie
 
@@ -36,11 +37,11 @@ export function AcquisitionShare() {
 
 ::chart-preview{id="pie-basic"}
 
-## Current Scope
+## Capabilities
 
-The first v2 pie chart supports:
+`PieChart` supports:
 
-- modern object-row data
+- object-row data
 - theme and preset colors
 - bottom wrapped legend
 - percentage labels in the legend
@@ -138,6 +139,6 @@ const acquisitionShare = [
 | `renderer`             | `PieChartRenderer`                                        | Renderer implementation used for SVG-compatible primitives.                  |
 | `accessibilityLabel`   | `string`                                                  | Overrides the generated accessible chart summary.                            |
 | `id`                   | `string`                                                  | Stable chart id used for coordinated selection scope.                        |
-| `testID`               | `string`                                                  | Test identifier applied to the chart surface.                                |
+| `testID`               | `string`                                                  | Test identifier applied to the chart container.                              |
 | `formatValue`          | `(value) => string`                                       | Formats raw slice values in labels and accessible output.                    |
 | `formatPercentage`     | `(percentage) => string`                                  | Formats percentage labels in legends, arc labels, and accessible output.     |

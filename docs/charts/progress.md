@@ -5,7 +5,9 @@ description: Show circular progress values with configurable labels and accessib
 
 # Progress Charts
 
-The v2 progress surface supports concentric rings and single-ring completion states. It accepts object rows for the modern API and the legacy Chart Kit progress data shape.
+`ProgressChart` shows completion as circular rings. Use it for checklists,
+readiness scores, quotas, and compact progress summaries with one or more
+tracked values.
 
 ## Concentric Rings
 
@@ -44,9 +46,10 @@ import { ProgressRing } from "react-native-chart-kit/v2";
 />;
 ```
 
-## Compatibility Shape
+## Labels And Data Arrays
 
-The legacy data object still works:
+Use the `labels` and `data` object shape when progress values already come from
+parallel arrays:
 
 ```tsx
 <ProgressChart
@@ -87,12 +90,12 @@ Zero and missing rings keep their background tracks and legend rows. Values abov
 
 | Prop                  | Type                                                      | Description                                                                  |
 | --------------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| `data`                | `ProgressChartData<TData>`                                | Modern object-row data or the legacy progress data object.                   |
+| `data`                | `ProgressChartData<TData>`                                | Object-row data or a progress data object with `labels` and `data` arrays.   |
 | `valueKey`            | `keyof TData`                                             | Row key used for ring progress values in object-row data.                    |
 | `labelKey`            | `keyof TData`                                             | Row key used for ring labels in object-row data.                             |
 | `colorKey`            | `keyof TData`                                             | Row key used for ring colors in object-row data.                             |
-| `labels`              | `string[]`                                                | Labels used with legacy data arrays.                                         |
-| `colors`              | `string[]`                                                | Colors used with legacy data arrays or as fallback ring colors.              |
+| `labels`              | `string[]`                                                | Labels used with data arrays.                                                |
+| `colors`              | `string[]`                                                | Colors used with data arrays or as fallback ring colors.                     |
 | `width`               | `number`                                                  | Outer chart width in pixels.                                                 |
 | `height`              | `number`                                                  | Outer chart height in pixels.                                                |
 | `theme`               | `"light"`, `"dark"`, `"system"`, or `CartesianChartTheme` | Theme mode or inline theme tokens for this chart.                            |
@@ -108,7 +111,7 @@ Zero and missing rings keep their background tracks and legend rows. Values abov
 | `backgroundRingColor` | `string`                                                  | Color used for ring tracks behind progress arcs.                             |
 | `renderer`            | `ProgressChartRenderer`                                   | Renderer implementation used for SVG-compatible primitives.                  |
 | `accessibilityLabel`  | `string`                                                  | Overrides the generated accessible chart summary.                            |
-| `testID`              | `string`                                                  | Test identifier applied to the chart surface.                                |
+| `testID`              | `string`                                                  | Test identifier applied to the chart container.                              |
 | `formatPercentage`    | `(value) => string`                                       | Formats percentages in labels and accessible output.                         |
 
 ### ProgressRing
@@ -133,5 +136,5 @@ Zero and missing rings keep their background tracks and legend rows. Values abov
 | `backgroundRingColor` | `string`                                                  | Color used for the track behind the progress arc.                                                    |
 | `renderer`            | `ProgressChartRenderer`                                   | Renderer implementation used for SVG-compatible primitives.                                          |
 | `accessibilityLabel`  | `string`                                                  | Overrides the generated accessible chart summary.                                                    |
-| `testID`              | `string`                                                  | Test identifier applied to the chart surface.                                                        |
+| `testID`              | `string`                                                  | Test identifier applied to the chart container.                                                      |
 | `formatPercentage`    | `(value) => string`                                       | Formats percentages in labels and accessible output.                                                 |

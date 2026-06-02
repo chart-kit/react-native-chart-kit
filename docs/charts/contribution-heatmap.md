@@ -5,7 +5,9 @@ description: Render calendar-style contribution heatmaps for activity and intens
 
 # Contribution Heatmaps
 
-`ContributionGraph` and `CalendarHeatmap` render calendar-style activity charts from date/count rows. The core geometry maps dates into deterministic week and weekday cells, so timezone, leap-year, and week-start behavior can be tested without React Native.
+`ContributionGraph` and `CalendarHeatmap` show activity intensity across a
+calendar grid. Use them for usage streaks, daily habits, contribution history,
+or any date-based metric where consistency over time matters.
 
 ```tsx
 import { ContributionGraph } from "react-native-chart-kit/v2";
@@ -102,4 +104,4 @@ An empty `values` array still renders the requested date range as zero-count cel
 | `onDayPress`         | `(event) => void`                                         | Called when a day cell is pressed.                                           |
 | `renderer`           | `ContributionGraphRenderer`                               | Renderer implementation used for SVG-compatible primitives.                  |
 | `accessibilityLabel` | `string`                                                  | Overrides the generated accessible chart summary.                            |
-| `testID`             | `string`                                                  | Test identifier applied to the chart surface.                                |
+| `testID`             | `string`                                                  | Test identifier applied to the chart container.                              |

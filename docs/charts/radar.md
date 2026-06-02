@@ -5,9 +5,9 @@ description: Compare KPI profiles, benchmarks, and capability scores with Chart 
 
 # Radar Chart
 
-`RadarChart` is a Pro chart for comparing multiple metric profiles across a
-fixed set of dimensions. It is useful for product quality, health scores,
-benchmarks, rubric scoring, and portfolio comparison.
+`RadarChart` compares multiple profiles across the same set of metrics. Use it
+for product quality, health scores, benchmarks, rubric scoring, and capability
+comparison.
 
 This chart is available in Chart Kit Pro. Install it once from
 [Installation](pro-installation.md).

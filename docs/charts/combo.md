@@ -1,13 +1,13 @@
 ---
 title: Combo Chart
-description: Mix bars and lines on one coordinated mobile chart surface with Chart Kit Pro.
+description: Compare bars and lines together in one Chart Kit Pro chart.
 ---
 
 # Combo Chart
 
-`ComboChart` is a Pro chart for dashboards that need bars and lines on the same
-axis. It is built for revenue operations, growth analytics, cohort performance,
-and product health screens where related signals should be inspected together.
+`ComboChart` combines bars and lines in one chart. Use it for dashboards where a
+current value, target, forecast, margin, or rate should be inspected together on
+the same timeline.
 
 This chart is available in Chart Kit Pro. Install it once from
 [Installation](pro-installation.md).
@@ -103,9 +103,9 @@ export function PipelineInspection() {
 
 ## Series Toggles
 
-Keep series visibility in product state when the chart is part of a broader
-dashboard control surface. The chart keeps the remaining bars and lines aligned
-to the same x-axis.
+Keep series visibility in product state when the chart is part of broader
+dashboard controls. The chart keeps the remaining bars and lines aligned to the
+same x-axis.
 
 ```tsx
 import { useState } from "react";
