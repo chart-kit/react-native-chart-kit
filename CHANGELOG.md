@@ -1,5 +1,11 @@
 # Changelog
 
+## v7.0.0-next.2
+
+- republish the v7 Developer Preview package with the `react-native-chart-kit/v2`
+  subpath exposed for Pro package typechecking and docs builds
+- keep the Cloudflare Pages docs deployment wired to the GitHub site workflow
+
 ## v7.0.0-next.1
 
 - remove deprecated row-by-row native QA matrix tooling from the active release process

@@ -1,6 +1,6 @@
 {
   "name": "@chart-kit/svg-renderer",
-  "version": "7.0.0-next.1",
+  "version": "7.0.0-next.2",
   "private": true,
   "description": "SVG renderer primitives for Chart Kit v2.",
   "repository": {

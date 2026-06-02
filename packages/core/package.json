@@ -1,6 +1,6 @@
 {
   "name": "@chart-kit/core",
-  "version": "7.0.0-next.1",
+  "version": "7.0.0-next.2",
   "private": true,
   "description": "Renderer-agnostic Chart Kit v2 core scaffold.",
   "repository": {

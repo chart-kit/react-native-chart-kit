@@ -1,6 +1,6 @@
 {
   "name": "react-native-chart-kit",
-  "version": "7.0.0-next.1",
+  "version": "7.0.0-next.2",
   "workspaces": [
     "packages/*",
     "apps/site"
