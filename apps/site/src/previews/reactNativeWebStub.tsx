@@ -69,17 +69,17 @@ type ActiveResponder =
   | {
       gestureState: PanResponderGestureState;
       kind: "pan";
-      pointerId: number;
+      pointerId: number | undefined;
       startClientX: number;
       startClientY: number;
       startTime: number;
     }
   | {
       kind: "responder";
-      pointerId: number;
+      pointerId: number | undefined;
     };
 type PendingResponderPointer = {
-  pointerId: number;
+  pointerId: number | undefined;
   startClientX: number;
   startClientY: number;
   startTime: number;
@@ -242,6 +242,26 @@ const createGestureState = ({
   };
 };
 
+const getResponderPointerId = (
+  event: React.MouseEvent<Element> | React.PointerEvent<Element>
+) => ("pointerId" in event ? event.pointerId : undefined);
+
+const setResponderPointerCapture = (
+  event: React.MouseEvent<Element> | React.PointerEvent<Element>
+) => {
+  if ("pointerId" in event) {
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+  }
+};
+
+const releaseResponderPointerCapture = (
+  event: React.MouseEvent<Element> | React.PointerEvent<Element>
+) => {
+  if ("pointerId" in event) {
+    event.currentTarget.releasePointerCapture?.(event.pointerId);
+  }
+};
+
 const shouldUseResponder = (
   props: AnyProps,
   event: ResponderEvent,
@@ -299,10 +319,11 @@ const addResponderDomHandlers = (
   }
 
   const startResponder = (
-    event: React.PointerEvent<Element>,
+    event: React.MouseEvent<Element> | React.PointerEvent<Element>,
     kind: "pan" | "responder",
     gestureState: PanResponderGestureState
   ) => {
+    const pointerId = getResponderPointerId(event);
     const responderEvent = createResponderEvent(event);
 
     activeResponderRef.current =
@@ -310,17 +331,17 @@ const addResponderDomHandlers = (
         ? {
             gestureState,
             kind,
-            pointerId: event.pointerId,
+            pointerId,
             startClientX: gestureState.x0,
             startClientY: gestureState.y0,
             startTime: Date.now()
           }
         : {
             kind,
-            pointerId: event.pointerId
+            pointerId
           };
 
-    event.currentTarget.setPointerCapture?.(event.pointerId);
+    setResponderPointerCapture(event);
 
     if (kind === "pan") {
       (sourceProps.onPanResponderGrant as PanResponderCallback | undefined)?.(
@@ -337,18 +358,19 @@ const addResponderDomHandlers = (
   };
 
   const finishResponder = (
-    event: React.PointerEvent<Element>,
+    event: React.MouseEvent<Element> | React.PointerEvent<Element>,
     terminated = false
   ) => {
     const activeResponder = activeResponderRef.current;
+    const pointerId = getResponderPointerId(event);
 
-    if (!activeResponder || activeResponder.pointerId !== event.pointerId) {
+    if (!activeResponder || activeResponder.pointerId !== pointerId) {
       return;
     }
 
     const responderEvent = createResponderEvent(event);
     activeResponderRef.current = undefined;
-    event.currentTarget.releasePointerCapture?.(event.pointerId);
+    releaseResponderPointerCapture(event);
 
     if (activeResponder.kind === "pan") {
       const callback = terminated
@@ -370,15 +392,15 @@ const addResponderDomHandlers = (
     (callback as ResponderCallback | undefined)?.(responderEvent);
   };
 
-  domProps.onPointerDown = (event: React.PointerEvent<Element>) => {
-    (sourceProps.onPointerDown as React.PointerEventHandler<Element>)?.(event);
-
+  const handleStart = (
+    event: React.MouseEvent<Element> | React.PointerEvent<Element>
+  ) => {
     if (activeResponderRef.current) {
       return;
     }
 
     const pendingPointer = {
-      pointerId: event.pointerId,
+      pointerId: getResponderPointerId(event),
       startClientX: event.clientX,
       startClientY: event.clientY,
       startTime: Date.now()
@@ -392,7 +414,7 @@ const addResponderDomHandlers = (
       startClientX: pendingPointer.startClientX,
       startClientY: pendingPointer.startClientY,
       startTime: pendingPointer.startTime,
-      stateID: event.pointerId
+      stateID: pendingPointer.pointerId ?? 1
     });
     const responderKind = shouldUseResponder(
       sourceProps,
@@ -406,20 +428,21 @@ const addResponderDomHandlers = (
     }
   };
 
-  domProps.onPointerMove = (event: React.PointerEvent<Element>) => {
-    (sourceProps.onPointerMove as React.PointerEventHandler<Element>)?.(event);
-
+  const handleMove = (
+    event: React.MouseEvent<Element> | React.PointerEvent<Element>
+  ) => {
     const activeResponder = activeResponderRef.current;
+    const pointerId = getResponderPointerId(event);
 
     if (!activeResponder) {
-      if (event.buttons === 0) {
+      if ("buttons" in event && event.buttons === 0) {
         pendingPointerRef.current = undefined;
         return;
       }
 
       const pendingPointer = pendingPointerRef.current;
 
-      if (!pendingPointer || pendingPointer.pointerId !== event.pointerId) {
+      if (!pendingPointer || pendingPointer.pointerId !== pointerId) {
         return;
       }
 
@@ -430,7 +453,7 @@ const addResponderDomHandlers = (
         startClientX: pendingPointer.startClientX,
         startClientY: pendingPointer.startClientY,
         startTime: pendingPointer.startTime,
-        stateID: pendingPointer.pointerId
+        stateID: pendingPointer.pointerId ?? 1
       });
       const responderKind = shouldUseResponder(
         sourceProps,
@@ -446,7 +469,7 @@ const addResponderDomHandlers = (
       return;
     }
 
-    if (activeResponder.pointerId !== event.pointerId) {
+    if (activeResponder.pointerId !== pointerId) {
       return;
     }
 
@@ -459,7 +482,7 @@ const addResponderDomHandlers = (
         startClientX: activeResponder.startClientX,
         startClientY: activeResponder.startClientY,
         startTime: activeResponder.startTime,
-        stateID: activeResponder.pointerId
+        stateID: activeResponder.pointerId ?? 1
       });
 
       activeResponder.gestureState = gestureState;
@@ -474,6 +497,35 @@ const addResponderDomHandlers = (
     (sourceProps.onResponderMove as ResponderCallback | undefined)?.(
       responderEvent
     );
+  };
+
+  domProps.onMouseDown = (event: React.MouseEvent<Element>) => {
+    (sourceProps.onMouseDown as React.MouseEventHandler<Element>)?.(event);
+    handleStart(event);
+  };
+
+  domProps.onMouseMove = (event: React.MouseEvent<Element>) => {
+    (sourceProps.onMouseMove as React.MouseEventHandler<Element>)?.(event);
+    handleMove(event);
+  };
+
+  domProps.onMouseUp = (event: React.MouseEvent<Element>) => {
+    (sourceProps.onMouseUp as React.MouseEventHandler<Element>)?.(event);
+    finishResponder(event);
+
+    if (pendingPointerRef.current?.pointerId === undefined) {
+      pendingPointerRef.current = undefined;
+    }
+  };
+
+  domProps.onPointerDown = (event: React.PointerEvent<Element>) => {
+    (sourceProps.onPointerDown as React.PointerEventHandler<Element>)?.(event);
+    handleStart(event);
+  };
+
+  domProps.onPointerMove = (event: React.PointerEvent<Element>) => {
+    (sourceProps.onPointerMove as React.PointerEventHandler<Element>)?.(event);
+    handleMove(event);
   };
 
   domProps.onPointerUp = (event: React.PointerEvent<Element>) => {

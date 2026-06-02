@@ -2,11 +2,11 @@ import React, { type ReactNode } from "react";
 import { Text, View } from "react-native";
 
 import {
-  ChartKitProvider,
   type CartesianChartPresetValue,
   type ChartKitThemeMode
 } from "react-native-chart-kit/v2";
 
+import { ChartPreviewProviders } from "./ChartPreviewProviders";
 import { chartPreviewExamples } from "./registry";
 import { showcaseCustomPresets } from "./showcaseTheme";
 
@@ -48,7 +48,7 @@ export const renderChartPreview = ({
     example.supportsChartTheme === false ? "default" : chartThemePreset;
 
   return (
-    <ChartKitProvider
+    <ChartPreviewProviders
       mode={mode}
       preset={preset}
       presets={showcaseCustomPresets}
@@ -100,7 +100,7 @@ export const renderChartPreview = ({
           </a>
         ) : null}
       </View>
-    </ChartKitProvider>
+    </ChartPreviewProviders>
   );
 };
 

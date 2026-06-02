@@ -38,6 +38,7 @@ import {
 } from "@chart-kit/pro";
 import { G, Line as SvgLine, Rect, Text as SvgText } from "react-native-svg";
 
+import { ChartPreviewProviders } from "./ChartPreviewProviders";
 import {
   chartThemeChangeEvent,
   getCurrentChartThemePreset,
@@ -510,8 +511,8 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
       BarChart,
       CandlebarChart,
       CandlestickChart,
-      ContributionGraph,
       ChartKitProvider,
+      ContributionGraph,
       ComboChart,
       DonutChart,
       G,
@@ -700,13 +701,13 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
                 </span>
               ) : null}
             </div>
-            <ChartKitProvider
+            <ChartPreviewProviders
               mode={mode}
               preset={previewPreset}
               presets={showcaseCustomPresets}
             >
               <LivePreview className="chart-kit-playground__preview-surface" />
-            </ChartKitProvider>
+            </ChartPreviewProviders>
             <LiveError className="chart-kit-playground__error" />
           </section>
         </div>
