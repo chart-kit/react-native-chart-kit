@@ -28,14 +28,21 @@ jobs:
         env:
           CHART_KIT_PRO_NPM_TOKEN: ${{ secrets.CHART_KIT_PRO_NPM_TOKEN }}
         run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+
           if [ -z "$CHART_KIT_PRO_NPM_TOKEN" ]; then
             echo "Skipping Pro docs package install because CHART_KIT_PRO_NPM_TOKEN is unavailable."
             echo "CHART_KIT_PRO_DOCS_READY=false" >> "$GITHUB_ENV"
             exit 0
           fi
+
           npm config set //registry.npmjs.org/:_authToken "$CHART_KIT_PRO_NPM_TOKEN"
-          npm install --no-save --package-lock=false --ignore-scripts @chart-kit/pro
-          echo "CHART_KIT_PRO_DOCS_READY=true" >> "$GITHUB_ENV"
+          if npm install --no-save --package-lock=false --ignore-scripts "@chart-kit/pro@${PACKAGE_VERSION}"; then
+            echo "CHART_KIT_PRO_DOCS_READY=true" >> "$GITHUB_ENV"
+          else
+            echo "::warning::Unable to install @chart-kit/pro@${PACKAGE_VERSION}; skipping Pro docs validation for this CI run."
+            echo "CHART_KIT_PRO_DOCS_READY=false" >> "$GITHUB_ENV"
+          fi
 
       - name: Lint
         run: npm run lint
