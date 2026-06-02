@@ -34,6 +34,11 @@ type CandlebarRangeSelectorConfig = {
   visible?: boolean;
 };
 
+type CandlebarViewport = {
+  endIndex: number;
+  startIndex: number;
+};
+
 type CandlebarChartProps<TData extends ChartDatum = ChartDatum> =
   ProChartBaseProps<TData> & {
     accessibilityLabel?: string;
@@ -43,6 +48,9 @@ type CandlebarChartProps<TData extends ChartDatum = ChartDatum> =
     highKey?: string;
     interaction?:
       | boolean
+      | "crosshair"
+      | "none"
+      | "tap"
       | {
           activation?: "longPress" | "tap";
           deselectOnOutsidePress?: boolean;
@@ -60,6 +68,7 @@ type CandlebarChartProps<TData extends ChartDatum = ChartDatum> =
           }) => void;
         };
     lowKey?: string;
+    onViewportChange?: (event: { viewport: CandlebarViewport }) => void;
     openKey?: string;
     rangeSelector?: boolean | CandlebarRangeSelectorConfig;
     selectedIndex?: number;
@@ -69,6 +78,7 @@ type CandlebarChartProps<TData extends ChartDatum = ChartDatum> =
     tooltip?: boolean;
     volumeHeightRatio?: number;
     volumeKey?: string;
+    viewport?: CandlebarViewport;
     yDomain?: [number, number];
     yTickCount?: number;
   };
