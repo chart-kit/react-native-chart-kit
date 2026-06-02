@@ -417,6 +417,18 @@ h1#_top,
   color: var(--sl-color-white);
 }
 
+.sl-markdown-content table:not(:where(.not-content *)) {
+  display: table;
+  overflow: visible;
+  width: 100%;
+  min-width: 100%;
+  table-layout: fixed;
+}
+
+.sl-markdown-content :is(th, td):not(:where(.not-content *)) {
+  overflow-wrap: anywhere;
+}
+
 .sl-markdown-content pre:not(:where(.not-content *)),
 .expressive-code figure.frame {
   border-color: var(--sl-color-hairline);
