@@ -136,14 +136,8 @@ jobs:
 
       - name: Install Pro docs package
         env:
-          CHART_KIT_PRO_NPM_TOKEN: ${{ secrets.CHART_KIT_PRO_NPM_TOKEN }}
           PACKAGE_VERSION: ${{ steps.package.outputs.version }}
         run: |
-          if [ -z "$CHART_KIT_PRO_NPM_TOKEN" ]; then
-            echo "CHART_KIT_PRO_NPM_TOKEN is required to validate Pro docs without local stubs." >&2
-            exit 1
-          fi
-          npm config set //registry.npmjs.org/:_authToken "$CHART_KIT_PRO_NPM_TOKEN"
           npm install --no-save --package-lock=false --ignore-scripts "@chart-kit/pro@${PACKAGE_VERSION}"
 
       - name: Build

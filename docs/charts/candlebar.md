@@ -25,6 +25,7 @@ needs to move or resize the visible interval.
 import { useState } from "react";
 import { Text, View } from "react-native";
 import { useChartKitTheme } from "react-native-chart-kit/v2";
+import type { CandlestickChartViewportConfig } from "@chart-kit/pro";
 import { CandlebarChart } from "@chart-kit/pro";
 
 const candles = Array.from({ length: 40 }, (_, index) => {
@@ -48,7 +49,7 @@ const formatValue = (value: number) => value.toFixed(1);
 export function CrosshairInspector() {
   const chartTheme = useChartKitTheme();
   const [selectedIndex, setSelectedIndex] = useState(24);
-  const [viewport, setViewport] = useState({
+  const [viewport, setViewport] = useState<CandlestickChartViewportConfig>({
     startIndex: 6,
     endIndex: 35
   });

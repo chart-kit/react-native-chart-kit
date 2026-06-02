@@ -35,15 +35,9 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: Install Pro docs package
-        env:
-          CHART_KIT_PRO_NPM_TOKEN: ${{ secrets.CHART_KIT_PRO_NPM_TOKEN }}
         run: |
-          if [ -z "$CHART_KIT_PRO_NPM_TOKEN" ]; then
-            echo "CHART_KIT_PRO_NPM_TOKEN is required to build Pro docs with @chart-kit/pro." >&2
-            exit 1
-          fi
-          npm config set //registry.npmjs.org/:_authToken "$CHART_KIT_PRO_NPM_TOKEN"
-          npm install --no-save --package-lock=false --ignore-scripts @chart-kit/pro
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          npm install --no-save --package-lock=false --ignore-scripts "@chart-kit/pro@${PACKAGE_VERSION}"
           echo "CHART_KIT_PRO_DOCS=true" >> "$GITHUB_ENV"
 
       - name: Build site

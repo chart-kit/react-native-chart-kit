@@ -10,7 +10,8 @@ Pro charts ship as a licensed package that is installed next to the public
 charts share the same theme provider, renderer defaults, and React Native SVG
 peer dependency.
 
-Access to `@chart-kit/pro` requires a Pro license.
+`@chart-kit/pro` is publicly installable from npm. Production use requires a
+valid Chart Kit Pro license.
 
 ## React Native CLI
 
