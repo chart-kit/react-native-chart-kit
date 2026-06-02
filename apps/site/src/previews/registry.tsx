@@ -67,11 +67,18 @@ const CandlebarCrosshairPreview = ({
 }) => {
   const chartWidth = clampChartWidth(width);
   const [selectedIndex, setSelectedIndex] = React.useState(24);
+  const [viewport, setViewport] = React.useState<{
+    endIndex?: number;
+    startIndex?: number;
+  }>({
+    startIndex: 6,
+    endIndex: 35
+  });
   const selected =
     crosshairCandlebarPrices[selectedIndex] ??
     crosshairCandlebarPrices[crosshairCandlebarPrices.length - 1]!;
   const isDark = mode === "dark";
-  const borderColor = isDark
+  const separatorColor = isDark
     ? "rgba(216, 230, 255, 0.16)"
     : "rgba(15, 58, 120, 0.14)";
   const metrics = [
@@ -87,9 +94,6 @@ const CandlebarCrosshairPreview = ({
       <View
         style={{
           width: chartWidth,
-          borderWidth: 1,
-          borderColor,
-          borderStyle: "solid",
           borderRadius: 8,
           backgroundColor: isDark ? "#111827" : "#f8fbff",
           paddingBottom: chartPreviewPaddingY,
@@ -111,7 +115,7 @@ const CandlebarCrosshairPreview = ({
                 flex: 1,
                 minWidth: 0,
                 alignItems: "center",
-                borderLeftColor: borderColor,
+                borderLeftColor: separatorColor,
                 borderLeftWidth: index === 0 ? 0 : 1,
                 paddingLeft: index === 0 ? 0 : 6
               }}
@@ -152,18 +156,18 @@ const CandlebarCrosshairPreview = ({
           onSelect: (event) => setSelectedIndex(event.dataIndex)
         }}
         lowKey="low"
+        onViewportChange={(event) => setViewport(event.viewport)}
         openKey="open"
         rangeSelector={{
           visible: true,
-          height: 28,
-          startIndex: 6,
-          endIndex: 35
+          height: 84
         }}
         selectedIndex={selectedIndex}
         selectionPriceLabel
         showHorizontalGridLines
         showYAxisLabels
         tooltip={false}
+        viewport={viewport}
         volumeKey="volume"
         width={chartWidth}
       />
@@ -188,11 +192,6 @@ const CandlebarRealtimePreview = ({
       <View
         style={{
           width: "100%",
-          borderWidth: 1,
-          borderColor: isDark
-            ? "rgba(216, 230, 255, 0.16)"
-            : "rgba(15, 58, 120, 0.14)",
-          borderStyle: "solid",
           borderRadius: 8,
           backgroundColor: isDark ? "#111827" : "#f8fbff",
           paddingBottom: chartPreviewPaddingY,
@@ -664,8 +663,10 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
         defaultSelectedIndex={12}
         height={300}
         highKey="high"
+        interaction="tap"
         lowKey="low"
         openKey="open"
+        tooltip
         volumeKey="volume"
         width={clampChartWidth(width)}
       />

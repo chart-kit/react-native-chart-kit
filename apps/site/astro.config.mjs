@@ -25,6 +25,7 @@ const expoVectorIconsStub = localSource(
 const svgTransformParserStub = localSource(
   "./src/previews/svgTransformParserStub.ts"
 );
+const viteCacheDir = process.env.CHART_KIT_SITE_VITE_CACHE_DIR;
 const useProDocsStubs = process.env.CHART_KIT_PRO_DOCS_STUBS === "true";
 const chartKitProAliases = useProDocsStubs
   ? [
@@ -156,12 +157,14 @@ export default defineConfig({
     })
   ],
   vite: {
+    ...(viteCacheDir ? { cacheDir: viteCacheDir } : {}),
     plugins: [
       chartKitProAvailabilityCheck(),
       chartKitPreviewWebAliases(),
       tailwindcss()
     ],
     optimizeDeps: {
+      include: ["react-live"],
       exclude: [
         "@chart-kit/core",
         "@chart-kit/svg-renderer",
@@ -242,6 +245,9 @@ export default defineConfig({
       ]
     },
     server: {
+      headers: {
+        "Cache-Control": "no-store, max-age=0"
+      },
       fs: {
         allow: ["../.."]
       }

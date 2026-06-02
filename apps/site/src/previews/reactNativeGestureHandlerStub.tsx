@@ -11,8 +11,11 @@ type GestureCallback = (...args: any[]) => void;
 
 type GestureState = {
   active: Set<StubGesture>;
+  lastClientX: number;
+  lastClientY: number;
   maxDistance: number;
   pointerId: number;
+  target: Element;
   startTime: number;
   startX: number;
   startY: number;
@@ -22,6 +25,7 @@ type GestureDomEvent = React.MouseEvent<Element> | React.PointerEvent<Element>;
 
 class StubGesture {
   activeOffsetXRange?: [number, number];
+  activeOffsetYRange?: [number, number];
   callbacks: Partial<
     Record<"end" | "finalize" | "start" | "update", GestureCallback>
   > = {};
@@ -47,6 +51,7 @@ class StubGesture {
   }
 
   activeOffsetY(_range: [number, number]) {
+    this.activeOffsetYRange = _range;
     return this;
   }
 
@@ -113,9 +118,13 @@ const getGesturePoint = (
   event: GestureDomEvent,
   state?: GestureState
 ): GestureEvent => {
-  const rect = event.currentTarget.getBoundingClientRect();
-  const x = event.clientX - rect.left;
-  const y = event.clientY - rect.top;
+  const currentTarget = event.currentTarget;
+  const target = currentTarget ?? state?.target;
+  const clientX = currentTarget ? event.clientX : (state?.lastClientX ?? 0);
+  const clientY = currentTarget ? event.clientY : (state?.lastClientY ?? 0);
+  const rect = target.getBoundingClientRect();
+  const x = clientX - rect.left;
+  const y = clientY - rect.top;
 
   return {
     translationX: state ? x - state.startX : 0,
@@ -125,13 +134,29 @@ const getGesturePoint = (
   };
 };
 
-const getMovedPastActiveOffsetX = (
-  gesture: StubGesture,
-  translationX: number
-) => {
-  const range = gesture.activeOffsetXRange;
+const getMovedPastActiveOffsetRange = (
+  range: [number, number] | undefined,
+  translation: number
+) => (range ? translation < range[0] || translation > range[1] : undefined);
 
-  return range ? translationX < range[0] || translationX > range[1] : true;
+const getMovedPastActiveOffset = (
+  gesture: StubGesture,
+  point: GestureEvent
+) => {
+  const movedPastX = getMovedPastActiveOffsetRange(
+    gesture.activeOffsetXRange,
+    point.translationX
+  );
+  const movedPastY = getMovedPastActiveOffsetRange(
+    gesture.activeOffsetYRange,
+    point.translationY
+  );
+
+  if (movedPastX !== undefined || movedPastY !== undefined) {
+    return Boolean(movedPastX || movedPastY);
+  }
+
+  return true;
 };
 
 const startGesture = (
@@ -150,6 +175,9 @@ const startGesture = (
 const getPointerId = (event: GestureDomEvent) =>
   "pointerId" in event ? event.pointerId : 1;
 
+const getIsMousePointer = (event: GestureDomEvent) =>
+  "pointerType" in event ? event.pointerType === "mouse" : true;
+
 const setPointerCapture = (event: GestureDomEvent) => {
   if ("pointerId" in event) {
     event.currentTarget.setPointerCapture?.(event.pointerId);
@@ -158,8 +186,19 @@ const setPointerCapture = (event: GestureDomEvent) => {
 
 const releasePointerCapture = (event: GestureDomEvent) => {
   if ("pointerId" in event) {
+    if (event.currentTarget.hasPointerCapture?.(event.pointerId) === false) {
+      return;
+    }
+
     event.currentTarget.releasePointerCapture?.(event.pointerId);
   }
+};
+
+const gestureDetectorStyle: React.CSSProperties = {
+  display: "block",
+  position: "relative",
+  touchAction: "none",
+  userSelect: "none"
 };
 
 export const Gesture = {
@@ -180,6 +219,8 @@ export const GestureDetector = ({
 }) => {
   const stateRef = React.useRef<GestureState | undefined>(undefined);
   const gestures = React.useMemo(() => flattenGestures(gesture), [gesture]);
+  const usesPointerEvents =
+    typeof window !== "undefined" && "PointerEvent" in window;
   const clearState = React.useCallback(() => {
     const state = stateRef.current;
 
@@ -190,21 +231,6 @@ export const GestureDetector = ({
     state.timers.forEach((timer) => window.clearTimeout(timer));
     stateRef.current = undefined;
   }, []);
-  const child = React.Children.only(children);
-
-  if (!React.isValidElement(child)) {
-    return <>{children}</>;
-  }
-  const childElement = child as React.ReactElement<Record<string, unknown>>;
-  const childProps = childElement.props as {
-    onMouseDown?: React.MouseEventHandler<Element>;
-    onMouseMove?: React.MouseEventHandler<Element>;
-    onMouseUp?: React.MouseEventHandler<Element>;
-    onPointerCancel?: React.PointerEventHandler<Element>;
-    onPointerDown?: React.PointerEventHandler<Element>;
-    onPointerMove?: React.PointerEventHandler<Element>;
-    onPointerUp?: React.PointerEventHandler<Element>;
-  };
   const handleCancel = (event: GestureDomEvent) => {
     const state = stateRef.current;
 
@@ -214,6 +240,7 @@ export const GestureDetector = ({
       }
     }
 
+    releasePointerCapture(event);
     clearState();
   };
   const handleDown = (event: GestureDomEvent) => {
@@ -224,18 +251,28 @@ export const GestureDetector = ({
     const point = getGesturePoint(event);
     const state: GestureState = {
       active: new Set(),
+      lastClientX: event.clientX,
+      lastClientY: event.clientY,
       maxDistance: 0,
       pointerId: getPointerId(event),
       startTime: event.timeStamp,
       startX: point.x,
       startY: point.y,
+      target: event.currentTarget,
       timers: []
     };
     stateRef.current = state;
     setPointerCapture(event);
 
+    const shouldActivateLongPressImmediately = getIsMousePointer(event);
+
     for (const item of gestures) {
       if (item.kind === "longPress") {
+        if (shouldActivateLongPressImmediately) {
+          startGesture(item, state, event);
+          continue;
+        }
+
         const timer = window.setTimeout(() => {
           if (
             stateRef.current === state &&
@@ -248,6 +285,11 @@ export const GestureDetector = ({
       }
 
       if (item.kind === "pan" && item.longPressDelayMs > 0) {
+        if (shouldActivateLongPressImmediately) {
+          startGesture(item, state, event);
+          continue;
+        }
+
         const timer = window.setTimeout(() => {
           if (stateRef.current === state) {
             startGesture(item, state, event);
@@ -266,6 +308,8 @@ export const GestureDetector = ({
     }
 
     const point = getGesturePoint(event, state);
+    state.lastClientX = event.clientX;
+    state.lastClientY = event.clientY;
     state.maxDistance = Math.max(
       state.maxDistance,
       Math.hypot(point.translationX, point.translationY)
@@ -279,7 +323,7 @@ export const GestureDetector = ({
       if (
         !state.active.has(item) &&
         item.longPressDelayMs === 0 &&
-        getMovedPastActiveOffsetX(item, point.translationX)
+        getMovedPastActiveOffset(item, point)
       ) {
         startGesture(item, state, event);
       }
@@ -323,36 +367,46 @@ export const GestureDetector = ({
     clearState();
   };
 
-  return React.cloneElement(childElement, {
-    onMouseDown: (event: React.MouseEvent<Element>) => {
-      childProps.onMouseDown?.(event);
-      handleDown(event);
-    },
-    onMouseMove: (event: React.MouseEvent<Element>) => {
-      childProps.onMouseMove?.(event);
-      handleMove(event);
-    },
-    onMouseUp: (event: React.MouseEvent<Element>) => {
-      childProps.onMouseUp?.(event);
-      handleUp(event);
-    },
-    onPointerCancel: (event: React.PointerEvent<Element>) => {
-      childProps.onPointerCancel?.(event);
-      handleCancel(event);
-    },
-    onPointerDown: (event: React.PointerEvent<Element>) => {
-      childProps.onPointerDown?.(event);
-      handleDown(event);
-    },
-    onPointerMove: (event: React.PointerEvent<Element>) => {
-      childProps.onPointerMove?.(event);
-      handleMove(event);
-    },
-    onPointerUp: (event: React.PointerEvent<Element>) => {
-      childProps.onPointerUp?.(event);
-      handleUp(event);
-    }
-  });
+  return (
+    <div
+      onMouseDown={(event: React.MouseEvent<Element>) => {
+        if (usesPointerEvents) {
+          return;
+        }
+
+        handleDown(event);
+      }}
+      onMouseMove={(event: React.MouseEvent<Element>) => {
+        if (usesPointerEvents) {
+          return;
+        }
+
+        handleMove(event);
+      }}
+      onMouseUp={(event: React.MouseEvent<Element>) => {
+        if (usesPointerEvents) {
+          return;
+        }
+
+        handleUp(event);
+      }}
+      onPointerCancel={(event: React.PointerEvent<Element>) => {
+        handleCancel(event);
+      }}
+      onPointerDown={(event: React.PointerEvent<Element>) => {
+        handleDown(event);
+      }}
+      onPointerMove={(event: React.PointerEvent<Element>) => {
+        handleMove(event);
+      }}
+      onPointerUp={(event: React.PointerEvent<Element>) => {
+        handleUp(event);
+      }}
+      style={gestureDetectorStyle}
+    >
+      {children}
+    </div>
+  );
 };
 
 export type ComposedGesture = StubGesture;

@@ -18,7 +18,8 @@ Use crosshair inspection when the selected candle drives UI outside the chart.
 Keep the selected index controlled, update it from `interaction.onSelect`, and
 render the OHLCV readout wherever it fits your screen. The crosshair stays under
 the user's finger while a separate candle marker shows which candle is selected.
-Add the mini range selector when users need to drag between visible intervals.
+Use a controlled viewport with `onViewportChange` when the mini range selector
+needs to move or resize the visible interval.
 
 ```tsx
 import { useState } from "react";
@@ -47,6 +48,10 @@ const formatValue = (value: number) => value.toFixed(1);
 export function CrosshairInspector() {
   const chartTheme = useChartKitTheme();
   const [selectedIndex, setSelectedIndex] = useState(24);
+  const [viewport, setViewport] = useState({
+    startIndex: 6,
+    endIndex: 35
+  });
   const selected = candles[selectedIndex] ?? candles[candles.length - 1]!;
   const isDark = chartTheme.mode === "dark";
   const borderColor = isDark
@@ -137,10 +142,10 @@ export function CrosshairInspector() {
         }}
         rangeSelector={{
           visible: true,
-          height: 28,
-          startIndex: 6,
-          endIndex: 35
+          height: 84
         }}
+        viewport={viewport}
+        onViewportChange={(event) => setViewport(event.viewport)}
         selectedIndex={selectedIndex}
         selectionPriceLabel
         showHorizontalGridLines
@@ -188,6 +193,8 @@ export function TradingSession() {
       closeKey="close"
       volumeKey="volume"
       defaultSelectedIndex={12}
+      interaction="tap"
+      tooltip
       width={410}
       height={300}
     />
@@ -441,6 +448,8 @@ movement without leaving the mobile app.
 | `defaultSelectedIndex` | `number`              | Initial selected candle index.                             |
 | `selectedIndex`        | `number`              | Controlled selected candle index for external inspectors.  |
 | `interaction`          | `object`              | Enables tap or crosshair selection and gesture callbacks.  |
+| `viewport`             | `object`              | Controlled visible candle range.                           |
+| `onViewportChange`     | `(event) => void`     | Called when the visible range changes.                     |
 | `rangeSelector`        | `boolean` or `object` | Shows and configures the mini range selector.              |
 | `viewportInteraction`  | `boolean` or `object` | Enables pan/zoom viewport gestures.                        |
 | `width`                | `number`              | Outer chart width in pixels.                               |

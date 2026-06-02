@@ -1,0 +1,42 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 64 64"
+  role="img"
+  aria-label="chartkit.io"
+>
+  <defs>
+    <linearGradient
+      id="tray"
+      x1="12"
+      x2="52"
+      y1="54"
+      y2="16"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop stop-color="#1234b8" />
+      <stop offset="1" stop-color="#3d7cff" />
+    </linearGradient>
+    <linearGradient
+      id="bar"
+      x1="24"
+      x2="50"
+      y1="54"
+      y2="4"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop stop-color="#ffffff" />
+      <stop offset="1" stop-color="#5fe7ff" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#08111f" />
+  <path
+    d="M12 20h40a5 5 0 0 1 5 5v30a5 5 0 0 1-5 5H12a5 5 0 0 1-5-5V25a5 5 0 0 1 5-5Z"
+    fill="url(#tray)"
+  />
+  <path d="M7 48h50v7a5 5 0 0 1-5 5H12a5 5 0 0 1-5-5v-7Z" fill="#1739c7" />
+  <rect x="15" y="34" width="10" height="20" rx="3" fill="url(#bar)" />
+  <rect x="30" y="23" width="10" height="31" rx="3" fill="url(#bar)" />
+  <rect x="45" y="9" width="10" height="45" rx="3" fill="url(#bar)" />
+  <rect x="25" y="52" width="24" height="10" rx="3" fill="#e8f2ff" />
+  <rect x="32" y="55" width="10" height="3" rx="1.5" fill="#2448c9" />
+</svg>
