@@ -34,12 +34,6 @@ jobs:
       - name: Install dependencies
         run: npm ci --ignore-scripts
 
-      - name: Install Pro docs package
-        run: |
-          PACKAGE_VERSION=$(node -p "require('./package.json').version")
-          npm install --no-save --package-lock=false --ignore-scripts "@chart-kit/pro@${PACKAGE_VERSION}"
-          echo "CHART_KIT_PRO_DOCS=true" >> "$GITHUB_ENV"
-
       - name: Build site
         run: npm run site:build
 

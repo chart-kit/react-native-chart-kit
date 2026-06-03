@@ -134,12 +134,6 @@ jobs:
             node scripts/check-npm-package-exists.mjs "${PACKAGE_NAME}" "${PACKAGE_VERSION}"
           done
 
-      - name: Install Pro docs package
-        env:
-          PACKAGE_VERSION: ${{ steps.package.outputs.version }}
-        run: |
-          npm install --no-save --package-lock=false --ignore-scripts "@chart-kit/pro@${PACKAGE_VERSION}"
-
       - name: Build
         run: npm run build
 

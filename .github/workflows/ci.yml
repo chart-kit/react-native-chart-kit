@@ -24,17 +24,6 @@ jobs:
       - name: Install dependencies
         run: npm ci --ignore-scripts
 
-      - name: Install Pro docs package
-        run: |
-          PACKAGE_VERSION=$(node -p "require('./package.json').version")
-
-          if npm install --no-save --package-lock=false --ignore-scripts "@chart-kit/pro@${PACKAGE_VERSION}"; then
-            echo "CHART_KIT_PRO_DOCS_READY=true" >> "$GITHUB_ENV"
-          else
-            echo "::warning::Unable to install @chart-kit/pro@${PACKAGE_VERSION}; skipping Pro docs validation for this CI run."
-            echo "CHART_KIT_PRO_DOCS_READY=false" >> "$GITHUB_ENV"
-          fi
-
       - name: Lint
         run: npm run lint
 
@@ -51,7 +40,6 @@ jobs:
         run: npm run surface:check
 
       - name: Docs
-        if: env.CHART_KIT_PRO_DOCS_READY == 'true'
         run: npm run docs:build
 
       - name: React Native CLI example

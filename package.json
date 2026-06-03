@@ -84,7 +84,6 @@
     "example:rn-cli:android": "node scripts/run-rn-cli-native-check.mjs --platform android",
     "example:rn-cli:ios": "node scripts/run-rn-cli-native-check.mjs --platform ios",
     "docs:build": "node scripts/docs-build.mjs && node scripts/typecheck-doc-examples.mjs",
-    "pro:sync": "node scripts/sync-pro-package.mjs",
     "site": "node scripts/run-site-server.mjs dev",
     "site:build": "npm --workspace @chart-kit/site run build",
     "site:preview": "node scripts/run-site-server.mjs preview",
