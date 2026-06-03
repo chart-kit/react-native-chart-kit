@@ -24,7 +24,10 @@ needs to move or resize the visible interval.
 ```tsx
 import { useState } from "react";
 import { Text, View } from "react-native";
-import { useChartKitTheme } from "react-native-chart-kit/v2";
+import {
+  resolveCartesianChartThemeConfig,
+  useChartKitTheme
+} from "react-native-chart-kit/v2";
 import type { CandlestickChartViewportConfig } from "@chart-kit/pro";
 import { CandlebarChart } from "@chart-kit/pro";
 
@@ -45,6 +48,8 @@ const candles = Array.from({ length: 40 }, (_, index) => {
 });
 
 const formatValue = (value: number) => value.toFixed(1);
+const formatSignedValue = (value: number) =>
+  `${value >= 0 ? "+" : ""}${formatValue(value)}`;
 
 export function CrosshairInspector() {
   const chartTheme = useChartKitTheme();
@@ -54,10 +59,21 @@ export function CrosshairInspector() {
     endIndex: 35
   });
   const selected = candles[selectedIndex] ?? candles[candles.length - 1]!;
-  const isDark = chartTheme.mode === "dark";
-  const borderColor = isDark
-    ? "rgba(216, 230, 255, 0.16)"
-    : "rgba(15, 58, 120, 0.14)";
+  const resolvedTheme = resolveCartesianChartThemeConfig({
+    mode: chartTheme.mode,
+    preset: chartTheme.preset,
+    presets: chartTheme.presets,
+    theme: chartTheme.theme
+  });
+  const isUp = selected.close >= selected.open;
+  const upColor =
+    resolvedTheme.series[1] ??
+    (chartTheme.mode === "dark" ? "#22c55e" : "#16a34a");
+  const downColor =
+    resolvedTheme.series[3] ??
+    (chartTheme.mode === "dark" ? "#f59e0b" : "#dc2626");
+  const directionColor = isUp ? upColor : downColor;
+  const change = selected.close - selected.open;
   const metrics = [
     ["O", formatValue(selected.open)],
     ["H", formatValue(selected.high)],
@@ -67,24 +83,81 @@ export function CrosshairInspector() {
   ] as const;
 
   return (
-    <View style={{ gap: 12 }}>
+    <View
+      style={{
+        width: 410,
+        maxWidth: "100%",
+        overflow: "hidden",
+        borderWidth: 1,
+        borderColor: resolvedTheme.axis,
+        borderRadius: 8,
+        backgroundColor: resolvedTheme.background
+      }}
+    >
       <View
         style={{
           width: 410,
           maxWidth: "100%",
-          borderWidth: 1,
-          borderColor,
-          borderStyle: "solid",
-          borderRadius: 8,
-          backgroundColor: isDark ? "#111827" : "#f8fbff",
-          paddingBottom: 10,
+          borderBottomWidth: 1,
+          borderBottomColor: resolvedTheme.grid,
+          backgroundColor: resolvedTheme.plotBackground,
+          paddingBottom: 8,
           paddingLeft: 10,
           paddingRight: 10,
-          paddingTop: 10
+          paddingTop: 8,
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 10
         }}
       >
         <View
           style={{
+            minWidth: 70,
+            flexShrink: 0
+          }}
+        >
+          <Text
+            style={{
+              color: resolvedTheme.mutedText,
+              fontSize: 8,
+              fontWeight: "800",
+              marginBottom: 2,
+              textTransform: "uppercase"
+            }}
+          >
+            {selected.time}
+          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "baseline",
+              gap: 5
+            }}
+          >
+            <Text
+              style={{
+                color: resolvedTheme.text,
+                fontSize: 13,
+                fontWeight: "800"
+              }}
+            >
+              {formatValue(selected.close)}
+            </Text>
+            <Text
+              style={{
+                color: directionColor,
+                fontSize: 9,
+                fontWeight: "800"
+              }}
+            >
+              {formatSignedValue(change)}
+            </Text>
+          </View>
+        </View>
+        <View
+          style={{
+            flex: 1,
+            minWidth: 0,
             flexDirection: "row",
             alignItems: "stretch"
           }}
@@ -96,17 +169,17 @@ export function CrosshairInspector() {
                 flex: 1,
                 minWidth: 0,
                 alignItems: "center",
-                borderLeftColor: borderColor,
+                borderLeftColor: resolvedTheme.grid,
                 borderLeftWidth: index === 0 ? 0 : 1,
-                paddingLeft: index === 0 ? 0 : 6
+                paddingLeft: index === 0 ? 0 : 5
               }}
             >
               <Text
                 style={{
-                  color: isDark ? "rgba(248, 250, 252, 0.48)" : "#64748b",
+                  color: resolvedTheme.mutedText,
                   fontSize: 8,
                   fontWeight: "800",
-                  marginBottom: 2,
+                  marginBottom: 1,
                   textTransform: "uppercase"
                 }}
               >
@@ -114,8 +187,8 @@ export function CrosshairInspector() {
               </Text>
               <Text
                 style={{
-                  color: isDark ? "rgba(248, 250, 252, 0.82)" : "#334155",
-                  fontSize: 12,
+                  color: label === "C" ? directionColor : resolvedTheme.text,
+                  fontSize: 11,
                   fontWeight: "800"
                 }}
               >
@@ -135,7 +208,7 @@ export function CrosshairInspector() {
         closeKey="close"
         volumeKey="volume"
         formatYLabel={formatValue}
-        height={340}
+        height={326}
         interaction={{
           activation: "longPress",
           mode: "crosshair",
@@ -143,7 +216,7 @@ export function CrosshairInspector() {
         }}
         rangeSelector={{
           visible: true,
-          height: 84
+          height: 70
         }}
         viewport={viewport}
         onViewportChange={(event) => setViewport(event.viewport)}
@@ -214,7 +287,10 @@ candle when the interval closes.
 ```tsx
 import { useEffect, useMemo, useState } from "react";
 import { Text, View } from "react-native";
-import { useChartKitTheme } from "react-native-chart-kit/v2";
+import {
+  resolveCartesianChartThemeConfig,
+  useChartKitTheme
+} from "react-native-chart-kit/v2";
 import { CandlebarChart } from "@chart-kit/pro";
 
 type Candle = {
@@ -252,6 +328,8 @@ const seedCandles: Candle[] = Array.from(
 );
 
 const formatValue = (value: number) => value.toFixed(1);
+const formatSignedValue = (value: number) =>
+  `${value >= 0 ? "+" : ""}${formatValue(value)}`;
 
 const appendCandle = (candles: Candle[], sequence: number): Candle[] => {
   const previous = candles[candles.length - 1]!;
@@ -315,69 +393,155 @@ export function RealtimeCandleUpdates() {
 
   const candles = useMemo(() => createLiveCandles(liveStep), [liveStep]);
   const latest = candles[candles.length - 1]!;
-  const isDark = chartTheme.mode === "dark";
+  const resolvedTheme = resolveCartesianChartThemeConfig({
+    mode: chartTheme.mode,
+    preset: chartTheme.preset,
+    presets: chartTheme.presets,
+    theme: chartTheme.theme
+  });
   const isUp = latest.close >= latest.open;
+  const upColor =
+    resolvedTheme.series[1] ??
+    (chartTheme.mode === "dark" ? "#22c55e" : "#16a34a");
+  const downColor =
+    resolvedTheme.series[3] ??
+    (chartTheme.mode === "dark" ? "#f59e0b" : "#dc2626");
+  const directionColor = isUp ? upColor : downColor;
+  const change = latest.close - latest.open;
+  const metrics = [
+    ["O", formatValue(latest.open)],
+    ["H", formatValue(latest.high)],
+    ["L", formatValue(latest.low)],
+    ["C", formatValue(latest.close)],
+    ["VOL", String(latest.volume)]
+  ] as const;
 
   return (
-    <View style={{ gap: 10, width: 410, maxWidth: "100%" }}>
+    <View
+      style={{
+        width: 410,
+        maxWidth: "100%",
+        overflow: "hidden",
+        borderWidth: 1,
+        borderColor: resolvedTheme.axis,
+        borderRadius: 8,
+        backgroundColor: resolvedTheme.background
+      }}
+    >
       <View
         style={{
-          width: "100%",
-          borderWidth: 1,
-          borderColor: isDark
-            ? "rgba(216, 230, 255, 0.16)"
-            : "rgba(15, 58, 120, 0.14)",
-          borderStyle: "solid",
-          borderRadius: 8,
-          backgroundColor: isDark ? "#111827" : "#f8fbff",
-          paddingBottom: 10,
+          width: 410,
+          maxWidth: "100%",
+          borderBottomWidth: 1,
+          borderBottomColor: resolvedTheme.grid,
+          backgroundColor: resolvedTheme.plotBackground,
+          paddingBottom: 8,
           paddingLeft: 10,
           paddingRight: 10,
-          paddingTop: 10,
+          paddingTop: 8,
           flexDirection: "row",
           alignItems: "center",
-          justifyContent: "space-between",
-          gap: 8
+          gap: 10
         }}
       >
+        <View
+          style={{
+            minWidth: 70,
+            flexShrink: 0
+          }}
+        >
+          <Text
+            style={{
+              color: resolvedTheme.mutedText,
+              fontSize: 8,
+              fontWeight: "800",
+              marginBottom: 2,
+              textTransform: "uppercase"
+            }}
+          >
+            {latest.time}
+          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "baseline",
+              gap: 5
+            }}
+          >
+            <Text
+              style={{
+                color: resolvedTheme.text,
+                fontSize: 13,
+                fontWeight: "800"
+              }}
+            >
+              {formatValue(latest.close)}
+            </Text>
+            <Text
+              style={{
+                color: directionColor,
+                fontSize: 9,
+                fontWeight: "800"
+              }}
+            >
+              {formatSignedValue(change)}
+            </Text>
+          </View>
+        </View>
         <View
           style={{
             flex: 1,
             minWidth: 0,
             flexDirection: "row",
-            alignItems: "baseline",
-            gap: 5
+            alignItems: "stretch"
           }}
         >
-          <Text
-            style={{
-              color: isDark ? "rgba(248, 250, 252, 0.52)" : "#64748b",
-              fontSize: 8,
-              fontWeight: "800",
-              textTransform: "uppercase"
-            }}
-          >
-            Latest close
-          </Text>
-          <Text
-            style={{
-              color: isDark ? "#f8fafc" : "#0f172a",
-              fontSize: 13,
-              fontWeight: "800"
-            }}
-          >
-            {formatValue(latest.close)}
-          </Text>
+          {metrics.map(([label, value], index) => (
+            <View
+              key={label}
+              style={{
+                flex: 1,
+                minWidth: 0,
+                alignItems: "center",
+                borderLeftColor: resolvedTheme.grid,
+                borderLeftWidth: index === 0 ? 0 : 1,
+                paddingLeft: index === 0 ? 0 : 5
+              }}
+            >
+              <Text
+                style={{
+                  color: resolvedTheme.mutedText,
+                  fontSize: 8,
+                  fontWeight: "800",
+                  marginBottom: 1,
+                  textTransform: "uppercase"
+                }}
+              >
+                {label}
+              </Text>
+              <Text
+                style={{
+                  color: label === "C" ? directionColor : resolvedTheme.text,
+                  fontSize: 11,
+                  fontWeight: "800"
+                }}
+              >
+                {value}
+              </Text>
+            </View>
+          ))}
         </View>
         <View
           style={{
+            flexShrink: 0,
             flexDirection: "row",
             alignItems: "center",
             gap: 4,
             borderRadius: 999,
-            backgroundColor: isUp
-              ? "rgba(20, 184, 166, 0.14)"
-              : "rgba(244, 63, 94, 0.14)",
+            backgroundColor:
+              chartTheme.mode === "dark"
+                ? "rgba(20, 184, 166, 0.16)"
+                : "rgba(20, 184, 166, 0.1)",
             paddingBottom: 2,
             paddingLeft: 6,
             paddingRight: 6,
@@ -389,12 +553,12 @@ export function RealtimeCandleUpdates() {
               width: 6,
               height: 6,
               borderRadius: 999,
-              backgroundColor: isUp ? "#14b8a6" : "#f43f5e"
+              backgroundColor: upColor
             }}
           />
           <Text
             style={{
-              color: isUp ? "#0f766e" : "#be123c",
+              color: upColor,
               fontSize: 10,
               fontWeight: "800",
               textTransform: "uppercase"

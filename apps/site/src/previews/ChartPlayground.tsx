@@ -26,6 +26,7 @@ import {
   PieChart,
   ProgressChart,
   ProgressRing,
+  resolveCartesianChartThemeConfig,
   StackedBarChart,
   useChartKitTheme,
   type ChartKitThemeMode
@@ -533,6 +534,7 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
       RadarChart,
       React,
       Rect,
+      resolveCartesianChartThemeConfig,
       StackedBarChart,
       SvgText,
       Text,

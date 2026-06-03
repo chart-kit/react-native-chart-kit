@@ -8,7 +8,9 @@ import {
   DonutChart,
   LineChart,
   PieChart,
-  ProgressChart
+  ProgressChart,
+  resolveCartesianChartThemeConfig,
+  useChartKitTheme
 } from "react-native-chart-kit/v2";
 import { CandlebarChart, ComboChart, RadarChart } from "@chart-kit/pro";
 
@@ -16,8 +18,6 @@ import type { ChartPreviewExample } from "./examples";
 import {
   acquisitionShare,
   candlebarPrices,
-  chartPreviewPaddingX,
-  chartPreviewPaddingY,
   clampChartWidth,
   comboBookings,
   comboChannelPlan,
@@ -41,6 +41,9 @@ import {
 import { toggleStyles } from "./toggleStyles";
 
 const formatCandleValue = (value: number) => value.toFixed(1);
+
+const formatSignedCandleValue = (value: number) =>
+  `${value >= 0 ? "+" : ""}${formatCandleValue(value)}`;
 
 const crosshairCandlebarPrices = Array.from({ length: 40 }, (_, index) => {
   const open = 184 + Math.sin(index * 0.55) * 6 + index * 1.4;
@@ -67,10 +70,8 @@ const CandlebarCrosshairPreview = ({
   mode: "dark" | "light";
   width: number;
 }) => {
+  const chartKitTheme = useChartKitTheme();
   const chartWidth = clampChartWidth(width);
-  const previewGap = isMostMobile ? 0 : 12;
-  const previewPaddingX = isMostMobile ? 0 : chartPreviewPaddingX;
-  const previewPaddingY = isMostMobile ? 0 : chartPreviewPaddingY;
   const [selectedIndex, setSelectedIndex] = React.useState(24);
   const [viewport, setViewport] = React.useState<{
     endIndex?: number;
@@ -82,10 +83,25 @@ const CandlebarCrosshairPreview = ({
   const selected =
     crosshairCandlebarPrices[selectedIndex] ??
     crosshairCandlebarPrices[crosshairCandlebarPrices.length - 1]!;
-  const isDark = mode === "dark";
-  const separatorColor = isDark
-    ? "rgba(216, 230, 255, 0.16)"
-    : "rgba(15, 58, 120, 0.14)";
+  const resolvedTheme = resolveCartesianChartThemeConfig({
+    mode: chartKitTheme.mode,
+    preset: chartKitTheme.preset,
+    presets: chartKitTheme.presets,
+    theme: chartKitTheme.theme
+  });
+  const isUp = selected.close >= selected.open;
+  const upColor =
+    resolvedTheme.series[1] ?? (mode === "dark" ? "#22c55e" : "#16a34a");
+  const downColor =
+    resolvedTheme.series[3] ?? (mode === "dark" ? "#f59e0b" : "#dc2626");
+  const directionColor = isUp ? upColor : downColor;
+  const headerPaddingX = isMostMobile ? 8 : 10;
+  const headerPaddingY = isMostMobile ? 7 : 8;
+  const headerGap = isMostMobile ? 7 : 10;
+  const chartHeight = isMostMobile ? 312 : 326;
+  const rangeSelectorHeight = isMostMobile ? 64 : 70;
+  const separatorColor = resolvedTheme.grid;
+  const change = selected.close - selected.open;
   const metrics = [
     ["O", formatCandleValue(selected.open)],
     ["H", formatCandleValue(selected.high)],
@@ -95,20 +111,79 @@ const CandlebarCrosshairPreview = ({
   ] as const;
 
   return (
-    <View style={{ gap: previewGap, width: chartWidth }}>
+    <View
+      style={{
+        width: chartWidth,
+        overflow: "hidden",
+        borderColor: resolvedTheme.axis,
+        borderRadius: 8,
+        borderWidth: 1,
+        backgroundColor: resolvedTheme.background
+      }}
+    >
       <View
         style={{
           width: chartWidth,
-          borderRadius: 8,
-          backgroundColor: isDark ? "#111827" : "#f8fbff",
-          paddingBottom: previewPaddingY,
-          paddingLeft: previewPaddingX,
-          paddingRight: previewPaddingX,
-          paddingTop: previewPaddingY
+          borderBottomColor: resolvedTheme.grid,
+          borderBottomWidth: 1,
+          backgroundColor: resolvedTheme.plotBackground,
+          paddingBottom: headerPaddingY,
+          paddingLeft: headerPaddingX,
+          paddingRight: headerPaddingX,
+          paddingTop: headerPaddingY,
+          flexDirection: "row",
+          alignItems: "center",
+          gap: headerGap
         }}
       >
         <View
           style={{
+            minWidth: isMostMobile ? 58 : 70,
+            flexShrink: 0
+          }}
+        >
+          <Text
+            style={{
+              color: resolvedTheme.mutedText,
+              fontSize: 8,
+              fontWeight: "800",
+              marginBottom: 2,
+              textTransform: "uppercase"
+            }}
+          >
+            {selected.date}
+          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "baseline",
+              gap: 5
+            }}
+          >
+            <Text
+              style={{
+                color: resolvedTheme.text,
+                fontSize: isMostMobile ? 12 : 13,
+                fontWeight: "800"
+              }}
+            >
+              {formatCandleValue(selected.close)}
+            </Text>
+            <Text
+              style={{
+                color: directionColor,
+                fontSize: 9,
+                fontWeight: "800"
+              }}
+            >
+              {formatSignedCandleValue(change)}
+            </Text>
+          </View>
+        </View>
+        <View
+          style={{
+            flex: 1,
+            minWidth: 0,
             flexDirection: "row",
             alignItems: "stretch"
           }}
@@ -122,15 +197,15 @@ const CandlebarCrosshairPreview = ({
                 alignItems: "center",
                 borderLeftColor: separatorColor,
                 borderLeftWidth: index === 0 ? 0 : 1,
-                paddingLeft: index === 0 ? 0 : 6
+                paddingLeft: index === 0 ? 0 : 5
               }}
             >
               <Text
                 style={{
-                  color: isDark ? "rgba(248, 250, 252, 0.48)" : "#64748b",
+                  color: resolvedTheme.mutedText,
                   fontSize: 8,
                   fontWeight: "800",
-                  marginBottom: 2,
+                  marginBottom: 1,
                   textTransform: "uppercase"
                 }}
               >
@@ -138,8 +213,8 @@ const CandlebarCrosshairPreview = ({
               </Text>
               <Text
                 style={{
-                  color: isDark ? "rgba(248, 250, 252, 0.82)" : "#334155",
-                  fontSize: 12,
+                  color: label === "C" ? directionColor : resolvedTheme.text,
+                  fontSize: isMostMobile ? 10 : 11,
                   fontWeight: "800"
                 }}
               >
@@ -154,7 +229,7 @@ const CandlebarCrosshairPreview = ({
         data={crosshairCandlebarPrices}
         dateKey="date"
         defaultSelectedIndex={24}
-        height={340}
+        height={chartHeight}
         highKey="high"
         interaction={{
           activation: "longPress",
@@ -166,7 +241,7 @@ const CandlebarCrosshairPreview = ({
         openKey="open"
         rangeSelector={{
           visible: true,
-          height: 84
+          height: rangeSelectorHeight
         }}
         selectedIndex={selectedIndex}
         selectionPriceLabel
@@ -190,69 +265,158 @@ const CandlebarRealtimePreview = ({
   mode: "dark" | "light";
   width: number;
 }) => {
+  const chartKitTheme = useChartKitTheme();
   const chartWidth = clampChartWidth(width);
-  const previewGap = isMostMobile ? 0 : 10;
-  const previewPaddingX = isMostMobile ? 0 : chartPreviewPaddingX;
-  const previewPaddingY = isMostMobile ? 0 : chartPreviewPaddingY;
   const latest = candlebarPrices[candlebarPrices.length - 1]!;
-  const isDark = mode === "dark";
+  const resolvedTheme = resolveCartesianChartThemeConfig({
+    mode: chartKitTheme.mode,
+    preset: chartKitTheme.preset,
+    presets: chartKitTheme.presets,
+    theme: chartKitTheme.theme
+  });
   const isUp = latest.close >= latest.open;
+  const upColor =
+    resolvedTheme.series[1] ?? (mode === "dark" ? "#22c55e" : "#16a34a");
+  const downColor =
+    resolvedTheme.series[3] ?? (mode === "dark" ? "#f59e0b" : "#dc2626");
+  const directionColor = isUp ? upColor : downColor;
+  const headerPaddingX = isMostMobile ? 8 : 10;
+  const headerPaddingY = isMostMobile ? 7 : 8;
+  const headerGap = isMostMobile ? 7 : 10;
+  const chartHeight = isMostMobile ? 286 : 300;
+  const change = latest.close - latest.open;
+  const metrics = [
+    ["O", formatCandleValue(latest.open)],
+    ["H", formatCandleValue(latest.high)],
+    ["L", formatCandleValue(latest.low)],
+    ["C", formatCandleValue(latest.close)],
+    ["VOL", String(latest.volume)]
+  ] as const;
 
   return (
-    <View style={{ gap: previewGap, width: chartWidth }}>
+    <View
+      style={{
+        width: chartWidth,
+        overflow: "hidden",
+        borderColor: resolvedTheme.axis,
+        borderRadius: 8,
+        borderWidth: 1,
+        backgroundColor: resolvedTheme.background
+      }}
+    >
       <View
         style={{
-          width: "100%",
-          borderRadius: 8,
-          backgroundColor: isDark ? "#111827" : "#f8fbff",
-          paddingBottom: previewPaddingY,
-          paddingLeft: previewPaddingX,
-          paddingRight: previewPaddingX,
-          paddingTop: previewPaddingY,
+          width: chartWidth,
+          borderBottomColor: resolvedTheme.grid,
+          borderBottomWidth: 1,
+          backgroundColor: resolvedTheme.plotBackground,
+          paddingBottom: headerPaddingY,
+          paddingLeft: headerPaddingX,
+          paddingRight: headerPaddingX,
+          paddingTop: headerPaddingY,
           flexDirection: "row",
           alignItems: "center",
-          justifyContent: "space-between",
-          gap: 8
+          gap: headerGap
         }}
       >
+        <View
+          style={{
+            minWidth: isMostMobile ? 58 : 70,
+            flexShrink: 0
+          }}
+        >
+          <Text
+            style={{
+              color: resolvedTheme.mutedText,
+              fontSize: 8,
+              fontWeight: "800",
+              marginBottom: 2,
+              textTransform: "uppercase"
+            }}
+          >
+            {latest.date}
+          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "baseline",
+              gap: 5
+            }}
+          >
+            <Text
+              style={{
+                color: resolvedTheme.text,
+                fontSize: isMostMobile ? 12 : 13,
+                fontWeight: "800"
+              }}
+            >
+              {formatCandleValue(latest.close)}
+            </Text>
+            <Text
+              style={{
+                color: directionColor,
+                fontSize: 9,
+                fontWeight: "800"
+              }}
+            >
+              {formatSignedCandleValue(change)}
+            </Text>
+          </View>
+        </View>
         <View
           style={{
             flex: 1,
             minWidth: 0,
             flexDirection: "row",
-            alignItems: "baseline",
-            gap: 5
+            alignItems: "stretch"
           }}
         >
-          <Text
-            style={{
-              color: isDark ? "rgba(248, 250, 252, 0.52)" : "#64748b",
-              fontSize: 8,
-              fontWeight: "800",
-              textTransform: "uppercase"
-            }}
-          >
-            Latest close
-          </Text>
-          <Text
-            style={{
-              color: isDark ? "#f8fafc" : "#0f172a",
-              fontSize: 13,
-              fontWeight: "800"
-            }}
-          >
-            {formatCandleValue(latest.close)}
-          </Text>
+          {metrics.map(([label, value], index) => (
+            <View
+              key={label}
+              style={{
+                flex: 1,
+                minWidth: 0,
+                alignItems: "center",
+                borderLeftColor: resolvedTheme.grid,
+                borderLeftWidth: index === 0 ? 0 : 1,
+                paddingLeft: index === 0 ? 0 : 5
+              }}
+            >
+              <Text
+                style={{
+                  color: resolvedTheme.mutedText,
+                  fontSize: 8,
+                  fontWeight: "800",
+                  marginBottom: 1,
+                  textTransform: "uppercase"
+                }}
+              >
+                {label}
+              </Text>
+              <Text
+                style={{
+                  color: label === "C" ? directionColor : resolvedTheme.text,
+                  fontSize: isMostMobile ? 10 : 11,
+                  fontWeight: "800"
+                }}
+              >
+                {value}
+              </Text>
+            </View>
+          ))}
         </View>
         <View
           style={{
+            flexShrink: 0,
             flexDirection: "row",
             alignItems: "center",
             gap: 4,
             borderRadius: 999,
-            backgroundColor: isUp
-              ? "rgba(20, 184, 166, 0.14)"
-              : "rgba(244, 63, 94, 0.14)",
+            backgroundColor:
+              mode === "dark"
+                ? "rgba(20, 184, 166, 0.16)"
+                : "rgba(20, 184, 166, 0.1)",
             paddingBottom: 2,
             paddingLeft: 6,
             paddingRight: 6,
@@ -264,12 +428,12 @@ const CandlebarRealtimePreview = ({
               width: 6,
               height: 6,
               borderRadius: 999,
-              backgroundColor: isUp ? "#14b8a6" : "#f43f5e"
+              backgroundColor: upColor
             }}
           />
           <Text
             style={{
-              color: isUp ? "#0f766e" : "#be123c",
+              color: upColor,
               fontSize: 10,
               fontWeight: "800",
               textTransform: "uppercase"
@@ -284,7 +448,7 @@ const CandlebarRealtimePreview = ({
         data={candlebarPrices}
         dateKey="date"
         defaultSelectedIndex={candlebarPrices.length - 1}
-        height={300}
+        height={chartHeight}
         highKey="high"
         lowKey="low"
         openKey="open"
