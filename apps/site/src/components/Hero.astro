@@ -16,13 +16,13 @@ const demoOptions = [
   class="relative min-h-screen overflow-hidden bg-black text-white transition-colors duration-300 [html[data-theme='light']_&]:bg-white [html[data-theme='light']_&]:text-black"
 >
   <div
-    class="relative z-10 mx-auto grid min-h-screen w-full max-w-[1320px] grid-cols-1 items-center gap-12 px-6 py-20 sm:px-8 md:px-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(300px,0.72fr)] lg:gap-4 lg:px-12 lg:py-0 xl:gap-6 xl:px-16"
+    class="relative z-10 mx-auto grid min-h-screen w-full max-w-[1320px] grid-cols-1 items-center gap-12 px-6 py-20 sm:px-8 md:px-10 lg:w-fit lg:grid-cols-[minmax(0,640px)_minmax(300px,345px)] lg:justify-center lg:gap-14 lg:px-12 lg:py-0 xl:gap-20 xl:px-16"
   >
     <!-- Left: text -->
     <div
       class="contents lg:flex lg:min-h-screen lg:min-w-0 lg:flex-col lg:items-start lg:justify-center"
     >
-      <div class="order-1 w-full min-w-0 max-w-4xl">
+      <div class="order-1 w-full min-w-0 max-w-[640px]">
         <div
           class="mb-8 inline-flex max-w-full items-center rounded-full border border-white/10 bg-white/[0.02] px-4 py-1.5 text-xs text-white/60 backdrop-blur transition-colors duration-300 sm:text-sm md:mb-10 [html[data-theme='light']_&]:border-black/10 [html[data-theme='light']_&]:bg-black/[0.02] [html[data-theme='light']_&]:text-black/55"
         >
@@ -37,7 +37,7 @@ const demoOptions = [
         </div>
 
         <h1
-          class="max-w-5xl text-[clamp(40px,9.8vw,68px)] font-semibold leading-[1.06] tracking-[-0.02em] text-white transition-colors duration-300 sm:text-[clamp(52px,8.2vw,78px)] lg:text-[clamp(56px,4.9vw,90px)] lg:leading-[1.04] lg:tracking-[-0.025em] [html[data-theme='light']_&]:text-black"
+          class="max-w-5xl text-[clamp(38px,9.3vw,64px)] font-semibold leading-[1.06] tracking-[-0.02em] text-white transition-colors duration-300 sm:text-[clamp(50px,7.8vw,74px)] lg:text-[clamp(54px,4.6vw,84px)] lg:leading-[1.04] lg:tracking-[-0.025em] [html[data-theme='light']_&]:text-black"
         >
           Beautiful charts for React Native
         </h1>
@@ -181,7 +181,7 @@ const demoOptions = [
 
     <!-- Right: phone/mockup -->
     <div
-      class="order-2 relative flex min-w-0 flex-col items-center justify-center gap-5 lg:order-none lg:min-h-screen lg:items-start lg:justify-center"
+      class="order-2 relative flex min-w-0 flex-col items-center justify-center gap-5 lg:order-none lg:min-h-screen lg:translate-x-2 lg:items-start lg:justify-center xl:translate-x-3"
     >
       <div
         class="relative flex w-[min(62vw,270px)] items-center justify-center sm:w-[295px] md:w-[325px] lg:w-[min(25vw,330px)] xl:w-[345px]"
