@@ -5,7 +5,7 @@ description: Make chart screens understandable to screen readers and other assis
 
 # Accessibility
 
-Every v2 chart accepts `accessibilityLabel`. If no label is provided, the chart generates a concise screen-reader summary from its data.
+Every chart accepts `accessibilityLabel`. If no label is provided, the chart generates a concise screen-reader summary from its data.
 
 For richer app-level fallbacks, export table models with the helper matching the chart type:
 

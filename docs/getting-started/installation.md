@@ -5,9 +5,7 @@ description: Install React Native Chart Kit and render a first chart.
 
 # Quickstart
 
-Install the public package in your React Native app. Do not install
-`@chart-kit/*` packages directly unless you are installing the licensed
-`@chart-kit/pro` package.
+Start using `react-native-chart-kit` with a basic setup.
 
 ## React Native CLI
 

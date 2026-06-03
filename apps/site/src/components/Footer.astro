@@ -63,11 +63,15 @@ const footerGroups = [
 <footer
   class="bg-black text-white transition-colors duration-300 [html[data-theme='light']_&]:bg-white [html[data-theme='light']_&]:text-black"
 >
-  <div class="mx-auto max-w-[1320px] px-6 pt-14 pb-8 sm:px-8 sm:pt-20 sm:pb-10 md:px-10 lg:px-12 xl:px-16">
-    <div class="grid grid-cols-1 gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] md:gap-12 lg:gap-20">
+  <div
+    class="mx-auto max-w-[1320px] px-6 pt-14 pb-8 sm:px-8 sm:pt-20 sm:pb-10 md:px-10 lg:px-12 xl:px-16"
+  >
+    <div
+      class="grid grid-cols-1 gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] md:gap-12 lg:gap-20"
+    >
       <a href="#hero" class="flex w-fit items-center gap-3">
         <img
-          src="/images/logo.png"
+          src="/images/logo.svg"
           alt=""
           class="h-[34px] w-auto shrink-0"
           loading="lazy"
@@ -114,7 +118,9 @@ const footerGroups = [
     >
     </div>
 
-    <div class="flex flex-col gap-4 pt-6 text-sm text-white/42 transition-colors duration-300 sm:flex-row sm:items-center sm:justify-between sm:pt-8 [html[data-theme='light']_&]:text-black/42">
+    <div
+      class="flex flex-col gap-4 pt-6 text-sm text-white/42 transition-colors duration-300 sm:flex-row sm:items-center sm:justify-between sm:pt-8 [html[data-theme='light']_&]:text-black/42"
+    >
       <p class="max-w-[17rem] leading-5 sm:max-w-none">
         © 2026 React Native Chart Kit. All rights reserved
       </p>
@@ -138,7 +144,9 @@ const footerGroups = [
           class="inline-flex cursor-pointer items-center gap-1.5 font-medium transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 [html[data-theme='light']_&]:hover:text-black [html[data-theme='light']_&]:focus-visible:outline-black/40"
         >
           <span class="[html[data-theme='light']_&]:hidden">Dark theme</span>
-          <span class="hidden [html[data-theme='light']_&]:inline">Light theme</span>
+          <span class="hidden [html[data-theme='light']_&]:inline"
+            >Light theme</span
+          >
           <ChevronsUpDown size={16} stroke-width={2} aria-hidden="true" />
         </button>
       </div>

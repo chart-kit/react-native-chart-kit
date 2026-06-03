@@ -92,7 +92,7 @@ body {
   height: 2rem;
   flex: 0 0 auto;
   border-radius: 0.5rem;
-  background: url("/images/logo.png") center / contain no-repeat;
+  background: url("/images/logo.svg") center / contain no-repeat;
   content: "";
 }
 

@@ -40,10 +40,6 @@ const data = [
 
 ## Built-In Presets
 
-The preset names describe palette character, not app use cases. That keeps the
-theme API reusable across dashboards, fitness screens, finance screens,
-education apps, and anything else that needs charts.
-
 These names follow the same broad convention used by mature color systems:
 abstract palette families from [Radix Colors](https://www.radix-ui.com/colors/docs/palette-composition/composing-a-palette),
 utility color families from [Tailwind CSS](https://tailwindcss.com/docs/colors),
