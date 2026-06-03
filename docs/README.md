@@ -5,11 +5,11 @@ description: Start here for the React Native Chart Kit v2 documentation.
 
 # Chart Kit v2 Docs
 
-These docs describe the public React Native Chart Kit package: the
-legacy-compatible root API and the free modern v2 API. `react-native-chart-kit`
-is the public npm install path for free charts. Modern v2 examples import from
-`react-native-chart-kit/v2`. Pro chart examples import from `@chart-kit/pro`;
-production use requires a Pro license.
+React Native Chart Kit v2 is a library of polished charts for React Native,
+published through the public `react-native-chart-kit` package. New free chart
+examples import from `react-native-chart-kit/v2`. The same package also keeps
+the legacy-compatible root API for existing screens. Pro chart examples import
+from `@chart-kit/pro`; production use requires a Pro license.
 
 ## Getting Started
 
