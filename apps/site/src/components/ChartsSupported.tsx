@@ -298,7 +298,7 @@ const ChartTile = ({
         </h3>
         {chart.subtitle && (
           <p
-            className="mt-1 text-center text-[10px] font-medium tracking-[0.12em] uppercase transition-colors duration-300"
+            className="mt-1 text-center text-[11px] font-medium transition-colors duration-300"
             style={theme.copy}
           >
             {chart.subtitle}

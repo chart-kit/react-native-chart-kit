@@ -627,6 +627,9 @@ chart-kit-preview .chart-kit-preview-fallback,
   border-radius: 0.9rem;
   background: #10131a;
   padding: var(--chart-kit-preview-padding-y) var(--chart-kit-preview-padding-x);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 :root[data-theme="light"] chart-kit-preview .chart-kit-preview-fallback,
@@ -787,6 +790,9 @@ chart-kit-playground .chart-kit-preview-fallback pre {
 .chart-kit-playground__preview-pane {
   min-height: 28rem;
   background: #0f1218;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 :root[data-theme="light"] .chart-kit-playground__preview-pane {
@@ -1068,6 +1074,9 @@ chart-kit-playground .chart-kit-preview-fallback pre {
   justify-content: center;
   overflow: auto;
   padding: var(--chart-kit-preview-padding-y) var(--chart-kit-preview-padding-x);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .chart-kit-playground__error {
@@ -1202,10 +1211,12 @@ chart-kit-playground .chart-kit-preview-fallback pre {
   }
 
   .chart-kit-playground__editor-pane {
-    border-bottom: 1px solid var(--sl-color-hairline);
+    order: 3;
+    border-top: 1px solid var(--sl-color-hairline);
   }
 
   .chart-kit-playground__resize-handle {
+    order: 2;
     display: none;
   }
 
@@ -1215,6 +1226,33 @@ chart-kit-playground .chart-kit-preview-fallback pre {
   }
 
   .chart-kit-playground__preview-pane {
+    order: 1;
     min-height: 23rem;
+  }
+}
+
+@media (max-width: 420px) {
+  :root {
+    --chart-kit-preview-padding-x: 0;
+    --chart-kit-preview-padding-y: 0;
+  }
+
+  chart-kit-preview,
+  chart-kit-playground {
+    margin: 1.25rem calc(var(--sl-content-pad-x) * -1) 2rem;
+  }
+
+  chart-kit-preview .chart-kit-preview-fallback,
+  .chart-kit-live-preview__frame,
+  chart-kit-playground .chart-kit-preview-fallback,
+  .chart-kit-playground__frame {
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+  }
+
+  .chart-kit-live-preview__frame,
+  .chart-kit-playground__preview-surface {
+    padding: 0;
   }
 }

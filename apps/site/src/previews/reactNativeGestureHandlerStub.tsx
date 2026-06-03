@@ -21,7 +21,29 @@ type GestureState = {
   startY: number;
   timers: number[];
 };
-type GestureDomEvent = React.MouseEvent<Element> | React.PointerEvent<Element>;
+type GestureDomEvent =
+  | React.MouseEvent<Element>
+  | React.PointerEvent<Element>
+  | React.TouchEvent<Element>;
+
+const getEventCoordinates = (event: GestureDomEvent) => {
+  if ("touches" in event && event.touches.length > 0) {
+    const touch = event.touches[0];
+
+    return { clientX: touch.clientX, clientY: touch.clientY };
+  }
+
+  if ("changedTouches" in event && event.changedTouches.length > 0) {
+    const touch = event.changedTouches[0];
+
+    return { clientX: touch.clientX, clientY: touch.clientY };
+  }
+
+  return {
+    clientX: "clientX" in event ? event.clientX : 0,
+    clientY: "clientY" in event ? event.clientY : 0
+  };
+};
 
 class StubGesture {
   activeOffsetXRange?: [number, number];
@@ -120,8 +142,13 @@ const getGesturePoint = (
 ): GestureEvent => {
   const currentTarget = event.currentTarget;
   const target = currentTarget ?? state?.target;
-  const clientX = currentTarget ? event.clientX : (state?.lastClientX ?? 0);
-  const clientY = currentTarget ? event.clientY : (state?.lastClientY ?? 0);
+  const coordinates = getEventCoordinates(event);
+  const clientX = currentTarget
+    ? coordinates.clientX
+    : (state?.lastClientX ?? 0);
+  const clientY = currentTarget
+    ? coordinates.clientY
+    : (state?.lastClientY ?? 0);
   const rect = target.getBoundingClientRect();
   const x = clientX - rect.left;
   const y = clientY - rect.top;
@@ -173,7 +200,13 @@ const startGesture = (
 };
 
 const getPointerId = (event: GestureDomEvent) =>
-  "pointerId" in event ? event.pointerId : 1;
+  "pointerId" in event
+    ? event.pointerId
+    : "touches" in event
+      ? (event.touches[0]?.identifier ??
+        event.changedTouches[0]?.identifier ??
+        1)
+      : 1;
 
 const getIsMousePointer = (event: GestureDomEvent) =>
   "pointerType" in event ? event.pointerType === "mouse" : true;
@@ -249,10 +282,11 @@ export const GestureDetector = ({
     }
 
     const point = getGesturePoint(event);
+    const coordinates = getEventCoordinates(event);
     const state: GestureState = {
       active: new Set(),
-      lastClientX: event.clientX,
-      lastClientY: event.clientY,
+      lastClientX: coordinates.clientX,
+      lastClientY: coordinates.clientY,
       maxDistance: 0,
       pointerId: getPointerId(event),
       startTime: event.timeStamp,
@@ -264,7 +298,8 @@ export const GestureDetector = ({
     stateRef.current = state;
     setPointerCapture(event);
 
-    const shouldActivateLongPressImmediately = getIsMousePointer(event);
+    const shouldActivateLongPressImmediately =
+      !("touches" in event) && getIsMousePointer(event);
 
     for (const item of gestures) {
       if (item.kind === "longPress") {
@@ -308,8 +343,9 @@ export const GestureDetector = ({
     }
 
     const point = getGesturePoint(event, state);
-    state.lastClientX = event.clientX;
-    state.lastClientY = event.clientY;
+    const coordinates = getEventCoordinates(event);
+    state.lastClientX = coordinates.clientX;
+    state.lastClientY = coordinates.clientY;
     state.maxDistance = Math.max(
       state.maxDistance,
       Math.hypot(point.translationX, point.translationY)
@@ -401,6 +437,18 @@ export const GestureDetector = ({
       }}
       onPointerUp={(event: React.PointerEvent<Element>) => {
         handleUp(event);
+      }}
+      onTouchCancel={(event: React.TouchEvent<Element>) => {
+        handleCancel(event);
+      }}
+      onTouchEnd={(event: React.TouchEvent<Element>) => {
+        handleUp(event);
+      }}
+      onTouchMove={(event: React.TouchEvent<Element>) => {
+        handleMove(event);
+      }}
+      onTouchStart={(event: React.TouchEvent<Element>) => {
+        handleDown(event);
       }}
       style={gestureDetectorStyle}
     >

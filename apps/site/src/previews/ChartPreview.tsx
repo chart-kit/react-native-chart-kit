@@ -11,11 +11,14 @@ import { renderChartPreview } from "./examples";
 const getThemeMode = (): "dark" | "light" =>
   document.documentElement.dataset.theme === "light" ? "light" : "dark";
 
+const mostMobilePreviewQuery = "(max-width: 420px)";
+
 export const ChartPreview = ({ id }: { id: string }) => {
   const frameRef = useRef<HTMLDivElement | null>(null);
   const [chartThemePreset, setChartThemePreset] = useState<ChartThemePreset>(
     () => getCurrentChartThemePreset()
   );
+  const [isMostMobile, setIsMostMobile] = useState(false);
   const [mode, setMode] = useState<"dark" | "light">(() => getThemeMode());
   const [width, setWidth] = useState(chartPreviewChartWidth);
 
@@ -26,16 +29,23 @@ export const ChartPreview = ({ id }: { id: string }) => {
       return;
     }
 
+    const mediaQuery = window.matchMedia(mostMobilePreviewQuery);
     const resize = () => {
-      setWidth(
-        Math.max(280, Math.floor(frame.clientWidth - chartPreviewPaddingX * 2))
-      );
+      const nextIsMostMobile = mediaQuery.matches;
+      const paddingX = nextIsMostMobile ? 0 : chartPreviewPaddingX;
+
+      setIsMostMobile(nextIsMostMobile);
+      setWidth(Math.max(280, Math.floor(frame.clientWidth - paddingX * 2)));
     };
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(frame);
+    mediaQuery.addEventListener("change", resize);
     resize();
 
-    return () => resizeObserver.disconnect();
+    return () => {
+      resizeObserver.disconnect();
+      mediaQuery.removeEventListener("change", resize);
+    };
   }, []);
 
   useEffect(() => {
@@ -67,8 +77,15 @@ export const ChartPreview = ({ id }: { id: string }) => {
   }, []);
 
   const preview = useMemo(
-    () => renderChartPreview({ chartThemePreset, id, mode, width }),
-    [chartThemePreset, id, mode, width]
+    () =>
+      renderChartPreview({
+        chartThemePreset,
+        id,
+        isMostMobile,
+        mode,
+        width
+      }),
+    [chartThemePreset, id, isMostMobile, mode, width]
   );
 
   return (

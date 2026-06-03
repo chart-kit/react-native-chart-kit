@@ -126,6 +126,8 @@ const chartKitLightEditorTheme: LiveEditorTheme = {
 const getThemeMode = (): Exclude<ChartKitThemeMode, "system"> =>
   document.documentElement.dataset.theme === "light" ? "light" : "dark";
 
+const mostMobilePreviewQuery = "(max-width: 420px)";
+
 const getComponentName = (code: string) => {
   const declaration =
     code.match(/\bexport\s+default\s+function\s+([A-Z][\w]*)/) ??
@@ -443,6 +445,7 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
     getThemeMode()
   );
   const [editorSize, setEditorSize] = useState(DEFAULT_EDITOR_SIZE);
+  const [isMostMobile, setIsMostMobile] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
   const [width, setWidth] = useState(chartPreviewChartWidth);
   const initialCode = useMemo(() => decodeInitialCode(code), [code]);
@@ -462,19 +465,25 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
       return;
     }
 
+    const mediaQuery = window.matchMedia(mostMobilePreviewQuery);
     const resize = () => {
+      const nextIsMostMobile = mediaQuery.matches;
+      const paddingX = nextIsMostMobile ? 0 : chartPreviewPaddingX;
+
+      setIsMostMobile(nextIsMostMobile);
       setWidth(
-        Math.max(
-          280,
-          Math.floor(previewPane.clientWidth - chartPreviewPaddingX * 2)
-        )
+        Math.max(280, Math.floor(previewPane.clientWidth - paddingX * 2))
       );
     };
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(previewPane);
+    mediaQuery.addEventListener("change", resize);
     resize();
 
-    return () => resizeObserver.disconnect();
+    return () => {
+      resizeObserver.disconnect();
+      mediaQuery.removeEventListener("change", resize);
+    };
   }, []);
 
   useEffect(() => {
@@ -539,6 +548,7 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
       createChartPreset,
       data: getPreviewData(id),
       largeData,
+      isMostMobilePreview: isMostMobile,
       money,
       monthRevenue,
       percent,
@@ -570,7 +580,7 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
       weeklyAcquisition,
       weeklySpend
     }),
-    [chartThemePreset, id, width]
+    [chartThemePreset, id, isMostMobile, width]
   );
 
   const playgroundStyle = useMemo(

@@ -59,13 +59,18 @@ const crosshairCandlebarPrices = Array.from({ length: 40 }, (_, index) => {
 });
 
 const CandlebarCrosshairPreview = ({
+  isMostMobile,
   mode,
   width
 }: {
+  isMostMobile: boolean;
   mode: "dark" | "light";
   width: number;
 }) => {
   const chartWidth = clampChartWidth(width);
+  const previewGap = isMostMobile ? 0 : 12;
+  const previewPaddingX = isMostMobile ? 0 : chartPreviewPaddingX;
+  const previewPaddingY = isMostMobile ? 0 : chartPreviewPaddingY;
   const [selectedIndex, setSelectedIndex] = React.useState(24);
   const [viewport, setViewport] = React.useState<{
     endIndex?: number;
@@ -90,16 +95,16 @@ const CandlebarCrosshairPreview = ({
   ] as const;
 
   return (
-    <View style={{ gap: 12, width: chartWidth }}>
+    <View style={{ gap: previewGap, width: chartWidth }}>
       <View
         style={{
           width: chartWidth,
           borderRadius: 8,
           backgroundColor: isDark ? "#111827" : "#f8fbff",
-          paddingBottom: chartPreviewPaddingY,
-          paddingLeft: chartPreviewPaddingX,
-          paddingRight: chartPreviewPaddingX,
-          paddingTop: chartPreviewPaddingY
+          paddingBottom: previewPaddingY,
+          paddingLeft: previewPaddingX,
+          paddingRight: previewPaddingX,
+          paddingTop: previewPaddingY
         }}
       >
         <View
@@ -152,6 +157,7 @@ const CandlebarCrosshairPreview = ({
         height={340}
         highKey="high"
         interaction={{
+          activation: "longPress",
           mode: "crosshair",
           onSelect: (event) => setSelectedIndex(event.dataIndex)
         }}
@@ -176,28 +182,33 @@ const CandlebarCrosshairPreview = ({
 };
 
 const CandlebarRealtimePreview = ({
+  isMostMobile,
   mode,
   width
 }: {
+  isMostMobile: boolean;
   mode: "dark" | "light";
   width: number;
 }) => {
   const chartWidth = clampChartWidth(width);
+  const previewGap = isMostMobile ? 0 : 10;
+  const previewPaddingX = isMostMobile ? 0 : chartPreviewPaddingX;
+  const previewPaddingY = isMostMobile ? 0 : chartPreviewPaddingY;
   const latest = candlebarPrices[candlebarPrices.length - 1]!;
   const isDark = mode === "dark";
   const isUp = latest.close >= latest.open;
 
   return (
-    <View style={{ gap: 10, width: chartWidth }}>
+    <View style={{ gap: previewGap, width: chartWidth }}>
       <View
         style={{
           width: "100%",
           borderRadius: 8,
           backgroundColor: isDark ? "#111827" : "#f8fbff",
-          paddingBottom: chartPreviewPaddingY,
-          paddingLeft: chartPreviewPaddingX,
-          paddingRight: chartPreviewPaddingX,
-          paddingTop: chartPreviewPaddingY,
+          paddingBottom: previewPaddingY,
+          paddingLeft: previewPaddingX,
+          paddingRight: previewPaddingX,
+          paddingTop: previewPaddingY,
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
@@ -680,8 +691,12 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
     id: "pro-candlebar-realtime",
     tier: "pro",
     title: "Realtime candle updates",
-    render: ({ mode, width }) => (
-      <CandlebarRealtimePreview mode={mode} width={width} />
+    render: ({ isMostMobile, mode, width }) => (
+      <CandlebarRealtimePreview
+        isMostMobile={isMostMobile}
+        mode={mode}
+        width={width}
+      />
     )
   },
   "pro-candlebar-crosshair": {
@@ -692,8 +707,12 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
     id: "pro-candlebar-crosshair",
     tier: "pro",
     title: "Crosshair inspector",
-    render: ({ mode, width }) => (
-      <CandlebarCrosshairPreview mode={mode} width={width} />
+    render: ({ isMostMobile, mode, width }) => (
+      <CandlebarCrosshairPreview
+        isMostMobile={isMostMobile}
+        mode={mode}
+        width={width}
+      />
     )
   },
   "pro-radar": {

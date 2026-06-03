@@ -12,6 +12,7 @@ import { showcaseCustomPresets } from "./showcaseTheme";
 
 type PreviewRenderContext = {
   chartThemePreset: CartesianChartPresetValue;
+  isMostMobile: boolean;
   mode: Exclude<ChartKitThemeMode, "system">;
   width: number;
 };
@@ -31,6 +32,7 @@ export type ChartPreviewExample = {
 export const renderChartPreview = ({
   chartThemePreset,
   id,
+  isMostMobile,
   mode,
   width
 }: PreviewRenderContext & { id: string }) => {
@@ -89,7 +91,7 @@ export const renderChartPreview = ({
           ) : null}
         </View>
         <View style={previewStyles.chart}>
-          {example.render({ chartThemePreset, mode, width })}
+          {example.render({ chartThemePreset, isMostMobile, mode, width })}
         </View>
         {example.tier === "pro" ? (
           <a

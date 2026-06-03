@@ -26,3 +26,9 @@ html {
 * {
   box-sizing: border-box;
 }
+
+.landing-page :is(h1, h2),
+.landing-page [data-stat-value] {
+  font-family: "Noto Sans Display", "Inter", system-ui, sans-serif;
+  font-weight: 700;
+}

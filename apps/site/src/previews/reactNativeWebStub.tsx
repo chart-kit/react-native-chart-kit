@@ -89,6 +89,10 @@ type MutableRef<T> = {
 };
 type PressableState = { focused: boolean; hovered: boolean; pressed: boolean };
 type PointerEventsValue = "auto" | "box-none" | "box-only" | "none";
+type ResponderDomEvent =
+  | React.MouseEvent<Element>
+  | React.PointerEvent<Element>
+  | React.TouchEvent<Element>;
 type StyleValue =
   | AnyProps
   | false
@@ -242,21 +246,25 @@ const createGestureState = ({
   };
 };
 
-const getResponderPointerId = (
-  event: React.MouseEvent<Element> | React.PointerEvent<Element>
-) => ("pointerId" in event ? event.pointerId : undefined);
+const getResponderPointerId = (event: ResponderDomEvent) => {
+  if ("pointerId" in event) {
+    return event.pointerId;
+  }
 
-const setResponderPointerCapture = (
-  event: React.MouseEvent<Element> | React.PointerEvent<Element>
-) => {
+  if ("touches" in event) {
+    return event.touches[0]?.identifier ?? event.changedTouches[0]?.identifier;
+  }
+
+  return undefined;
+};
+
+const setResponderPointerCapture = (event: ResponderDomEvent) => {
   if ("pointerId" in event) {
     event.currentTarget.setPointerCapture?.(event.pointerId);
   }
 };
 
-const releaseResponderPointerCapture = (
-  event: React.MouseEvent<Element> | React.PointerEvent<Element>
-) => {
+const releaseResponderPointerCapture = (event: ResponderDomEvent) => {
   if ("pointerId" in event) {
     event.currentTarget.releasePointerCapture?.(event.pointerId);
   }
@@ -318,8 +326,14 @@ const addResponderDomHandlers = (
     return;
   }
 
+  domProps.style = {
+    ...(domProps.style as AnyProps),
+    touchAction: "none",
+    userSelect: "none"
+  };
+
   const startResponder = (
-    event: React.MouseEvent<Element> | React.PointerEvent<Element>,
+    event: ResponderDomEvent,
     kind: "pan" | "responder",
     gestureState: PanResponderGestureState
   ) => {
@@ -357,10 +371,7 @@ const addResponderDomHandlers = (
     );
   };
 
-  const finishResponder = (
-    event: React.MouseEvent<Element> | React.PointerEvent<Element>,
-    terminated = false
-  ) => {
+  const finishResponder = (event: ResponderDomEvent, terminated = false) => {
     const activeResponder = activeResponderRef.current;
     const pointerId = getResponderPointerId(event);
 
@@ -392,25 +403,24 @@ const addResponderDomHandlers = (
     (callback as ResponderCallback | undefined)?.(responderEvent);
   };
 
-  const handleStart = (
-    event: React.MouseEvent<Element> | React.PointerEvent<Element>
-  ) => {
+  const handleStart = (event: ResponderDomEvent) => {
     if (activeResponderRef.current) {
       return;
     }
 
+    const { clientX, clientY } = getPointerCoordinates(event);
     const pendingPointer = {
       pointerId: getResponderPointerId(event),
-      startClientX: event.clientX,
-      startClientY: event.clientY,
+      startClientX: clientX,
+      startClientY: clientY,
       startTime: Date.now()
     };
     pendingPointerRef.current = pendingPointer;
 
     const responderEvent = createResponderEvent(event);
     const gestureState = createGestureState({
-      clientX: event.clientX,
-      clientY: event.clientY,
+      clientX,
+      clientY,
       startClientX: pendingPointer.startClientX,
       startClientY: pendingPointer.startClientY,
       startTime: pendingPointer.startTime,
@@ -428,11 +438,10 @@ const addResponderDomHandlers = (
     }
   };
 
-  const handleMove = (
-    event: React.MouseEvent<Element> | React.PointerEvent<Element>
-  ) => {
+  const handleMove = (event: ResponderDomEvent) => {
     const activeResponder = activeResponderRef.current;
     const pointerId = getResponderPointerId(event);
+    const { clientX, clientY } = getPointerCoordinates(event);
 
     if (!activeResponder) {
       if ("buttons" in event && event.buttons === 0) {
@@ -448,8 +457,8 @@ const addResponderDomHandlers = (
 
       const responderEvent = createResponderEvent(event);
       const gestureState = createGestureState({
-        clientX: event.clientX,
-        clientY: event.clientY,
+        clientX,
+        clientY,
         startClientX: pendingPointer.startClientX,
         startClientY: pendingPointer.startClientY,
         startTime: pendingPointer.startTime,
@@ -477,8 +486,8 @@ const addResponderDomHandlers = (
 
     if (activeResponder.kind === "pan") {
       const gestureState = createGestureState({
-        clientX: event.clientX,
-        clientY: event.clientY,
+        clientX,
+        clientY,
         startClientX: activeResponder.startClientX,
         startClientY: activeResponder.startClientY,
         startTime: activeResponder.startTime,
@@ -546,6 +555,42 @@ const addResponderDomHandlers = (
       pendingPointerRef.current = undefined;
     }
   };
+
+  domProps.onTouchStart = (event: React.TouchEvent<Element>) => {
+    (
+      sourceProps.onTouchStart as ((event: ResponderEvent) => void) | undefined
+    )?.(createResponderEvent(event));
+    handleStart(event);
+  };
+
+  domProps.onTouchMove = (event: React.TouchEvent<Element>) => {
+    (
+      sourceProps.onTouchMove as ((event: ResponderEvent) => void) | undefined
+    )?.(createResponderEvent(event));
+    handleMove(event);
+  };
+
+  domProps.onTouchEnd = (event: React.TouchEvent<Element>) => {
+    (sourceProps.onTouchEnd as ((event: ResponderEvent) => void) | undefined)?.(
+      createResponderEvent(event)
+    );
+    finishResponder(event);
+
+    if (pendingPointerRef.current?.pointerId === getResponderPointerId(event)) {
+      pendingPointerRef.current = undefined;
+    }
+  };
+
+  domProps.onTouchCancel = (event: React.TouchEvent<Element>) => {
+    (
+      sourceProps.onTouchCancel as ((event: ResponderEvent) => void) | undefined
+    )?.(createResponderEvent(event));
+    finishResponder(event, true);
+
+    if (pendingPointerRef.current?.pointerId === getResponderPointerId(event)) {
+      pendingPointerRef.current = undefined;
+    }
+  };
 };
 
 const addTouchDomHandlers = (sourceProps: AnyProps, domProps: AnyProps) => {
@@ -565,7 +610,16 @@ const addTouchDomHandlers = (sourceProps: AnyProps, domProps: AnyProps) => {
       continue;
     }
 
+    const existingHandler = domProps[handlerName] as
+      | React.TouchEventHandler<Element>
+      | undefined;
+
     domProps[handlerName] = (event: React.TouchEvent<Element>) => {
+      if (existingHandler) {
+        existingHandler(event);
+        return;
+      }
+
       handler(createResponderEvent(event));
     };
   }
