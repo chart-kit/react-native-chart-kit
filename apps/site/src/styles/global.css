@@ -1,9 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&display=swap");
+@import url("https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap");
 @import "tailwindcss";
 
 :root {
   color: #071733;
-  font-family: "Inter", system-ui, sans-serif;
+  font-family:
+    "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont,
+    "Helvetica Neue", Arial, sans-serif;
   font-kerning: normal;
   font-optical-sizing: auto;
   font-synthesis: none;
@@ -27,8 +29,11 @@ html {
   box-sizing: border-box;
 }
 
-.landing-page :is(h1, h2),
+.landing-page :is(h1, h2, h3),
 .landing-page [data-stat-value] {
-  font-family: "Montserrat", "Inter", system-ui, sans-serif;
+  font-family:
+    "Satoshi", "SF Pro Display", "SF Pro Text", -apple-system,
+    BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   font-weight: 700;
+  letter-spacing: 0.005em;
 }

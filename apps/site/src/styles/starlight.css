@@ -9,7 +9,8 @@
 }
 
 :root {
-  --sl-font: "Inter", system-ui, sans-serif;
+  --sl-font: "SF Pro Text", "SF Pro Display", -apple-system,
+    BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   --sl-content-width: 58rem;
   --sl-sidebar-width: 17rem;
   --sl-content-pad-x: 2.5rem;
@@ -77,6 +78,15 @@ html {
 
 body {
   background: var(--sl-color-bg);
+}
+
+:is(h1, h2, h3, h4, h5, h6),
+.site-title,
+.sl-markdown-content :is(h1, h2, h3, h4, h5, h6) {
+  font-family:
+    "Satoshi", "SF Pro Display", "SF Pro Text", -apple-system,
+    BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: 0.005em;
 }
 
 .site-title {
