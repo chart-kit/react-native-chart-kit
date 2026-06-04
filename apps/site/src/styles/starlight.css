@@ -410,6 +410,22 @@ h1#_top,
   font-size: 0.98rem;
 }
 
+.sl-markdown-content ul:not(:where(.not-content *)) {
+  list-style: disc;
+}
+
+.sl-markdown-content ol:not(:where(.not-content *)) {
+  list-style: decimal;
+}
+
+.sl-markdown-content :is(ul, ol):not(:where(.not-content *)) {
+  padding-inline-start: 1.35rem;
+}
+
+.sl-markdown-content li::marker {
+  color: var(--sl-color-gray-3);
+}
+
 .sl-markdown-content a:not(:where(.not-content *)) {
   color: #9ec2ff;
   font-weight: 650;

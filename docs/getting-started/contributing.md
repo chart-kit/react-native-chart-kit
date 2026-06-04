@@ -18,15 +18,16 @@ npm install
 
 The repository uses npm workspaces and `package-lock.json`.
 
-The published npm package is:
+The package app developers install is:
 
 - `react-native-chart-kit`: the package installed by app developers.
 
-The internal workspace packages are used to develop and build the library:
+Workspace packages used by this repository:
 
 - `@chart-kit/core`: shared chart logic, types, scales, and data helpers.
-- `@chart-kit/react-native`: React Native chart components and native-facing implementation.
-- `@chart-kit/docs` or examples package: docs, demos, or local development examples.
+- `@chart-kit/svg-renderer`: SVG primitives and renderer helpers used by the React Native charts.
+- `@chart-kit/react-native`: modern React Native chart components assembled into `react-native-chart-kit/v2`.
+- `@chart-kit/site`: the docs site and live chart previews.
 
 ## Local Checks
 
@@ -45,7 +46,7 @@ Useful focused commands:
 
 | Command                            | Purpose                                                  |
 | ---------------------------------- | -------------------------------------------------------- |
-| `npm run core:typecheck`           | Type-check the v2 core workspace.                        |
+| `npm run core:typecheck`           | Type-check the core workspace.                           |
 | `npm run svg:typecheck`            | Type-check the SVG renderer workspace.                   |
 | `npm run rn:typecheck`             | Type-check the React Native workspace.                   |
 | `npm run test:unit`                | Run unit tests.                                          |
