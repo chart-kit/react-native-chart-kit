@@ -18,15 +18,15 @@ npm install
 
 The repository uses npm workspaces and `package-lock.json`.
 
-The package app developers install is:
+App developers install this package:
 
-- `react-native-chart-kit`: the package installed by app developers.
+- `react-native-chart-kit`: the public npm package.
 
-Workspace packages used by this repository:
+This repository also has internal workspaces:
 
 - `@chart-kit/core`: shared chart logic, types, scales, and data helpers.
 - `@chart-kit/svg-renderer`: SVG primitives and renderer helpers used by the React Native charts.
-- `@chart-kit/react-native`: modern React Native chart components assembled into `react-native-chart-kit/v2`.
+- `@chart-kit/react-native`: the React Native implementation of the modern charts. It is assembled into `react-native-chart-kit/v2`.
 - `@chart-kit/site`: the docs site and live chart previews.
 
 ## Local Checks
@@ -44,31 +44,33 @@ npm run build
 
 Useful focused commands:
 
-| Command                            | Purpose                                                  |
-| ---------------------------------- | -------------------------------------------------------- |
-| `npm run core:typecheck`           | Type-check the core workspace.                           |
-| `npm run svg:typecheck`            | Type-check the SVG renderer workspace.                   |
-| `npm run rn:typecheck`             | Type-check the React Native workspace.                   |
-| `npm run test:unit`                | Run unit tests.                                          |
-| `npm run test:compat`              | Run legacy compatibility tests.                          |
-| `npm run example:rn-cli:typecheck` | Type-check the React Native CLI smoke example.           |
-| `npm run docs:build`               | Verify docs links and type-check documentation examples. |
-| `npm run pack:check`               | Dry-run package artifacts for the public package.        |
-| `npm run surface:check`            | Check public exports and package boundaries.             |
+| Command                            | Purpose                                                                          |
+| ---------------------------------- | -------------------------------------------------------------------------------- |
+| `npm run core:typecheck`           | Type-check the core workspace.                                                   |
+| `npm run svg:typecheck`            | Type-check the SVG renderer workspace.                                           |
+| `npm run rn:typecheck`             | Type-check the chart library's React Native implementation and its tests.        |
+| `npm run test:unit`                | Run unit tests.                                                                  |
+| `npm run test:compat`              | Check that old v6-style chart data still normalizes correctly.                   |
+| `npm run example:rn-cli:typecheck` | Type-check the small non-Expo example app against `react-native-chart-kit/v2`.   |
+| `npm run docs:build`               | Verify docs links and type-check documentation examples.                         |
+| `npm run pack:check`               | Dry-run the npm packages and confirm required files are included.                |
+| `npm run surface:check`            | Check public exports and make sure free packages do not import Pro or Skia code. |
 
 ## Example App
 
-The public repo includes a React Native CLI smoke surface for non-Expo import and
-peer-dependency checks:
+The public repo includes a small React Native CLI example app:
 
 ```sh
 npm run example:rn-cli:typecheck
 ```
 
-See `examples/rn-cli-basic` for the app source and Metro aliases.
+Use it to check that a plain non-Expo app can import
+`react-native-chart-kit/v2` and pass valid props to the chart components.
 
-The Expo preview app lives in the private `chart-kit-pro` repository because it
-combines free and Pro chart examples.
+The example app lives in `examples/rn-cli-basic`:
+
+- `App.tsx`: the example screen with a few charts.
+- `metro.config.js`: Metro aliases that point package imports back to this repo's local source files.
 
 ## Branch Names
 
