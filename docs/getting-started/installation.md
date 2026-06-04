@@ -29,10 +29,6 @@ npm install react-native-chart-kit
 npx expo install react-native-svg
 ```
 
-Baseline tap, scrub, pan, pinch zoom, and range-selector interactions use React
-Native responder APIs, so new apps do not need a gesture-handler wrapper just to
-render or inspect charts.
-
 ## First Modern Chart
 
 New screens can import the modern v2 API from the public package subpath.

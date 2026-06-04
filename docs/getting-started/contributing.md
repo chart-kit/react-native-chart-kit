@@ -16,9 +16,17 @@ cd react-native-chart-kit
 npm install
 ```
 
-The repository uses npm workspaces and `package-lock.json`. The published npm
-package is `react-native-chart-kit`; the `@chart-kit/*` workspaces are internal
-packages used to develop and build the modern implementation.
+The repository uses npm workspaces and `package-lock.json`.
+
+The published npm package is:
+
+- `react-native-chart-kit`: the package installed by app developers.
+
+The internal workspace packages are used to develop and build the library:
+
+- `@chart-kit/core`: shared chart logic, types, scales, and data helpers.
+- `@chart-kit/react-native`: React Native chart components and native-facing implementation.
+- `@chart-kit/docs` or examples package: docs, demos, or local development examples.
 
 ## Local Checks
 
