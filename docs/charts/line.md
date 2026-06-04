@@ -257,7 +257,7 @@ const data = [
   yKeys={["actual", "forecast"]}
   selectedIndex={4}
   crosshair={{ strokeDasharray: [3, 4] }}
-  renderCrosshair={({ config, plot, series, x, xLabel, y }) => (
+  renderCrosshair={({ config, plot, series, theme, x, xLabel, y }) => (
     <G>
       <Line
         x1={x}
@@ -267,7 +267,13 @@ const data = [
         stroke={config.color}
         strokeDasharray={config.strokeDasharray}
       />
-      <SvgText x={x + 8} y={y - 8}>
+      <SvgText
+        x={x + 8}
+        y={y - 8}
+        fill={theme.text}
+        fontSize={theme.typography.legendLabelSize}
+        fontFamily={theme.typography.fontFamily}
+      >
         {xLabel}: {series[0]?.formattedValue}
       </SvgText>
     </G>

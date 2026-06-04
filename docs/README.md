@@ -39,7 +39,3 @@ React Native Chart Kit is a library of modern and polished charts for React Nati
 
 - [From v1](migration/from-v1.md)
 - [Prop mapping](migration/prop-mapping.md)
-
-## Recipes
-
-- [Production recipes](recipes/README.md)

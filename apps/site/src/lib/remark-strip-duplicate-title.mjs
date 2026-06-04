@@ -110,7 +110,6 @@ const encodeCodeAttribute = (value) => encodeURIComponent(String(value));
 
 const playgroundDocs = new Set([
   "getting-started/installation.md",
-  "recipes/README.md",
   "charts/area.md",
   "charts/bar.md",
   "charts/contribution-heatmap.md",

@@ -131,8 +131,7 @@ export default defineConfig({
           items: [
             { slug: docsSlug("charts/themes") },
             { slug: docsSlug("charts/accessibility") },
-            { slug: docsSlug("troubleshooting") },
-            { slug: docsSlug("recipes") }
+            { slug: docsSlug("troubleshooting") }
           ]
         },
         {
