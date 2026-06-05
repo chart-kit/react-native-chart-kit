@@ -13,6 +13,14 @@ import {
   useChartKitTheme
 } from "react-native-chart-kit/v2";
 import { CandlebarChart, ComboChart, RadarChart } from "@chart-kit/pro";
+import {
+  BarChart as LegacyBarChart,
+  ContributionGraph as LegacyContributionGraph,
+  LineChart as LegacyLineChart,
+  PieChart as LegacyPieChart,
+  ProgressChart as LegacyProgressChart,
+  StackedBarChart as LegacyStackedBarChart
+} from "../../../../src";
 
 import type { ChartPreviewExample } from "./examples";
 import {
@@ -60,6 +68,105 @@ const crosshairCandlebarPrices = Array.from({ length: 40 }, (_, index) => {
     volume: Math.round(48 + Math.abs(move) * 9 + index * 3)
   };
 });
+
+const legacyLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+const legacyValues = [20, 45, 28, 80, 99, 43];
+
+const getLegacyChartConfig = (mode: "dark" | "light") => {
+  const isDark = mode === "dark";
+
+  return {
+    backgroundGradientFrom: isDark ? "#111827" : "#ffffff",
+    backgroundGradientTo: isDark ? "#0f172a" : "#ffffff",
+    color: (opacity = 1) =>
+      isDark
+        ? `rgba(96, 165, 250, ${opacity})`
+        : `rgba(37, 99, 235, ${opacity})`,
+    labelColor: (opacity = 1) =>
+      isDark
+        ? `rgba(226, 232, 240, ${opacity})`
+        : `rgba(15, 23, 42, ${opacity})`,
+    propsForBackgroundLines: {
+      stroke: isDark ? "rgba(148, 163, 184, 0.22)" : "rgba(148, 163, 184, 0.3)"
+    },
+    propsForLabels: {
+      fontSize: 10
+    }
+  };
+};
+
+const getLegacyPieData = (mode: "dark" | "light") => {
+  const legendFontColor = mode === "dark" ? "#e2e8f0" : "#334155";
+
+  return [
+    {
+      name: "Organic",
+      population: 42,
+      color: "#2563eb",
+      legendFontColor,
+      legendFontSize: 12
+    },
+    {
+      name: "Paid",
+      population: 24,
+      color: "#0891b2",
+      legendFontColor,
+      legendFontSize: 12
+    },
+    {
+      name: "Referral",
+      population: 18,
+      color: "#7c3aed",
+      legendFontColor,
+      legendFontSize: 12
+    }
+  ];
+};
+
+const legacyContributionValues = [
+  { date: "2026-01-02", count: 1 },
+  { date: "2026-01-03", count: 4 },
+  { date: "2026-01-04", count: 2 },
+  { date: "2026-01-07", count: 6 },
+  { date: "2026-01-08", count: 3 },
+  { date: "2026-01-12", count: 8 },
+  { date: "2026-01-15", count: 2 },
+  { date: "2026-01-16", count: 5 },
+  { date: "2026-01-17", count: 1 },
+  { date: "2026-01-24", count: 10 },
+  { date: "2026-01-28", count: 4 },
+  { date: "2026-01-31", count: 7 },
+  { date: "2026-02-01", count: 2 },
+  { date: "2026-02-03", count: 9 },
+  { date: "2026-02-04", count: 1 },
+  { date: "2026-02-10", count: 5 },
+  { date: "2026-02-14", count: 11 },
+  { date: "2026-02-15", count: 3 },
+  { date: "2026-02-18", count: 6 },
+  { date: "2026-02-19", count: 2 },
+  { date: "2026-02-23", count: 8 },
+  { date: "2026-02-27", count: 4 },
+  { date: "2026-03-01", count: 12 },
+  { date: "2026-03-02", count: 6 },
+  { date: "2026-03-05", count: 3 },
+  { date: "2026-03-08", count: 9 },
+  { date: "2026-03-13", count: 2 },
+  { date: "2026-03-14", count: 7 },
+  { date: "2026-03-21", count: 5 },
+  { date: "2026-03-25", count: 10 },
+  { date: "2026-03-29", count: 1 },
+  { date: "2026-03-31", count: 6 }
+];
+
+const getLegacyContributionChartConfig = (mode: "dark" | "light") => {
+  const config = getLegacyChartConfig(mode);
+
+  return {
+    ...config,
+    color: (opacity = 1) =>
+      config.color(Math.max(opacity, mode === "dark" ? 0.35 : 0.28))
+  };
+};
 
 const CandlebarCrosshairPreview = ({
   isMostMobile,
@@ -818,6 +925,121 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
         height={158}
         numDays={contributionNumDays}
         values={[]}
+        width={clampChartWidth(width)}
+      />
+    )
+  },
+  "legacy-line": {
+    eyebrow: "Legacy",
+    id: "legacy-line",
+    supportsChartTheme: false,
+    title: "Root LineChart",
+    render: ({ mode, width }) => (
+      <LegacyLineChart
+        bezier
+        chartConfig={getLegacyChartConfig(mode)}
+        data={{
+          labels: legacyLabels,
+          datasets: [{ data: legacyValues }],
+          legend: ["Revenue"]
+        }}
+        height={240}
+        width={clampChartWidth(width)}
+      />
+    )
+  },
+  "legacy-bar": {
+    eyebrow: "Legacy",
+    id: "legacy-bar",
+    supportsChartTheme: false,
+    title: "Root BarChart",
+    render: ({ mode, width }) => (
+      <LegacyBarChart
+        chartConfig={getLegacyChartConfig(mode)}
+        data={{
+          labels: legacyLabels,
+          datasets: [{ data: legacyValues }]
+        }}
+        height={240}
+        width={clampChartWidth(width)}
+        yAxisLabel="$"
+        yAxisSuffix="k"
+      />
+    )
+  },
+  "legacy-stacked-bar": {
+    eyebrow: "Legacy",
+    id: "legacy-stacked-bar",
+    supportsChartTheme: false,
+    title: "Root StackedBarChart",
+    render: ({ mode, width }) => (
+      <LegacyStackedBarChart
+        chartConfig={getLegacyChartConfig(mode)}
+        data={{
+          labels: ["Q1", "Q2", "Q3", "Q4"],
+          legend: ["Direct", "Partner", "Expansion"],
+          data: [
+            [60, 30, 20],
+            [80, 45, 35],
+            [70, 55, 40],
+            [95, 65, 45]
+          ],
+          barColors: ["#2563eb", "#0891b2", "#7c3aed"]
+        }}
+        height={240}
+        hideLegend={false}
+        width={clampChartWidth(width)}
+      />
+    )
+  },
+  "legacy-pie": {
+    eyebrow: "Legacy",
+    id: "legacy-pie",
+    supportsChartTheme: false,
+    title: "Root PieChart",
+    render: ({ mode, width }) => (
+      <LegacyPieChart
+        accessor="population"
+        backgroundColor={mode === "dark" ? "#111827" : "#ffffff"}
+        chartConfig={getLegacyChartConfig(mode)}
+        data={getLegacyPieData(mode)}
+        height={240}
+        paddingLeft="15"
+        width={clampChartWidth(width)}
+      />
+    )
+  },
+  "legacy-progress": {
+    eyebrow: "Legacy",
+    id: "legacy-progress",
+    supportsChartTheme: false,
+    title: "Root ProgressChart",
+    render: ({ mode, width }) => (
+      <LegacyProgressChart
+        chartConfig={getLegacyChartConfig(mode)}
+        data={{
+          labels: ["Swim", "Bike", "Run"],
+          data: [0.4, 0.6, 0.8]
+        }}
+        height={240}
+        width={clampChartWidth(width)}
+      />
+    )
+  },
+  "legacy-contribution": {
+    eyebrow: "Legacy",
+    id: "legacy-contribution",
+    supportsChartTheme: false,
+    title: "Root ContributionGraph",
+    render: ({ mode, width }) => (
+      <LegacyContributionGraph
+        chartConfig={getLegacyContributionChartConfig(mode)}
+        endDate={new Date("2026-03-31")}
+        gutterSize={2}
+        height={220}
+        numDays={90}
+        tooltipDataAttrs={() => ({})}
+        values={legacyContributionValues}
         width={clampChartWidth(width)}
       />
     )

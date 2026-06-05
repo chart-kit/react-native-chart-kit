@@ -33,7 +33,6 @@ Modern docs:
 - [Progress charts](../../docs/charts/progress.md)
 - [Contribution heatmap](../../docs/charts/contribution-heatmap.md)
 - [Migration from v1](../../docs/migration/from-v1.md)
-- [Production recipes](../../docs/recipes/README.md)
 
 Current customization surface:
 

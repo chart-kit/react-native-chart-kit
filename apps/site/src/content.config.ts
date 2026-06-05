@@ -7,7 +7,6 @@ const publicDocs = [
   "getting-started/**/*.md",
   "migration/**/*.md",
   "charts/**/*.md",
-  "recipes/**/*.md",
   "troubleshooting.md"
 ];
 const docsRoutePrefix = "docs/react-native";

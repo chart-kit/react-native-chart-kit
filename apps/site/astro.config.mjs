@@ -114,7 +114,8 @@ export default defineConfig({
             { slug: docsSlug("charts/pie") },
             { slug: docsSlug("charts/donut") },
             { slug: docsSlug("charts/progress") },
-            { slug: docsSlug("charts/contribution-heatmap") }
+            { slug: docsSlug("charts/contribution-heatmap") },
+            { slug: docsSlug("charts/legacy") }
           ]
         },
         {

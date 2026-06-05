@@ -38,6 +38,14 @@ import {
   RadarChart
 } from "@chart-kit/pro";
 import { G, Line as SvgLine, Rect, Text as SvgText } from "react-native-svg";
+import {
+  BarChart as LegacyBarChart,
+  ContributionGraph as LegacyContributionGraph,
+  LineChart as LegacyLineChart,
+  PieChart as LegacyPieChart,
+  ProgressChart as LegacyProgressChart,
+  StackedBarChart as LegacyStackedBarChart
+} from "../../../../src";
 
 import { ChartPreviewProviders } from "./ChartPreviewProviders";
 import {
@@ -452,6 +460,7 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
   const initialCode = useMemo(() => decodeInitialCode(code), [code]);
   const [currentCode, setCurrentCode] = useState(() => initialCode);
   const example = chartPreviewExamples[id];
+  const isLegacyPreview = id.startsWith("legacy-");
   const supportsGlobalChartTheme = useMemo(
     () =>
       !explicitThemePattern.test(initialCode) &&
@@ -518,24 +527,28 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
   const scope = useMemo(
     () => ({
       AreaChart,
-      BarChart,
+      BarChart: isLegacyPreview ? LegacyBarChart : BarChart,
       CandlebarChart,
       CandlestickChart,
       ChartKitProvider,
-      ContributionGraph,
+      ContributionGraph: isLegacyPreview
+        ? LegacyContributionGraph
+        : ContributionGraph,
       ComboChart,
       DonutChart,
       G,
-      LineChart,
-      PieChart,
+      LineChart: isLegacyPreview ? LegacyLineChart : LineChart,
+      PieChart: isLegacyPreview ? LegacyPieChart : PieChart,
       Pressable,
-      ProgressChart,
+      ProgressChart: isLegacyPreview ? LegacyProgressChart : ProgressChart,
       ProgressRing,
       RadarChart,
       React,
       Rect,
       resolveCartesianChartThemeConfig,
-      StackedBarChart,
+      StackedBarChart: isLegacyPreview
+        ? LegacyStackedBarChart
+        : StackedBarChart,
       SvgText,
       Text,
       View,
@@ -582,7 +595,7 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
       weeklyAcquisition,
       weeklySpend
     }),
-    [chartThemePreset, id, isMostMobile, width]
+    [chartThemePreset, id, isLegacyPreview, isMostMobile, width]
   );
 
   const playgroundStyle = useMemo(

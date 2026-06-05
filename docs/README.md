@@ -21,6 +21,7 @@ React Native Chart Kit is a library of modern and polished charts for React Nati
 - [Donut](charts/donut.md)
 - [Progress](charts/progress.md)
 - [Contribution heatmap](charts/contribution-heatmap.md)
+- [Legacy charts](charts/legacy.md)
 
 ## Pro Charts
 

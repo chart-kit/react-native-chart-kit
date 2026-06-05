@@ -7,6 +7,9 @@ type AnyProps = Record<string, unknown>;
 type ScrollHandle = {
   scrollTo: (options?: { animated?: boolean; x?: number; y?: number }) => void;
 };
+type TextInputHandle = {
+  setNativeProps: (nativeProps: { text?: string; value?: string }) => void;
+};
 type ScrollDragState = {
   active: boolean;
   pointerId: number;
@@ -730,6 +733,38 @@ const createPrimitive = (
   return Primitive;
 };
 
+class AnimatedValue {
+  private value: number;
+
+  constructor(value: number) {
+    this.value = value;
+  }
+
+  addListener(listener: (value: { value: number }) => void) {
+    listener({ value: this.value });
+
+    return String(Date.now());
+  }
+
+  interpolate() {
+    return this.value;
+  }
+
+  removeAllListeners() {
+    return undefined;
+  }
+
+  removeListener() {
+    return undefined;
+  }
+
+  setValue(value: number) {
+    this.value = value;
+  }
+}
+
+const createAnimatedComponent = <T,>(Component: T) => Component;
+
 export const View = createPrimitive(
   "div",
   {
@@ -749,6 +784,34 @@ export const Text = createPrimitive(
   },
   "Text"
 );
+
+export const TextInput = React.forwardRef<TextInputHandle, AnyProps>(
+  ({ value, ...props }, ref) => {
+    const elementRef = React.useRef<HTMLInputElement | null>(null);
+    const domProps = toDomProps(props);
+
+    React.useImperativeHandle(ref, () => ({
+      setNativeProps: (nativeProps: { text?: string; value?: string }) => {
+        if (elementRef.current) {
+          elementRef.current.value =
+            nativeProps.text ?? nativeProps.value ?? "";
+        }
+      }
+    }));
+
+    return React.createElement("input", {
+      ...domProps,
+      defaultValue: value as string | undefined,
+      ref: elementRef,
+      style: {
+        border: 0,
+        background: "transparent",
+        ...(domProps.style as AnyProps)
+      }
+    });
+  }
+);
+TextInput.displayName = "TextInput";
 
 export const Pressable = React.forwardRef<HTMLElement, AnyProps>(
   ({ onPress, style, ...props }, ref) => {
@@ -916,6 +979,27 @@ export const ScrollView = React.forwardRef<ScrollHandle, AnyProps>(
 ScrollView.displayName = "ScrollView";
 
 export const Image = createPrimitive("img");
+
+export const Animated = {
+  Value: AnimatedValue,
+  View,
+  createAnimatedComponent,
+  event:
+    (mapping: unknown) =>
+    (event: { nativeEvent?: { contentOffset?: { x?: number } } }) => {
+      const xValue = Array.isArray(mapping)
+        ? (
+            mapping[0] as {
+              nativeEvent?: { contentOffset?: { x?: AnimatedValue } };
+            }
+          )?.nativeEvent?.contentOffset?.x
+        : undefined;
+
+      if (xValue instanceof AnimatedValue) {
+        xValue.setValue(event.nativeEvent?.contentOffset?.x ?? 0);
+      }
+    }
+};
 
 export const StyleSheet = {
   absoluteFillObject: {
