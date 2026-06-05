@@ -155,11 +155,11 @@ const previewStyles = {
     width: "100%" as const
   },
   proBadge: {
-    backgroundColor: "rgba(15, 58, 120, 0.1)",
-    borderColor: "rgba(15, 58, 120, 0.18)",
+    backgroundColor: "rgba(0, 85, 218, 0.1)",
+    borderColor: "rgba(0, 85, 218, 0.22)",
     borderRadius: 999,
     borderWidth: 1,
-    color: "#0f3a78",
+    color: "#0055DA",
     fontSize: 11,
     fontWeight: "800" as const,
     letterSpacing: 0,
@@ -169,9 +169,9 @@ const previewStyles = {
     textTransform: "uppercase" as const
   },
   proBadgeDark: {
-    backgroundColor: "rgba(216, 230, 255, 0.1)",
-    borderColor: "rgba(216, 230, 255, 0.18)",
-    color: "#d8e6ff"
+    backgroundColor: "rgba(0, 85, 218, 0.16)",
+    borderColor: "rgba(0, 85, 218, 0.38)",
+    color: "#8AB6FF"
   },
   title: {
     color: "#101217",

@@ -19,6 +19,7 @@ type ChartType = {
 };
 
 const docsBaseHref = "/docs/react-native";
+const brandBlue = "#0055DA";
 
 const chartTypes: ChartType[] = [
   {
@@ -133,12 +134,12 @@ const getThemeStyles = (mode: ThemeMode) => {
     },
     pro: {
       backgroundColor: isLight
-        ? "rgba(0, 0, 0, 0.045)"
-        : "rgba(255, 255, 255, 0.075)",
+        ? "rgba(0, 85, 218, 0.1)"
+        : "rgba(0, 85, 218, 0.16)",
       borderColor: isLight
-        ? "rgba(0, 0, 0, 0.12)"
-        : "rgba(255, 255, 255, 0.14)",
-      color: isLight ? "rgba(0, 0, 0, 0.62)" : "rgba(255, 255, 255, 0.76)"
+        ? "rgba(0, 85, 218, 0.22)"
+        : "rgba(0, 85, 218, 0.38)",
+      color: isLight ? brandBlue : "#8AB6FF"
     },
     separator: {
       background: isLight

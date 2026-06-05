@@ -9,6 +9,8 @@
 }
 
 :root {
+  --chart-kit-brand-blue: #0055da;
+  --chart-kit-brand-blue-soft: #8ab6ff;
   --sl-font: "SF Pro Text", "SF Pro Display", -apple-system,
     BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   --sl-content-width: 58rem;
@@ -669,10 +671,10 @@ chart-kit-preview .chart-kit-preview-fallback,
   align-items: center;
   justify-content: center;
   margin-top: 1rem;
-  border: 1px solid rgba(216, 230, 255, 0.18);
+  border: 1px solid rgba(0, 85, 218, 0.38);
   border-radius: 999px;
-  background: rgba(216, 230, 255, 0.1);
-  color: #d8e6ff;
+  background: rgba(0, 85, 218, 0.16);
+  color: var(--chart-kit-brand-blue-soft);
   font-size: 0.78rem;
   font-weight: 750;
   line-height: 1;
@@ -682,8 +684,8 @@ chart-kit-preview .chart-kit-preview-fallback,
 
 .chart-kit-live-preview__pro-link:hover,
 .chart-kit-live-preview__pro-link:focus-visible {
-  border-color: rgba(216, 230, 255, 0.32);
-  background: rgba(216, 230, 255, 0.16);
+  border-color: rgba(0, 85, 218, 0.52);
+  background: rgba(0, 85, 218, 0.24);
   color: #ffffff;
 }
 
@@ -693,15 +695,15 @@ chart-kit-preview .chart-kit-preview-fallback,
 }
 
 :root[data-theme="light"] .chart-kit-live-preview__pro-link {
-  border-color: rgba(15, 58, 120, 0.18);
-  background: rgba(15, 58, 120, 0.08);
-  color: #0f3a78;
+  border-color: rgba(0, 85, 218, 0.22);
+  background: rgba(0, 85, 218, 0.1);
+  color: var(--chart-kit-brand-blue);
 }
 
 :root[data-theme="light"] .chart-kit-live-preview__pro-link:hover,
 :root[data-theme="light"] .chart-kit-live-preview__pro-link:focus-visible {
-  border-color: rgba(15, 58, 120, 0.3);
-  background: rgba(15, 58, 120, 0.12);
+  border-color: rgba(0, 85, 218, 0.34);
+  background: rgba(0, 85, 218, 0.14);
   color: #071733;
 }
 
@@ -713,10 +715,10 @@ chart-kit-preview .chart-kit-preview-fallback,
   )::after {
   flex: 0 0 auto;
   margin-inline-start: auto;
-  border: 1px solid rgba(216, 230, 255, 0.18);
+  border: 1px solid rgba(0, 85, 218, 0.38);
   border-radius: 999px;
-  background: rgba(216, 230, 255, 0.09);
-  color: #d8e6ff;
+  background: rgba(0, 85, 218, 0.16);
+  color: var(--chart-kit-brand-blue-soft);
   content: "Pro";
   font-size: 0.62rem;
   font-weight: 800;
@@ -733,9 +735,9 @@ chart-kit-preview .chart-kit-preview-fallback,
     [href$="/charts/radar/"],
     [href$="/charts/combo/"]
   )::after {
-  border-color: rgba(15, 58, 120, 0.18);
-  background: rgba(15, 58, 120, 0.08);
-  color: #0f3a78;
+  border-color: rgba(0, 85, 218, 0.22);
+  background: rgba(0, 85, 218, 0.1);
+  color: var(--chart-kit-brand-blue);
 }
 
 chart-kit-playground {
