@@ -168,6 +168,7 @@ export const PieChart = <TData extends Record<string, unknown>>(
   );
   const responderProps: ViewProps = isInteractionEnabled
     ? {
+        onStartShouldSetResponderCapture: () => true,
         onStartShouldSetResponder: () => true,
         onResponderGrant: (event: GestureResponderEvent) => {
           event.preventDefault();
@@ -227,16 +228,17 @@ export const PieChart = <TData extends Record<string, unknown>>(
       accessible
       accessibilityLabel={accessibilityLabel}
       accessibilityRole="image"
+      collapsable={false}
       style={[
         styles.container,
         {
           backgroundColor: resolvedTheme.background,
           height: props.height,
+          position: "relative",
           width: props.width
         }
       ]}
       testID={props.testID}
-      {...responderProps}
     >
       <View
         style={[
@@ -348,6 +350,16 @@ export const PieChart = <TData extends Record<string, unknown>>(
           >
             {customCenterLabel}
           </View>
+        ) : null}
+        {isInteractionEnabled ? (
+          <View
+            accessible={false}
+            collapsable={false}
+            importantForAccessibility="no"
+            pointerEvents="auto"
+            style={styles.interactionOverlay}
+            {...responderProps}
+          />
         ) : null}
       </View>
       {legendVisible && legendItems.length > 0 ? (
@@ -464,5 +476,12 @@ const styles = StyleSheet.create({
   legendValue: {
     fontSize: 10,
     fontWeight: "700"
+  },
+  interactionOverlay: {
+    bottom: 0,
+    left: 0,
+    position: "absolute",
+    right: 0,
+    top: 0
   }
 });

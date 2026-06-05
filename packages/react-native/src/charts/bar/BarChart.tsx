@@ -233,6 +233,7 @@ export const BarChart = <TData extends Record<string, unknown>>(
   );
   const responderProps: ViewProps = isInteractionEnabled
     ? {
+        onStartShouldSetResponderCapture: () => true,
         onStartShouldSetResponder: () => true,
         onResponderGrant: (event: GestureResponderEvent) => {
           event.preventDefault();

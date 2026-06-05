@@ -92,9 +92,10 @@ export const BarChartSurface = <TData,>({
   const Rect = renderer.Rect;
   const Surface = renderer.Surface;
   const Text = renderer.Text;
+  const isInteractive = Object.keys(responderProps).length > 0;
 
   return (
-    <View collapsable={false} style={{ width, height }} {...responderProps}>
+    <View collapsable={false} style={{ width, height, position: "relative" }}>
       <Surface width={width} height={height}>
         <Layer name="background">
           <Rect
@@ -299,6 +300,16 @@ export const BarChartSurface = <TData,>({
           ))}
         </Layer>
       </Surface>
+      {isInteractive ? (
+        <View
+          accessible={false}
+          collapsable={false}
+          importantForAccessibility="no"
+          pointerEvents="auto"
+          style={styles.interactionOverlay}
+          {...responderProps}
+        />
+      ) : null}
     </View>
   );
 };
@@ -433,5 +444,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     zIndex: 2
+  },
+  interactionOverlay: {
+    bottom: 0,
+    left: 0,
+    position: "absolute",
+    right: 0,
+    top: 0
   }
 });

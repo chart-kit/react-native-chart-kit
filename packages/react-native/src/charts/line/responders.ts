@@ -85,6 +85,11 @@ export const useLineChartResponderProps = <TData>({
 
   return isResponderEnabled
     ? {
+        onStartShouldSetResponderCapture: (event) =>
+          viewportPan.shouldSetResponder(event) || isInteractionEnabled,
+        onMoveShouldSetResponderCapture: (event) =>
+          viewportPan.shouldSetResponder(event) ||
+          (interactionConfig.mode === "scrub" && isResponderEventInPlot(event)),
         onStartShouldSetResponder: (event) =>
           viewportPan.shouldSetResponder(event) || isInteractionEnabled,
         onMoveShouldSetResponder: (event) =>

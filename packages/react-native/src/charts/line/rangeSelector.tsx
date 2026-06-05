@@ -151,6 +151,8 @@ export const LineChartRangeSelector = <TData extends Record<string, unknown>>({
   );
   const responderProps = isInteractive
     ? {
+        onStartShouldSetResponderCapture: () => true,
+        onMoveShouldSetResponderCapture: () => true,
         onStartShouldSetResponder: () => true,
         onMoveShouldSetResponder: () => true,
         onResponderGrant: (event: GestureResponderEvent) => {
@@ -285,15 +287,16 @@ export const LineChartRangeSelector = <TData extends Record<string, unknown>>({
 
   return (
     <View
+      collapsable={false}
       pointerEvents={isInteractive ? "auto" : "none"}
       style={{
         height: config.height,
         marginTop: config.gap,
         overflow: "hidden",
+        position: "relative",
         width
       }}
       testID={testID ? `${testID}-range-selector` : undefined}
-      {...responderProps}
     >
       <Surface width={width} height={config.height}>
         <Layer name="background">
@@ -370,6 +373,20 @@ export const LineChartRangeSelector = <TData extends Record<string, unknown>>({
           ) : null}
         </Layer>
       </Surface>
+      {isInteractive ? (
+        <View
+          collapsable={false}
+          pointerEvents="auto"
+          style={{
+            bottom: 0,
+            left: 0,
+            position: "absolute",
+            right: 0,
+            top: 0
+          }}
+          {...responderProps}
+        />
+      ) : null}
     </View>
   );
 };
