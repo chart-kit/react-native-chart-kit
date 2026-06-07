@@ -346,15 +346,15 @@ export default function ChartsSupported() {
     >
       <div className="mx-auto max-w-[1320px] px-6 sm:px-8 md:px-10 lg:px-12 xl:px-16">
         <div className="mx-auto max-w-xl text-center lg:max-w-none">
-          <h2 className="text-[clamp(34px,6vw,56px)] font-semibold leading-[1.04] tracking-[-0.025em]">
-            Various charts supported
+          <h2 className="text-[clamp(31px,5.2vw,50px)] font-semibold leading-[1.04] tracking-[-0.025em]">
+            Charts for every data view
           </h2>
           <p
             className="mx-auto mt-5 max-w-md text-base font-light leading-7 transition-colors duration-300 lg:max-w-none"
             style={theme.copy}
           >
-            Types of charts for trends, comparisons, progress, and contribution
-            maps.
+            Trends, comparisons, progress, heatmaps, scorecards, dashboards, and
+            trading charts.
           </p>
         </div>
 

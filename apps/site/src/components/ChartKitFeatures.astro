@@ -1,80 +1,100 @@
 ---
 import {
-  Brackets,
-  ChartNoAxesCombined,
-  Fingerprint,
-  Smartphone
+  Cpu,
+  Crosshair,
+  Gauge,
+  MoveDiagonal2,
+  PanelsTopLeft,
+  Sparkles
 } from "lucide-astro";
 
 const features = [
   {
-    icon: ChartNoAxesCombined,
-    title: "Production primitives",
-    description:
-      "Line, area, bar, progress, pie, and contribution charts built as composable React Native pieces."
+    icon: Gauge,
+    title: "Advanced chart types",
+    description: "Candlebar, combo, and radar charts for Pro product screens."
   },
   {
-    icon: Smartphone,
-    title: "Native-first rendering",
+    icon: Crosshair,
+    title: "Mobile data inspection",
     description:
-      "SVG defaults work out of the box with renderer primitives that stay predictable across React Native screens."
+      "Tap selection, shared tooltips, and crosshairs for exact values."
   },
   {
-    icon: Fingerprint,
-    title: "Interaction APIs",
-    description:
-      "Gesture-friendly surfaces for tooltips, active points, scrub states, and chart-specific mobile interactions."
+    icon: MoveDiagonal2,
+    title: "Viewport controls",
+    description: "Pan, zoom, scroll, visible ranges, and mini range selectors."
   },
   {
-    icon: Brackets,
-    title: "Migration friendly",
-    description:
-      "Predictable props, theme hooks, and compatibility-minded components for moving existing chart screens forward."
+    icon: PanelsTopLeft,
+    title: "Dashboard workflows",
+    description: "Mixed bars and lines, series toggles, and negative domains."
+  },
+  {
+    icon: Cpu,
+    title: "Native renderer path",
+    description: "SVG by default, with an optional Skia renderer path for Pro."
+  },
+  {
+    icon: Sparkles,
+    title: "AI ready",
+    description: "AGENTS.md and llms.txt are available for coding agents."
   }
 ];
 ---
 
 <section
   id="features"
-  class="scroll-mt-20 bg-black py-20 text-white transition-colors duration-300 sm:py-24 [html[data-theme='light']_&]:bg-white [html[data-theme='light']_&]:text-black"
+  class="relative overflow-hidden scroll-mt-20 bg-black py-24 text-white transition-colors duration-300 sm:py-28 [html[data-theme='light']_&]:bg-white [html[data-theme='light']_&]:text-black"
 >
+  <div class="feature-section-pattern" aria-hidden="true"></div>
   <div
-    class="mx-auto grid max-w-[1220px] grid-cols-1 gap-14 px-6 sm:px-8 md:px-10 lg:grid-cols-[minmax(360px,0.82fr)_minmax(0,0.98fr)] lg:gap-16 lg:px-12 xl:gap-20"
+    class="relative z-10 mx-auto max-w-[1320px] space-y-12 px-6 sm:px-8 md:space-y-16 md:px-10 lg:px-12 xl:px-16"
   >
-    <div class="max-w-[640px] lg:order-2 lg:self-start lg:justify-self-end">
+    <div class="relative z-10 mx-auto max-w-[700px] space-y-6 text-center">
       <h2
-        class="text-[clamp(32px,5vw,54px)] font-semibold leading-[1.04] tracking-[-0.025em]"
+        class="text-[clamp(30px,4.6vw,48px)] font-semibold leading-[1.04] tracking-[-0.025em]"
       >
-        Built for serious mobile chart screens
+        Beyond static charts
       </h2>
       <p
-        class="mt-5 text-base font-light leading-7 text-white/56 transition-colors duration-300 [html[data-theme='light']_&]:text-black/56"
+        class="mx-auto max-w-[34rem] text-base font-light leading-7 text-white/56 transition-colors duration-300 [html[data-theme='light']_&]:text-black/56"
       >
-        Chart Kit keeps the surface area focused: native rendering, useful
-        defaults, and APIs that stay flexible when product charts become
-        interactive.
+        Let users tap, inspect, zoom, pan, and read richer datasets.
       </p>
-      <a
-        href="/docs/react-native/getting-started/installation"
-        class="mt-8 inline-flex h-10 items-center justify-center rounded-full border border-white/15 px-5 text-sm font-semibold tracking-[-0.01em] text-white/78 transition-colors hover:border-white/28 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 [html[data-theme='light']_&]:border-black/15 [html[data-theme='light']_&]:text-black/70 [html[data-theme='light']_&]:hover:border-black/28 [html[data-theme='light']_&]:hover:text-black [html[data-theme='light']_&]:focus-visible:outline-black/40"
-      >
-        Read docs
-      </a>
     </div>
 
-    <div class="flex flex-col gap-4 lg:order-1 lg:self-start lg:gap-5">
+    <div
+      class="relative isolate mx-auto grid max-w-[1120px] grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-black/[0.82] transition-colors duration-300 sm:grid-cols-2 lg:grid-cols-3 [html[data-theme='light']_&]:border-black/10 [html[data-theme='light']_&]:bg-white/[0.82]"
+    >
+      <div class="feature-cross-wash" aria-hidden="true"></div>
       {
-        features.map(({ icon: Icon, title, description }) => (
-          <article class="rounded-2xl border border-white/10 bg-white/[0.025] p-5 transition-colors duration-300 sm:p-6 [html[data-theme='light']_&]:border-black/10 [html[data-theme='light']_&]:bg-black/[0.018]">
-            <div class="flex items-center gap-2.5">
-              <span class="inline-flex shrink-0 items-center justify-center text-white/78 transition-colors duration-300 [html[data-theme='light']_&]:text-black/72">
-                <Icon size={30} stroke-width={1.8} aria-hidden="true" />
-              </span>
-              <h3 class="text-[17px] font-semibold leading-tight tracking-[-0.012em] text-white transition-colors duration-300 [html[data-theme='light']_&]:text-black">
+        features.map(({ description, icon: Icon, title }, index) => (
+          <article
+            class:list={[
+              "relative z-10 flex min-h-[220px] flex-col justify-center border-white/10 p-9 transition-colors duration-300 sm:p-12 [html[data-theme='light']_&]:border-black/10",
+              index > 0 ? "border-t" : "",
+              index < 2 ? "sm:border-t-0" : "",
+              index < 3 ? "lg:border-t-0" : "",
+              index % 2 === 1 ? "sm:border-l" : "",
+              index >= 2 ? "sm:border-t" : "",
+              index >= 3 ? "lg:border-t" : "",
+              index % 2 === 0 ? "sm:border-l-0" : "",
+              index % 3 === 0 ? "lg:border-l-0" : "",
+              index % 3 !== 0 ? "lg:border-l" : ""
+            ]}
+          >
+            <div class="relative z-10 flex items-center gap-2.5">
+              <Icon
+                class="size-4 text-white/72 transition-colors duration-300 [html[data-theme='light']_&]:text-black/68"
+                stroke-width={1.9}
+                aria-hidden="true"
+              />
+              <h3 class="text-sm font-semibold leading-5 tracking-[-0.01em] text-white transition-colors duration-300 [html[data-theme='light']_&]:text-black">
                 {title}
               </h3>
             </div>
-            <p class="mt-3 text-sm font-light leading-6 text-white/52 transition-colors duration-300 [html[data-theme='light']_&]:text-black/52">
+            <p class="relative z-10 mt-4 max-w-[17rem] text-sm font-light leading-6 text-white/52 transition-colors duration-300 [html[data-theme='light']_&]:text-black/52">
               {description}
             </p>
           </article>
@@ -83,3 +103,74 @@ const features = [
     </div>
   </div>
 </section>
+
+<style>
+  .feature-section-pattern,
+  .feature-cross-wash {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+  }
+
+  .feature-section-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'%3E%3Cg stroke-width='6.5' stroke='hsla(0, 0%25, 100%25, 1.00)' fill='none'%3E%3Cline x1='0' y1='0' x2='400' y2='400'%3E%3C/line%3E%3Cline x1='400' y1='0' x2='0' y2='400'%3E%3C/line%3E%3Cline x1='400' y1='0' x2='800' y2='400'%3E%3C/line%3E%3Cline x1='800' y1='0' x2='400' y2='400'%3E%3C/line%3E%3Cline x1='0' y1='400' x2='400' y2='800'%3E%3C/line%3E%3Cline x1='400' y1='400' x2='0' y2='800'%3E%3C/line%3E%3Cline x1='400' y1='400' x2='800' y2='800'%3E%3C/line%3E%3Cline x1='800' y1='400' x2='400' y2='800'%3E%3C/line%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 95px 95px;
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.28) 10%,
+      #000 24%,
+      #000 76%,
+      rgba(0, 0, 0, 0.28) 90%,
+      transparent 100%
+    );
+    opacity: 0.08;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.28) 10%,
+      #000 24%,
+      #000 76%,
+      rgba(0, 0, 0, 0.28) 90%,
+      transparent 100%
+    );
+    z-index: 0;
+  }
+
+  .feature-cross-wash {
+    background:
+      radial-gradient(
+        circle at 50% 0%,
+        rgba(0, 85, 218, 0.08),
+        transparent 42%
+      ),
+      linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.86) 0%,
+        rgba(0, 0, 0, 0.8) 42%,
+        rgba(0, 0, 0, 0.88) 100%
+      );
+    z-index: 0;
+  }
+
+  :global(html[data-theme="light"]) .feature-section-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'%3E%3Cg stroke-width='6.5' stroke='hsla(215, 16%25, 47%25, 1.00)' fill='none'%3E%3Cline x1='0' y1='0' x2='400' y2='400'%3E%3C/line%3E%3Cline x1='400' y1='0' x2='0' y2='400'%3E%3C/line%3E%3Cline x1='400' y1='0' x2='800' y2='400'%3E%3C/line%3E%3Cline x1='800' y1='0' x2='400' y2='400'%3E%3C/line%3E%3Cline x1='0' y1='400' x2='400' y2='800'%3E%3C/line%3E%3Cline x1='400' y1='400' x2='0' y2='800'%3E%3C/line%3E%3Cline x1='400' y1='400' x2='800' y2='800'%3E%3C/line%3E%3Cline x1='800' y1='400' x2='400' y2='800'%3E%3C/line%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.12;
+  }
+
+  :global(html[data-theme="light"]) .feature-cross-wash {
+    background:
+      radial-gradient(
+        circle at 50% 0%,
+        rgba(0, 85, 218, 0.055),
+        transparent 42%
+      ),
+      linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.84) 0%,
+        rgba(255, 255, 255, 0.78) 42%,
+        rgba(255, 255, 255, 0.88) 100%
+      );
+  }
+</style>

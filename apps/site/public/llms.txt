@@ -1,0 +1,35 @@
+# React Native Chart Kit
+
+> React Native Chart Kit provides composable charts for React Native, including public v2 charts and licensed Chart Kit Pro chart workflows.
+
+## Primary Docs
+
+- [Installation](/docs/react-native/getting-started/installation)
+- [Contributing](/docs/react-native/getting-started/contributing)
+- [Troubleshooting](/docs/react-native/troubleshooting)
+- [Migration from v1](/docs/react-native/migration/from-v1)
+- [Prop mapping](/docs/react-native/migration/prop-mapping)
+
+## Public Charts
+
+- [Line chart](/docs/react-native/charts/line)
+- [Area chart](/docs/react-native/charts/area)
+- [Bar chart](/docs/react-native/charts/bar)
+- [Pie chart](/docs/react-native/charts/pie)
+- [Donut chart](/docs/react-native/charts/donut)
+- [Progress chart](/docs/react-native/charts/progress)
+- [Contribution heatmap](/docs/react-native/charts/contribution-heatmap)
+- [Themes](/docs/react-native/charts/themes)
+- [Accessibility](/docs/react-native/charts/accessibility)
+
+## Pro Charts
+
+- [Pro installation](/docs/react-native/charts/pro-installation)
+- [Candlebar chart](/docs/react-native/charts/candlebar)
+- [Radar chart](/docs/react-native/charts/radar)
+- [Combo chart](/docs/react-native/charts/combo)
+
+## Source
+
+- [GitHub repository](https://github.com/indiespirit/react-native-chart-kit)
+- [Agent instructions](https://github.com/indiespirit/react-native-chart-kit/blob/master/AGENTS.md)
