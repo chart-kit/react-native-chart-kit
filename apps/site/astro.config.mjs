@@ -122,6 +122,7 @@ export default defineConfig({
           label: "Pro Charts",
           items: [
             { slug: docsSlug("charts/pro-installation") },
+            { slug: docsSlug("charts/pricing") },
             { slug: docsSlug("charts/candlebar") },
             { slug: docsSlug("charts/radar") },
             { slug: docsSlug("charts/combo") }

@@ -1,118 +1,61 @@
 ---
-import { Check, Gift, Star, Users, X, Zap } from "lucide-astro";
+import { Building2, Check, Gift, Rocket, Star } from "lucide-astro";
 
-type PlanKey = "free" | "pro" | "teams";
-
-const plans = [
+const proTiers = [
   {
-    icon: Gift,
-    name: "Free",
-    price: "$0",
-    cadence: "",
-    description: "For hobby apps and simple dashboards.",
-    cta: "Get started",
-    href: "/docs/react-native/getting-started/installation",
-    featured: false,
-    features: [
-      "Basic charts",
-      "Simple theming",
-      "Expo + React Native",
-      "Community support"
-    ]
-  },
-  {
-    icon: Zap,
-    name: "Pro",
-    price: "$399",
-    cadence: "/ dev / year",
-    description: "For production apps.",
-    cta: "Start Pro",
-    href: "/docs/react-native/getting-started/installation",
-    featured: true,
-    features: [
-      "Smart layout engine",
-      "Tooltips + crosshair",
-      "Zoom, pan, scroll",
-      "Export PNG / SVG",
-      "Advanced chart types",
-      "Pro themes"
-    ]
-  },
-  {
-    icon: Users,
-    name: "Teams",
-    price: "$999",
+    key: "solo",
+    buttonLabel: "1 dev",
+    name: "Solo",
+    price: "$149",
     cadence: "/ year",
-    description: "Up to 5 developers.",
-    cta: "Talk to sales",
-    href: "mailto:sales@chartkit.io",
-    featured: false,
+    description: "For solo developers and independent apps.",
+    cta: "Get Solo",
+    href: "mailto:sales@chartkit.io?subject=Chart%20Kit%20Pro%20Solo%20license",
     features: [
-      "Everything in Pro",
-      "Team license",
-      "Priority support",
-      "Faster bug fixes",
-      "Internal product use"
+      "1 developer",
+      "1 production app",
+      "Revenue/funding cap: $250k",
+      "Standard email support"
+    ]
+  },
+  {
+    key: "startup",
+    buttonLabel: "2-3 devs",
+    name: "Startup",
+    price: "$399",
+    cadence: "/ year",
+    description: "For small teams building a production app.",
+    cta: "Get Startup",
+    href: "mailto:sales@chartkit.io?subject=Chart%20Kit%20Pro%20Startup%20license",
+    features: [
+      "Up to 3 developers",
+      "1 production app",
+      "Revenue/funding cap: $2M",
+      "Standard email support"
+    ]
+  },
+  {
+    key: "business",
+    buttonLabel: "4-6 devs",
+    name: "Business",
+    price: "$1,499",
+    cadence: "/ year",
+    description: "For larger teams and multiple apps.",
+    cta: "Get Business",
+    href: "mailto:sales@chartkit.io?subject=Chart%20Kit%20Pro%20Business%20license",
+    features: [
+      "Up to 6 developers",
+      "Up to 2 production apps",
+      "No revenue/funding cap",
+      "Priority email support"
     ]
   }
 ];
 
-const comparison = [
-  {
-    feature: "Basic charts",
-    free: true,
-    pro: true,
-    teams: true
-  },
-  {
-    feature: "Smart layout engine",
-    free: false,
-    pro: true,
-    teams: true
-  },
-  {
-    feature: "Tooltips & crosshair",
-    free: false,
-    pro: true,
-    teams: true
-  },
-  {
-    feature: "Zoom / pan / scroll",
-    free: false,
-    pro: true,
-    teams: true
-  },
-  {
-    feature: "Export to PNG / SVG",
-    free: false,
-    pro: true,
-    teams: true
-  },
-  {
-    feature: "Advanced chart types",
-    free: false,
-    pro: true,
-    teams: true
-  },
-  {
-    feature: "Pro themes",
-    free: false,
-    pro: true,
-    teams: true
-  },
-  {
-    feature: "Priority support",
-    free: false,
-    pro: false,
-    teams: true
-  }
-];
-
-const columns: Array<[string, PlanKey]> = [
-  ["Free", "free"],
-  ["Pro", "pro"],
-  ["Teams", "teams"]
-];
+const defaultProTier = proTiers[1];
+const proTiersByKey = Object.fromEntries(
+  proTiers.map((tier) => [tier.key, tier])
+);
 ---
 
 <section
@@ -121,177 +64,508 @@ const columns: Array<[string, PlanKey]> = [
 >
   <div class="mx-auto max-w-[1320px] px-6 sm:px-8 md:px-10 lg:px-12 xl:px-16">
     <div class="mx-auto max-w-4xl text-center">
-      <h2
-        class="text-[clamp(31px,5.2vw,50px)] font-semibold leading-[1.04] tracking-[-0.03em]"
-      >
+      <h2 class="text-[clamp(31px,5.2vw,50px)] font-semibold leading-[1.04]">
         Pricing
       </h2>
       <p
         class="mx-auto mt-4 max-w-3xl text-base font-light leading-7 text-white/56 transition-colors duration-300 sm:text-[17px] [html[data-theme='light']_&]:text-black/56"
       >
-        Start free. Upgrade when your charts need production-grade
-        interactions, layout, export, and team licensing.
+        Pick Free, Pro, or Enterprise. Pro pricing changes by developer count,
+        app scope, and company size.
       </p>
     </div>
 
     <div
-      class="mx-auto mt-10 grid max-w-[1120px] grid-cols-1 gap-7 lg:grid-cols-3 lg:gap-8"
+      class="mx-auto mt-10 grid max-w-[1120px] grid-cols-1 gap-5 lg:grid-cols-[0.9fr_1.2fr_0.9fr]"
     >
-      {
-        plans.map(({ icon: Icon, ...plan }) => (
-          <article
-            class:list={[
-              "relative flex min-h-[430px] flex-col rounded-2xl border bg-white/[0.025] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.24)] transition-colors duration-300 sm:p-6 [html[data-theme='light']_&]:bg-black/[0.018] [html[data-theme='light']_&]:shadow-[0_24px_80px_rgba(0,0,0,0.055)]",
-              plan.featured
-                ? "border-white/30 [html[data-theme='light']_&]:border-black/24"
-                : "border-white/10 [html[data-theme='light']_&]:border-black/10"
-            ]}
-          >
-            <div class="flex items-start justify-between gap-4">
-              <div class="flex items-center gap-4">
-                <span
-                  class:list={[
-                    "inline-flex size-11 shrink-0 items-center justify-center rounded-xl transition-colors duration-300",
-                    plan.featured
-                      ? "bg-white text-black [html[data-theme='light']_&]:bg-black [html[data-theme='light']_&]:text-white"
-                      : "bg-white/[0.055] text-white/72 [html[data-theme='light']_&]:bg-black/[0.045] [html[data-theme='light']_&]:text-black/70"
-                  ]}
-                >
-                  <Icon size={22} stroke-width={1.8} aria-hidden="true" />
-                </span>
-                <h3 class="text-xl font-semibold tracking-[-0.018em]">
-                  {plan.name}
-                </h3>
-              </div>
-              {plan.featured && (
-                <span class="inline-flex items-center gap-1 rounded-full bg-white/[0.075] px-3 py-1.5 text-[11px] font-semibold text-white/78 transition-colors duration-300 [html[data-theme='light']_&]:bg-black/[0.055] [html[data-theme='light']_&]:text-black/70">
-                  <Star size={12} fill="currentColor" stroke-width={0} />
-                  Most popular
-                </span>
-              )}
-            </div>
+      <article
+        class="relative flex min-h-[438px] flex-col rounded-2xl border border-white/10 bg-white/[0.025] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.24)] transition-colors duration-300 sm:p-6 [html[data-theme='light']_&]:border-black/10 [html[data-theme='light']_&]:bg-black/[0.018] [html[data-theme='light']_&]:shadow-[0_24px_80px_rgba(0,0,0,0.055)]"
+      >
+        <div class="pricing-card-header">
+          <div class="flex items-center gap-4">
+            <span
+              class="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-white/[0.055] text-white/72 transition-colors duration-300 [html[data-theme='light']_&]:bg-black/[0.045] [html[data-theme='light']_&]:text-black/70"
+            >
+              <Gift size={22} stroke-width={1.8} aria-hidden="true" />
+            </span>
+            <h3 class="text-xl font-semibold">Free</h3>
+          </div>
 
-            <div class="mt-7 min-h-[112px]">
-              <div class="flex items-end gap-2">
-                <p class="text-[clamp(34px,7vw,46px)] font-semibold leading-none tracking-[-0.04em]">
-                  {plan.price}
-                </p>
-                {plan.cadence && (
-                  <p class="pb-1.5 text-sm font-medium text-white/46 transition-colors duration-300 [html[data-theme='light']_&]:text-black/46">
-                    {plan.cadence}
-                  </p>
-                )}
-              </div>
-              <p class="mt-4 max-w-[15rem] text-sm font-light leading-6 text-white/56 transition-colors duration-300 [html[data-theme='light']_&]:text-black/56">
-                {plan.description}
+          <div class="mt-7 min-h-[112px]">
+            <div class="flex items-end gap-2">
+              <p class="text-[clamp(34px,7vw,46px)] font-semibold leading-none">
+                $0
+              </p>
+              <p
+                class="pb-1.5 text-sm font-medium text-white/46 transition-colors duration-300 [html[data-theme='light']_&]:text-black/46"
+              >
+                MIT
               </p>
             </div>
-
-            <div class="mt-5 h-px bg-gradient-to-r from-white/12 via-white/8 to-transparent transition-colors duration-300 [html[data-theme='light']_&]:from-black/12 [html[data-theme='light']_&]:via-black/8">
-            </div>
-
-            <ul class="mt-5 space-y-3 pb-8">
-              {plan.features.map((feature) => (
-                <li class="flex items-center gap-3 text-sm font-medium text-white/62 transition-colors duration-300 [html[data-theme='light']_&]:text-black/62">
-                  <Check
-                    class:list={[
-                      "shrink-0 rounded-full",
-                      plan.name === "Teams"
-                        ? "text-white/60 [html[data-theme='light']_&]:text-black/58"
-                        : "text-white/70 [html[data-theme='light']_&]:text-black/66"
-                    ]}
-                    size={16}
-                    stroke-width={2.4}
-                    aria-hidden="true"
-                  />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-
-            <a
-              href={plan.href}
-              class:list={[
-                "mt-auto inline-flex h-10 items-center justify-center rounded-full px-5 text-sm font-semibold tracking-[-0.01em] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4",
-                plan.featured
-                  ? "bg-white text-black hover:bg-white/88 focus-visible:outline-white/45 [html[data-theme='light']_&]:bg-black [html[data-theme='light']_&]:text-white [html[data-theme='light']_&]:hover:bg-black/82 [html[data-theme='light']_&]:focus-visible:outline-black/40"
-                  : "border border-white/15 text-white/78 hover:border-white/28 hover:text-white focus-visible:outline-white/45 [html[data-theme='light']_&]:border-black/15 [html[data-theme='light']_&]:text-black/70 [html[data-theme='light']_&]:hover:border-black/28 [html[data-theme='light']_&]:hover:text-black [html[data-theme='light']_&]:focus-visible:outline-black/40"
-              ]}
+            <p
+              class="mt-4 text-sm font-light leading-6 text-white/56 transition-colors duration-300 [html[data-theme='light']_&]:text-black/56"
             >
-              {plan.cta}
-            </a>
-          </article>
-        ))
-      }
-    </div>
+              Common React Native charts for free and commercial apps.
+            </p>
+          </div>
+        </div>
 
-    <div
-      class="mx-auto mt-8 max-w-[1120px] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] shadow-[0_24px_80px_rgba(0,0,0,0.22)] transition-colors duration-300 [html[data-theme='light']_&]:border-black/10 [html[data-theme='light']_&]:bg-black/[0.015] [html[data-theme='light']_&]:shadow-[0_24px_80px_rgba(0,0,0,0.05)]"
-    >
-      <div class="overflow-x-auto">
-        <table class="w-full min-w-[680px] border-collapse text-[13px]">
-          <thead>
-            <tr class="border-b border-white/10 transition-colors duration-300 [html[data-theme='light']_&]:border-black/10">
-              <th class="w-[34%] px-5 py-3 text-left font-semibold text-white/82 transition-colors duration-300 [html[data-theme='light']_&]:text-black/82">
-                Feature
-              </th>
-              {
-                columns.map(([name]) => (
-                  <th class="w-[22%] border-l border-white/8 px-5 py-3 text-center font-semibold text-white/82 transition-colors duration-300 [html[data-theme='light']_&]:border-black/8 [html[data-theme='light']_&]:text-black/82">
-                    {name}
-                  </th>
-                ))
-              }
-            </tr>
-          </thead>
-          <tbody>
+        <div
+          class="mt-5 h-px bg-gradient-to-r from-white/12 via-white/8 to-transparent transition-colors duration-300 [html[data-theme='light']_&]:from-black/12 [html[data-theme='light']_&]:via-black/8"
+        >
+        </div>
+
+        <ul class="mt-5 space-y-3 pb-8">
+          {
+            [
+              "Line, area, bar, stacked bar",
+              "Pie, donut, progress rings",
+              "Contribution calendar heatmap",
+              "Themes, selection, accessibility helpers"
+            ].map((feature) => (
+              <li class="flex items-center gap-3 text-sm font-medium text-white/62 transition-colors duration-300 [html[data-theme='light']_&]:text-black/62">
+                <Check
+                  class="shrink-0 rounded-full text-white/70 [html[data-theme='light']_&]:text-black/66"
+                  size={16}
+                  stroke-width={2.4}
+                  aria-hidden="true"
+                />
+                {feature}
+              </li>
+            ))
+          }
+        </ul>
+
+        <a
+          href="/docs/react-native/getting-started/installation"
+          class="mt-auto inline-flex h-10 items-center justify-center rounded-full border border-white/15 px-5 text-sm font-semibold text-white/78 transition-colors hover:border-white/28 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 [html[data-theme='light']_&]:border-black/15 [html[data-theme='light']_&]:text-black/70 [html[data-theme='light']_&]:hover:border-black/28 [html[data-theme='light']_&]:hover:text-black [html[data-theme='light']_&]:focus-visible:outline-black/40"
+        >
+          Read the docs
+        </a>
+      </article>
+
+      <article
+        data-pro-pricing
+        class="relative isolate flex min-h-[438px] flex-col overflow-hidden rounded-2xl border border-white/30 bg-white/[0.035] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] transition-colors duration-300 sm:p-6 [html[data-theme='light']_&]:border-black/24 [html[data-theme='light']_&]:bg-black/[0.02] [html[data-theme='light']_&]:shadow-[0_24px_80px_rgba(0,0,0,0.07)]"
+      >
+        <span class="pro-card-border-trail" aria-hidden="true">
+          <span class="pro-card-border-trail-runner"></span>
+        </span>
+
+        <div class="pricing-card-header">
+          <div class="flex items-start justify-between gap-4">
+            <div class="flex items-center gap-4">
+              <span
+                class="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-white text-black transition-colors duration-300 [html[data-theme='light']_&]:bg-black [html[data-theme='light']_&]:text-white"
+              >
+                <Rocket size={22} stroke-width={1.8} aria-hidden="true" />
+              </span>
+              <div>
+                <h3 class="text-xl font-semibold">Chart Kit Pro</h3>
+                <p
+                  class="mt-1 text-xs font-medium text-white/44 transition-colors duration-300 [html[data-theme='light']_&]:text-black/44"
+                  data-pro-plan-name
+                >
+                  {defaultProTier.name} license
+                </p>
+              </div>
+            </div>
+            <span
+              class="inline-flex items-center gap-1 rounded-full bg-white/[0.075] px-3 py-1.5 text-[11px] font-semibold text-white/78 transition-colors duration-300 [html[data-theme='light']_&]:bg-black/[0.055] [html[data-theme='light']_&]:text-black/70"
+            >
+              <Star size={12} fill="currentColor" stroke-width={0} />
+              Popular
+            </span>
+          </div>
+
+          <div class="mt-6 min-h-[112px]" aria-live="polite">
+            <div class="flex items-end gap-2">
+              <p
+                class="text-[clamp(34px,7vw,46px)] font-semibold leading-none"
+                data-pro-price
+              >
+                {defaultProTier.price}
+              </p>
+              <p
+                class="pb-1.5 text-sm font-medium text-white/46 transition-colors duration-300 [html[data-theme='light']_&]:text-black/46"
+                data-pro-cadence
+              >
+                {defaultProTier.cadence}
+              </p>
+            </div>
+            <p
+              class="mt-4 text-sm font-light leading-6 text-white/56 transition-colors duration-300 [html[data-theme='light']_&]:text-black/56"
+              data-pro-description
+            >
+              {defaultProTier.description}
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <div
+            class="flex items-center justify-between gap-3 text-xs font-semibold text-white/58 transition-colors duration-300 [html[data-theme='light']_&]:text-black/56"
+          >
+            <span>Team size</span>
+            <span>7+ devs: Enterprise</span>
+          </div>
+          <div
+            class="relative mt-3 grid w-[min(100%,15rem)] grid-cols-3 rounded-full border border-white/10 bg-white/[0.035] p-0.5 backdrop-blur-xl transition-colors duration-300 [html[data-theme='light']_&]:border-black/10 [html[data-theme='light']_&]:bg-black/[0.035]"
+            role="group"
+            aria-label="Choose Pro team size"
+          >
+            <span
+              data-pro-tier-indicator
+              class="absolute top-0.5 bottom-0.5 left-0.5 rounded-full bg-white/88 shadow-[0_8px_22px_rgba(0,0,0,0.22)] transition-transform duration-300 ease-out [html[data-theme='light']_&]:bg-black/82 [html[data-theme='light']_&]:shadow-[0_8px_22px_rgba(0,0,0,0.08)]"
+              style="width: calc((100% - 0.25rem) / 3); transform: translateX(100%)"
+              aria-hidden="true"
+            >
+            </span>
             {
-              comparison.map((row) => (
-                <tr class="border-b border-white/7 last:border-b-0 transition-colors duration-300 [html[data-theme='light']_&]:border-black/7">
-                  <td class="px-5 py-2.5 font-medium text-white/58 transition-colors duration-300 [html[data-theme='light']_&]:text-black/58">
-                    {row.feature}
-                  </td>
-                  {columns.map(([, key]) => {
-                    const included = row[key];
-
-                    return (
-                      <td class="border-l border-white/8 px-5 py-2.5 text-center transition-colors duration-300 [html[data-theme='light']_&]:border-black/8">
-                        {included ? (
-                          <Check
-                            class="mx-auto text-white/72 transition-colors duration-300 [html[data-theme='light']_&]:text-black/66"
-                            size={16}
-                            stroke-width={2.35}
-                            aria-label="Included"
-                          />
-                        ) : (
-                          <X
-                            class="mx-auto text-white/24 transition-colors duration-300 [html[data-theme='light']_&]:text-black/24"
-                            size={16}
-                            stroke-width={2}
-                            aria-label="Not included"
-                          />
-                        )}
-                      </td>
-                    );
-                  })}
-                </tr>
+              proTiers.map((tier) => (
+                <button
+                  type="button"
+                  class="pro-tier-button"
+                  data-pro-tier={tier.key}
+                  data-selected={
+                    tier.key === defaultProTier.key ? "true" : "false"
+                  }
+                  aria-pressed={
+                    tier.key === defaultProTier.key ? "true" : "false"
+                  }
+                >
+                  {tier.buttonLabel}
+                </button>
               ))
             }
-          </tbody>
-        </table>
-      </div>
+          </div>
+        </div>
+
+        <ul class="mt-5 space-y-3 pb-8" data-pro-features>
+          {
+            defaultProTier.features.map((feature) => (
+              <li class="flex items-center gap-3 text-sm font-medium text-white/62 transition-colors duration-300 [html[data-theme='light']_&]:text-black/62">
+                <Check
+                  class="shrink-0 rounded-full text-white/70 [html[data-theme='light']_&]:text-black/66"
+                  size={16}
+                  stroke-width={2.4}
+                  aria-hidden="true"
+                />
+                <span>{feature}</span>
+              </li>
+            ))
+          }
+        </ul>
+
+        <a
+          href={defaultProTier.href}
+          data-pro-cta
+          class="mt-auto inline-flex h-10 items-center justify-center rounded-full bg-white px-5 text-sm font-semibold text-black transition-colors hover:bg-white/88 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 [html[data-theme='light']_&]:bg-black [html[data-theme='light']_&]:text-white [html[data-theme='light']_&]:hover:bg-black/82 [html[data-theme='light']_&]:focus-visible:outline-black/40"
+        >
+          {defaultProTier.cta}
+        </a>
+      </article>
+
+      <article
+        class="relative flex min-h-[438px] flex-col rounded-2xl border border-white/10 bg-white/[0.025] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.24)] transition-colors duration-300 sm:p-6 [html[data-theme='light']_&]:border-black/10 [html[data-theme='light']_&]:bg-black/[0.018] [html[data-theme='light']_&]:shadow-[0_24px_80px_rgba(0,0,0,0.055)]"
+      >
+        <div class="pricing-card-header">
+          <div class="flex items-center gap-4">
+            <span
+              class="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-white/[0.055] text-white/72 transition-colors duration-300 [html[data-theme='light']_&]:bg-black/[0.045] [html[data-theme='light']_&]:text-black/70"
+            >
+              <Building2 size={22} stroke-width={1.8} aria-hidden="true" />
+            </span>
+            <h3 class="text-xl font-semibold">Enterprise</h3>
+          </div>
+
+          <div class="mt-7 min-h-[112px]">
+            <p class="text-[clamp(34px,7vw,46px)] font-semibold leading-none">
+              Custom
+            </p>
+            <p
+              class="mt-4 text-sm font-light leading-6 text-white/56 transition-colors duration-300 [html[data-theme='light']_&]:text-black/56"
+            >
+              Larger teams, procurement, security review, and custom terms.
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="mt-5 h-px bg-gradient-to-r from-white/12 via-white/8 to-transparent transition-colors duration-300 [html[data-theme='light']_&]:from-black/12 [html[data-theme='light']_&]:via-black/8"
+        >
+        </div>
+
+        <ul class="mt-5 space-y-3 pb-8">
+          {
+            [
+              "7+ developers or custom scope",
+              "Multiple products or app families",
+              "Security and legal review",
+              "Named support contact",
+              "Affiliate or multi-team use"
+            ].map((feature) => (
+              <li class="flex items-center gap-3 text-sm font-medium text-white/62 transition-colors duration-300 [html[data-theme='light']_&]:text-black/62">
+                <Check
+                  class="shrink-0 rounded-full text-white/70 [html[data-theme='light']_&]:text-black/66"
+                  size={16}
+                  stroke-width={2.4}
+                  aria-hidden="true"
+                />
+                {feature}
+              </li>
+            ))
+          }
+        </ul>
+
+        <a
+          href="mailto:sales@chartkit.io?subject=Chart%20Kit%20Pro%20Enterprise"
+          class="mt-auto inline-flex h-10 items-center justify-center rounded-full border border-white/15 px-5 text-sm font-semibold text-white/78 transition-colors hover:border-white/28 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 [html[data-theme='light']_&]:border-black/15 [html[data-theme='light']_&]:text-black/70 [html[data-theme='light']_&]:hover:border-black/28 [html[data-theme='light']_&]:hover:text-black [html[data-theme='light']_&]:focus-visible:outline-black/40"
+        >
+          Talk to sales
+        </a>
+      </article>
     </div>
 
     <p
-      class="mt-7 text-center text-sm font-light text-white/44 transition-colors duration-300 [html[data-theme='light']_&]:text-black/44"
+      class="mx-auto mt-6 max-w-[1120px] text-center text-sm font-light text-white/44 transition-colors duration-300 [html[data-theme='light']_&]:text-black/44"
     >
-      Need OEM, agency, or redistribution rights?
+      Need SDK, white-label, embedded, or customer-distributed use?
       <a
-        href="mailto:sales@chartkit.io"
+        href="mailto:sales@chartkit.io?subject=Chart%20Kit%20Pro%20OEM%20license"
         class="font-semibold text-white/72 transition-colors hover:text-white [html[data-theme='light']_&]:text-black/68 [html[data-theme='light']_&]:hover:text-black"
       >
-        Contact us.
+        Contact us for OEM terms.
+      </a>
+    </p>
+
+    <p
+      class="mx-auto mt-4 max-w-[1120px] text-center text-sm font-light text-white/44 transition-colors duration-300 [html[data-theme='light']_&]:text-black/44"
+    >
+      <a
+        href="/docs/react-native/charts/pricing"
+        class="font-semibold text-white/72 transition-colors hover:text-white [html[data-theme='light']_&]:text-black/68 [html[data-theme='light']_&]:hover:text-black"
+      >
+        Compare plan capabilities in the docs.
       </a>
     </p>
   </div>
 </section>
+
+<script
+  type="application/json"
+  id="pro-pricing-data"
+  is:inline
+  set:html={JSON.stringify(proTiersByKey)}
+/>
+
+<script>
+  type ProPricingTier = {
+    cadence: string;
+    cta: string;
+    description: string;
+    features: string[];
+    href: string;
+    name: string;
+    price: string;
+  };
+
+  const hydrateProPricing = () => {
+    const root = document.querySelector("[data-pro-pricing]");
+    const dataNode = document.querySelector("#pro-pricing-data");
+
+    if (!root || !dataNode?.textContent) {
+      return;
+    }
+
+    const tiers = JSON.parse(dataNode.textContent) as Record<
+      string,
+      ProPricingTier
+    >;
+    const buttons = Array.from(
+      root.querySelectorAll<HTMLButtonElement>("[data-pro-tier]")
+    );
+    const planName = root.querySelector("[data-pro-plan-name]");
+    const price = root.querySelector("[data-pro-price]");
+    const cadence = root.querySelector("[data-pro-cadence]");
+    const description = root.querySelector("[data-pro-description]");
+    const features = root.querySelector("[data-pro-features]");
+    const cta = root.querySelector("[data-pro-cta]");
+    const indicator = root.querySelector<HTMLElement>(
+      "[data-pro-tier-indicator]"
+    );
+
+    const renderFeature = (feature: string) => `
+      <li class="flex items-center gap-3 text-sm font-medium text-white/62 transition-colors duration-300 [html[data-theme='light']_&]:text-black/62">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="shrink-0 rounded-full text-white/70 [html[data-theme='light']_&]:text-black/66">
+          <path d="M20 6 9 17l-5-5"></path>
+        </svg>
+        <span>${feature}</span>
+      </li>
+    `;
+
+    const selectTier = (key?: string) => {
+      if (!key) {
+        return;
+      }
+
+      const tier = tiers[key];
+
+      if (!tier) {
+        return;
+      }
+
+      buttons.forEach((button) => {
+        const selected = button.dataset.proTier === key;
+        button.dataset.selected = String(selected);
+        button.setAttribute("aria-pressed", String(selected));
+      });
+
+      const selectedIndex = buttons.findIndex(
+        (button) => button.dataset.proTier === key
+      );
+
+      if (indicator && selectedIndex >= 0) {
+        indicator.style.transform = `translateX(${selectedIndex * 100}%)`;
+      }
+
+      if (planName) planName.textContent = `${tier.name} license`;
+      if (price) price.textContent = tier.price;
+      if (cadence) cadence.textContent = tier.cadence;
+      if (description) description.textContent = tier.description;
+      if (features)
+        features.innerHTML = tier.features.map(renderFeature).join("");
+      if (cta) {
+        cta.textContent = tier.cta;
+        cta.setAttribute("href", tier.href);
+      }
+    };
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () =>
+        selectTier(button.dataset.proTier)
+      );
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", hydrateProPricing, {
+      once: true
+    });
+  } else {
+    hydrateProPricing();
+  }
+</script>
+
+<style>
+  [data-pro-pricing] > :not(.pro-card-border-trail) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .pricing-card-header {
+    margin: -1.25rem -1.25rem 0;
+    border-bottom: 1px solid rgb(255 255 255 / 0.1);
+    border-radius: 1rem 1rem 0 0;
+    background: rgb(255 255 255 / 0.055);
+    padding: 1.25rem;
+    transition:
+      background-color 300ms ease,
+      border-color 300ms ease;
+  }
+
+  [data-pro-pricing] .pricing-card-header {
+    background: rgb(255 255 255 / 0.075);
+  }
+
+  :global(html[data-theme="light"]) .pricing-card-header {
+    border-bottom-color: rgb(0 0 0 / 0.1);
+    background: rgb(0 0 0 / 0.04);
+  }
+
+  :global(html[data-theme="light"]) [data-pro-pricing] .pricing-card-header {
+    background: rgb(0 0 0 / 0.055);
+  }
+
+  .pro-card-border-trail {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border: 1px solid transparent;
+    border-radius: inherit;
+    mask-clip: padding-box, border-box;
+    mask-composite: intersect;
+    mask-image:
+      linear-gradient(transparent, transparent), linear-gradient(#000, #000);
+    -webkit-mask-clip: padding-box, border-box;
+    -webkit-mask-composite: source-in;
+    -webkit-mask-image:
+      linear-gradient(transparent, transparent), linear-gradient(#000, #000);
+  }
+
+  .pro-card-border-trail-runner {
+    position: absolute;
+    width: 100px;
+    aspect-ratio: 1;
+    background: rgb(113 113 122);
+    box-shadow:
+      0 0 60px 30px rgb(255 255 255 / 0.5),
+      0 0 100px 60px rgb(0 0 0 / 0.5),
+      0 0 140px 90px rgb(0 0 0 / 0.5);
+    offset-distance: 0%;
+    offset-path: rect(0 auto auto 0 round 100px);
+    animation: pro-card-border-trail 5s linear infinite;
+  }
+
+  @keyframes pro-card-border-trail {
+    to {
+      offset-distance: 100%;
+    }
+  }
+
+  .pro-tier-button {
+    min-height: 1.625rem;
+    border-radius: 999px;
+    color: rgb(255 255 255 / 0.58);
+    cursor: pointer;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
+    transition: color 180ms ease;
+  }
+
+  .pro-tier-button:hover {
+    color: rgb(255 255 255 / 0.88);
+  }
+
+  .pro-tier-button[data-selected="true"] {
+    color: rgb(0 0 0 / 0.88);
+  }
+
+  :global(html[data-theme="light"]) .pro-tier-button {
+    color: rgb(0 0 0 / 0.58);
+  }
+
+  :global(html[data-theme="light"]) .pro-tier-button:hover {
+    color: rgb(0 0 0 / 0.88);
+  }
+
+  :global(html[data-theme="light"]) .pro-tier-button[data-selected="true"] {
+    color: rgb(255 255 255 / 0.92);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pro-card-border-trail-runner {
+      animation: none;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .pricing-card-header {
+      margin: -1.5rem -1.5rem 0;
+      padding: 1.5rem;
+    }
+  }
+</style>
