@@ -76,7 +76,7 @@ const proTiersByKey = Object.fromEntries(
     </div>
 
     <div
-      class="mx-auto mt-10 grid max-w-[1120px] grid-cols-1 gap-5 lg:grid-cols-[0.9fr_1.2fr_0.9fr]"
+      class="mx-auto mt-10 grid max-w-[1120px] grid-cols-1 items-stretch gap-5 lg:grid-cols-3"
     >
       <article
         class="relative flex min-h-[438px] flex-col rounded-2xl border border-white/10 bg-white/[0.025] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.24)] transition-colors duration-300 sm:p-6 [html[data-theme='light']_&]:border-black/10 [html[data-theme='light']_&]:bg-black/[0.018] [html[data-theme='light']_&]:shadow-[0_24px_80px_rgba(0,0,0,0.055)]"
@@ -91,9 +91,11 @@ const proTiersByKey = Object.fromEntries(
             <h3 class="text-xl font-semibold">Free</h3>
           </div>
 
-          <div class="mt-7 min-h-[112px]">
+          <div class="mt-4 min-h-[72px]">
             <div class="flex items-end gap-2">
-              <p class="text-[clamp(34px,7vw,46px)] font-semibold leading-none">
+              <p
+                class="text-[clamp(24px,3.5vw,32px)] font-semibold leading-none"
+              >
                 $0
               </p>
               <p
@@ -103,16 +105,11 @@ const proTiersByKey = Object.fromEntries(
               </p>
             </div>
             <p
-              class="mt-4 text-sm font-light leading-6 text-white/56 transition-colors duration-300 [html[data-theme='light']_&]:text-black/56"
+              class="mt-2 text-sm font-light leading-5 text-white/56 transition-colors duration-300 [html[data-theme='light']_&]:text-black/56"
             >
               Common React Native charts for free and commercial apps.
             </p>
           </div>
-        </div>
-
-        <div
-          class="mt-5 h-px bg-gradient-to-r from-white/12 via-white/8 to-transparent transition-colors duration-300 [html[data-theme='light']_&]:from-black/12 [html[data-theme='light']_&]:via-black/8"
-        >
         </div>
 
         <ul class="mt-5 space-y-3 pb-8">
@@ -178,10 +175,10 @@ const proTiersByKey = Object.fromEntries(
             </span>
           </div>
 
-          <div class="mt-6 min-h-[112px]" aria-live="polite">
+          <div class="mt-4 min-h-[72px]" aria-live="polite">
             <div class="flex items-end gap-2">
               <p
-                class="text-[clamp(34px,7vw,46px)] font-semibold leading-none"
+                class="text-[clamp(24px,3.5vw,32px)] font-semibold leading-none"
                 data-pro-price
               >
                 {defaultProTier.price}
@@ -194,7 +191,7 @@ const proTiersByKey = Object.fromEntries(
               </p>
             </div>
             <p
-              class="mt-4 text-sm font-light leading-6 text-white/56 transition-colors duration-300 [html[data-theme='light']_&]:text-black/56"
+              class="mt-2 text-sm font-light leading-5 text-white/56 transition-colors duration-300 [html[data-theme='light']_&]:text-black/56"
               data-pro-description
             >
               {defaultProTier.description}
@@ -202,15 +199,9 @@ const proTiersByKey = Object.fromEntries(
           </div>
         </div>
 
-        <div class="mt-6">
+        <div class="relative z-10 -mt-[17px]">
           <div
-            class="flex items-center justify-between gap-3 text-xs font-semibold text-white/58 transition-colors duration-300 [html[data-theme='light']_&]:text-black/56"
-          >
-            <span>Team size</span>
-            <span>7+ devs: Enterprise</span>
-          </div>
-          <div
-            class="relative mt-3 grid w-[min(100%,15rem)] grid-cols-3 rounded-full border border-white/10 bg-white/[0.035] p-0.5 backdrop-blur-xl transition-colors duration-300 [html[data-theme='light']_&]:border-black/10 [html[data-theme='light']_&]:bg-black/[0.035]"
+            class="relative mx-auto grid w-[min(100%,15rem)] grid-cols-3 rounded-full border border-white/10 bg-white/[0.035] p-0.5 backdrop-blur-xl transition-colors duration-300 [html[data-theme='light']_&]:border-black/10 [html[data-theme='light']_&]:bg-black/[0.035]"
             role="group"
             aria-label="Choose Pro team size"
           >
@@ -279,21 +270,16 @@ const proTiersByKey = Object.fromEntries(
             <h3 class="text-xl font-semibold">Enterprise</h3>
           </div>
 
-          <div class="mt-7 min-h-[112px]">
-            <p class="text-[clamp(34px,7vw,46px)] font-semibold leading-none">
+          <div class="mt-4 min-h-[72px]">
+            <p class="text-[clamp(23px,3vw,29px)] font-semibold leading-none">
               Custom
             </p>
             <p
-              class="mt-4 text-sm font-light leading-6 text-white/56 transition-colors duration-300 [html[data-theme='light']_&]:text-black/56"
+              class="mt-2 text-sm font-light leading-5 text-white/56 transition-colors duration-300 [html[data-theme='light']_&]:text-black/56"
             >
-              Larger teams, procurement, security review, and custom terms.
+              Larger teams, purchasing workflows, and custom terms.
             </p>
           </div>
-        </div>
-
-        <div
-          class="mt-5 h-px bg-gradient-to-r from-white/12 via-white/8 to-transparent transition-colors duration-300 [html[data-theme='light']_&]:from-black/12 [html[data-theme='light']_&]:via-black/8"
-        >
         </div>
 
         <ul class="mt-5 space-y-3 pb-8">
@@ -301,7 +287,7 @@ const proTiersByKey = Object.fromEntries(
             [
               "7+ developers or custom scope",
               "Multiple products or app families",
-              "Security and legal review",
+              "Custom terms and invoicing",
               "Named support contact",
               "Affiliate or multi-team use"
             ].map((feature) => (
@@ -468,7 +454,7 @@ const proTiersByKey = Object.fromEntries(
     border-bottom: 1px solid rgb(255 255 255 / 0.1);
     border-radius: 1rem 1rem 0 0;
     background: rgb(255 255 255 / 0.055);
-    padding: 1.25rem;
+    padding: 1.125rem 1.25rem 1rem;
     transition:
       background-color 300ms ease,
       border-color 300ms ease;
@@ -565,7 +551,7 @@ const proTiersByKey = Object.fromEntries(
   @media (min-width: 640px) {
     .pricing-card-header {
       margin: -1.5rem -1.5rem 0;
-      padding: 1.5rem;
+      padding: 1.25rem 1.5rem 1.125rem;
     }
   }
 </style>
