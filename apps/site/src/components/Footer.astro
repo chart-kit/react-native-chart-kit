@@ -68,12 +68,12 @@ const footerGroups = [
   >
     <div>
       <nav
-        class="grid w-full grid-cols-2 gap-x-10 gap-y-8 sm:grid-cols-3 sm:gap-x-16 md:gap-x-24 lg:gap-x-32 xl:gap-x-40"
+        class="mx-auto grid w-full grid-cols-1 justify-items-center gap-x-10 gap-y-8 sm:grid-cols-3 sm:gap-x-16 md:gap-x-24 lg:gap-x-32 xl:gap-x-40"
         aria-label="Footer"
       >
         {
           footerGroups.map((group) => (
-            <div>
+            <div class="text-left">
               <h2 class="text-sm font-semibold tracking-[-0.01em] text-white transition-colors duration-300 [html[data-theme='light']_&]:text-black">
                 {group.title}
               </h2>
@@ -101,13 +101,15 @@ const footerGroups = [
     </div>
 
     <div
-      class="flex flex-col gap-4 pt-6 text-sm text-white/42 transition-colors duration-300 sm:flex-row sm:items-center sm:justify-between sm:pt-8 [html[data-theme='light']_&]:text-black/42"
+      class="mx-auto flex max-w-[960px] flex-col items-center gap-4 pt-6 text-center text-sm text-white/42 transition-colors duration-300 sm:flex-row sm:justify-between sm:pt-8 sm:text-left [html[data-theme='light']_&]:text-black/42"
     >
-      <p class="max-w-[17rem] leading-5 sm:max-w-none">
+      <p class="leading-5">
         © 2026 React Native Chart Kit. All rights reserved
       </p>
 
-      <div class="flex flex-wrap items-center gap-x-5 gap-y-3 sm:gap-x-7">
+      <div
+        class="flex flex-wrap items-center justify-center gap-x-5 gap-y-3 sm:justify-end sm:gap-x-7"
+      >
         <a
           href="mailto:privacy@chartkit.io"
           class="font-medium transition-colors hover:text-white [html[data-theme='light']_&]:hover:text-black"
