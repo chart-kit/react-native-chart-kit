@@ -31,8 +31,8 @@ const footerGroups = [
         label: "Migration"
       },
       {
-        href: "/docs/react-native/recipes",
-        label: "Recipes"
+        href: "/docs/react-native/getting-started/contributing",
+        label: "Contributing"
       },
       {
         href: "/docs/react-native/troubleshooting",
@@ -68,12 +68,17 @@ const footerGroups = [
   >
     <div>
       <nav
-        class="mx-auto grid w-full grid-cols-1 justify-items-center gap-x-10 gap-y-8 sm:grid-cols-3 sm:gap-x-16 md:gap-x-24 lg:gap-x-32 xl:gap-x-40"
+        class="mx-auto grid w-full max-w-[520px] grid-cols-2 justify-items-start gap-x-10 gap-y-10 max-sm:px-5 sm:max-w-none sm:grid-cols-3 sm:justify-items-center sm:gap-x-16 md:gap-x-24 lg:gap-x-32 xl:gap-x-40"
         aria-label="Footer"
       >
         {
-          footerGroups.map((group) => (
-            <div class="text-left">
+          footerGroups.map((group, index) => (
+            <div
+              class:list={[
+                "text-left",
+                index === 2 && "col-span-2 sm:col-span-1"
+              ]}
+            >
               <h2 class="text-sm font-semibold tracking-[-0.01em] text-white transition-colors duration-300 [html[data-theme='light']_&]:text-black">
                 {group.title}
               </h2>

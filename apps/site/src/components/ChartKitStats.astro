@@ -33,15 +33,19 @@ const stats = rawStats.map((stat) => {
   data-stat-counters
   class="relative bg-black py-10 text-white transition-colors duration-300 sm:py-12 [html[data-theme='light']_&]:bg-white [html[data-theme='light']_&]:text-black"
 >
-  <div
-    class="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/14 to-transparent transition-colors duration-300 sm:inset-x-8 md:inset-x-10 lg:inset-x-12 xl:inset-x-16 [html[data-theme='light']_&]:via-black/12"
-  >
+  <div class="pointer-events-none absolute inset-x-0 top-0 mx-auto max-w-[1160px] px-5">
+    <div
+      class="h-px bg-gradient-to-r from-transparent via-white/14 to-transparent transition-colors duration-300 [html[data-theme='light']_&]:via-black/12"
+    >
+    </div>
   </div>
-  <div
-    class="pointer-events-none absolute inset-x-6 bottom-0 h-px bg-gradient-to-r from-transparent via-white/14 to-transparent transition-colors duration-300 sm:inset-x-8 md:inset-x-10 lg:inset-x-12 xl:inset-x-16 [html[data-theme='light']_&]:via-black/12"
-  >
+  <div class="pointer-events-none absolute inset-x-0 bottom-0 mx-auto max-w-[1160px] px-5">
+    <div
+      class="h-px bg-gradient-to-r from-transparent via-white/14 to-transparent transition-colors duration-300 [html[data-theme='light']_&]:via-black/12"
+    >
+    </div>
   </div>
-  <div class="mx-auto max-w-[1320px] px-6 sm:px-8 md:px-10 lg:px-12 xl:px-16">
+  <div class="mx-auto max-w-[1160px] px-5">
     <dl class="grid grid-cols-2 gap-x-4 gap-y-8 lg:grid-cols-4 lg:gap-x-6">
       {
         stats.map((stat) => (

@@ -1,5 +1,5 @@
 ---
-import { Building2, Check, Gift, Rocket, Star } from "lucide-astro";
+import { Building2, Check, Gift, Rocket } from "lucide-astro";
 
 const proTiers = [
   {
@@ -92,14 +92,14 @@ const proTiersByKey = Object.fromEntries(
           </div>
 
           <div class="mt-4 min-h-[72px]">
-            <div class="flex items-end gap-2">
+            <div class="flex items-center gap-2">
               <p
                 class="text-[clamp(24px,3.5vw,32px)] font-semibold leading-none"
               >
                 $0
               </p>
               <p
-                class="pb-1.5 text-sm font-medium text-white/46 transition-colors duration-300 [html[data-theme='light']_&]:text-black/46"
+                class="translate-y-0.5 text-sm font-medium text-white/46 transition-colors duration-300 [html[data-theme='light']_&]:text-black/46"
               >
                 MIT
               </p>
@@ -168,15 +168,14 @@ const proTiersByKey = Object.fromEntries(
               </div>
             </div>
             <span
-              class="inline-flex items-center gap-1 rounded-full bg-white/[0.075] px-3 py-1.5 text-[11px] font-semibold text-white/78 transition-colors duration-300 [html[data-theme='light']_&]:bg-black/[0.055] [html[data-theme='light']_&]:text-black/70"
+              class="inline-flex items-center rounded-full bg-white/[0.075] px-3 py-1.5 text-[11px] font-semibold text-white/78 transition-colors duration-300 [html[data-theme='light']_&]:bg-black/[0.055] [html[data-theme='light']_&]:text-black/70"
             >
-              <Star size={12} fill="currentColor" stroke-width={0} />
-              Popular
+              Coming soon
             </span>
           </div>
 
           <div class="mt-4 min-h-[72px]" aria-live="polite">
-            <div class="flex items-end gap-2">
+            <div class="flex items-center gap-2">
               <p
                 class="text-[clamp(24px,3.5vw,32px)] font-semibold leading-none"
                 data-pro-price
@@ -184,7 +183,7 @@ const proTiersByKey = Object.fromEntries(
                 {defaultProTier.price}
               </p>
               <p
-                class="pb-1.5 text-sm font-medium text-white/46 transition-colors duration-300 [html[data-theme='light']_&]:text-black/46"
+                class="translate-y-0.5 text-sm font-medium text-white/46 transition-colors duration-300 [html[data-theme='light']_&]:text-black/46"
                 data-pro-cadence
               >
                 {defaultProTier.cadence}
@@ -251,6 +250,7 @@ const proTiersByKey = Object.fromEntries(
         <a
           href={defaultProTier.href}
           data-pro-cta
+          data-pro-coming-soon
           class="inline-flex h-10 items-center justify-center rounded-full bg-white px-5 text-sm font-semibold text-black transition-colors hover:bg-white/88 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 [html[data-theme='light']_&]:bg-black [html[data-theme='light']_&]:text-white [html[data-theme='light']_&]:hover:bg-black/82 [html[data-theme='light']_&]:focus-visible:outline-black/40"
         >
           {defaultProTier.cta}
@@ -305,6 +305,7 @@ const proTiersByKey = Object.fromEntries(
 
         <a
           href="mailto:sales@chartkit.io?subject=Chart%20Kit%20Pro%20Enterprise"
+          data-pro-coming-soon
           class="inline-flex h-10 items-center justify-center rounded-full border border-white/15 px-5 text-sm font-semibold text-white/78 transition-colors hover:border-white/28 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 [html[data-theme='light']_&]:border-black/15 [html[data-theme='light']_&]:text-black/70 [html[data-theme='light']_&]:hover:border-black/28 [html[data-theme='light']_&]:hover:text-black [html[data-theme='light']_&]:focus-visible:outline-black/40"
         >
           Talk to sales
@@ -322,6 +323,15 @@ const proTiersByKey = Object.fromEntries(
         Compare plan capabilities in the docs.
       </a>
     </p>
+  </div>
+  <div
+    data-pro-toast
+    data-visible="false"
+    role="status"
+    aria-live="polite"
+    class="pointer-events-none fixed bottom-5 left-1/2 z-[80] -translate-x-1/2 translate-y-2 rounded-full border border-white/12 bg-white/92 px-4 py-2 text-sm font-medium whitespace-nowrap text-black opacity-0 shadow-[0_18px_60px_rgba(0,0,0,0.28)] backdrop-blur-xl transition duration-200 data-[visible=true]:translate-y-0 data-[visible=true]:opacity-100 [html[data-theme='light']_&]:border-black/12 [html[data-theme='light']_&]:bg-black/90 [html[data-theme='light']_&]:text-white"
+  >
+    Pro version is coming soon
   </div>
 </section>
 
@@ -367,6 +377,8 @@ const proTiersByKey = Object.fromEntries(
     const indicator = root.querySelector<HTMLElement>(
       "[data-pro-tier-indicator]"
     );
+    const toast = document.querySelector<HTMLElement>("[data-pro-toast]");
+    let toastTimer: number | undefined;
 
     const renderFeature = (feature: string) => `
       <li class="flex items-center gap-3 text-sm font-medium text-white/62 transition-colors duration-300 [html[data-theme='light']_&]:text-black/62">
@@ -414,11 +426,40 @@ const proTiersByKey = Object.fromEntries(
       }
     };
 
+    const showComingSoonToast = () => {
+      if (!toast) {
+        return;
+      }
+
+      if (toastTimer) {
+        window.clearTimeout(toastTimer);
+      }
+
+      toast.dataset.visible = "true";
+      toastTimer = window.setTimeout(() => {
+        toast.dataset.visible = "false";
+      }, 2200);
+    };
+
     buttons.forEach((button) => {
       button.addEventListener("click", () =>
         selectTier(button.dataset.proTier)
       );
     });
+
+    document
+      .querySelectorAll<HTMLAnchorElement>("[data-pro-coming-soon]")
+      .forEach((link) => {
+        if (link.dataset.proComingSoonBound === "true") {
+          return;
+        }
+
+        link.dataset.proComingSoonBound = "true";
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          showComingSoonToast();
+        });
+      });
   };
 
   if (document.readyState === "loading") {
