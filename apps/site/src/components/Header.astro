@@ -1,6 +1,10 @@
 ---
 import { Menu, Moon, X } from "lucide-astro";
 
+const { homeHrefPrefix = "" } = Astro.props;
+const hrefFor = (href: string) =>
+  href.startsWith("#") ? `${homeHrefPrefix}${href}` : href;
+
 const navigationLinks = [
   {
     href: "#charts",
@@ -27,7 +31,7 @@ const navigationLinks = [
   <div
     class="mx-auto flex h-16 max-w-[1320px] items-center justify-between gap-4 px-6 sm:px-8 md:px-10 lg:px-12 xl:px-16"
   >
-    <a href="#hero" class="flex min-w-0 items-center gap-3">
+    <a href={hrefFor("#hero")} class="flex min-w-0 items-center gap-3">
       <img
         src="/images/logo.svg"
         alt=""
@@ -49,7 +53,7 @@ const navigationLinks = [
       {
         navigationLinks.map((link) => (
           <a
-            href={link.href}
+            href={hrefFor(link.href)}
             class="rounded-lg px-3 py-2 text-sm font-medium text-white/65 transition-colors hover:text-white [html[data-theme='light']_&]:text-black/60 [html[data-theme='light']_&]:hover:text-black"
           >
             {link.label}
@@ -70,7 +74,7 @@ const navigationLinks = [
         class="-mr-1 hidden bg-transparent [color-scheme:light] sm:block"
       ></iframe>
       <a
-        href="#pricing"
+        href={hrefFor("#pricing")}
         class="inline-flex h-8 items-center rounded-full bg-white/95 px-3 text-[13px] font-semibold tracking-[-0.01em] text-black shadow-[0_8px_22px_rgba(255,255,255,0.16)] ring-1 ring-white/25 transition-all hover:-translate-y-px hover:bg-white hover:shadow-[0_10px_28px_rgba(255,255,255,0.22)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 active:translate-y-0 [html[data-theme='light']_&]:bg-black [html[data-theme='light']_&]:text-white [html[data-theme='light']_&]:shadow-[0_8px_22px_rgba(0,0,0,0.14)] [html[data-theme='light']_&]:ring-black/10 [html[data-theme='light']_&]:hover:bg-black/90 [html[data-theme='light']_&]:hover:shadow-[0_10px_28px_rgba(0,0,0,0.2)] [html[data-theme='light']_&]:focus-visible:outline-black/40"
       >
         Get pro
@@ -114,7 +118,7 @@ const navigationLinks = [
       {
         navigationLinks.map((link) => (
           <a
-            href={link.href}
+            href={hrefFor(link.href)}
             class="py-3 text-sm font-medium text-white/70 transition-colors hover:text-white [html[data-theme='light']_&]:text-black/65 [html[data-theme='light']_&]:hover:text-black"
             data-mobile-menu-link
           >

@@ -1,6 +1,10 @@
 ---
 import { ChevronsUpDown } from "lucide-astro";
 
+const { homeHrefPrefix = "" } = Astro.props;
+const hrefFor = (href: string) =>
+  href.startsWith("#") ? `${homeHrefPrefix}${href}` : href;
+
 const footerGroups = [
   {
     title: "Product",
@@ -86,7 +90,7 @@ const footerGroups = [
                 {group.links.map((link) => (
                   <li>
                     <a
-                      href={link.href}
+                      href={hrefFor(link.href)}
                       class="text-sm font-medium text-white/42 transition-colors hover:text-white [html[data-theme='light']_&]:text-black/42 [html[data-theme='light']_&]:hover:text-black"
                     >
                       {link.label}

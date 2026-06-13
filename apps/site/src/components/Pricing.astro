@@ -1,16 +1,20 @@
 ---
 import { Building2, Check, Gift, Rocket } from "lucide-astro";
 
+const polarCheckoutUrl =
+  "https://buy.polar.sh/polar_cl_Lo2DzeNXDXbFkuvPr1ZDVREe9wXs9zsz3FvJF2ZjW9Z";
+
 const proTiers = [
   {
     key: "solo",
+    productId: "f522fac9-b6d5-4e60-8c6f-35c1c10827c9",
     buttonLabel: "1 dev",
     name: "Solo",
     price: "$149",
     cadence: "/ year",
     description: "For solo devs and independent apps.",
     cta: "Get Solo",
-    href: "mailto:sales@chartkit.io?subject=Chart%20Kit%20Pro%20Solo%20license",
+    href: `${polarCheckoutUrl}?product_id=f522fac9-b6d5-4e60-8c6f-35c1c10827c9`,
     features: [
       "1 developer",
       "1 production app",
@@ -20,13 +24,14 @@ const proTiers = [
   },
   {
     key: "startup",
+    productId: "f2a31f7f-5719-4103-8406-3caad5d14843",
     buttonLabel: "2-3 devs",
     name: "Startup",
     price: "$399",
     cadence: "/ year",
     description: "For small teams shipping one app.",
     cta: "Get Startup",
-    href: "mailto:sales@chartkit.io?subject=Chart%20Kit%20Pro%20Startup%20license",
+    href: `${polarCheckoutUrl}?product_id=f2a31f7f-5719-4103-8406-3caad5d14843`,
     features: [
       "Up to 3 developers",
       "1 production app",
@@ -36,13 +41,14 @@ const proTiers = [
   },
   {
     key: "business",
+    productId: "54c32948-3865-400b-991f-f14ffd0692fb",
     buttonLabel: "4-6 devs",
     name: "Business",
     price: "$1,499",
     cadence: "/ year",
     description: "For growing teams and multiple apps.",
     cta: "Get Business",
-    href: "mailto:sales@chartkit.io?subject=Chart%20Kit%20Pro%20Business%20license",
+    href: `${polarCheckoutUrl}?product_id=54c32948-3865-400b-991f-f14ffd0692fb`,
     features: [
       "Up to 6 developers",
       "Up to 2 production apps",
@@ -170,7 +176,7 @@ const proTiersByKey = Object.fromEntries(
             <span
               class="inline-flex items-center rounded-full bg-white/[0.075] px-3 py-1.5 text-[11px] font-semibold text-white/78 transition-colors duration-300 [html[data-theme='light']_&]:bg-black/[0.055] [html[data-theme='light']_&]:text-black/70"
             >
-              Coming soon
+              Annual
             </span>
           </div>
 
@@ -250,7 +256,6 @@ const proTiersByKey = Object.fromEntries(
         <a
           href={defaultProTier.href}
           data-pro-cta
-          data-pro-coming-soon
           class="inline-flex h-10 items-center justify-center rounded-full bg-white px-5 text-sm font-semibold text-black transition-colors hover:bg-white/88 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 [html[data-theme='light']_&]:bg-black [html[data-theme='light']_&]:text-white [html[data-theme='light']_&]:hover:bg-black/82 [html[data-theme='light']_&]:focus-visible:outline-black/40"
         >
           {defaultProTier.cta}
@@ -305,7 +310,6 @@ const proTiersByKey = Object.fromEntries(
 
         <a
           href="mailto:sales@chartkit.io?subject=Chart%20Kit%20Pro%20Enterprise"
-          data-pro-coming-soon
           class="inline-flex h-10 items-center justify-center rounded-full border border-white/15 px-5 text-sm font-semibold text-white/78 transition-colors hover:border-white/28 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 [html[data-theme='light']_&]:border-black/15 [html[data-theme='light']_&]:text-black/70 [html[data-theme='light']_&]:hover:border-black/28 [html[data-theme='light']_&]:hover:text-black [html[data-theme='light']_&]:focus-visible:outline-black/40"
         >
           Talk to sales
@@ -323,15 +327,6 @@ const proTiersByKey = Object.fromEntries(
         Compare plan capabilities in the docs.
       </a>
     </p>
-  </div>
-  <div
-    data-pro-toast
-    data-visible="false"
-    role="status"
-    aria-live="polite"
-    class="pointer-events-none fixed bottom-5 left-1/2 z-[80] -translate-x-1/2 translate-y-2 rounded-full border border-white/12 bg-white/92 px-4 py-2 text-sm font-medium whitespace-nowrap text-black opacity-0 shadow-[0_18px_60px_rgba(0,0,0,0.28)] backdrop-blur-xl transition duration-200 data-[visible=true]:translate-y-0 data-[visible=true]:opacity-100 [html[data-theme='light']_&]:border-black/12 [html[data-theme='light']_&]:bg-black/90 [html[data-theme='light']_&]:text-white"
-  >
-    Pro version is coming soon
   </div>
 </section>
 
@@ -351,6 +346,7 @@ const proTiersByKey = Object.fromEntries(
     href: string;
     name: string;
     price: string;
+    productId: string;
   };
 
   const hydrateProPricing = () => {
@@ -377,8 +373,6 @@ const proTiersByKey = Object.fromEntries(
     const indicator = root.querySelector<HTMLElement>(
       "[data-pro-tier-indicator]"
     );
-    const toast = document.querySelector<HTMLElement>("[data-pro-toast]");
-    let toastTimer: number | undefined;
 
     const renderFeature = (feature: string) => `
       <li class="flex items-center gap-3 text-sm font-medium text-white/62 transition-colors duration-300 [html[data-theme='light']_&]:text-black/62">
@@ -426,40 +420,11 @@ const proTiersByKey = Object.fromEntries(
       }
     };
 
-    const showComingSoonToast = () => {
-      if (!toast) {
-        return;
-      }
-
-      if (toastTimer) {
-        window.clearTimeout(toastTimer);
-      }
-
-      toast.dataset.visible = "true";
-      toastTimer = window.setTimeout(() => {
-        toast.dataset.visible = "false";
-      }, 2200);
-    };
-
     buttons.forEach((button) => {
       button.addEventListener("click", () =>
         selectTier(button.dataset.proTier)
       );
     });
-
-    document
-      .querySelectorAll<HTMLAnchorElement>("[data-pro-coming-soon]")
-      .forEach((link) => {
-        if (link.dataset.proComingSoonBound === "true") {
-          return;
-        }
-
-        link.dataset.proComingSoonBound = "true";
-        link.addEventListener("click", (event) => {
-          event.preventDefault();
-          showComingSoonToast();
-        });
-      });
   };
 
   if (document.readyState === "loading") {
