@@ -101,7 +101,21 @@
     "paths-js": "^0.4.11"
   },
   "overrides": {
-    "vite": "^7.3.3"
+    "astro": {
+      "esbuild": "0.28.1"
+    },
+    "joi": "17.13.4",
+    "shell-quote": "1.8.4",
+    "vite": {
+      ".": "^7.3.3",
+      "esbuild": "0.28.1"
+    },
+    "volar-service-yaml": {
+      "yaml-language-server": "1.23.0"
+    },
+    "yaml-language-server": {
+      "yaml": "2.8.3"
+    }
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
