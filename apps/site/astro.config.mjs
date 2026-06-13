@@ -80,6 +80,7 @@ const chartKitPreviewWebAliases = () => ({
 });
 
 export default defineConfig({
+  site: "https://chartkit.io",
   devToolbar: {
     enabled: false
   },
