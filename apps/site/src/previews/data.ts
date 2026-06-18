@@ -134,12 +134,12 @@ export const candlebarPrices = [
 ];
 
 export const radarBenchmarks = [
-  { metric: "Speed", current: 84, target: 76, industry: 68 },
-  { metric: "Polish", current: 69, target: 88, industry: 74 },
-  { metric: "A11y", current: 91, target: 84, industry: 79 },
-  { metric: "Depth", current: 62, target: 82, industry: 70 },
-  { metric: "Control", current: 86, target: 78, industry: 90 },
-  { metric: "Export", current: 58, target: 80, industry: 66 }
+  { metric: "Speed", current: 92, target: 78, industry: 54 },
+  { metric: "Polish", current: 48, target: 94, industry: 72 },
+  { metric: "A11y", current: 96, target: 86, industry: 61 },
+  { metric: "Depth", current: 38, target: 88, industry: 76 },
+  { metric: "Control", current: 84, target: 64, industry: 91 },
+  { metric: "Export", current: 42, target: 82, industry: 58 }
 ];
 
 export const comboRevenue = [
