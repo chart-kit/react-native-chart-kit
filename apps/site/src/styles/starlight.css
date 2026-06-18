@@ -450,7 +450,32 @@ h1#_top,
   overflow: visible;
   width: 100%;
   min-width: 100%;
+  font-size: 0.92rem;
   table-layout: fixed;
+}
+
+.sl-markdown-content
+  table:has(thead th:nth-child(3)):not(:has(thead th:nth-child(4))):not(
+    :where(.not-content *)
+  )
+  :is(th, td):nth-child(1) {
+  width: 19%;
+}
+
+.sl-markdown-content
+  table:has(thead th:nth-child(3)):not(:has(thead th:nth-child(4))):not(
+    :where(.not-content *)
+  )
+  :is(th, td):nth-child(2) {
+  width: 34%;
+}
+
+.sl-markdown-content
+  table:has(thead th:nth-child(3)):not(:has(thead th:nth-child(4))):not(
+    :where(.not-content *)
+  )
+  :is(th, td):nth-child(3) {
+  width: 47%;
 }
 
 .sl-markdown-content :is(th, td):not(:where(.not-content *)) {
