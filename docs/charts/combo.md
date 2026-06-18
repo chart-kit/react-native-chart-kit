@@ -111,6 +111,10 @@ same x-axis.
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { ComboChart } from "@chart-kit/pro";
+import {
+  resolveCartesianChartThemeConfig,
+  useChartKitTheme
+} from "react-native-chart-kit/v2";
 
 const money = (value: number) => `$${Math.round(value)}k`;
 const percent = (value: number) => `${Math.round(value)}%`;
@@ -130,10 +134,21 @@ const toggleItems = [
   { key: "line-margin", label: "Margin" }
 ];
 
+const colorWithAlpha = (color: string, alpha: string) =>
+  color.startsWith("#") && color.length === 7 ? `${color}${alpha}` : color;
+
 export function ChannelPlan() {
   const [visibleSeriesKeys, setVisibleSeriesKeys] = useState(
     toggleItems.map((item) => item.key)
   );
+  const chartKitTheme = useChartKitTheme();
+  const resolvedTheme = resolveCartesianChartThemeConfig({
+    mode: chartKitTheme.mode,
+    preset: chartKitTheme.preset,
+    presets: chartKitTheme.presets,
+    theme: chartKitTheme.theme
+  });
+  const isLight = chartKitTheme.mode === "light";
 
   const toggleSeries = (key: string) => {
     setVisibleSeriesKeys((currentKeys) => {
@@ -145,26 +160,73 @@ export function ChannelPlan() {
     });
   };
 
+  const seriesToggles = toggleItems.map((item, index) => ({
+    ...item,
+    color: resolvedTheme.series[index] ?? "#2563eb"
+  }));
+
   return (
-    <View>
-      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-        {toggleItems.map((item) => {
+    <View style={{ width: 410 }}>
+      <View
+        style={{
+          alignSelf: "flex-start",
+          backgroundColor: isLight
+            ? "rgba(7, 23, 51, 0.045)"
+            : "rgba(255, 255, 255, 0.055)",
+          borderColor: resolvedTheme.grid,
+          borderRadius: 999,
+          borderWidth: 1,
+          display: "flex",
+          flexDirection: "row",
+          gap: 2,
+          marginBottom: 10,
+          padding: 2
+        }}
+      >
+        {seriesToggles.map((item) => {
           const active = visibleSeriesKeys.includes(item.key);
 
           return (
             <Pressable
               key={item.key}
+              aria-pressed={active}
               accessibilityRole="button"
               onPress={() => toggleSeries(item.key)}
               style={{
-                borderColor: active ? "#2563eb" : "rgba(100, 116, 139, 0.32)",
+                alignItems: "center",
+                display: "flex",
+                backgroundColor: active
+                  ? colorWithAlpha(item.color, isLight ? "10" : "18")
+                  : "transparent",
+                borderColor: active ? item.color : "transparent",
                 borderRadius: 999,
                 borderWidth: 1,
-                paddingHorizontal: 10,
-                paddingVertical: 5
+                flexDirection: "row",
+                gap: 5,
+                height: 28,
+                justifyContent: "center",
+                minWidth: 88,
+                paddingHorizontal: 11
               }}
             >
-              <Text style={{ color: active ? "#2563eb" : "#64748b" }}>
+              <View
+                style={{
+                  backgroundColor: item.color,
+                  borderRadius: 999,
+                  height: 6,
+                  opacity: active ? 1 : 0.36,
+                  width: 6
+                }}
+              />
+              <Text
+                numberOfLines={1}
+                style={{
+                  color: active ? resolvedTheme.text : resolvedTheme.mutedText,
+                  fontSize: 11,
+                  fontWeight: "700",
+                  lineHeight: 13
+                }}
+              >
                 {item.label}
               </Text>
             </Pressable>

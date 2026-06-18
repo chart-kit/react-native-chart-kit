@@ -571,7 +571,6 @@ export const RealtimeBarChartPreview = ({
         barRadius={3}
         barWidthRatio={0.82}
         data={rows}
-        defaultSelectedBar={{ dataIndex: rows.length - 1, seriesKey: "users" }}
         formatXLabel={formatXLabel}
         formatYLabel={(value: number) => String(Math.round(value))}
         height={150}
@@ -635,13 +634,21 @@ export const ComboTogglePreview = ({
 
   return (
     <View style={{ width: chartWidth }}>
-      <View style={toggleStyles.toggleRow}>
+      <View
+        style={[
+          toggleStyles.toggleRow,
+          mode === "dark"
+            ? toggleStyles.toggleRowDark
+            : toggleStyles.toggleRowLight
+        ]}
+      >
         {items.map((item) => {
           const active = visibleSeriesKeys.includes(item.key);
 
           return (
             <Pressable
               key={item.key}
+              aria-pressed={active}
               accessibilityRole="button"
               onPress={() => {
                 setVisibleSeriesKeys((currentKeys) => {
@@ -660,7 +667,11 @@ export const ComboTogglePreview = ({
                 active && {
                   backgroundColor: item.tint,
                   borderColor: item.color
-                }
+                },
+                active &&
+                  (mode === "dark"
+                    ? toggleStyles.toggleActiveDark
+                    : toggleStyles.toggleActiveLight)
               ]}
             >
               <View

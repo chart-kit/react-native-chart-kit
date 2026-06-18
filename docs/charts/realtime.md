@@ -66,7 +66,6 @@ export function ActiveUsersStream() {
       liveKey="pointIndex"
       windowSize={30}
       animation={{ duration: updateMs, mode: "slide" }}
-      defaultSelectedBar={{ dataIndex: rows.length - 1, seriesKey: "users" }}
       interaction="tap"
       series={[{ yKey: "users", label: "Users", color: "#2563eb" }]}
       formatXLabel={(value) => {
@@ -101,8 +100,9 @@ Use `liveKey` whenever the incoming array is a rolling window. Selection keys ar
 based on that identity, so a selected bar can move left while its tooltip value
 stays attached to the same row.
 
-`defaultSelectedBar` seeds the initial visible tooltip. `interaction="tap"` lets
-the user move selection without adding controlled state.
+Omit `defaultSelectedBar` when the stream should open idle. Add it only when the
+chart should seed an initial visible tooltip. `interaction="tap"` lets the user
+move selection without adding controlled state.
 
 `tooltip={{ placement: "top" }}` pins the tooltip to the top of the chart while
 the x-position follows the selected bar.
