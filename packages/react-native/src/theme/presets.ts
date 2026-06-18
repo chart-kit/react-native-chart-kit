@@ -171,13 +171,13 @@ export const builtInCartesianChartPresets: Record<
   },
   spectrum: {
     light: {
-      background: "#ffffff",
+      background: "#f4f7ff",
       plotBackground: "#ffffff",
-      grid: "#dbe5f1",
-      axis: "#cfdae8",
-      text: "#102033",
-      mutedText: "#55708d",
-      series: ["#2563eb", "#10b981", "#f59e0b", "#7c3aed"],
+      grid: "#cfddff",
+      axis: "#b8c8ef",
+      text: "#122044",
+      mutedText: "#566482",
+      series: ["#e11d48", "#2563eb", "#f59e0b", "#16a34a"],
       typography: defaultCartesianChartTypography
     },
     dark: {
@@ -193,13 +193,13 @@ export const builtInCartesianChartPresets: Record<
   },
   aurora: {
     light: {
-      background: "#f8fbff",
-      plotBackground: "#ffffff",
-      grid: "#d9e5f2",
-      axis: "#c6d6e6",
-      text: "#08111f",
-      mutedText: "#52667d",
-      series: ["#0284c7", "#8b5cf6", "#14b8a6", "#f97316"],
+      background: "#f7f2ff",
+      plotBackground: "#fffaff",
+      grid: "#ddd0ff",
+      axis: "#c7b7f5",
+      text: "#21133d",
+      mutedText: "#705d8f",
+      series: ["#7c3aed", "#0891b2", "#db2777", "#ea580c"],
       typography: defaultCartesianChartTypography
     },
     dark: {
@@ -215,13 +215,13 @@ export const builtInCartesianChartPresets: Record<
   },
   verdant: {
     light: {
-      background: "#fbfefc",
-      plotBackground: "#ffffff",
-      grid: "#dbeee5",
-      axis: "#c9dfd4",
-      text: "#10221a",
-      mutedText: "#5f776b",
-      series: ["#059669", "#e11d48", "#0ea5e9", "#84cc16"],
+      background: "#f1fbf5",
+      plotBackground: "#fbfffd",
+      grid: "#cdebd9",
+      axis: "#b4dbc4",
+      text: "#0d2618",
+      mutedText: "#557064",
+      series: ["#059669", "#65a30d", "#0e7490", "#dc2626"],
       typography: defaultCartesianChartTypography
     },
     dark: {
@@ -237,13 +237,13 @@ export const builtInCartesianChartPresets: Record<
   },
   cupertino: {
     light: {
-      background: "#f9f9fb",
+      background: "#f2f7ff",
       plotBackground: "#ffffff",
-      grid: "#e5e5ea",
-      axis: "#d1d1d6",
-      text: "#1c1c1e",
-      mutedText: "#6e6e73",
-      series: ["#007aff", "#34c759", "#ff9500", "#ff2d55"],
+      grid: "#d5e6fa",
+      axis: "#c5d8ed",
+      text: "#162033",
+      mutedText: "#617189",
+      series: ["#007aff", "#ff2d55", "#34c759", "#ff9500"],
       typography: defaultCartesianChartTypography
     },
     dark: {
@@ -259,10 +259,10 @@ export const builtInCartesianChartPresets: Record<
   },
   material: {
     light: {
-      background: "#fffbfe",
-      plotBackground: "#ffffff",
-      grid: "#e7e0ec",
-      axis: "#cac4d0",
+      background: "#fff7fb",
+      plotBackground: "#fffafd",
+      grid: "#eaddec",
+      axis: "#d7c5dd",
       text: "#1d1b20",
       mutedText: "#625b71",
       series: ["#6750a4", "#006a6a", "#b3261e", "#7d5260"],
@@ -281,13 +281,13 @@ export const builtInCartesianChartPresets: Record<
   },
   graphite: {
     light: {
-      background: "#ffffff",
-      plotBackground: "#ffffff",
-      grid: "#eceff3",
-      axis: "#e2e6ec",
+      background: "#f4f5f7",
+      plotBackground: "#fbfcfd",
+      grid: "#d9dee7",
+      axis: "#c9d0dc",
       text: "#111827",
       mutedText: "#6b7280",
-      series: ["#111827", "#64748b", "#94a3b8", "#cbd5e1"],
+      series: ["#111827", "#475569", "#737b88", "#a1aab6"],
       typography: defaultCartesianChartTypography
     },
     dark: {
@@ -331,10 +331,10 @@ export const builtInCartesianChartPresets: Record<
   },
   midnight: {
     light: {
-      background: "#f6f8fb",
-      plotBackground: "#ffffff",
-      grid: "#d8e0eb",
-      axis: "#c7d2df",
+      background: "#edf3fb",
+      plotBackground: "#f8fbff",
+      grid: "#bfd0e2",
+      axis: "#a8b9cc",
       text: "#0b1220",
       mutedText: "#53657a",
       series: ["#0f766e", "#2563eb", "#9333ea", "#ea580c"],

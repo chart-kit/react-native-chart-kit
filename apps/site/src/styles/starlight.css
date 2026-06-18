@@ -645,6 +645,69 @@ chart-kit-preview {
 :root {
   --chart-kit-preview-padding-x: 10px;
   --chart-kit-preview-padding-y: 10px;
+  --chart-kit-preview-surface: #10131a;
+  --chart-kit-playground-frame-surface: #10131a;
+  --chart-kit-playground-preview-surface: #0f1218;
+}
+
+:root[data-theme="light"] {
+  --chart-kit-preview-surface: #ffffff;
+  --chart-kit-playground-frame-surface: #ffffff;
+  --chart-kit-playground-preview-surface: #ffffff;
+}
+
+:root[data-theme="light"][data-chart-theme="spectrum"] {
+  --chart-kit-preview-surface: #f4f7ff;
+  --chart-kit-playground-frame-surface: #f8fbff;
+  --chart-kit-playground-preview-surface: #f4f7ff;
+}
+
+:root[data-theme="light"][data-chart-theme="aurora"] {
+  --chart-kit-preview-surface: #f7f2ff;
+  --chart-kit-playground-frame-surface: #fbf7ff;
+  --chart-kit-playground-preview-surface: #f7f2ff;
+}
+
+:root[data-theme="light"][data-chart-theme="verdant"] {
+  --chart-kit-preview-surface: #f1fbf5;
+  --chart-kit-playground-frame-surface: #f8fdf9;
+  --chart-kit-playground-preview-surface: #f1fbf5;
+}
+
+:root[data-theme="light"][data-chart-theme="cupertino"] {
+  --chart-kit-preview-surface: #f2f7ff;
+  --chart-kit-playground-frame-surface: #f8fbff;
+  --chart-kit-playground-preview-surface: #f2f7ff;
+}
+
+:root[data-theme="light"][data-chart-theme="material"] {
+  --chart-kit-preview-surface: #fff7fb;
+  --chart-kit-playground-frame-surface: #fffafd;
+  --chart-kit-playground-preview-surface: #fff7fb;
+}
+
+:root[data-theme="light"][data-chart-theme="graphite"] {
+  --chart-kit-preview-surface: #f4f5f7;
+  --chart-kit-playground-frame-surface: #fafbfc;
+  --chart-kit-playground-preview-surface: #f4f5f7;
+}
+
+:root[data-theme="light"][data-chart-theme="contrast"] {
+  --chart-kit-preview-surface: #ffffff;
+  --chart-kit-playground-frame-surface: #ffffff;
+  --chart-kit-playground-preview-surface: #ffffff;
+}
+
+:root[data-theme="light"][data-chart-theme="midnight"] {
+  --chart-kit-preview-surface: #edf3fb;
+  --chart-kit-playground-frame-surface: #f6f9fd;
+  --chart-kit-playground-preview-surface: #edf3fb;
+}
+
+:root[data-theme="light"][data-chart-theme="studio"] {
+  --chart-kit-preview-surface: #fff8ea;
+  --chart-kit-playground-frame-surface: #fffdf8;
+  --chart-kit-playground-preview-surface: #fff8ea;
 }
 
 chart-kit-preview .chart-kit-preview-fallback,
@@ -653,7 +716,7 @@ chart-kit-preview .chart-kit-preview-fallback,
   overflow: hidden;
   border: 1px solid var(--sl-color-hairline);
   border-radius: 0.9rem;
-  background: #10131a;
+  background: var(--chart-kit-preview-surface);
   padding: var(--chart-kit-preview-padding-y) var(--chart-kit-preview-padding-x);
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -662,7 +725,7 @@ chart-kit-preview .chart-kit-preview-fallback,
 
 :root[data-theme="light"] chart-kit-preview .chart-kit-preview-fallback,
 :root[data-theme="light"] .chart-kit-live-preview__frame {
-  background: #ffffff;
+  background: var(--chart-kit-preview-surface);
 }
 
 .chart-kit-live-preview__pro-link {
@@ -777,7 +840,7 @@ chart-kit-playground .chart-kit-preview-fallback pre {
   overflow: hidden;
   border: 1px solid var(--sl-color-hairline);
   border-radius: 0.9rem;
-  background: #10131a;
+  background: var(--chart-kit-playground-frame-surface);
 }
 
 .chart-kit-playground__frame[data-resizing="true"] {
@@ -790,7 +853,7 @@ chart-kit-playground .chart-kit-preview-fallback pre {
 }
 
 :root[data-theme="light"] .chart-kit-playground__frame {
-  background: #ffffff;
+  background: var(--chart-kit-playground-frame-surface);
 }
 
 .chart-kit-playground__grid {
@@ -819,14 +882,14 @@ chart-kit-playground .chart-kit-preview-fallback pre {
 
 .chart-kit-playground__preview-pane {
   min-height: 28rem;
-  background: #0f1218;
+  background: var(--chart-kit-playground-preview-surface);
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
 }
 
 :root[data-theme="light"] .chart-kit-playground__preview-pane {
-  background: #ffffff;
+  background: var(--chart-kit-playground-preview-surface);
 }
 
 .chart-kit-playground__resize-handle {
