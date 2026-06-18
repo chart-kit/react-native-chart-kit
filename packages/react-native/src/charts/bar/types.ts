@@ -91,7 +91,7 @@ export type BarChartTooltipConfig = {
 };
 
 export type BarChartTooltipAnchor = "bar" | "pointer";
-export type BarChartTooltipPlacement = "auto" | "above" | "below";
+export type BarChartTooltipPlacement = "auto" | "above" | "below" | "top";
 
 export type ResolvedBarChartTooltipConfig = {
   visible: boolean;

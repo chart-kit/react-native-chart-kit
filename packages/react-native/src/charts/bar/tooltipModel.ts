@@ -42,8 +42,11 @@ export const getBarChartTooltipModel = <TData>({
     return undefined;
   }
 
-  const height =
-    config.padding * 2 + config.labelFontSize + tooltipLineHeight + 2;
+  const hasLabel = bar.xLabel.trim().length > 0;
+  const contentHeight = hasLabel
+    ? config.labelFontSize + tooltipLineHeight
+    : config.fontSize;
+  const height = config.padding * 2 + contentHeight + 2;
   const pointerAnchor =
     config.anchor === "pointer" && pointer?.key === bar.key
       ? pointer
@@ -60,13 +63,15 @@ export const getBarChartTooltipModel = <TData>({
   const aboveY = anchorY - height - config.offset;
   const belowY = belowAnchorY + config.offset;
   const y =
-    config.placement === "above"
-      ? clamp(aboveY, minY, maxY)
-      : config.placement === "below"
-        ? clamp(belowY, minY, maxY)
-        : aboveY >= minY
-          ? aboveY
-          : clamp(belowY, minY, maxY);
+    config.placement === "top"
+      ? minY
+      : config.placement === "above"
+        ? clamp(aboveY, minY, maxY)
+        : config.placement === "below"
+          ? clamp(belowY, minY, maxY)
+          : aboveY >= minY
+            ? aboveY
+            : clamp(belowY, minY, maxY);
 
   return {
     bar,

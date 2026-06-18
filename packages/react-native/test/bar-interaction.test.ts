@@ -303,6 +303,29 @@ describe("BarChart interaction helpers", () => {
     });
   });
 
+  it("supports top-pinned tooltips that still follow the selected bar x", () => {
+    const tooltip = getBarChartTooltipModel({
+      bar: { ...bars[0]!, x: 180 },
+      boxes: {
+        outer: { x: 0, y: 0, width: 320, height: 220 },
+        plot: { x: 52, y: 24, width: 240, height: 160 }
+      },
+      config: getBarChartTooltipConfig({
+        themeTooltip,
+        tooltip: {
+          edgePadding: 6,
+          placement: "top",
+          width: 132
+        }
+      })
+    });
+
+    expect(tooltip).toMatchObject({
+      x: 128,
+      y: 6
+    });
+  });
+
   it("keys tooltip animation targets by selected bar and position", () => {
     const tooltip = getBarChartTooltipModel({
       bar: bars[0],

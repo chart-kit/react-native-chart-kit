@@ -32,8 +32,11 @@ export const renderDefaultBarChartTooltip = <TData,>(
   }
 
   const contentX = x + config.padding;
+  const hasLabel = bar.xLabel.trim().length > 0;
   const labelY = y + config.padding + config.labelFontSize;
-  const valueY = labelY + tooltipLineHeight;
+  const valueY = hasLabel
+    ? labelY + tooltipLineHeight
+    : y + config.padding + config.fontSize;
   const hasShadow = config.shadowOpacity > 0;
   const { Circle, Group, Rect, Text } = renderer;
   const valueText = `${bar.seriesLabel}: ${bar.formattedValue}`;
@@ -62,17 +65,19 @@ export const renderDefaultBarChartTooltip = <TData,>(
         strokeOpacity={0.2}
         strokeWidth={1}
       />
-      <Text
-        x={contentX}
-        y={labelY}
-        fill={config.labelColor}
-        fontSize={config.labelFontSize}
-        fontWeight="600"
-        text={bar.xLabel}
-        {...getFontFamilyProps(config.fontFamily)}
-      >
-        {bar.xLabel}
-      </Text>
+      {hasLabel ? (
+        <Text
+          x={contentX}
+          y={labelY}
+          fill={config.labelColor}
+          fontSize={config.labelFontSize}
+          fontWeight="600"
+          text={bar.xLabel}
+          {...getFontFamilyProps(config.fontFamily)}
+        >
+          {bar.xLabel}
+        </Text>
+      ) : null}
       <Circle
         cx={contentX + 3}
         cy={valueY - config.fontSize * 0.32}
