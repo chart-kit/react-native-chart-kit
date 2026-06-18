@@ -13,6 +13,32 @@ export default defineConfig({
     }
   },
   test: {
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "json-summary"],
+      include: [
+        "packages/core/src/**/*.ts",
+        "packages/react-native/src/**/*.ts",
+        "packages/svg-renderer/src/**/*.{ts,tsx}"
+      ],
+      exclude: [
+        "**/index.ts",
+        "**/types.ts",
+        "packages/react-native/src/**/*.tsx",
+        "packages/react-native/src/**/use*.ts",
+        "packages/react-native/src/charts/line/responders.ts",
+        "packages/react-native/src/viewport/pan.ts",
+        "packages/react-native/src/viewport/panResponder.ts",
+        "packages/react-native/src/charts/*/*Animation.ts",
+        "packages/react-native/src/charts/progress/animation.ts"
+      ],
+      thresholds: {
+        statements: 90,
+        branches: 80,
+        functions: 95,
+        lines: 90
+      }
+    },
     environment: "node",
     include: [
       "apps/**/*.test.ts",

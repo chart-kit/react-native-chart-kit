@@ -1,4 +1,25 @@
-import { describe, expect, it } from "vitest";
+import {
+  Children,
+  isValidElement,
+  type ComponentType,
+  type ReactElement,
+  type ReactNode
+} from "react";
+import { describe, expect, it, vi } from "vitest";
+
+vi.mock("react-native-svg", () => ({
+  default: "Svg",
+  Circle: "Circle",
+  ClipPath: "ClipPath",
+  Defs: "Defs",
+  G: "G",
+  Line: "Line",
+  LinearGradient: "LinearGradient",
+  Path: "Path",
+  Rect: "Rect",
+  Stop: "Stop",
+  Text: "Text"
+}));
 
 import { createSvgRendererCapabilities } from "../src/capabilities";
 import { createClipPathRef, resolveSvgClipPolicy } from "../src/clipPath";
@@ -9,12 +30,23 @@ import {
   chartRenderLayers,
   getChartRenderLayerTestId
 } from "../src/layerOrder";
+import { createSvgRenderer } from "../src/renderer";
 import { createSvgSymbolDiamondPath } from "../src/symbolGeometry";
 import { createSvgTestId } from "../src/testIds";
 import {
   createSvgTextMeasurer,
   measureSvgTextFallback
 } from "../src/textMeasurement";
+
+const renderComponent = <TProps>(
+  Component: ComponentType<TProps>,
+  props: TProps
+): ReactNode => (Component as (props: TProps) => ReactNode)(props);
+
+const childrenOf = (element: ReactNode) =>
+  isValidElement<{ children?: ReactNode }>(element)
+    ? Children.toArray(element.props.children)
+    : [];
 
 describe("SVG text measurement fallback", () => {
   it("estimates text width and height deterministically", () => {
@@ -202,5 +234,174 @@ describe("SVG renderer helpers", () => {
         y: 12
       }).pointerEvents
     ).toBe("none");
+  });
+
+  it("maps renderer primitives to SVG elements and props", () => {
+    const renderer = createSvgRendererCapabilities();
+
+    expect(renderer).toMatchObject({ layers: true, symbols: true });
+  });
+});
+
+describe("SVG renderer components", () => {
+  it("creates the renderer component surface and default text measurer", () => {
+    const svgRenderer = createSvgRenderer();
+    const surface = renderComponent(svgRenderer.Surface, {
+      children: "chart",
+      height: 120,
+      width: 240
+    });
+    const path = renderComponent(svgRenderer.Path, {
+      d: "M 0 0 L 10 10",
+      stroke: "#2563eb",
+      strokeWidth: 2
+    });
+
+    expect(svgRenderer.measureText("Axis", { fontSize: 10 })).toMatchObject({
+      height: 12
+    });
+    expect(svgRenderer.measureText("Axis", { fontSize: 10 }).width).toBeCloseTo(
+      22.4
+    );
+    expect(surface).toMatchObject({
+      props: {
+        height: 120,
+        viewBox: "0 0 240 120",
+        width: 240
+      }
+    });
+    expect(path).toMatchObject({
+      props: {
+        d: "M 0 0 L 10 10",
+        stroke: "#2563eb",
+        strokeWidth: 2
+      }
+    });
+  });
+
+  it("renders defs, clip rects, gradients, layers, and hit regions", () => {
+    const svgRenderer = createSvgRenderer();
+    const clip = renderComponent(svgRenderer.ClipRect, {
+      height: 32,
+      id: "plot-clip",
+      width: 80,
+      x: 4,
+      y: 8
+    });
+    const gradient = renderComponent(svgRenderer.LinearGradient, {
+      id: "series-gradient",
+      stops: [
+        { color: "#2563eb", offset: "0%" },
+        { color: "#0f172a", offset: "100%", opacity: 0.4 }
+      ],
+      x1: "0%",
+      x2: "100%",
+      y1: "0%",
+      y2: "0%"
+    });
+    const layer = renderComponent(svgRenderer.Layer, {
+      children: "bars",
+      name: "data"
+    });
+    const hitRegion = renderComponent(svgRenderer.HitRegion, {
+      height: 44,
+      width: 44,
+      x: 10,
+      y: 12
+    });
+
+    expect(clip).toMatchObject({
+      props: {
+        id: "plot-clip"
+      }
+    });
+    expect(childrenOf(clip)[0]).toMatchObject({
+      props: {
+        height: 32,
+        width: 80,
+        x: 4,
+        y: 8
+      }
+    });
+    expect(childrenOf(gradient)).toHaveLength(2);
+    expect(childrenOf(gradient)[1]).toMatchObject({
+      props: {
+        offset: "100%",
+        stopColor: "#0f172a",
+        stopOpacity: 0.4
+      }
+    });
+    expect(layer).toMatchObject({
+      props: {
+        testID: "chart-layer.data"
+      }
+    });
+    expect(hitRegion).toMatchObject({
+      props: {
+        fillOpacity: 0.001,
+        pointerEvents: "auto"
+      }
+    });
+  });
+
+  it("renders marker symbols with shape-specific geometry", () => {
+    const svgRenderer = createSvgRenderer();
+    const line = renderComponent(svgRenderer.Symbol, {
+      fill: "#2563eb",
+      shape: "line",
+      size: 12,
+      x: 20,
+      y: 30
+    });
+    const square = renderComponent(svgRenderer.Symbol, {
+      fill: "#2563eb",
+      shape: "square",
+      size: 10,
+      x: 20,
+      y: 30
+    });
+    const diamond = renderComponent(svgRenderer.Symbol, {
+      fill: "#2563eb",
+      shape: "diamond",
+      size: 10,
+      x: 20,
+      y: 30
+    });
+    const circle = renderComponent(svgRenderer.Symbol, {
+      fill: "#2563eb",
+      shape: "circle",
+      size: 10,
+      x: 20,
+      y: 30
+    }) as ReactElement;
+
+    expect(line).toMatchObject({
+      props: {
+        stroke: "#2563eb",
+        x1: 14,
+        x2: 26,
+        y1: 30,
+        y2: 30
+      }
+    });
+    expect(square).toMatchObject({
+      props: {
+        height: 10,
+        rx: 2.25,
+        width: 10,
+        x: 15,
+        y: 25
+      }
+    });
+    expect(diamond).toMatchObject({
+      props: {
+        d: "M 20 25 L 25 30 L 20 35 L 15 30 Z"
+      }
+    });
+    expect(circle.props).toMatchObject({
+      cx: 20,
+      cy: 30,
+      r: 5
+    });
   });
 });

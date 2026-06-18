@@ -9,6 +9,7 @@ npm-debug.*
 .tmp/
 yarn.lock
 dist
+coverage/
 packages/*/dist
 apps/expo-showcase/dist
 apps/expo-showcase/benchmark-results
