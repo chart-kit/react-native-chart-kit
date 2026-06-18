@@ -711,6 +711,7 @@ chart-kit-preview .chart-kit-preview-fallback,
   a:is(
     [href$="/charts/candlebar/"],
     [href$="/charts/radar/"],
+    [href$="/charts/realtime/"],
     [href$="/charts/combo/"]
   )::after {
   flex: 0 0 auto;
@@ -733,6 +734,7 @@ chart-kit-preview .chart-kit-preview-fallback,
   a:is(
     [href$="/charts/candlebar/"],
     [href$="/charts/radar/"],
+    [href$="/charts/realtime/"],
     [href$="/charts/combo/"]
   )::after {
   border-color: rgba(0, 85, 218, 0.22);

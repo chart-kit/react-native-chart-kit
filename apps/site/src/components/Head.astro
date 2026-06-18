@@ -38,6 +38,28 @@ const reactRefreshPreamble = `
     color: #d8e6ff;
   }
 
+  .sidebar-content
+    a:is(
+      [href$="/charts/candlebar/"],
+      [href$="/charts/radar/"],
+      [href$="/charts/realtime/"],
+      [href$="/charts/combo/"]
+    )::after {
+    flex: 0 0 auto;
+    margin-inline-start: auto;
+    border: 1px solid rgba(0, 85, 218, 0.38);
+    border-radius: 999px;
+    background: rgba(0, 85, 218, 0.16);
+    color: #8ab6ff;
+    content: "Pro";
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0;
+    line-height: 1;
+    padding: 0.18rem 0.38rem;
+    text-transform: uppercase;
+  }
+
   html[data-theme="light"] {
     background: #f6f9fd;
     color-scheme: light;
@@ -55,6 +77,19 @@ const reactRefreshPreamble = `
   html[data-theme="light"] .sidebar-content [aria-current="page"] {
     background-color: #eaf2ff;
     color: #0f3a78;
+  }
+
+  html[data-theme="light"]
+    .sidebar-content
+    a:is(
+      [href$="/charts/candlebar/"],
+      [href$="/charts/radar/"],
+      [href$="/charts/realtime/"],
+      [href$="/charts/combo/"]
+    )::after {
+    border-color: rgba(0, 85, 218, 0.22);
+    background: rgba(0, 85, 218, 0.1);
+    color: #0055da;
   }
 
   html[data-theme="dark"] {

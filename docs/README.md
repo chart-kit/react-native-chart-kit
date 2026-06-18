@@ -28,6 +28,7 @@ React Native Chart Kit is a library of modern and polished charts for React Nati
 - [Installation](charts/pro-installation.md)
 - [Candlebar](charts/candlebar.md)
 - [Radar](charts/radar.md)
+- [Realtime Bar](charts/realtime.md)
 - [Combo](charts/combo.md)
 
 ## Guides

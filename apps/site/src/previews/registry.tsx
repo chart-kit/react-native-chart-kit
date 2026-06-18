@@ -43,7 +43,8 @@ import {
 import {
   CandlebarCrosshairPreview,
   CandlebarRealtimePreview,
-  ComboTogglePreview
+  ComboTogglePreview,
+  RealtimeBarChartPreview
 } from "./proPreviewComponents";
 
 const legacyLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
@@ -588,6 +589,18 @@ export const chartPreviewExamples: Record<string, ChartPreviewExample> = {
         ]}
         width={clampChartWidth(width)}
       />
+    )
+  },
+  "pro-realtime-bar": {
+    ctaHref: "/#pricing",
+    description:
+      "Keep a rolling analytics window moving smoothly with stable selection and renderer-backed bars.",
+    eyebrow: "Realtime",
+    id: "pro-realtime-bar",
+    tier: "pro",
+    title: "Active users stream",
+    render: ({ isMostMobile, width }) => (
+      <RealtimeBarChartPreview isMostMobile={isMostMobile} width={width} />
     )
   },
   "pro-combo": {

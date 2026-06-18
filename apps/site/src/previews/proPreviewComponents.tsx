@@ -1,7 +1,7 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
 
-import { CandlebarChart, ComboChart } from "@chart-kit/pro";
+import { CandlebarChart, ComboChart, Realtime } from "@chart-kit/pro";
 import {
   resolveCartesianChartThemeConfig,
   useChartKitTheme
@@ -36,6 +36,33 @@ const crosshairCandlebarPrices = Array.from({ length: 40 }, (_, index) => {
     volume: Math.round(48 + Math.abs(move) * 9 + index * 3)
   };
 });
+
+const realtimeUpdateMs = 2000;
+
+const getRealtimeUsersAt = (pointIndex: number) => {
+  const value =
+    44 +
+    Math.sin(pointIndex * 0.7) * 16 +
+    Math.cos(pointIndex * 0.25) * 10 +
+    (pointIndex % 5) * 3;
+
+  return Math.max(8, Math.min(92, Math.round(value)));
+};
+
+const createRealtimeRows = (tick: number, count = 30) =>
+  Array.from({ length: count }, (_, index) => {
+    const pointIndex = tick + index;
+
+    return {
+      pointIndex,
+      users: getRealtimeUsersAt(pointIndex)
+    };
+  });
+
+const formatRealtimeAgeLabel = (minutesAgo: number) =>
+  minutesAgo === 0 ? "Now" : `${minutesAgo} min ago`;
+
+type RealtimeChartXValue = Date | number | string;
 
 export const CandlebarCrosshairPreview = ({
   isMostMobile,
@@ -430,6 +457,141 @@ export const CandlebarRealtimePreview = ({
         openKey="open"
         volumeKey="volume"
         width={chartWidth}
+      />
+    </View>
+  );
+};
+
+export const RealtimeBarChartPreview = ({
+  isMostMobile,
+  width
+}: {
+  isMostMobile: boolean;
+  width: number;
+}) => {
+  const chartKitTheme = useChartKitTheme();
+  const chartWidth = clampChartWidth(width);
+  const [tick, setTick] = React.useState(0);
+  const rows = React.useMemo(() => createRealtimeRows(tick), [tick]);
+  const total = rows.reduce((sum, row) => sum + row.users, 0);
+  const resolvedTheme = resolveCartesianChartThemeConfig({
+    mode: chartKitTheme.mode,
+    preset: chartKitTheme.preset,
+    presets: chartKitTheme.presets,
+    theme: chartKitTheme.theme
+  });
+  const primaryColor = resolvedTheme.series[0] ?? "#2563eb";
+
+  React.useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setTick((currentTick) => currentTick + 1);
+    }, realtimeUpdateMs);
+
+    return () => window.clearInterval(intervalId);
+  }, []);
+
+  const formatXLabel = React.useCallback(
+    (value: RealtimeChartXValue) => {
+      const pointIndex =
+        typeof value === "number"
+          ? value
+          : value instanceof Date
+            ? Number.NaN
+            : Number.parseInt(value, 10);
+      const minutesAgo = Number.isFinite(pointIndex)
+        ? Math.max(0, tick + 29 - pointIndex)
+        : 0;
+
+      return formatRealtimeAgeLabel(minutesAgo);
+    },
+    [tick]
+  );
+
+  return (
+    <View
+      style={{
+        width: chartWidth,
+        overflow: "hidden",
+        borderColor: resolvedTheme.axis,
+        borderRadius: 8,
+        borderWidth: 1,
+        backgroundColor: resolvedTheme.background,
+        paddingBottom: isMostMobile ? 8 : 10
+      }}
+    >
+      <View
+        style={{
+          width: chartWidth,
+          borderBottomColor: resolvedTheme.grid,
+          borderBottomWidth: 1,
+          backgroundColor: resolvedTheme.plotBackground,
+          paddingHorizontal: isMostMobile ? 10 : 12,
+          paddingVertical: isMostMobile ? 8 : 10,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 12
+        }}
+      >
+        <View style={{ minWidth: 0 }}>
+          <Text
+            style={{
+              color: resolvedTheme.text,
+              fontSize: isMostMobile ? 13 : 14,
+              fontWeight: "800"
+            }}
+          >
+            Active users
+          </Text>
+          <Text
+            style={{
+              color: resolvedTheme.mutedText,
+              fontSize: 10,
+              fontWeight: "700",
+              marginTop: 2
+            }}
+          >
+            Last 30 minutes
+          </Text>
+        </View>
+        <Text
+          style={{
+            color: primaryColor,
+            fontSize: isMostMobile ? 13 : 14,
+            fontVariant: ["tabular-nums"],
+            fontWeight: "800"
+          }}
+        >
+          {total.toLocaleString("en-US")}
+        </Text>
+      </View>
+      <Realtime.BarChart
+        accessibilityLabel="Active users per minute over a rolling thirty minute window"
+        animation={{ duration: realtimeUpdateMs, mode: "slide" }}
+        barRadius={3}
+        barWidthRatio={0.82}
+        data={rows}
+        defaultSelectedBar={{ dataIndex: rows.length - 1, seriesKey: "users" }}
+        formatXLabel={formatXLabel}
+        formatYLabel={(value: number) => String(Math.round(value))}
+        height={150}
+        interaction="tap"
+        labelStrategy="hide"
+        liveKey="pointIndex"
+        series={[{ yKey: "users", label: "Users", color: primaryColor }]}
+        showHorizontalGridLines
+        showXAxisLabels={false}
+        showYAxisLabels={false}
+        tooltip={{
+          anchor: "bar",
+          placement: "top",
+          width: 108
+        }}
+        width={chartWidth}
+        windowSize={30}
+        xKey="pointIndex"
+        yDomain={[0, 100]}
+        yKey="users"
       />
     </View>
   );

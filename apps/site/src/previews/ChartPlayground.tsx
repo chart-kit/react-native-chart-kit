@@ -35,7 +35,8 @@ import {
   CandlebarChart,
   CandlestickChart,
   ComboChart,
-  RadarChart
+  RadarChart,
+  Realtime
 } from "@chart-kit/pro";
 import { G, Line as SvgLine, Rect, Text as SvgText } from "react-native-svg";
 import {
@@ -544,6 +545,7 @@ export const ChartPlayground = ({ code, id }: { code: string; id: string }) => {
       ProgressRing,
       RadarChart,
       React,
+      Realtime,
       Rect,
       resolveCartesianChartThemeConfig,
       StackedBarChart: isLegacyPreview

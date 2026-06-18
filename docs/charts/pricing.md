@@ -30,9 +30,10 @@ OEM terms.
 | Viewport tools                   | Line/area scroll, pan/zoom, range selector, decimation; bar scrollable windows; Pro financial chart viewport controls. | Included     | Included |
 | Themes and custom presets        | ChartKitProvider, light/dark/system modes, custom preset registry, renderer injection.                                 | Included     | Included |
 | Accessibility helpers            | Public helpers for line, bar, pie, progress, contribution; Pro helpers for candlestick and combo.                      | Included     | Included |
-| Pro chart families               | CandlestickChart, CandlebarChart, CombinedChart, ComboChart, and RadarChart.                                           | Not included | Included |
+| Pro chart families               | CandlestickChart, CandlebarChart, CombinedChart, ComboChart, RadarChart, and Realtime.BarChart.                        | Not included | Included |
 | Financial chart workflow         | OHLCV readouts, crosshair inspector, price scale, session gaps, closures, range selector.                              | Not included | Included |
 | Combo chart workflow             | Mixed bar and line series, shared tooltip, visible series keys, negative domains.                                      | Not included | Included |
+| Realtime chart workflow          | Rolling data windows, append animations, stable selection, and renderer-backed streaming dashboard charts.             | Not included | Included |
 | Optional Skia renderer           | Injected Skia renderer adapter for CombinedChart and CandlestickChart.                                                 | Not included | Preview  |
 | PNG/SVG export APIs              | Snapshot, share sheet, and headless image generation workflows.                                                        | Not included | Planned  |
 | Premium theme templates          | Extra named palettes and design templates beyond current custom presets.                                               | Not included | Planned  |

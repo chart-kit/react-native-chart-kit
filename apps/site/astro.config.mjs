@@ -126,6 +126,7 @@ export default defineConfig({
             { slug: docsSlug("charts/pricing") },
             { slug: docsSlug("charts/candlebar") },
             { slug: docsSlug("charts/radar") },
+            { slug: docsSlug("charts/realtime") },
             { slug: docsSlug("charts/combo") }
           ]
         },

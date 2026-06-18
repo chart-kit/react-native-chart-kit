@@ -42,7 +42,8 @@ const chartKitProNames = [
   "CandlebarChart",
   "CandlestickChart",
   "ComboChart",
-  "RadarChart"
+  "RadarChart",
+  "Realtime"
 ];
 const reactNames = ["useMemo", "useState"];
 const reactNativeNames = ["Pressable", "Text", "View"];
