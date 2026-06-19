@@ -35,7 +35,7 @@ OEM terms.
 | Combo chart workflow             | Mixed bar and line series, shared tooltip, visible series keys, negative domains.                                      | Not included | Included |
 | Realtime chart workflow          | Rolling data windows, append animations, stable selection, and renderer-backed streaming dashboard charts.             | Not included | Included |
 | Optional Skia renderer           | Injected Skia renderer adapter for CombinedChart and CandlestickChart.                                                 | Not included | Included |
-| PNG/SVG export APIs              | Snapshot, share sheet, and headless image generation workflows.                                                        | Not included | Planned  |
+| PNG/SVG export APIs              | Snapshot APIs, share sheet helpers, and adapter-based headless SVG/PNG image generation workflows.                     | Not included | Included |
 | Premium theme templates          | Extra named palettes and design templates beyond current custom presets.                                               | Not included | Planned  |
 | Enterprise accessibility reports | Packaged compliance evidence beyond current summaries and data-table helpers.                                          | Not included | Planned  |
 

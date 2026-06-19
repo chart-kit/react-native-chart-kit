@@ -40,6 +40,7 @@ const reactRefreshPreamble = `
 
   .sidebar-content
     a:is(
+      [href$="/charts/export/"],
       [href$="/charts/candlebar/"],
       [href$="/charts/radar/"],
       [href$="/charts/realtime/"],
@@ -82,6 +83,7 @@ const reactRefreshPreamble = `
   html[data-theme="light"]
     .sidebar-content
     a:is(
+      [href$="/charts/export/"],
       [href$="/charts/candlebar/"],
       [href$="/charts/radar/"],
       [href$="/charts/realtime/"],

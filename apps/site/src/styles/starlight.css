@@ -797,6 +797,7 @@ chart-kit-preview .chart-kit-preview-fallback,
 
 .sidebar-content
   a:is(
+    [href$="/charts/export/"],
     [href$="/charts/candlebar/"],
     [href$="/charts/radar/"],
     [href$="/charts/realtime/"],
@@ -820,6 +821,7 @@ chart-kit-preview .chart-kit-preview-fallback,
 :root[data-theme="light"]
   .sidebar-content
   a:is(
+    [href$="/charts/export/"],
     [href$="/charts/candlebar/"],
     [href$="/charts/radar/"],
     [href$="/charts/realtime/"],
