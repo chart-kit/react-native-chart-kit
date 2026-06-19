@@ -1041,6 +1041,9 @@ export const Touchable = {
 };
 
 export const NativeModules = {};
+export const Share = {
+  share: () => Promise.resolve({ action: "sharedAction" })
+};
 export const UIManager = {};
 export const TurboModuleRegistry = {
   get: () => null,

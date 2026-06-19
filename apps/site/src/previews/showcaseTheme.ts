@@ -2,6 +2,7 @@ import {
   createChartPreset,
   type CartesianChartPresetRegistry
 } from "react-native-chart-kit/v2";
+import { proCartesianChartPresets } from "@chart-kit/pro/themes";
 
 export const showcaseCustomPresets: CartesianChartPresetRegistry = {
   studio: createChartPreset({
@@ -31,5 +32,6 @@ export const showcaseCustomPresets: CartesianChartPresetRegistry = {
         legendLabelSize: 12
       }
     }
-  })
+  }),
+  ...proCartesianChartPresets
 };

@@ -1,19 +1,12 @@
-<script is:inline>
+---
+import { chartThemeOptions } from "../previews/chartTheme";
+
+const chartThemeValues = chartThemeOptions.map((option) => option.value);
+const themeInitScript = `
   (() => {
     const storageKey = "starlight-theme";
     const chartThemeStorageKey = "chartkit-chart-theme";
-    const chartThemes = new Set([
-      "default",
-      "spectrum",
-      "aurora",
-      "verdant",
-      "cupertino",
-      "material",
-      "graphite",
-      "contrast",
-      "midnight",
-      "studio"
-    ]);
+    const chartThemes = new Set(${JSON.stringify(chartThemeValues)});
     const getStoredTheme = () => {
       try {
         const stored = localStorage.getItem(storageKey);
@@ -42,4 +35,7 @@
     document.documentElement.dataset.chartTheme = chartTheme;
     document.documentElement.style.colorScheme = theme;
   })();
-</script>
+`;
+---
+
+<script is:inline set:html={themeInitScript} />

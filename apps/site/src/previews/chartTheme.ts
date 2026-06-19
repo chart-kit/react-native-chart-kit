@@ -1,3 +1,8 @@
+import {
+  proCartesianChartPresetOptions,
+  type ProCartesianChartPresetName
+} from "@chart-kit/pro/themes";
+
 export type ChartThemePreset =
   | "default"
   | "spectrum"
@@ -8,7 +13,8 @@ export type ChartThemePreset =
   | "graphite"
   | "contrast"
   | "midnight"
-  | "studio";
+  | "studio"
+  | ProCartesianChartPresetName;
 
 export const chartThemeStorageKey = "chartkit-chart-theme";
 export const chartThemeChangeEvent = "chartkit:chart-theme-change";
@@ -26,7 +32,11 @@ export const chartThemeOptions: Array<{
   { label: "Graphite", value: "graphite" },
   { label: "Contrast", value: "contrast" },
   { label: "Midnight", value: "midnight" },
-  { label: "Studio", value: "studio" }
+  { label: "Studio", value: "studio" },
+  ...proCartesianChartPresetOptions.map((option) => ({
+    label: `${option.title} (Pro)`,
+    value: option.id
+  }))
 ];
 
 export const isChartThemePreset = (
