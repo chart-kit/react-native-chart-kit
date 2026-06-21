@@ -31,5 +31,5 @@
 
 ## Source
 
-- [GitHub repository](https://github.com/indiespirit/react-native-chart-kit)
-- [Agent instructions](https://github.com/indiespirit/react-native-chart-kit/blob/master/AGENTS.md)
+- [GitHub repository](https://github.com/chart-kit/react-native-chart-kit)
+- [Agent instructions](https://github.com/chart-kit/react-native-chart-kit/blob/master/AGENTS.md)

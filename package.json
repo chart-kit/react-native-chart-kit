@@ -130,9 +130,9 @@
     "node": ">=20.19.4"
   },
   "license": "MIT",
-  "homepage": "https://github.com/indiespirit/react-native-chart-kit",
+  "homepage": "https://github.com/chart-kit/react-native-chart-kit",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/indiespirit/react-native-chart-kit.git"
+    "url": "git+https://github.com/chart-kit/react-native-chart-kit.git"
   }
 }

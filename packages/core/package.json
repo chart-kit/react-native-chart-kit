@@ -4,7 +4,7 @@
   "description": "Renderer-agnostic Chart Kit v2 core scaffold.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/indiespirit/react-native-chart-kit",
+    "url": "https://github.com/chart-kit/react-native-chart-kit",
     "directory": "packages/core"
   },
   "type": "module",

@@ -5,7 +5,7 @@
   "description": "Modern Chart Kit v2 React Native components.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/indiespirit/react-native-chart-kit",
+    "url": "https://github.com/chart-kit/react-native-chart-kit",
     "directory": "packages/react-native"
   },
   "type": "module",

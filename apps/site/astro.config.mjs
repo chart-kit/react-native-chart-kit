@@ -7,7 +7,7 @@ import { chartKitMarkdownPatches } from "./src/lib/starlight-markdown-patches.mj
 
 import tailwindcss from "@tailwindcss/vite";
 
-const repositoryUrl = "https://github.com/indiespirit/react-native-chart-kit";
+const repositoryUrl = "https://github.com/chart-kit/react-native-chart-kit";
 const docsSlug = (slug) => `docs/react-native/${slug}`;
 const packageSource = (packagePath) =>
   fileURLToPath(new URL(`../../packages/${packagePath}`, import.meta.url));

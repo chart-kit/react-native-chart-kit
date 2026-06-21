@@ -4,7 +4,7 @@
   "description": "SVG renderer primitives for Chart Kit v2.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/indiespirit/react-native-chart-kit",
+    "url": "https://github.com/chart-kit/react-native-chart-kit",
     "directory": "packages/svg-renderer"
   },
   "type": "module",

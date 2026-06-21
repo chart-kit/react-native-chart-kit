@@ -48,7 +48,7 @@ export interface LineChartProps extends AbstractChartProps {
   /**
    * Data for the chart.
    *
-   * Example from [docs](https://github.com/indiespirit/react-native-chart-kit#line-chart):
+   * Example from [docs](https://github.com/chart-kit/react-native-chart-kit#line-chart):
    *
    * ```javascript
    * const data = {
@@ -149,7 +149,7 @@ export interface LineChartProps extends AbstractChartProps {
    */
   transparent?: boolean;
   /**
-   * This function takes a [whole bunch](https://github.com/indiespirit/react-native-chart-kit/blob/master/src/charts/line/LineChart.tsx)
+   * This function takes a [whole bunch](https://github.com/chart-kit/react-native-chart-kit/blob/master/src/charts/line/LineChart.tsx)
    * of stuff and can render extra elements,
    * such as data point info or additional markup.
    */
@@ -172,7 +172,7 @@ export interface LineChartProps extends AbstractChartProps {
   /**
    * Add this prop to make the line chart smooth and curvy.
    *
-   * [Example](https://github.com/indiespirit/react-native-chart-kit#bezier-line-chart)
+   * [Example](https://github.com/chart-kit/react-native-chart-kit#bezier-line-chart)
    */
   bezier?: boolean;
   /**
