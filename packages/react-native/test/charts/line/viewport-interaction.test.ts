@@ -1,10 +1,10 @@
 import { describe, expect, it, vi } from "vitest";
 
 import {
-  getLineChartViewportPanDeltaPoints,
-  getLineChartViewportPinchZoomFactor,
-  resolveLineChartViewportInteractionConfig
-} from "../../../src/charts/line/viewportInteractionConfig";
+  getChartViewportPanDeltaPoints as getLineChartViewportPanDeltaPoints,
+  getChartViewportPinchZoomFactor as getLineChartViewportPinchZoomFactor,
+  resolveChartViewportInteractionConfig as resolveLineChartViewportInteractionConfig
+} from "../../../src/viewport/config";
 import { getRangeSelectorConfig } from "../../../src/charts/line/rangeSelectorConfig";
 
 describe("LineChart viewport interaction helpers", () => {
