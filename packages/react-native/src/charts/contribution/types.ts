@@ -20,6 +20,24 @@ export type ContributionGraphDayPressEvent<TData = LegacyContributionValue> = {
   raw?: TData;
 };
 
+export type ContributionGraphInteractionMode = "none" | "tap" | "pressAndDrag";
+
+export type ContributionGraphInteractionConfig<
+  TData = LegacyContributionValue
+> = {
+  mode?: ContributionGraphInteractionMode;
+  hitSlop?: number;
+  pointerOffset?: {
+    x?: number;
+    y?: number;
+  };
+  onSelect?: (event: ContributionGraphDayPressEvent<TData>) => void;
+};
+
+export type ContributionGraphInteraction<TData = LegacyContributionValue> =
+  | ContributionGraphInteractionMode
+  | ContributionGraphInteractionConfig<TData>;
+
 export type ContributionGraphColorRenderProps<TData = LegacyContributionValue> =
   {
     cell: ContributionHeatmapCell<TData>;
@@ -33,6 +51,15 @@ export type ContributionGraphCellModel<TData = LegacyContributionValue> =
     fill: string;
     opacity: number;
   };
+
+export type ContributionGraphActiveCellConfig = {
+  date?: string | number | Date;
+  index?: number;
+  opacity?: number;
+  scale?: number;
+  strokeColor?: string;
+  strokeWidth?: number;
+};
 
 export type ContributionGraphProps<
   TData extends LegacyContributionValue = LegacyContributionValue
@@ -53,9 +80,11 @@ export type ContributionGraphProps<
   preset?: CartesianChartPresetValue;
   colors?: string[];
   emptyColor?: string;
+  activeCell?: false | ContributionGraphActiveCellConfig;
   colorForValue?: (props: ContributionGraphColorRenderProps<TData>) => string;
   getMonthLabel?: (monthIndex: number, date: Date) => string;
   getWeekdayLabel?: (dayIndex: number) => string;
+  interaction?: ContributionGraphInteraction<TData>;
   onDayPress?: (event: ContributionGraphDayPressEvent<TData>) => void;
   renderer?: ContributionGraphRenderer;
   accessibilityLabel?: string;

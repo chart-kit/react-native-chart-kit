@@ -72,9 +72,13 @@ export type {
 export type {
   ContributionGraphDataTable,
   ContributionGraphDataTableRow,
+  ContributionGraphActiveCellConfig,
   ContributionGraphCellModel,
   ContributionGraphColorRenderProps,
   ContributionGraphDayPressEvent,
+  ContributionGraphInteraction,
+  ContributionGraphInteractionConfig,
+  ContributionGraphInteractionMode,
   ContributionGraphModel,
   ContributionGraphProps,
   ContributionGraphRenderer
