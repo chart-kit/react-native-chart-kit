@@ -2,11 +2,11 @@
 import { Check, ChevronLeft, ChevronRight, Copy } from "lucide-astro";
 
 const demoOptions = [
-  "Trading",
-  "Health",
-  "Developer",
-  "Analytics",
-  "Fitness"
+  { label: "Trading", src: "/videos/trading.mp4" },
+  { label: "Portfolio", src: "/videos/portfolio.mp4" },
+  { label: "Analytics", src: "/videos/analytics.mp4" },
+  { label: "Health", src: "/videos/health.mp4" },
+  { label: "Development", src: "/videos/development.mp4" }
 ];
 ---
 
@@ -196,7 +196,7 @@ const demoOptions = [
                   class="absolute top-1/2 left-1/2 cursor-pointer whitespace-nowrap text-[11px] font-medium text-white/35 opacity-0 transition-[opacity,transform,color,font-weight] duration-500 ease-out data-[active=true]:font-semibold data-[active=true]:text-white sm:text-xs [html[data-theme='light']_&]:text-black/35 [html[data-theme='light']_&]:data-[active=true]:text-black"
                   aria-current={index === 0 ? "true" : "false"}
                 >
-                  {option}
+                  {option.label}
                 </button>
               ))
             }
@@ -242,15 +242,15 @@ const demoOptions = [
                   data-phone-slide
                   data-demo-index={index}
                   data-active={index === 0 ? "true" : "false"}
-                  aria-label={`${option} phone preview`}
+                  aria-label={`${option.label} phone preview`}
                   aria-hidden={index === 0 ? "false" : "true"}
                 >
                   <video
                     class="h-full w-full object-cover"
-                    src="/videos/crypto.mp4"
+                    src={option.src}
                     muted
                     playsinline
-                    preload="auto"
+                    preload={index === 0 ? "auto" : "metadata"}
                     aria-hidden="true"
                   ></video>
                 </div>
