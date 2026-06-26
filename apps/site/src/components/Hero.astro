@@ -53,23 +53,23 @@ const demoOptions = [
           </span>
           <button
             type="button"
-            data-install-audience="agents"
+            data-install-audience="humans"
             data-active="true"
             class="relative z-10 h-7 cursor-pointer rounded-full text-[11px] font-semibold text-white/45 transition-colors data-[active=true]:text-black/88 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 [html[data-theme='light']_&]:text-black/45 [html[data-theme='light']_&]:data-[active=true]:text-white/92 [html[data-theme='light']_&]:hover:text-black [html[data-theme='light']_&]:focus-visible:outline-black/40"
             role="tab"
             aria-selected="true"
           >
-            For agents
+            For humans
           </button>
           <button
             type="button"
-            data-install-audience="humans"
+            data-install-audience="agents"
             data-active="false"
             class="relative z-10 h-7 cursor-pointer rounded-full text-[11px] font-semibold text-white/45 transition-colors data-[active=true]:text-black/88 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 [html[data-theme='light']_&]:text-black/45 [html[data-theme='light']_&]:data-[active=true]:text-white/92 [html[data-theme='light']_&]:hover:text-black [html[data-theme='light']_&]:focus-visible:outline-black/40"
             role="tab"
             aria-selected="false"
           >
-            For humans
+            For agents
           </button>
         </div>
 
@@ -77,6 +77,7 @@ const demoOptions = [
           class="w-full overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035] px-3 pt-2 pb-1.5 shadow-[0_16px_40px_rgba(0,0,0,0.22)] backdrop-blur-xl transition-colors duration-300 sm:px-4 sm:pt-3 sm:pb-2 sm:shadow-[0_24px_70px_rgba(0,0,0,0.32)] [html[data-theme='light']_&]:border-black/10 [html[data-theme='light']_&]:bg-black/[0.035] [html[data-theme='light']_&]:shadow-[0_16px_40px_rgba(0,0,0,0.06)] [html[data-theme='light']_&]:sm:shadow-[0_24px_70px_rgba(0,0,0,0.08)]"
         >
           <div
+            data-install-package-tabs
             class="flex max-w-full items-center gap-4 px-0.5 py-1"
             role="tablist"
             aria-label="Package manager"
@@ -85,8 +86,8 @@ const demoOptions = [
               type="button"
               data-install-pm
               data-active="true"
-              data-agent-command="npm install react-native-chart-kit@next react-native-svg"
-              data-human-command="npm install react-native-chart-kit@next react-native-svg"
+              data-agent-command="Coming soon"
+              data-human-command="npm install react-native-chart-kit react-native-svg"
               class="cursor-pointer text-[11px] font-medium text-white/35 transition data-[active=true]:font-bold data-[active=true]:text-white hover:text-white sm:text-xs [html[data-theme='light']_&]:text-black/35 [html[data-theme='light']_&]:data-[active=true]:text-black [html[data-theme='light']_&]:hover:text-black"
               role="tab"
               aria-selected="true"
@@ -96,8 +97,8 @@ const demoOptions = [
             <button
               type="button"
               data-install-pm
-              data-agent-command="yarn add react-native-chart-kit@next react-native-svg"
-              data-human-command="yarn add react-native-chart-kit@next react-native-svg"
+              data-agent-command="Coming soon"
+              data-human-command="yarn add react-native-chart-kit react-native-svg"
               class="cursor-pointer text-[11px] font-medium text-white/35 transition data-[active=true]:font-bold data-[active=true]:text-white hover:text-white sm:text-xs [html[data-theme='light']_&]:text-black/35 [html[data-theme='light']_&]:data-[active=true]:text-black [html[data-theme='light']_&]:hover:text-black"
               role="tab"
               aria-selected="false"
@@ -107,8 +108,8 @@ const demoOptions = [
             <button
               type="button"
               data-install-pm
-              data-agent-command="pnpm add react-native-chart-kit@next react-native-svg"
-              data-human-command="pnpm add react-native-chart-kit@next react-native-svg"
+              data-agent-command="Coming soon"
+              data-human-command="pnpm add react-native-chart-kit react-native-svg"
               class="cursor-pointer text-[11px] font-medium text-white/35 transition data-[active=true]:font-bold data-[active=true]:text-white hover:text-white sm:text-xs [html[data-theme='light']_&]:text-black/35 [html[data-theme='light']_&]:data-[active=true]:text-black [html[data-theme='light']_&]:hover:text-black"
               role="tab"
               aria-selected="false"
@@ -118,8 +119,8 @@ const demoOptions = [
             <button
               type="button"
               data-install-pm
-              data-agent-command="bun add react-native-chart-kit@next react-native-svg"
-              data-human-command="bun add react-native-chart-kit@next react-native-svg"
+              data-agent-command="Coming soon"
+              data-human-command="bun add react-native-chart-kit react-native-svg"
               class="cursor-pointer text-[11px] font-medium text-white/35 transition data-[active=true]:font-bold data-[active=true]:text-white hover:text-white sm:text-xs [html[data-theme='light']_&]:text-black/35 [html[data-theme='light']_&]:data-[active=true]:text-black [html[data-theme='light']_&]:hover:text-black"
               role="tab"
               aria-selected="false"
@@ -130,7 +131,7 @@ const demoOptions = [
 
           <div class="flex items-center gap-3 pt-3 pb-1.5 sm:pt-3.5 sm:pb-2">
             <pre
-              class="relative min-w-0 flex-1 overflow-x-hidden whitespace-pre-wrap break-words text-[12px] font-medium leading-5 text-white/85 [font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace] sm:overflow-x-auto sm:whitespace-pre sm:text-sm sm:leading-6 [html[data-theme='light']_&]:text-black/80"><code data-install-command class="inline-block will-change-transform">npm install react-native-chart-kit@next react-native-svg</code></pre>
+              class="relative min-w-0 flex-1 overflow-x-hidden whitespace-pre-wrap break-words text-[12px] font-medium leading-5 text-white/85 [font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace] sm:overflow-x-auto sm:whitespace-pre sm:text-sm sm:leading-6 [html[data-theme='light']_&]:text-black/80"><code data-install-command class="inline-block will-change-transform">npm install react-native-chart-kit react-native-svg</code></pre>
             <div class="group relative shrink-0">
               <button
                 type="button"
@@ -610,6 +611,9 @@ const demoOptions = [
         const buttons = Array.from(
           snippet.querySelectorAll<HTMLButtonElement>("[data-install-pm]")
         );
+        const packageTabs = snippet.querySelector<HTMLElement>(
+          "[data-install-package-tabs]"
+        );
         const audienceButtons = Array.from(
           snippet.querySelectorAll<HTMLButtonElement>("[data-install-audience]")
         );
@@ -624,7 +628,7 @@ const demoOptions = [
         let resetTimer: number | undefined;
         let activeAudience =
           audienceButtons.find((button) => button.dataset.active === "true")
-            ?.dataset.installAudience ?? "agents";
+            ?.dataset.installAudience ?? "humans";
         let commandAnimationVersion = 0;
         const reducedMotionQuery = window.matchMedia(
           "(prefers-reduced-motion: reduce)"
@@ -790,9 +794,30 @@ const demoOptions = [
             candidate.setAttribute("aria-selected", String(isActive));
           });
 
+          const isAgentsAudience = activeAudience === "agents";
+
+          if (packageTabs) {
+            packageTabs.hidden = isAgentsAudience;
+          }
+
+          copyButton.disabled = isAgentsAudience;
+          copyButton.hidden = isAgentsAudience;
+          copyButton.setAttribute(
+            "aria-label",
+            isAgentsAudience
+              ? "Agent install coming soon"
+              : "Copy install command"
+          );
+
+          if (tooltip) {
+            tooltip.textContent = isAgentsAudience
+              ? "Coming soon"
+              : "Copy command";
+          }
+
           if (audienceIndicator) {
             audienceIndicator.style.transform =
-              activeAudience === "humans"
+              activeAudience === "agents"
                 ? "translateX(100%)"
                 : "translateX(0)";
           }
@@ -810,7 +835,7 @@ const demoOptions = [
           resetCopiedState();
           syncCommand({
             axis: "x",
-            direction: activeAudience === "humans" ? 1 : -1
+            direction: activeAudience === "agents" ? 1 : -1
           });
         };
 

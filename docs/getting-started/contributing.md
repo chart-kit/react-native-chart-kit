@@ -11,7 +11,7 @@ the library in an app, start with the [Quickstart](installation.md).
 ## Repository Setup
 
 ```sh
-git clone git@github.com:indiespirit/react-native-chart-kit.git
+git clone git@github.com:chart-kit/react-native-chart-kit.git
 cd react-native-chart-kit
 npm install
 ```

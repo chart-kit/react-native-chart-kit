@@ -123,11 +123,11 @@ export default defineConfig({
           label: "Pro Charts",
           items: [
             { slug: docsSlug("charts/pro-installation") },
-            { slug: docsSlug("charts/export") },
             { slug: docsSlug("charts/candlebar") },
             { slug: docsSlug("charts/radar") },
             { slug: docsSlug("charts/realtime") },
             { slug: docsSlug("charts/combo") },
+            { slug: docsSlug("charts/export") },
             { slug: docsSlug("charts/pricing") }
           ]
         },
@@ -145,6 +145,10 @@ export default defineConfig({
             { slug: docsSlug("migration/from-v1") },
             { slug: docsSlug("migration/prop-mapping") }
           ]
+        },
+        {
+          label: "llms.txt",
+          link: "/llms.txt"
         }
       ],
       social: [{ icon: "github", label: "GitHub", href: repositoryUrl }],
