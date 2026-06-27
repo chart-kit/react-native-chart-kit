@@ -1,5 +1,13 @@
 # Changelog
 
+## v7.0.0-next.3
+
+- add ContributionGraph active-cell rendering for current preview flows
+- add `"top"` BarChart tooltip placement support
+- update docs, site navigation, and Pro integration examples for the current
+  v7 preview package
+- refresh public repo links and agent documentation for the moved preview app
+
 ## v7.0.0-next.2
 
 - republish the v7 Developer Preview package with the `react-native-chart-kit/v2`
