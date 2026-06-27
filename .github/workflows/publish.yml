@@ -140,7 +140,7 @@ jobs:
           for PACKAGE_DIR in packages/core packages/svg-renderer; do
             PACKAGE_NAME=$(node -p "require('./${PACKAGE_DIR}/package.json').name")
             PACKAGE_VERSION=$(node -p "require('./${PACKAGE_DIR}/package.json').version")
-            node scripts/check-npm-package-exists.mjs "${PACKAGE_NAME}" "${PACKAGE_VERSION}"
+            node scripts/check-npm-package-exists.mjs "${PACKAGE_NAME}" "${PACKAGE_VERSION}" --retries 12 --retry-delay-ms 10000
           done
 
       - name: Build
@@ -215,7 +215,7 @@ jobs:
           PACKAGE_VERSION: ${{ steps.package.outputs.version }}
 
       - name: Verify npm registry publish state
-        run: node scripts/check-npm-package-exists.mjs "${PACKAGE_NAME}" "${PACKAGE_VERSION}"
+        run: node scripts/check-npm-package-exists.mjs "${PACKAGE_NAME}" "${PACKAGE_VERSION}" --retries 12 --retry-delay-ms 10000
         env:
           PACKAGE_NAME: ${{ steps.package.outputs.name }}
           PACKAGE_VERSION: ${{ steps.package.outputs.version }}
