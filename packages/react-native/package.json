@@ -1,13 +1,28 @@
 {
   "name": "@chart-kit/react-native",
-  "version": "7.0.0-next.3",
+  "version": "7.0.0",
   "private": true,
-  "description": "Modern Chart Kit v2 React Native components.",
+  "description": "Modern React Native chart components assembled into the public react-native-chart-kit package.",
+  "keywords": [
+    "react-native",
+    "chart-kit",
+    "charts",
+    "charting",
+    "data-visualization",
+    "line-chart",
+    "bar-chart",
+    "pie-chart",
+    "progress-chart",
+    "dashboard",
+    "analytics",
+    "typescript"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/chart-kit/react-native-chart-kit",
     "directory": "packages/react-native"
   },
+  "homepage": "https://chartkit.io",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -28,13 +43,17 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@chart-kit/core": "7.0.0-next.3",
-    "@chart-kit/svg-renderer": "7.0.0-next.3"
+    "@chart-kit/core": "7.0.0",
+    "@chart-kit/svg-renderer": "7.0.0"
   },
   "peerDependencies": {
     "react": ">=19.1.0 <20",
     "react-native": ">=0.81 <1",
     "react-native-svg": ">=15.12.1 <16"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "author": "Berman Digital Ltd",
+  "bugs": {
+    "url": "https://github.com/chart-kit/react-native-chart-kit/issues"
+  }
 }

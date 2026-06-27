@@ -6,11 +6,11 @@ on:
       npm_tag:
         description: npm dist-tag to publish
         required: true
-        default: next
+        default: latest
         type: choice
         options:
-          - next
           - latest
+          - v6
 
 permissions:
   contents: write
@@ -23,10 +23,19 @@ jobs:
     steps:
       - name: Verify release branch
         run: |
-          if [ "${GITHUB_REF_NAME}" != "next" ]; then
-            echo "This workflow publishes react-native-chart-kit and must be run from the next branch."
-            exit 1
-          fi
+          case "${GITHUB_REF_NAME}:${{ inputs.npm_tag }}" in
+            main:latest)
+              echo "Publishing stable release from main with npm dist-tag latest."
+              ;;
+            maintenance/v6:v6)
+              echo "Publishing v6 maintenance release with npm dist-tag v6."
+              ;;
+            *)
+              echo "Publish stable releases from main with npm_tag=latest."
+              echo "Publish v6 maintenance releases from maintenance/v6 with npm_tag=v6."
+              exit 1
+              ;;
+          esac
 
       - name: Checkout
         uses: actions/checkout@v5

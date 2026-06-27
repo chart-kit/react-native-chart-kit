@@ -231,8 +231,7 @@ const demoOptions = [
           >
             <span
               class="absolute top-1/2 left-1/2 size-8 rounded-full opacity-85"
-              data-phone-loader-wheel
-            ></span>
+              data-phone-loader-wheel></span>
           </div>
           <div
             class="absolute inset-0 opacity-0 transition-opacity duration-500 ease-out"
@@ -256,7 +255,7 @@ const demoOptions = [
                     playsinline
                     preload={index === 0 ? "auto" : "metadata"}
                     aria-hidden="true"
-                  ></video>
+                  />
                 </div>
               ))
             }
@@ -342,12 +341,15 @@ const demoOptions = [
           carousel.parentElement?.querySelector<HTMLElement>(
             "[data-phone-stage]"
           );
-        const phoneScreen =
-          phoneStage?.querySelector<HTMLElement>("[data-phone-screen]");
-        const phoneTrack =
-          phoneStage?.querySelector<HTMLElement>("[data-phone-media-track]");
-        const phoneLoader =
-          phoneStage?.querySelector<HTMLElement>("[data-phone-loader]");
+        const phoneScreen = phoneStage?.querySelector<HTMLElement>(
+          "[data-phone-screen]"
+        );
+        const phoneTrack = phoneStage?.querySelector<HTMLElement>(
+          "[data-phone-media-track]"
+        );
+        const phoneLoader = phoneStage?.querySelector<HTMLElement>(
+          "[data-phone-loader]"
+        );
         const phoneSlides = Array.from(
           phoneStage?.querySelectorAll<HTMLElement>("[data-phone-slide]") ?? []
         );
@@ -396,9 +398,7 @@ const demoOptions = [
           });
         };
 
-        const scheduleNextDemoWhenVideoEnds = (
-          video: HTMLVideoElement
-        ) => {
+        const scheduleNextDemoWhenVideoEnds = (video: HTMLVideoElement) => {
           clearPendingVideoAdvance();
           const currentPlaybackVersion = playbackVersion;
           const advance = () => {
@@ -471,11 +471,7 @@ const demoOptions = [
               : `translate3d(${offset * 108}%, 0, 0)`;
             slide.style.zIndex = String(isActive ? 2 : 1);
 
-            if (
-              isActive &&
-              !wasActive &&
-              video instanceof HTMLVideoElement
-            ) {
+            if (isActive && !wasActive && video instanceof HTMLVideoElement) {
               video.currentTime = 0;
             }
           });
@@ -516,10 +512,13 @@ const demoOptions = [
             }
           };
 
-          window.setTimeout(() => {
-            hasLoaderSettled = true;
-            maybeReveal();
-          }, reducedMotionQuery.matches ? 120 : 920);
+          window.setTimeout(
+            () => {
+              hasLoaderSettled = true;
+              maybeReveal();
+            },
+            reducedMotionQuery.matches ? 120 : 920
+          );
 
           window.setTimeout(revealPhoneMedia, 1800);
 

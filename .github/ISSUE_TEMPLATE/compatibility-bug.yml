@@ -16,7 +16,7 @@ body:
     id: new_version
     attributes:
       label: Version that regressed
-      placeholder: 7.0.0-next.1
+      placeholder: 7.0.0
     validations:
       required: true
   - type: dropdown

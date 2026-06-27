@@ -30,9 +30,10 @@ describe("GitHub workflows", () => {
       expect(source, `${file} should install from package-lock.json`).toContain(
         "npm ci --ignore-scripts"
       );
-      expect(source, `${file} should not mutate package-lock.json`).not.toContain(
-        "npm install --ignore-scripts"
-      );
+      expect(
+        source,
+        `${file} should not mutate package-lock.json`
+      ).not.toContain("npm install --ignore-scripts");
     }
   });
 });

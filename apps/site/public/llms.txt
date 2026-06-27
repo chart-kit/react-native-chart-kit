@@ -53,4 +53,4 @@
 ## Source
 
 - [GitHub repository](https://github.com/chart-kit/react-native-chart-kit): Public source repository for React Native Chart Kit.
-- [Agent instructions](https://github.com/chart-kit/react-native-chart-kit/blob/master/AGENTS.md): Repository guidance for coding agents.
+- [Agent instructions](https://github.com/chart-kit/react-native-chart-kit/blob/main/AGENTS.md): Repository guidance for coding agents.

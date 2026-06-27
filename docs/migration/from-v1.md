@@ -40,7 +40,7 @@ import { LineChart } from "react-native-chart-kit";
 
 The compatibility promise covers the common public API, not undocumented internals, exact SVG node order, or layout bugs that made labels clip.
 
-## Modern API Preview
+## Modern API
 
 The modern object-row API is available from the same public package through the
 `react-native-chart-kit/v2` subpath.
@@ -78,17 +78,17 @@ v2 defaults prioritize correct mobile layout over pixel-perfect legacy spacing:
 
 Keep migrated charts on the legacy package path when they rely on old spacing during a transition. Do not use legacy spacing patterns for new charts.
 
-## Package Path During Preview
+## Package Paths
 
 The current repository has one intended public package path:
 
 - `react-native-chart-kit`: legacy-compatible root package for upgrade testing,
-  continuity, and future v2 promotion.
+  continuity, and modern chart adoption through the `/v2` subpath.
 
 The `@chart-kit/*` names remain internal workspace aliases only.
 
 ## Visual Review
 
-The Expo preview app and visual fixture suite live in the private
+The Expo demo app and visual fixture suite live in the private
 `chart-kit-pro` repository because they include Pro chart examples. This public
 repo keeps the compatibility code and unit coverage for the free package.

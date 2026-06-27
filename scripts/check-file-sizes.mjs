@@ -7,9 +7,7 @@ const defaultRepoRoot = process.cwd();
 const defaultMaxLines = 900;
 const scanRoots = ["apps", "examples", "packages", "scripts"];
 const sourceExtensions = new Set([".js", ".jsx", ".mjs", ".ts", ".tsx"]);
-const ignoredFiles = new Set([
-  "apps/site/src/previews/reactNativeWebStub.tsx"
-]);
+const ignoredFiles = new Set(["apps/site/src/previews/reactNativeWebStub.tsx"]);
 const ignoredDirectories = new Set([
   ".expo",
   ".next",

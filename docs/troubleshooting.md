@@ -15,9 +15,9 @@ Check that the chart has a real width and height. Most examples use fixed number
 
 If the chart is inside a flex layout, measure the parent with `onLayout` and pass the measured width to the chart.
 
-## Expo Go Says The Preview Is Incompatible
+## Expo Go Says The Demo App Is Incompatible
 
-The Expo preview app lives in the private `chart-kit-pro` repository because it
+The Expo demo app lives in the private `chart-kit-pro` repository because it
 combines free and Pro chart examples. If Expo Go cannot open that local app,
 update Expo Go, run `npm install` in `chart-kit-pro`, and start the preview with
 tunnel mode:
@@ -66,7 +66,7 @@ If a chart keeps old colors after changing the provider, check for hardcoded `se
 
 ## Visual Snapshot Changed
 
-The visual snapshot suite now lives with the private preview app in
+The visual snapshot suite now lives with the private demo app in
 `chart-kit-pro`. Run the snapshot update and verification commands there when a
 renderer, layout, label, or theme change affects the preview.
 

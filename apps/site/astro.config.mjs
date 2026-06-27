@@ -96,7 +96,7 @@ export default defineConfig({
       customCss: ["./src/styles/global.css", "./src/styles/starlight.css"],
       disable404Route: true,
       editLink: {
-        baseUrl: `${repositoryUrl}/edit/master/docs/`
+        baseUrl: `${repositoryUrl}/edit/main/docs/`
       },
       sidebar: [
         {

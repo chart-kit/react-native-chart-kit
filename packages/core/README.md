@@ -1,8 +1,8 @@
 # @chart-kit/core
 
-Private scaffold for the Chart Kit v2 renderer-agnostic core.
+Renderer-agnostic core utilities for React Native Chart Kit.
 
-This package will own:
+This package owns:
 
 - data normalization
 - series models

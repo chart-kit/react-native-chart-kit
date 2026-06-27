@@ -27,10 +27,7 @@ const privateReactNativeSurfaceNames = new Set([
   "getCombinedChartDataTable"
 ]);
 
-const privateReactNativeSurfacePrefixes = [
-  "CandlestickChart",
-  "CombinedChart"
-];
+const privateReactNativeSurfacePrefixes = ["CandlestickChart", "CombinedChart"];
 
 const pathExists = async (filePath) => {
   try {
@@ -98,7 +95,9 @@ for (const file of files) {
 
   while ((match = importPattern.exec(source)) !== null) {
     const names = parseImportNames(match.groups?.body ?? "");
-    const privateSurfaceNames = names.filter(shouldUsePrivateReactNativeSurface);
+    const privateSurfaceNames = names.filter(
+      shouldUsePrivateReactNativeSurface
+    );
 
     if (privateSurfaceNames.length > 0) {
       violations.push({
@@ -124,6 +123,4 @@ if (violations.length > 0) {
 }
 
 console.log("Private surface import boundary check passed.");
-console.log(
-  `Scanned ${files.length} public docs and docs-example files.`
-);
+console.log(`Scanned ${files.length} public docs and docs-example files.`);

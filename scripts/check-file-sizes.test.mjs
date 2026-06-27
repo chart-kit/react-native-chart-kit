@@ -3,10 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
-import {
-  checkFileSizes,
-  formatFileSizeReport
-} from "./check-file-sizes.mjs";
+import { checkFileSizes, formatFileSizeReport } from "./check-file-sizes.mjs";
 
 const createFixtureRepo = async () => {
   const repoRoot = await mkdtemp(join(tmpdir(), "chartkit-file-size-"));

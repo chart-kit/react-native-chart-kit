@@ -1,6 +1,6 @@
 # @chart-kit/svg-renderer
 
-Private scaffold for Chart Kit v2 SVG renderer primitives.
+SVG renderer primitives for React Native Chart Kit.
 
 This package owns the free default renderer adapter around `react-native-svg`.
 

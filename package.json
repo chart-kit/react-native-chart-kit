@@ -1,6 +1,39 @@
 {
   "name": "react-native-chart-kit",
-  "version": "7.0.0-next.3",
+  "version": "7.0.0",
+  "description": "Composable React Native charts with SVG defaults, interaction primitives, themes, and migration-friendly APIs.",
+  "keywords": [
+    "react-native",
+    "react",
+    "chart",
+    "charts",
+    "charting",
+    "chart-kit",
+    "data-visualization",
+    "dataviz",
+    "visualization",
+    "graph",
+    "graphs",
+    "line-chart",
+    "area-chart",
+    "bar-chart",
+    "pie-chart",
+    "donut-chart",
+    "progress-chart",
+    "contribution-graph",
+    "heatmap",
+    "dashboard",
+    "analytics",
+    "time-series",
+    "mobile",
+    "ios",
+    "android",
+    "svg",
+    "react-native-svg",
+    "typescript",
+    "interactive-charts",
+    "accessibility"
+  ],
   "workspaces": [
     "packages/*",
     "apps/site"
@@ -130,9 +163,13 @@
     "node": ">=20.19.4"
   },
   "license": "MIT",
-  "homepage": "https://github.com/chart-kit/react-native-chart-kit",
+  "author": "Berman Digital Ltd",
+  "homepage": "https://chartkit.io",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/chart-kit/react-native-chart-kit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chart-kit/react-native-chart-kit/issues"
   }
 }

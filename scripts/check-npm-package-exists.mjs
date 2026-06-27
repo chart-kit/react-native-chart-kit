@@ -42,7 +42,8 @@ export const getPackageExistsStatus = async ({
   if (!name || !version) {
     return {
       code: 2,
-      message: "Usage: node scripts/check-npm-package-exists.mjs <package-name> <version>",
+      message:
+        "Usage: node scripts/check-npm-package-exists.mjs <package-name> <version>",
       status: "invalid-args"
     };
   }

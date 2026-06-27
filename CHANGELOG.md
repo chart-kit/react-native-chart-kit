@@ -1,66 +1,24 @@
 # Changelog
 
-## v7.0.0-next.3
+## v7.0.0
 
-- add ContributionGraph active-cell rendering for current preview flows
-- add `"top"` BarChart tooltip placement support
-- update docs, site navigation, and Pro integration examples for the current
-  v7 preview package
-- refresh public repo links and agent documentation for the moved preview app
-
-## v7.0.0-next.2
-
-- republish the v7 Developer Preview package with the `react-native-chart-kit/v2`
-  subpath exposed for Pro package typechecking and docs builds
-- keep the Cloudflare Pages docs deployment wired to the GitHub site workflow
-
-## v7.0.0-next.1
-
-- remove deprecated row-by-row native QA matrix tooling from the active release process
-- add a concise H6 RC readiness packet that keeps stable-release approval separate from Developer Preview
-- keep Developer Preview verification focused on smoke-test notes and release-gate output
-- publish `7.0.0-next.1` under the `next` dist-tag and record npm evidence
-- require the full H6 owner decision set for release-candidate approval
-- guard the required CKV2 command surface and Developer Preview publish manifest in tests
-- guard the release-gate-required package scripts and GitHub issue-template
-  fields in tests
-- verify the main CI workflow in the release gate so required lint, security,
-  typecheck, test, e2e, surface, docs, RN CLI, benchmark, and build checks do
-  not drift
-- add a local Developer Preview publish preflight that runs the preview gate,
-  rebuilds packages, pack-checks all release packages, and verifies the expected
-  pre-publish npm registry state
-- harden npm publish checks so registry/network errors fail instead of being
-  treated as unpublished packages
-- verify the selected npm dist-tag after publish and require current-version
-  changelog notes before creating GitHub release notes
-- run the selected release gate inside the publish workflow before package-state
-  checks or npm writes
-- block `next` publishes unless H5 owner approval has been recorded and block
-  `latest` publishes unless H6 owner approval has been recorded
-- record post-publish npm evidence through `npm run release:publish:evidence`
-  and upload the generated evidence JSON from the `next` publish workflow
-- guard package manifest entries, package order, package versions, and the
-  Pro/Skia unpublished boundary in tests
-- use lockfile-based `npm ci --ignore-scripts` installs with npm caching in CI,
-  native-release, and publish workflows
-- record the latest high/critical npm security audit result while keeping the
-  known moderate Expo/PostCSS advisory documented
-- rename release docs and publish-manifest fields from beta wording to Developer Preview wording
-- keep Pro and Skia unpublished while preserving pack checks and preview evidence
-
-## v7.0.0-next.0
-
-- publish the rebuild line under the `@chart-kit/react-native` npm package
+- promote the v7 chart rebuild to the stable `latest` release line
+- expose modern charts through the `react-native-chart-kit/v2` package subpath
+- keep the legacy root import available for existing `LineChart`, `BarChart`,
+  `StackedBarChart`, `PieChart`, `ProgressChart`, and `ContributionGraph`
+  screens
 - update the support matrix to React 19, React Native 0.83+, and react-native-svg 15
 - modernize package tooling and remove the legacy Expo 37 root demo setup
 - add renderer-agnostic core packages for normalization, scales, layout, geometry, interaction, and benchmarks
 - add modern LineChart and AreaChart with multi-series data, null gaps, smart labels, tooltips, crosshair, scrollable viewports, pan/zoom controls, range selector, markers, reference overlays, thresholds, decimation, and accessibility helpers
 - add modern BarChart with grouped, stacked, 100% stacked, horizontal, negative, scrollable, selectable, animated, and themed examples
-- add PieChart, DonutChart, ProgressChart, ContributionGraph, CombinedChart, and CandlestickChart preview foundations with opt-in calendar-aware session-gap markers for dated candles
-- add Expo showcase and Playwright visual regression coverage for modern and compatibility fixtures
+- add PieChart, DonutChart, ProgressChart, ContributionGraph, CombinedChart, and CandlestickChart foundations with opt-in calendar-aware session-gap markers for dated candles
+- add ContributionGraph active-cell rendering and `"top"` BarChart tooltip placement support
+- add Expo showcase coverage for modern and compatibility fixtures
 - add v1 migration docs, prop mapping, production recipes, troubleshooting,
-  Developer Preview checklist, known issues, and issue templates
+  known issues, and issue templates
+- deploy the ChartKit.io docs site through Cloudflare Pages with live examples,
+  Pro integration docs, and public package release gates
 
 ## v6.12.2
 

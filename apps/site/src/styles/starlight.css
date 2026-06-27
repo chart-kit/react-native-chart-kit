@@ -11,8 +11,9 @@
 :root {
   --chart-kit-brand-blue: #0055da;
   --chart-kit-brand-blue-soft: #8ab6ff;
-  --sl-font: "SF Pro Text", "SF Pro Display", -apple-system,
-    BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  --sl-font:
+    "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont,
+    "Helvetica Neue", Arial, sans-serif;
   --sl-content-width: 58rem;
   --sl-sidebar-width: 17rem;
   --sl-content-pad-x: 2.5rem;
@@ -86,8 +87,14 @@ body {
 .site-title,
 .sl-markdown-content :is(h1, h2, h3, h4, h5, h6) {
   font-family:
-    "Satoshi", "SF Pro Display", "SF Pro Text", -apple-system,
-    BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    "Satoshi",
+    "SF Pro Display",
+    "SF Pro Text",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
   letter-spacing: 0.005em;
 }
 

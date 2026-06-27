@@ -118,7 +118,9 @@ if (!packageJson.exports?.["./v2"]) {
 }
 
 if (packageJson.exports["./v2"].default !== "./v2/index.js") {
-  throw new Error("react-native-chart-kit ./v2 must expose the physical v2 shim");
+  throw new Error(
+    "react-native-chart-kit ./v2 must expose the physical v2 shim"
+  );
 }
 
 const rootExportPaths = Object.keys(packageJson.exports ?? {}).sort();
@@ -137,7 +139,11 @@ if (v2PackageJson.name !== "@chart-kit/react-native") {
   throw new Error(`Unexpected v2 package name: ${v2PackageJson.name}`);
 }
 
-for (const workspacePackageJson of [corePackageJson, svgPackageJson, v2PackageJson]) {
+for (const workspacePackageJson of [
+  corePackageJson,
+  svgPackageJson,
+  v2PackageJson
+]) {
   if (
     !workspacePackageJson.exports?.["."] ||
     !workspacePackageJson.exports?.["./package.json"]

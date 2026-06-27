@@ -25,7 +25,7 @@ describe("npm package existence checker", () => {
           errorKind: "not-found",
           exists: false
         }),
-        version: "7.0.0-next.1"
+        version: "7.0.0"
       })
     ).resolves.toMatchObject({
       code: 1,
@@ -42,7 +42,7 @@ describe("npm package existence checker", () => {
           errorKind: "registry-error",
           exists: false
         }),
-        version: "7.0.0-next.1"
+        version: "7.0.0"
       })
     ).resolves.toMatchObject({
       code: 2,
