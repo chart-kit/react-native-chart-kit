@@ -1,7 +1,7 @@
 {
   "name": "react-native-chart-kit",
-  "version": "7.0.0",
-  "description": "Composable React Native charts with SVG defaults, interaction primitives, themes, and migration-friendly APIs.",
+  "version": "7.0.1",
+  "description": "Beautiful React Native charts for dashboards, reports, and data-rich mobile apps.",
   "keywords": [
     "react-native",
     "react",

@@ -6,8 +6,9 @@
   <h1>React Native Chart Kit</h1>
 
   <p>
-    Beautiful charts for React Native. SVG by default, interaction-ready, and
-    built for modern app screens.
+    Beautiful charts for React Native. Line, area, bar, pie, donut, progress,
+    and contribution heatmaps for dashboards, reports, and data-rich mobile
+    apps.
   </p>
 
   <p>

@@ -1,5 +1,10 @@
 # Changelog
 
+## v7.0.1
+
+- refresh the npm README and package description with clearer chart coverage
+  messaging
+
 ## v7.0.0
 
 - promote the v7 chart rebuild to the stable `latest` release line

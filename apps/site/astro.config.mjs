@@ -89,7 +89,7 @@ export default defineConfig({
     starlight({
       title: "React Native Chart Kit",
       description:
-        "Composable React Native charts with SVG defaults, interaction primitives, and migration-friendly APIs.",
+        "Beautiful React Native charts for dashboards, reports, and data-rich mobile apps.",
       components: {
         Head: "./src/components/Head.astro"
       },
