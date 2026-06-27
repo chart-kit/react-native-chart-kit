@@ -4,7 +4,7 @@ on:
   pull_request:
   push:
     branches:
-      - master
+      - maintenance/v6
 
 jobs:
   build:

@@ -2,6 +2,14 @@ name: Publish to npm
 
 on:
   workflow_dispatch:
+    inputs:
+      npm_tag:
+        description: npm dist-tag to publish
+        required: true
+        default: v6
+        type: choice
+        options:
+          - v6
 
 permissions:
   contents: write
@@ -12,6 +20,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Verify release branch
+        run: |
+          if [ "${GITHUB_REF_NAME}" != "maintenance/v6" ] || [ "${{ inputs.npm_tag }}" != "v6" ]; then
+            echo "Publish v6 maintenance releases from maintenance/v6 with npm_tag=v6."
+            exit 1
+          fi
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -20,6 +35,17 @@ jobs:
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
+
+      - name: Verify npm publish access
+        run: |
+          if [ -z "${NODE_AUTH_TOKEN:-}" ]; then
+            echo "NPM_TOKEN is not configured for this repository or environment."
+            exit 1
+          fi
+
+          npm whoami
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Install dependencies
         run: npm install --legacy-peer-deps --ignore-scripts
@@ -52,7 +78,10 @@ jobs:
           fi
 
       - name: Publish
-        run: npm publish --provenance
+        run: npm publish --provenance --tag "${NPM_TAG}"
+        env:
+          NPM_TAG: ${{ inputs.npm_tag }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub release
         env:
