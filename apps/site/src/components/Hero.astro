@@ -2,11 +2,11 @@
 import { Check, ChevronLeft, ChevronRight, Copy } from "lucide-astro";
 
 const demoOptions = [
-  { label: "Trading", src: "/videos/trading.mp4" },
-  { label: "Portfolio", src: "/videos/portfolio.mp4" },
-  { label: "Analytics", src: "/videos/analytics.mp4" },
-  { label: "Health", src: "/videos/health.mp4" },
-  { label: "Development", src: "/videos/development.mp4" }
+  { label: "Trading", src: "/videos/trading.mp4", screenBg: "#111525" },
+  { label: "Portfolio", src: "/videos/portfolio.mp4", screenBg: "#0a1110" },
+  { label: "Analytics", src: "/videos/analytics.mp4", screenBg: "#f4f5fa" },
+  { label: "Health", src: "/videos/health.mp4", screenBg: "#f4f5fa" },
+  { label: "Development", src: "/videos/development.mp4", screenBg: "#f0f3fa" }
 ];
 ---
 
@@ -193,6 +193,7 @@ const demoOptions = [
                   type="button"
                   data-demo-option
                   data-demo-index={index}
+                  data-screen-bg={option.screenBg}
                   data-active={index === 0 ? "true" : "false"}
                   class="absolute top-1/2 left-1/2 cursor-pointer whitespace-nowrap text-[11px] font-medium text-white/35 opacity-0 transition-[opacity,transform,color,font-weight] duration-500 ease-out data-[active=true]:font-semibold data-[active=true]:text-white sm:text-xs [html[data-theme='light']_&]:text-black/35 [html[data-theme='light']_&]:data-[active=true]:text-black"
                   aria-current={index === 0 ? "true" : "false"}
@@ -213,13 +214,14 @@ const demoOptions = [
         </button>
       </div>
       <div
-        class="relative aspect-[440/916] w-[min(59vw,258px)] max-w-none drop-shadow-[0_40px_80px_rgba(0,0,0,0.65)] sm:w-[282px] md:w-[310px] lg:w-[min(24vw,315px)] xl:w-[330px]"
+        class="relative aspect-[908/1880] w-[min(59vw,258px)] max-w-none drop-shadow-[0_40px_80px_rgba(0,0,0,0.65)] sm:w-[282px] md:w-[310px] lg:w-[min(24vw,315px)] xl:w-[330px]"
         data-phone-stage
         data-ready="false"
       >
         <div
-          class="absolute top-[1.7%] right-[3%] bottom-[1.55%] left-[3%] z-40 overflow-hidden bg-black"
+          class="absolute top-[0.691%] right-[3.386%] bottom-[1.383%] left-[3.386%] z-20 overflow-hidden bg-black"
           data-phone-screen
+          style={`background-color: ${demoOptions[0].screenBg}`}
         >
           <div
             class="absolute inset-0 z-10 bg-black opacity-100 transition-opacity duration-500 ease-out data-[hidden=true]:pointer-events-none data-[hidden=true]:opacity-0"
@@ -239,15 +241,16 @@ const demoOptions = [
             {
               demoOptions.map((option, index) => (
                 <div
-                  class="absolute inset-0 will-change-transform"
+                  class="absolute -inset-px will-change-transform"
                   data-phone-slide
                   data-demo-index={index}
+                  style={`background-color: ${option.screenBg}`}
                   data-active={index === 0 ? "true" : "false"}
                   aria-label={`${option.label} phone preview`}
                   aria-hidden={index === 0 ? "false" : "true"}
                 >
                   <video
-                    class="h-full w-full object-cover"
+                    class="block h-full w-full object-cover"
                     src={option.src}
                     muted
                     playsinline
@@ -277,12 +280,7 @@ const demoOptions = [
   }
 
   [data-phone-screen] {
-    border-radius: 13% / 6.1%;
-  }
-
-  [data-phone-screen] video {
-    transform: scale(1.015);
-    transform-origin: center;
+    border-radius: 17.84% / 8.2%;
   }
 
   [data-phone-loader-wheel] {
@@ -344,6 +342,8 @@ const demoOptions = [
           carousel.parentElement?.querySelector<HTMLElement>(
             "[data-phone-stage]"
           );
+        const phoneScreen =
+          phoneStage?.querySelector<HTMLElement>("[data-phone-screen]");
         const phoneTrack =
           phoneStage?.querySelector<HTMLElement>("[data-phone-media-track]");
         const phoneLoader =
@@ -450,6 +450,11 @@ const demoOptions = [
           if (!phoneSlides.length) {
             return;
           }
+
+          phoneScreen?.style.setProperty(
+            "background-color",
+            options[activeIndex]?.dataset.screenBg ?? "#000"
+          );
 
           phoneSlides.forEach((slide, index) => {
             const offset = getCircularOffset(index);
