@@ -1,0 +1,4 @@
+interface:
+  display_name: "React Native Chart Kit"
+  short_description: "Build, fix, and document React Native Chart Kit charts."
+  default_prompt: "Use this skill to build, fix, or document a React Native Chart Kit chart."
