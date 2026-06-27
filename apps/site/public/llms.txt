@@ -1,0 +1,56 @@
+# ChartKit.io
+
+> ChartKit.io is the documentation and product site for React Native Chart Kit, a composable charting library for React Native. The public `react-native-chart-kit` package includes MIT-licensed v2 charts, SVG rendering defaults, interaction primitives, themes, and migration-friendly APIs. Chart Kit Pro adds commercially licensed chart workflows such as candlebar, radar, realtime bar, combo charts, export APIs, and optional Skia rendering.
+
+## Overview
+
+- [Home](https://chartkit.io/): Product overview, supported charts, feature highlights, and plan comparison.
+- [Documentation](https://chartkit.io/docs/react-native/): Main React Native Chart Kit documentation hub.
+- [Quickstart](https://chartkit.io/docs/react-native/getting-started/installation): Install `react-native-chart-kit`, `react-native-svg`, and render a first chart.
+- [Contributing](https://chartkit.io/docs/react-native/getting-started/contributing): Set up the repository and run local development checks.
+- [Troubleshooting](https://chartkit.io/docs/react-native/troubleshooting): Diagnose blank charts, Expo compatibility, gesture behavior, and migration issues.
+
+## Installation
+
+- [Public package quickstart](https://chartkit.io/docs/react-native/getting-started/installation): Install the free MIT package for public chart families.
+- [Pro installation](https://chartkit.io/docs/react-native/charts/pro-installation): Install `@chart-kit/pro` next to `react-native-chart-kit` for licensed Pro chart workflows.
+- [Pricing and plans](https://chartkit.io/docs/react-native/charts/pricing): Compare Free, Pro, and Enterprise scope.
+
+## Public Charts
+
+- [Line chart](https://chartkit.io/docs/react-native/charts/line): Show trends, forecasts, null gaps, selection, and changes over time.
+- [Area chart](https://chartkit.io/docs/react-native/charts/area): Show filled trends where magnitude and direction both matter.
+- [Bar chart](https://chartkit.io/docs/react-native/charts/bar): Compare category totals, rankings, grouped bars, stacked bars, and horizontal bars.
+- [Pie chart](https://chartkit.io/docs/react-native/charts/pie): Render segmented pie charts with legends, labels, and tap selection.
+- [Donut chart](https://chartkit.io/docs/react-native/charts/donut): Render donut charts with center labels, legends, and tap selection.
+- [Progress chart](https://chartkit.io/docs/react-native/charts/progress): Show circular progress values with labels and accessible output.
+- [Contribution heatmap](https://chartkit.io/docs/react-native/charts/contribution-heatmap): Render calendar-style activity and intensity data.
+- [Legacy charts](https://chartkit.io/docs/react-native/charts/legacy): Old root-import chart examples for the legacy-compatible API.
+
+## Pro Charts
+
+- [Candlebar chart](https://chartkit.io/docs/react-native/charts/candlebar): Inspect OHLC price movement, wicks, volume, and crosshair readouts.
+- [Radar chart](https://chartkit.io/docs/react-native/charts/radar): Compare KPI profiles, benchmarks, and capability scores.
+- [Realtime bar chart](https://chartkit.io/docs/react-native/charts/realtime): Stream rolling bar windows with realtime chart APIs.
+- [Combo chart](https://chartkit.io/docs/react-native/charts/combo): Compare bars and lines together in one chart.
+- [Export APIs](https://chartkit.io/docs/react-native/charts/export): Export Pro charts as PNG or SVG for reports, sharing, and background generation.
+
+## Guides
+
+- [Themes](https://chartkit.io/docs/react-native/charts/themes): Share colors, typography, presets, and renderer choices across chart surfaces.
+- [Accessibility](https://chartkit.io/docs/react-native/charts/accessibility): Make chart screens understandable to screen readers and assistive technologies.
+- [Migration from v1](https://chartkit.io/docs/react-native/migration/from-v1): Move existing screens toward the modern v2 API.
+- [Prop mapping](https://chartkit.io/docs/react-native/migration/prop-mapping): Map legacy chart props to modern v2 equivalents.
+
+## Packages
+
+- [`react-native-chart-kit`](https://www.npmjs.com/package/react-native-chart-kit): Public MIT React Native chart package.
+- [`@chart-kit/core`](https://www.npmjs.com/package/@chart-kit/core): Public MIT chart geometry and shared core package.
+- [`@chart-kit/svg-renderer`](https://www.npmjs.com/package/@chart-kit/svg-renderer): Public MIT SVG renderer package.
+- [`@chart-kit/pro`](https://www.npmjs.com/package/@chart-kit/pro): Publicly installable commercial Pro chart package.
+- [`@chart-kit/skia-renderer`](https://www.npmjs.com/package/@chart-kit/skia-renderer): Commercial optional Skia renderer package for Pro workflows.
+
+## Source
+
+- [GitHub repository](https://github.com/chart-kit/react-native-chart-kit): Public source repository for React Native Chart Kit.
+- [Agent instructions](https://github.com/chart-kit/react-native-chart-kit/blob/main/AGENTS.md): Repository guidance for coding agents.

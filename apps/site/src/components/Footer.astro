@@ -1,0 +1,152 @@
+---
+import { ChevronsUpDown } from "lucide-astro";
+
+const { homeHrefPrefix = "" } = Astro.props;
+const hrefFor = (href: string) =>
+  href.startsWith("#") ? `${homeHrefPrefix}${href}` : href;
+
+const footerGroups = [
+  {
+    title: "Product",
+    links: [
+      {
+        href: "#charts",
+        label: "Charts"
+      },
+      {
+        href: "#features",
+        label: "Features"
+      },
+      {
+        href: "#pricing",
+        label: "Pricing"
+      },
+      {
+        href: "/docs/react-native",
+        label: "Docs"
+      }
+    ]
+  },
+  {
+    title: "Company",
+    links: [
+      {
+        href: "/docs/react-native/migration/from-v1",
+        label: "Migration"
+      },
+      {
+        href: "/docs/react-native/getting-started/contributing",
+        label: "Contributing"
+      },
+      {
+        href: "/docs/react-native/troubleshooting",
+        label: "Support"
+      }
+    ]
+  },
+  {
+    title: "Contact",
+    links: [
+      {
+        href: "https://github.com/chart-kit/react-native-chart-kit",
+        label: "GitHub"
+      },
+      {
+        href: "mailto:support@chartkit.io",
+        label: "Email"
+      },
+      {
+        href: "mailto:sales@chartkit.io",
+        label: "Sales"
+      }
+    ]
+  }
+];
+---
+
+<footer
+  class="bg-black text-white transition-colors duration-300 [html[data-theme='light']_&]:bg-white [html[data-theme='light']_&]:text-black"
+>
+  <div
+    class="mx-auto max-w-[1320px] px-6 pt-14 pb-8 sm:px-8 sm:pt-20 sm:pb-10 md:px-10 lg:px-12 xl:px-16"
+  >
+    <div>
+      <nav
+        class="mx-auto grid w-full max-w-[520px] grid-cols-2 justify-items-start gap-x-10 gap-y-10 max-sm:px-5 sm:max-w-none sm:grid-cols-3 sm:justify-items-center sm:gap-x-16 md:gap-x-24 lg:gap-x-32 xl:gap-x-40"
+        aria-label="Footer"
+      >
+        {
+          footerGroups.map((group, index) => (
+            <div
+              class:list={[
+                "text-left",
+                index === 2 && "col-span-2 sm:col-span-1"
+              ]}
+            >
+              <h2 class="text-sm font-semibold tracking-[-0.01em] text-white transition-colors duration-300 [html[data-theme='light']_&]:text-black">
+                {group.title}
+              </h2>
+              <ul class="mt-4 space-y-3 sm:mt-6 sm:space-y-4">
+                {group.links.map((link) => (
+                  <li>
+                    <a
+                      href={hrefFor(link.href)}
+                      class="text-sm font-medium text-white/42 transition-colors hover:text-white [html[data-theme='light']_&]:text-black/42 [html[data-theme='light']_&]:hover:text-black"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </nav>
+    </div>
+
+    <div
+      class="mt-10 h-px bg-gradient-to-r from-transparent via-white/14 to-transparent transition-colors duration-300 sm:mt-16 [html[data-theme='light']_&]:via-black/12"
+    >
+    </div>
+
+    <div
+      class="mx-auto flex max-w-[960px] flex-col items-center gap-4 pt-6 text-center text-sm text-white/42 transition-colors duration-300 sm:flex-row sm:justify-between sm:pt-8 sm:text-left [html[data-theme='light']_&]:text-black/42"
+    >
+      <p class="leading-5">
+        © 2026 React Native Chart Kit. All rights reserved
+      </p>
+
+      <div
+        class="flex flex-wrap items-center justify-center gap-x-5 gap-y-3 sm:justify-end sm:gap-x-7"
+      >
+        <a
+          href="mailto:privacy@chartkit.io"
+          class="font-medium transition-colors hover:text-white [html[data-theme='light']_&]:hover:text-black"
+        >
+          Privacy Policy
+        </a>
+        <a
+          href="mailto:legal@chartkit.io"
+          class="font-medium transition-colors hover:text-white [html[data-theme='light']_&]:hover:text-black"
+        >
+          Terms of Service
+        </a>
+        <button
+          type="button"
+          data-theme-toggle
+          class="inline-flex cursor-pointer items-center gap-1.5 font-medium transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/45 [html[data-theme='light']_&]:hover:text-black [html[data-theme='light']_&]:focus-visible:outline-black/40"
+        >
+          <span class="[html[data-theme='light']_&]:hidden">Dark theme</span>
+          <span class="hidden [html[data-theme='light']_&]:inline"
+            >Light theme</span
+          >
+          <ChevronsUpDown size={16} stroke-width={2} aria-hidden="true" />
+        </button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  import "../theme-switch";
+</script>

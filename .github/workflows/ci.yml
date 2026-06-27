@@ -4,7 +4,8 @@ on:
   pull_request:
   push:
     branches:
-      - master
+      - main
+      - next
 
 jobs:
   build:
@@ -12,15 +13,40 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
+          cache: npm
 
       - name: Install dependencies
-        run: npm install --legacy-peer-deps --ignore-scripts
+        run: npm ci --ignore-scripts
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Security audit
+        run: npm run security:audit
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm run test
+
+      - name: Surface
+        run: npm run surface:check
+
+      - name: Docs
+        run: npm run docs:build
+
+      - name: React Native CLI example
+        run: npm run example:rn-cli:typecheck
+
+      - name: Benchmark
+        run: npm run benchmark
 
       - name: Build
         run: npm run build

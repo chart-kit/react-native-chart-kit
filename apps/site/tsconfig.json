@@ -1,0 +1,14 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@chart-kit/core": ["../../packages/core/src/index.ts"],
+      "@chart-kit/svg-renderer": ["../../packages/svg-renderer/src/index.ts"],
+      "react-native-chart-kit/v2": ["../../packages/react-native/src/index.ts"]
+    },
+    "strict": true
+  },
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist"]
+}

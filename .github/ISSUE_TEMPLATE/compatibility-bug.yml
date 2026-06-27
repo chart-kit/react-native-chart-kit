@@ -1,0 +1,72 @@
+name: Compatibility bug
+description: Report a v1 chart usage that regressed while migrating to v2.
+title: "[Compatibility]: "
+labels:
+  - compatibility
+  - needs-reproduction
+body:
+  - type: input
+    id: old_version
+    attributes:
+      label: Version that worked
+      placeholder: react-native-chart-kit 6.12.2
+    validations:
+      required: true
+  - type: input
+    id: new_version
+    attributes:
+      label: Version that regressed
+      placeholder: 7.0.0
+    validations:
+      required: true
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - LineChart
+        - BarChart
+        - StackedBarChart
+        - PieChart
+        - ProgressChart
+        - ContributionGraph
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: legacy_props
+    attributes:
+      label: Legacy props and data
+      description: Include the smallest v1 props/data sample that reproduces the difference.
+      render: tsx
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Before and after screenshots
+      description: Attach a screenshot from the old version and one from the new version.
+    validations:
+      required: true
+  - type: dropdown
+    id: compatibility_tried
+    attributes:
+      label: Did you try compatibility props?
+      options:
+        - "Yes"
+        - "No"
+        - Not available for this chart
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected compatibility behavior
+      description: Explain whether you need old behavior exactly or only need the chart to preserve the common API/data shape.
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional notes
+      description: Include warnings, stack traces, or migration blockers.

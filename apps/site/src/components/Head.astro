@@ -1,0 +1,138 @@
+---
+import GoogleAnalytics from "./GoogleAnalytics.astro";
+import ThemeInit from "./ThemeInit.astro";
+
+const { head } = Astro.locals.starlightRoute;
+const isDev = import.meta.env.DEV;
+const reactRefreshPreamble = `
+  import RefreshRuntime from "/@react-refresh";
+  RefreshRuntime.injectIntoGlobalHook(window);
+  window.$RefreshReg$ = () => {};
+  window.$RefreshSig$ = () => (type) => type;
+  window.__vite_plugin_react_preamble_installed__ = true;
+`;
+---
+
+<ThemeInit />
+<GoogleAnalytics />
+<style is:inline>
+  html {
+    background: #0b0c11;
+    color-scheme: dark;
+  }
+
+  body {
+    background: #0b0c11;
+  }
+
+  .header {
+    background-color: #08090d;
+  }
+
+  .sidebar-pane {
+    background-color: #11131a;
+  }
+
+  .sidebar-content [aria-current="page"] {
+    background-color: rgba(120, 168, 255, 0.14);
+    color: #d8e6ff;
+  }
+
+  .sidebar-content
+    a:is(
+      [href$="/charts/export/"],
+      [href$="/charts/candlebar/"],
+      [href$="/charts/radar/"],
+      [href$="/charts/realtime/"],
+      [href$="/charts/combo/"]
+    )::after {
+    flex: 0 0 auto;
+    margin-inline-start: auto;
+    border: 1px solid rgba(0, 85, 218, 0.38);
+    border-radius: 999px;
+    background: rgba(0, 85, 218, 0.16);
+    color: #8ab6ff;
+    content: "Pro";
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0;
+    line-height: 1;
+    padding: 0.18rem 0.38rem;
+    text-transform: uppercase;
+  }
+
+  html[data-theme="light"] {
+    background: #f6f9fd;
+    color-scheme: light;
+  }
+
+  html[data-theme="light"] body {
+    background: #f6f9fd;
+  }
+
+  html[data-theme="light"] .header,
+  html[data-theme="light"] .sidebar-pane {
+    background-color: #ffffff;
+  }
+
+  html[data-theme="light"] .sidebar-content [aria-current="page"] {
+    background-color: #eaf2ff;
+    color: #0f3a78;
+  }
+
+  html[data-theme="light"]
+    .sidebar-content
+    a:is(
+      [href$="/charts/export/"],
+      [href$="/charts/candlebar/"],
+      [href$="/charts/radar/"],
+      [href$="/charts/realtime/"],
+      [href$="/charts/combo/"]
+    )::after {
+    border-color: rgba(0, 85, 218, 0.22);
+    background: rgba(0, 85, 218, 0.1);
+    color: #0055da;
+  }
+
+  html[data-theme="dark"] {
+    background: #0b0c11;
+    color-scheme: dark;
+  }
+</style>
+{
+  head.map(({ tag: Tag, attrs, content }) => (
+    <Tag {...attrs} set:html={content} />
+  ))
+}
+{
+  isDev ? (
+    <script type="module" is:inline set:html={reactRefreshPreamble} />
+  ) : null
+}
+<script>
+  import "../chart-theme-controls";
+  import "../previews/client.tsx";
+</script>
+<script is:inline>
+  (() => {
+    const enhanceCodeCopyButtons = () => {
+      document
+        .querySelectorAll(".expressive-code .copy button[title]")
+        .forEach((button) => {
+          const label = button.getAttribute("title") || "Copy to clipboard";
+          button.setAttribute("aria-label", label);
+          button.removeAttribute("title");
+        });
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", enhanceCodeCopyButtons, {
+        once: true
+      });
+    } else {
+      enhanceCodeCopyButtons();
+    }
+
+    document.addEventListener("astro:page-load", enhanceCodeCopyButtons);
+  })();
+</script>

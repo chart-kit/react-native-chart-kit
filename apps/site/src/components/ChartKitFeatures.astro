@@ -1,0 +1,256 @@
+---
+import {
+  Cpu,
+  Crosshair,
+  Gauge,
+  MoveDiagonal2,
+  PanelsTopLeft,
+  Sparkles
+} from "lucide-astro";
+
+const features = [
+  {
+    icon: Gauge,
+    title: "Advanced chart types",
+    description:
+      "Candlebar, combo, radar, and realtime charts for Pro product screens."
+  },
+  {
+    icon: Crosshair,
+    title: "Mobile data inspection",
+    description:
+      "Tap selection, shared tooltips, and crosshairs for exact values."
+  },
+  {
+    icon: MoveDiagonal2,
+    title: "Viewport controls",
+    description: "Pan, zoom, scroll, visible ranges, and mini range selectors."
+  },
+  {
+    icon: PanelsTopLeft,
+    title: "Dashboard workflows",
+    description: "Mixed bars and lines, series toggles, and negative domains."
+  },
+  {
+    icon: Cpu,
+    title: "Native renderer path",
+    description: "SVG by default, with an optional Skia renderer path for Pro."
+  },
+  {
+    icon: Sparkles,
+    title: "AI ready",
+    description: "AGENTS.md and llms.txt are available for coding agents."
+  }
+];
+
+const featurePatterns = [
+  {
+    top: "-8px",
+    left: "50%",
+    marginLeft: "-80px",
+    width: "100%",
+    height: "100%",
+    patternX: "-12",
+    patternY: "4",
+    squares: [
+      [7, 1, 0.07],
+      [10, 2, 0.14],
+      [8, 4, 0.1],
+      [9, 6, 0.18],
+      [11, 3, 0.055],
+      [5, 5, 0.12]
+    ]
+  },
+  {
+    top: "8px",
+    left: "38%",
+    marginLeft: "-48px",
+    width: "112%",
+    height: "96%",
+    patternX: "6",
+    patternY: "-10",
+    squares: [
+      [3, 2, 0.16],
+      [8, 1, 0.06],
+      [11, 4, 0.13],
+      [5, 6, 0.085],
+      [10, 7, 0.18],
+      [6, 3, 0.045]
+    ]
+  },
+  {
+    top: "-18px",
+    left: "58%",
+    marginLeft: "-112px",
+    width: "108%",
+    height: "110%",
+    patternX: "-20",
+    patternY: "12",
+    squares: [
+      [6, 1, 0.09],
+      [9, 3, 0.18],
+      [12, 2, 0.065],
+      [8, 6, 0.12],
+      [11, 7, 0.15],
+      [5, 4, 0.05]
+    ]
+  },
+  {
+    top: "0px",
+    left: "30%",
+    marginLeft: "-36px",
+    width: "118%",
+    height: "104%",
+    patternX: "14",
+    patternY: "8",
+    squares: [
+      [2, 1, 0.13],
+      [5, 3, 0.055],
+      [9, 2, 0.16],
+      [7, 5, 0.09],
+      [12, 6, 0.18],
+      [4, 7, 0.07]
+    ]
+  },
+  {
+    top: "-12px",
+    left: "62%",
+    marginLeft: "-96px",
+    width: "104%",
+    height: "108%",
+    patternX: "-4",
+    patternY: "-16",
+    squares: [
+      [4, 1, 0.18],
+      [7, 2, 0.08],
+      [10, 5, 0.14],
+      [13, 4, 0.055],
+      [8, 7, 0.11],
+      [5, 6, 0.16]
+    ]
+  },
+  {
+    top: "12px",
+    left: "46%",
+    marginLeft: "-72px",
+    width: "114%",
+    height: "98%",
+    patternX: "18",
+    patternY: "2",
+    squares: [
+      [5, 2, 0.06],
+      [11, 1, 0.16],
+      [8, 4, 0.1],
+      [14, 5, 0.18],
+      [10, 7, 0.07],
+      [6, 6, 0.13]
+    ]
+  }
+];
+---
+
+<section
+  id="features"
+  class="relative scroll-mt-20 bg-black py-28 text-white transition-colors duration-300 sm:py-32 [html[data-theme='light']_&]:bg-white [html[data-theme='light']_&]:text-black"
+>
+  <div
+    class="relative z-10 mx-auto max-w-[1320px] px-6 sm:px-8 md:px-10 lg:px-12 xl:px-16"
+  >
+    <div class="relative z-10 mx-auto max-w-[700px] text-center">
+      <h2
+        class="text-[clamp(30px,4.6vw,48px)] font-semibold leading-[1.04] tracking-[-0.025em]"
+      >
+        Beyond static charts
+      </h2>
+      <p
+        class="mx-auto mt-5 max-w-[34rem] text-base font-light leading-7 text-white/56 transition-colors duration-300 [html[data-theme='light']_&]:text-black/56"
+      >
+        Let users tap, inspect, zoom, pan, and read richer datasets.
+      </p>
+    </div>
+
+    <div
+      class="relative mx-auto mt-16 grid max-w-[1120px] grid-cols-1 overflow-hidden rounded-2xl border border-dashed border-white/16 bg-black transition-colors duration-300 sm:grid-cols-2 md:grid-cols-3 [html[data-theme='light']_&]:border-black/14 [html[data-theme='light']_&]:bg-white"
+    >
+      {
+        features.map(({ description, icon: Icon, title }, index) => (
+          <article
+            class:list={[
+              "relative min-h-[240px] overflow-hidden border-dashed border-white/12 p-6 transition-colors duration-300 sm:p-7 md:p-8 [html[data-theme='light']_&]:border-black/12",
+              index > 0 ? "border-t" : "",
+              index < 2 ? "sm:border-t-0" : "",
+              index < 3 ? "md:border-t-0" : "",
+              index % 2 === 1 ? "sm:border-l" : "",
+              index >= 2 ? "sm:border-t" : "",
+              index >= 3 ? "md:border-t" : "",
+              index % 2 === 0 ? "sm:border-l-0" : "",
+              index % 3 === 0 ? "md:border-l-0" : "",
+              index % 3 !== 0 ? "md:border-l" : ""
+            ]}
+          >
+            <div
+              class="pointer-events-none absolute [mask-image:linear-gradient(white,transparent)]"
+              style={`top: ${featurePatterns[index].top}; left: ${featurePatterns[index].left}; margin-left: ${featurePatterns[index].marginLeft}; width: ${featurePatterns[index].width}; height: ${featurePatterns[index].height};`}
+              aria-hidden="true"
+            >
+              <div class="absolute inset-0 bg-gradient-to-r from-white/[0.045] to-white/[0.01] opacity-100 [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] [html[data-theme='light']_&]:from-black/[0.045] [html[data-theme='light']_&]:to-black/[0.01]">
+                <svg
+                  class="absolute inset-0 h-full w-full text-white stroke-white/22 mix-blend-overlay [html[data-theme='light']_&]:text-black [html[data-theme='light']_&]:stroke-black/22"
+                  aria-hidden="true"
+                >
+                  <defs>
+                    <pattern
+                      id={`feature-grid-${index}`}
+                      width="20"
+                      height="20"
+                      patternUnits="userSpaceOnUse"
+                      x={featurePatterns[index].patternX}
+                      y={featurePatterns[index].patternY}
+                    >
+                      <path d="M.5 20V.5H20" fill="none" />
+                    </pattern>
+                  </defs>
+                  <rect
+                    width="100%"
+                    height="100%"
+                    stroke-width="0"
+                    fill={`url(#feature-grid-${index})`}
+                  />
+                  <svg
+                    x={featurePatterns[index].patternX}
+                    y={featurePatterns[index].patternY}
+                    class="overflow-visible"
+                  >
+                    {featurePatterns[index].squares.map(([x, y, opacity]) => (
+                      <rect
+                        fill="currentColor"
+                        opacity={opacity}
+                        stroke-width="0"
+                        width="21"
+                        height="21"
+                        x={x * 20}
+                        y={y * 20}
+                      />
+                    ))}
+                  </svg>
+                </svg>
+              </div>
+            </div>
+
+            <Icon
+              class="relative z-10 size-12 text-white/72 transition-colors duration-300 md:size-[38px] [html[data-theme='light']_&]:text-black/70"
+              stroke-width={1}
+              aria-hidden="true"
+            />
+            <h3 class="relative z-10 mt-10 text-sm font-medium leading-5 text-white transition-colors duration-300 md:text-base [html[data-theme='light']_&]:text-black">
+              {title}
+            </h3>
+            <p class="relative z-10 mt-2 max-w-[17rem] text-xs font-light leading-5 text-white/52 transition-colors duration-300 [html[data-theme='light']_&]:text-black/52">
+              {description}
+            </p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,57 @@
+{
+  "name": "@chart-kit/svg-renderer",
+  "version": "7.0.0",
+  "description": "SVG renderer primitives and helpers for React Native Chart Kit.",
+  "keywords": [
+    "chart-kit",
+    "charts",
+    "charting",
+    "svg",
+    "react-native-svg",
+    "renderer",
+    "data-visualization",
+    "dataviz",
+    "typescript",
+    "react-native"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chart-kit/react-native-chart-kit",
+    "directory": "packages/svg-renderer"
+  },
+  "homepage": "https://chartkit.io",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "peerDependencies": {
+    "react": ">=19.2.0 <20",
+    "react-native": ">=0.83 <1",
+    "react-native-svg": ">=15.13.0 <16"
+  },
+  "license": "MIT",
+  "author": "Berman Digital Ltd",
+  "bugs": {
+    "url": "https://github.com/chart-kit/react-native-chart-kit/issues"
+  }
+}

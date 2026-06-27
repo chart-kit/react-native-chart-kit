@@ -2,6 +2,15 @@ name: Publish to npm
 
 on:
   workflow_dispatch:
+    inputs:
+      npm_tag:
+        description: npm dist-tag to publish
+        required: true
+        default: latest
+        type: choice
+        options:
+          - latest
+          - v6
 
 permissions:
   contents: write
@@ -12,17 +21,127 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Verify release branch
+        run: |
+          case "${GITHUB_REF_NAME}:${{ inputs.npm_tag }}" in
+            main:latest)
+              echo "Publishing stable release from main with npm dist-tag latest."
+              ;;
+            maintenance/v6:v6)
+              echo "Publishing v6 maintenance release with npm dist-tag v6."
+              ;;
+            *)
+              echo "Publish stable releases from main with npm_tag=latest."
+              echo "Publish v6 maintenance releases from maintenance/v6 with npm_tag=v6."
+              exit 1
+              ;;
+          esac
+
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: 24
+          node-version: 22
           registry-url: https://registry.npmjs.org
+          cache: npm
+
+      - name: Verify npm publish access
+        run: |
+          if [ -z "${NODE_AUTH_TOKEN:-}" ]; then
+            echo "NPM_TOKEN is not configured for this repository or environment."
+            echo "Add a GitHub Actions secret named NPM_TOKEN with npm publish access before rerunning."
+            exit 1
+          fi
+
+          if ! NPM_USER=$(npm whoami 2>&1); then
+            echo "NPM_TOKEN could not authenticate with npm."
+            echo "${NPM_USER}"
+            exit 1
+          fi
+
+          echo "Authenticated to npm as ${NPM_USER}."
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Install dependencies
-        run: npm install --legacy-peer-deps --ignore-scripts
+        run: npm ci --ignore-scripts
+
+      - name: Build public workspace packages
+        run: npm run core:build && npm run svg:build
+
+      - name: Typecheck public workspace packages
+        run: npm run core:typecheck && npm run svg:typecheck
+
+      - name: Verify package publish state
+        id: package
+        run: |
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          NPM_TAG="${{ inputs.npm_tag }}"
+          TAG_NAME="v${PACKAGE_VERSION}"
+
+          echo "name=${PACKAGE_NAME}" >> "$GITHUB_OUTPUT"
+          echo "version=${PACKAGE_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "npm_tag=${NPM_TAG}" >> "$GITHUB_OUTPUT"
+          echo "tag=${TAG_NAME}" >> "$GITHUB_OUTPUT"
+
+          if [ "${NPM_TAG}" = "latest" ] && [[ "${PACKAGE_VERSION}" == *-* ]]; then
+            echo "Refusing to publish prerelease version ${PACKAGE_VERSION} with npm dist-tag latest"
+            exit 1
+          fi
+
+          HAS_UNPUBLISHED_PACKAGE=0
+          if node scripts/check-npm-package-exists.mjs "${PACKAGE_NAME}" "${PACKAGE_VERSION}"; then
+            echo "${PACKAGE_NAME}@${PACKAGE_VERSION} is already published and will be skipped"
+          else
+            PACKAGE_EXISTS_STATUS=$?
+            if [ "${PACKAGE_EXISTS_STATUS}" = "1" ]; then
+              HAS_UNPUBLISHED_PACKAGE=1
+              echo "${PACKAGE_NAME}@${PACKAGE_VERSION} is not published yet"
+            else
+              exit "${PACKAGE_EXISTS_STATUS}"
+            fi
+          fi
+
+          if git ls-remote --exit-code --tags origin "refs/tags/${TAG_NAME}" >/dev/null 2>&1; then
+            if [ "${HAS_UNPUBLISHED_PACKAGE}" = "1" ]; then
+              echo "${TAG_NAME} already exists, but ${PACKAGE_NAME}@${PACKAGE_VERSION} is missing."
+              exit 1
+            fi
+            echo "${TAG_NAME} already exists and ${PACKAGE_NAME}@${PACKAGE_VERSION} is already published; continuing idempotent rerun."
+          fi
+
+      - name: Publish public workspace packages
+        run: |
+          for PACKAGE_DIR in packages/core packages/svg-renderer; do
+            PACKAGE_NAME=$(node -p "require('./${PACKAGE_DIR}/package.json').name")
+            PACKAGE_VERSION=$(node -p "require('./${PACKAGE_DIR}/package.json').version")
+
+            if node scripts/check-npm-package-exists.mjs "${PACKAGE_NAME}" "${PACKAGE_VERSION}"; then
+              echo "Skipping ${PACKAGE_NAME}@${PACKAGE_VERSION}; already published"
+              continue
+            else
+              PACKAGE_EXISTS_STATUS=$?
+              if [ "${PACKAGE_EXISTS_STATUS}" != "1" ]; then
+                exit "${PACKAGE_EXISTS_STATUS}"
+              fi
+            fi
+
+            npm publish "./${PACKAGE_DIR}" --ignore-scripts --access public --provenance --tag "${NPM_TAG}"
+          done
+        env:
+          NPM_TAG: ${{ steps.package.outputs.npm_tag }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Verify workspace registry publish state
+        run: |
+          for PACKAGE_DIR in packages/core packages/svg-renderer; do
+            PACKAGE_NAME=$(node -p "require('./${PACKAGE_DIR}/package.json').name")
+            PACKAGE_VERSION=$(node -p "require('./${PACKAGE_DIR}/package.json').version")
+            node scripts/check-npm-package-exists.mjs "${PACKAGE_NAME}" "${PACKAGE_VERSION}"
+          done
 
       - name: Build
         run: npm run build
@@ -30,29 +149,76 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
-      - name: Verify package is unpublished
-        id: package
-        run: |
-          PACKAGE_NAME=$(node -p "require('./package.json').name")
-          PACKAGE_VERSION=$(node -p "require('./package.json').version")
-          TAG_NAME="v${PACKAGE_VERSION}"
+      - name: Test
+        run: npm run test
 
-          echo "name=${PACKAGE_NAME}" >> "$GITHUB_OUTPUT"
-          echo "version=${PACKAGE_VERSION}" >> "$GITHUB_OUTPUT"
-          echo "tag=${TAG_NAME}" >> "$GITHUB_OUTPUT"
+      - name: Surface
+        run: npm run surface:check
 
-          if npm view "${PACKAGE_NAME}@${PACKAGE_VERSION}" version >/dev/null 2>&1; then
-            echo "${PACKAGE_NAME}@${PACKAGE_VERSION} is already published"
-            exit 1
-          fi
+      - name: Package pack check
+        run: npm run pack:check
 
-          if git ls-remote --exit-code --tags origin "refs/tags/${TAG_NAME}" >/dev/null 2>&1; then
-            echo "${TAG_NAME} already exists"
-            exit 1
-          fi
+      - name: Security audit
+        run: npm run security:audit
+
+      - name: Docs
+        run: npm run docs:build
+
+      - name: React Native CLI example
+        run: npm run example:rn-cli:typecheck
 
       - name: Publish
-        run: npm publish --provenance
+        run: |
+          PACKAGE_NAME="${{ steps.package.outputs.name }}"
+          PACKAGE_VERSION="${{ steps.package.outputs.version }}"
+
+          if node scripts/check-npm-package-exists.mjs "${PACKAGE_NAME}" "${PACKAGE_VERSION}"; then
+            echo "Skipping ${PACKAGE_NAME}@${PACKAGE_VERSION}; already published"
+            exit 0
+          else
+            PACKAGE_EXISTS_STATUS=$?
+            if [ "${PACKAGE_EXISTS_STATUS}" != "1" ]; then
+              exit "${PACKAGE_EXISTS_STATUS}"
+            fi
+          fi
+
+          npm publish . --ignore-scripts --access public --provenance --tag "${NPM_TAG}"
+        env:
+          NPM_TAG: ${{ steps.package.outputs.npm_tag }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Remove prerelease latest dist-tags
+        run: |
+          if [ "${NPM_TAG}" = "latest" ] || [[ "${PACKAGE_VERSION}" != *-* ]]; then
+            echo "No prerelease latest tag cleanup needed."
+            exit 0
+          fi
+
+          PACKAGE_NAME="${{ steps.package.outputs.name }}"
+          if ! DIST_TAG_OUTPUT=$(timeout 30s npm dist-tag ls "${PACKAGE_NAME}"); then
+            echo "Could not read npm dist-tags for ${PACKAGE_NAME}."
+            exit 1
+          fi
+          CURRENT_LATEST=$(printf "%s\n" "${DIST_TAG_OUTPUT}" | awk '/^latest:/ {print $2}')
+
+          if [ "${CURRENT_LATEST}" = "${PACKAGE_VERSION}" ]; then
+            echo "Removing unintended latest tag from ${PACKAGE_NAME}@${PACKAGE_VERSION}"
+            if ! npm dist-tag rm "${PACKAGE_NAME}" latest; then
+              echo "::warning::npm did not allow removing latest from ${PACKAGE_NAME}. This is expected for a new package with no stable version yet; release verification will fail if a stable latest was overwritten."
+            fi
+          else
+            echo "Leaving ${PACKAGE_NAME} latest tag unchanged (${CURRENT_LATEST:-missing})."
+          fi
+        env:
+          NPM_TAG: ${{ steps.package.outputs.npm_tag }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          PACKAGE_VERSION: ${{ steps.package.outputs.version }}
+
+      - name: Verify npm registry publish state
+        run: node scripts/check-npm-package-exists.mjs "${PACKAGE_NAME}" "${PACKAGE_VERSION}"
+        env:
+          PACKAGE_NAME: ${{ steps.package.outputs.name }}
+          PACKAGE_VERSION: ${{ steps.package.outputs.version }}
 
       - name: Create GitHub release
         env:
@@ -61,13 +227,27 @@ jobs:
           PACKAGE_VERSION: ${{ steps.package.outputs.version }}
           TAG_NAME: ${{ steps.package.outputs.tag }}
         run: |
+          if gh release view "${TAG_NAME}" >/dev/null 2>&1; then
+            echo "${TAG_NAME} release already exists; skipping release creation."
+            exit 0
+          fi
+
           awk "/^## v${PACKAGE_VERSION}$/{flag=1; next} /^## /{flag=0} flag" CHANGELOG.md > release-notes.md
 
           if [ ! -s release-notes.md ]; then
-            echo "Published ${PACKAGE_NAME}@${PACKAGE_VERSION} to npm." > release-notes.md
+            echo "CHANGELOG.md does not contain a release-notes section for v${PACKAGE_VERSION}."
+            exit 1
           fi
 
-          gh release create "${TAG_NAME}" \
-            --target "${GITHUB_SHA}" \
-            --title "${TAG_NAME}" \
-            --notes-file release-notes.md
+          if [[ "${PACKAGE_VERSION}" == *-* ]]; then
+            gh release create "${TAG_NAME}" \
+              --target "${GITHUB_SHA}" \
+              --title "${TAG_NAME}" \
+              --notes-file release-notes.md \
+              --prerelease
+          else
+            gh release create "${TAG_NAME}" \
+              --target "${GITHUB_SHA}" \
+              --title "${TAG_NAME}" \
+              --notes-file release-notes.md
+          fi

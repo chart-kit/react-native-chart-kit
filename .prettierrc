@@ -1,1 +1,4 @@
-{}
+{
+  "plugins": ["prettier-plugin-astro"],
+  "trailingComma": "none"
+}

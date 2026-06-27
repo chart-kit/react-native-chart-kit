@@ -1,0 +1,52 @@
+{
+  "name": "@chart-kit/core",
+  "version": "7.0.0",
+  "description": "Renderer-agnostic chart geometry, scales, layout, and data utilities for React Native Chart Kit.",
+  "keywords": [
+    "chart-kit",
+    "charts",
+    "charting",
+    "data-visualization",
+    "dataviz",
+    "geometry",
+    "scales",
+    "layout",
+    "typescript",
+    "react-native"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chart-kit/react-native-chart-kit",
+    "directory": "packages/core"
+  },
+  "homepage": "https://chartkit.io",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit"
+  },
+  "license": "MIT",
+  "author": "Berman Digital Ltd",
+  "bugs": {
+    "url": "https://github.com/chart-kit/react-native-chart-kit/issues"
+  }
+}

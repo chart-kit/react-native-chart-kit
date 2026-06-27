@@ -1,0 +1,36 @@
+---
+import "../styles/global.css";
+import ChartKitFeatures from "../components/ChartKitFeatures.astro";
+import ChartKitStats from "../components/ChartKitStats.astro";
+import ChartsSupported from "../components/ChartsSupported";
+import Footer from "../components/Footer.astro";
+import GoogleAnalytics from "../components/GoogleAnalytics.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Pricing from "../components/Pricing.astro";
+import ThemeInit from "../components/ThemeInit.astro";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#06070a" />
+    <title>React Native Chart Kit - Beautiful Charts for React Native</title>
+    <link rel="canonical" href="https://chartkit.io/" />
+    <link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml" />
+    <ThemeInit />
+    <GoogleAnalytics />
+  </head>
+  <body class="landing-page">
+    <Header />
+    <main>
+      <Hero />
+      <ChartKitStats />
+      <ChartsSupported client:load />
+      <ChartKitFeatures />
+      <Pricing />
+    </main>
+    <Footer />
+  </body>
+</html>
