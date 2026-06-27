@@ -89,6 +89,7 @@ The `@chart-kit/*` names remain internal workspace aliases only.
 
 ## Visual Review
 
-The Expo demo app and visual fixture suite live in the private
-`chart-kit-pro` repository because they include Pro chart examples. This public
-repo keeps the compatibility code and unit coverage for the free package.
+Use the public
+[`chart-kit/react-native-chart-kit-example`](https://github.com/chart-kit/react-native-chart-kit-example)
+Expo app for visual review. It installs React Native Chart Kit from npm, so it
+does not require this repository to live in a sibling folder.

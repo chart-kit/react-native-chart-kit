@@ -17,13 +17,14 @@ If the chart is inside a flex layout, measure the parent with `onLayout` and pas
 
 ## Expo Go Says The Demo App Is Incompatible
 
-The Expo demo app lives in the private `chart-kit-pro` repository because it
-combines free and Pro chart examples. If Expo Go cannot open that local app,
-update Expo Go, run `npm install` in `chart-kit-pro`, and start the preview with
-tunnel mode:
+The Expo demo app lives in the public
+[`chart-kit/react-native-chart-kit-example`](https://github.com/chart-kit/react-native-chart-kit-example)
+repository and installs React Native Chart Kit from npm. If Expo Go cannot open
+that local app, update Expo Go, run `npm install` in the example repo, and start
+Expo with tunnel mode:
 
 ```sh
-npm run preview:expo -- --tunnel
+npm start -- --tunnel
 ```
 
 ## Gestures Do Not Work
@@ -66,9 +67,11 @@ If a chart keeps old colors after changing the provider, check for hardcoded `se
 
 ## Visual Snapshot Changed
 
-The visual snapshot suite now lives with the private demo app in
-`chart-kit-pro`. Run the snapshot update and verification commands there when a
-renderer, layout, label, or theme change affects the preview.
+Use the public
+[`chart-kit/react-native-chart-kit-example`](https://github.com/chart-kit/react-native-chart-kit-example)
+app for visual review when a renderer, layout, label, or theme change affects
+the preview screens. That app uses the npm package rather than a sibling
+checkout of this repository.
 
 ## Compatibility Chart Looks Different From v1
 

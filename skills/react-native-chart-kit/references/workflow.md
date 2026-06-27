@@ -3,6 +3,7 @@
 ## Repos
 
 - Public repo: `react-native-chart-kit`
+- Example app repo when present: `../react-native-chart-kit-example`
 - Pro repo when present: `../chart-kit-pro`
 - Internal docs when present: `../chart-kit-docs`
 
@@ -17,13 +18,14 @@ Read `AGENTS.md` first. If it points to `../chart-kit-docs`, read the relevant d
 - SVG renderer: `packages/svg-renderer/src/*`
 - docs markdown: `docs/charts/*`, `docs/getting-started/*`, `docs/migration/*`
 - docs preview shell: `apps/site/src/previews/*`
+- public example app: `../react-native-chart-kit-example/src/*`
 
 ## Pro Package Map
 
 - Pro exports: `../chart-kit-pro/src/react-native/index.ts`
 - Pro charts: `../chart-kit-pro/src/react-native/charts/*`
 - Skia renderer: `../chart-kit-pro/packages/skia-renderer/src/*`
-- Pro preview app: `../chart-kit-pro/apps/pro-preview/src/*`
+- Example app Pro preview adapter: `../react-native-chart-kit-example/src/previewChartKitReactNative.tsx`
 
 ## Boundaries
 
@@ -46,7 +48,7 @@ Read `AGENTS.md` first. If it points to `../chart-kit-docs`, read the relevant d
    - React Native chart helpers: `packages/react-native/test`
    - renderer primitives: `packages/svg-renderer/test`
    - Pro package: `../chart-kit-pro/test`
-   - Pro preview stories: `../chart-kit-pro/apps/pro-preview/src/stories`
+   - Example app stories: `../react-native-chart-kit-example/src/stories`
 
 ## Commands
 
@@ -76,11 +78,12 @@ npm run preview:typecheck
 npm run build
 ```
 
-Pro preview checks:
+Example app checks:
 
 ```sh
-npm run preview
-npm run test:visual
+npm run typecheck
+npm test
+npm run web:build
 ```
 
 ## Do Not

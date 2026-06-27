@@ -11,14 +11,17 @@ Lessons from the Pro preview work:
 
 ## Current Demo Sources
 
-When the Pro checkout exists, inspect:
+Inspect the public example app checkout when it exists next to this repo:
 
-- `../chart-kit-pro/apps/pro-preview/src/storyRegistry.tsx`
-- `../chart-kit-pro/apps/pro-preview/src/stories/landingDemoStories.tsx`
-- `../chart-kit-pro/apps/pro-preview/src/stories/financialOverviewStories.tsx`
-- `../chart-kit-pro/apps/pro-preview/src/stories/combinedOverviewStories.tsx`
-- `../chart-kit-pro/apps/pro-preview/src/stories/performanceStories.tsx`
-- `../chart-kit-pro/apps/pro-preview/src/fixtures/*`
+- `../react-native-chart-kit-example/src/storyRegistry.tsx`
+- `../react-native-chart-kit-example/src/stories/landingDemoStories.tsx`
+- `../react-native-chart-kit-example/src/stories/financialOverviewStories.tsx`
+- `../react-native-chart-kit-example/src/stories/combinedOverviewStories.tsx`
+- `../react-native-chart-kit-example/src/stories/performanceStories.tsx`
+- `../react-native-chart-kit-example/src/fixtures/*`
+
+The example app installs `react-native-chart-kit` from npm. Do not assume this
+repo and the example app are wired together through sibling package paths.
 
 ## Story Shape
 
@@ -120,6 +123,6 @@ Before calling a demo done:
 - Run visual tests when touching preview rendering:
 
 ```sh
-npm run preview:build
-npm run test:visual
+npm run web:build
+npm test
 ```
