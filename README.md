@@ -24,6 +24,8 @@
     ·
     <a href="https://chartkit.io/docs/react-native/getting-started/installation/">Quickstart</a>
     ·
+    <a href="https://github.com/chart-kit/react-native-chart-kit-example">Examples</a>
+    ·
     <a href="https://chartkit.io/docs/react-native/charts/pricing/">Pro</a>
   </p>
 </div>
@@ -104,6 +106,7 @@ Chart Kit Pro adds licensed chart workflows for product dashboards:
 ## Links
 
 - [Full documentation](https://chartkit.io/docs/react-native/)
+- [Examples and demo app](https://github.com/chart-kit/react-native-chart-kit-example)
 - [Troubleshooting](https://chartkit.io/docs/react-native/troubleshooting/)
 - [Contributing](https://chartkit.io/docs/react-native/getting-started/contributing/)
 - [llms.txt](https://chartkit.io/llms.txt)
