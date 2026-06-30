@@ -8,8 +8,6 @@ const demoOptions = [
   { label: "Health", src: "/videos/health.mp4", screenBg: "#f4f5fa" },
   { label: "Development", src: "/videos/development.mp4", screenBg: "#f0f3fa" }
 ];
-
-const agentInstallCommand = "npx skills add chart-kit/react-native-chart-kit";
 ---
 
 <section
@@ -88,7 +86,7 @@ const agentInstallCommand = "npx skills add chart-kit/react-native-chart-kit";
               type="button"
               data-install-pm
               data-active="true"
-              data-agent-command={agentInstallCommand}
+              data-agent-command="npx skills add chart-kit/react-native-chart-kit"
               data-human-command="npm install react-native-chart-kit react-native-svg"
               class="cursor-pointer text-[11px] font-medium text-white/35 transition data-[active=true]:font-bold data-[active=true]:text-white hover:text-white sm:text-xs [html[data-theme='light']_&]:text-black/35 [html[data-theme='light']_&]:data-[active=true]:text-black [html[data-theme='light']_&]:hover:text-black"
               role="tab"
@@ -99,7 +97,7 @@ const agentInstallCommand = "npx skills add chart-kit/react-native-chart-kit";
             <button
               type="button"
               data-install-pm
-              data-agent-command={agentInstallCommand}
+              data-agent-command="yarn dlx skills add chart-kit/react-native-chart-kit"
               data-human-command="yarn add react-native-chart-kit react-native-svg"
               class="cursor-pointer text-[11px] font-medium text-white/35 transition data-[active=true]:font-bold data-[active=true]:text-white hover:text-white sm:text-xs [html[data-theme='light']_&]:text-black/35 [html[data-theme='light']_&]:data-[active=true]:text-black [html[data-theme='light']_&]:hover:text-black"
               role="tab"
@@ -110,7 +108,7 @@ const agentInstallCommand = "npx skills add chart-kit/react-native-chart-kit";
             <button
               type="button"
               data-install-pm
-              data-agent-command={agentInstallCommand}
+              data-agent-command="pnpm dlx skills add chart-kit/react-native-chart-kit"
               data-human-command="pnpm add react-native-chart-kit react-native-svg"
               class="cursor-pointer text-[11px] font-medium text-white/35 transition data-[active=true]:font-bold data-[active=true]:text-white hover:text-white sm:text-xs [html[data-theme='light']_&]:text-black/35 [html[data-theme='light']_&]:data-[active=true]:text-black [html[data-theme='light']_&]:hover:text-black"
               role="tab"
@@ -121,7 +119,7 @@ const agentInstallCommand = "npx skills add chart-kit/react-native-chart-kit";
             <button
               type="button"
               data-install-pm
-              data-agent-command={agentInstallCommand}
+              data-agent-command="bunx skills add chart-kit/react-native-chart-kit"
               data-human-command="bun add react-native-chart-kit react-native-svg"
               class="cursor-pointer text-[11px] font-medium text-white/35 transition data-[active=true]:font-bold data-[active=true]:text-white hover:text-white sm:text-xs [html[data-theme='light']_&]:text-black/35 [html[data-theme='light']_&]:data-[active=true]:text-black [html[data-theme='light']_&]:hover:text-black"
               role="tab"
@@ -813,10 +811,8 @@ const agentInstallCommand = "npx skills add chart-kit/react-native-chart-kit";
             candidate.setAttribute("aria-selected", String(isActive));
           });
 
-          const isAgentsAudience = activeAudience === "agents";
-
           if (packageTabs) {
-            packageTabs.hidden = isAgentsAudience;
+            packageTabs.hidden = false;
           }
 
           copyButton.disabled = false;
