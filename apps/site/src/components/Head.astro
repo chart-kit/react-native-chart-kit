@@ -1,9 +1,14 @@
 ---
+import FaviconLinks from "./FaviconLinks.astro";
 import GoogleAnalytics from "./GoogleAnalytics.astro";
 import ThemeInit from "./ThemeInit.astro";
 
 const { head } = Astro.locals.starlightRoute;
 const isDev = import.meta.env.DEV;
+const routeHead = head.filter(({ tag, attrs = {} }) => {
+  const rel = typeof attrs.rel === "string" ? attrs.rel.toLowerCase() : "";
+  return !(tag === "link" && rel.includes("icon"));
+});
 const reactRefreshPreamble = `
   import RefreshRuntime from "/@react-refresh";
   RefreshRuntime.injectIntoGlobalHook(window);
@@ -15,6 +20,7 @@ const reactRefreshPreamble = `
 
 <ThemeInit />
 <GoogleAnalytics />
+<FaviconLinks />
 <style is:inline>
   html {
     background: #0b0c11;
@@ -100,7 +106,7 @@ const reactRefreshPreamble = `
   }
 </style>
 {
-  head.map(({ tag: Tag, attrs, content }) => (
+  routeHead.map(({ tag: Tag, attrs, content }) => (
     <Tag {...attrs} set:html={content} />
   ))
 }

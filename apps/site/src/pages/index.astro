@@ -3,12 +3,18 @@ import "../styles/global.css";
 import ChartKitFeatures from "../components/ChartKitFeatures.astro";
 import ChartKitStats from "../components/ChartKitStats.astro";
 import ChartsSupported from "../components/ChartsSupported";
+import FaviconLinks from "../components/FaviconLinks.astro";
 import Footer from "../components/Footer.astro";
 import GoogleAnalytics from "../components/GoogleAnalytics.astro";
 import Header from "../components/Header.astro";
 import Hero from "../components/Hero.astro";
 import Pricing from "../components/Pricing.astro";
 import ThemeInit from "../components/ThemeInit.astro";
+
+const pageTitle = "React Native Chart Kit - Beautiful Charts for React Native";
+const pageDescription =
+  "Beautiful React Native charts for dashboards, reports, and data-rich mobile apps.";
+const pageUrl = "https://chartkit.io/";
 ---
 
 <html lang="en">
@@ -16,9 +22,18 @@ import ThemeInit from "../components/ThemeInit.astro";
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#06070a" />
-    <title>React Native Chart Kit - Beautiful Charts for React Native</title>
-    <link rel="canonical" href="https://chartkit.io/" />
-    <link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <link rel="canonical" href={pageUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:site_name" content="React Native Chart Kit" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <FaviconLinks />
     <ThemeInit />
     <GoogleAnalytics />
   </head>

@@ -7,10 +7,16 @@ import {
   ReceiptText,
   ShieldCheck
 } from "lucide-astro";
+import FaviconLinks from "../../components/FaviconLinks.astro";
 import Footer from "../../components/Footer.astro";
 import GoogleAnalytics from "../../components/GoogleAnalytics.astro";
 import Header from "../../components/Header.astro";
 import ThemeInit from "../../components/ThemeInit.astro";
+
+const pageTitle = "Checkout complete - Chart Kit Pro";
+const pageDescription =
+  "Your Chart Kit Pro checkout is complete. Your license certificate and setup details are on the way.";
+const pageUrl = "https://chartkit.io/checkout/success/";
 ---
 
 <html lang="en">
@@ -18,13 +24,19 @@ import ThemeInit from "../../components/ThemeInit.astro";
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#06070a" />
-    <title>Checkout complete - Chart Kit Pro</title>
-    <meta
-      name="description"
-      content="Your Chart Kit Pro checkout is complete. Your license certificate and setup details are on the way."
-    />
-    <link rel="canonical" href="https://chartkit.io/checkout/success/" />
-    <link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={pageUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:site_name" content="React Native Chart Kit" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <FaviconLinks />
     <ThemeInit />
     <GoogleAnalytics />
   </head>
