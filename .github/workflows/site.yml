@@ -37,6 +37,15 @@ jobs:
       - name: Build site
         run: npm run site:build
 
+      - name: Ensure Cloudflare Pages production branch
+        run: |
+          curl --fail --silent --show-error --request PATCH \
+            "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/pages/projects/chartkit-io" \
+            --header "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+            --header "Content-Type: application/json" \
+            --data '{"production_branch":"main"}' \
+            --output /dev/null
+
       - name: Deploy to Cloudflare Pages
         id: cloudflare-pages
         uses: cloudflare/wrangler-action@v3
