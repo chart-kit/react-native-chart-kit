@@ -3,8 +3,6 @@ title: React Native Chart Kit Documentation
 description: Start here for the React Native Chart Kit documentation.
 ---
 
-# React Native Chart Kit Docs
-
 React Native Chart Kit is a library of modern and polished charts for React Native, available through `react-native-chart-kit` NPM package.
 
 ## Getting Started

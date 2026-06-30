@@ -399,9 +399,17 @@ starlight-theme-select > label {
 
 h1#_top,
 .sl-markdown-content h1:not(:where(.not-content *)) {
-  max-width: 20ch;
   font-size: 2.45rem;
   font-weight: 760;
+}
+
+h1#_top {
+  max-width: none;
+  font-size: 2rem;
+}
+
+.sl-markdown-content h1:not(:where(.not-content *)) {
+  max-width: 20ch;
 }
 
 .sl-markdown-content h2:not(:where(.not-content *)) {
