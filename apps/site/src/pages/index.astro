@@ -9,6 +9,7 @@ import GoogleAnalytics from "../components/GoogleAnalytics.astro";
 import Header from "../components/Header.astro";
 import Hero from "../components/Hero.astro";
 import Pricing from "../components/Pricing.astro";
+import SocialImageMeta from "../components/SocialImageMeta.astro";
 import ThemeInit from "../components/ThemeInit.astro";
 
 const pageTitle = "React Native Chart Kit - Beautiful Charts for React Native";
@@ -30,9 +31,9 @@ const pageUrl = "https://chartkit.io/";
     <meta property="og:description" content={pageDescription} />
     <meta property="og:url" content={pageUrl} />
     <meta property="og:site_name" content="React Native Chart Kit" />
-    <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={pageDescription} />
+    <SocialImageMeta />
     <FaviconLinks />
     <ThemeInit />
     <GoogleAnalytics />

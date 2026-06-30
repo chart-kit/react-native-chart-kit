@@ -11,6 +11,7 @@ import FaviconLinks from "../../components/FaviconLinks.astro";
 import Footer from "../../components/Footer.astro";
 import GoogleAnalytics from "../../components/GoogleAnalytics.astro";
 import Header from "../../components/Header.astro";
+import SocialImageMeta from "../../components/SocialImageMeta.astro";
 import ThemeInit from "../../components/ThemeInit.astro";
 
 const pageTitle = "Checkout complete - Chart Kit Pro";
@@ -33,9 +34,9 @@ const pageUrl = "https://chartkit.io/checkout/success/";
     <meta property="og:description" content={pageDescription} />
     <meta property="og:url" content={pageUrl} />
     <meta property="og:site_name" content="React Native Chart Kit" />
-    <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={pageDescription} />
+    <SocialImageMeta />
     <FaviconLinks />
     <ThemeInit />
     <GoogleAnalytics />

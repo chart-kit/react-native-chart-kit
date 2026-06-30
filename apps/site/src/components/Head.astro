@@ -1,13 +1,43 @@
 ---
 import FaviconLinks from "./FaviconLinks.astro";
 import GoogleAnalytics from "./GoogleAnalytics.astro";
+import SocialImageMeta from "./SocialImageMeta.astro";
 import ThemeInit from "./ThemeInit.astro";
 
 const { head } = Astro.locals.starlightRoute;
 const isDev = import.meta.env.DEV;
+const socialImageProperties = new Set([
+  "og:image",
+  "og:image:secure_url",
+  "og:image:type",
+  "og:image:width",
+  "og:image:height",
+  "og:image:alt"
+]);
+const socialImageNames = new Set([
+  "twitter:card",
+  "twitter:image",
+  "twitter:image:alt"
+]);
 const routeHead = head.filter(({ tag, attrs = {} }) => {
   const rel = typeof attrs.rel === "string" ? attrs.rel.toLowerCase() : "";
-  return !(tag === "link" && rel.includes("icon"));
+  const property =
+    typeof attrs.property === "string" ? attrs.property.toLowerCase() : "";
+  const name = typeof attrs.name === "string" ? attrs.name.toLowerCase() : "";
+
+  if (tag === "link" && rel.includes("icon")) {
+    return false;
+  }
+
+  if (tag === "meta" && socialImageProperties.has(property)) {
+    return false;
+  }
+
+  if (tag === "meta" && socialImageNames.has(name)) {
+    return false;
+  }
+
+  return true;
 });
 const reactRefreshPreamble = `
   import RefreshRuntime from "/@react-refresh";
@@ -21,6 +51,7 @@ const reactRefreshPreamble = `
 <ThemeInit />
 <GoogleAnalytics />
 <FaviconLinks />
+<SocialImageMeta />
 <style is:inline>
   html {
     background: #0b0c11;
