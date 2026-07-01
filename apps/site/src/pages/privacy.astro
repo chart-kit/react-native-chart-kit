@@ -1,0 +1,415 @@
+---
+import LegalLayout from "../layouts/LegalLayout.astro";
+
+const updated = "July 1, 2026";
+---
+
+<LegalLayout
+  canonicalPath="/privacy/"
+  description="Privacy policy for Chart Kit websites, documentation, analytics, payments, support, and Chart Kit Pro license certificate services."
+  title="Privacy policy"
+  updated={updated}
+>
+  <section>
+    <h2>Who we are</h2>
+    <p>
+      Berman Digital Ltd, an Ontario, Canada company, operates Chart Kit. This
+      policy explains how we collect, use, disclose, retain, and protect
+      personal information for Chart Kit websites, documentation, checkout
+      flows, support, free packages, paid Chart Kit Pro products, license
+      certificate services, and related communications.
+    </p>
+    <p>
+      For privacy requests, contact
+      <a href="mailto:privacy@chartkit.io">privacy@chartkit.io</a>. For legal
+      questions, contact <a href="mailto:legal@chartkit.io">legal@chartkit.io</a
+      >.
+    </p>
+  </section>
+
+  <section>
+    <h2>Summary</h2>
+    <ul>
+      <li>We use Google Analytics on ChartKit.io.</li>
+      <li>
+        We use Cloudflare for hosting, CDN, Workers, D1, R2, queues, email
+        delivery, security, and operational logs.
+      </li>
+      <li>
+        We use Polar for checkout, payments, subscriptions, customer records,
+        receipts, refunds, and license-key data.
+      </li>
+      <li>
+        We store customer and license certificate records in Cloudflare D1 and
+        store generated license certificate PDFs in Cloudflare R2.
+      </li>
+      <li>
+        We do not currently sell personal information, run ads, or run
+        retargeting.
+      </li>
+      <li>
+        We do not intentionally disclose personal information for cross-context
+        behavioral advertising.
+      </li>
+      <li>
+        We do not currently operate a newsletter, but may add product or
+        marketing emails later with appropriate opt-out controls.
+      </li>
+      <li>Chart Kit is not directed to children.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Information we collect</h2>
+
+    <h3>Information you provide</h3>
+    <ul>
+      <li>
+        Contact details, such as name, email address, company name, and message
+        contents when you contact support, sales, legal, or privacy addresses.
+      </li>
+      <li>
+        Support context, such as screenshots, logs, code snippets, repositories,
+        package versions, device details, or attachments you choose to send.
+      </li>
+      <li>
+        Purchase and license details supplied through checkout, order forms, or
+        support follow-up.
+      </li>
+      <li>
+        Future email preferences if we add newsletter, product update, or
+        marketing subscriptions.
+      </li>
+    </ul>
+
+    <h3>Payment and checkout information</h3>
+    <p>
+      Polar handles self-serve checkout and payment processing. We receive or
+      store limited purchase records from Polar that may include customer ID,
+      customer name, customer email, product ID, plan, order ID, subscription
+      ID, benefit grant ID, license key ID, displayed license key, subscription
+      status, term dates, refund status, and related metadata. We do not
+      intentionally store full payment card numbers on Chart Kit systems.
+    </p>
+
+    <h3>License certificate information</h3>
+    <p>
+      The current license service processes Polar webhooks and creates local
+      license certificate records. Those records may include customer name,
+      customer email, Polar customer ID, product ID, plan, order ID,
+      subscription ID, benefit grant ID, license key ID, displayed license key,
+      license status, term start, term end, certificate ID, certificate storage
+      key, certificate sent timestamp, source order ID, certificate revision,
+      last email message ID, last Polar event ID, metadata JSON, reconciliation
+      timestamp, created timestamp, and updated timestamp.
+    </p>
+    <p>
+      The license service also stores Polar webhook delivery state in D1,
+      including event ID, event type, received timestamp, webhook payload JSON,
+      processing status, processed timestamp, error message, and retry count.
+      Generated license certificate PDFs are stored in Cloudflare R2 and may be
+      emailed to the purchaser.
+    </p>
+
+    <h3>No current in-app license telemetry</h3>
+    <p>
+      The current implementation does not collect app identifiers, domains,
+      package versions, production runtime events, or in-app license validation
+      telemetry from applications using Chart Kit Pro. If we add license
+      validation or telemetry later, we will update this policy before relying
+      on that new collection.
+    </p>
+
+    <h3>Website analytics and logs</h3>
+    <p>
+      ChartKit.io uses Google Analytics, which may collect or receive page
+      views, events, browser and device details, referrers, approximate location
+      derived from IP address, cookie identifiers, and similar usage
+      information. Cloudflare may process request metadata such as IP address,
+      URL, user agent, timestamps, security signals, cache events, and routing
+      details to deliver and secure the website and services.
+    </p>
+  </section>
+
+  <section>
+    <h2>How we use information</h2>
+    <ul>
+      <li>
+        Provide, operate, secure, debug, and improve Chart Kit websites, docs,
+        checkout flows, license certificate services, and support.
+      </li>
+      <li>
+        Process purchases, subscriptions, renewals, refunds, license
+        certificates, and license status changes.
+      </li>
+      <li>
+        Send transactional emails, including license certificates, setup
+        details, receipts-related follow-up, support replies, and service
+        notices.
+      </li>
+      <li>Respond to support, sales, privacy, and legal requests.</li>
+      <li>
+        Understand website usage, documentation engagement, and product demand.
+      </li>
+      <li>
+        Prevent fraud, abuse, security incidents, unauthorized access, and
+        license misuse.
+      </li>
+      <li>
+        Maintain business records, enforce agreements, comply with law, and
+        resolve disputes.
+      </li>
+      <li>
+        Send future product or marketing communications if we add those channels
+        and you have the required choice or consent.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Legal bases for EU and UK users</h2>
+    <p>
+      If European or UK data protection law applies, we rely on these legal
+      bases:
+    </p>
+    <ul>
+      <li>
+        <strong>Contract:</strong> to provide paid products, licenses, checkout support,
+        certificates, documentation, and support you request.
+      </li>
+      <li>
+        <strong>Legitimate interests:</strong> to secure, operate, improve, and understand
+        the services, prevent abuse, respond to business inquiries, and maintain records.
+      </li>
+      <li>
+        <strong>Legal obligations:</strong> to maintain tax, accounting, compliance,
+        refund, dispute, and legal records.
+      </li>
+      <li>
+        <strong>Consent:</strong> where required for optional analytics, cookies,
+        newsletters, or marketing communications.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>How we disclose information</h2>
+    <p>
+      We disclose personal information only as needed for the services, business
+      operations, compliance, and legal protection. Recipients may include:
+    </p>
+    <ul>
+      <li>
+        <strong>Cloudflare:</strong> hosting, CDN, Workers, D1, R2, Queues, email
+        delivery, security, and operational logging.
+      </li>
+      <li>
+        <strong>Polar:</strong> checkout, payments, customer records, subscriptions,
+        tax, receipts, refunds, license keys, and related support.
+      </li>
+      <li>
+        <strong>Google Analytics:</strong> website analytics and usage measurement.
+      </li>
+      <li>
+        <strong>Communications providers:</strong> email delivery, inbound support
+        mailboxes, and related message processing.
+      </li>
+      <li>
+        <strong>Professional advisors:</strong> lawyers, accountants, auditors, insurers,
+        and security advisors where needed.
+      </li>
+      <li>
+        <strong>Authorities or legal process:</strong> when required by law or reasonably
+        necessary to protect rights, safety, security, or the integrity of the services.
+      </li>
+      <li>
+        <strong>Business transfers:</strong> in connection with a merger, acquisition,
+        financing, restructuring, or sale of assets, subject to appropriate protections.
+      </li>
+    </ul>
+    <p>
+      We do not currently sell personal information, run ads, or run
+      retargeting. We do not intentionally disclose personal information for
+      cross-context behavioral advertising.
+    </p>
+  </section>
+
+  <section>
+    <h2>Cookies and analytics choices</h2>
+    <p>
+      Google Analytics and related tags may use cookies or similar technologies
+      when you visit ChartKit.io. You can control cookies through your browser,
+      device, extensions, or network tools. Google also provides information
+      about its privacy practices at
+      <a href="https://policies.google.com/privacy"
+        >policies.google.com/privacy</a
+      >.
+    </p>
+    <p>
+      If we add a consent banner or additional analytics controls, we will use
+      those controls to apply available choices. If you block cookies or
+      analytics scripts, some measurement features may not work, but core
+      documentation should remain available.
+    </p>
+    <p>
+      If we later configure analytics or other tools for advertising,
+      retargeting, or similar features, we will update this policy and provide
+      legally required choices.
+    </p>
+  </section>
+
+  <section>
+    <h2>Retention</h2>
+    <p>
+      We keep information for as long as needed for the purposes described in
+      this policy, unless a longer retention period is required or permitted by
+      law. Current retention practices include:
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Record type</th>
+          <th>Retention</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td
+            >Purchase, subscription, refund, and license certificate records</td
+          >
+          <td
+            >Kept while Chart Kit or the related site/service exists, unless
+            deletion is required by law and compatible with tax, accounting,
+            dispute, and license-record obligations.</td
+          >
+        </tr>
+        <tr>
+          <td>License service D1 records and Polar webhook event records</td>
+          <td
+            >Kept while Chart Kit or the related site/service exists, because
+            they support license status, certificate history, refunds, and
+            customer support.</td
+          >
+        </tr>
+        <tr>
+          <td>Generated license certificate PDFs</td>
+          <td
+            >Kept while needed to provide certificates, prove license scope,
+            support refunds or disputes, and maintain customer records.</td
+          >
+        </tr>
+        <tr>
+          <td>Support, sales, legal, and privacy messages</td>
+          <td
+            >Kept while Chart Kit or the related support system exists, unless
+            deleted earlier after a valid request or operational cleanup.</td
+          >
+        </tr>
+        <tr>
+          <td>Cloudflare operational logs and Google Analytics data</td>
+          <td
+            >Kept according to the applicable Cloudflare and Google settings,
+            service limits, and retention controls.</td
+          >
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>International transfers</h2>
+    <p>
+      Berman Digital Ltd is based in Canada. Service providers such as
+      Cloudflare, Polar, Google, and email infrastructure providers may process
+      information in Canada, the United States, Europe, or other countries.
+      Where required, we rely on appropriate legal mechanisms for cross-border
+      transfers.
+    </p>
+  </section>
+
+  <section>
+    <h2>Security</h2>
+    <p>
+      We use technical and organizational safeguards designed to protect
+      personal information, including reputable infrastructure providers, access
+      controls, HTTPS, webhook verification, and operational monitoring. No
+      system is perfectly secure. Please do not send payment card numbers,
+      secrets, private keys, production credentials, or sensitive personal
+      information through support unless we specifically request a secure
+      transfer method.
+    </p>
+  </section>
+
+  <section>
+    <h2>Your rights and choices</h2>
+    <p>
+      Depending on where you live, you may have rights to access, correct,
+      delete, restrict, object to, or receive a copy of personal information.
+      You may also have the right to withdraw consent, opt out of certain
+      processing, or complain to a data protection authority.
+    </p>
+    <p>
+      California residents may have rights to know, access, correct, delete,
+      limit certain uses, and opt out of sale or sharing of personal
+      information. We do not currently sell personal information, run ads, or
+      run retargeting. We do not intentionally disclose personal information for
+      cross-context behavioral advertising.
+    </p>
+    <p>
+      To exercise rights, email
+      <a href="mailto:privacy@chartkit.io">privacy@chartkit.io</a>. We may need
+      to verify your identity and the account, order, email address, or license
+      record connected to the request. Some information may be retained where
+      required or permitted for tax, accounting, security, dispute, license
+      integrity, or legal reasons.
+    </p>
+  </section>
+
+  <section>
+    <h2>Children</h2>
+    <p>
+      Chart Kit is intended for developers and businesses. It is not directed to
+      children under 16, and we do not knowingly collect personal information
+      from children under 13. If you believe a child provided personal
+      information to us, contact
+      <a href="mailto:privacy@chartkit.io">privacy@chartkit.io</a>.
+    </p>
+  </section>
+
+  <section>
+    <h2>Marketing</h2>
+    <p>
+      We do not currently operate a newsletter or marketing email list. If we
+      add product update or marketing emails, we will provide required consent
+      and unsubscribe controls. Transactional messages, such as license
+      certificates, support replies, purchase-related notices, and security
+      notices, may still be sent when needed to provide the services.
+    </p>
+  </section>
+
+  <section>
+    <h2>Third-party links</h2>
+    <p>
+      The website and documentation may link to third-party sites, package
+      registries, repositories, payment pages, and documentation. Their privacy
+      practices are governed by their own policies. For example, Polar's privacy
+      policy is available at
+      <a href="https://polar.sh/legal/privacy-policy"
+        >polar.sh/legal/privacy-policy</a
+      >, and Cloudflare's privacy policy is available at
+      <a href="https://www.cloudflare.com/privacypolicy/"
+        >cloudflare.com/privacypolicy</a
+      >.
+    </p>
+  </section>
+
+  <section>
+    <h2>Changes</h2>
+    <p>
+      We may update this policy from time to time. The updated date above shows
+      when the current version became effective. If we make material changes, we
+      will take reasonable steps to notify users through the website, email,
+      checkout flow, or another appropriate channel.
+    </p>
+  </section>
+</LegalLayout>

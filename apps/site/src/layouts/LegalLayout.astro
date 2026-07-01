@@ -1,0 +1,246 @@
+---
+import "../styles/global.css";
+import FaviconLinks from "../components/FaviconLinks.astro";
+import Footer from "../components/Footer.astro";
+import GoogleAnalytics from "../components/GoogleAnalytics.astro";
+import Header from "../components/Header.astro";
+import SocialImageMeta from "../components/SocialImageMeta.astro";
+import ThemeInit from "../components/ThemeInit.astro";
+
+type Props = {
+  canonicalPath: string;
+  description: string;
+  title: string;
+  updated: string;
+};
+
+const { canonicalPath, description, title, updated } = Astro.props;
+const pageUrl = `https://chartkit.io${canonicalPath}`;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#06070a" />
+    <title>{title} - Chart Kit</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={pageUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={`${title} - Chart Kit`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:site_name" content="React Native Chart Kit" />
+    <meta name="twitter:title" content={`${title} - Chart Kit`} />
+    <meta name="twitter:description" content={description} />
+    <SocialImageMeta />
+    <FaviconLinks />
+    <ThemeInit />
+    <GoogleAnalytics />
+  </head>
+  <body class="landing-page">
+    <Header homeHrefPrefix="/" />
+    <main
+      class="min-h-screen bg-black text-white transition-colors duration-300 [html[data-theme='light']_&]:bg-white [html[data-theme='light']_&]:text-black"
+    >
+      <section
+        class="border-b border-white/[0.08] pt-22 pb-8 transition-colors duration-300 [html[data-theme='light']_&]:border-black/[0.08] sm:pt-24 sm:pb-10"
+      >
+        <div
+          class="mx-auto max-w-[900px] px-6 sm:px-8 md:px-10 lg:px-12 xl:px-16"
+        >
+          <h1
+            class="max-w-3xl text-[clamp(32px,5vw,48px)] font-semibold leading-[1.06] text-white transition-colors duration-300 [html[data-theme='light']_&]:text-black"
+          >
+            {title}
+          </h1>
+          <p
+            class="mt-4 max-w-3xl text-[15px] leading-7 text-white/58 transition-colors duration-300 sm:text-base [html[data-theme='light']_&]:text-black/58"
+          >
+            {description}
+          </p>
+          <p
+            class="mt-5 text-xs font-semibold text-white/42 transition-colors duration-300 [html[data-theme='light']_&]:text-black/42"
+          >
+            Last updated: {updated}
+          </p>
+        </div>
+      </section>
+
+      <section
+        class="mx-auto max-w-[900px] px-6 py-10 sm:px-8 sm:py-12 md:px-10 lg:px-12 xl:px-16"
+      >
+        <article class="legal-content">
+          <slot />
+        </article>
+      </section>
+    </main>
+    <Footer homeHrefPrefix="/" />
+  </body>
+</html>
+
+<style is:global>
+  .legal-content {
+    color: rgb(255 255 255 / 0.66);
+    font-size: 0.98rem;
+    line-height: 1.78;
+  }
+
+  html[data-theme="light"] .legal-content {
+    color: rgb(0 0 0 / 0.66);
+  }
+
+  .legal-content > * + * {
+    margin-top: 1.2rem;
+  }
+
+  .legal-content section {
+    padding-top: 0;
+  }
+
+  .legal-content section + section {
+    margin-top: 3.1rem;
+  }
+
+  .legal-content h2 {
+    color: #fff;
+    font-family:
+      "Satoshi",
+      "SF Pro Display",
+      "SF Pro Text",
+      -apple-system,
+      BlinkMacSystemFont,
+      "Helvetica Neue",
+      Arial,
+      sans-serif;
+    font-size: clamp(1.55rem, 3vw, 2rem);
+    font-weight: 700;
+    letter-spacing: 0.005em;
+    line-height: 1.12;
+    margin: 0 0 1rem;
+  }
+
+  html[data-theme="light"] .legal-content h2 {
+    color: #000;
+  }
+
+  .legal-content h3 {
+    color: rgb(255 255 255 / 0.88);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 1.35rem 0 0.45rem;
+  }
+
+  html[data-theme="light"] .legal-content h3 {
+    color: rgb(0 0 0 / 0.86);
+  }
+
+  .legal-content p {
+    margin: 0;
+  }
+
+  .legal-content ul,
+  .legal-content ol {
+    margin: 0.9rem 0 0;
+    padding-left: 1.25rem;
+  }
+
+  .legal-content ul {
+    list-style: disc;
+  }
+
+  .legal-content ol {
+    list-style: decimal;
+  }
+
+  .legal-content li::marker {
+    color: rgb(255 255 255 / 0.46);
+  }
+
+  html[data-theme="light"] .legal-content li::marker {
+    color: rgb(0 0 0 / 0.42);
+  }
+
+  .legal-content li + li {
+    margin-top: 0.55rem;
+  }
+
+  .legal-content strong {
+    color: rgb(255 255 255 / 0.86);
+    font-weight: 700;
+  }
+
+  html[data-theme="light"] .legal-content strong {
+    color: rgb(0 0 0 / 0.84);
+  }
+
+  .legal-content a {
+    color: rgb(255 255 255 / 0.9);
+    font-weight: 650;
+    text-decoration: underline;
+    text-decoration-color: rgb(255 255 255 / 0.26);
+    text-underline-offset: 0.18em;
+    transition:
+      color 180ms ease,
+      text-decoration-color 180ms ease;
+  }
+
+  .legal-content a:hover {
+    color: #fff;
+    text-decoration-color: rgb(255 255 255 / 0.72);
+  }
+
+  html[data-theme="light"] .legal-content a {
+    color: rgb(0 0 0 / 0.86);
+    text-decoration-color: rgb(0 0 0 / 0.24);
+  }
+
+  html[data-theme="light"] .legal-content a:hover {
+    color: #000;
+    text-decoration-color: rgb(0 0 0 / 0.68);
+  }
+
+  .legal-content table {
+    border-collapse: collapse;
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 1.35rem;
+    overflow-x: auto;
+    width: 100%;
+  }
+
+  .legal-content th,
+  .legal-content td {
+    border-bottom: 1px solid rgb(255 255 255 / 0.1);
+    min-width: 12rem;
+    padding: 0.85rem 1rem 0.85rem 0;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .landing-page .legal-content table th {
+    letter-spacing: 0;
+    text-transform: none !important;
+  }
+
+  html[data-theme="light"] .legal-content th,
+  html[data-theme="light"] .legal-content td {
+    border-bottom-color: rgb(0 0 0 / 0.1);
+  }
+
+  .landing-page .legal-content table tbody tr:last-child > td,
+  .landing-page .legal-content table tbody tr:last-of-type > td {
+    border-bottom: 0 !important;
+  }
+
+  .legal-content th {
+    color: rgb(255 255 255 / 0.86);
+    font-size: 0.88rem;
+    font-weight: 800;
+  }
+
+  html[data-theme="light"] .legal-content th {
+    color: rgb(0 0 0 / 0.8);
+  }
+</style>
