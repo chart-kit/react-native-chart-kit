@@ -44,7 +44,8 @@ export default defineConfig({
       "apps/**/*.test.ts",
       "packages/**/test/**/*.test.ts",
       "scripts/**/*.test.mjs",
-      "src/**/*.test.ts"
+      "src/**/*.test.ts",
+      "test/**/*.test.ts"
     ],
     passWithNoTests: false
   }

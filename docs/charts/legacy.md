@@ -49,6 +49,10 @@ const chartConfig = {
 
 ::chart-preview{id="legacy-line"}
 
+The legacy root `LineChart` preserves v6 point-slot spacing for existing
+overlays. For custom point content, prefer `renderDotContent`, which supplies
+the rendered `x` and `y` coordinates, instead of recalculating positions.
+
 ## BarChart
 
 ```tsx

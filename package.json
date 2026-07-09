@@ -1,6 +1,6 @@
 {
   "name": "react-native-chart-kit",
-  "version": "7.0.1",
+  "version": "7.0.2",
   "description": "Beautiful React Native charts for dashboards, reports, and data-rich mobile apps.",
   "keywords": [
     "react-native",
@@ -104,7 +104,7 @@
     "test:unit": "vitest run --exclude \"packages/**/test/compat/**/*.test.ts\"",
     "test:coverage": "vitest run --coverage",
     "test:compat": "vitest run packages/core/test/compat",
-    "typecheck": "tsc --noEmit && npm run core:typecheck && npm run svg:typecheck && npm run rn:typecheck",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.test.json --noEmit && npm run core:typecheck && npm run svg:typecheck && npm run rn:typecheck",
     "core:typecheck": "tsc -p packages/core/tsconfig.json --noEmit && tsc -p packages/core/tsconfig.test.json --noEmit",
     "core:build": "tsc -p packages/core/tsconfig.json",
     "svg:typecheck": "tsc -p packages/svg-renderer/tsconfig.json --noEmit && tsc -p packages/svg-renderer/tsconfig.test.json --noEmit",

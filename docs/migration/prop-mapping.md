@@ -108,6 +108,10 @@ Do not depend on:
 - exact SVG child order
 - old clipping and padding bugs
 - deep imports from implementation files
-- chart-specific hacks that depend on old pixel positions
 
-If a legacy chart needs one of those behaviors, keep it on the compatibility surface until there is an explicit modern extension point.
+The legacy root `LineChart` preserves v6 point-slot spacing for existing
+overlays. Prefer the `x` and `y` coordinates supplied by `renderDotContent` and
+`onDataPointClick` when adding or updating custom point content.
+
+If a legacy chart needs an unsupported behavior, keep it on the compatibility
+surface until there is an explicit modern extension point.

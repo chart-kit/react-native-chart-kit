@@ -38,7 +38,10 @@ import { LineChart } from "react-native-chart-kit";
 />;
 ```
 
-The compatibility promise covers the common public API, not undocumented internals, exact SVG node order, or layout bugs that made labels clip.
+The compatibility promise covers the common public API and the legacy
+`LineChart` point spacing used by public render and callback props. It does not
+cover undocumented internals, exact SVG node order, or layout bugs that made
+labels clip.
 
 ## Modern API
 
@@ -76,7 +79,13 @@ v2 defaults prioritize correct mobile layout over pixel-perfect legacy spacing:
 - Scrollable charts use visible data windows instead of requiring manual SVG width hacks.
 - `null` values create line gaps by default in modern charts.
 
-Keep migrated charts on the legacy package path when they rely on old spacing during a transition. Do not use legacy spacing patterns for new charts.
+These layout differences apply to the modern `/v2` charts. The legacy root
+`LineChart` keeps the v6 point-slot spacing so existing overlays remain aligned.
+When adding custom content, prefer the `x` and `y` coordinates supplied by
+`renderDotContent` and `onDataPointClick` instead of duplicating chart geometry.
+
+Keep migrated charts on the legacy package path when they rely on old spacing
+during a transition. Do not use legacy spacing patterns for new charts.
 
 ## Package Paths
 

@@ -75,6 +75,9 @@ checkout of this repository.
 
 ## Compatibility Chart Looks Different From v1
 
-v2 compatibility preserves common props and data shapes, not pixel-perfect old bugs. Differences are expected when old behavior clipped labels, depended on SVG node order, or used undocumented internals.
+The legacy root import preserves common props, data shapes, and v6 `LineChart`
+point-slot spacing. It does not preserve old label-clipping bugs, exact SVG node
+order, or undocumented internals. The modern `/v2` charts intentionally use
+their own layout behavior.
 
 Use [the v1 migration guide](migration/from-v1.md) and [prop mapping](migration/prop-mapping.md) to decide whether the chart should stay on the compatibility surface or move to the modern API.

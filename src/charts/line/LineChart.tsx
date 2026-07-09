@@ -23,22 +23,10 @@ import AbstractChart, {
 } from "../../shared/AbstractChart";
 import { ChartData, Dataset } from "../../shared/types";
 import { getNumberProp } from "../../shared/utils";
+import { getLegacyLineChartPointX, getLegacyLineChartXMax } from "./geometry";
 import { LegendItem } from "./LegendItem";
 
 let AnimatedCircle = Animated.createAnimatedComponent(Circle);
-
-const getFiniteNumber = (value: unknown, fallback: number) => {
-  if (typeof value === "number") {
-    return Number.isFinite(value) ? value : fallback;
-  }
-
-  if (typeof value === "string") {
-    const parsed = Number.parseFloat(value);
-    return Number.isFinite(parsed) ? parsed : fallback;
-  }
-
-  return fallback;
-};
 
 export interface LineChartData extends ChartData {
   legend?: string[];
@@ -249,22 +237,6 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
     return dataset.strokeWidth || this.props.chartConfig.strokeWidth || 3;
   };
 
-  getChartRightPadding = (data: Dataset[], withDots: boolean) => {
-    const propsForDots = this.props.chartConfig?.propsForDots ?? {};
-    const dotRadius = withDots ? getFiniteNumber(propsForDots.r, 4) : 0;
-    const dotStrokeWidth = withDots
-      ? getFiniteNumber(propsForDots.strokeWidth, 0)
-      : 0;
-    const maxStrokeWidth = data.reduce(
-      (maxWidth, dataset) => Math.max(maxWidth, this.getStrokeWidth(dataset)),
-      0
-    );
-
-    return Math.ceil(
-      Math.max(4, dotRadius + dotStrokeWidth / 2, maxStrokeWidth / 2)
-    );
-  };
-
   getDatas = (data: Dataset[]): number[] => {
     return data.reduce(
       (acc, item) =>
@@ -326,7 +298,12 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
           return;
         }
 
-        const cx = paddingRight + (i * (width - paddingRight)) / xMax;
+        const cx = getLegacyLineChartPointX({
+          index: i,
+          width,
+          paddingRight,
+          xMax
+        });
 
         const cy =
           ((baseHeight - this.calcHeight(x, datas, height)) / 4) * 3 +
@@ -497,10 +474,12 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
             3 +
           paddingTop;
         yValues.push(yval);
-        const xval =
-          paddingRight +
-          ((dataset.data.length - index - 1) * (width - paddingRight)) /
-            dataset.data.length;
+        const xval = getLegacyLineChartPointX({
+          index: dataset.data.length - index - 1,
+          width,
+          paddingRight,
+          xMax: dataset.data.length
+        });
         xValues.push(xval);
 
         yValuesLabel.push(
@@ -610,7 +589,12 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
           points={
             dataset.data
               .map((d, i) => {
-                const x = paddingRight + (i * (width - paddingRight)) / xMax;
+                const x = getLegacyLineChartPointX({
+                  index: i,
+                  width,
+                  paddingRight,
+                  xMax
+                });
 
                 const y =
                   ((baseHeight - this.calcHeight(d, datas, height)) / 4) * 3 +
@@ -619,10 +603,12 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
                 return `${x},${y}`;
               })
               .join(" ") +
-            ` ${
-              paddingRight +
-              ((width - paddingRight) / xMax) * (dataset.data.length - 1)
-            },${
+            ` ${getLegacyLineChartPointX({
+              index: dataset.data.length - 1,
+              width,
+              paddingRight,
+              xMax
+            })},${
               (height / 4) * 3 + paddingTop
             } ${paddingRight},${(height / 4) * 3 + paddingTop}`
           }
@@ -665,7 +651,12 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
       let lastPoint: string;
       const points = dataset.data.map((d, i) => {
         if (d === null) return lastPoint;
-        const x = (i * (width - paddingRight)) / xMax + paddingRight;
+        const x = getLegacyLineChartPointX({
+          index: i,
+          width,
+          paddingRight,
+          xMax
+        });
         const y =
           ((baseHeight - this.calcHeight(d, datas, height)) / 4) * 3 +
           paddingTop;
@@ -691,10 +682,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
   };
 
   getXMaxValues = (data: Dataset[]) => {
-    return data.reduce((acc, cur) => {
-      const xMax = Math.max(cur.data.length - 1, 1);
-      return xMax > acc ? xMax : acc;
-    }, 1);
+    return getLegacyLineChartXMax(data);
   };
 
   getBezierLinePoints = (
@@ -718,7 +706,14 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
     const xMax = this.getXMaxValues(data);
 
     const x = (i: number) =>
-      Math.floor(paddingRight + (i * (width - paddingRight)) / xMax);
+      Math.floor(
+        getLegacyLineChartPointX({
+          index: i,
+          width,
+          paddingRight,
+          xMax
+        })
+      );
 
     const baseHeight = this.calcBaseHeight(datas, height);
 
@@ -800,10 +795,12 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
           paddingTop,
           data
         }) +
-        ` L${
-          paddingRight +
-          ((width - paddingRight) / xMax) * (dataset.data.length - 1)
-        },${
+        ` L${getLegacyLineChartPointX({
+          index: dataset.data.length - 1,
+          width,
+          paddingRight,
+          xMax
+        })},${
           (height / 4) * 3 + paddingTop
         } L${paddingRight},${(height / 4) * 3 + paddingTop} Z`;
 
@@ -874,17 +871,8 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
       paddingBottom = 0
     } = style;
 
-    const chartRightPadding = this.getChartRightPadding(
-      data.datasets,
-      withDots
-    );
-    const chartWidth = Math.max(
-      width - chartRightPadding,
-      getFiniteNumber(paddingRight, 64) + 1
-    );
-
     const config = {
-      width: chartWidth,
+      width,
       height,
       verticalLabelRotation,
       horizontalLabelRotation
@@ -895,9 +883,6 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
     const hasScrollableData =
       withScrollableDot &&
       data.datasets.some((dataset) => dataset.data && dataset.data.length > 0);
-    const xAxisDataIntervalCount = this.getXMaxValues(data.datasets);
-    const xAxisLabelIntervalCount = Math.max(labels.length - 1, 1);
-
     let count = Math.min(...datas) === Math.max(...datas) ? 1 : 4;
     if (segments) {
       count = segments;
@@ -963,8 +948,7 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
                       ...config,
                       data: firstDataset.data,
                       paddingTop: paddingTop as number,
-                      paddingRight: paddingRight as number,
-                      xAxisIntervalCount: xAxisDataIntervalCount
+                      paddingRight: paddingRight as number
                     })
                   : withOuterLines
                     ? this.renderVerticalLine({
@@ -981,7 +965,6 @@ class LineChart extends AbstractChart<LineChartProps, LineChartState> {
                   labels,
                   paddingTop: paddingTop as number,
                   paddingRight: paddingRight as number,
-                  xAxisIntervalCount: xAxisLabelIntervalCount,
                   formatXLabel
                 })}
             </G>

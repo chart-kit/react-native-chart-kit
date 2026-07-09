@@ -1,5 +1,12 @@
 # Changelog
 
+## v7.0.2
+
+- restore v6 point-slot spacing for the legacy root `LineChart` so custom
+  overlays remain aligned after upgrading to v7
+- clarify that edge-to-edge layout belongs to modern `/v2` charts and document
+  the legacy point-coordinate callbacks
+
 ## v7.0.1
 
 - refresh the npm README and package description with clearer chart coverage
