@@ -33,7 +33,7 @@ import { ChartKitProvider, LineChart } from "react-native-chart-kit/v2";
 Pro install:
 
 ```sh
-npm install react-native-chart-kit @chart-kit/pro@next react-native-svg
+npm install react-native-chart-kit @chart-kit/pro react-native-svg
 ```
 
 Skia renderer install:
