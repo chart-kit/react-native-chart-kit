@@ -1,6 +1,6 @@
 {
   "name": "@chart-kit/svg-renderer",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "SVG renderer primitives and helpers for React Native Chart Kit.",
   "keywords": [
     "chart-kit",
@@ -45,9 +45,9 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "peerDependencies": {
-    "react": ">=19.2.0 <20",
-    "react-native": ">=0.83 <1",
-    "react-native-svg": ">=15.13.0 <16"
+    "react": ">=19.1.0 <20",
+    "react-native": ">=0.81 <1",
+    "react-native-svg": ">=15.12.1 <16"
   },
   "license": "MIT",
   "author": "Berman Digital Ltd",

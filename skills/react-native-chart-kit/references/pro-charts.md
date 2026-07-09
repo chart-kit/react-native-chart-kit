@@ -7,7 +7,7 @@ Do not make the free package depend on Pro.
 ## Install
 
 ```sh
-npm install react-native-chart-kit @chart-kit/pro react-native-svg
+npm install react-native-chart-kit @chart-kit/pro@next react-native-svg
 ```
 
 For Skia-backed rendering:

@@ -16,7 +16,7 @@ valid Chart Kit Pro license.
 ## React Native CLI
 
 ```sh
-npm install react-native-chart-kit @chart-kit/pro react-native-svg
+npm install react-native-chart-kit @chart-kit/pro@next react-native-svg
 ```
 
 For iOS apps, install native pods after installing dependencies:
@@ -32,7 +32,7 @@ Install the packages and let Expo choose the compatible `react-native-svg`
 version:
 
 ```sh
-npm install react-native-chart-kit @chart-kit/pro
+npm install react-native-chart-kit @chart-kit/pro@next
 npx expo install react-native-svg
 ```
 

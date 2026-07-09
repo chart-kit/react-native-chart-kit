@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "@chart-kit/core": "7.0.0",
-    "@chart-kit/svg-renderer": "7.0.0"
+    "@chart-kit/svg-renderer": "7.0.1"
   },
   "peerDependencies": {
     "react": ">=19.1.0 <20",
