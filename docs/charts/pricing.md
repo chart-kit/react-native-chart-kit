@@ -11,12 +11,12 @@ Enterprise for larger teams, custom terms, or broader distribution rights.
 
 ## Pro license tiers
 
-| Plan       | Price         | Team scope                    | App scope                         | Company scope                        | Support                |
-| ---------- | ------------- | ----------------------------- | --------------------------------- | ------------------------------------ | ---------------------- |
-| Solo       | $149 / year   | 1 developer                   | 1 production app                  | Revenue/funding cap: $250k           | Standard email support |
-| Startup    | $399 / year   | Up to 3 developers            | 1 production app                  | Revenue/funding cap: $2M             | Standard email support |
-| Business   | $1,499 / year | Up to 6 developers            | Up to 2 production apps           | No revenue/funding cap               | Priority email support |
-| Enterprise | Custom        | 7+ developers or custom scope | Multiple products or app families | Purchasing workflows or custom terms | Named support contact  |
+| Plan       | Price       | Team scope                    | App scope                         | Company scope                        | Support                |
+| ---------- | ----------- | ----------------------------- | --------------------------------- | ------------------------------------ | ---------------------- |
+| Solo       | $49 / year  | 1 developer                   | 1 production app                  | Revenue/funding cap: $250k           | Standard email support |
+| Startup    | $149 / year | Up to 3 developers            | 1 production app                  | Revenue/funding cap: $2M             | Standard email support |
+| Business   | $499 / year | Up to 6 developers            | Up to 2 production apps           | No revenue/funding cap               | Priority email support |
+| Enterprise | Custom      | 7+ developers or custom scope | Multiple products or app families | Purchasing workflows or custom terms | Named support contact  |
 
 Need SDK, white-label, embedded, or customer-distributed use? Contact sales for
 OEM terms.
